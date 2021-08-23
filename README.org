@@ -1,0 +1,11 @@
+#+TITLE: Dotfiles
+#+DESCRIPTION: Based on daviwil's dotfiles
+
+Based on [[https://github.com/daviwil/dotfiles][daviwil's dotfiles]]
+
+* Table of Contents
+:PROPERTIES:
+:TOC:      :include all :ignore this
+:END:
+:CONTENTS:
+:END:
