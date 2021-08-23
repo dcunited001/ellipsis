@@ -1,0 +1,80 @@
+* AoT Files
+
+Some ideas for dotfiles. I've really overthought this. In the end, I just need something to work. Now.
+
+** "Dotfile Agent" Process
+
+i've been trying to really think outside the box with this. something like a
+'dotfiles agent' approach (a la ssh-agent) would be fantastic, where:
+
++ your configuration and environment can be [modularly] reassembled on the other
+  side of an SSH shell/tunnel
++ and you can dynamically select a range of functions/behaviors (and subgraphs
+  of their dependencies) to be monadically assembled into a script to provide an
+  familiar environment. anywhere.
++ alas, no abstraction can be rendered simpler than the domain it operates in...
+
+** AoT Process
+
+I want to mix in a "gitops" kind of approach where previous
+per-system builds are stored in deploy branches. i don't know much about gitops
+though. the trouble with managing dotfiles across several systems is that it
+becomes hard to reintegrate changes made sporadically while you're on various
+systems ... And what's the point, really?
+
+*** Installing
+
++ Install Dependences:
+  - Stow, Git
+  - Direnv? (to use a different =STOW_DIR= folder inside 
+    the =~/.aotfiles/src= folder to help maintain)
++ Clone the repo into =~/.aotfiles= and select 
+  the system's build branch.
+  - Run the stow script on the
++ A local =~/.config/.env= (or similar) file injects
+  local environment variable values to be used by
+  the rest of the shell script.
+  - This file should be ignored unless commited as 
+    ~/.aotfiles/env.system=
++ An docker-container option to install/build would be helpful
+ - i.e. build with reproducible emacs... 
+
+*** Maintain Local
+
++ When a local copy of dotfiles becomes out of date
++ If the build tag is available for the system/type, 
+  then check that out and you should be done.
++ If not, use the tooling to build into =./build=
++ New static files:
+  - These need to copied into the proper =~/.aotfiles/container/=
+    * initially use the default container =./src/base=
+    * Copy with =rsync -aip ~/.config/newstuff ~./local/newstuff=
+    * Copy & delete source with =rsync -aip --remove-source-files=
+  - This requires building, then running =stow= to link the 
+    build results.
+  - When a build or system/type's deployed files have accrued
+    some decent amount of new functionality, then create/update
+    its build branch.
+
+*** Maintain Remote
+
++ For each system (or 1-system), make a remote branch/tag
+  - Similar to publishing the build of a blog on github
+    this branch should really only have the build generated
+    by the source
+  - This is basically a built image of the source
+    useful as a backup or for deploys to new types
+    of system. This branch isn't intended to be 
+    merged/rebased with/against.
+  - Use the name for the system/type to generate a tag.
+    - track the most current branch for a system/type
+      against the tag.
++ The generated ./build directory should be ignored, but 
+  contain a =.git= repo checked out to the build branch.
+  - For storage concerns, this is what is intended to be 
+    commited.
+
++ Generate new branches containing the most current 
+  system/type build
+  - This requires some build automation with emacs unfortunately
+
