@@ -204,6 +204,8 @@ export _JAVA_AWT_WM_NONREPARENTING=1
 
 ** =.profile=
 
+*** XDG Shim
+
 #+begin_src sh :tangle .profile :shebang #!/bin/sh
 # If XDG variables need to change from default, set them here.
 [[ -f ~/.xdg_shim ]] && . ~/.xdg_shim.sh
@@ -215,13 +217,22 @@ export _JAVA_AWT_WM_NONREPARENTING=1
 [[ -z $XDG_STATE_HOME ]] && export XDG_STATE_HOME=$HOME/.local/state
 [[ -z $XDG_CACHE_HOME ]] && export XDG_CACHE_HOME=$HOME/.cache
 
+#+end_src
+
+*** Before Profile.d
+
+#+begin_src sh :tangle .profile :shebang #!/bin/sh
 export DOTS_CFG_SHELL=$XDG_CONFIG_HOME/sh
 export DOTS_PROFILE_D=$DOTS_CFG_SHELL/profile.d
 
 [[ -f $DOTS_CFG_SHELL/_before_profile.d.sh ]] && source $DOTS_CFG_SHELL/_before_profile.d.sh
 
 [[ -f $DOTS_CFG_SHELL/_load_profile.d.sh ]] && source $DOTS_CFG_SHELL/_load_profile.d.sh
+#+end_src
 
+*** TODO Process
+
+#+begin_src sh :tangle .profile :shebang #!/bin/sh
 # Browser
 export MOZ_ENABLE_WAYLAND=1             # only start firefox in wayland mode and no other GTK apps
 export MOZ_DBUS_REMOTE=1                # fixes firefox is already running, but is not responding
@@ -235,7 +246,6 @@ export ECORE_EVAS_ENGINE=wayland-egl
 export ELM_ENGINE=wayland_egl
 #export ELM_DISPLAY=wl
 #export ELM_ACCEL=gl
-
 
 # TODO: Accessibility
 # http://library.gnome.org/devel/accessibility-devel-guide/stable/gad-how-it-works.html.en
@@ -252,7 +262,11 @@ export BEMENU_BACKEND=wayland
 # Graphviz
 export GRAPHVIZ_DOT=/usr/bin/dot
 
+#+end_src
 
+*** After Profile.d
+
+#+begin_src sh :tangle .profile :shebang #!/bin/sh
 [[ -f $DOTS_CFG_SHELL/_after_profile.d.sh ]] && source $DOTS_CFG_SHELL/_after_profile.d.sh
 #+end_src
 
