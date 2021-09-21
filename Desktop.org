@@ -1,0 +1,132 @@
+#+TITLE: Desktop Environment
+#+PROPERTY: header-args :mkdirp yes
+#+PROPERTY: header-args:sh   :tangle-mode (identity #o555)
+#+PROPERTY: header-args:conf :tangle-mode (identity #o555)
+#+OPTIONS: toc:nil
+:PROPERTIES:
+:ID:       18863e80-849b-43ac-91e6-4836d15e892c
+:END:
+
+* Table of Contents :TOC_3_gh:
+- [[#system-settings][System Settings]]
+  - [[#disk-mounting][Disk Mounting]]
+  - [[#user-services][User Services]]
+  - [[#scheduled-tasks][Scheduled Tasks]]
+- [[#fonts-and-themes][Fonts and Themes]]
+- [[#window-management][Window Management]]
+  - [[#sway][Sway]]
+    - [[#configuration][Configuration]]
+    - [[#desktop-configuration][Desktop Configuration]]
+    - [[#keybindings][Keybindings]]
+    - [[#tiling][Tiling]]
+- [[#panel][Panel]]
+  - [[#polybar][Polybar]]
+- [[#desktop-notifications][Desktop Notifications]]
+  - [[#dunst][Dunst]]
+- [[#display-management][Display Management]]
+- [[#xdg][XDG]]
+  - [[#desktop-entries][Desktop Entries]]
+  - [[#mime-handlers][MIME Handlers]]
+
+**** TODO tangle permissions
+**** TODO set the org-babel :comments format
+- run =find . -name "ob-*.el" -type f -exec grep --color=auto -nH --null -e 'comment' \{\} += from within the org repo
+- look in =ob-core= for interface and elsewhere for =(comment-region)= refs
+- until then, treat sway configs as =shell=
+
+* System Settings
+
+** Disk Mounting
+
+
+
+** User Services
+
+
+
+** Scheduled Tasks
+
+
+
+* Fonts and Themes
+
+* Window Management
+:PROPERTIES:
+:header-args+: :tangle-mode (identity #o644) :mkdirp yes :comments link
+:END:
+
+** Sway
+
+#+begin_src sh :tangle .config/sway/config
+# Config for sway
+#
+# Read `man 5 sway` for a complete reference.
+
+# user config directory
+include $HOME/.config/sway/config.d/*
+
+# only enable this if every app you use is compatible with wayland
+# xwayland disable
+#+end_src
+
+*** Configuration
+
+*** Desktop Configuration
+
+*** Keybindings
+
+*** Tiling
+
+#+begin_src sh :tangle .config/sway/config.d/application_defaults
+for_window [class="Pwsafe" instance="pwsafe"] floating enable
+set $transparency_val 1
+
+# Inhibit idle
+for_window [app_id="firedragon"] inhibit_idle fullscreen
+for_window [app_id="Chromium"] inhibit_idle fullscreen
+#+end_src
+
+* Panel
+
+** Polybar
+
+[[https://github.com/polybar/polybar][Polybar]] displays status information in a panel and provides access to configuration.
+
+*.config/polybar/config:*
+
+#+begin_src conf :tangle .config/polybar/config :noweb yes
+; Docs: https://github.com/polybar/polybar
+;==========================================================
+
+#+end_src
+
+* Desktop Notifications
+
+** Dunst
+
+[[https://dunst-project.org/][Dunst]] displays desktop notifications.
+
+* Display Management
+
+
+* XDG
+
+** Desktop Entries
+
+** MIME Handlers
+
+*.config/mimeapps.list*
+
+#+begin_example conf
+#+begin_src conf :tangle .config/mimeapps.list
+
+  [Default Applications]
+  text/html=qutebrowser.desktop
+  x-scheme-handler/http=qutebrowser.desktop
+  x-scheme-handler/https=qutebrowser.desktop
+  x-scheme-handler/about=qutebrowser.desktop
+  x-scheme-handler/unknown=qutebrowser.desktop
+#+end_src
+#+end_example
+
+
