@@ -1,13 +1,28 @@
 #+TITLE: Systems Configuration with Guix
-#+PROPERTY: header-args    :tangle-mode (identity #o444)
+#+AUTHOR: David Conner
+#+DESCRIPTION:
+#+PROPERTY: header-args    :tangle-mode (identity #o444) :mkdirp yes
 #+PROPERTY: header-args:sh :tangle-mode (identity #o555)
-
-* Table of Contents
+#+STARTUP: content
+#+OPTIONS: toc:nil
 :PROPERTIES:
-:TOC:      :include 2 :ignore this
+:ID:       0b0de271-3003-493b-bfd7-0aa6d0a45231
 :END:
-:CONTENTS:
-:END:
+
+* Table Of Contents :TOC_2_gh:
+- [[#overview][Overview]]
+- [[#channels][Channels]]
+- [[#systems][Systems]]
+  - [[#base-configuration][Base Configuration]]
+  - [[#machines][Machines]]
+  - [[#usb-installation-image][USB Installation Image]]
+- [[#profile-management][Profile Management]]
+  - [[#activating-profiles][Activating Profiles]]
+- [[#dotfiles-management][Dotfiles Management]]
+  - [[#syncing][Syncing]]
+  - [[#updating][Updating]]
+- [[#nix-package-manager][Nix Package Manager]]
+- [[#system-installation][System Installation]]
 
 * Overview
 
@@ -32,8 +47,6 @@ stuff ... so I can actually retain it?
           (channel
             (name 'flat)
             (url "https://github.com/flatwhatson/guix-channel.git")
-            (commit
-              "7b8353ebbcf486e3344924d1cac0fa7ba47c371d")
             (introduction
               (make-channel-introduction
                 "33f86a4b48205c0dc19d7c036c85393f0766f806"
@@ -173,10 +186,11 @@ EndSection
 
 Define the =base-operating-system= which will be inherited by all machine configurations.
 
-#+begin_src scheme :tangle ./config/guix/systems/base-system.scm
+
+#+begin_src scheme :tangle .config/guix/systems/base-system.scm
 (define-public base-operating-system
   (operating-system
-   (host-name "kudos")
+   (host-name "eerse")
    (timezone "America/New_York")
    (locale "en_US.utf8")
 
@@ -185,9 +199,200 @@ Define the =base-operating-system= which will be inherited by all machine config
    (initrd microcode-initrd)
 
    (keyboard-layout (keyboard-layout "us" "altgr-intl"
-                                     #:model "104 key"))
+                                     #:model "pc105"))
 
-    ))
+   (bootloader (bootloader-configuration
+                (bootloader grub-efi-bootloader)
+                (target "/boot/efi")
+                (keyboard-layout keyboard-layout)))
+
+    ;; Guix doesn't like it when there isn't a file-systems
+    ;; entry, so add one that is meant to be overridden
+    (file-systems (cons*
+                   (file-system
+                    (mount-point "/tmp")
+                    (device "none")
+                    (type "tmpfs")
+                    (check? #f))
+                   %base-file-systems))
+
+    (users (cons (user-account
+                  (name "dc")
+                  (comment "David Conner")
+                  (group "users")
+                  (home-directory "/home/dc")
+                  (supplementary-groups '(
+                                          "wheel"      ;; sudo
+                                          "netdev"     ;; network devices
+                                          "kvm"
+                                          "tty"
+                                          "input"
+                                          "docker"
+                                          "realtime"   ;; Enable relatime scheduling
+                                          "lp"         ;; control bluetooth
+                                          "audio"      ;; control audio
+                                          "video"      ;; control video
+                                          )))
+
+                 %base-user-accounts))
+
+    (groups (cons (user-group (system? #t) (name "realtime"))
+                  %base-groups))
+
+    ;; install bare-minimum system packages
+    (packages (append (list
+                        git
+                        ntfs-3g
+                        exfat-utils
+                        fuse-exfat
+                        stow
+                        vim
+                        emacs
+                        xterm
+                        bluez
+                        bluez-alsa
+                        pulseaudio ;; TODO: pipewire
+                        tlp
+                        xf86-input-libinput
+                        nss-certs
+                        gvfs)
+                      %base-packages))
+
+    (services (cons* (service slim-service-type
+                              (slim-configuration
+                               ;; TODO: wayland
+                               (xorg-configuration
+                                (xorg-configuration
+                                 (keyboard-layout keyboard-layout)
+                                 (extra-config (list %xorg-libinput-config))))))
+                     (service tlp-service-type
+                              (tlp-configuration
+                               (cpu-boost-on-ac? #t)
+                               (wifi-pwr-on-bat? #t)))
+                     (pam-limits-service ;; This enables JACK to enter realtime mode
+                      (list
+                       (pam-limits-entry "@realtime" 'both 'rtprio 99)
+                       (pam-limits-entry "@realtime" 'both 'memlock 'unlimited)))
+                     (extra-special-file "/usr/bin/env"
+                                         (file-append coreutils "/bin/env"))
+                     (service thermald-service-type)
+                     (service docker-service-type)
+                     (service libvirt-service-type ;; TODO how is libvirt configured?
+                              (libvirt-configuration
+                               (unix-sock-group "libvirt")
+                               (tls-port "16555")))
+                     (service cups-service-type ;; TODO: how is CUPS configured?
+                              (cups-configuration
+                               (web-interface? #t)
+                               (extensions
+                                (list cups-filters)))) ;; web interface needed?
+                     (service nix-service-type)
+                     (bluetooth-service #:auto-enable? #t)
+                     (remove (lambda (service)
+                               (eq? (service-kind service)  gdm-service-type))
+                             %my-desktop-services)))
+
+    ;; allow resolution of '.local' hostnames with mDNS
+    (name-service-switch %mdns-host-lookup-nss)))
 #+end_src
 
+*** TODO System.scm updates
++ [ ] check CUPS configuration
++ [ ] check libvirt config
++ [ ] how to remove services like docker?
++ [ ] how to replace xorg with wayland/pipewire/sway
++ [ ] add custom keyboard layout (either as default or not)
++ [ ]
+
 ** Machines
+
+*** hersai
+
+2011 Macbook Pro
+
+*.config/guix/systems/hersai.scm*
+
+#+begin_src scheme :tangle .config/guix/systems/hersai.scm
+(define-module (hersai)
+  #:use-module (base-system)
+  #:use-module (gnu))
+
+(operating-system
+ (inherit base-operating-system)
+ (host-name "hersai"))
+#+end_src
+
+***
+
+** USB Installation Image
+
+#+begin_src scheme :tangle ./config/guix/systems/install.scm
+
+  ;;; Copyright © 2019 Alex Griffin <a@ajgrf.com>
+  ;;; Copyright © 2019 Pierre Neidhardt <mail@ambrevar.xyz>
+  ;;; Copyright © 2019 David Wilson <david@daviwil.com>
+  ;;; Copyright © 2021 David Conner
+  ;;;
+  ;;; This program is free software: you can redistribute it and/or modify
+  ;;; it under the terms of the GNU General Public License as published by
+  ;;; the Free Software Foundation, either version 3 of the License, or
+  ;;; (at your option) any later version.
+  ;;;
+  ;;; This program is distributed in the hope that it will be useful,
+  ;;; but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ;;; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ;;; GNU General Public License for more details.
+  ;;;
+  ;;; You should have received a copy of the GNU General Public License
+  ;;; along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
+  ;; Generate a bootable image (e.g. for USB sticks, etc.) with:
+  ;; $ guix system disk-image nongnu/system/install.scm
+
+(define-module (nongnu system install)
+  #:use-module (gnu system)
+  #:use-module (gnu system install)
+  #:use-module (gnu packages version-control)
+  #:use-module (gnu packages vim)
+  #:use-module (gnu packages curl)
+  #:use-module (gnu packages emacs)
+  #:use-module (gnu packages linux)
+  #:use-module (gnu packages mtools)
+  #:use-module (gnu packages package-management)
+  #:use-module (nongnu packages linux)
+  #:export (installation-os-nonfree))
+
+(define installation-os-nonfree
+  (operating-system
+   (inherit installation-os)
+   (kernel linux)
+   (firmware (list linux-firmware))
+
+   (kernel-arguments '("quiet" "modprobe.blacklist=radeon" "net.iframes=0"))
+
+   (packages
+    (append (list exfat-utils
+                  fuse-exfat
+                  git
+                  curl
+                  stow
+                  vim
+                  emacs-no-x-toolkit)
+            (operating-system-packages installation-os)))))
+
+    installation-os-nonfree
+
+#+end_src
+
+
+* Profile Management
+
+** Activating Profiles
+
+* Dotfiles Management
+** Syncing
+** Updating
+
+* Nix Package Manager
+
+* System Installation

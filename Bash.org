@@ -13,17 +13,24 @@
 * Table Of Contents :TOC_2_gh:
 - [[#environment][Environment]]
   - [[#org-variables][Org Variables]]
+  - [[#xdg-shim][XDG Shim]]
+  - [[#profile-hooks][Profile Hooks]]
+  - [[#rc-hooks][RC Hooks]]
   - [[#apps][Apps]]
   - [[#xdg][XDG]]
+  - [[#guix][Guix]]
   - [[#gtk][GTK]]
-  - [[#tq][TQ]]
+  - [[#qt][QT]]
+  - [[#emacs][Emacs]]
 - [[#languages][Languages]]
+  - [[#java][Java]]
+  - [[#julia][Julia]]
 - [[#profile][Profile]]
   - [[#profile-1][=.profile=]]
 - [[#bash][Bash]]
+  - [[#profile-2][=.profile=]]
   - [[#bash_profile][=.bash_profile=]]
   - [[#bashrc][=.bashrc=]]
-  - [[#profile-2][=.profile=]]
 - [[#zsh][Zsh]]
 - [[#fish][Fish]]
 - [[#environment-1][Environment]]
@@ -38,25 +45,132 @@
 :END:
 
 ** Org Variables
-*** TODO use an org table to retrieve values for templating
 
-#+name: main-vars-table
-| var | value |
-|-----+-------|
-|     |       |
+**** TODO set up =<<noweb>>= style templates
 
-#+name: main-vars
-#+begin_src sh :tangle no :var tablevars=main-vars-table :result output
-tablevars
+** XDG Shim
+
++ =.xdg_shim.sh=
+  - This file ensures XDG can be modified by user before the rest of =.profile= runs. It's necessary because =.config/sh= relies on XDG.
+  - This script is not managed by =git= or =stow=
+
+#+begin_src sh :tangle .xdg_shim.eg.sh :shebang
+export XDG_CONFIG_HOME=$HOME/.config
+export XDG_CONFIG_DIRS=/usr/local/share/:/usr/share/
+export XDG_DATA_HOME=$HOME/.local/share
+export XDG_DATA_DIRS=/etc/xdg
+export XDG_STATE_HOME=$HOME/.local/state
+export XDG_CACHE_HOME=$HOME/.cache
 #+end_src
+
+** Profile Hooks
+
++ =.config/sh/=
+  - These scripts are not managed by =git= or =stow=
+  - _before_profile.d.sh :: remaps values before =profile.d/*.sh= scripts run
+  - _load_profile.d.sh :: a list of scripts loaded by =*profile=
+  - _after_profile.d.sh :: remaps values after =_load_profile.d.sh= has run
++ =.config/sh/profile.d/=
+  - These scripts are managed by =git= and =stow=.
+
+**** Default Scripts
+
+Manually copy. Stow deploys, but to no effect (no need to mess with =.stowrc= etc.)
+
+#+begin_src sh :tangle .config/sh/_before_profile.eg.sh :shebang #!/bin/sh
+# This is the default _before_profile.d.sh script
+#+end_src
+
+#+begin_src sh :tangle .config/sh/_load_profile.eg.sh :shebang #!/bin/sh
+# This is the default _load_profile.d.sh script
+
+__scripts=(
+"guix.sh"
+"apps.sh"
+"xdg.sh"
+"gtk.sh"
+"qt.sh"
+"emacs.sh"
+"java.sh"
+"julia.sh"
+    )
+
+for s in ${__scripts[@]}; do
+    [[ -f $DOTS_PROFILE_D/$s ]] && . $DOTS_PROFILE_D/$s
+done
+
+#+end_src
+
+** RC Hooks
+
+These scripts are intentionally left blank.
+
++ =.config/sh/=
+  - _before_rc.d.sh :: remaps values before =rc.d/*.sh= scripts run
+  - _load_rc.d.sh :: a list of scripts loaded by =*rc=
+  - _after_rc.d.sh :: remaps values after =_load_rc.d.sh= has run
++ =.config/sh/rc.d/=
 
 ** Apps
 
+#+begin_src sh :tangle .config/sh/profile.d/apps.sh :shebang #!/bin/sh
+export MAIL=geary
+export BROWSER=firefox
+export TERM=alacritty
+
+# TODO: update to use terminal emacsclient
+export VISUAL=emacsclient
+export EDITOR=/usr/bin/vim
+#+end_src
+
 ** XDG
+
+#+begin_src sh :tangle .config/sh/profile.d/xdg.sh :shebang #!/bin/sh
+export XDG_SESSION_TYPE=wayland
+export XDG_SESSION_DESKTOP=sway
+export XDG_CURRENT_DESKTOP=sway
+#+end_src
+
+
+** Guix
+
+
+#+begin_src sh :tangle .config/sh/profile.d/guix.sh :shebang #!/bin/sh
+alias guix-all-profiles='find /gnu/store -maxdepth 1 -type d -name "*profile" -exec ls -al \{\} +'
+
+GUIX_PROFILE=/var/guix/profiles/per-user/saikoupomp/guix-profile
+source $GUIX_PROFILE/etc/profile
+#+end_src
+
 
 ** GTK
 
-** TQ
+#+begin_src sh :tangle .config/sh/profile.d/gtk.sh :shebang #!/bin/sh
+# GTK
+export GTK2_RC_FILES="$HOME/.gtkrc-2.0"
+
+#export GDK_BACKEND=wayland             # this can prevent programs from starting (e.g. chromium and electron apps). therefore, this should be set per app instead of globally.
+#+end_src
+
+** QT
+
+#+begin_src sh :tangle .config/sh/profile.d/qt.sh :shebang #!/bin/sh
+
+# Qt
+export QT_QPA_PLATFORMTHEME="qt5ct"
+export QT_QPA_PLATFORM=wayland
+#export QT_WAYLAND_FORCE_DPI=physical
+#export QT_WAYLAND_DISABLE_WINDOWDECORATION=1
+
+#+end_src
+
+** Emacs
+
+#+begin_src sh :tangle .config/sh/profile.d/emacs.sh :shebang #!/bin/sh
+export ORG_DIRECTORY=/data/org
+#export ORG_AGENDA_ROOT=
+#export ORG_ROAM_ROOT
+#+end_src
 
 * Languages
 :PROPERTIES:
@@ -64,6 +178,22 @@ tablevars
 :END:
 
 #+begin_src sh :tangle no
+
+#+end_src
+
+** Java
+
+#+begin_src sh :tangle .config/sh/profile.d/java.sh :shebang #!/bin/sh
+export _JAVA_AWT_WM_NONREPARENTING=1
+
+# This sets Java Swing UI -> GTK
+#export _JAVA_OPTIONS="-Dawt.useSystemAAFontSettings=on -Dswing.aatext=true -Dswing.defaultlaf=com.sun.java.swing.plaf.gtk.GTKLookAndFeel -Dswing.crossplatformlaf=com.sun.java.swing.plaf.gtk.GTKLookAndFeel $_JAVA_OPTIONS"
+
+#+end_src
+
+** Julia
+
+#+begin_src sh :tangle .config/sh/profile.d/julia.sh :shebang #!/bin/sh
 
 #+end_src
 
@@ -75,23 +205,26 @@ tablevars
 ** =.profile=
 
 #+begin_src sh :tangle .profile :shebang #!/bin/sh
-export EDITOR=/usr/bin/micro
-export BROWSER=firedragon
-export TERM=alacritty
-export MAIL=geary
-export QT_QPA_PLATFORMTHEME="qt5ct"
-export GTK2_RC_FILES="$HOME/.gtkrc-2.0"
-#export _JAVA_OPTIONS="-Dawt.useSystemAAFontSettings=on -Dswing.aatext=true -Dswing.defaultlaf=com.sun.java.swing.plaf.gtk.GTKLookAndFeel -Dswing.crossplatformlaf=com.sun.java.swing.plaf.gtk.GTKLookAndFeel {$_JAVA_OPTIONS}"
+# If XDG variables need to change from default, set them here.
+[[ -f ~/.xdg_shim ]] && . ~/.xdg_shim.sh
 
-# Session
-export XDG_SESSION_TYPE=wayland
-export XDG_SESSION_DESKTOP=sway
-export XDG_CURRENT_DESKTOP=sway
+[[ -z $XDG_CONFIG_HOME ]] && export XDG_CONFIG_HOME=$HOME/.config
+[[ -z $XDG_CONFIG_DIRS ]] && export XDG_CONFIG_DIRS=/usr/local/share/:/usr/share/
+[[ -z $XDG_DATA_HOME ]] && export XDG_DATA_HOME=$HOME/.local/share
+[[ -z $XDG_DATA_DIRS ]] && export XDG_DATA_DIRS=/etc/xdg
+[[ -z $XDG_STATE_HOME ]] && export XDG_STATE_HOME=$HOME/.local/state
+[[ -z $XDG_CACHE_HOME ]] && export XDG_CACHE_HOME=$HOME/.cache
 
-# GTK
+export DOTS_CFG_SHELL=$XDG_CONFIG_HOME/sh
+export DOTS_PROFILE_D=$DOTS_CFG_SHELL/profile.d
+
+[[ -f $DOTS_CFG_SHELL/_before_profile.d.sh ]] && source $DOTS_CFG_SHELL/_before_profile.d.sh
+
+[[ -f $DOTS_CFG_SHELL/_load_profile.d.sh ]] && source $DOTS_CFG_SHELL/_load_profile.d.sh
+
+# Browser
 export MOZ_ENABLE_WAYLAND=1             # only start firefox in wayland mode and no other GTK apps
 export MOZ_DBUS_REMOTE=1                # fixes firefox is already running, but is not responding
-#export GDK_BACKEND=wayland             # this can prevent programs from starting (e.g. chromium and electron apps). therefore, this should be set per app instead of globally.
 
 # clutter
 #export CLUTTER_BACKEND=wayland          # this can prevent programs from starting. therefore, this should be set per app instead of globally.
@@ -103,37 +236,24 @@ export ELM_ENGINE=wayland_egl
 #export ELM_DISPLAY=wl
 #export ELM_ACCEL=gl
 
-# java
-export _JAVA_AWT_WM_NONREPARENTING=1
+
+# TODO: Accessibility
+# http://library.gnome.org/devel/accessibility-devel-guide/stable/gad-how-it-works.html.en
+
+# disables accessibility
 export NO_AT_BRIDGE=1
+
+# Bemenu (not configured in sway)
 export BEMENU_BACKEND=wayland
 
 # sdl
-#export SDL_VIDEODRIVER=wayland	         # this can prevent programs from starting old sdl games. therefore, this should be set per app instead of globally.
+#export SDL_VIDEODRIVER=wayland        # this can prevent programs from starting old sdl games. therefore, this should be set per app instead of globally.
 
-# Qt
-export QT_QPA_PLATFORM=wayland
-#export QT_WAYLAND_FORCE_DPI=physical
-#export QT_WAYLAND_DISABLE_WINDOWDECORATION=1
-
-
-# =======================
-# Personal Defaults
-export EDITOR=vim
-export ORG_DIRECTORY=/data/org
-#export ORG_AGENDA_ROOT=
+# Graphviz
 export GRAPHVIZ_DOT=/usr/bin/dot
 
 
-
-# =======================
-# GUIX
-alias guix-all-profiles='find /gnu/store -maxdepth 1 -type d -name "*profile" -exec ls -al \{\} +'
-
-export GUIX_MAIN=$HOME/.config/guix/current
-
-export GUIX_PROFILE=/var/guix/profiles/per-user/saikoupomp/guix-profile
-source $GUIX_PROFILE/etc/profile
+[[ -f $DOTS_CFG_SHELL/_after_profile.d.sh ]] && source $DOTS_CFG_SHELL/_after_profile.d.sh
 #+end_src
 
 * Bash
@@ -141,7 +261,18 @@ source $GUIX_PROFILE/etc/profile
 :header-args+: :comments link :mkdirp yes
 :END:
 
+If =.bash_profile= does not exist, =.profile= will be sourced instead. When bash is invoked as =sh=, then it will source =.profile= anyways.
+
+** =.profile=
+
+#+begin_src sh :tangle .profile :shebang #!/bin/sh
+# TODO: decide on sourcing .bashrc
+# if [ -f ~/.bashrc ]; then . ~/.bashrc; fi
+#+end_src
+
 ** =.bash_profile=
+
+In case an installation automatically creates =.bash_profile=
 
 #+begin_src sh :tangle .bash_profile :shebang #!/bin/sh
 if [ -f ~/.profile ]; then . ~/.profile; fi
@@ -151,17 +282,12 @@ if [ -f ~/.profile ]; then . ~/.profile; fi
 
 #+begin_src sh :tangle .bashrc :shebang #!/bin/sh
 # If not running interactively, don't do anything
-[[ $- != *i* ]] && return
+#[[ $- != *i* ]] && return
 
 alias ls='ls --color=auto'
 PS1='[\u@\h \W]\$ '
-#+end_src
 
-** =.profile=
-
-#+begin_src sh :tangle .profile
-# also source .bashrc if it exists
-if [ -f ~/.bashrc ]; then . ~/.bashrc; fi
+# TODO: source ~/.config/sh/rc.d files here
 #+end_src
 
 * Zsh
@@ -170,9 +296,11 @@ if [ -f ~/.bashrc ]; then . ~/.bashrc; fi
 
 * Fish
 
+#+begin_example
 #+begin_src sh :tangle .config/fish/config.fish :shebang #!/bin/nope
-
+# i don't trust fish bc i'm paranoid and trust is earned not given
 #+end_src
+#+end_example
 
 * Environment
 
