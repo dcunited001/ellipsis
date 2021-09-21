@@ -1,86 +1,3 @@
-#+TITLE: Systems Configuration with Guix
-#+AUTHOR: David Conner
-#+DESCRIPTION:
-#+PROPERTY: header-args    :tangle-mode (identity #o444) :mkdirp yes
-#+PROPERTY: header-args:sh :tangle-mode (identity #o555)
-#+STARTUP: content
-#+OPTIONS: toc:nil
-:PROPERTIES:
-:ID:       0b0de271-3003-493b-bfd7-0aa6d0a45231
-:END:
-
-* Table Of Contents :TOC_2_gh:
-- [[#overview][Overview]]
-- [[#channels][Channels]]
-- [[#systems][Systems]]
-  - [[#base-configuration][Base Configuration]]
-  - [[#machines][Machines]]
-  - [[#usb-installation-image][USB Installation Image]]
-- [[#profile-management][Profile Management]]
-  - [[#activating-profiles][Activating Profiles]]
-- [[#dotfiles-management][Dotfiles Management]]
-  - [[#syncing][Syncing]]
-  - [[#updating][Updating]]
-- [[#nix-package-manager][Nix Package Manager]]
-- [[#system-installation][System Installation]]
-
-* Overview
-
-My naming system is based on morphemes featured in Benveniste's book [[https://www.amazon.com/Dictionary-Indo-European-Concepts-Society-Benveniste/dp/0986132594][Dictionary
-of Indo-European Concepts & Society]] -- mainly as a hack to cross-study this
-stuff ... so I can actually retain it?
-
-**** TODO Channel Tasks
-**** TODO Base System Tasks
-- [ ] compile & use my own flavor of Zen Kernel
-  + also port over other features from garuda
-
-* Channels
-
-#+begin_src scheme :tangle .config/guix/channels.scm
-
-    ;; NOTE: This file is generated from ~/.dotfiles/System.org.  Please see commentary there.
-
-    (list ;(channel
-            ;(name 'channel-x)
-            ;(url "file:///home/daviwil/Projects/Code/channel-x"))
-          (channel
-            (name 'flat)
-            (url "https://github.com/flatwhatson/guix-channel.git")
-            (introduction
-              (make-channel-introduction
-                "33f86a4b48205c0dc19d7c036c85393f0766f806"
-                (openpgp-fingerprint
-                  "736A C00E 1254 378B A982  7AF6 9DBE 8265 81B6 4490"))))
-          (channel
-            (name 'nonguix)
-            (url "https://gitlab.com/nonguix/nonguix"))
-          (channel
-            (name 'guix)
-            (url "https://git.savannah.gnu.org/git/guix.git")
-            ;; (url "file:///home/daviwil/Projects/Code/guix"))
-            (introduction
-              (make-channel-introduction
-                "9edb3f66fd807b096b48283debdcddccfea34bad"
-                (openpgp-fingerprint
-                  "BBB0 2DDF 2CEA F6A8 0D1D  E643 A2A0 6DF2 A33A 54FA")))))
-
-#+end_src
-
-* Systems
-
-** Base Configuration
-
-Any configuration that derives from =base-operating-system= must invoke =guix
-system= in a specific way to ensure it gets loaded correctly:
-
-#+begin_src sh
-sudo -E guix system -L ~/.dotfiles/.config/guix/systems reconfigure ~/.dotfiles/.config/guix/systems/$GUIX_SYSTEM_NAME.scm
-#+end_src
-
-*.config/guix/systems/base-system.scm:*
-
-#+begin_src scheme :tangle .config/guix/systems/base-system.scm
 (define-module (base-system)
   #:use-module (gnu)
   #:use-module (srfi srfi-1)
@@ -114,11 +31,6 @@ sudo -E guix system -L ~/.dotfiles/.config/guix/systems reconfigure ~/.dotfiles/
 (use-service-modules desktop xorg) ;sway/wayland?
 (use-package-modules certs)
 (use-package-modules shells)
-#+end_src
-
-Add a =udev= rule to enable members of the =video= group to control screen brightness.
-
-#+begin_src scheme :tangle .config/guix/systems/base-system.scm
 
 ;; Allow members of the "video" group to change the screen brightness.
 (define %backlight-udev-rule
@@ -129,11 +41,6 @@ Add a =udev= rule to enable members of the =video= group to control screen brigh
                   "\n"
                   "ACTION==\"add\", SUBSYSTEM==\"backlight\", "
                   "RUN+=\"/run/current-system/profile/bin/chmod g+w /sys/class/backlight/%k/brightness\"")))
-#+end_src
-
-Override the default =%desktop-services= to add the =udev= backlight configuration and include OpenVPN in the list of NetworkManager plugins.
-
-#+begin_src scheme :tangle .config/guix/systems/base-system.scm
 
 (define %my-desktop-services
   (modify-services
@@ -153,13 +60,7 @@ Override the default =%desktop-services= to add the =udev= backlight configurati
        (network-manager-configuration
          (inherit config)
          (vpn-plugins (list network-manager-openvpn))))))
-#+end_src
 
-+ TODO fix doom emacs wordwrap so the default scheme formatting in babel doesn't mess things up
-
-Use the =libinput-driver= for all input device
-
-#+begin_src scheme :tangle .config/guix/systems/base-system.scm
 (define %xorg-libinput-config
   "
 Section \"InputClass\"
@@ -182,12 +83,7 @@ Section \"InputClass\"
   MatchIsKeyboard \"on\"
 EndSection
 ")
-#+end_src
 
-Define the =base-operating-system= which will be inherited by all machine configurations.
-
-
-#+begin_src scheme :tangle .config/guix/systems/base-system.scm
 (define-public base-operating-system
   (operating-system
    (host-name "eerse")
@@ -294,105 +190,3 @@ Define the =base-operating-system= which will be inherited by all machine config
 
     ;; allow resolution of '.local' hostnames with mDNS
     (name-service-switch %mdns-host-lookup-nss)))
-#+end_src
-
-*** TODO System.scm updates
-+ [ ] check CUPS configuration
-+ [ ] check libvirt config
-+ [ ] how to remove services like docker?
-+ [ ] how to replace xorg with wayland/pipewire/sway
-+ [ ] add custom keyboard layout (either as default or not)
-+ [ ]
-
-** Machines
-
-*** hersai
-
-2011 Macbook Pro
-
-*.config/guix/systems/hersai.scm*
-
-#+begin_src scheme :tangle .config/guix/systems/hersai.scm
-(define-module (hersai)
-  #:use-module (base-system)
-  #:use-module (gnu))
-
-(operating-system
- (inherit base-operating-system)
- (host-name "hersai"))
-#+end_src
-
-***
-
-** USB Installation Image
-
-#+begin_src scheme :tangle .config/guix/systems/install.scm
-
-  ;;; Copyright © 2019 Alex Griffin <a@ajgrf.com>
-  ;;; Copyright © 2019 Pierre Neidhardt <mail@ambrevar.xyz>
-  ;;; Copyright © 2019 David Wilson <david@daviwil.com>
-  ;;; Copyright © 2021 David Conner
-  ;;;
-  ;;; This program is free software: you can redistribute it and/or modify
-  ;;; it under the terms of the GNU General Public License as published by
-  ;;; the Free Software Foundation, either version 3 of the License, or
-  ;;; (at your option) any later version.
-  ;;;
-  ;;; This program is distributed in the hope that it will be useful,
-  ;;; but WITHOUT ANY WARRANTY; without even the implied warranty of
-  ;;; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  ;;; GNU General Public License for more details.
-  ;;;
-  ;;; You should have received a copy of the GNU General Public License
-  ;;; along with this program.  If not, see <https://www.gnu.org/licenses/>.
-
-  ;; Generate a bootable image (e.g. for USB sticks, etc.) with:
-  ;; $ guix system disk-image nongnu/system/install.scm
-
-(define-module (nongnu system install)
-  #:use-module (gnu system)
-  #:use-module (gnu system install)
-  #:use-module (gnu packages version-control)
-  #:use-module (gnu packages vim)
-  #:use-module (gnu packages curl)
-  #:use-module (gnu packages emacs)
-  #:use-module (gnu packages linux)
-  #:use-module (gnu packages mtools)
-  #:use-module (gnu packages package-management)
-  #:use-module (nongnu packages linux)
-  #:export (installation-os-nonfree))
-
-(define installation-os-nonfree
-  (operating-system
-   (inherit installation-os)
-   (kernel linux)
-   (firmware (list linux-firmware))
-
-   (kernel-arguments '("quiet" "modprobe.blacklist=radeon" "net.iframes=0"))
-
-   (packages
-    (append (list exfat-utils
-                  fuse-exfat
-                  git
-                  curl
-                  stow
-                  vim
-                  emacs-no-x-toolkit)
-            (operating-system-packages installation-os)))))
-
-    installation-os-nonfree
-
-#+end_src
-
-
-* Profile Management
-
-** Activating Profiles
-
-* Dotfiles Management
-** Syncing
-** Updating
-
-* Nix Package Manager
-
-* System Installation
