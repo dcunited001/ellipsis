@@ -15,10 +15,8 @@
 - [[#fonts-and-themes][Fonts and Themes]]
 - [[#window-management][Window Management]]
   - [[#sway][Sway]]
-    - [[#configuration][Configuration]]
-    - [[#desktop-configuration][Desktop Configuration]]
-    - [[#keybindings][Keybindings]]
-    - [[#tiling][Tiling]]
+    - [[#configs][Configs]]
+    - [[#scripts][Scripts]]
 - [[#panel][Panel]]
   - [[#polybar][Polybar]]
 - [[#desktop-notifications][Desktop Notifications]]
@@ -55,11 +53,16 @@
 * Fonts and Themes
 
 * Window Management
-:PROPERTIES:
-:header-args+: :tangle-mode (identity #o644) :mkdirp yes :comments link
-:END:
 
 ** Sway
+
+*** Configs
+:PROPERTIES:
+:header-args+: :tangle-mode (identity #o644) :mkdirp yes :comments link
+:header-args:sh+: :tangle-mode (identity #o644) :mkdirp yes :comments link
+:END:
+
+**** Basics
 
 #+begin_src sh :tangle .config/sway/config
 # Config for sway
@@ -73,15 +76,13 @@ include $HOME/.config/sway/config.d/*
 # xwayland disable
 #+end_src
 
-*** Configuration
+**** Desktops
 
-*** Desktop Configuration
+**** Keybindings
 
-*** Keybindings
+**** Tiling
 
-*** Tiling
-
-#+begin_src sh :tangle .config/sway/config.d/application_defaults.garuda
+#+begin_src sh :tangle .config/sway/config.d/application_defaults
 for_window [class="Pwsafe" instance="pwsafe"] floating enable
 set $transparency_val 1
 
@@ -89,6 +90,8 @@ set $transparency_val 1
 for_window [app_id="firedragon"] inhibit_idle fullscreen
 for_window [app_id="Chromium"] inhibit_idle fullscreen
 #+end_src
+
+*** Scripts
 
 * Panel
 
