@@ -1,4 +1,4 @@
-# [[file:../../Desktop.org::*Sway][Sway:1]]
+# [[file:../../Desktop.org::*Basics][Basics:1]]
 # Config for sway
 #
 # Read `man 5 sway` for a complete reference.
@@ -8,4 +8,4 @@ include $HOME/.config/sway/config.d/*
 
 # only enable this if every app you use is compatible with wayland
 # xwayland disable
-# Sway:1 ends here
+# Basics:1 ends here

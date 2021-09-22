@@ -11,7 +11,7 @@ exec hash dbus-update-activation-environment 2>/dev/null && \
      dbus-update-activation-environment --systemd DISPLAY WAYLAND_DISPLAY SWAYSOCK
      
 # Sway Fader
-exec python3 ~/.config/sway/scripts/swayfader.py     
+# exec python3 ~/.config/sway/scripts/swayfader.py
  
 # Wob
 exec mkfifo $SWAYSOCK.wob
@@ -21,7 +21,7 @@ exec tail -f $SWAYSOCK.wob | wob --border-color '#ffdcbb8c' --background-color '
 exec autotiling
 
 # Wlsunset
-exec ~/.config/sway/scripts/light.sh
+# exec ~/.config/sway/scripts/light.sh
 
 # Welcome
 exec dex -a -s /etc/xdg/autostart/:~/.config/autostart/
@@ -31,7 +31,7 @@ exec clipman restore
 exec wl-paste -t text --watch clipman store
 
 # Gnome Keyring
-exec gnome-keyring-daemon --daemonize --start --components=gpg,pkcs11,secrets,ssh
+# exec gnome-keyring-daemon --daemonize --start --components=gpg,pkcs11,secrets,ssh
 
 # for Touchpad gestures
 exec libinput-gestures-setup start
