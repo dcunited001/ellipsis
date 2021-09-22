@@ -28,7 +28,3 @@ for_window [title="htop"] floating enable, resize set width 50 ppt height 70 ppt
 for_window [app_id="xsensors"] floating enable
 for_window [title="Save File"] floating enable
 for_window [app_id="firedragon" title="firedragon — Sharing Indicator"] kill
-
-# Inhibit idle
-for_window [app_id="firedragon"] inhibit_idle fullscreen
-for_window [app_id="Chromium"] inhibit_idle fullscreen

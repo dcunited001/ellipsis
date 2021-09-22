@@ -12,12 +12,16 @@ input type:touchpad {
 
 # Read `man 5 sway-input` for more information about this section.
 #
-input type:keyboard xkb_layout "us"
+
+input type:keyboard {
+      xkb_layout "io"
+      xkb_variant "altgr-intl"
+      xkb_options "caps:hyper"
+}
+
+# input type:keyboard xkb_model "pc105"
 
 exec_always {
    'swaymsg input type:keyboard xkb_layout "$(localectl status | grep "X11 Layout" | sed -e "s/^.*X11 Layout://")"'
    'swaymsg input type:keyboard xkb_variant "$(localectl status | grep "X11 Variant" | sed -e "s/^.*X11 Variant://")"'
 }
-
-
-

@@ -26,6 +26,7 @@
 - [[#display-management][Display Management]]
 - [[#xdg][XDG]]
   - [[#desktop-entries][Desktop Entries]]
+  - [[#restrict-autostart-entries][Restrict Autostart entries]]
   - [[#mime-handlers][MIME Handlers]]
 
 **** TODO tangle permissions
@@ -45,6 +46,9 @@
 
 
 ** Scheduled Tasks
+
+
+
 
 
 
@@ -77,7 +81,7 @@ include $HOME/.config/sway/config.d/*
 
 *** Tiling
 
-#+begin_src sh :tangle .config/sway/config.d/application_defaults
+#+begin_src sh :tangle .config/sway/config.d/application_defaults.garuda
 for_window [class="Pwsafe" instance="pwsafe"] floating enable
 set $transparency_val 1
 
@@ -112,6 +116,9 @@ for_window [app_id="Chromium"] inhibit_idle fullscreen
 * XDG
 
 ** Desktop Entries
+** Restrict Autostart entries
+
+**** TODO review =.config/autostart/*=
 
 ** MIME Handlers
 
