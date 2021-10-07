@@ -18,6 +18,7 @@
   - [[#rc-hooks][RC Hooks]]
   - [[#apps][Apps]]
   - [[#xdg][XDG]]
+  - [[#steam--proton][Steam & Proton]]
   - [[#guix][Guix]]
   - [[#gtk][GTK]]
   - [[#qt][QT]]
@@ -38,10 +39,12 @@
   - [[#languages-1][Languages]]
 
 **** TODO double check =.bash*= permissions
+**** TODO figure out how to circumvent saving readonly files
+- this is needed to easily detangle files
 
 * Environment
 :PROPERTIES:
-:header-args+: :comments no :mkdirp yes
+:header-args+: :comments link :mkdirp yes
 :END:
 
 ** Org Variables
@@ -95,9 +98,11 @@ __scripts=(
 "julia.sh"
     )
 
-for s in ${__scripts[@]}; do
-    [[ -f $DOTS_PROFILE_D/$s ]] && . $DOTS_PROFILE_D/$s
+for __script in ${__scripts[@]}; do
+    [[ -f $DOTS_PROFILE_D/$__script ]] && . $DOTS_PROFILE_D/$__script
 done
+
+unset $__script
 
 #+end_src
 
@@ -131,17 +136,30 @@ export XDG_SESSION_DESKTOP=sway
 export XDG_CURRENT_DESKTOP=sway
 #+end_src
 
+** Steam & Proton
+
+#+begin_src sh :tangle .config/sh/profile.d/steam.sh :shebang #!/bin/sh
+
+#+end_src
 
 ** Guix
 
-
 #+begin_src sh :tangle .config/sh/profile.d/guix.sh :shebang #!/bin/sh
 alias guix-all-profiles='find /gnu/store -maxdepth 1 -type d -name "*profile" -exec ls -al \{\} +'
+alias guix-main="$HOME/.config/guix/current/bin/guix"
 
-GUIX_PROFILE=/var/guix/profiles/per-user/saikoupomp/guix-profile
-source $GUIX_PROFILE/etc/profile
+GUIX_PROFILE="$HOME/.guix-profile"
+. "$GUIX_PROFILE/etc/profile"
+
+export GUIX_LOCPATH=$HOME/.guix-profile/lib/locale
 #+end_src
 
+**** TODO how to handle resetting $PATH when I need a guixless $PATH
+**** TODO create =.bashrc= scripts that load =$PATH= for specific applications that might share dependencies.
++ e.g. custom builds of OBS and VLC (common dep. ffmpeg)
++ can start bash with =--rcfile= ... but how to do this in GUI?
++ for gui apps, the best way to handle this is with =x11-docker=
++ is there a better way to avoid cross-environment contamination? (not a problem if the environments are isolated into different users)
 
 ** GTK
 

@@ -1,4 +1,5 @@
 #!/bin/sh
+# [[file:../../Bash.org::*Default Scripts][Default Scripts:2]]
 # This is the default _load_profile.d.sh script
 
 __scripts=(
@@ -12,6 +13,9 @@ __scripts=(
 "julia.sh"
     )
 
-for s in ${__scripts[@]}; do
-    [[ -f $DOTS_PROFILE_D/$s ]] && . $DOTS_PROFILE_D/$s
+for __script in ${__scripts[@]}; do
+    [[ -f $DOTS_PROFILE_D/$__script ]] && . $DOTS_PROFILE_D/$__script
 done
+
+unset $__script
+# Default Scripts:2 ends here

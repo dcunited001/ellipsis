@@ -13,12 +13,14 @@
   - [[#user-services][User Services]]
   - [[#scheduled-tasks][Scheduled Tasks]]
 - [[#fonts-and-themes][Fonts and Themes]]
+- [[#input][Input]]
+  - [[#fcitx5][FCITX5]]
 - [[#window-management][Window Management]]
   - [[#sway][Sway]]
     - [[#configs][Configs]]
     - [[#scripts][Scripts]]
 - [[#panel][Panel]]
-  - [[#polybar][Polybar]]
+  - [[#waybar][Waybar]]
 - [[#desktop-notifications][Desktop Notifications]]
   - [[#dunst][Dunst]]
 - [[#display-management][Display Management]]
@@ -38,19 +40,17 @@
 ** Disk Mounting
 
 
-
 ** User Services
-
 
 
 ** Scheduled Tasks
 
 
-
-
-
-
 * Fonts and Themes
+
+* Input
+
+** FCITX5
 
 * Window Management
 
@@ -95,9 +95,7 @@ for_window [app_id="Chromium"] inhibit_idle fullscreen
 
 * Panel
 
-** Polybar
-
-[[https://github.com/polybar/polybar][Polybar]] displays status information in a panel and provides access to configuration.
+** Waybar
 
 *.config/polybar/config:*
 
