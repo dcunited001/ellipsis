@@ -18,6 +18,7 @@ input type:keyboard {
       xkb_layout "io"
       xkb_variant "altgr-intl"
       xkb_options "caps:hyper"
+      #xkb_options "caps:swapescape"
 }
 
 # input type:keyboard xkb_model "pc105"
