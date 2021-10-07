@@ -1,11 +1,11 @@
+:PROPERTIES:
+:ID:       b03d47fc-e81c-409f-bf95-0d973930e73f
+:END:
 #+TITLE: Desktop Environment
 #+PROPERTY: header-args :mkdirp yes
 #+PROPERTY: header-args:sh   :tangle-mode (identity #o555)
 #+PROPERTY: header-args:conf :tangle-mode (identity #o555)
 #+OPTIONS: toc:nil
-:PROPERTIES:
-:ID:       18863e80-849b-43ac-91e6-4836d15e892c
-:END:
 
 * Table of Contents :TOC_3_gh:
 - [[#system-settings][System Settings]]

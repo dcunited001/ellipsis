@@ -1,3 +1,6 @@
+:PROPERTIES:
+:ID:       83315604-b917-45e3-9366-afe6ba029a60
+:END:
 #+TITLE: Systems Configuration with Guix
 #+AUTHOR: David Conner
 #+DESCRIPTION:
@@ -5,9 +8,6 @@
 #+PROPERTY: header-args:sh :tangle-mode (identity #o555)
 #+STARTUP: content
 #+OPTIONS: toc:nil
-:PROPERTIES:
-:ID:       0b0de271-3003-493b-bfd7-0aa6d0a45231
-:END:
 
 * Table Of Contents :TOC_2_gh:
 - [[#overview][Overview]]
