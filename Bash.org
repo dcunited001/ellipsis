@@ -28,12 +28,10 @@
   - [[#julia][Julia]]
 - [[#profile][Profile]]
   - [[#profile-1][=.profile=]]
-- [[#bash][Bash]]
-  - [[#profile-2][=.profile=]]
-  - [[#bash_profile][=.bash_profile=]]
-  - [[#bashrc][=.bashrc=]]
-- [[#zsh][Zsh]]
-- [[#fish][Fish]]
+- [[#shells][Shells]]
+  - [[#rc][RC]]
+  - [[#bash][Bash]]
+  - [[#zsh][Zsh]]
 - [[#environment-1][Environment]]
   - [[#direnv][Direnv]]
   - [[#languages-1][Languages]]
@@ -49,22 +47,75 @@
 
 ** Org Variables
 
-**** TODO set up =<<noweb>>= style templates
+These are intended to be a list of system-specific variables that enable some
+portability: for me, across systems or networks. The idea is to containerize
+this as much as possible, at least for myself, so the paths/etc work like
+[[https://12factor.net/config][12Factor config vars]] or Helm values.
+
+*** Paths
+
++ _DF :: path to dotfiles
++ _DATA :: path to data mount
+  - not final
++ _XS :: path to "excess" mount
+  - stored outside of home/root partitions
+    * my hard disk is small and i has not enough disks to rice good
+  - will become modeled on XDG-style or posix style paths
+  - this will migrate to replace references to =$_DATA= (at least partially)
+
+Path values
+
+#+name: bash-env-bindings
+| _DF   | $HOME/.dotfiles |
+| _DATA | /data           |
+| _XS   | /data           |
+
+#+name: bash-env-bindings_GEN
+#+begin_src emacs-lisp :tangle no :var bindings=bash-env-bindings :results output :exports none
+(mapcar #'(lambda (row)
+            (princ (format "export %s=%s\n" (first row) (second row)))) bindings)
+#+end_src
+
+#+RESULTS: bash-env-bindings_GEN
+: export name=value
+: export _DF=$HOME/.dotfiles
+: export _DATA=/data
+: export _XS=/data
+
+#+name: bash-env-bindings_CALL
+#+call: bash-env-bindings_GEN()
+
+#+RESULTS: bash-env-bindings_CALL
+: export name=value
+: export _DF=$HOME/.dotfiles
+: export _DATA=/data
+: export _XS=/data
+
+#+begin_src sh :tangle .profile :noweb yes :comments none :results none :exports none :shebang #!/bin/sh
+<<bash-env-bindings_CALL()>>
+#+end_src
+
+#+RESULTS:
+
+**** TODO set up =<<noweb>>= style templates?
 
 ** XDG Shim
+
 
 + =.xdg_shim.sh=
   - This file ensures XDG can be modified by user before the rest of =.profile= runs. It's necessary because =.config/sh= relies on XDG.
   - This script is not managed by =git= or =stow=
 
-#+begin_src sh :tangle .xdg_shim.eg.sh :shebang
+#+begin_src sh :tangle .xdg_shim.eg.sh :shebang #!/bin/sh
 export XDG_CONFIG_HOME=$HOME/.config
-export XDG_CONFIG_DIRS=/usr/local/share/:/usr/share/
-export XDG_DATA_HOME=$HOME/.local/share
-export XDG_DATA_DIRS=/etc/xdg
-export XDG_STATE_HOME=$HOME/.local/state
-export XDG_CACHE_HOME=$HOME/.cache
+#export XDG_CONFIG_DIRS=/etc/xdg
+#export XDG_DATA_HOME=$HOME/.local/share
+#export XDG_DATA_DIRS=/usr/local/share/:/usr/share/
+#export XDG_STATE_HOME=$HOME/.local/state
+#export XDG_CACHE_HOME=$HOME/.cache
 #+end_src
+
+***** TODO fix the above example script. these are XDG spec defaults, but sway will not startup...
 
 ** Profile Hooks
 
@@ -222,18 +273,20 @@ export _JAVA_AWT_WM_NONREPARENTING=1
 
 ** =.profile=
 
+If =.bash_profile= does not exist, =.profile= will be sourced instead. When bash is invoked as =sh=, then it will source =.profile= anyways.
+
 *** XDG Shim
 
 #+begin_src sh :tangle .profile :shebang #!/bin/sh
 # If XDG variables need to change from default, set them here.
 [[ -f ~/.xdg_shim ]] && . ~/.xdg_shim.sh
 
-[[ -z $XDG_CONFIG_HOME ]] && export XDG_CONFIG_HOME=$HOME/.config
-[[ -z $XDG_CONFIG_DIRS ]] && export XDG_CONFIG_DIRS=/usr/local/share/:/usr/share/
-[[ -z $XDG_DATA_HOME ]] && export XDG_DATA_HOME=$HOME/.local/share
-[[ -z $XDG_DATA_DIRS ]] && export XDG_DATA_DIRS=/etc/xdg
-[[ -z $XDG_STATE_HOME ]] && export XDG_STATE_HOME=$HOME/.local/state
-[[ -z $XDG_CACHE_HOME ]] && export XDG_CACHE_HOME=$HOME/.cache
+#[[ -z $XDG_CONFIG_HOME ]] && export XDG_CONFIG_HOME=$HOME/.config
+#[[ -z $XDG_CONFIG_DIRS ]] && export XDG_CONFIG_DIRS=/etc/xdg
+#[[ -z $XDG_DATA_HOME ]] && export XDG_DATA_HOME=$HOME/.local/share
+#[[ -z $XDG_DATA_DIRS ]] export XDG_DATA_DIRS=/usr/local/share/:/usr/share/
+#[[ -z $XDG_STATE_HOME ]] && export XDG_STATE_HOME=$HOME/.local/state
+#[[ -z $XDG_CACHE_HOME ]] && export XDG_CACHE_HOME=$HOME/.cache
 
 #+end_src
 
@@ -288,29 +341,12 @@ export GRAPHVIZ_DOT=/usr/bin/dot
 [[ -f $DOTS_CFG_SHELL/_after_profile.d.sh ]] && source $DOTS_CFG_SHELL/_after_profile.d.sh
 #+end_src
 
-* Bash
+* Shells
 :PROPERTIES:
 :header-args+: :comments link :mkdirp yes
 :END:
 
-If =.bash_profile= does not exist, =.profile= will be sourced instead. When bash is invoked as =sh=, then it will source =.profile= anyways.
-
-** =.profile=
-
-#+begin_src sh :tangle .profile :shebang #!/bin/sh
-# TODO: decide on sourcing .bashrc
-# if [ -f ~/.bashrc ]; then . ~/.bashrc; fi
-#+end_src
-
-** =.bash_profile=
-
-In case an installation automatically creates =.bash_profile=
-
-#+begin_src sh :tangle .bash_profile :shebang #!/bin/sh
-if [ -f ~/.profile ]; then . ~/.profile; fi
-#+end_src
-
-** =.bashrc=
+** RC
 
 #+begin_src sh :tangle .bashrc :shebang #!/bin/sh
 # If not running interactively, don't do anything
@@ -322,17 +358,33 @@ PS1='[\u@\h \W]\$ '
 # TODO: source ~/.config/sh/rc.d files here
 #+end_src
 
-* Zsh
+*** Color
 
++ Protesilaos: [[file:/data/ecto/x.files/protesilaos/dotfiles/shell/.bashrc::Colourise man pages][font & color config for man]]
 
+#+begin_src sh :tangle .bashrc :shebang #!/bin/sh
 
-* Fish
-
-#+begin_example
-#+begin_src sh :tangle .config/fish/config.fish :shebang #!/bin/nope
-# i don't trust fish bc i'm paranoid and trust is earned not given
 #+end_src
-#+end_example
+
+
+** Bash
+
+*** =.bash_profile=
+
+In case an installation automatically creates =.bash_profile=
+
+#+begin_src sh :tangle .bash_profile :shebang #!/bin/sh
+if [ -f ~/.profile ]; then . ~/.profile; fi
+#+end_src
+
+** Zsh
+
+**** TODO introduce hooks that integrate with the RC
++ [ ] =_before_zprofile= and =_after_zprofile=
++ [ ] =_before_zshrc= and =_after_zshrc=
+
+
+[[file:/data/ecto/x.files/protesilaos/dotfiles/shell/.bashrc::Colourise man pages][orgit-test]]
 
 * Environment
 

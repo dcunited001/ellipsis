@@ -1,14 +1,16 @@
 #!/bin/sh
+export _DF=$HOME/.dotfiles
+export _DATA=/data
+export _XS=/data
+
 # [[file:Bash.org::*XDG Shim][XDG Shim:1]]
 # If XDG variables need to change from default, set them here.
-#[[ -f ~/.xdg_shim ]] && . ~/.xdg_shim.sh
+[[ -f ~/.xdg_shim ]] && . ~/.xdg_shim.sh
 
-#source "$HOME"/.profile.bak
-
-[[ -z $XDG_CONFIG_HOME ]] && export XDG_CONFIG_HOME=$HOME/.config
-#[[ -z $XDG_CONFIG_DIRS ]] && export XDG_CONFIG_DIRS=/usr/local/share/:/usr/share/
+#[[ -z $XDG_CONFIG_HOME ]] && export XDG_CONFIG_HOME=$HOME/.config
+#[[ -z $XDG_CONFIG_DIRS ]] && export XDG_CONFIG_DIRS=/etc/xdg
 #[[ -z $XDG_DATA_HOME ]] && export XDG_DATA_HOME=$HOME/.local/share
-#[[ -z $XDG_DATA_DIRS ]] && export XDG_DATA_DIRS=/etc/xdg
+#[[ -z $XDG_DATA_DIRS ]] export XDG_DATA_DIRS=/usr/local/share/:/usr/share/
 #[[ -z $XDG_STATE_HOME ]] && export XDG_STATE_HOME=$HOME/.local/state
 #[[ -z $XDG_CACHE_HOME ]] && export XDG_CACHE_HOME=$HOME/.cache
 # XDG Shim:1 ends here
@@ -56,8 +58,3 @@ export GRAPHVIZ_DOT=/usr/bin/dot
 # [[file:Bash.org::*After Profile.d][After Profile.d:1]]
 [[ -f $DOTS_CFG_SHELL/_after_profile.d.sh ]] && source $DOTS_CFG_SHELL/_after_profile.d.sh
 # After Profile.d:1 ends here
-
-# [[file:Bash.org::*=.profile=][=.profile=:1]]
-# TODO: decide on sourcing .bashrc
-# if [ -f ~/.bashrc ]; then . ~/.bashrc; fi
-# =.profile=:1 ends here
