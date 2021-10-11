@@ -5,7 +5,7 @@ export _XS=/data
 
 # [[file:Bash.org::*XDG Shim][XDG Shim:1]]
 # If XDG variables need to change from default, set them here.
-[[ -f ~/.xdg_shim ]] && . ~/.xdg_shim.sh
+[[ -f ~/.xdg_shim.sh ]] && . ~/.xdg_shim.sh
 
 #[[ -z $XDG_CONFIG_HOME ]] && export XDG_CONFIG_HOME=$HOME/.config
 #[[ -z $XDG_CONFIG_DIRS ]] && export XDG_CONFIG_DIRS=/etc/xdg

@@ -271,10 +271,10 @@ export JULIA_SHELL=/bin/sh
 export JULIA_EDITOR=vim
 #+end_src
 
-These two will auto-expand empty enties
+These auto-expand empty entries, but =JULIA_LOAD_PATH= can't be set if empty.
 
 #+begin_src sh :tangle .config/sh/profile.d/julia.sh :shebang #!/bin/sh
-export JULIA_LOAD_PATH="$JULIA_LOAD_PATH"
+#export JULIA_LOAD_PATH="$JULIA_LOAD_PATH"
 export JULIA_DEPOT_PATH="$_DATA/lang/.julia:$JULIA_DEPOT_PATH"
 #+end_src
 
@@ -291,7 +291,7 @@ If =.bash_profile= does not exist, =.profile= will be sourced instead. When bash
 
 #+begin_src sh :tangle .profile :shebang #!/bin/sh
 # If XDG variables need to change from default, set them here.
-[[ -f ~/.xdg_shim ]] && . ~/.xdg_shim.sh
+[[ -f ~/.xdg_shim.sh ]] && . ~/.xdg_shim.sh
 
 #[[ -z $XDG_CONFIG_HOME ]] && export XDG_CONFIG_HOME=$HOME/.config
 #[[ -z $XDG_CONFIG_DIRS ]] && export XDG_CONFIG_DIRS=/etc/xdg
