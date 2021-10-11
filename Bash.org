@@ -302,6 +302,8 @@ If =.bash_profile= does not exist, =.profile= will be sourced instead. When bash
 
 #+end_src
 
+#+RESULTS:
+
 *** Before Profile.d
 
 #+begin_src sh :tangle .profile :shebang #!/bin/sh
@@ -312,6 +314,8 @@ export DOTS_PROFILE_D=$DOTS_CFG_SHELL/profile.d
 
 [[ -f $DOTS_CFG_SHELL/_load_profile.d.sh ]] && source $DOTS_CFG_SHELL/_load_profile.d.sh
 #+end_src
+
+#+RESULTS:
 
 *** TODO Process
 
@@ -373,11 +377,17 @@ PS1='[\u@\h \W]\$ '
 *** Color
 
 + Protesilaos: [[file:/data/ecto/x.files/protesilaos/dotfiles/shell/.bashrc::Colourise man pages][font & color config for man]]
++ =man termcap= for an explanation of codes
 
 #+begin_src sh :tangle .bashrc :shebang #!/bin/sh
-
+export LESS_TERMCAP_mb=$'\E[01;31m'
+export LESS_TERMCAP_md=$'\E[01;31m'
+export LESS_TERMCAP_me=$'\E[0m'
+export LESS_TERMCAP_se=$'\E[0m'
+export LESS_TERMCAP_so=$'\E[00;44;37m'
+export LESS_TERMCAP_ue=$'\E[0m'
+export LESS_TERMCAP_us=$'\E[01;32m'
 #+end_src
-
 
 ** Bash
 
