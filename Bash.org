@@ -63,7 +63,9 @@ this as much as possible, at least for myself, so the paths/etc work like
   - will become modeled on XDG-style or posix style paths
   - this will migrate to replace references to =$_DATA= (at least partially)
 
-Path values
+#+begin_quote
+Note: getting this to tangle properly requires =C-c C-v C-t=
+#+end_quote
 
 #+name: bash-env-bindings
 | _DF   | $HOME/.dotfiles |
@@ -262,8 +264,18 @@ export _JAVA_AWT_WM_NONREPARENTING=1
 
 ** Julia
 
-#+begin_src sh :tangle .config/sh/profile.d/julia.sh :shebang #!/bin/sh
+Julia [[https://docs.julialang.org/en/v1/manual/environment-variables/][Environment Variables]]
 
+#+begin_src sh :tangle .config/sh/profile.d/julia.sh :shebang #!/bin/sh
+export JULIA_SHELL=/bin/sh
+export JULIA_EDITOR=vim
+#+end_src
+
+These two will auto-expand empty enties
+
+#+begin_src sh :tangle .config/sh/profile.d/julia.sh :shebang #!/bin/sh
+export JULIA_LOAD_PATH="$JULIA_LOAD_PATH"
+export JULIA_DEPOT_PATH="$_DATA/lang/.julia:$JULIA_DEPOT_PATH"
 #+end_src
 
 * Profile
