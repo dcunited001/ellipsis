@@ -15,7 +15,7 @@ set $term-float alacritty
 # on the original workspace that the command was run on.
 set $menu wofi -c ~/.config/wofi/config -I
 
-set $launcher nwggrid
+set $launcher nwg-drawer
 
 set $powermenu nwgbar
 

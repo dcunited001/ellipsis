@@ -1,11 +1,29 @@
-# [[file:../../Desktop.org::*Basics][Basics:1]]
+# [[file:../../Desktop.org::*Startup][Startup:1]]
 # Config for sway
 #
 # Read `man 5 sway` for a complete reference.
 
-# user config directory
-include $HOME/.config/sway/config.d/*
+set $configpath $HOME/.config/sway/config.d
+
+include $configpath/_startp
+
+include $configpath/autostart.garuda
+include $configpath/autostart
+
+include $configpath/default.garuda
+include $configpath/default
+
+include $configpath/clamshell
+
+include $configpath/tiling.garuda
+include $configpath/tiling
+
+include $configpath/input
+Include $configpath/output
+include $configpath/keyboard
+
+include $configpath/theme
 
 # only enable this if every app you use is compatible with wayland
 # xwayland disable
-# Basics:1 ends here
+# Startup:1 ends here

@@ -1,9 +1,4 @@
-### Input configuration
-#
-# Example configuration:
-# You can get the names of your inputs by running: swaymsg -t get_inputs
-# Put your touchpad's ID to replace "Touchpad-ID" (keep the quotation marks)
-
+# [[file:../../../Desktop.org::*Input][Input:1]]
 input type:touchpad {
       dwt enabled
       tap enabled
@@ -14,16 +9,19 @@ input type:touchpad {
 # - more details in `xkeyboard-config`
 
 input type:keyboard {
-      # xkb_model "pc105"
+      xkb_model "pc105"
       xkb_layout "io"
       xkb_variant "altgr-intl"
       xkb_options "caps:hyper"
-      #xkb_options "caps:swapescape"
+      # xkb_options "caps:swapescape"
 }
 
 # input type:keyboard xkb_model "pc105"
+# Input:1 ends here
 
+# [[file:../../../Desktop.org::*Input][Input:2]]
 #exec_always {
 #   'swaymsg input type:keyboard xkb_layout "$(localectl status | grep "X11 Layout" | sed -e "s/^.*X11 Layout://")"'
 #   'swaymsg input type:keyboard xkb_variant "$(localectl status | grep "X11 Variant" | sed -e "s/^.*X11 Variant://")"'
 #}
+# Input:2 ends here
