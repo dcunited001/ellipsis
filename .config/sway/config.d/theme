@@ -1,3 +1,4 @@
+# [[file:../../../Desktop.org::*Theme][Theme:1]]
 # Apply gtk theming
 exec_always ~/.config/sway/scripts/import-gsettings
 
@@ -5,7 +6,7 @@ exec_always ~/.config/sway/scripts/import-gsettings
 gaps inner 2
 gaps outer 2
 
-# Hide titlebar on windows: 
+# Hide titlebar on windows:
 default_border pixel 1
 
 # Default Font
@@ -35,3 +36,4 @@ client.urgent           #ebcb8b #ebcb8b #2e3440 #8fbcbb   #ebcb8b
 bar {
    swaybar_command waybar
 }
+# Theme:1 ends here

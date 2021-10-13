@@ -19,7 +19,7 @@ include $configpath/tiling.garuda
 include $configpath/tiling
 
 include $configpath/input
-Include $configpath/output
+include $configpath/output
 include $configpath/keyboard
 
 include $configpath/theme

@@ -1,5 +1,6 @@
 # [[file:../../../Desktop.org::*Tiling][Tiling:1]]
 for_window [class="Pwsafe" instance="pwsafe"] floating enable
+for_window [class="Gnuplot" instance="gnuplot"] floating enable
 for_window [app_id="zoom"] floating enable
 for_window [app_id="zoom"] inhibit_idle fullscreen
 set $transparency_val 1
