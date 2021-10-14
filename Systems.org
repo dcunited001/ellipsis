@@ -18,6 +18,8 @@
   - [[#usb-installation-image][USB Installation Image]]
 - [[#profile-management][Profile Management]]
   - [[#activating-profiles][Activating Profiles]]
+  - [[#updating-profiles][Updating Profiles]]
+  - [[#updating-channels][Updating Channels]]
 - [[#dotfiles-management][Dotfiles Management]]
   - [[#syncing][Syncing]]
   - [[#updating][Updating]]
@@ -74,9 +76,9 @@ stuff ... so I can actually retain it?
 Any configuration that derives from =base-operating-system= must invoke =guix
 system= in a specific way to ensure it gets loaded correctly:
 
-#+begin_src sh
+#+begin_example sh
 sudo -E guix system -L ~/.dotfiles/.config/guix/systems reconfigure ~/.dotfiles/.config/guix/systems/$GUIX_SYSTEM_NAME.scm
-#+end_src
+#+end_example
 
 *.config/guix/systems/base-system.scm:*
 
@@ -384,10 +386,112 @@ Define the =base-operating-system= which will be inherited by all machine config
 
 #+end_src
 
-
 * Profile Management
 
+The guix packages on my system are separated into manifests. These can be
+installed/updated inpedently (see [[https://github.com/daviwil/dotfiles/blob/master/Systems.org#profile-management][daviwil/dotfiles]]). The profiles get installed
+under the =~/.guix-extra-profiles= path, which is sourced by =~/.profile= on
+login, in addition to =~/.guix-profile=.
+
 ** Activating Profiles
+
+This script accepts a space-separated list of manifest file names (without extension) under the =~/.config/guix/manifests= folder and then installs those profiles for the first time.  For example:
+
+#+begin_example sh
+activate-profiles desktop emacs music
+#+end_example
+
+*.bin/activate-profiles:*
+
+#+begin_src sh :tangle .bin/activate-profiles :shebang #!/bin/sh
+
+# NOTE: This file is generated from ~/.dotfiles/System.org.  Please see commentary there.
+
+GREEN='\033[1;32m'
+RED='\033[1;30m'
+NC='\033[0m'
+GUIX_EXTRA_PROFILES=$HOME/.guix-extra-profiles
+
+profiles=$*
+if [[ $# -eq 0 ]]; then
+    profiles="$HOME/.config/guix/manifests/*.scm";
+fi
+
+for profile in $profiles; do
+  # Remove the path and file extension, if any
+  profileName=$(basename $profile)
+  profileName="${profileName%.*}"
+  profilePath="$GUIX_EXTRA_PROFILES/$profileName"
+  manifestPath=$HOME/.config/guix/manifests/$profileName.scm
+
+  if [ -f $manifestPath ]; then
+    echo
+    echo -e "${GREEN}Activating profile:" $manifestPath "${NC}"
+    echo
+
+    mkdir -p $profilePath
+    guix package --manifest=$manifestPath --profile="$profilePath/$profileName"
+
+    # Source the new profile
+    GUIX_PROFILE="$profilePath/$profileName"
+    if [ -f $GUIX_PROFILE/etc/profile ]; then
+        . "$GUIX_PROFILE"/etc/profile
+    else
+        echo -e "${RED}Couldn't find profile:" $GUIX_PROFILE/etc/profile "${NC}"
+    fi
+  else
+    echo "No profile found at path" $profilePath
+  fi
+done
+
+#+end_src
+
+** Updating Profiles
+
+This script accepts a space-separated list of manifest file names (without extension) under the =~/.config/guix/manifests= folder and then installs any updates to the packages contained within them.  If no profile names are provided, it walks the list of profile directories under =~/.guix-extra-profiles= and updates each one of them.
+
+#+begin_example sh
+update-profiles emacs
+#+end_example
+
+*.bin/update-profiles:*
+
+#+begin_src sh :tangle .bin/update-profiles :shebang #!/bin/sh
+
+# NOTE: This file is generated from ~/.dotfiles/System.org.  Please see commentary there.
+
+GREEN='\033[1;32m'
+NC='\033[0m'
+GUIX_EXTRA_PROFILES=$HOME/.guix-extra-profiles
+
+profiles=$*
+if [[ $# -eq 0 ]]; then
+    profiles="$GUIX_EXTRA_PROFILES/*";
+fi
+
+for profile in $profiles; do
+  profileName=$(basename $profile)
+  profilePath=$GUIX_EXTRA_PROFILES/$profileName
+
+  echo
+  echo -e "${GREEN}Updating profile:" $profilePath "${NC}"
+  echo
+
+  guix package --profile="$profilePath/$profileName" --manifest="$HOME/.config/guix/manifests/$profileName.scm"
+done
+
+#+end_src
+
+** Updating Channels
+
+This script makes it easy to update all channels to the latest commit based on an original channel file (see the Channels section at the top of this document).
+
+#+begin_src sh :tangle .bin/update-channels :shebang #!/bin/sh
+
+  guix pull --channels=$HOME/.config/guix/base-channels.scm
+  guix describe --format=channels > ~/.config/guix/channels.scm
+
+#+end_src
 
 * Dotfiles Management
 ** Syncing

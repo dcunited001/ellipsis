@@ -369,6 +369,7 @@ export GRAPHVIZ_DOT=/usr/bin/dot
 #[[ $- != *i* ]] && return
 
 alias ls='ls --color=auto'
+alias grep='grep --color=auto'
 PS1='[\u@\h \W]\$ '
 
 # TODO: source ~/.config/sh/rc.d files here
