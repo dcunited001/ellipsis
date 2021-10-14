@@ -2,11 +2,23 @@
 {
     "layer": "top", // Waybar at top layer
     "position": "top", // Waybar position (top|bottom|left|right)
-    "height": 30,
+    "height": 40,
     //"width": 1350, // Waybar width
     // Choose the order of the modules idle_inhibitor
-    "modules-left": ["custom/shell","custom/launcher","sway/workspaces", "sway/mode", "sway/window"],
-    "modules-right": ["custom/pacman", "backlight", "custom/keyboard-layout", "cpu", "memory", "battery", "network", "pulseaudio","tray", "idle_inhibitor", "clock","custom/power"], 
+    "modules-left": [ "custom/launcher",
+                      "sway/workspaces",
+                      "sway/mode",
+                      "sway/window" ], // "custom/shell"
+    "modules-center": [ "cpu",
+                       "memory",
+                       "clock",
+                       "battery",
+                       "idle_inhibitor" ],
+    "modules-right": [ "custom/keyboard-layout",
+                       "network",
+                       "pulseaudio",
+                       "tray",
+                       "custom/power" ],
     
  // Modules configuration
  
@@ -39,8 +51,8 @@
         }
     },
     "tray": {
-        "icon-size": 14,
-        "spacing": 5
+        "icon-size": 20,
+        "spacing": 2
     },
     "clock": {
         "tooltip-format": "{:%A %B %d %Y | %H:%M}",
@@ -52,7 +64,7 @@
         "interval": 1
     },
     "cpu": {
-        "format": "﬙ {usage}%",
+        "format": "{usage}% ﬙",
         "on-click": "alacritty -e htop"
     },
     "memory": {
@@ -76,10 +88,10 @@
     "battery": {
         "states": {
             // "good": 95,
-            "warning": 30,
-            "critical": 15
+            "warning": 35,
+            "critical": 20
         },
-        "format": "{icon} {capacity}%",
+        "format": "{icon}",
         // "format-good": "", // An empty format will hide the module
         // "format-full": "",
         "format-icons": ["", "", "", "", ""]
@@ -109,10 +121,10 @@
         },
         "on-click": "pavucontrol"
     },
-   "custom/shell": {
-        "format": "⏻ S",
-        "on-click": "alacritty" 
-   },
+   // "custom/shell": {
+   //      "format": "⏻ S",
+   //      "on-click": "alacritty"
+   // },
    "custom/pacman": {
         "format": " {}",
         "interval": 7200,                     // every two hours
