@@ -8,6 +8,7 @@
 #+OPTIONS: toc:nil
 
 * Table of Contents :TOC_3_gh:
+- [[#transitioning-from-arch-to-guix][Transitioning From Arch To Guix]]
 - [[#system-settings][System Settings]]
   - [[#disk-mounting][Disk Mounting]]
   - [[#user-services][User Services]]
@@ -21,6 +22,8 @@
     - [[#scripts][Scripts]]
 - [[#panel][Panel]]
   - [[#waybar][Waybar]]
+    - [[#destructure--tangle-waybar-config][destructure & tangle waybar config]]
+- [[#launchers][Launchers]]
 - [[#desktop-notifications][Desktop Notifications]]
   - [[#dunst][Dunst]]
 - [[#display-management][Display Management]]
@@ -28,6 +31,26 @@
   - [[#desktop-entries][Desktop Entries]]
   - [[#restrict-autostart-entries][Restrict Autostart entries]]
   - [[#mime-handlers][MIME Handlers]]
+- [[#applications][Applications]]
+  - [[#browsers][Browsers]]
+  - [[#password-management][Password Management]]
+  - [[#audio-device-control][Audio Device Control]]
+  - [[#media-players][Media Players]]
+    - [[#mpv][MPV]]
+    - [[#codecs-and-drivers][Codecs and Drivers]]
+  - [[#image-viewers-and-editors][Image Viewers and Editors]]
+  - [[#games][Games]]
+  - [[#document-readers][Document Readers]]
+    - [[#zathura-and-configzathurazathurarc][Zathura and =.config/zathura/zathurarc]]
+  - [[#syncthing][Syncthing]]
+  - [[#flatpak][Flatpak]]
+  - [[#printing][Printing]]
+  - [[#desktop-tools][Desktop Tools]]
+    - [[#xdg-1][XDG]]
+  - [[#system-tools][System Tools]]
+  - [[#wayland-tools][Wayland Tools]]
+    - [[#equivalent-tools][Equivalent Tools]]
+- [[#desktop-profile][Desktop Profile]]
 
 **** TODO tangle permissions
 **** TODO set the org-babel :comments format
@@ -35,10 +58,34 @@
 - look in =ob-core= for interface and elsewhere for =(comment-region)= refs
 - until then, treat sway configs as =shell=
 
+
+* Transitioning From Arch To Guix
+
+I'm focused on getting settled into the Sway/Wayland ecosystem for now.
+
++ As I transition to Sway, I'll be destructuring my configs (pieced together
+  from Garuda/elsewhere) into tangled configs.
++ As I transition to Guix, I'll be moving the packages from =pacman= to =guix=:
+  - When something is moved into the *Guix realm*, it will be added to the appropriate =.guix-extra-profiles=
+    - See =.profile= in [[https://github.com/daviwil/dotfiles/blob/master/.profile][davilwil/dotfiles]] to get a feel for how these will be loaded.
+    - Search his dotfiles for [[https://github.com/daviwil/dotfiles/search?q=manifests][manifests]] to understand how additional guix
+      profiles can be tnagled & layered on.
+  - When something is moved out of the *Arch realm*, it will be removed/ignored
+    in =pacman= and =yay=. This is how =emacs= is set up for now.
++ Hopefully, there will be something of a category realm.
+  - Here, self-contained applications will be bundled using [[https://github.com/mviereck/x11docker][x11docker]]
+  - This may be more appropriate to move out of the desktop/pc layer and into
+    the network/virt layer.
+
 * System Settings
 
 ** Disk Mounting
 
+*Guix Packages*
+
+#+begin_src scheme :noweb-ref packages :noweb-sep ""
+;; "udiskie"
+#+end_src
 
 ** User Services
 
@@ -48,9 +95,45 @@
 
 * Fonts and Themes
 
+
+*Guix Packages"
+
+#+begin_src scheme :noweb-ref packages :noweb-sep ""
+  ;; GTK Themes
+  "arc-icon-theme"
+  "matcha-theme"
+  "hicolor-icon-theme"
+  "gnome-icon-theme"
+  "gnome-backgrounds"
+  "papirus-icon-theme"
+  "breeze-icons"
+
+  ;; Fonts
+  "font-fira-code"
+  "font-jetbrains-mono"
+  "font-iosevka"
+  "font-iosevka-aile"
+  "font-abattis-cantarell"
+  "font-dejavu"
+  "font-google-noto"
+  "font-gnu-freefont"
+  "font-liberation"
+  "font-awesome"
+  "font-google-material-design-icons"
+  "gs-fonts"
+#+end_src
+
 * Input
 
 ** FCITX5
+
+#+*Guix Packages"
+
+#+begin_src scheme :noweb-ref packages :noweb-sep ""
+
+#+end_src
+
+**** TODO guix packages for FCITX5
 
 * Window Management
 
@@ -248,12 +331,16 @@ bar {
 
 ** Waybar
 
-*.config/polybar/config:*
+*.config/waybar/config:*
 
-#+begin_src conf :tangle .config/polybar/config :noweb yes
-; Docs: https://github.com/polybar/polybar
-;==========================================================
+*** TODO destructure & tangle waybar config
 
+* Launchers
+
+*Guix Packages*
+
+#+begin_src scheme :noweb-ref packages :noweb-sep ""
+;; nwg-drawer
 #+end_src
 
 * Desktop Notifications
@@ -261,6 +348,7 @@ bar {
 ** Dunst
 
 [[https://dunst-project.org/][Dunst]] displays desktop notifications.
+
 
 * Display Management
 
@@ -289,3 +377,224 @@ x-scheme-handler/unknown=qutebrowser.desktop
 #+end_example
 
 
+* Applications
+
+** Browsers
+
+
+*Guix Packages*
+
+#+begin_src scheme :noweb-ref packages :noweb-sep ""
+;; "qutebrowser"
+;; nyxt?
+#+end_src
+
+** Password Management
+
+*Guix Packages*
+
+#+begin_src scheme :noweb-ref packages :noweb-sep ""
+;; password safe?
+#+end_src
+
+** Audio Device Control
+
+*Guix Packages*
+
+#+begin_src scheme :noweb-ref packages :noweb-sep ""
+;; "alsa-utils"
+;; pavucontrol
+#+end_src
+
+
+
+** Media Players
+
+*** MPV
+
+*Guix Packages*
+
+#+begin_src scheme :noweb-ref packages :noweb-sep ""
+;; "mpv"
+;; "mpv-mpris"
+;; "youtube-dl"
+;; "playerctl"
+#+end_src
+
+
+*** Codecs and Drivers
+
+*Guix Packages*
+
+#+begin_src scheme :noweb-ref packages :noweb-sep ""
+;; "gstreamer"
+;; "gst-plugins-base"
+;; "gst-plugins-good"
+;; "gst-plugins-bad"
+;; "gst-plugins-ugly"
+;; "gst-libav"
+;; "intel-vaapi-driver"
+;; "libva-utils"
+#+end_src
+
+** Image Viewers and Editors
+
+
+*Guix Packages*
+
+#+begin_src scheme :noweb-ref packages :noweb-sep ""
+;; "feh"
+;; "gimp"
+;; "scrot"
+#+end_src
+
+** Games
+
+*.config/guix/manifests/games.scm*
+
+#+begin_src scheme :tangle .config/guix/manifests/games.scm :noweb yes
+(specifications->manifest
+ '("aisleriot"
+   "gnome-mahjongg"))
+#+end_src
+
+** Document Readers
+
+*** TODO Zathura and =.config/zathura/zathurarc
+
+*Guix Packages*
+
+#+begin_src scheme :noweb-ref packages :noweb-sep ""
+;; "zathura"
+;; "zathura-pdf-mupdf"
+#+end_src
+
+
+** Syncthing
+
+*Guix Packages*
+
+#+begin_src scheme :noweb-ref packages :noweb-sep ""
+;; "syncthing"
+;; "syncthing-gtk"
+#+end_src
+
+** Flatpak
+
+*Applications to Install*
+
+#+begin_example sh
+flatpak remote-add --user --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
+flatpak remote-add --user --if-not-exists flathub-beta https://flathub.org/beta-repo/flathub-beta.flatpakrepo
+flatpak install --user flathub com.spotify.Client
+flatpak install --user flathub com.valvesoftware.Steam
+flatpak install --user flathub com.microsoft.Teams
+flatpak install --user flathub com.discordapp.Discord
+flatpak install --user flathub-beta com.obsproject.Studio
+#+end_example
+
+*Guix Packages*
+
+#+begin_src scheme :noweb-ref packages :noweb-sep ""
+;; "flatpak"
+#+end_src
+
+
+** Printing
+
+*Guix Packages*
+
+#+begin_src scheme :noweb-ref packages :noweb-sep ""
+;; "system-config-printer"
+#+end_src
+
+
+** Desktop Tools
+
+*Guix Packages*
+
+#+begin_src scheme :noweb-ref packages :noweb-sep ""
+;; "compton" ;; in wayland, cannot sub a compositor in
+;; "redshift"
+;; "gucharmap"
+;; "fontmanager"
+#+end_src
+
++ compton :: an alternative compositor for X
+  - incompatible in Wayland, since it doesn't offer modular compositors
++ redshift :: control color temperature according to surroundings.
+  - requires =libxcb= X11 client lib
+  - for wayland: =gammastep= or =wlsunset=
++ gucharmap :: unicode character map (GTK)
++ fontmanager :: provides GTK tools to aid configuration of fonts
++ brightnessctl :: lightweight brightness control tool
+
+*** XDG
+
+*Guix Packages*
+
+#+begin_src scheme :noweb-ref packages :noweb-sep ""
+;; "xdg-utils"          ;; for xdg-open, etc
+;; "xdg-dbus-proxy"     ;; for Flatpak
+;; "gtk+:bin"           ;; for gtk-launch
+;; "glib:bin"           ;; for gio-launch-desktop
+;; "shared-mime-info"   ;; for mimes
+#+end_src
+
+** System Tools
+
+*Guix Packages*
+
+#+begin_src scheme :noweb-ref packages :noweb-sep ""
+
+#+end_src
+
+
+** Wayland Tools
+
+*Guix Packages*
+
+#+begin_src scheme :noweb-ref packages :noweb-sep ""
+;; "libinput"
+;; "wev"
+;; "wlr-randr"
+;; "wdisplays"
+#+end_src
+
+*** Equivalent Tools
+
++ xev :: wev
++ xset ::
++ xrdb ::
++ xhost ::
++ xmodmap ::
++ setxkbmap ::
++ xrandr :: wlr-randr
+  - also =swaymsg output ...='
++ arandr :: wdisplays
++ xss-lock ::
++ xinput ::
++ xob :: wob
+
+
+* Desktop Profile
+
+*.config/guix/manifests/desktop.scm*
+
+#+begin_src scheme :tangle .config/guix/manifests/desktop.scm :noweb yes
+(specifications->manifest
+ '(
+   <<packages>>
+    ))
+
+#+end_src
+
+#+end_src
+
+**
+
+*Guix Packages*
+
+#+begin_src scheme :noweb-ref packages :noweb-sep ""
+
+#+end_src
