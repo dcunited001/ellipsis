@@ -10,3 +10,22 @@ Terminal=false
 Categories=Development;TextEditor;
 StartupNotify=true
 StartupWMClass=Emacs
+
+Actions=debug-init;debug-gtk;debug-server;debug-server-gtk
+
+# TODO: ensure GUIX paths are correctly set (or these won't really work)
+
+[Desktop Action debug-init]
+Name=Debug Init
+Exec=emacs --debug-init %F
+
+[Desktop Action debug-gtk]
+Name=Debug GTK
+Exec=env GTK_DEBUG=interactive GOBJECT_DEBUG=instance-count emacs %F
+
+[Desktop Action debug-server]
+Name=Debug Server
+Exec=emacs --debug-init --daemon
+
+[Desktop Action debug-server-gtk]
+Exec=env GTK_DEBUG=interactive GOBJECT_DEBUG=instance-count emacs --daemon
