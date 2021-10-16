@@ -247,6 +247,8 @@ exec_always ~/.config/sway/scripts/clamshell.sh
 #+begin_src sh :tangle .config/sway/config.d/tiling
 for_window [class="Pwsafe" instance="pwsafe"] floating enable
 for_window [class="Gnuplot" instance="gnuplot"] floating enable
+for_window [app_id="org.fcitx.fcitx5-config-qt"] floating enable
+for_window [app_id="fcitx5-qt5-gui-wrapper"] floating enable
 for_window [app_id="zoom"] floating enable
 for_window [app_id="zoom"] inhibit_idle fullscreen
 set $transparency_val 1
