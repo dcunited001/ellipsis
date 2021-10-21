@@ -91,7 +91,7 @@ window#waybar {
     color: #ebcb8b;
 }
 
-#clock, #battery, #cpu, #memory,#idle_inhibitor, #temperature,#custom-keyboard-layout, #backlight, #network, #pulseaudio, #mode, #tray, #window,#custom-launcher,#custom-shell,#custom-power,#custom-pacman {
+#battery, #cpu, #memory,#idle_inhibitor, #temperature,#custom-keyboard-layout, #backlight, #network, #pulseaudio, #mode, #tray, #window,#custom-launcher,#custom-shell,#custom-power,#custom-pacman {
     padding: 0 0;
     border-top: 3px;
     border-bottom: 1px;
@@ -104,7 +104,16 @@ window#waybar {
 
  
 #clock {
- color:#a3be8c;
+    color: lightblue;
+    font-family: Roboto;
+    /*font-style: italic;*/
+    margin-top: 0px;
+    margin-bottom: 2px;
+    /*border-top: 4px;*/
+    border-bottom: 4px;
+    border-style: dotted;
+    border-color: grey;
+    /*color:#a3be8c;*/
 }
 
 #backlight {
@@ -177,6 +186,55 @@ window#waybar {
 }
 
 #tray {
+}
+
+.tuitray {
+    border-style: hidden;
+    border-radius:0px;
+    padding: 0px 5px;
+    margin: 0px;
+    color: whitesmoke;
+    font-weight: 600;
+}
+
+/* #tuitray:first-child { */
+/*     margin-right: 20px; */
+/* } */
+
+/* #tuitray:last-child { */
+/*     margin-right: 20px; */
+/* } */
+
+
+#custom-tuitray-head  {
+    border-bottom-left-radius: 20px;
+    border-top-left-radius: 20px;
+    margin: 0 0 0 20px;
+    padding: 0 0 0 3px;
+    border-color: grey;
+    border-width: 2px;
+    border-style: solid;
+    /* border-style: dotted; */
+}
+
+#custom-tuitray-tail {
+    border-bottom-right-radius: 20px;
+    border-top-right-radius: 20px;
+    margin: 0 20px 0 0;
+    padding: 0 3px 0 0;
+    border-color: grey;
+    border-width: 2px;
+    border-style: solid;
+    /* border-style: dotted; */
+}
+
+#custom-lnavlogs {
+    background-color: teal;
+}
+
+#custom-sysz {
+    background-color: lightsalmon;
+    color: navy;
 }
 
 #custom-shell,#custom-launcher,#custom-power {

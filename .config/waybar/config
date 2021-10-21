@@ -1,4 +1,4 @@
-
+// -*- mode:json -*-
 {
     "layer": "top", // Waybar at top layer
     "position": "top", // Waybar position (top|bottom|left|right)
@@ -14,7 +14,11 @@
                        "clock",
                        "battery",
                        "idle_inhibitor" ],
-    "modules-right": [ "custom/keyboard-layout",
+    "modules-right": [ "custom/tuitray-head",
+                       "custom/sysz",
+                       "custom/lnavlogs",
+                       "custom/tuitray-tail",
+                       "custom/keyboard-layout",
                        "network",
                        "pulseaudio",
                        "tray",
@@ -56,9 +60,10 @@
     },
     "clock": {
         "tooltip-format": "{:%A %B %d %Y | %H:%M}",
-        "format": " {:%a %d %b  %I:%M %p}",	//12 hour format
+        "format": "{:%b %d  %H:%M}",	//12 hour format
+        //"format": " {:%a %d %b  %I:%M %p}",	//12 hour format
         //"format": " {:%a %d %b  %H:%M}",	//24 hour format
-        "format-alt": " {:%d/%m/%Y  %H:%M:%S}",
+        //"format-alt": " {:%d/%m/%Y  %H:%M:%S}",
         //"timezones": [ "Kolkata" ],
         //"max-length": 200
         "interval": 1
@@ -125,6 +130,30 @@
    //      "format": "⏻ S",
    //      "on-click": "alacritty"
    // },
+   "custom/lnavlogs": {
+       "return-type": "json",
+       "exec": "echo '{\"class\": \"tuitray\"}'",
+//       "name": "tuitray",
+       "format": "履歴",
+       "on-click": "alacritty -e lnav ~/.cache/log",
+       "on-click-right": "alacritty -e lnav /var/log"
+   },
+    "custom/sysz": {
+        "return-type": "json",
+        "exec": "echo '{\"class\": \"tuitray\"}'",
+//       "name": "tuitray",
+        "format": "制",
+        "on-click": "alacritty -e sysz",
+        //"on-click-right": ""
+    },
+    "custom/tuitray-head": {
+        "format": "⚬",
+      	"tooltip": false,
+    },
+    "custom/tuitray-tail": {
+        "format": "⚬",
+      	"tooltip": false,
+    },
    "custom/pacman": {
         "format": " {}",
         "interval": 7200,                     // every two hours
