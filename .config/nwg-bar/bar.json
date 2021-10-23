@@ -11,7 +11,7 @@
   },
   {
     "label": "Logout",
-    "exec": "loginctl terminate-user $USER",
+    "exec": "swaymsg exit",
     "icon": "system-log-out"
   },
   {
