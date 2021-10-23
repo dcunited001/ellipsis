@@ -1,27 +1,27 @@
 [
   {
-    "name": "Lock screen",
-    "exec": "swaylock -C ~/.config/swaylock/config",
-    "icon": "/usr/share/nwg-launchers/nwgbar/images/lock.svg"
+    "label": "Lock",
+    "exec": "HOME=$HOME swaylock -C $HOME/.config/swaylock/config",
+    "icon": "/usr/share/nwg-bar/images/system-lock-screen.svg"
   },
   {
-  	"name": "Suspend",
-  	"exec": "systemctl suspend;swaylock -C ~/.config/swaylock/config",
-  	"icon": "/usr/share/nwg-launchers/nwgbar/images/suspend.svg"
+    "label": "Suspend",
+    "exec": "systemctl suspend;swaylock -C ~/.config/swaylock/config",
+    "icon": "system-suspend"
   },
   {
-    "name": "Logout",
-    "exec": "echo $USER",
-    "icon": "/usr/share/nwg-launchers/nwgbar/images/logout.svg"
+    "label": "Logout",
+    "exec": "loginctl terminate-user $USER",
+    "icon": "/usr/share/nwg-bar/images/system-log-out.svg"
   },
   {
-    "name": "Reboot",
+    "label": "Reboot",
     "exec": "systemctl reboot",
-    "icon": "/usr/share/nwg-launchers/nwgbar/images/reboot.svg"
+    "icon": "/usr/share/nwg-bar/images/system-reboot.svg"
   },
   {
-    "name": "Shutdown",
+    "label": "Shutdown",
     "exec": "systemctl -i poweroff",
-    "icon": "/usr/share/nwg-launchers/nwgbar/images/shutdown.svg"
+    "icon": "/usr/share/nwg-bar/images/system-shutdown.svg"
   }
 ]
