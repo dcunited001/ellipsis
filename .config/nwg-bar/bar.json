@@ -11,7 +11,7 @@
   },
   {
     "name": "Logout",
-    "exec": "swaymsg exit",
+    "exec": "echo $USER",
     "icon": "/usr/share/nwg-launchers/nwgbar/images/logout.svg"
   },
   {
