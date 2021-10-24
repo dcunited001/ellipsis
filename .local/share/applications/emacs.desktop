@@ -11,7 +11,7 @@ Categories=Development;TextEditor;
 StartupNotify=true
 StartupWMClass=Emacs
 
-Actions=debug-init;debug-gtk;debug-server;debug-server-gtk
+Actions=debug-init;debug-gtk;debug-wayland;debug-server;debug-server-gtk;debug-server-wayland
 
 # TODO: ensure GUIX paths are correctly set (or these won't really work)
 
@@ -23,9 +23,18 @@ Exec=emacs --debug-init %F
 Name=Debug GTK
 Exec=env GTK_DEBUG=interactive GOBJECT_DEBUG=instance-count emacs %F
 
+[Desktop Action debug-wayland]
+Name=Debug Wayland
+Exec=env WAYLAND_DEBUG=1 emacs %F
+
 [Desktop Action debug-server]
 Name=Debug Server
 Exec=emacs --debug-init --daemon
 
 [Desktop Action debug-server-gtk]
+Name=Debug Server GTK
 Exec=env GTK_DEBUG=interactive GOBJECT_DEBUG=instance-count emacs --daemon
+
+[Desktop Action debug-server-wayland]
+Name=Debug Server GTK
+Exec=env WAYLAND_DEBUG=1 emacs --daemon
