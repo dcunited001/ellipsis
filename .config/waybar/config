@@ -130,10 +130,16 @@
    //      "format": "⏻ S",
    //      "on-click": "alacritty"
    // },
-   "custom/lnavlogs": {
+   //
+
+    //    "custom/docker-tui": // 箱 (box/railcar)
+    //    碼頭 (wharf), 碼 (wharf), 裝箱 (shipping container, zh), 澪 (waterway)
+    //    通箱 (reusable shipping carton)
+    //    "custom/orgroam-ui":
+    //    外箱 (slipbox)
+    "custom/lnavlogs": {
        "return-type": "json",
        "exec": "echo '{\"class\": \"tuitray\"}'",
-//       "name": "tuitray",
        "format": "履歴",
        "on-click": "alacritty -e lnav ~/.cache/log",
        "on-click-right": "alacritty -e lnav /var/log"
@@ -141,7 +147,6 @@
     "custom/sysz": {
         "return-type": "json",
         "exec": "echo '{\"class\": \"tuitray\"}'",
-//       "name": "tuitray",
         "format": "制",
         "on-click": "alacritty -e sysz",
         //"on-click-right": ""
@@ -164,7 +169,7 @@
     },
     "custom/power": {
       	"format":"⏻",
-       	"on-click": "nwgbar",
+       	"on-click": "nwg-bar",
       	"tooltip": false,
    },
    "custom/keyboard-layout": {

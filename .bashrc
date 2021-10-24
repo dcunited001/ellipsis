@@ -4,6 +4,12 @@
 #[[ $- != *i* ]] && return
 
 alias ls='ls --color=auto'
+alias grep='grep --color=auto'
+alias diff='diff --color=auto'
+alias sysu='systemctl --user'
+
+alias emacs-debug-wayland='WAYLAND_DEBUG=1 emacs --fg-daemon > ~/.cache/log/emacs.wayland.`date +%Y-%m%d-%H%M`.log 2>&1'
+
 PS1='[\u@\h \W]\$ '
 
 # TODO: source ~/.config/sh/rc.d files here

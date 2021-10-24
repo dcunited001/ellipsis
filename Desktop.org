@@ -13,7 +13,10 @@
   - [[#disk-mounting][Disk Mounting]]
   - [[#user-services][User Services]]
   - [[#scheduled-tasks][Scheduled Tasks]]
-- [[#fonts-and-themes][Fonts and Themes]]
+- [[#fonts][Fonts]]
+- [[#themes][Themes]]
+  - [[#color-schemes][Color Schemes]]
+    - [[#generate-css-color-schemes-from-an-org-table][generate =<<css-color-schemes>>= from an org-table]]
 - [[#input][Input]]
   - [[#fcitx5][FCITX5]]
 - [[#window-management][Window Management]]
@@ -93,8 +96,7 @@ I'm focused on getting settled into the Sway/Wayland ecosystem for now.
 ** Scheduled Tasks
 
 
-* Fonts and Themes
-
+* Fonts
 
 *Guix Packages"
 
@@ -214,8 +216,10 @@ include $configpath/theme
 
 **** Autostart
 
-#+begin_src sh :tangle .config/sway/config.d/autostart
++ NOTE: disabling =fcitx5= for now
 
+#+begin_src sh :tangle .config/sway/config.d/autostart
+# exec_always fcitx5 --verbose 'default=5' -d > $HOME/.cache/log/fcitx.$(date +%s).log 2>&1
 #+end_src
 
 **** Misc
@@ -248,7 +252,7 @@ exec_always ~/.config/sway/scripts/clamshell.sh
 for_window [class="Pwsafe" instance="pwsafe"] floating enable
 for_window [class="Gnuplot" instance="gnuplot"] floating enable
 for_window [app_id="org.fcitx.fcitx5-config-qt"] floating enable
-for_window [app_id="fcitx5-qt5-gui-wrapper"] floating enable
+for_window [app_id="fcitx5-qt5-fcgui-wrapper"] floating enable
 for_window [app_id="zoom"] floating enable
 for_window [app_id="zoom"] inhibit_idle fullscreen
 set $transparency_val 1
@@ -398,7 +402,6 @@ x-scheme-handler/unknown=qutebrowser.desktop
 #+end_src
 #+end_example
 
-
 * Applications
 
 ** Browsers
@@ -529,7 +532,6 @@ flatpak install --user flathub-beta com.obsproject.Studio
 #+begin_src scheme :noweb-ref packages :noweb-sep ""
 ;; "system-config-printer"
 #+end_src
-
 
 ** Desktop Tools
 
