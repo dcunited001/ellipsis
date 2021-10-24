@@ -1,0 +1,7 @@
+#+TITLE:     XKB Notes
+#+AUTHOR:    David Conner
+#+EMAIL:     noreply@te.xel.io
+#+DESCRIPTION: notes
+
+I recently found some documenation in [[https://github.com/xkbcommon/libxkbcommon/blob/master/doc/][xkbcommon/libxkbcommon]] that explains how
+to more clearly configure my IO keyboard.

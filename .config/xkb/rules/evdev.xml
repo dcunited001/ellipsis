@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE xkbConfigRegistry SYSTEM "xkb.dtd">
+<xkbConfigRegistry version="1.1">
+  <layoutList>
+    <layout>
+      <configItem>
+        <name>IO</name>
+        <shortDescription>io</shortDescription>
+        <description>Flipped Digits/Symbols on the US Keyboard</description>
+      </configItem>
+      <variantList>
+        <variant>
+          <configItem>
+            <name>io-dead</name>
+            <shortDescription>or</shortDescription>
+            <description>IO: us,intl,deadkeys</description>
+          </configItem>
+        </variant>
+        <variant>
+          <configItem>
+            <name>io-dead-ag</name>
+            <shortDescription>io-dead-ag</shortDescription>
+            <description>IO: us,altgr-intl,deadkeys</description>
+          </configItem>
+        </variant>
+      </variantList>
+    </layout>
+  </layoutList>
+</xkbConfigRegistry>

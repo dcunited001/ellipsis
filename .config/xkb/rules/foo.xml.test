@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- example of getting libxkbcommon to read config items -->
+<!DOCTYPE xkbConfigRegistry SYSTEM "xkb.dtd">
+<xkbConfigRegistry version="1.1">
+  <layoutList>
+    <layout>
+      <configItem>
+        <name>banana</name>
+        <shortDescription>ban</shortDescription>
+        <description>Banana</description>
+      </configItem>
+      <variantList>
+        <variant>
+          <configItem>
+            <name>orange</name>
+            <shortDescription>or</shortDescription>
+            <description>Orange (Banana)</description>
+          </configItem>
+        </variant>
+      </variantList>
+    </layout>
+  </layoutList>
+  <optionList>
+    <group allowMultipleSelection="true">
+      <configItem>
+        <name>custom</name>
+        <description>Custom options</description>
+      </configItem>
+      <option>
+      <configItem>
+        <name>custom:foo</name>
+        <description>Map Tilde to nothing</description>
+      </configItem>
+      </option>
+      <option>
+      <configItem>
+        <name>custom:baz</name>
+        <description>Map Z to K</description>
+      </configItem>
+      </option>
+    </group>
+  </optionList>
+</xkbConfigRegistry>

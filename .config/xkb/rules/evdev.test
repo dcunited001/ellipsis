@@ -1,0 +1,8 @@
+// this should be in rules/evdev
+// and it defines the options that should be included for the io keyboard
+
+! option = symbols
+  custom:foo    = +custom(bar)
+  custom:baz    = +other(baz)
+
+! include %S/evdev
