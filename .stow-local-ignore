@@ -1,0 +1,5 @@
+.*.eg.sh
+.*\/\.gitkeep
+\.git
+^/.*\.org
+.local/share/applications

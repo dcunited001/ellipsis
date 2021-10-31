@@ -2,19 +2,19 @@
 # Group Name
 Name=default
 # Layout
-Default Layout=io-altgr-intl
+Default Layout=io-io-dead-altgr
 # Default Input Method
-DefaultIM=kkc
+DefaultIM=hangul
 
 [Groups/0/Items/0]
 # Name
-Name=keyboard-io-altgr-intl
+Name=keyboard-io-io-dead-altgr
 # Layout
 Layout=
 
 [Groups/0/Items/1]
 # Name
-Name=kkc
+Name=anthy
 # Layout
 Layout=
 

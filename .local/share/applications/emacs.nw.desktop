@@ -1,0 +1,24 @@
+[Desktop Entry]
+Name=Emacs --no-windows
+GenericName=Text Editor
+Comment=Edit text
+MimeType=text/english;text/plain;text/x-makefile;text/x-c++hdr;text/x-c++src;text/x-chdr;text/x-csrc;text/x-java;text/x-moc;text/x-pascal;text/x-tcl;text/x-tex;application/x-shellscript;text/x-c;text/x-c++;
+Exec=alacritty -e emacs -nw %F
+Icon=emacs
+Type=Application
+Terminal=false
+Categories=Development;TextEditor;
+StartupNotify=true
+StartupWMClass=Emacs
+
+Actions=debug-init;debug-server;
+
+# TODO: ensure GUIX paths are correctly set (or these won't really work)
+
+[Desktop Action debug-init]
+Name=Debug Init
+Exec=alacritty -e emacs -nw --debug-init %F
+
+[Desktop Action debug-server]
+Name=Debug Server
+Exec=emacs --debug-init --daemon -nw

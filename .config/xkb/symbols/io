@@ -2,7 +2,7 @@ default partial alphanumeric_keys modifier_keys
 xkb_symbols "basic" {
 
     include "us"
-    name[Group1] = "Digimon - US";
+    name[Group1] = "IO Keyboard";
 
     key <SPCE> {[	space, underscore, nobreakspace, nobreakspace	]};
 
@@ -40,13 +40,13 @@ xkb_symbols "swapcaps" {
 
 // TODO: create intl-style Digimon layout based on the us(symbolic) layout
 
-xkb_symbols "intl" {
+xkb_symbols "io-dead" {
 
     include "us(intl)"
     include "io(swapcaps)"
     include "level5(lsgt_switch)"
 
-    name[Group1] = "Digimon - US (With Dead Keys)";
+    name[Group1] = "IO (Deadkeys)";
 
     key <SPCE> {[	space, underscore, nobreakspace, nobreakspace	]};
 
@@ -67,13 +67,13 @@ xkb_symbols "intl" {
     //key <AE12> {[     equal,       plus,      multiply,         division ] };
 };
 
-xkb_symbols "altgr-intl" {
+xkb_symbols "io-dead-altgr" {
 
     include "us(altgr-intl)"
     include "io(swapcaps)"
     include "level5(lsgt_switch)"
 
-    name[Group1] = "io";
+    name[Group1] = "IO (AltGr Deadkeys)";
 
     key <SPCE> {[	space, underscore, nobreakspace, nobreakspace	]};
 

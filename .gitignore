@@ -1,0 +1,37 @@
+# daviwil/dotfiles scripts
+.bin/update-dotfiles
+.bin/sync-dotfiles
+.bin/update-channels
+.bin/update-profiles
+.bin/activate-profiles
+
+# bash
+.bashrc
+.bash_profile
+.profile
+
+# .config/sh
+.config/sh/*.sh
+.config/sh/profile.d/*.sh
+!.config/sh/*.eg.sh
+
+# /etc/skel to diff from various distros
+skel-images/**/*
+!skel-images/.gitkeep
+
+# Sway
+.config/sway/config
+.config/sway/config.d/*
+!.config/sway/config.d/*.garuda
+
+# X11
+.xinitrc
+
+# fontconfig
+.config/fontconfig
+
+# guix
+.config/guix/manifests
+
+# vlc
+.config/vlc/vlc-qt-interface.conf

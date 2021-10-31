@@ -1,0 +1,18 @@
+[Desktop Entry]
+Name[ja]=Fcitx 5 の設定
+Name[ko]=Fcitx 5 환경설정
+Name[zh_CN]=Fcitx 5 配置
+Name=Fcitx 5 Configuration
+GenericName[ja]=入力メソッドの設定
+GenericName[ko]=입력기 환경설정
+GenericName[zh_CN]=输入法配置
+GenericName=Input Method Configuration
+Comment[ja]=Fcitx 5 の設定を変更
+Comment[ko]=Fcitx 5 환경설정 변경
+Comment[zh_CN]=修改 Fcitx 5 配置
+Comment=Change Fcitx 5 Configuration
+Icon=fcitx
+Exec=fcitx5-config-qt
+Type=Application
+Categories=Settings;
+NoDisplay=true

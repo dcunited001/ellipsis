@@ -1,0 +1,4 @@
+# KVIrc configuration file
+[Main]
+LocalKvircDirectory=/home/saikoupomp/.config/KVIrc
+SourcesDate=538312962
