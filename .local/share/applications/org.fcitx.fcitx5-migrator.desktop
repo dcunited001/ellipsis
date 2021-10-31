@@ -1,0 +1,17 @@
+[Desktop Entry]
+Name[ja]=Fcitx 5 移行ウィザード
+Name[ko]=Fcitx 5 마이그레이션 마법사
+Name[zh_CN]=Fcitx 5 迁移向导
+Name=Fcitx 5 Migration Wizard
+GenericName[ja]=入力メソッドの設定
+GenericName[ko]=입력기 환경설정
+GenericName[zh_CN]=输入法配置
+GenericName=Input Method Configuration
+Comment[ja]=ウィザードを起動して、Fcitx 4 などの他の入力メソッドからデータをインポートします。
+Comment[ko]=Fcitx 4 등의 다른 입력기에서 데이터를 가져오려면 마법사를 실행합니다.
+Comment[zh_CN]=启动向导来从其他输入法导入数据，例如 Fcitx 4。
+Comment=Launch the wizard to import data from other input method as Fcitx 4 etc.
+Icon=fcitx
+Exec=fcitx5-migrator
+Type=Application
+Categories=Settings;

@@ -1,34 +1,27 @@
 [Hotkey]
+# Trigger Input Method
+TriggerKeys=
 # Enumerate when press trigger key repeatedly
-EnumerateWithTriggerKeys=True
+EnumerateWithTriggerKeys=False
+# Temporally switch between first and current Input Method
+AltTriggerKeys=
+# Enumerate Input Method Backward
+EnumerateBackwardKeys=
 # Skip first input method while enumerating
 EnumerateSkipFirst=False
-
-[Hotkey/TriggerKeys]
-0=Alt+space
-1=Zenkaku_Hankaku
-2=Hangul
-
-[Hotkey/AltTriggerKeys]
-0=Shift_L
+# Enumerate Input Method Group Forward
+EnumerateGroupForwardKeys=
+# Enumerate Input Method Group Backward
+EnumerateGroupBackwardKeys=
+# Activate Input Method
+ActivateKeys=
+# Deactivate Input Method
+DeactivateKeys=
+# Toggle embedded preedit
+TogglePreedit=
 
 [Hotkey/EnumerateForwardKeys]
-0=Control+Shift_L
-
-[Hotkey/EnumerateBackwardKeys]
-0=Control+Shift_R
-
-[Hotkey/EnumerateGroupForwardKeys]
-0=Super+space
-
-[Hotkey/EnumerateGroupBackwardKeys]
-0=Shift+Super+space
-
-[Hotkey/ActivateKeys]
-0=Hangul_Hanja
-
-[Hotkey/DeactivateKeys]
-0=Hangul_Romaja
+0=Super+Escape
 
 [Hotkey/PrevPage]
 0=Up
@@ -42,22 +35,19 @@ EnumerateSkipFirst=False
 [Hotkey/NextCandidate]
 0=Tab
 
-[Hotkey/TogglePreedit]
-0=Control+Alt+P
-
 [Behavior]
 # Active By Default
 ActiveByDefault=False
 # Share Input State
 ShareInputState=All
 # Show preedit in application
-PreeditEnabledByDefault=True
+PreeditEnabledByDefault=False
 # Show Input Method Information when switch input method
 ShowInputMethodInformation=True
 # Show Input Method Information when changing focus
-showInputMethodInformationWhenFocusIn=False
+showInputMethodInformationWhenFocusIn=True
 # Show compact input method information
-CompactInputMethodInformation=True
+CompactInputMethodInformation=False
 # Show first input method information
 ShowFirstInputMethodInformation=True
 # Default page size
@@ -69,5 +59,10 @@ PreloadInputMethod=True
 
 [Behavior/DisabledAddons]
 0=clipboard
-1=spell
+1=emoji
+2=fcitx4frontend
+3=ibusfrontend
+4=quickphrase
+5=spell
+6=unicode
 

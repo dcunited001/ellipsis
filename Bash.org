@@ -37,6 +37,8 @@
 - [[#environment-1][Environment]]
   - [[#direnv][Direnv]]
   - [[#languages-1][Languages]]
+- [[#tui][TUI]]
+  - [[#lnav][LNAV]]
 
 **** TODO double check =.bash*= permissions
 **** TODO figure out how to circumvent saving readonly files
@@ -70,9 +72,13 @@ Note: getting this to tangle properly requires =C-c C-v C-t=
 #+end_quote
 
 #+name: bash-env-bindings
-| _DF   | $HOME/.dotfiles |
-| _DATA | /data           |
-| _XS   | /data           |
+| _DF     | $HOME/.dotfiles |
+| _DATA   | /data           |
+| _XS     | /data           |
+| _DOCKER | /var/docker     |
+| _STEAM  | /mise/steam     |
+| _GUIX   | /gnu            |
+
 
 #+name: bash-env-bindings_GEN
 #+begin_src emacs-lisp :tangle no :var bindings=bash-env-bindings :results output :exports none
@@ -186,9 +192,9 @@ export EDITOR=/usr/bin/vim
 ** XDG
 
 #+begin_src sh :tangle .config/sh/profile.d/xdg.sh :shebang #!/bin/sh
-export XDG_SESSION_TYPE=wayland
-export XDG_SESSION_DESKTOP=sway
-export XDG_CURRENT_DESKTOP=sway
+#export XDG_SESSION_TYPE=wayland
+#export XDG_SESSION_DESKTOP=sway
+#export XDG_CURRENT_DESKTOP=sway
 #+end_src
 
 ** Steam & Proton
@@ -231,13 +237,14 @@ export GTK2_RC_FILES="$HOME/.gtkrc-2.0"
 
 #export GDK_BACKEND=wayland             # this can prevent programs from starting (e.g. chromium and electron apps). therefore, this should be set per app instead of globally.
 #+end_src
+
 ** QT
 
 #+begin_src sh :tangle .config/sh/profile.d/qt.sh :shebang #!/bin/sh
 
 # Qt
 export QT_QPA_PLATFORMTHEME="qt5ct"
-export QT_QPA_PLATFORM=wayland
+#export QT_QPA_PLATFORM=wayland
 #export QT_WAYLAND_FORCE_DPI=physical
 #export QT_WAYLAND_DISABLE_WINDOWDECORATION=1
 
@@ -314,6 +321,7 @@ If =.bash_profile= does not exist, =.profile= will be sourced instead. When bash
 #[[ -z $XDG_STATE_HOME ]] && export XDG_STATE_HOME=$HOME/.local/state
 #[[ -z $XDG_CACHE_HOME ]] && export XDG_CACHE_HOME=$HOME/.cache
 
+export PATH=$HOME/.local/bin:$PATH
 #+end_src
 
 #+RESULTS:
@@ -384,6 +392,7 @@ export GRAPHVIZ_DOT=/usr/bin/dot
 
 alias ls='ls --color=auto'
 alias grep='grep --color=auto'
+alias vim='nvim'
 alias diff='diff --color=auto'
 alias sysu='systemctl --user'
 
@@ -393,6 +402,8 @@ PS1='[\u@\h \W]\$ '
 
 # TODO: source ~/.config/sh/rc.d files here
 #+end_src
+
+**** TODO alias =rg= for grep
 
 *** Color
 
@@ -434,3 +445,25 @@ if [ -f ~/.profile ]; then . ~/.profile; fi
 ** Direnv
 
 ** Languages
+* TUI
+
+** LNAV
+
++ [[https://docs.lnav.org/en/latest/formats.html][Docs]]
+  - The =$HOME/.config/lnav/= directory should exist before =.dotfiles= is stowed.
+  - It contains state, history, views and usage data.
+  - Only the configs/formats should be added to git.
++ [[https://docs.lnav.org/en/latest/formats.html][New Formats]] can be installed into =$HOME/.config/lnav/formats/installed=
+  - from files: =lnav -i myformat.json=
+  - from a repository
+  - from the [[https://github.com/tstack/lnav-config][extra]] repository: =lnav -i extra=
++ Custom formats can be added into =$HOME/.dotfiles/.config/lnav/formats/=
++ New Configs can be installed into =$HOME/.config/lnav/configs/installed/=
++ Custom configs can be added into =$HOME/.dotfiles/.config/lnav/configs/=
+
+#+begin_src sh :results output :exports none
+lnav -i extra
+#+end_src
+
+#+RESULTS:
+: Cloning lnav remote config reqpo...

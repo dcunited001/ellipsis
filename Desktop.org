@@ -1,7 +1,7 @@
 :PROPERTIES:
 :ID:       b03d47fc-e81c-409f-bf95-0d973930e73f
 :END:
-#+TITLE: Desktop Environment
+#+TITLE: Sway Desktop
 #+PROPERTY: header-args :mkdirp yes
 #+PROPERTY: header-args:sh   :tangle-mode (identity #o555)
 #+PROPERTY: header-args:conf :tangle-mode (identity #o555)
@@ -145,6 +145,15 @@ I'm focused on getting settled into the Sway/Wayland ecosystem for now.
 </fontconfig>
 #+end_src
 
+* Themes
+
+** Color Schemes
+
+*** TODO generate =<<css-color-schemes>>= from an org-table
++ [ ] import them into =waybar.css= and other css
++ [ ] add button in waybar to trigger colorscheme change
++ [ ] load random color scheme with sway
+
 * Input
 
 ** FCITX5
@@ -160,6 +169,12 @@ I'm focused on getting settled into the Sway/Wayland ecosystem for now.
 * Window Management
 
 ** Sway
+
+I'm trying to log sway crashes with =sway -d 2>&1 > /home/saikoupomp/.cache/log/sway.$(date +%Y-%m%d-%H%M).log=
+
++ but i'm pretty sure this is just causing more problems and it hasn't solved a single one.
++ the timestamps are relative to the start of the sway session
+  - so if you wanted to use =lnav= to collate the logs to say ... a =WAYLAND_DEBUG=1= log, too bad. that's on you.
 
 *** Configs
 :PROPERTIES:
@@ -255,6 +270,7 @@ for_window [app_id="org.fcitx.fcitx5-config-qt"] floating enable
 for_window [app_id="fcitx5-qt5-fcgui-wrapper"] floating enable
 for_window [app_id="zoom"] floating enable
 for_window [app_id="zoom"] inhibit_idle fullscreen
+for_window [app_id="gnome-calculator"] floating enable
 set $transparency_val 1
 
 # Inhibit idle

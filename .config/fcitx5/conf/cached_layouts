@@ -1144,32 +1144,32 @@ Language=mn
 Label=mn
 
 [keyboard-pk]
-Description="Keyboard - kistan)"
+Description="Keyboard - u (Pakistan)"
 Language=ur
 Label=ur
 
 [keyboard-pk-urd-crulp]
-Description="Keyboard - kistan) - Urdu (Pakistan, CRULP)"
+Description="Keyboard - u (Pakistan) - Urdu (Pakistan, CRULP)"
 Language=ur
 Label=pk
 
 [keyboard-pk-urd-nla]
-Description="Keyboard - kistan) - Urdu (Pakistan, NLA)"
+Description="Keyboard - u (Pakistan) - Urdu (Pakistan, NLA)"
 Language=ur
 Label=pk
 
 [keyboard-pk-ara]
-Description="Keyboard - kistan) - Arabic (Pakistan)"
+Description="Keyboard - u (Pakistan) - Arabic (Pakistan)"
 Language=ar
 Label=ar
 
 [keyboard-pk-snd]
-Description="Keyboard - kistan) - Sindhi"
+Description="Keyboard - u (Pakistan) - Sindhi"
 Language=sd
 Label=sd
 
 [keyboard-pk-urd-navees]
-Description="Keyboard - kistan) - Urdu (Navees, Pakistan)"
+Description="Keyboard - u (Pakistan) - Urdu (Navees, Pakistan)"
 Language=ur
 Label=pk
 
@@ -1349,14 +1349,19 @@ Language=en
 Label=cm
 
 [keyboard-io]
-Description="Keyboard - Digimon (US)"
+Description="Keyboard - IO Keyboards"
 Language=en
-Label=en
+Label=io
 
-[keyboard-io-altgr-intl]
-Description="Keyboard - Digimon (US) - Digimon (US, intl, altgr dead)"
+[keyboard-io-io-dead]
+Description="Keyboard - IO Keyboards - IO: us,intl,deadkeys"
 Language=en
-Label=altgr-intl
+Label=io-dead
+
+[keyboard-io-io-dead-altgr]
+Description="Keyboard - IO Keyboards - IO: us,altgr-intl,deadkeys"
+Language=en
+Label=io-dead-altgr
 
 [keyboard-kg]
 Description="Keyboard - Kyrgyz"
@@ -1599,7 +1604,7 @@ Language=bs
 Label=ba
 
 [keyboard-ba-unicodeus]
-Description="Keyboard - Bosnian - digraphs)"
+Description="Keyboard - Bosnian - nian digraphs)"
 Language=bs
 Label=ba
 
@@ -3464,7 +3469,7 @@ Language=mt
 Label=mt
 
 [keyboard-mt-alt-gb]
-Description="Keyboard - Maltese - errides)"
+Description="Keyboard - Maltese - Gr overrides)"
 Language=mt
 Label=mt
 

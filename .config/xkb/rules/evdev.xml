@@ -3,27 +3,33 @@
 <xkbConfigRegistry version="1.1">
   <layoutList>
     <layout>
+
       <configItem>
-        <name>IO</name>
+        <name>io</name>
         <shortDescription>io</shortDescription>
-        <description>Flipped Digits/Symbols on the US Keyboard</description>
+        <description>IO Keyboards</description>
+        <languageList>
+          <iso639Id>eng</iso639Id>
+        </languageList>
       </configItem>
+
       <variantList>
         <variant>
           <configItem>
             <name>io-dead</name>
-            <shortDescription>or</shortDescription>
+            <shortDescription>io-dead</shortDescription>
             <description>IO: us,intl,deadkeys</description>
           </configItem>
         </variant>
         <variant>
           <configItem>
-            <name>io-dead-ag</name>
-            <shortDescription>io-dead-ag</shortDescription>
+            <name>io-dead-altgr</name>
+            <shortDescription>io-dead-altgr</shortDescription>
             <description>IO: us,altgr-intl,deadkeys</description>
           </configItem>
         </variant>
       </variantList>
     </layout>
+
   </layoutList>
 </xkbConfigRegistry>

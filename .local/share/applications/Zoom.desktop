@@ -1,0 +1,24 @@
+[Desktop Entry]
+Name=Zoom
+Comment=Zoom Video Conference
+Exec=bash -lc "QT_QPA_PLATFORM=x11 /usr/bin/zoom" %U
+Icon=Zoom
+Terminal=false
+Type=Application
+Encoding=UTF-8
+Categories=Network;Application;
+StartupWMClass=zoom
+MimeType=x-scheme-handler/zoommtg;x-scheme-handler/zoomus;x-scheme-handler/tel;x-scheme-handler/callto;x-scheme-handler/zoomphonecall;application/x-zoom
+X-KDE-Protocols=zoommtg;zoomus;tel;callto;zoomphonecall;
+Name[en_US]=Zoom
+
+
+Actions=zoom-default;debug-wayland
+
+[Desktop Action zoom-default]
+Name=Zoom (QT QPA: Wayland)
+Exec=bash -lc "QT_QPA_PLATFORM=wayland /usr/bin/zoom" %U
+
+[Desktop Action debug-wayland]
+Name=Zoom (Debug Wayland)
+Exec=bash -lc "WAYLAND_DEBUG=1 QT_QPA_PLATFORM=wayland /usr/bin/zoom" %U
