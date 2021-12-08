@@ -1,14 +1,13 @@
 :PROPERTIES:
 :ID:       b03d47fc-e81c-409f-bf95-0d973930e73f
 :END:
-#+TITLE: Sway Desktop
+#+TITLE: Guix Desktop
 #+PROPERTY: header-args :mkdirp yes
 #+PROPERTY: header-args:sh   :tangle-mode (identity #o555)
 #+PROPERTY: header-args:conf :tangle-mode (identity #o555)
 #+OPTIONS: toc:nil
 
 * Table of Contents :TOC_3_gh:
-- [[#transitioning-from-arch-to-guix][Transitioning From Arch To Guix]]
 - [[#system-settings][System Settings]]
   - [[#disk-mounting][Disk Mounting]]
   - [[#user-services][User Services]]
@@ -20,11 +19,9 @@
 - [[#input][Input]]
   - [[#fcitx5][FCITX5]]
 - [[#window-management][Window Management]]
-  - [[#sway][Sway]]
-    - [[#configs][Configs]]
-    - [[#scripts][Scripts]]
+  - [[#i3][i3]]
 - [[#panel][Panel]]
-  - [[#polybar][Polybar]]
+  - [[#waybar][Waybar]]
     - [[#destructure--tangle-waybar-config][destructure & tangle waybar config]]
 - [[#launchers][Launchers]]
 - [[#desktop-notifications][Desktop Notifications]]
@@ -51,8 +48,6 @@
   - [[#desktop-tools][Desktop Tools]]
     - [[#xdg-1][XDG]]
   - [[#system-tools][System Tools]]
-  - [[#wayland-tools][Wayland Tools]]
-    - [[#equivalent-tools][Equivalent Tools]]
 - [[#desktop-profile][Desktop Profile]]
 
 **** TODO tangle permissions
@@ -61,25 +56,6 @@
 - look in =ob-core= for interface and elsewhere for =(comment-region)= refs
 - until then, treat sway configs as =shell=
 
-
-* Transitioning From Arch To Guix
-
-I'm focused on getting settled into the Sway/Wayland ecosystem for now.
-
-+ As I transition to Sway, I'll be destructuring my configs (pieced together
-  from Garuda/elsewhere) into tangled configs.
-+ As I transition to Guix, I'll be moving the packages from =pacman= to =guix=:
-  - When something is moved into the *Guix realm*, it will be added to the appropriate =.guix-extra-profiles=
-    - See =.profile= in [[https://github.com/daviwil/dotfiles/blob/master/.profile][davilwil/dotfiles]] to get a feel for how these will be loaded.
-    - Search his dotfiles for [[https://github.com/daviwil/dotfiles/search?q=manifests][manifests]] to understand how additional guix
-      profiles can be tnagled & layered on.
-  - When something is moved out of the *Arch realm*, it will be removed/ignored
-    in =pacman= and =yay=. This is how =emacs= is set up for now.
-+ Hopefully, there will be something of a category realm.
-  - Here, self-contained applications will be bundled using [[https://github.com/mviereck/x11docker][x11docker]]
-  - This may be more appropriate to move out of the desktop/pc layer and into
-    the network/virt layer.
-
 * System Settings
 
 ** Disk Mounting
@@ -87,7 +63,7 @@ I'm focused on getting settled into the Sway/Wayland ecosystem for now.
 *Guix Packages*
 
 #+begin_src scheme :noweb-ref packages :noweb-sep ""
-;; "udiskie"
+"udiskie"
 #+end_src
 
 ** User Services
@@ -168,201 +144,13 @@ I'm focused on getting settled into the Sway/Wayland ecosystem for now.
 
 * Window Management
 
-** Sway
+** i3
 
-I'm trying to log sway crashes with =sway -d 2>&1 > /home/saikoupomp/.cache/log/sway.$(date +%Y-%m%d-%H%M).log=
 
-+ but i'm pretty sure this is just causing more problems and it hasn't solved a single one.
-+ the timestamps are relative to the start of the sway session
-  - so if you wanted to use =lnav= to collate the logs to say ... a =WAYLAND_DEBUG=1= log, too bad. that's on you.
-
-*** Configs
-:PROPERTIES:
-:header-args+: :tangle-mode (identity #o644) :mkdirp yes :comments link
-:header-args:sh+: :tangle-mode (identity #o644) :mkdirp yes :comments link
-:END:
-
-**** Startup
-
-#+begin_src sh :tangle .config/sway/config
-# Config for sway
-#
-# Read `man 5 sway` for a complete reference.
-
-set $configpath $HOME/.config/sway/config.d
-
-include $configpath/_startup
-include $configpath/autostart
-include $configpath/default
-
-#include $configpath/clamshell
-include $configpath/tiling
-
-include $configpath/input
-include $configpath/output
-include $configpath/keyboard
-
-include $configpath/theme
-
-# only enable this if every app you use is compatible with wayland
-# xwayland disable
-#+end_src
-
-**** Startup
-
-#+begin_src sh :tangle .config/sway/config.d/_startup
-# TODO init vars to be shared
-#+end_src
-
-**** Default
-
-#+begin_src sh :tangle .config/sway/config.d/default
-
-#+end_src
-
-**** Autostart
-
-+ NOTE: disabling =fcitx5= for now
-
-#+begin_src sh :tangle .config/sway/config.d/autostart
-# exec_always fcitx5 --verbose 'default=5' -d > $HOME/.cache/log/fcitx.$(date +%s).log 2>&1
-#+end_src
-
-**** Misc
-
-***** Clamshell Mode
-
-#+begin_src sh :tangle .config/sway/config.d/clamshell
-set $laptop <eDP-1>
-bindswitch --reload --locked lid:on output $laptop disable
-bindswitch --reload --locked lid:off output $laptop enable
-
-exec_always ~/.config/sway/scripts/clamshell.sh
-#+end_src
-
-**** Desktop
-
-#+begin_src sh :tangle .config/sway/config.d/desktop
-
-#+end_src
-
-**** Keybinding
-
-#+begin_src sh :tangle .config/sway/config.d/keybinding
-
-#+end_src
-
-**** Tiling
-
-#+begin_src sh :tangle .config/sway/config.d/tiling
-for_window [class="Pwsafe" instance="pwsafe"] floating enable
-for_window [class="Gnuplot" instance="gnuplot"] floating enable
-for_window [app_id="org.fcitx.fcitx5-config-qt"] floating enable
-for_window [app_id="fcitx5-qt5-fcgui-wrapper"] floating enable
-for_window [app_id="zoom"] floating enable
-for_window [app_id="zoom"] inhibit_idle fullscreen
-for_window [app_id="gnome-calculator"] floating enable
-set $transparency_val 1
-
-# Inhibit idle
-for_window [app_id="firedragon"] inhibit_idle fullscreen
-for_window [app_id="Chromium"] inhibit_idle fullscreen
-#+end_src
-
-**** Input
-
-Run =swaymsg -t get_inputs= to get valid input specs.
-
-#+begin_src sh :tangle .config/sway/config.d/input
-input type:touchpad {
-      dwt enabled
-      tap enabled
-      natural_scroll enabled
-}
-
-# Read `man 5 sway-input` for more information about this section.
-# - more details in `xkeyboard-config`
-
-input type:keyboard {
-      xkb_model "pc105"
-      xkb_layout "io"
-      xkb_variant "altgr-intl"
-      xkb_options "caps:hyper"
-      # xkb_options "caps:swapescape"
-}
-
-# input type:keyboard xkb_model "pc105"
-
-#+end_src
-
-Getting input identifiers via =localectl status=
-
-#+begin_src sh :tangle .config/sway/config.d/input
-#exec_always {
-#   'swaymsg input type:keyboard xkb_layout "$(localectl status | grep "X11 Layout" | sed -e "s/^.*X11 Layout://")"'
-#   'swaymsg input type:keyboard xkb_variant "$(localectl status | grep "X11 Variant" | sed -e "s/^.*X11 Variant://")"'
-#}
-#+end_src
-
-**** Output
-
-#+begin_src sh :tangle .config/sway/config.d/output
-#output eDP-1 resolution 2880x1800 position 0,1440 scale 1
-#output HDMI-A-1 resolution 2560x1440 position 0,0
-
-output eDP-1 resolution 2880x1800 position 0,2160 scale 1
-output HDMI-A-1 resolution 3840x2160 position 0,0
-#+end_src
-
-**** Keyboard
-
-**** Theme
-
-#+begin_src sh :tangle .config/sway/config.d/theme
-# Apply gtk theming
-exec_always ~/.config/sway/scripts/import-gsettings
-
-# Set inner/outer gaps
-gaps inner 2
-gaps outer 2
-
-# Hide titlebar on windows:
-default_border pixel 1
-
-# Default Font
-font pango:Noto Sans Regular 10
-
-# Thin borders:
-smart_borders on
-
-# Set wallpaper:
-# exec ~/.azotebg
-
-# Title format for windows
-for_window [shell="xdg_shell"] title_format "%title (%app_id)"
-for_window [shell="x_wayland"] title_format "%class - %title"
-
-## Window decoration
-# class                 border  backgr. text    indicator child_border
-client.focused          #88c0d0 #434c5e #eceff4 #8fbcbb   #88c0d0
-client.focused_inactive #88c0d0 #2e3440 #d8dee9 #4c566a   #4c566a
-client.unfocused        #88c0d0 #2e3440 #d8dee9 #4c566a   #4c566a
-client.urgent           #ebcb8b #ebcb8b #2e3440 #8fbcbb   #ebcb8b
-
-#
-# Status Bar:
-#
-# Read `man 5 sway-bar` for more information about this section.
-bar {
-   swaybar_command waybar
-}
-#+end_src
-
-*** Scripts
 
 * Panel
 
-** Polybar
+** Waybar
 
 *.config/waybar/config:*
 
@@ -373,7 +161,7 @@ bar {
 *Guix Packages*
 
 #+begin_src scheme :noweb-ref packages :noweb-sep ""
-;; nwg-drawer
+
 #+end_src
 
 * Desktop Notifications
@@ -412,12 +200,11 @@ x-scheme-handler/unknown=qutebrowser.desktop
 
 ** Browsers
 
-
 *Guix Packages*
 
 #+begin_src scheme :noweb-ref packages :noweb-sep ""
 ;; "qutebrowser"
-;; nyxt?
+"nyxt"
 #+end_src
 
 ** Password Management
@@ -425,7 +212,7 @@ x-scheme-handler/unknown=qutebrowser.desktop
 *Guix Packages*
 
 #+begin_src scheme :noweb-ref packages :noweb-sep ""
-;; password safe?
+"pwsafe"
 #+end_src
 
 ** Audio Device Control
@@ -433,8 +220,8 @@ x-scheme-handler/unknown=qutebrowser.desktop
 *Guix Packages*
 
 #+begin_src scheme :noweb-ref packages :noweb-sep ""
-;; "alsa-utils"
-;; pavucontrol
+"alsa-utils"
+"pavucontrol"
 #+end_src
 
 
@@ -446,10 +233,10 @@ x-scheme-handler/unknown=qutebrowser.desktop
 *Guix Packages*
 
 #+begin_src scheme :noweb-ref packages :noweb-sep ""
-;; "mpv"
-;; "mpv-mpris"
-;; "youtube-dl"
-;; "playerctl"
+"mpv"
+"mpv-mpris"
+"youtube-dl"
+"playerctl"
 #+end_src
 
 
@@ -458,14 +245,14 @@ x-scheme-handler/unknown=qutebrowser.desktop
 *Guix Packages*
 
 #+begin_src scheme :noweb-ref packages :noweb-sep ""
-;; "gstreamer"
-;; "gst-plugins-base"
-;; "gst-plugins-good"
-;; "gst-plugins-bad"
+"gstreamer"
+"gst-plugins-base"
+"gst-plugins-good"
+"gst-plugins-bad"
 ;; "gst-plugins-ugly"
-;; "gst-libav"
+"gst-libav"
 ;; "intel-vaapi-driver"
-;; "libva-utils"
+"libva-utils"
 #+end_src
 
 ** Image Viewers and Editors
@@ -474,9 +261,9 @@ x-scheme-handler/unknown=qutebrowser.desktop
 *Guix Packages*
 
 #+begin_src scheme :noweb-ref packages :noweb-sep ""
-;; "feh"
-;; "gimp"
-;; "scrot"
+"feh"
+;;"gimp"
+"scrot"
 #+end_src
 
 ** Games
@@ -496,8 +283,8 @@ x-scheme-handler/unknown=qutebrowser.desktop
 *Guix Packages*
 
 #+begin_src scheme :noweb-ref packages :noweb-sep ""
-;; "zathura"
-;; "zathura-pdf-mupdf"
+"zathura"
+"zathura-pdf-mupdf"
 #+end_src
 
 
@@ -527,7 +314,7 @@ flatpak install --user flathub-beta com.obsproject.Studio
 *Guix Packages*
 
 #+begin_src scheme :noweb-ref packages :noweb-sep ""
-;; "flatpak"
+"flatpak"
 #+end_src
 
 
@@ -536,7 +323,7 @@ flatpak install --user flathub-beta com.obsproject.Studio
 *Guix Packages*
 
 #+begin_src scheme :noweb-ref packages :noweb-sep ""
-;; "system-config-printer"
+"system-config-printer"
 #+end_src
 
 ** Desktop Tools
@@ -544,10 +331,10 @@ flatpak install --user flathub-beta com.obsproject.Studio
 *Guix Packages*
 
 #+begin_src scheme :noweb-ref packages :noweb-sep ""
-;; "compton" ;; in wayland, cannot sub a compositor in
-;; "redshift"
-;; "gucharmap"
-;; "fontmanager"
+"compton"
+;;"redshift"
+"gucharmap"
+"fontmanager"
 #+end_src
 
 + compton :: an alternative compositor for X
@@ -564,11 +351,11 @@ flatpak install --user flathub-beta com.obsproject.Studio
 *Guix Packages*
 
 #+begin_src scheme :noweb-ref packages :noweb-sep ""
-;; "xdg-utils"          ;; for xdg-open, etc
-;; "xdg-dbus-proxy"     ;; for Flatpak
-;; "gtk+:bin"           ;; for gtk-launch
-;; "glib:bin"           ;; for gio-launch-desktop
-;; "shared-mime-info"   ;; for mimes
+"xdg-utils"          ;; for xdg-open, etc
+"xdg-dbus-proxy"     ;; for Flatpak
+"gtk+:bin"           ;; for gtk-launch
+"glib:bin"           ;; for gio-launch-desktop
+"shared-mime-info"   ;; for mimes
 #+end_src
 
 ** System Tools
@@ -579,34 +366,6 @@ flatpak install --user flathub-beta com.obsproject.Studio
 
 #+end_src
 
-
-** Wayland Tools
-
-*Guix Packages*
-
-#+begin_src scheme :noweb-ref packages :noweb-sep ""
-;; "libinput"
-;; "wev"
-;; "wlr-randr"
-;; "wdisplays"
-#+end_src
-
-*** Equivalent Tools
-
-+ xev :: wev
-+ xset ::
-+ xrdb ::
-+ xhost ::
-+ xmodmap ::
-+ setxkbmap ::
-+ xrandr :: wlr-randr
-  - also =swaymsg output ...='
-+ arandr :: wdisplays
-+ xss-lock ::
-+ xinput ::
-+ xob :: wob
-
-
 * Desktop Profile
 
 *.config/guix/manifests/desktop.scm*
@@ -616,8 +375,6 @@ flatpak install --user flathub-beta com.obsproject.Studio
  '(
    <<packages>>
     ))
-
-#+end_src
 
 #+end_src
 

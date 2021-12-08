@@ -1,0 +1,307 @@
+:PROPERTIES:
+:ID:       b63bd62f-7045-4aad-a183-023c1ede5fa8
+:END:
+#+TITLE: Sway Desktop
+#+PROPERTY: header-args :mkdirp yes
+#+PROPERTY: header-args:sh   :tangle-mode (identity #o555)
+#+PROPERTY: header-args:conf :tangle-mode (identity #o555)
+#+OPTIONS: toc:nil
+
+* Table of Contents :TOC_3_gh:
+- [[#window-management][Window Management]]
+  - [[#sway][Sway]]
+    - [[#configs][Configs]]
+    - [[#scripts][Scripts]]
+- [[#panel][Panel]]
+  - [[#waybar][Waybar]]
+    - [[#destructure--tangle-waybar-config][destructure & tangle waybar config]]
+- [[#launchers][Launchers]]
+- [[#desktop-notifications][Desktop Notifications]]
+- [[#display-management][Display Management]]
+- [[#xdg][XDG]]
+  - [[#desktop-entries][Desktop Entries]]
+  - [[#restrict-autostart-entries][Restrict Autostart entries]]
+  - [[#mime-handlers][MIME Handlers]]
+- [[#applications][Applications]]
+  - [[#browsers][Browsers]]
+  - [[#system-tools][System Tools]]
+  - [[#wayland-tools][Wayland Tools]]
+    - [[#equivalent-tools][Equivalent Tools]]
+- [[#desktop-profile][Desktop Profile]]
+
+* Window Management
+** Sway
+
+I'm trying to log sway crashes with =sway -d 2>&1 > /home/saikoupomp/.cache/log/sway.$(date +%Y-%m%d-%H%M).log=
+
++ but i'm pretty sure this is just causing more problems and it hasn't solved a single one.
++ the timestamps are relative to the start of the sway session
+  - so if you wanted to use =lnav= to collate the logs to say ... a =WAYLAND_DEBUG=1= log, too bad. that's on you.
+
+*** Configs
+:PROPERTIES:
+:header-args+: :tangle-mode (identity #o644) :mkdirp yes :comments link
+:header-args:sh+: :tangle-mode (identity #o644) :mkdirp yes :comments link
+:END:
+
+**** Startup
+
+#+begin_src sh :tangle .config/sway/config
+# Config for sway
+#
+# Read `man 5 sway` for a complete reference.
+
+set $configpath $HOME/.config/sway/config.d
+
+include $configpath/_startup
+include $configpath/autostart
+include $configpath/default
+
+#include $configpath/clamshell
+include $configpath/tiling
+
+include $configpath/input
+include $configpath/output
+include $configpath/keyboard
+
+include $configpath/theme
+
+# only enable this if every app you use is compatible with wayland
+# xwayland disable
+#+end_src
+
+**** Startup
+
+#+begin_src sh :tangle .config/sway/config.d/_startup
+# TODO init vars to be shared
+#+end_src
+
+**** Default
+
+#+begin_src sh :tangle .config/sway/config.d/default
+
+#+end_src
+
+**** Autostart
+
++ NOTE: disabling =fcitx5= for now
+
+#+begin_src sh :tangle .config/sway/config.d/autostart
+# exec_always fcitx5 --verbose 'default=5' -d > $HOME/.cache/log/fcitx.$(date +%s).log 2>&1
+#+end_src
+
+**** Misc
+
+***** Clamshell Mode
+
+#+begin_src sh :tangle .config/sway/config.d/clamshell
+set $laptop <eDP-1>
+bindswitch --reload --locked lid:on output $laptop disable
+bindswitch --reload --locked lid:off output $laptop enable
+
+exec_always ~/.config/sway/scripts/clamshell.sh
+#+end_src
+
+**** Desktop
+
+#+begin_src sh :tangle .config/sway/config.d/desktop
+
+#+end_src
+
+**** Keybinding
+
+#+begin_src sh :tangle .config/sway/config.d/keybinding
+
+#+end_src
+
+**** Tiling
+
+#+begin_src sh :tangle .config/sway/config.d/tiling
+for_window [class="Pwsafe" instance="pwsafe"] floating enable
+for_window [class="Gnuplot" instance="gnuplot"] floating enable
+for_window [app_id="org.fcitx.fcitx5-config-qt"] floating enable
+for_window [app_id="fcitx5-qt5-fcgui-wrapper"] floating enable
+for_window [app_id="zoom"] floating enable
+for_window [app_id="zoom"] inhibit_idle fullscreen
+for_window [app_id="gnome-calculator"] floating enable
+set $transparency_val 1
+
+# Inhibit idle
+for_window [app_id="firedragon"] inhibit_idle fullscreen
+for_window [app_id="Chromium"] inhibit_idle fullscreen
+#+end_src
+
+**** Input
+
+Run =swaymsg -t get_inputs= to get valid input specs.
+
+#+begin_src sh :tangle .config/sway/config.d/input
+input type:touchpad {
+      dwt enabled
+      tap enabled
+      natural_scroll enabled
+}
+
+# Read `man 5 sway-input` for more information about this section.
+# - more details in `xkeyboard-config`
+
+input type:keyboard {
+      xkb_model "pc105"
+      xkb_layout "io"
+      xkb_variant "altgr-intl"
+      xkb_options "caps:hyper"
+      # xkb_options "caps:swapescape"
+}
+
+# input type:keyboard xkb_model "pc105"
+
+#+end_src
+
+Getting input identifiers via =localectl status=
+
+#+begin_src sh :tangle .config/sway/config.d/input
+#exec_always {
+#   'swaymsg input type:keyboard xkb_layout "$(localectl status | grep "X11 Layout" | sed -e "s/^.*X11 Layout://")"'
+#   'swaymsg input type:keyboard xkb_variant "$(localectl status | grep "X11 Variant" | sed -e "s/^.*X11 Variant://")"'
+#}
+#+end_src
+
+**** Output
+
+#+begin_src sh :tangle .config/sway/config.d/output
+#output eDP-1 resolution 2880x1800 position 0,1440 scale 1
+#output HDMI-A-1 resolution 2560x1440 position 0,0
+
+output eDP-1 resolution 2880x1800 position 0,2160 scale 1
+output HDMI-A-1 resolution 3840x2160 position 0,0
+#+end_src
+
+**** Keyboard
+
+**** Theme
+
+#+begin_src sh :tangle .config/sway/config.d/theme
+# Apply gtk theming
+exec_always ~/.config/sway/scripts/import-gsettings
+
+# Set inner/outer gaps
+gaps inner 2
+gaps outer 2
+
+# Hide titlebar on windows:
+default_border pixel 1
+
+# Default Font
+font pango:Noto Sans Regular 10
+
+# Thin borders:
+smart_borders on
+
+# Set wallpaper:
+# exec ~/.azotebg
+
+# Title format for windows
+for_window [shell="xdg_shell"] title_format "%title (%app_id)"
+for_window [shell="x_wayland"] title_format "%class - %title"
+
+## Window decoration
+# class                 border  backgr. text    indicator child_border
+client.focused          #88c0d0 #434c5e #eceff4 #8fbcbb   #88c0d0
+client.focused_inactive #88c0d0 #2e3440 #d8dee9 #4c566a   #4c566a
+client.unfocused        #88c0d0 #2e3440 #d8dee9 #4c566a   #4c566a
+client.urgent           #ebcb8b #ebcb8b #2e3440 #8fbcbb   #ebcb8b
+
+#
+# Status Bar:
+#
+# Read `man 5 sway-bar` for more information about this section.
+bar {
+   swaybar_command waybar
+}
+#+end_src
+
+*** Scripts
+
+* Panel
+
+** Waybar
+
+*.config/waybar/config:*
+
+*** TODO destructure & tangle waybar config
+
+* Launchers
+
+*Guix Packages*
+
+#+begin_src scheme :noweb-ref packages :noweb-sep ""
+;; nwg-drawer
+#+end_src
+
+* Desktop Notifications
+
+* Display Management
+
+
+
+* XDG
+
+** Desktop Entries
+** Restrict Autostart entries
+
+** MIME Handlers
+
+
+* Applications
+
+** Browsers
+
+*Guix Packages*
+
+** System Tools
+
+*Guix Packages*
+
+#+begin_src scheme :noweb-ref packages :noweb-sep ""
+
+#+end_src
+
+
+** Wayland Tools
+
+*Guix Packages*
+
+#+begin_src scheme :noweb-ref packages :noweb-sep ""
+;; "libinput"
+;; "wev"
+;; "wlr-randr"
+;; "wdisplays"
+#+end_src
+
+*** Equivalent Tools
+
++ xev :: wev
++ xset ::
++ xrdb ::
++ xhost ::
++ xmodmap ::
++ setxkbmap ::
++ xrandr :: wlr-randr
+  - also =swaymsg output ...='
++ arandr :: wdisplays
++ xss-lock ::
++ xinput ::
++ xob :: wob
+
+
+* Desktop Profile
+
+*.config/guix/manifests/desktop.scm*
+
+#+begin_src scheme :tangle .config/guix/manifests/sway-desktop.scm :noweb yes
+(specifications->manifest
+ '(
+   <<packages>>
+    ))
+
+#+end_src
