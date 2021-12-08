@@ -195,6 +195,9 @@ export EDITOR=/usr/bin/vim
 #export XDG_SESSION_TYPE=wayland
 #export XDG_SESSION_DESKTOP=sway
 #export XDG_CURRENT_DESKTOP=sway
+
+# TODO set in login manager script
+#export XDG_CURRENT_DESKTOP=i3
 #+end_src
 
 ** Steam & Proton
@@ -209,8 +212,8 @@ export EDITOR=/usr/bin/vim
 alias guix-all-profiles='find /gnu/store -maxdepth 1 -type d -name "*profile" -exec ls -al \{\} +'
 alias guix-main="$HOME/.config/guix/current/bin/guix"
 
-#GUIX_PROFILE="$HOME/.guix-profile"
-#. "$GUIX_PROFILE/etc/profile"
+GUIX_PROFILE="$HOME/.guix-profile"
+. "$GUIX_PROFILE/etc/profile"
 
 export GUIX_LOCPATH=$HOME/.guix-profile/lib/locale
 #+end_src
@@ -243,7 +246,7 @@ export GTK2_RC_FILES="$HOME/.gtkrc-2.0"
 #+begin_src sh :tangle .config/sh/profile.d/qt.sh :shebang #!/bin/sh
 
 # Qt
-export QT_QPA_PLATFORMTHEME="qt5ct"
+#export QT_QPA_PLATFORMTHEME="qt5ct"
 #export QT_QPA_PLATFORM=wayland
 #export QT_WAYLAND_FORCE_DPI=physical
 #export QT_WAYLAND_DISABLE_WINDOWDECORATION=1

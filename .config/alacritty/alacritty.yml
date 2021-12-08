@@ -63,7 +63,7 @@ window:
   #startup_mode: Windowed
 
   # Window title
-  title: Alacritty@Garuda
+  title: Alacritty
 
   # Window class (Linux/BSD only):
   class:

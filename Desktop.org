@@ -24,7 +24,7 @@
     - [[#configs][Configs]]
     - [[#scripts][Scripts]]
 - [[#panel][Panel]]
-  - [[#waybar][Waybar]]
+  - [[#polybar][Polybar]]
     - [[#destructure--tangle-waybar-config][destructure & tangle waybar config]]
 - [[#launchers][Launchers]]
 - [[#desktop-notifications][Desktop Notifications]]
@@ -191,17 +191,11 @@ I'm trying to log sway crashes with =sway -d 2>&1 > /home/saikoupomp/.cache/log/
 
 set $configpath $HOME/.config/sway/config.d
 
-include $configpath/_startp
-
-include $configpath/autostart.garuda
+include $configpath/_startup
 include $configpath/autostart
-
-include $configpath/default.garuda
 include $configpath/default
 
-include $configpath/clamshell
-
-include $configpath/tiling.garuda
+#include $configpath/clamshell
 include $configpath/tiling
 
 include $configpath/input
@@ -213,9 +207,6 @@ include $configpath/theme
 # only enable this if every app you use is compatible with wayland
 # xwayland disable
 #+end_src
-
-+ [ ] add shimming?
-+ [ ] break out into definitions
 
 **** Startup
 
@@ -371,7 +362,7 @@ bar {
 
 * Panel
 
-** Waybar
+** Polybar
 
 *.config/waybar/config:*
 
@@ -390,7 +381,6 @@ bar {
 ** Dunst
 
 [[https://dunst-project.org/][Dunst]] displays desktop notifications.
-
 
 * Display Management
 
