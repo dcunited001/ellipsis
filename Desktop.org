@@ -14,18 +14,14 @@
   - [[#scheduled-tasks][Scheduled Tasks]]
 - [[#fonts][Fonts]]
 - [[#themes][Themes]]
+  - [[#xsettings][XSettings]]
   - [[#color-schemes][Color Schemes]]
-    - [[#generate-css-color-schemes-from-an-org-table][generate =<<css-color-schemes>>= from an org-table]]
 - [[#input][Input]]
   - [[#fcitx5][FCITX5]]
 - [[#window-management][Window Management]]
   - [[#i3][i3]]
 - [[#panel][Panel]]
-  - [[#waybar][Waybar]]
-    - [[#destructure--tangle-waybar-config][destructure & tangle waybar config]]
 - [[#launchers][Launchers]]
-- [[#desktop-notifications][Desktop Notifications]]
-  - [[#dunst][Dunst]]
 - [[#display-management][Display Management]]
 - [[#xdg][XDG]]
   - [[#desktop-entries][Desktop Entries]]
@@ -37,18 +33,21 @@
   - [[#audio-device-control][Audio Device Control]]
   - [[#media-players][Media Players]]
     - [[#mpv][MPV]]
+    - [[#mpv-1][mpv]]
     - [[#codecs-and-drivers][Codecs and Drivers]]
   - [[#image-viewers-and-editors][Image Viewers and Editors]]
   - [[#games][Games]]
   - [[#document-readers][Document Readers]]
-    - [[#zathura-and-configzathurazathurarc][Zathura and =.config/zathura/zathurarc]]
   - [[#syncthing][Syncthing]]
   - [[#flatpak][Flatpak]]
   - [[#printing][Printing]]
   - [[#desktop-tools][Desktop Tools]]
     - [[#xdg-1][XDG]]
   - [[#system-tools][System Tools]]
+  - [[#xorg-tools][Xorg Tools]]
 - [[#desktop-profile][Desktop Profile]]
+- [[#notes][Notes]]
+  - [[#bluetooth-setup][Bluetooth Setup]]
 
 **** TODO tangle permissions
 **** TODO set the org-babel :comments format
@@ -68,6 +67,22 @@
 
 ** User Services
 
+#+begin_src scheme :tangle .config/shepherd/init.scm
+
+(define mcron
+  (make <service>
+    #:provides '(mcron)
+    #:respawn? #t
+    #:start (make-forkexec-constructor '("mcron"))
+    #:stop  (make-kill-destructor)))
+
+(register-services mcron)
+(action 'shepherd 'daemonize)
+
+;; Start user services
+(for-each start '(mcron))
+
+#+end_src
 
 ** Scheduled Tasks
 
@@ -77,6 +92,9 @@
 *Guix Packages"
 
 #+begin_src scheme :noweb-ref packages :noweb-sep ""
+  ;; Settin gs Manager
+  "xsettingsd"
+
   ;; GTK Themes
   "arc-icon-theme"
   "matcha-theme"
@@ -123,12 +141,31 @@
 
 * Themes
 
-** Color Schemes
+** XSettings
 
-*** TODO generate =<<css-color-schemes>>= from an org-table
-+ [ ] import them into =waybar.css= and other css
-+ [ ] add button in waybar to trigger colorscheme change
-+ [ ] load random color scheme with sway
+*.config/xsettingsd/xsettingsd.conf:*
+
+#+begin_src conf :tangle .config/xsettingsd/xsettingsd.conf :noweb yes
+Net/ThemeName "Matcha-dark-azul"
+Net/IconThemeName "Papirus-Dark"
+Gtk/DecorationLayout "menu:minimize,maximize,close"
+Gtk/FontName "Cantarell 11"
+Gtk/MonospaceFontName "Fira Mono 10"
+Gtk/CursorThemeName "Adwaita"
+Xft/Antialias 1
+Xft/Hinting 0
+Xft/HintStyle "hintnone"
+Xft/DPI <<dpi()>> # 1024 * DPI
+#+end_src
+
+*DPI*
+
+#+NAME: dpi
+#+begin_src emacs-lisp :session=system-settings :var settings=system-settings
+(* 1024 (alist-get 'desktop/dpi dw/system-settings))
+#+end_src
+
+** Color Schemes
 
 * Input
 
@@ -149,12 +186,450 @@
 
 
 * Panel
+*.config/polybar/config:*
 
-** Waybar
+#+begin_src conf :tangle .config/polybar/config :noweb yes
 
-*.config/waybar/config:*
+; Docs: https://github.com/polybar/polybar
+;==========================================================
 
-*** TODO destructure & tangle waybar config
+[settings]
+screenchange-reload = true
+
+[global/wm]
+margin-top = 0
+margin-bottom = 0
+
+[colors]
+background = #f0232635
+background-alt = #576075
+foreground = #A6Accd
+foreground-alt = #555
+primary = #ffb52a
+secondary = #e60053
+alert = #bd2c40
+underline-1 = #c792ea
+
+[bar/panel]
+width = 100%
+height = <<get-setting(name="polybar/height")>>
+offset-x = 0
+offset-y = 0
+fixed-center = true
+enable-ipc = true
+
+background = ${colors.background}
+foreground = ${colors.foreground}
+
+line-size = 2
+line-color = #f00
+
+border-size = 0
+border-color = #00000000
+
+padding-top = 5
+padding-left = 1
+padding-right = 1
+
+module-margin = 1
+
+font-0 = "Cantarell:size=<<get-setting(name="polybar/font-0-size")>>:weight=bold;2"
+font-1 = "Font Awesome:size=<<get-setting(name="polybar/font-1-size")>>;2"
+font-2 = "Material Icons:size=<<get-setting(name="polybar/font-2-size")>>;5"
+font-3 = "Fira Mono:size=<<get-setting(name="polybar/font-3-size")>>;-3"
+
+modules-left = exwm exwm-path
+modules-center = spotify
+modules-right = telegram mu4e cpu temperature battery date
+
+tray-position = right
+tray-padding = 2
+tray-maxsize = 28
+
+cursor-click = pointer
+cursor-scroll = ns-resize
+
+[module/exwm]
+type = custom/ipc
+hook-0 = emacsclient -e "(dw/polybar-exwm-workspace)" | sed -e 's/^"//' -e 's/"$//'
+initial = 1
+format-underline = ${colors.underline-1}
+format-background = ${colors.background-alt}
+format-padding = 1
+
+[module/exwm-path]
+type = custom/ipc
+hook-0 = emacsclient -e "(dw/polybar-exwm-workspace-path)" | sed -e 's/^"//' -e 's/"$//'
+format-foreground = #f78c6c
+initial = 1
+
+[module/spotify]
+type = custom/script
+exec = ~/.config/polybar/player-status.sh
+interval = 3
+
+[module/mu4e]
+type = custom/ipc
+hook-0 = emacsclient -e '(dw/polybar-mail-count 500)' | sed -e 's/^"//' -e 's/"$//'
+initial = 1
+format-underline = ${colors.underline-1}
+click-left = emacsclient -e '(dw/go-to-inbox)'
+
+[module/telegram]
+type = custom/ipc
+hook-0 = emacsclient -e '(dw/polybar-telegram-chats)' | sed -e 's/^"//' -e 's/"$//'
+format-padding = 3
+initial = 1
+
+[module/xkeyboard]
+type = internal/xkeyboard
+blacklist-0 = num lock
+
+format-prefix-font = 1
+format-prefix-foreground = ${colors.foreground-alt}
+format-prefix-underline = ${colors.underline-1}
+
+label-layout = %layout%
+label-layout-underline = ${colors.underline-1}
+
+label-indicator-padding = 2
+label-indicator-margin = 1
+label-indicator-underline = ${colors.underline-1}
+
+[module/cpu]
+type = internal/cpu
+interval = 2
+format = <label> <ramp-coreload>
+format-underline = ${colors.underline-1}
+click-left = emacsclient -e "(proced)"
+label = %percentage:2%%
+ramp-coreload-spacing = 0
+ramp-coreload-0 = ▁
+ramp-coreload-0-foreground = ${colors.foreground-alt}
+ramp-coreload-1 = ▂
+ramp-coreload-2 = ▃
+ramp-coreload-3 = ▄
+ramp-coreload-4 = ▅
+ramp-coreload-5 = ▆
+ramp-coreload-6 = ▇
+
+[module/memory]
+type = internal/memory
+interval = 2
+format-prefix = "M:"
+format-prefix-foreground = ${colors.foreground-alt}
+format-underline = ${colors.underline-1}
+label = %percentage_used%%
+
+[module/date]
+type = internal/date
+interval = 5
+
+date = "W%U: %a %b %e"
+date-alt = "%A %B %d %Y"
+
+time = %l:%M %p
+time-alt = %H:%M:%S
+
+format-prefix-foreground = ${colors.foreground-alt}
+format-underline = ${colors.underline-1}
+
+label = %date% %time%
+
+[module/battery]
+type = internal/battery
+battery = BAT0
+adapter = ADP1
+full-at = 98
+time-format = %-l:%M
+
+label-charging = %percentage%% / %time%
+format-charging = <animation-charging> <label-charging>
+format-charging-underline = ${colors.underline-1}
+
+label-discharging = %percentage%% / %time%
+format-discharging = <ramp-capacity> <label-discharging>
+format-discharging-underline = ${self.format-charging-underline}
+
+format-full = <ramp-capacity> <label-full>
+format-full-underline = ${self.format-charging-underline}
+
+ramp-capacity-0 = 
+ramp-capacity-1 = 
+ramp-capacity-2 = 
+ramp-capacity-3 = 
+ramp-capacity-4 = 
+
+animation-charging-0 = 
+animation-charging-1 = 
+animation-charging-2 = 
+animation-charging-3 = 
+animation-charging-4 = 
+animation-charging-framerate = 750
+
+[module/temperature]
+type = internal/temperature
+thermal-zone = 0
+warn-temperature = 60
+
+format = <label>
+format-underline = ${colors.underline-1}
+format-warn = <label-warn>
+format-warn-underline = ${self.format-underline}
+
+label = %temperature-c%
+label-warn = %temperature-c%!
+label-warn-foreground = ${colors.secondary}
+
+#+end_src
+
+*.config/polybar/player-status.sh:*
+
+#+begin_src sh :tangle .config/polybar/player-status.sh :shebang #!/bin/sh
+
+status="$(playerctl -p spotify status 2>&1)"
+if [ "$status" != "No players found" ]
+then
+  artist="$(playerctl -p spotify metadata artist)"
+  if [ "$artist" != "" ]
+  then
+    echo " $(playerctl -p spotify metadata artist) - $(playerctl -p spotify metadata title)"
+  else
+    # Clear any string that was previously displayed
+    echo ""
+  fi
+else
+  # Clear any string that was previously displayed
+  echo ""
+fi
+
+#+end_src
+
+*Guix Packages*
+
+#+begin_src scheme :noweb-ref packages :noweb-sep ""
+
+"polybar"
+
+#+end_src
+
+*.config/dunst/dunstrc:*
+
+#+begin_src conf :tangle .config/dunst/dunstrc :noweb yes
+
+[global]
+    ### Display ###
+    monitor = 0
+
+    # The geometry of the window:
+    #   [{width}]x{height}[+/-{x}+/-{y}]
+    geometry = "500x10-10+50"
+
+    # Show how many messages are currently hidden (because of geometry).
+    indicate_hidden = yes
+
+    # Shrink window if it's smaller than the width.  Will be ignored if
+    # width is 0.
+    shrink = no
+
+    # The transparency of the window.  Range: [0; 100].
+    transparency = 10
+
+    # The height of the entire notification.  If the height is smaller
+    # than the font height and padding combined, it will be raised
+    # to the font height and padding.
+    notification_height = 0
+
+    # Draw a line of "separator_height" pixel height between two
+    # notifications.
+    # Set to 0 to disable.
+    separator_height = 1
+    separator_color = frame
+
+    # Padding between text and separator.
+    padding = 8
+
+    # Horizontal padding.
+    horizontal_padding = 8
+
+    # Defines width in pixels of frame around the notification window.
+    # Set to 0 to disable.
+    frame_width = 2
+
+    # Defines color of the frame around the notification window.
+    frame_color = "#89AAEB"
+
+    # Sort messages by urgency.
+    sort = yes
+
+    # Don't remove messages, if the user is idle (no mouse or keyboard input)
+    # for longer than idle_threshold seconds.
+    idle_threshold = 120
+
+    ### Text ###
+
+    font = Cantarell <<get-setting(name="dunst/font-size")>>
+
+    # The spacing between lines.  If the height is smaller than the
+    # font height, it will get raised to the font height.
+    line_height = 0
+    markup = full
+
+    # The format of the message.  Possible variables are:
+    #   %a  appname
+    #   %s  summary
+    #   %b  body
+    #   %i  iconname (including its path)
+    #   %I  iconname (without its path)
+    #   %p  progress value if set ([  0%] to [100%]) or nothing
+    #   %n  progress value if set without any extra characters
+    #   %%  Literal %
+    # Markup is allowed
+    format = "<b>%s</b>\n%b"
+
+    # Alignment of message text.
+    # Possible values are "left", "center" and "right".
+    alignment = left
+
+    # Show age of message if message is older than show_age_threshold
+    # seconds.
+    # Set to -1 to disable.
+    show_age_threshold = 60
+
+    # Split notifications into multiple lines if they don't fit into
+    # geometry.
+    word_wrap = yes
+
+    # When word_wrap is set to no, specify where to make an ellipsis in long lines.
+    # Possible values are "start", "middle" and "end".
+    ellipsize = middle
+
+    # Ignore newlines '\n' in notifications.
+    ignore_newline = no
+
+    # Stack together notifications with the same content
+    stack_duplicates = true
+
+    # Hide the count of stacked notifications with the same content
+    hide_duplicate_count = false
+
+    # Display indicators for URLs (U) and actions (A).
+    show_indicators = yes
+
+    ### Icons ###
+
+    # Align icons left/right/off
+    icon_position = left
+
+    # Scale larger icons down to this size, set to 0 to disable
+    max_icon_size = <<get-setting(name="dunst/max-icon-size")>>
+
+    # Paths to default icons.
+    icon_path = /home/dc/.guix-extra-profiles/desktop/desktop/share/icons/gnome/256x256/status/:/home/dc/.guix-extra-profiles/desktop/desktop/share/icons/gnome/256x256/devices/:/home/dc/.guix-extra-profiles/desktop/desktop/share/icons/gnome/256x256/emblems/
+
+    ### History ###
+
+    # Should a notification popped up from history be sticky or timeout
+    # as if it would normally do.
+    sticky_history = no
+
+    # Maximum amount of notifications kept in history
+    history_length = 20
+
+    ### Misc/Advanced ###
+
+    # Browser for opening urls in context menu.
+    browser = nyxt
+
+    # Always run rule-defined scripts, even if the notification is suppressed
+    always_run_script = true
+
+    # Define the title of the windows spawned by dunst
+    title = Dunst
+
+    # Define the class of the windows spawned by dunst
+    class = Dunst
+
+    startup_notification = false
+    verbosity = mesg
+
+    # Define the corner radius of the notification window
+    # in pixel size. If the radius is 0, you have no rounded
+    # corners.
+    # The radius will be automatically lowered if it exceeds half of the
+    # notification height to avoid clipping text and/or icons.
+    corner_radius = 4
+
+    mouse_left_click = close_current
+    mouse_middle_click = do_action
+    mouse_right_click = close_all
+
+# Experimental features that may or may not work correctly. Do not expect them
+# to have a consistent behaviour across releases.
+[experimental]
+    # Calculate the dpi to use on a per-monitor basis.
+    # If this setting is enabled the Xft.dpi value will be ignored and instead
+    # dunst will attempt to calculate an appropriate dpi value for each monitor
+    # using the resolution and physical size. This might be useful in setups
+    # where there are multiple screens with very different dpi values.
+    per_monitor_dpi = false
+
+[shortcuts]
+
+    # Shortcuts are specified as [modifier+][modifier+]...key
+    # Available modifiers are "ctrl", "mod1" (the alt-key), "mod2",
+    # "mod3" and "mod4" (windows-key).
+    # Xev might be helpful to find names for keys.
+
+    # Close notification.
+    #close = ctrl+space
+
+    # Close all notifications.
+    #close_all = ctrl+shift+space
+
+    # Redisplay last message(s).
+    # On the US keyboard layout "grave" is normally above TAB and left
+    # of "1". Make sure this key actually exists on your keyboard layout,
+    # e.g. check output of 'xmodmap -pke'
+    history = ctrl+grave
+
+    # Context menu.
+    context = ctrl+shift+period
+
+[urgency_low]
+    # IMPORTANT: colors have to be defined in quotation marks.
+    # Otherwise the "#" and following would be interpreted as a comment.
+    background = "#222222"
+    foreground = "#888888"
+    timeout = 10
+    # Icon for notifications with low urgency, uncomment to enable
+    #icon = /path/to/icon
+
+[urgency_normal]
+    background = "#1c1f26"
+    foreground = "#ffffff"
+    timeout = 10
+    # Icon for notifications with normal urgency, uncomment to enable
+    #icon = /path/to/icon
+
+[urgency_critical]
+    background = "#900000"
+    foreground = "#ffffff"
+    frame_color = "#ff0000"
+    timeout = 0
+    # Icon for notifications with critical urgency, uncomment to enable
+    #icon = /path/to/icon
+
+#+end_src
+
+*Guix Packages*
+
+#+begin_src scheme :noweb-ref packages :noweb-sep ""
+
+"dunst"
+"libnotify"  ; For notify-send
+
+#+end_src
 
 * Launchers
 
@@ -164,14 +639,37 @@
 
 #+end_src
 
-* Desktop Notifications
-
-** Dunst
-
-[[https://dunst-project.org/][Dunst]] displays desktop notifications.
-
 * Display Management
 
+**** TODO update or remove xrandr scripts
+
+#+begin_src sh :tangle .bin/update-screens :shebang #!/bin/sh
+
+case $(hostname) in
+
+    zerocool)
+        xrandr --output VIRTUAL1 --off --output eDP1 --mode 2560x1440 --pos 3840x416 --rotate normal --output DP1 --off --output HDMI1 --off --output DP1-3 --off --output DP1-2 --off --output DP1-1 --primary --mode 3840x2160 --pos 0x0 --rotate normal --output DP2 --off
+        ;;
+
+    acidburn)
+        xrandr --output eDP-1 --mode 2160x1350 --pos 2560x45 --rotate normal --output HDMI-1 --off --output DP-1 --off --output DP-2 --off --output DP-3 --off --output DP-4 --off --output DP-3-1 --off --output DP-3-2 --off --output DP-3-3 --off --output DP-3-1 --off --output DP-3-2 --off --output DP-3-3 --primary --mode 2560x1440 --pos 0x0 --rotate normal
+        ;;
+
+    davinci)
+        # Temporary: this is for docking my laptop at home with HDMI!
+        #xrandr --output HDMI-2 --mode 3840x2160 --pos 0x0 --scale 0.6x0.6 --primary --rotate normal --output HDMI-1 --off --output DP-1 --off --output eDP-1 --mode 1920x1080 --pos 2304x216 --rotate normal --output DP-2 --off
+        xrandr --output eDP-1 --mode 1920x1080 --pos 2560x360 --rotate normal --output DP-1-2 --primary --mode 2560x1440 --pos 0x0 --rotate normal --output HDMI-2 --off --output HDMI-1 --off --output DP-1 --off --output DP-1-3 --off --output DP-2 --off --output DP-1-1 --off
+        ;;
+
+    phantom)
+        # On a new install, run this command first to ensure HDMI works!
+        # xrandr --setprovideroutputsource nouveau modesetting
+        xrandr --output eDP-1 --primary --mode 3840x2160 --pos 0x0 --rotate normal --output eDP-1-2 --off --output HDMI-1-1 --mode 3840x2160 --pos 3840x0 --rotate normal --output DP-1-1 --off --output DP-1-2 --off
+        ;;
+
+esac
+
+#+end_src
 
 
 * XDG
@@ -188,11 +686,11 @@
 #+begin_example conf
 #+begin_src conf :tangle .config/mimeapps.list
 [Default Applications]
-text/html=qutebrowser.desktop
-x-scheme-handler/http=qutebrowser.desktop
-x-scheme-handler/https=qutebrowser.desktop
-x-scheme-handler/about=qutebrowser.desktop
-x-scheme-handler/unknown=qutebrowser.desktop
+text/html=nyxt.desktop
+x-scheme-handler/http=nyxt.desktop
+x-scheme-handler/https=nyxt.desktop
+x-scheme-handler/about=nyxt.desktop
+x-scheme-handler/unknown=nyxt.desktop
 #+end_src
 #+end_example
 
@@ -224,11 +722,57 @@ x-scheme-handler/unknown=qutebrowser.desktop
 "pavucontrol"
 #+end_src
 
-
-
 ** Media Players
 
 *** MPV
+
+
+*** mpv
+
+[[https://mpv.io/][mpv]] is a simple yet powerful video player.  Paired with [[http://ytdl-org.github.io/youtube-dl/][youtube-dl]] it can even stream YouTube videos.  [[https://github.com/hoyon/mpv-mpris][mpv-mpris]] allows playback control via [[https://github.com/altdesktop/playerctl][playerctl]].
+
+*.config/mpv/mpv.conf*
+
+#+begin_src conf :tangle .config/mpv/mpv.conf :noweb yes
+
+# Configure playback quality
+vo=gpu
+hwdec=vaapi
+profile=gpu-hq
+scale=ewa_lanczossharp
+cscale=ewa_lanczossharp
+
+# Start the window in the upper right screen corner
+geometry=22%-30+20
+
+# Save video position on quit
+save-position-on-quit
+
+# Enable control by MPRIS
+script=~/.guix-extra-profiles/desktop/desktop/lib/mpris.so
+
+# Limit the resolution of YouTube videos
+ytdl=yes
+ytdl-format=bestvideo[height<=?720]+bestaudio/best
+
+# When playing audio files, display the album art
+audio-display=attachment
+
+# Keep the player open after the file finishes
+keep-open
+
+#+end_src
+
+*Guix Packages*
+
+#+begin_src scheme :noweb-ref packages :noweb-sep ""
+
+"mpv"
+"mpv-mpris"
+"youtube-dl"
+"playerctl"
+
+#+end_src
 
 *Guix Packages*
 
@@ -238,7 +782,6 @@ x-scheme-handler/unknown=qutebrowser.desktop
 "youtube-dl"
 "playerctl"
 #+end_src
-
 
 *** Codecs and Drivers
 
@@ -278,15 +821,37 @@ x-scheme-handler/unknown=qutebrowser.desktop
 
 ** Document Readers
 
-*** TODO Zathura and =.config/zathura/zathurarc
+#+begin_src conf :tangle .config/zathura/zathurarc
+
+# Automatically adjust the document to full width
+set adjust-open width
+
+# Set the title to the filename
+set window-title-basename true
+
+# Larger scroll steps with j/k
+set scroll-step 150
+
+# Adjusting the document
+map [normal] E adjust_window best-fit
+map [fullscreen] E adjust_window best-fit
+map [normal] e adjust_window width
+map [fullscreen] e adjust_window width
+
+# Toggling the inverted colours
+map <C-i> recolor
+map <C-g> abort
+
+#+end_src
 
 *Guix Packages*
 
 #+begin_src scheme :noweb-ref packages :noweb-sep ""
+
 "zathura"
 "zathura-pdf-mupdf"
-#+end_src
 
+#+end_src
 
 ** Syncthing
 
@@ -302,6 +867,7 @@ x-scheme-handler/unknown=qutebrowser.desktop
 *Applications to Install*
 
 #+begin_example sh
+
 flatpak remote-add --user --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
 flatpak remote-add --user --if-not-exists flathub-beta https://flathub.org/beta-repo/flathub-beta.flatpakrepo
 flatpak install --user flathub com.spotify.Client
@@ -309,12 +875,15 @@ flatpak install --user flathub com.valvesoftware.Steam
 flatpak install --user flathub com.microsoft.Teams
 flatpak install --user flathub com.discordapp.Discord
 flatpak install --user flathub-beta com.obsproject.Studio
+
 #+end_example
 
 *Guix Packages*
 
 #+begin_src scheme :noweb-ref packages :noweb-sep ""
+
 "flatpak"
+
 #+end_src
 
 
@@ -323,7 +892,9 @@ flatpak install --user flathub-beta com.obsproject.Studio
 *Guix Packages*
 
 #+begin_src scheme :noweb-ref packages :noweb-sep ""
+
 "system-config-printer"
+
 #+end_src
 
 ** Desktop Tools
@@ -331,10 +902,13 @@ flatpak install --user flathub-beta com.obsproject.Studio
 *Guix Packages*
 
 #+begin_src scheme :noweb-ref packages :noweb-sep ""
+
 "compton"
 ;;"redshift"
 "gucharmap"
 "fontmanager"
+"brightnessctl"
+
 #+end_src
 
 + compton :: an alternative compositor for X
@@ -351,11 +925,13 @@ flatpak install --user flathub-beta com.obsproject.Studio
 *Guix Packages*
 
 #+begin_src scheme :noweb-ref packages :noweb-sep ""
+
 "xdg-utils"          ;; for xdg-open, etc
 "xdg-dbus-proxy"     ;; for Flatpak
 "gtk+:bin"           ;; for gtk-launch
 "glib:bin"           ;; for gio-launch-desktop
 "shared-mime-info"   ;; for mimes
+
 #+end_src
 
 ** System Tools
@@ -364,24 +940,63 @@ flatpak install --user flathub-beta com.obsproject.Studio
 
 #+begin_src scheme :noweb-ref packages :noweb-sep ""
 
-#+end_src
-
-* Desktop Profile
-
-*.config/guix/manifests/desktop.scm*
-
-#+begin_src scheme :tangle .config/guix/manifests/desktop.scm :noweb yes
-(specifications->manifest
- '(
-   <<packages>>
-    ))
+"openssh"
+"zip"
+"unzip"
+"trash-cli"
 
 #+end_src
 
-**
+** Xorg Tools
 
 *Guix Packages*
 
 #+begin_src scheme :noweb-ref packages :noweb-sep ""
+
+"xev"
+"xset"
+"xrdb"
+"xhost"
+"xmodmap"
+"setxkbmap"
+"xrandr"
+"arandr"
+"xss-lock"
+"libinput"
+"xinput"
+
+#+end_src
+
+* Desktop Profile
+
+*.config/guix/manifests/desktop.scm:*
+
+#+begin_src scheme :tangle .config/guix/manifests/desktop.scm :noweb yes
+
+(specifications->manifest
+ '(
+   <<packages>>
+))
+
+#+end_src
+
+* Notes
+
+** Bluetooth Setup
+
+If you need to manually connect to Bluetooth audio devices using =bluetoothctl=,
+as DW currently does in Guix, you'll need to enter these commands at the
+=bluetoothctl= prompt:
+
+#+begin_src shell
+
+  system-alias "my-hostname" # To configure your laptop's device name
+  default-agent
+  power on
+  scan on
+  # Wait for your device to appear
+  pair 04:52:C7:5E:5C:A8
+  trust 04:52:C7:5E:5C:A8 # To enable auto-connect
+  connect 04:52:C7:5E:5C:A8
 
 #+end_src

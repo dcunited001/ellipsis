@@ -32,6 +32,10 @@ skel-images/**/*
 
 # guix
 .config/guix/manifests
+.config/shepherd/init.scm
+
+# mcron
+.config/mcron
 
 # vlc
 .config/vlc/vlc-qt-interface.conf
