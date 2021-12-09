@@ -1,5 +1,11 @@
 .*.eg.sh
 .*\/\.gitkeep
 \.git
+\.site
+\.build.yml
+backgrounds
+mail
+fonts
 ^/.*\.org
+LICENSE
 .local/share/applications

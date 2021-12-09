@@ -28,9 +28,16 @@ skel-images/**/*
 .xinitrc
 
 # fontconfig
-.config/fontconfig
+.config/fontconfig/fonts.conf
+
+# Emacs
+
+.emacs.d/per-system-settings.el
 
 # guix
+.config/guix/channels.scm
+.config/guix/systems/base-system.scm
+.config/guix/systems/install.scm
 .config/guix/manifests
 .config/shepherd/init.scm
 
@@ -39,3 +46,12 @@ skel-images/**/*
 
 # vlc
 .config/vlc/vlc-qt-interface.conf
+
+# dunst
+.config/dunst/dunstrc
+
+# polybar
+.config/polybar/config
+.config/polybar/player-status.sh
+
+
