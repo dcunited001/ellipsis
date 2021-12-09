@@ -164,6 +164,7 @@ Override the default =%desktop-services= to add the =udev= backlight configurati
        (network-manager-configuration
          (inherit config)
          (vpn-plugins (list network-manager-openvpn))))))
+
 #+end_src
 
 + TODO fix doom emacs wordwrap so the default scheme formatting in babel doesn't mess things up
@@ -239,7 +240,7 @@ Define the =base-operating-system= which will be inherited by all machine config
                                           "tty"
                                           "input"
                                           "docker"
-                                          "realtime"   ;; Enable relatime scheduling
+                                          "realtime"   ;; Enable realtime scheduling
                                           "lp"         ;; control bluetooth
                                           "audio"      ;; control audio
                                           "video"      ;; control video
@@ -262,7 +263,7 @@ Define the =base-operating-system= which will be inherited by all machine config
                         xterm
                         bluez
                         bluez-alsa
-                        pulseaudio ;; TODO: pipewire
+                        pipewire ;; TODO: pipewire?
                         tlp
                         xf86-input-libinput
                         nss-certs
@@ -317,6 +318,36 @@ Define the =base-operating-system= which will be inherited by all machine config
 
 ** Machines
 
+*** Per-System Settings
+
+DW has also defined a function called =dw/system-settings-get= which can
+retrieve these settings appropriately. This is used throughout =Desktop.org=.
+
+#+begin_src emacs-lisp :tangle .emacs.d/per-system-settings.el :noweb yes
+
+(require 'map) ;; Needed for map-merge
+
+(setq dw/system-settings
+  (map-merge
+    'list
+    '((desktop/dpi . 180)
+      (desktop/background . "samuel-ferrara-uOi3lg8fGl4-unsplash.jpg")
+      (emacs/default-face-size . 220)
+      (emacs/variable-face-size . 245)
+      (emacs/fixed-face-size . 200)
+      (polybar/height . 35)
+      (polybar/font-0-size . 18)
+      (polybar/font-1-size . 14)
+      (polybar/font-2-size . 20)
+      (polybar/font-3-size . 13)
+      (dunst/font-size . 20)
+      (dunst/max-icon-size . 88)
+      (vimb/default-zoom . 180)
+      (qutebrowser/default-zoom . 200))
+    <<system-settings>>))
+
+#+end_src
+
 *** hersai
 
 2011 Macbook Pro
@@ -333,7 +364,27 @@ Define the =base-operating-system= which will be inherited by all machine config
  (host-name "hersai"))
 #+end_src
 
-***
+*System Settings*
+
+#+begin_src emacs-lisp :noweb-ref system-settings :noweb-sep ""
+
+  (when (equal system-name "hersai")
+    '((desktop/dpi . 180)
+      (emacs/default-face-size . 190)
+      (emacs/variable-face-size . 200)
+      (emacs/fixed-face-size . 190)
+      (polybar/height . 30)
+      (polybar/font-0-size . 16)
+      (polybar/font-1-size . 12)
+      (polybar/font-2-size . 18)
+      (polybar/font-3-size . 11)
+      (dunst/font-size . 20)
+      (dunst/max-icon-size . 88)
+      (vimb/default-zoom . 160)
+      (qutebrowser/default-zoom . 180)))
+
+#+end_src
+
 
 ** USB Installation Image
 
