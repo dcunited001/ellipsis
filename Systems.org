@@ -40,17 +40,17 @@ stuff ... so I can actually retain it?
 
 * Channels
 
-#+begin_src scheme :tangle .config/guix/channels.scm
+#+begin_src scheme :tangle .config/guix/base-channels.scm
  ;; NOTE: This file is generated from ~/.dotfiles/System.org.  Please see commentary there.
 
-(list (channel
-       (name 'channel-x)
-       (url "file:///home/daviwil/Projects/Code/channel-x"))
+(list ;(channel
+      ; (name 'channel-x)
+      ; (url "file:///home/daviwil/Projects/Code/channel-x"))
       (channel
        (name 'flat)
        (url "https://github.com/flatwhatson/guix-channel.git")
        (commit
-        "7b8353ebbcf486e3344924d1cac0fa7ba47c371d")
+        "565cc48edc6c547833aa64df7eca6dc04ceb55cb")
        (introduction
         (make-channel-introduction
          "33f86a4b48205c0dc19d7c036c85393f0766f806"
@@ -350,7 +350,7 @@ retrieve these settings appropriately. This is used throughout =Desktop.org=.
 
 *** hersai
 
-2011 Macbook Pro
+2013 Macbook Pro
 
 *.config/guix/systems/hersai.scm*
 
@@ -369,22 +369,84 @@ retrieve these settings appropriately. This is used throughout =Desktop.org=.
 #+begin_src emacs-lisp :noweb-ref system-settings :noweb-sep ""
 
   (when (equal system-name "hersai")
-    '((desktop/dpi . 180)
+    '((desktop/dpi . 221)
       (emacs/default-face-size . 190)
       (emacs/variable-face-size . 200)
       (emacs/fixed-face-size . 190)
-      (polybar/height . 30)
+      (polybar/height . 48)
+      (polybar/font-0-size . 24)
+      (polybar/font-1-size . 18)
+      (polybar/font-2-size . 27)
+      (polybar/font-3-size . 13)
+      (dunst/font-size . 32)
+      (dunst/max-icon-size . 88)
+      ;(vimb/default-zoom . 160)
+      ;(qutebrowser/default-zoom . 180)
+      ))
+
+#+end_src
+
+*** tokos
+
+2011 Macbook Pro
+
+*.config/guix/systems/tokos.scm*
+
+#+begin_src scheme :tangle .config/guix/systems/tokos.scm
+(define-module (tokos)
+  #:use-module (base-system)
+    #:use-module (gnu))
+#+end_src
+
+#+begin_src emacs-lisp :noweb-ref system-settings :noweb-sep ""
+
+  (when (equal system-name "tokos")
+    '((desktop/dpi . 114)
+      (emacs/default-face-size . 190)
+      (emacs/variable-face-size . 200)
+      (emacs/fixed-face-size . 190)
+      (polybar/height . 32)
       (polybar/font-0-size . 16)
       (polybar/font-1-size . 12)
       (polybar/font-2-size . 18)
       (polybar/font-3-size . 11)
       (dunst/font-size . 20)
       (dunst/max-icon-size . 88)
-      (vimb/default-zoom . 160)
-      (qutebrowser/default-zoom . 180)))
+      ;(vimb/default-zoom . 160)
+      ;(qutebrowser/default-zoom . 180)
+      ))
 
 #+end_src
 
+*** kudos
+
+A VM running with a large 4K display.
+
+#+begin_src scheme :tangle .config/guix/systems/tokos.scm
+(define-module (kudos)
+  #:use-module (base-system)
+    #:use-module (gnu))
+#+end_src
+
+#+begin_src emacs-lisp :noweb-ref system-settings :noweb-sep ""
+
+  (when (equal system-name "tokos")
+    '((desktop/dpi . 158) ;; TODO verify DPI
+      (emacs/default-face-size . 190)
+      (emacs/variable-face-size . 200)
+      (emacs/fixed-face-size . 190)
+      (polybar/height . 48)
+      (polybar/font-0-size . 24)
+      (polybar/font-1-size . 18)
+      (polybar/font-2-size . 27)
+      (polybar/font-3-size . 13)
+      (dunst/font-size . 32)
+      (dunst/max-icon-size . 88)
+      ;(vimb/default-zoom . 160)
+      ;(qutebrowser/default-zoom . 180)
+      ))
+
+#+end_src
 
 ** USB Installation Image
 
@@ -421,6 +483,7 @@ retrieve these settings appropriately. This is used throughout =Desktop.org=.
   #:use-module (gnu packages linux)
   #:use-module (gnu packages mtools)
   #:use-module (gnu packages package-management)
+  #:use-module (gnu packages file-systems)
   #:use-module (nongnu packages linux)
   #:export (installation-os-nonfree))
 

@@ -32,8 +32,7 @@
   - [[#password-management][Password Management]]
   - [[#audio-device-control][Audio Device Control]]
   - [[#media-players][Media Players]]
-    - [[#mpv][MPV]]
-    - [[#mpv-1][mpv]]
+    - [[#mpv][mpv]]
     - [[#codecs-and-drivers][Codecs and Drivers]]
   - [[#image-viewers-and-editors][Image Viewers and Editors]]
   - [[#games][Games]]
@@ -76,11 +75,18 @@
     #:start (make-forkexec-constructor '("mcron"))
     #:stop  (make-kill-destructor)))
 
-(register-services mcron)
+(define syncthing
+  (make <service>
+    #:provides '(syncthing)
+    #:respawn? #t
+    #:start (make-forkexec-constructor '("syncthing" "-no-browser"))
+    #:stop (make-kill-destructor)))
+
+(register-services mcron syncthing)
 (action 'shepherd 'daemonize)
 
 ;; Start user services
-(for-each start '(mcron))
+(for-each start '(mcron syncthing))
 
 #+end_src
 
@@ -724,9 +730,6 @@ x-scheme-handler/unknown=nyxt.desktop
 
 ** Media Players
 
-*** MPV
-
-
 *** mpv
 
 [[https://mpv.io/][mpv]] is a simple yet powerful video player.  Paired with [[http://ytdl-org.github.io/youtube-dl/][youtube-dl]] it can even stream YouTube videos.  [[https://github.com/hoyon/mpv-mpris][mpv-mpris]] allows playback control via [[https://github.com/altdesktop/playerctl][playerctl]].
@@ -858,8 +861,8 @@ map <C-g> abort
 *Guix Packages*
 
 #+begin_src scheme :noweb-ref packages :noweb-sep ""
-;; "syncthing"
-;; "syncthing-gtk"
+"syncthing"
+"syncthing-gtk"
 #+end_src
 
 ** Flatpak
@@ -870,11 +873,11 @@ map <C-g> abort
 
 flatpak remote-add --user --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
 flatpak remote-add --user --if-not-exists flathub-beta https://flathub.org/beta-repo/flathub-beta.flatpakrepo
-flatpak install --user flathub com.spotify.Client
-flatpak install --user flathub com.valvesoftware.Steam
-flatpak install --user flathub com.microsoft.Teams
 flatpak install --user flathub com.discordapp.Discord
 flatpak install --user flathub-beta com.obsproject.Studio
+
+flatpak install --user flathub com.valvesoftware.Steam
+flatpak install --user flathub com.valvesoftware.Steam.CompatibilityTool.Proton
 
 #+end_example
 
