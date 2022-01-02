@@ -50,7 +50,7 @@ stuff ... so I can actually retain it?
        (name 'flat)
        (url "https://github.com/flatwhatson/guix-channel.git")
        (commit
-        "565cc48edc6c547833aa64df7eca6dc04ceb55cb")
+        "cf23f523afc611c2b35debf015d219c6f918337f")
        (introduction
         (make-channel-introduction
          "33f86a4b48205c0dc19d7c036c85393f0766f806"
