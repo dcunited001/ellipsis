@@ -30,6 +30,9 @@ skel-images/**/*
 # fontconfig
 .config/fontconfig/fonts.conf
 
+# xsettings
+.config/xsettingsd/xsettingsd.conf
+
 # Emacs
 
 .emacs.d/per-system-settings.el
@@ -38,6 +41,7 @@ skel-images/**/*
 .config/guix/channels.scm
 .config/guix/systems/base-system.scm
 .config/guix/systems/install.scm
+.config/guix/systems/*.scm
 .config/guix/manifests
 .config/shepherd/init.scm
 
