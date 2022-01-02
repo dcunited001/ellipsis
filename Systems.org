@@ -118,6 +118,7 @@ sudo -E guix system -L ~/.dotfiles/.config/guix/systems reconfigure ~/.dotfiles/
   #:use-module (gnu packages web-browsers)
   #:use-module (gnu packages version-control)
   #:use-module (gnu packages package-management)
+  ;; #:use-module (gnu packages xrandr)
   #:use-module (nongnu packages linux)
   #:use-module (nongnu packages linux-initrd))
 
@@ -418,6 +419,36 @@ retrieve these settings appropriately. This is used throughout =Desktop.org=.
 
 #+end_src
 
+*** kratos
+
+This is a casual desktop VM, but it's running Garuda Linux for now.
+
+#+begin_src scheme :tangle .config/guix/systems/tokos.scm
+(define-module (kratos)
+  #:use-module (base-system)
+    #:use-module (gnu))
+#+end_src
+
+#+begin_src emacs-lisp :noweb-ref system-settings :noweb-sep ""
+
+  (when (equal system-name "kratos")
+    '((desktop/dpi . 158) ;; TODO verify DPI
+      (emacs/default-face-size . 190)
+      (emacs/variable-face-size . 200)
+      (emacs/fixed-face-size . 190)
+      (polybar/height . 48)
+      (polybar/font-0-size . 24)
+      (polybar/font-1-size . 18)
+      (polybar/font-2-size . 27)
+      (polybar/font-3-size . 13)
+      (dunst/font-size . 32)
+      (dunst/max-icon-size . 88)
+      ;(vimb/default-zoom . 160)
+      ;(qutebrowser/default-zoom . 180)
+      ))
+
+#+end_src
+
 *** kudos
 
 A VM running with a large 4K display.
@@ -430,7 +461,7 @@ A VM running with a large 4K display.
 
 #+begin_src emacs-lisp :noweb-ref system-settings :noweb-sep ""
 
-  (when (equal system-name "tokos")
+  (when (equal system-name "kudos")
     '((desktop/dpi . 158) ;; TODO verify DPI
       (emacs/default-face-size . 190)
       (emacs/variable-face-size . 200)
