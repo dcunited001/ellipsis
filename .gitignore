@@ -52,7 +52,7 @@ skel-images/**/*
 .config/vlc/vlc-qt-interface.conf
 
 # dunst
-.config/dunst/dunstrc
+.config/dunst
 
 # polybar
 .config/polybar/config

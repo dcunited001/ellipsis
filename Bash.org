@@ -72,18 +72,16 @@ Note: getting this to tangle properly requires =C-c C-v C-t=
 #+end_quote
 
 #+name: bash-env-bindings
-| _DF     | $HOME/.dotfiles |
-| _DATA   | /data           |
-| _XS     | /data           |
-| _DOCKER | /var/docker     |
-| _STEAM  | /mise/steam     |
-| _GUIX   | /gnu            |
-
+| _DF    | $HOME/.dotfiles |
+| _DATA  | /data           |
+| _XS    | /data           |
+| _STEAM | /steam          |
+| _GUIX  | /gnu            |
 
 #+name: bash-env-bindings_GEN
 #+begin_src emacs-lisp :tangle no :var bindings=bash-env-bindings :results output :exports none
-(mapcar #'(lambda (row)
-            (princ (format "export %s=%s\n" (first row) (second row)))) bindings)
+;(mapcar #'(lambda (row)
+;           (princ (format "export %s=%s\n" (first row) (second row)))) bindings)
 #+end_src
 
 #+RESULTS: bash-env-bindings_GEN

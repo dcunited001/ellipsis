@@ -45,7 +45,8 @@
     - [[#xdg-1][XDG]]
   - [[#system-tools][System Tools]]
   - [[#xorg-tools][Xorg Tools]]
-- [[#desktop-profile][Desktop Profile]]
+  - [[#misc-tools][Misc Tools]]
+- [[#desktop-profiles][Desktop Profiles]]
 - [[#notes][Notes]]
   - [[#bluetooth-setup][Bluetooth Setup]]
 
@@ -57,6 +58,16 @@
 
 * System Settings
 
+#+NAME: system-settings
+#+begin_src emacs-lisp :session system-settings
+(load-file ".emacs.d/per-system-settings.el")
+#+end_src
+
+#+NAME: get-setting
+#+begin_src emacs-lisp :var name="nil" :session system-settings
+(dw/system-settings-get (intern name))
+#+end_src
+  
 ** Disk Mounting
 
 *Guix Packages*
@@ -123,11 +134,12 @@
   "font-liberation"
   "font-awesome"
   "font-google-material-design-icons"
-  "gs-fonts"
+  "font-ghostscript"
+  "font-bitstream-vera"
 
   ;; more fonts
   "font-juliamono"
-  "font-dejavu"
+  "font-adobe-source-han-sans"
 #+end_src
 
 *.config/fontconfig/fonts.conf*
@@ -365,6 +377,17 @@ exec_always syncthing-gtk
 # }
 
 #+end_src
+
+
+#+begin_src scheme :noweb-ref i3packages :noweb-sep ""
+
+"i3-wm"
+"i3status"
+"i3lock"
+"dmenu"
+
+#+end_src
+
 
 * Panel
 *.config/polybar/config:*
@@ -887,16 +910,14 @@ esac
 
 *.config/mimeapps.list*
 
-#+begin_example conf
 #+begin_src conf :tangle .config/mimeapps.list
 [Default Applications]
-text/html=nyxt.desktop
-x-scheme-handler/http=nyxt.desktop
-x-scheme-handler/https=nyxt.desktop
-x-scheme-handler/about=nyxt.desktop
-x-scheme-handler/unknown=nyxt.desktop
+text/html=qutebrowser.desktop
+x-scheme-handler/http=qutebrowser.desktop
+x-scheme-handler/https=qutebrowser.desktop
+x-scheme-handler/about=qutebrowser.desktop
+x-scheme-handler/unknown=qutebrowser.desktop
 #+end_src
-#+end_example
 
 * Applications
 
@@ -905,8 +926,10 @@ x-scheme-handler/unknown=nyxt.desktop
 *Guix Packages*
 
 #+begin_src scheme :noweb-ref packages :noweb-sep ""
+
 "qutebrowser"
 "nyxt"
+
 #+end_src
 
 *** Qutebrowser
@@ -962,6 +985,8 @@ config.bind('<Ctrl-k>', 'completion-item-focus --history prev', mode='command')
 
 # More binding hints here: https://gitlab.com/Kaligule/qutebrowser-emacs-config/blob/master/config.py
 
+config.bind('<Ctrl-alt-t', 'config-cycle tabs.tabs_are_windows')
+
 # Load the autoconfig file (quteconfig.py)
 config.load_autoconfig()
 #+end_src
@@ -992,8 +1017,10 @@ dwdot https://github.com/daviwil/dotfiles
 *Guix Packages*
 
 #+begin_src scheme :noweb-ref packages :noweb-sep ""
+
 "alsa-utils"
 "pavucontrol"
+
 #+end_src
 
 ** Media Players
@@ -1215,6 +1242,9 @@ flatpak install --user flathub com.valvesoftware.Steam.CompatibilityTool.Proton
 "unzip"
 "trash-cli"
 
+;; for org-roam
+"sqlite"
+
 #+end_src
 
 ** Xorg Tools
@@ -1235,9 +1265,25 @@ flatpak install --user flathub com.valvesoftware.Steam.CompatibilityTool.Proton
 "libinput"
 "xinput"
 
+"xkbcomp"
+"autorandr"
+
 #+end_src
 
-* Desktop Profile
+** Misc Tools
+
+#+begin_src scheme :noweb-ref packages :noweb-sep ""
+
+"graphviz"
+"plantuml"
+
+"fd"
+"ripgrep"
+
+#+end_src
+
+
+* Desktop Profiles
 
 *.config/guix/manifests/desktop.scm:*
 
@@ -1246,6 +1292,18 @@ flatpak install --user flathub com.valvesoftware.Steam.CompatibilityTool.Proton
 (specifications->manifest
  '(
    <<packages>>
+))
+
+#+end_src
+
+
+*.config/guix/manifests/i3.scm:*
+
+#+begin_src scheme :tangle .config/guix/manifests/i3.scm :noweb yes
+
+(specifications->manifest
+ '(
+   <<i3packages>>
 ))
 
 #+end_src

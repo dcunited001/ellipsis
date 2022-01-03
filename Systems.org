@@ -118,9 +118,8 @@ sudo -E guix system -L ~/.dotfiles/.config/guix/systems reconfigure ~/.dotfiles/
   #:use-module (gnu packages web-browsers)
   #:use-module (gnu packages version-control)
   #:use-module (gnu packages package-management)
-  ;; #:use-module (gnu packages xrandr)
   #:use-module (nongnu packages linux)
-  #:use-module (nongnu packages linux-initrd))
+  #:use-module (nongnu system linux-initrd))
 
 (use-service-modules nix)
 (use-service-modules desktop xorg) ;sway/wayland?
@@ -172,6 +171,8 @@ Override the default =%desktop-services= to add the =udev= backlight configurati
 
 Use the =libinput-driver= for all input device
 
+Define the =base-operating-system= which will be inherited by all machine configurations.
+
 #+begin_src scheme :tangle .config/guix/systems/base-system.scm
 (define %xorg-libinput-config
   "
@@ -197,10 +198,10 @@ EndSection
 ")
 #+end_src
 
-Define the =base-operating-system= which will be inherited by all machine configurations.
-
+  
 
 #+begin_src scheme :tangle .config/guix/systems/base-system.scm
+
 (define-public base-operating-system
   (operating-system
    (host-name "eerse")
@@ -273,11 +274,10 @@ Define the =base-operating-system= which will be inherited by all machine config
 
     (services (cons* (service slim-service-type
                               (slim-configuration
-                               ;; TODO: wayland
                                (xorg-configuration
                                 (xorg-configuration
-                                 (keyboard-layout keyboard-layout)
-                                 (extra-config (list %xorg-libinput-config))))))
+				 (keyboard-layout keyboard-layout)
+				 (extra-config (list %xorg-libinput-config))))))
                      (service tlp-service-type
                               (tlp-configuration
                                (cpu-boost-on-ac? #t)
@@ -294,11 +294,11 @@ Define the =base-operating-system= which will be inherited by all machine config
                               (libvirt-configuration
                                (unix-sock-group "libvirt")
                                (tls-port "16555")))
-                     (service cups-service-type ;; TODO: how is CUPS configured?
+                     (service cups-service-type
                               (cups-configuration
                                (web-interface? #t)
                                (extensions
-                                (list cups-filters)))) ;; web interface needed?
+                                (list cups-filters))))
                      (service nix-service-type)
                      (bluetooth-service #:auto-enable? #t)
                      (remove (lambda (service)
@@ -309,13 +309,43 @@ Define the =base-operating-system= which will be inherited by all machine config
     (name-service-switch %mdns-host-lookup-nss)))
 #+end_src
 
+***** TODO how would I get this to work? 
+
+these drivers can easily be loaded after install
+
+#+begin_src scheme
+(define-public base-xorg-configuration
+  (xorg-configuration
+   (drivers xf86-video-nouveau)
+   (keyboard-layout keyboard-layout)
+   (extra-config (list %xorg-libinput-config)))
+)
+#+end_src
+
+
+
+**** Notes:
++ =gdm-service-type= is removed and =elogind-service-type= is configured in
+  =%my-desktop-services= earlier. this alters the login & wm-selection behavior.
++ the =slim-service-type= along with the nested =xorg-configuration= is used
+  instead of the GDM Display Manager.
+  - find =xorg-configuration= in the Guix Docs
++ If additional window-managers are selected from the "Official Guix System"
+  install, the packages for these are simply bundled in with:
+  - =(append (list ...) %base-packages)=
+  - i.e. i3, i3status, i3lock, dmenu, dunst, polybar would go here.
+  - in these Dotfiles, the WM dependencies are bundled with the =desktop.scm= profile
+
+
 *** TODO System.scm updates
-+ [ ] check CUPS configuration
 + [ ] check libvirt config
-+ [ ] how to remove services like docker?
 + [ ] how to replace xorg with wayland/pipewire/sway
 + [ ] add custom keyboard layout (either as default or not)
-+ [ ]
++ [ ] validate pipewire dependencies & conflicts:
+  - how to validate that pulseaudio isn't a dependency of other packages?
+  - what to do if & when it is? (pacman has =provides= feature ...)
+    - there are analogous features in guix package definitions & cmdline
+      invocations ...
 
 ** Machines
 
@@ -358,11 +388,58 @@ retrieve these settings appropriately. This is used throughout =Desktop.org=.
 #+begin_src scheme :tangle .config/guix/systems/hersai.scm
 (define-module (hersai)
   #:use-module (base-system)
-  #:use-module (gnu))
+  #:use-module (gnu)
+  #:use-module (nongnu packages linux))
 
 (operating-system
  (inherit base-operating-system)
- (host-name "hersai"))
+ (host-name "hersai")
+
+ ;; TODO: add broadcom-bt-firmware
+ (firmware (list
+	    linux-firmware
+            ;; has Broadcom BCM4360 wifi
+            broadcom-sta))
+ 
+ (mapped-devices
+  (list (mapped-device
+         (source (uuid "5d969658-9af4-48f0-b467-0ea6a4f82195"))
+         (target "pde")
+         (type luks-device-mapping))
+
+        (mapped-device
+         (source "matrix")
+         (targets (list "matrix-rootvol" "matrix-swapvol" "matrix-homevol"))
+         (type lvm-device-mapping)))
+  )
+   	     
+(file-systems (cons*
+
+	       (file-system
+                (device (file-system-label "root"))
+                (mount-point "/")
+                (type "ext4")
+		(needed-for-boot? #t)
+		(dependencies mapped-devices))
+	       
+	       (file-system
+                (device (file-system-label "home"))
+                (mount-point "/home")
+                (type "ext4")
+		(needed-for-boot? #f)
+		(dependencies mapped-devices))
+
+	       ;; /boot/efi needs to be enumerated here
+	       ;;   in addition to the (bootloader...) declaration
+               (file-system
+                (device "/dev/sda1")
+                (mount-point "/boot/efi")
+                (type "vfat"))
+               %base-file-systems))
+
+(swap-devices (list (file-system-label "swap")))
+
+)
 #+end_src
 
 *System Settings*
@@ -397,6 +474,21 @@ retrieve these settings appropriately. This is used throughout =Desktop.org=.
 (define-module (tokos)
   #:use-module (base-system)
     #:use-module (gnu))
+
+(operating-system
+ (inherit base-operating-system)
+ (hostname "tokos")
+
+ (firmware linux-firmware
+           ;; has Broadcom BCM4331 wifi
+           broadcom-sta)
+
+ ;(mapped-devices ...)
+
+ ;(file-systems (cons* ...
+ ;
+ ;))
+    )
 #+end_src
 
 #+begin_src emacs-lisp :noweb-ref system-settings :noweb-sep ""
@@ -427,6 +519,19 @@ This is a casual desktop VM, but it's running Garuda Linux for now.
 (define-module (kratos)
   #:use-module (base-system)
     #:use-module (gnu))
+
+(operating-system
+ (inherit base-operating-system)
+ (hostname "kratos")
+
+ (firmware linux-firmware amd-microcode)
+
+ ;(mapped-devices ...)
+
+ ;(file-systems (cons* ...
+ ;
+ ;))
+    )
 #+end_src
 
 #+begin_src emacs-lisp :noweb-ref system-settings :noweb-sep ""
@@ -650,6 +755,60 @@ This script makes it easy to update all channels to the latest commit based on a
 * Dotfiles Management
 ** Syncing
 ** Updating
+
+Updating the dotfiles requires running a script in Emacs to loop over
+all of theliterate configuration =.org= files, running
+=org-babel-tangle-file= to make sure all of the config files are up to
+date.
+
+*.bin/update-dotfiles*
+
+#+begin_src sh :tangle .bin/update-dotfiles :shebang #!/bin/sh
+
+  # Navigate to the directory of this script (generally ~/.dotfiles/.bin)
+  cd $(dirname $(readlink -f $0))
+  cd ..
+
+  # The heavy lifting is done by an Emacs script
+  emacs -Q --script ./.emacs.d/tangle-dotfiles.el
+
+  # Make sure any running Emacs instance gets updated settings
+  emacsclient -e '(load-file "/mnt2/dc/.emacs.d/per-system-settings.el")' -a "echo 'Emacs is not currently running'" 
+  #emacsclient -e '(load-file "~/.emacs.d/per-system-settings.el")' -a "echo 'Emacs is not currently running'" 
+
+  # Update configuration symlinks
+  stow .
+
+#+end_src
+
+
+*.emacs.d/tangle-dotfiles.el*
+
+#+begin_src emacs-lisp :tangle .emacs.d/tangle-dotfiles.el
+
+  (require 'org)
+  ;; (load-file "~/.dotfiles/.emacs.d/lisp/dw-settings.el")
+  (load-file "/mnt2/dc/.dotfiles/.emacs.d/lisp/dw-settings.el")
+
+  ;; Don't ask when evaluating code blocks
+  (setq org-confirm-babel-evaluate nil)
+
+  ;; (let* ((dotfiles-path (expand-file-name "~/.dotfiles"))
+  (let* ((dotfiles-path (expand-file-name "/mnt2/dc/.dotfiles"))
+	 (org-files (directory-files dotfiles-path nil "\\.org$")))
+
+    (defun dw/tangle-org-file (org-file)
+      (message "\n\033[1;32mUpdating %s\033[0m\n" org-file)
+      (org-babel-tangle-file (expand-file-name org-file dotfiles-path)))
+
+    ;; Tangle Systems.org first
+    (dw/tangle-org-file "Systems.org")
+
+    (dolist (org-file org-files)
+      (unless (member org-file '("README.org" "Systems.org"))
+	(dw/tangle-org-file org-file))))
+
+#+end_src
 
 * Nix Package Manager
 
