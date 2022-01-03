@@ -213,6 +213,16 @@ alias guix-main="$HOME/.config/guix/current/bin/guix"
 GUIX_PROFILE="$HOME/.guix-profile"
 . "$GUIX_PROFILE/etc/profile"
 
+GUIX_EXTRA_PROFILES=$HOME/.guix-extra-profiles
+for i in $GUIX_EXTRA_PROFILES/*; do
+  profile=$i/$(basename "$i")
+  if [ if "$profile"/etc/profile ]; then
+    GUIX_PROFILE="$profile"
+    . "$GUIX_PROFILE"/etc/profile
+  fi
+  unset $profile
+done
+
 export GUIX_LOCPATH=$HOME/.guix-profile/lib/locale
 #+end_src
 
