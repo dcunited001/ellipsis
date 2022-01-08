@@ -223,6 +223,9 @@ export EDITOR=/usr/bin/vim
 
 ** Guix
 
+=GUIX_AUTOLOAD_PROFILES=(desktop i3)= should be set in the script run
+by the login/display manager, but not exported.
+
 #+begin_src sh :tangle .config/sh/profile.d/guix.sh :shebang #!/bin/sh
 alias guix-all-profiles='find /gnu/store -maxdepth 1 -type d -name "*profile" -exec ls -al \{\} +'
 alias guix-main="$HOME/.config/guix/current/bin/guix"
@@ -230,10 +233,11 @@ alias guix-main="$HOME/.config/guix/current/bin/guix"
 GUIX_PROFILE="$HOME/.guix-profile"
 . "$GUIX_PROFILE/etc/profile"
 
-GUIX_EXTRA_PROFILES=$HOME/.guix-extra-profiles
-for i in $GUIX_EXTRA_PROFILES/*; do
-  profile=$i/$(basename "$i")
-  if [ if "$profile"/etc/profile ]; then
+# GUIX_AUTOLOAD_PROFILES=(desktop i3)
+for i in ${GUIX_AUTOLOAD_PROFILES[@]}; do
+  echo $i
+  profile=$HOME/.guix-extra-profiles/$i/$i
+  if [ -f "$profile"/etc/profile ]; then
     GUIX_PROFILE="$profile"
     . "$GUIX_PROFILE"/etc/profile
   fi
@@ -243,7 +247,8 @@ done
 export GUIX_LOCPATH=$HOME/.guix-profile/lib/locale
 #+end_src
 
-**** TODO how to handle resetting $PATH when I need a guixless $PATH
+**** TODO move loading some guix profiles to =.bashrc=
+
 **** TODO create =.bashrc= scripts that load =$PATH= for specific applications that might share dependencies.
 + e.g. custom builds of OBS and VLC (common dep. ffmpeg)
 + can start bash with =--rcfile= ... but how to do this in GUI?

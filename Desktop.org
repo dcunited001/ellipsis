@@ -961,11 +961,16 @@ c.content.autoplay = False
 c.fonts.hints = "bold 20pt monospace"
 
 # Better default fonts
-c.fonts.web.family.standard = "Bitstream Vera Sans"
-c.fonts.web.family.serif = "Bitstream Vera Serif"
-c.fonts.web.family.sans_serif = "Bitstream Vera Sans"
-c.fonts.web.family.fixed = "Fira Mono"
-c.fonts.statusbar = "18pt Cantarell"
+c.fonts.web.family.standard = "NotoSans"
+c.fonts.web.family.serif = "NotoSerif"
+c.fonts.web.family.sans_serif = "NotoSans"
+c.fonts.web.family.fixed = "NotoSansMono"
+c.fonts.statusbar = "18pt NotoSerif"
+#c.fonts.web.family.standard = "Bitstream Vera Sans"
+#c.fonts.web.family.serif = "Bitstream Vera Serif"
+#c.fonts.web.family.sans_serif = "Bitstream Vera Sans"
+#c.fonts.web.family.fixed = "Fira Mono"
+#c.fonts.statusbar = "18pt Cantarell"
 
 # Use dark mode where possible
 c.colors.webpage.darkmode.enabled = True

@@ -198,7 +198,7 @@ EndSection
 ")
 #+end_src
 
-  
+**** TODO see =loadkeys= and =/run/current-system/profile/share/keymaps= for more info on keyboards at cmdine
 
 #+begin_src scheme :tangle .config/guix/systems/base-system.scm
 
@@ -255,37 +255,45 @@ EndSection
 
     ;; install bare-minimum system packages
     (packages (append (list
-                        git
-                        ntfs-3g
-                        exfat-utils
-                        fuse-exfat
-                        stow
-                        vim
-                        emacs
-                        xterm
-                        bluez
-                        bluez-alsa
-                        pipewire ;; TODO: pipewire?
-                        tlp
-                        xf86-input-libinput
-                        nss-certs
-                        gvfs)
+                       openssh
+                       git
+                       ntfs-3g
+                       exfat-utils
+                       fuse-exfat
+                       stow
+                       vim
+                       emacs
+                       xterm
+                       bluez
+                       bluez-alsa
+                       pipewire ;; TODO: pipewire?
+                       tlp
+                       xf86-input-libinput
+                       nss-certs
+                       gvfs)
                       %base-packages))
 
     (services (cons* (service slim-service-type
+
+                              ;; TODO: customize slim
+                              ;; - %default-slim-theme
+                              ;; - %default-slim-theme-name
                               (slim-configuration
                                (xorg-configuration
                                 (xorg-configuration
-				 (keyboard-layout keyboard-layout)
-				 (extra-config (list %xorg-libinput-config))))))
+                                 (keyboard-layout keyboard-layout)
+                                 (extra-config (list %xorg-libinput-config))))
+                               (default-user "dc")
+                               ))
+
                      (service tlp-service-type
                               (tlp-configuration
                                (cpu-boost-on-ac? #t)
                                (wifi-pwr-on-bat? #t)))
                      (pam-limits-service ;; This enables JACK to enter realtime mode
-                      (list
-                       (pam-limits-entry "@realtime" 'both 'rtprio 99)
-                       (pam-limits-entry "@realtime" 'both 'memlock 'unlimited)))
+                                            (list
+                                             (pam-limits-entry "@realtime" 'both 'rtprio 99)
+                                             (pam-limits-entry "@realtime" 'both 'memlock 'unlimited)))
                      (extra-special-file "/usr/bin/env"
                                          (file-append coreutils "/bin/env"))
                      (service thermald-service-type)
@@ -322,9 +330,7 @@ these drivers can easily be loaded after install
 )
 #+end_src
 
-
-
-**** Notes:
+**** Install Notes:
 + =gdm-service-type= is removed and =elogind-service-type= is configured in
   =%my-desktop-services= earlier. this alters the login & wm-selection behavior.
 + the =slim-service-type= along with the nested =xorg-configuration= is used
@@ -440,25 +446,31 @@ retrieve these settings appropriately. This is used throughout =Desktop.org=.
          (targets (list "matrix-rootvol" "matrix-swapvol" "matrix-homevol"))
          (type lvm-device-mapping)))
   )
-   	     
+
 (file-systems (cons*
 
-	       (file-system
+               (file-system
                 (device (file-system-label "root"))
                 (mount-point "/")
                 (type "ext4")
-		(needed-for-boot? #t)
-		(dependencies mapped-devices))
-	       
-	       (file-system
+                (needed-for-boot? #t)
+                (dependencies mapped-devices))
+
+               (file-system
                 (device (file-system-label "home"))
                 (mount-point "/home")
                 (type "ext4")
-		(needed-for-boot? #f)
-		(dependencies mapped-devices))
+                (needed-for-boot? #f)
+                (dependencies mapped-devices))
 
-	       ;; /boot/efi needs to be enumerated here
-	       ;;   in addition to the (bootloader...) declaration
+               (file-system
+                (device (file-system-label "home"))
+                (mount-point "/data")
+                (type "ext4")
+                (needed-for-boot? #f))
+
+               ;; /boot/efi needs to be enumerated here
+               ;;   in addition to the (bootloader...) declaration
                (file-system
                 (device "/dev/sda1")
                 (mount-point "/boot/efi")
