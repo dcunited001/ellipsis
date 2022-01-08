@@ -337,6 +337,34 @@ these drivers can easily be loaded after install
   - in these Dotfiles, the WM dependencies are bundled with the =desktop.scm= profile
 
 
+**** Scheme Notes:
+
+***** =define-record-type=
+
++ "Create a record type, make various defines for using it. 
+  - "May only occur at the top-level."
+ 
+#+begin_example scheme
+(define-record-type <the-record-type>
+  (constructor fieldname ...)
+  predicate?
+  (fieldname accessor [modifier])...
+)
+#+end_example
+
++ fieldname :: these are like the keys in a hash of values passed to
+  the constructor, where each key is not merely a symbol but also a
+  ref to a type (e.g. =xorg-configuration=), along with the
+  rules/logic associated to that type.
+- accessor/mutator :: typical getter/setter pattern: how these
+  values(?) will be accessed later in the record's functionality.
++ predicate :: this function will return =#t= or =#f= if its input
+  sufficiently matches the definition of the record type.
++ constructor :: how these records are made. The =define-record-type*=
+  differs from what is described in the Guile manual: it accepts
+  another parameter before the constructor.
+  
+
 *** TODO System.scm updates
 + [ ] check libvirt config
 + [ ] how to replace xorg with wayland/pipewire/sway
@@ -400,7 +428,7 @@ retrieve these settings appropriately. This is used throughout =Desktop.org=.
 	    linux-firmware
             ;; has Broadcom BCM4360 wifi
             broadcom-sta))
- 
+
  (mapped-devices
   (list (mapped-device
          (source (uuid "5d969658-9af4-48f0-b467-0ea6a4f82195"))
@@ -447,7 +475,8 @@ retrieve these settings appropriately. This is used throughout =Desktop.org=.
 #+begin_src emacs-lisp :noweb-ref system-settings :noweb-sep ""
 
   (when (equal system-name "hersai")
-    '((desktop/dpi . 221)
+    '((desktop/dpi . nil)
+      ;(desktop/dpi . 221)
       (emacs/default-face-size . 190)
       (emacs/variable-face-size . 200)
       (emacs/fixed-face-size . 190)

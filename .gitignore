@@ -27,6 +27,9 @@ skel-images/**/*
 # X11
 .xinitrc
 
+# alacritty
+.config/alacritty/*
+
 # fontconfig
 .config/fontconfig/fonts.conf
 

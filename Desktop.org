@@ -29,7 +29,9 @@
   - [[#mime-handlers][MIME Handlers]]
 - [[#applications][Applications]]
   - [[#browsers][Browsers]]
+    - [[#nyxt][Nyxt]]
     - [[#qutebrowser][Qutebrowser]]
+  - [[#terminals][Terminals]]
   - [[#password-management][Password Management]]
   - [[#audio-device-control][Audio Device Control]]
   - [[#media-players][Media Players]]
@@ -110,7 +112,8 @@
 *Guix Packages"
 
 #+begin_src scheme :noweb-ref packages :noweb-sep ""
-  ;; Settin gs Manager
+
+  ;; Settings Manager
   "xsettingsd"
 
   ;; GTK Themes
@@ -140,11 +143,13 @@
   ;; more fonts
   "font-juliamono"
   "font-adobe-source-han-sans"
+
 #+end_src
 
 *.config/fontconfig/fonts.conf*
 
 #+begin_src xml :tangle .config/fontconfig/fonts.conf
+<?xml version="1.0"?>
 <!DOCTYPE fontconfig SYSTEM "fonts.dtd">
 <fontconfig>
   <dir>~/.dotfiles/fonts</dir>
@@ -174,14 +179,17 @@ Gtk/CursorThemeName "Adwaita"
 Xft/Antialias 1
 Xft/Hinting 0
 Xft/HintStyle "hintnone"
-Xft/DPI <<dpi()>> # 1024 * DPI
+<<dpi()>> # 1024 * DPI
 #+end_src
 
 *DPI*
 
 #+NAME: dpi
 #+begin_src emacs-lisp :session=system-settings :var settings=system-settings
-(* 1024 (alist-get 'desktop/dpi dw/system-settings))
+(or (and (alist-get 'desktop/dpi dw/system-settings)
+     (concat "Xft/DPI "
+             (number-to-string (* 1024 (alist-get 'desktop/dpi dw/system-settings)))))
+    "")
 #+end_src
 
 ** Color Schemes
@@ -927,10 +935,13 @@ x-scheme-handler/unknown=qutebrowser.desktop
 
 #+begin_src scheme :noweb-ref packages :noweb-sep ""
 
+"ungoogled-chromium"
 "qutebrowser"
 "nyxt"
 
 #+end_src
+
+*** Nyxt
 
 *** Qutebrowser
 
@@ -1004,14 +1015,128 @@ dwdot https://github.com/daviwil/dotfiles
 
 **** TODO find reference for the main =duckduckgo= !bang search urls
 
+** Terminals
+
+*Guix Packages*
+
+#+begin_src scheme :noweb-ref packages :noweb-sep ""
+
+"alacritty"
+
+#+end_src
+
+
+#+begin_src yaml :tangle .config/alacritty/alacritty.yml
+env:
+  TERM: xterm-256color
+
+shell:
+  program: /bin/sh
+#  args:
+#    - --login
+
+window:
+  dimensions:
+    columns: 100
+    #lines: 30
+
+  dynamic_padding: true
+  decorations: full
+  dynamic_title: true
+  title: Alacritty
+
+  class:
+    instance: Alacritty
+    general: Alacritty
+
+  gtk_theme_variant: dark
+
+mouse:
+  hide_when_typing: true
+  #url: #url launcher
+
+#mouse_bindings:
+
+key_bindings:
+  - { key: V,        mods: Control|Shift, action: Paste            }
+  - { key: C,        mods: Control|Shift, action: Copy             }
+  - { key: Insert,   mods: Shift,         action: PasteSelection   }
+  - { key: Key0,     mods: Control,       action: ResetFontSize    }
+  - { key: Equals,   mods: Control,       action: IncreaseFontSize }
+  - { key: Plus,     mods: Control,       action: IncreaseFontSize }
+  - { key: Minus,    mods: Control,       action: DecreaseFontSize }
+  - { key: Minus,    mods: Control,       action: DecreaseFontSize }
+
+cursor:
+  style: Block
+  unfocused_hollow: true
+
+scrolling:
+  history: 10000
+  multiplier: 3
+
+font:
+  size: 12
+  normal:
+    family: "DejaVuSansMono"
+    #family: "JuliaMono"
+    #family: "JuliaMono-Regular"
+  bold:
+    family: "DejaVuSansMono"
+    #family: "JuliaMono"
+    #family: "JuliaMono-Bold"
+  italic:
+    family: "DejaVuSansMono"
+    #family: "JuliaMono"
+    #family: "JuliaMono-Italic"
+  bold_italic:
+    family: "DejaVuSansMono"
+    #family: "JuliaMono"
+    #family: "JuliaMono-BoldItalic"
+    #size: 12
+
+draw_bold_text_with_bright_colors: true
+background_opacity: 1.0
+save_to_clipboard: true
+live_config_reload: true
+
+# Custom colorscheme fitting Garuda Sweetified theme
+colors:
+  primary:
+    background: '0x0a1124'
+    foreground: '0xeec49a'
+  cursor:
+    text:       '0x0a1124'
+    cursor:     '0xeec49a'
+  normal:
+    black:      '0x0a1124'
+    red:        '0x5F4149'
+    green:      '0xEB3247'
+    yellow:     '0xBC4349'
+    blue:       '0xF35645'
+    magenta:    '0xF6A73B'
+    cyan:       '0xFAD32F'
+    white:      '0xeec49a'
+  bright:
+    black:      '0xa6896b'
+    red:        '0x5F4149'
+    green:      '0xEB3247'
+    yellow:     '0xBC4349'
+    blue:       '0xF35645'
+    magenta:    '0xF6A73B'
+    cyan:       '0xFAD32F'
+    white:      '0xeec49a'
+#+end_src
+
 ** Password Management
 
 *Guix Packages*
 
 #+begin_src scheme :noweb-ref packages :noweb-sep ""
-"pwsafe"
-#+end_src
 
+"pwsafe"
+
+#+end_src
 ** Audio Device Control
 
 *Guix Packages*
@@ -1155,8 +1280,10 @@ map <C-g> abort
 *Guix Packages*
 
 #+begin_src scheme :noweb-ref packages :noweb-sep ""
+
 "syncthing"
 "syncthing-gtk"
+
 #+end_src
 
 ** Flatpak

@@ -35,10 +35,13 @@
   - [[#bash][Bash]]
   - [[#zsh][Zsh]]
 - [[#environment-1][Environment]]
+  - [[#main][Main]]
   - [[#direnv][Direnv]]
   - [[#languages-1][Languages]]
 - [[#tui][TUI]]
-  - [[#lnav][LNAV]]
+  - [[#env][Env]]
+  - [[#apps-1][Apps]]
+  - [[#guix-1][Guix]]
 
 **** TODO double check =.bash*= permissions
 **** TODO figure out how to circumvent saving readonly files
@@ -143,11 +146,25 @@ Manually copy. Stow deploys, but to no effect (no need to mess with =.stowrc= et
 # This is the default _before_profile.d.sh script
 #+end_src
 
+Note: Guix extra profiles should be loaded first in this list of
+scripts. Running them with a wildcard or in any order is possible, but
+it is assumed that the sequence is structured.
+
++ Using this approach with Guix profiles where the WM dependencies are
+  loaded separeately should enable a user to choose between multiple
+  window managers, as long as the login manager or display manager can
+  set the list of =extra_guix_profiles= before loading the profile.
+  - these scripts and the Guix Profiles would need to be tweaked to do
+    so, as well as how wayland/x11-related packages are grouped.
+  - In this way, a user can configure both X11 and Wayland-based window
+    managers on the same system without having the package dependencies
+    affect one another.
+
 #+begin_src sh :tangle .config/sh/_load_profile.eg.sh :shebang #!/bin/sh
 # This is the default _load_profile.d.sh script
 
 __scripts=(
-"guix.sh"
+"guix.sh"   
 "apps.sh"
 "xdg.sh"
 "gtk.sh"
@@ -403,7 +420,6 @@ export GRAPHVIZ_DOT=/usr/bin/dot
 
 alias ls='ls --color=auto'
 alias grep='grep --color=auto'
-alias vim='nvim'
 alias diff='diff --color=auto'
 alias sysu='systemctl --user'
 
@@ -451,14 +467,57 @@ if [ -f ~/.profile ]; then . ~/.profile; fi
 
 [[file:/data/ecto/x.files/protesilaos/dotfiles/shell/.bashrc::Colourise man pages][orgit-test]]
 
+
 * Environment
+
+** Main
+
+#+begin_src scheme :tangle ".config/guix/manifests/devtools.scm"
+
+(specifications->manifest
+'("gcc-toolchain"
+  "git-repo"
+  "direnv"
+  ))
+
+#+end_src
+
+**** TODO perhaps move gcc-toolchain to a separate profile
+
+
 
 ** Direnv
 
 ** Languages
+
 * TUI
 
-** LNAV
+** Env
+
+This section should configure scripts and a guix profile intended to be loaded
+in a terminal-only interface.
+
+#+begin_src scheme :noweb-ref "tui-env-manifest" :noweb-sep ""
+
+;"htop"
+;"lnav"
+
+#+end_src
+
+
+
+** Apps
+
+#+begin_src scheme :noweb-ref "tui-apps-manifest" :noweb-sep ""
+
+"htop"
+;"lnav"
+
+#+end_src
+
+*** HTop
+
+*** LNAV
 
 + [[https://docs.lnav.org/en/latest/formats.html][Docs]]
   - The =$HOME/.config/lnav/= directory should exist before =.dotfiles= is stowed.
@@ -477,4 +536,20 @@ lnav -i extra
 #+end_src
 
 #+RESULTS:
-: Cloning lnav remote config reqpo...
+: Cloning lnav remote config repo...
+
+** Guix
+
+#+begin_src scheme :tangle .config/guix/manifests/tui-env.scm :noweb yes
+(specifications->manifest
+ '(
+   <<tui-env-manifest>>
+   ))
+#+end_src
+
+#+begin_src scheme :tangle .config/guix/manifests/tui-apps.scm :noweb yes
+(specifications->manifest
+ '(
+   <<tui-apps-manifest>>
+   ))
+#+end_src
