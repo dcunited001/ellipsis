@@ -464,7 +464,7 @@ retrieve these settings appropriately. This is used throughout =Desktop.org=.
                 (dependencies mapped-devices))
 
                (file-system
-                (device (file-system-label "home"))
+                (device (file-system-label "Data"))
                 (mount-point "/data")
                 (type "ext4")
                 (needed-for-boot? #f))

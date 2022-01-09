@@ -220,7 +220,7 @@ set $mod Mod4
 
 # This font is widely installed, provides lots of unicode glyphs, right-to-left
 # text rendering and scalability on retina/hidpi displays (thanks to pango).
-font pango:DejaVu Sans Mono 12
+font pango:DejaVu Serif Mono 12
 
 # The combination of xss-lock, nm-applet and pactl is a popular choice, so
 # they are included here as an example. Modify as you see fit.
@@ -384,12 +384,34 @@ exec_always syncthing-gtk
 #         status_command i3status
 # }
 
+for_window [class="Pwsafe" instance="pwsafe"] floating enable, sticky enable
+for_window [class="Gnuplot" instance="gnuplot"] floating enable
+for_window [id="org.fcitx.fcitx5-config-qt"] floating enable
+for_window [id="fcitx5-qt5-fcgui-wrapper"] floating enable
+for_window [id="zoom"] floating enable, sticky enable
+for_window [id="zoom"] inhibit_idle fullscreen
+for_window [id="gnome-calculator"] floating enable
+
+focus_on_window_activation focus
+
+# jump to apps
+bindsym $mod+Control+e [class="Emacs"] focus
+bindsym $mod+Control+d [conmark="dev"] focus
+
+# Marks
+bindsym $mod+Control+shift+d mark dev
+
+default_border pixel 2
+gaps inner 12
+hide_edge_borders both
+
 #+end_src
 
+*Guix Packages*
 
 #+begin_src scheme :noweb-ref i3packages :noweb-sep ""
 
-"i3-wm"
+"i3-gaps"
 "i3status"
 "i3lock"
 "dmenu"
@@ -398,6 +420,7 @@ exec_always syncthing-gtk
 
 
 * Panel
+
 *.config/polybar/config:*
 
 #+begin_src conf :tangle .config/polybar/config :noweb yes
@@ -1030,20 +1053,19 @@ dwdot https://github.com/daviwil/dotfiles
 
 #+end_src
 
-
 #+begin_src yaml :tangle .config/alacritty/alacritty.yml
 env:
   TERM: xterm-256color
 
 shell:
-  program: /bin/sh
+  program:  /bin/sh
 #  args:
 #    - --login
 
 window:
   dimensions:
     columns: 100
-    #lines: 30
+    lines: 30
 
   dynamic_padding: true
   decorations: full
@@ -1100,8 +1122,8 @@ font:
     #family: "JuliaMono-BoldItalic"
     #size: 12
 
+background_opacity: 0.80
 draw_bold_text_with_bright_colors: true
-background_opacity: 1.0
 save_to_clipboard: true
 live_config_reload: true
 
