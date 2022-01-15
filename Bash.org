@@ -80,29 +80,47 @@ Note: getting this to tangle properly requires =C-c C-v C-t=
 | _DF    | $HOME/.dotfiles |
 | _DATA  | /data           |
 | _XS    | /data           |
+| _ECTO  | /data/ecto      |
+| _REPO  | /data/repo      |
 | _STEAM | /steam          |
 | _GUIX  | /gnu            |
 
 #+name: bash-env-bindings_GEN
 #+begin_src emacs-lisp :tangle no :var bindings=bash-env-bindings :results output :exports none
-;(mapcar #'(lambda (row)
-;           (princ (format "export %s=%s\n" (first row) (second row)))) bindings)
+(mapcar #'(lambda (row)
+           (princ (format "export %s=%s\n" (first row) (second row)))) bindings)
 #+end_src
 
+**** TODO move =$_ECTO= and =$_REPO= variables into their own scripts :dotfiles:bash:
++ these need to be set differently on various machines, as not all of them may
+  have =/data/ecto= or =/data/repo= mounted in the same place
+  - for now, this will probably be true (syncthing will push data around)
+  - but if these paths change, the links _from_ org-roam docs will break
+  - there are options for this, including an automated task for replacing
+    absolute links with relative links.
+  - for most projects in =/data/repo= XML's, =/data/org= is expected to share a
+    common parent directory, so relative links should always work.
+
 #+RESULTS: bash-env-bindings_GEN
-: export name=value
 : export _DF=$HOME/.dotfiles
 : export _DATA=/data
 : export _XS=/data
+: export _ECTO=/data/ecto
+: export _REPO=/data/repo
+: export _STEAM=/steam
+: export _GUIX=/gnu
 
 #+name: bash-env-bindings_CALL
 #+call: bash-env-bindings_GEN()
 
 #+RESULTS: bash-env-bindings_CALL
-: export name=value
 : export _DF=$HOME/.dotfiles
 : export _DATA=/data
 : export _XS=/data
+: export _ECTO=/data/ecto
+: export _REPO=/data/repo
+: export _STEAM=/steam
+: export _GUIX=/gnu
 
 #+begin_src sh :tangle .profile :noweb yes :comments none :results none :exports none :shebang #!/bin/sh
 <<bash-env-bindings_CALL()>>

@@ -4,8 +4,9 @@
 #+TITLE: Systems Configuration with Guix
 #+AUTHOR: David Conner
 #+DESCRIPTION:
-#+PROPERTY: header-args    :tangle-mode (identity #o444) :mkdirp yes
-#+PROPERTY: header-args:sh :tangle-mode (identity #o555)
+#+PROPERTY: header-args        :tangle-mode (identity #o444) :mkdirp yes
+#+PROPERTY: header-args:sh     :tangle-mode (identity #o555)
+#+PROPERTY: header-args:scheme :tangle-mode (identity #o644) :mkdirp yes
 #+STARTUP: content
 #+OPTIONS: toc:nil
 
@@ -177,7 +178,7 @@ Override the default =%desktop-services= to add the =udev= backlight configurati
 
 #+begin_src scheme :tangle .config/guix/systems/base-system.scm
 
-(define %my-desktop-services
+(define %dc-desktop-services
   (modify-services
      %desktop-services
 
@@ -197,8 +198,6 @@ Override the default =%desktop-services= to add the =udev= backlight configurati
          (vpn-plugins (list network-manager-openvpn))))))
 
 #+end_src
-
-+ TODO fix doom emacs wordwrap so the default scheme formatting in babel doesn't mess things up
 
 Use the =libinput-driver= for all input device
 
@@ -342,28 +341,15 @@ EndSection
                      (bluetooth-service #:auto-enable? #t)
                      (remove (lambda (service)
                                (eq? (service-kind service)  gdm-service-type))
-                             %my-desktop-services)))
+                             %dc-desktop-services)))
 
     ;; allow resolution of '.local' hostnames with mDNS
     (name-service-switch %mdns-host-lookup-nss)))
 #+end_src
 
-***** TODO how would I get this to work? 
-
-these drivers can easily be loaded after install
-
-#+begin_src scheme
-(define-public base-xorg-configuration
-  (xorg-configuration
-   (drivers xf86-video-nouveau)
-   (keyboard-layout keyboard-layout)
-   (extra-config (list %xorg-libinput-config)))
-)
-#+end_src
-
 **** Install Notes:
 + =gdm-service-type= is removed and =elogind-service-type= is configured in
-  =%my-desktop-services= earlier. this alters the login & wm-selection behavior.
+  =%dc-desktop-services= earlier. this alters the login & wm-selection behavior.
 + the =slim-service-type= along with the nested =xorg-configuration= is used
   instead of the GDM Display Manager.
   - find =xorg-configuration= in the Guix Docs
@@ -415,64 +401,77 @@ retrieve these settings appropriately. This is used throughout =Desktop.org=.
 #+begin_src scheme :tangle .config/guix/systems/hersai.scm
 (define-module (hersai)
   #:use-module (base-system)
-  #:use-module (gnu)
+  #:use-module (gnu packages firmware)
   #:use-module (nongnu packages linux))
 
+(define %hersai-desktop-services
+  (modify-services
+      %dc-desktop-services
+
+    (guix-service-type config =>
+                       (guix-configuration
+                        (inherit config)
+                        (substitute-urls
+                         (append (list "https://substitutes.nonguix.org")
+                             %default-substitute-urls))
+                        (authorized-keys
+                         (append (list (local-file "../nonguix.pub"))
+                             %default-authorized-guix-keys))))))
+
 (operating-system
- (inherit base-operating-system)
- (host-name "hersai")
+  (inherit base-operating-system)
+  (host-name "hersai")
 
- ;; NOTE: has Broadcom BCM4360 wifi
- ;; TODO: add broadcom-bt-firmware
- (firmware (list linux-firmware
-                 ;broadcom-sta
-                 openfwwf-firmware))
+  ;; NOTE: has Broadcom BCM4360 wifi (broadcom-sta n/a)
+  ;; TODO: add broadcom-bt-firmware
+  (firmware (list linux-firmware
+                  openfwwf-firmware))
 
- (mapped-devices
-  (list (mapped-device
-         (source (uuid "5d969658-9af4-48f0-b467-0ea6a4f82195"))
-         (target "pde")
-         (type luks-device-mapping))
+  (mapped-devices
+   (list (mapped-device
+          (source (uuid "5d969658-9af4-48f0-b467-0ea6a4f82195"))
+          (targets ("pde"))
+          (type luks-device-mapping))
 
-        (mapped-device
-         (source "matrix")
-         (targets (list "matrix-rootvol" "matrix-swapvol" "matrix-homevol"))
-         (type lvm-device-mapping)))
+         (mapped-device
+          (source "matrix")
+          (targets (list "matrix-rootvol" "matrix-swapvol" "matrix-homevol"))
+          (type lvm-device-mapping)))
+   )
+
+  (file-systems (cons*
+
+                 (file-system
+                   (device (file-system-label "root"))
+                   (mount-point "/")
+                   (type "ext4")
+                   (needed-for-boot? #t)
+                   (dependencies mapped-devices))
+
+                 (file-system
+                   (device (file-system-label "home"))
+                   (mount-point "/home")
+                   (type "ext4")
+                   (needed-for-boot? #f)
+                   (dependencies mapped-devices))
+
+                 (file-system
+                   (device (file-system-label "Data"))
+                   (mount-point "/data")
+                   (type "ext4")
+                   (needed-for-boot? #f))
+
+                 ;; /boot/efi needs to be enumerated here
+                 ;;   in addition to the (bootloader...) declaration
+                 (file-system
+                   (device "/dev/sda1")
+                   (mount-point "/boot/efi")
+                   (type "vfat"))
+                 %base-file-systems))
+
+  (swap-devices (list (file-system-label "swap")))
+
   )
-
-(file-systems (cons*
-
-               (file-system
-                (device (file-system-label "root"))
-                (mount-point "/")
-                (type "ext4")
-                (needed-for-boot? #t)
-                (dependencies mapped-devices))
-
-               (file-system
-                (device (file-system-label "home"))
-                (mount-point "/home")
-                (type "ext4")
-                (needed-for-boot? #f)
-                (dependencies mapped-devices))
-
-               (file-system
-                (device (file-system-label "Data"))
-                (mount-point "/data")
-                (type "ext4")
-                (needed-for-boot? #f))
-
-               ;; /boot/efi needs to be enumerated here
-               ;;   in addition to the (bootloader...) declaration
-               (file-system
-                (device "/dev/sda1")
-                (mount-point "/boot/efi")
-                (type "vfat"))
-               %base-file-systems))
-
-(swap-devices (list (file-system-label "swap")))
-
-)
 #+end_src
 
 *System Settings*

@@ -48,6 +48,9 @@ skel-images/**/*
 .config/guix/manifests
 .config/shepherd/init.scm
 
+# user-level guix channel signing keys
+.config/guix/*.pub
+
 # mcron
 .config/mcron
 
