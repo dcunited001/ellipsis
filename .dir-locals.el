@@ -1,7 +1,13 @@
 ;;; Directory Local Variables
 ;;; For more information see (info "(emacs) Directory Variables")
 
-;; ((nil . ((eval . (progn
+((nil . (
+         (org-babel-tangle-comment-format-beg . "** [[%link][%source-name]]")
+        )
+      ))
+
+
+;;          (eval . (progn
 ;;                    ;; NOTE: This is undefined until geiser loads
 ;;                    ;; (setq-local geiser-guile-load-path
 ;;                    ;;             (cons "/data/ecto/guix/guix" geiser-guile-load-path))
@@ -18,5 +24,4 @@
 ;;                    (cl-pushnew "/data/ecto/guix/guix" geiser-guile-load-path
 ;;                                :test #'string-equal)
 ;;                    )
-;;                ))
-;;       ))
+;;                )
