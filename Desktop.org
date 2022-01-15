@@ -3,8 +3,9 @@
 :END:
 #+TITLE: Guix Desktop
 #+PROPERTY: header-args :mkdirp yes
-#+PROPERTY: header-args:sh   :tangle-mode (identity #o555)
-#+PROPERTY: header-args:conf :tangle-mode (identity #o555)
+#+PROPERTY: header-args:sh     :tangle-mode (identity #o555) :mkdirp yes
+#+PROPERTY: header-args:conf   :tangle-mode (identity #o444) :mkdirp yes
+#+property: header-args:scheme :tangle-mode (identity #o644) :mkdirp yes :comments link
 #+OPTIONS: toc:nil
 
 * Table of Contents :TOC_3_gh:
@@ -170,7 +171,7 @@
 
 *.config/xsettingsd/xsettingsd.conf:*
 
-#+begin_src conf :tangle .config/xsettingsd/xsettingsd.conf :noweb yes
+#+begin_src conf :tangle .config/xsettingsd/xsettingsd.conf :noweb yes :comments none
 Net/ThemeName "Matcha-dark-azul"
 Net/IconThemeName "Papirus-Dark"
 Gtk/DecorationLayout "menu:minimize,maximize,close"
@@ -211,7 +212,7 @@ Xft/HintStyle "hintnone"
 
 ** i3
 
-#+begin_src conf :tangle .config/i3/config :noweb yes
+#+begin_src conf :tangle .config/i3/config :noweb yes :comments none
 
 set $mod Mod4
 
@@ -424,7 +425,7 @@ hide_edge_borders both
 
 *.config/polybar/config:*
 
-#+begin_src conf :tangle .config/polybar/config :noweb yes
+#+begin_src conf :tangle .config/polybar/config :noweb yes :comments none
 
 ; Docs: https://github.com/polybar/polybar
 ;==========================================================
@@ -674,7 +675,7 @@ fi
 
 *.config/dunst/dunstrc:*
 
-#+begin_src conf :tangle .config/dunst/dunstrc :noweb yes
+#+begin_src conf :tangle .config/dunst/dunstrc :noweb yes :comments none
 
 [global]
     ### Display ###
@@ -1196,7 +1197,7 @@ colors:
 
 *.config/mpv/mpv.conf*
 
-#+begin_src conf :tangle .config/mpv/mpv.conf :noweb yes
+#+begin_src conf :tangle .config/mpv/mpv.conf :noweb yes :comments none
 
 # Configure playback quality
 vo=gpu
@@ -1454,7 +1455,7 @@ flatpak install --user flathub com.valvesoftware.Steam.CompatibilityTool.Proton
 
 *.config/guix/manifests/desktop.scm:*
 
-#+begin_src scheme :tangle .config/guix/manifests/desktop.scm :noweb yes
+#+begin_src scheme :tangle .config/guix/manifests/desktop.scm :noweb yes :comments none
 
 (specifications->manifest
  '(
@@ -1466,7 +1467,7 @@ flatpak install --user flathub com.valvesoftware.Steam.CompatibilityTool.Proton
 
 *.config/guix/manifests/i3.scm:*
 
-#+begin_src scheme :tangle .config/guix/manifests/i3.scm :noweb yes
+#+begin_src scheme :tangle .config/guix/manifests/i3.scm :noweb yes :comments none
 
 (specifications->manifest
  '(
