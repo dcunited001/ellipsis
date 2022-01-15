@@ -18,6 +18,7 @@
   - [[#rc-hooks][RC Hooks]]
   - [[#apps][Apps]]
   - [[#xdg][XDG]]
+  - [[#flatpak][Flatpak]]
   - [[#steam--proton][Steam & Proton]]
   - [[#guix][Guix]]
   - [[#fcitx][FCITX]]
@@ -215,6 +216,40 @@ export EDITOR=/usr/bin/vim
 # TODO set in login manager script
 #export XDG_CURRENT_DESKTOP=i3
 #+end_src
+
+** Flatpak
+
+#+begin_src sh :tangle .config/sh/profile.d/xdg.sh :shebang #!/bin/sh
+export XDG_DATA_DIRS="/flatpak/.local/share/flexpak/exports/share:${XDG_DATA_DIRS}"
+#+end_src
+
+*** Setting the User Install to a Custom Install
+
+Flatpak docs imply that =FLATPAK_USER_DIR= can be used to set a custom location for the user's flatpak installtion, but i have not tested it. (this approach is separate from the above)
+
+#+begin_src sh :tangle .config/sh/profile.d/xdg.sh :shebang #!/bin/sh
+# Installation should be linked to
+#export FLATPAK_CONFIG_DIR=/flatpak/.config/flatpak
+#export FLATPAK_UESR_DIR=/flatpak/.local/share/flatpak
+
+#+end_src
+
+*** The Goal
+
+After creating & mounting a =/flatpak= disk, syncthing can push centrally
+updates to new flatpak installations to =/flatpak/syncpak123=:
+
++ Here they can be managed via =flatpak --installation /flatpak/syncpak123= on
+  the server where flatpak is hosted
+  - or, more carefully, managed from some of the local servers, assuming a consistent flatpak environment on the syncthing clients.
+  - these clients (or the client disk permissions) should set some of the
+    syncthing permissions to read only.
+  - on the client, =XDG_CONFIG_DIR= is always read after =XDG_CONFIG_HOME=, so
+    for any app, its configs can be transparently overridden, without affecting the synced flatpak installations.
++ Then the custom flatpak installations can be linked into the local system via
+  =stow=, where a few modifications to =XDG= vars will pick them up.
+
+  This method has not been tested yet. However, since they are plain binaries, then they should be syncable.
 
 ** Steam & Proton
 

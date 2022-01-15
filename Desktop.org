@@ -31,6 +31,7 @@
   - [[#browsers][Browsers]]
     - [[#nyxt][Nyxt]]
     - [[#qutebrowser][Qutebrowser]]
+  - [[#file-managers][File Managers]]
   - [[#terminals][Terminals]]
   - [[#password-management][Password Management]]
   - [[#audio-device-control][Audio Device Control]]
@@ -958,6 +959,7 @@ x-scheme-handler/unknown=qutebrowser.desktop
 
 #+begin_src scheme :noweb-ref packages :noweb-sep ""
 
+"icecat"
 "ungoogled-chromium"
 "qutebrowser"
 "nyxt"
@@ -1042,6 +1044,17 @@ dwdot https://github.com/daviwil/dotfiles
 #+end_src
 
 **** TODO find reference for the main =duckduckgo= !bang search urls
+
+** File Managers
+
+*Guix Packages*
+
+#+begin_src scheme :noweb-ref packages :noweb-sep ""
+
+"thunar"
+
+#+end_src
+
 
 ** Terminals
 

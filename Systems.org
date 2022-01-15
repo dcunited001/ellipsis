@@ -11,6 +11,7 @@
 
 * Table Of Contents :TOC_2_gh:
 - [[#overview][Overview]]
+- [[#scheme][Scheme]]
 - [[#channels][Channels]]
 - [[#systems][Systems]]
   - [[#base-configuration][Base Configuration]]
@@ -37,6 +38,37 @@ stuff ... so I can actually retain it?
 - [ ] compile & use my own flavor of Zen Kernel
   + also port over other features from garuda
 **** TODO add =base-channel.scm= so ./bin/update-channels works
+
+* Scheme
+
+#+begin_src scheme :tangle .guile
+;; readline for completion and input history at the REPL.
+(cond ((false-if-exception (resolve-interface '(ice-9 readline)))
+       =>
+       (lambda (module)
+         ((module-ref module 'activate-readline))))
+      (else
+       (display "Consider installing the 'guile-readline' package for
+convenient interactive line editing and input history.\n\n")))
+
+;; format to enable string interpolation
+(use-modules (ice-9 format))
+
+;; pretty-print objects (not colorlized, per se)
+(use-modules (ice-9 pretty-print))
+
+
+(unless (getenv "INSIDE_EMACS")
+  (cond ((false-if-exception (resolve-interface '(ice-9 colorized)))
+         =>
+         (lambda (module)
+           ;; Enable completion and input history at the REPL.
+           ((module-ref module 'activate-colorized))))
+        (else
+         (display "Consider installing the 'guile-colorized' package
+for a colorful Guile experience.\n\n"))))
+
+#+end_src
 
 * Channels
 
@@ -343,44 +375,6 @@ these drivers can easily be loaded after install
   - in these Dotfiles, the WM dependencies are bundled with the =desktop.scm= profile
 
 
-**** Scheme Notes:
-
-***** =define-record-type=
-
-+ "Create a record type, make various defines for using it. 
-  - "May only occur at the top-level."
- 
-#+begin_example scheme
-(define-record-type <the-record-type>
-  (constructor fieldname ...)
-  predicate?
-  (fieldname accessor [modifier])...
-)
-#+end_example
-
-+ fieldname :: these are like the keys in a hash of values passed to
-  the constructor, where each key is not merely a symbol but also a
-  ref to a type (e.g. =xorg-configuration=), along with the
-  rules/logic associated to that type.
-- accessor/mutator :: typical getter/setter pattern: how these
-  values(?) will be accessed later in the record's functionality.
-+ predicate :: this function will return =#t= or =#f= if its input
-  sufficiently matches the definition of the record type.
-+ constructor :: how these records are made. The =define-record-type*=
-  differs from what is described in the Guile manual: it accepts
-  another parameter before the constructor.
-  
-
-*** TODO System.scm updates
-+ [ ] check libvirt config
-+ [ ] how to replace xorg with wayland/pipewire/sway
-+ [ ] add custom keyboard layout (either as default or not)
-+ [ ] validate pipewire dependencies & conflicts:
-  - how to validate that pulseaudio isn't a dependency of other packages?
-  - what to do if & when it is? (pacman has =provides= feature ...)
-    - there are analogous features in guix package definitions & cmdline
-      invocations ...
-
 ** Machines
 
 *** Per-System Settings
@@ -429,11 +423,11 @@ retrieve these settings appropriately. This is used throughout =Desktop.org=.
  (inherit base-operating-system)
  (host-name "hersai")
 
+ ;; NOTE: has Broadcom BCM4360 wifi
  ;; TODO: add broadcom-bt-firmware
- (firmware (list
-	    linux-firmware
-            ;; has Broadcom BCM4360 wifi
-            broadcom-sta))
+ (firmware (list linux-firmware
+                 ;broadcom-sta
+                 openfwwf-firmware))
 
  (mapped-devices
   (list (mapped-device
@@ -627,7 +621,7 @@ A VM running with a large 4K display.
 
 ** USB Installation Image
 
-#+begin_src scheme :tangle .config/guix/systems/install.scm
+#+begin_src scheme :tangle .config/guix/systems/usb-install.scm
 
   ;;; Copyright © 2019 Alex Griffin <a@ajgrf.com>
   ;;; Copyright © 2019 Pierre Neidhardt <mail@ambrevar.xyz>
@@ -650,7 +644,7 @@ A VM running with a large 4K display.
   ;; Generate a bootable image (e.g. for USB sticks, etc.) with:
   ;; $ guix system disk-image nongnu/system/install.scm
 
-(define-module (nongnu system install)
+(define-module (nongnu system usb-install)
   #:use-module (gnu system)
   #:use-module (gnu system install)
   #:use-module (gnu packages version-control)
