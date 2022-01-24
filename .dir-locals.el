@@ -1,10 +1,13 @@
 ;;; Directory Local Variables
 ;;; For more information see (info "(emacs) Directory Variables")
 
-((nil . (
-         (org-babel-tangle-comment-format-beg . "** [[%link][%source-name]]")
-        )
-      ))
+;; TODO: try org-babel-tangle-body-hook
+;; - none of the org-babel-tangle-body-hooks are passed variables when run
+
+;; ((nil . (
+;;          (org-babel-tangle-comment-format-beg . "** [[%link][%source-name]]")
+;;         )
+;;       ))
 
 
 ;;          (eval . (progn

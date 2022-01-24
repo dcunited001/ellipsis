@@ -77,13 +77,14 @@ Note: getting this to tangle properly requires =C-c C-v C-t=
 #+end_quote
 
 #+name: bash-env-bindings
-| _DF    | $HOME/.dotfiles |
-| _DATA  | /data           |
-| _XS    | /data           |
-| _ECTO  | /data/ecto      |
-| _REPO  | /data/repo      |
-| _STEAM | /steam          |
-| _GUIX  | /gnu            |
+| _DF     | $HOME/.dotfiles |
+| _DATA   | /data           |
+| _XS     | /data           |
+| _ECTO   | /data/ecto      |
+| _REPO   | /data/repo      |
+| _STEAM  | /steam          |
+| _GUIX   | /gnu            |
+| DOOMDIR | $HOME/.doom.d   |
 
 #+name: bash-env-bindings_GEN
 #+begin_src emacs-lisp :tangle no :var bindings=bash-env-bindings :results output :exports none
