@@ -28,6 +28,7 @@
   - [[#desktop-entries][Desktop Entries]]
   - [[#restrict-autostart-entries][Restrict Autostart entries]]
   - [[#mime-handlers][MIME Handlers]]
+    - [[#mime-types-fntecosaur][Mime types [fn:tecosaur]]]
 - [[#applications][Applications]]
   - [[#browsers][Browsers]]
     - [[#nyxt][Nyxt]]
@@ -53,6 +54,7 @@
 - [[#desktop-profiles][Desktop Profiles]]
 - [[#notes][Notes]]
   - [[#bluetooth-setup][Bluetooth Setup]]
+- [[#footnotes][Footnotes]]
 
 **** TODO tangle permissions
 **** TODO set the org-babel :comments format
@@ -941,6 +943,17 @@ esac
 
 ** MIME Handlers
 
+
+#+begin_src xml :tangle ~/.local/share/mime/packages/org.xml :mkdirp yes :comments no
+<mime-info xmlns='http://www.freedesktop.org/standards/shared-mime-info'>
+  <mime-type type="text/org">
+    <comment>Emacs Org-mode File</comment>
+    <glob pattern="*.org"/>
+    <alias type="text/org"/>
+  </mime-type>
+</mime-info>
+#+end_src
+
 *.config/mimeapps.list*
 
 #+begin_src conf :tangle .config/mimeapps.list
@@ -950,6 +963,35 @@ x-scheme-handler/http=qutebrowser.desktop
 x-scheme-handler/https=qutebrowser.desktop
 x-scheme-handler/about=qutebrowser.desktop
 x-scheme-handler/unknown=qutebrowser.desktop
+text/org=emacs.desktop
+#+end_src
+
+*** Mime types [fn:tecosaur]
+Org mode isn't recognised as it's own mime type by default, but that can easily
+be changed with the following file. For system-wide changes try
+=/usr/share/mime/packages/org.xml=.
+
+#+begin_src xml :tangle .local/share/mime/packages/org.xml :mkdirp yes :comments no
+<mime-info xmlns='http://www.freedesktop.org/standards/shared-mime-info'>
+  <mime-type type="text/org">
+    <comment>Emacs Org-mode File</comment>
+    <glob pattern="*.org"/>
+    <alias type="text/org"/>
+  </mime-type>
+</mime-info>
+#+end_src
+
+What's nice is that Papirus [[https://github.com/PapirusDevelopmentTeam/papirus-icon-theme/commit/a10fb7f2423d5e30b9c4477416ccdc93c4f3849d][now]] has an icon for =text/org=.
+One simply needs to refresh their mime database
+
+#+begin_src shell :tangle (if (string= (shell-command-to-string "xdg-mime query default text/org") "") "setup.sh" "no")
+update-mime-database ~/.local/share/mime
+#+end_src
+
+Then set Emacs as the default editor
+
+#+begin_src shell :tangle (if (string= (shell-command-to-string "xdg-mime query default text/org") "emacs-client.desktop\n") "no" "setup.sh")
+xdg-mime default emacs.desktop text/org
 #+end_src
 
 * Applications
@@ -1329,8 +1371,6 @@ map <C-g> abort
 
 ** Flatpak
 
-*Applications to Install*
-
 #+begin_example sh
 
 flatpak remote-add --user --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
@@ -1496,3 +1536,7 @@ as DW currently does in Guix, you'll need to enter these commands at the
   connect 04:52:C7:5E:5C:A8
 
 #+end_src
+
+* Footnotes
+
+[fn:tecosaur] tecosaur [[https://github.com/tecosaur/emacs-config][emacs config]]
