@@ -24,6 +24,9 @@ skel-images/**/*
 .config/sway/config.d/*
 !.config/sway/config.d/*.garuda
 
+# i3
+.config/i3
+
 # X11
 .xinitrc
 
@@ -64,4 +67,16 @@ skel-images/**/*
 .config/polybar/config
 .config/polybar/player-status.sh
 
+# mimetypes
+.config/mimetypes
+.local/share/mime/packages/org.xml
 
+# qutebrowser
+.config/qutebrowser/config.py
+.config/qutebrowser/quickmarks
+
+# mpv
+.config/mpv/mpv.conf
+
+# zathura
+.config/zathura/zathurarc
