@@ -82,7 +82,7 @@ for a colorful Guile experience.\n\n"))))
       (channel
        (name 'flat)
        (url "https://github.com/flatwhatson/guix-channel.git")
-       ;(commit "cf23f523afc611c2b35debf015d219c6f918337f")
+       ;(commit "ef4714c105b8c5998f1d3d8db0dab9a461918595")
        (introduction
         (make-channel-introduction
          "33f86a4b48205c0dc19d7c036c85393f0766f806"
@@ -114,241 +114,16 @@ for a colorful Guile experience.\n\n"))))
 
 ** Base Configuration
 
-Any configuration that derives from =base-operating-system= must invoke =guix
-system= in a specific way to ensure it gets loaded correctly:
-
 #+begin_example sh
 sudo -E guix system -L ~/.dotfiles/.config/guix/systems reconfigure ~/.dotfiles/.config/guix/systems/$GUIX_SYSTEM_NAME.scm
 #+end_example
 
-*.config/guix/systems/base-system.scm:*
-
-#+begin_src scheme :tangle .config/guix/systems/base-system.scm
-;;* Module: base-system
-(define-module (base-system)
-  #:use-module (gnu)
-  #:use-module (srfi srfi-1)
-  #:use-module (gnu system nss)
-  #:use-module (gnu services pm)
-  #:use-module (gnu services cups)
-  #:use-module (gnu services desktop)
-  #:use-module (gnu services docker)
-  #:use-module (gnu services networking)
-  #:use-module (gnu services virtualization)
-  #:use-module (gnu packages wm)
-  #:use-module (gnu packages cups)
-  #:use-module (gnu packages vim)
-  #:use-module (gnu packages gtk)
-  #:use-module (gnu packages xorg)
-  #:use-module (gnu packages emacs)
-  #:use-module (gnu packages file-systems)
-  #:use-module (gnu packages gnome)
-  #:use-module (gnu packages mtools)
-  #:use-module (gnu packages linux)
-  #:use-module (gnu packages audio)
-  #:use-module (gnu packages gnuzilla)
-  #:use-module (gnu packages pulseaudio)
-  #:use-module (gnu packages web-browsers)
-  #:use-module (gnu packages version-control)
-  #:use-module (gnu packages package-management)
-  #:use-module (nongnu packages linux)
-  #:use-module (nongnu system linux-initrd))
-
-(use-service-modules nix)
-(use-service-modules desktop xorg) ;sway/wayland?
-(use-package-modules certs)
-(use-package-modules shells)
-#+end_src
-
-Add a =udev= rule to enable members of the =video= group to control screen brightness.
-
-#+begin_src scheme :tangle .config/guix/systems/base-system.scm
-;;** backlight-udev-rule
-;; Allow members of the "video" group to change the screen brightness.
-(define %backlight-udev-rule
-  (udev-rule
-   "90-backlight.rules"
-   (string-append "ACTION==\"add\", SUBSYSTEM==\"backlight\", "
-                  "RUN+=\"/run/current-system/profile/bin/chgrp video /sys/class/backlight/%k/brightness\""
-                  "\n"
-                  "ACTION==\"add\", SUBSYSTEM==\"backlight\", "
-                  "RUN+=\"/run/current-system/profile/bin/chmod g+w /sys/class/backlight/%k/brightness\"")))
-#+end_src
-
-Override the default =%desktop-services= to add the =udev= backlight configuration and include OpenVPN in the list of NetworkManager plugins.
-
-#+begin_src scheme :tangle .config/guix/systems/base-system.scm
-;;** %dc-desktop-services
-(define %dc-desktop-services
-  (modify-services
-      %desktop-services
-
-    (elogind-service-type config =>
-                          (elogind-configuration
-                           (inherit config)
-                           (handle-lid-switch-external-power 'suspend)))
-
-    (udev-service-type config =>
-                       (udev-configuration
-                        (inherit config)
-                        (rules (cons %backlight-udev-rule (udev-configuration-rules config)))))
-
-    (network-manager-service-type config =>
-                                  (network-manager-configuration
-                                   (inherit config)
-                                   (vpn-plugins (list network-manager-openvpn))))))
-#+end_src
-
-Use the =libinput-driver= for all input device
-
-Define the =base-operating-system= which will be inherited by all machine configurations.
-
-#+begin_src scheme :tangle .config/guix/systems/base-system.scm
-;;** %xorg-libinput-config
-(define %xorg-libinput-config
-  "
-Section \"InputClass\"
-  Identifier \"Touchpads\"
-  Driver \"libinput\"
-  MatchDevicePath \"/dev/input/event*\"
-  MatchIsTouchpad \"on\"
-
-  Option \"Tapping\" \"on\"
-  Option \"TappingDrag\" \"on\"
-  Option \"DisableWhileTyping\" \"on\"
-  Option \"MiddleEmulation\" \"on\"
-  Option \"ScrollMethod\" \"twofinger\"
-EndSection
-
-Section \"InputClass\"
-  Identifier \"Keyboards\"
-  Driver \"libinput\"
-  MatchDevicePath \"/dev/input/event*\"
-  MatchIsKeyboard \"on\"
-EndSection
-")
-#+end_src
-
-#+begin_src scheme :tangle .config/guix/systems/base-system.scm
-;;** base-operating-system
-(define-public base-operating-system
-  (operating-system
-   (host-name "eerse")
-   (timezone "America/New_York")
-   (locale "en_US.utf8")
-
-   (kernel linux) ;use the non-free Linux kernel and firmware
-   (firmware (list linux-firmware))
-   (initrd microcode-initrd)
-
-   (keyboard-layout (keyboard-layout "us" "altgr-intl"
-                                     #:model "pc105"))
-
-   (bootloader (bootloader-configuration
-                (bootloader grub-efi-bootloader)
-                (target "/boot/efi")
-                (keyboard-layout keyboard-layout)))
-
-    ;; Guix doesn't like it when there isn't a file-systems
-    ;; entry, so add one that is meant to be overridden
-    (file-systems (cons*
-                   (file-system
-                    (mount-point "/tmp")
-                    (device "none")
-                    (type "tmpfs")
-                    (check? #f))
-                   %base-file-systems))
-
-    (users (cons (user-account
-                  (name "dc")
-                  (comment "David Conner")
-                  (group "users")
-                  (home-directory "/home/dc")
-                  (supplementary-groups '(
-                                          "wheel"      ;; sudo
-                                          "netdev"     ;; network devices
-                                          "kvm"
-                                          "tty"
-                                          "input"
-                                          "docker"
-                                          "realtime"   ;; Enable realtime scheduling
-                                          "lp"         ;; control bluetooth
-                                          "audio"      ;; control audio
-                                          "video"      ;; control video
-                                          )))
-
-                 %base-user-accounts))
-
-    (groups (cons (user-group (system? #t) (name "realtime"))
-                  %base-groups))
-
-    ;; install bare-minimum system packages
-    (packages (append (list
-                       openssh
-                       git
-                       ntfs-3g
-                       exfat-utils
-                       fuse-exfat
-                       stow
-                       vim
-                       emacs
-                       xterm
-                       bluez
-                       bluez-alsa
-                       pipewire ;; TODO: pipewire?
-                       tlp
-                       xf86-input-libinput
-                       nss-certs
-                       gvfs)
-                      %base-packages))
-
-    (services (cons* (service slim-service-type
-
-                              ;; TODO: customize slim
-                              ;; - %default-slim-theme
-                              ;; - %default-slim-theme-name
-                              (slim-configuration
-                               (xorg-configuration
-                                (xorg-configuration
-                                 (keyboard-layout keyboard-layout)
-                                 (extra-config (list %xorg-libinput-config))))
-                               (default-user "dc")
-                               ))
-
-                     (service tlp-service-type
-                              (tlp-configuration
-                               (cpu-boost-on-ac? #t)
-                               (wifi-pwr-on-bat? #t)))
-                     (pam-limits-service ;; This enables JACK to enter realtime mode
-                                            (list
-                                             (pam-limits-entry "@realtime" 'both 'rtprio 99)
-                                             (pam-limits-entry "@realtime" 'both 'memlock 'unlimited)))
-                     (extra-special-file "/usr/bin/env"
-                                         (file-append coreutils "/bin/env"))
-                     (service thermald-service-type)
-                     (service docker-service-type)
-                     (service libvirt-service-type ;; TODO how is libvirt configured?
-                              (libvirt-configuration
-                               (unix-sock-group "libvirt")
-                               (tls-port "16555")))
-                     (service cups-service-type
-                              (cups-configuration
-                               (web-interface? #t)
-                               (extensions
-                                (list cups-filters))))
-                     (service nix-service-type)
-                     (bluetooth-service #:auto-enable? #t)
-                     (remove (lambda (service)
-                               (eq? (service-kind service)  gdm-service-type))
-                             %dc-desktop-services)))
-
-    ;; allow resolution of '.local' hostnames with mDNS
-    (name-service-switch %mdns-host-lookup-nss)))
-#+end_src
++ *.config/guix/systems/base-system.scm:*
 
 **** TODO see =loadkeys= and =/run/current-system/profile/share/keymaps= for more info on keyboards at cmdine
 
 **** Install Notes:
+
 + =gdm-service-type= is removed and =elogind-service-type= is configured in
   =%dc-desktop-services= earlier. this alters the login & wm-selection behavior.
 + the =slim-service-type= along with the nested =xorg-configuration= is used
@@ -395,86 +170,7 @@ retrieve these settings appropriately. This is used throughout =Desktop.org=.
 
 *** hersai
 
-2013 Macbook Pro
-
-*.config/guix/systems/hersai.scm*
-
-#+begin_src scheme :tangle .config/guix/systems/hersai.scm
-;;* Module: hersai
-(define-module (hersai)
-  #:use-module (base-system)
-  #:use-module (gnu packages firmware)
-  #:use-module (nongnu packages linux))
-
-(define %hersai-desktop-services
-  (modify-services
-      %dc-desktop-services
-
-    (guix-service-type config =>
-                       (guix-configuration
-                        (inherit config)
-                        (substitute-urls
-                         (append (list "https://substitutes.nonguix.org")
-                             %default-substitute-urls))
-                        (authorized-keys
-                         (append (list (local-file "../nonguix.pub"))
-                             %default-authorized-guix-keys))))))
-
-(operating-system
-  (inherit base-operating-system)
-  (host-name "hersai")
-
-  ;; NOTE: has Broadcom BCM4360 wifi (broadcom-sta n/a)
-  ;; TODO: add broadcom-bt-firmware
-  (firmware (list linux-firmware
-                  openfwwf-firmware))
-
-  (mapped-devices
-   (list (mapped-device
-          (source (uuid "5d969658-9af4-48f0-b467-0ea6a4f82195"))
-          (targets ("pde"))
-          (type luks-device-mapping))
-
-         (mapped-device
-          (source "matrix")
-          (targets (list "matrix-rootvol" "matrix-swapvol" "matrix-homevol"))
-          (type lvm-device-mapping)))
-   )
-
-  (file-systems (cons*
-
-                 (file-system
-                   (device (file-system-label "root"))
-                   (mount-point "/")
-                   (type "ext4")
-                   (needed-for-boot? #t)
-                   (dependencies mapped-devices))
-
-                 (file-system
-                   (device (file-system-label "home"))
-                   (mount-point "/home")
-                   (type "ext4")
-                   (needed-for-boot? #f)
-                   (dependencies mapped-devices))
-
-                 (file-system
-                   (device (file-system-label "Data"))
-                   (mount-point "/data")
-                   (type "ext4")
-                   (needed-for-boot? #f))
-
-                 ;; /boot/efi needs to be enumerated here
-                 ;;   in addition to the (bootloader...) declaration
-                 (file-system
-                   (device "/dev/sda1")
-                   (mount-point "/boot/efi")
-                   (type "vfat"))
-                 %base-file-systems))
-
-  (swap-devices (list (file-system-label "swap")))
-
-  )
-#+end_src
++ 2013 Macbook Pro :: [[file:.config/][.config/guix/systems/hersai.scm]]
 
 *System Settings*
 
@@ -501,31 +197,7 @@ retrieve these settings appropriately. This is used throughout =Desktop.org=.
 
 *** tokos
 
-2011 Macbook Pro
-
-*.config/guix/systems/tokos.scm*
-
-#+begin_src scheme :tangle .config/guix/systems/tokos.scm
-;;* Module: tokos
-(define-module (tokos)
-  #:use-module (base-system)
-    #:use-module (gnu))
-
-(operating-system
- (inherit base-operating-system)
- (hostname "tokos")
-
- (firmware linux-firmware
-           ;; has Broadcom BCM4331 wifi
-           broadcom-sta)
-
- ;(mapped-devices ...)
-
- ;(file-systems (cons* ...
- ;
- ;))
-    )
-#+end_src
++ 2011 Macbook Pro :: [[file:.config/guix/systems/tokos.scm][.config/guix/systems/tokos.scm]]
 
 #+begin_src emacs-lisp :noweb-ref system-settings :noweb-sep ""
 
@@ -549,27 +221,7 @@ retrieve these settings appropriately. This is used throughout =Desktop.org=.
 
 *** kratos
 
-This is a casual desktop VM, but it's running Garuda Linux for now.
-
-#+begin_src scheme :tangle .config/guix/systems/kratos.scm
-;;* Module kratos
-(define-module (kratos)
-  #:use-module (base-system)
-    #:use-module (gnu))
-
-(operating-system
- (inherit base-operating-system)
- (hostname "kratos")
-
- (firmware linux-firmware amd-microcode)
-
- ;(mapped-devices ...)
-
- ;(file-systems (cons* ...
- ;
- ;))
-    )
-#+end_src
++ Casual Desktop VM :: [[file:.config/guix/systems/tokos.scm][.config/guix/systems/tokos.scm]]
 
 #+begin_src emacs-lisp :noweb-ref system-settings :noweb-sep ""
 
@@ -593,14 +245,7 @@ This is a casual desktop VM, but it's running Garuda Linux for now.
 
 *** kudos
 
-A VM running with a large 4K display.
-
-#+begin_src scheme :tangle .config/guix/systems/kudos.scm
-;;* Module: kudos
-(define-module (kudos)
-  #:use-module (base-system)
-    #:use-module (gnu))
-#+end_src
++ VM running a large 4K display :: [[file:.config/guix/systems/kudos.scm][.config/guix/systems/kudos.scm]]
 
 #+begin_src emacs-lisp :noweb-ref system-settings :noweb-sep ""
 
@@ -623,66 +268,6 @@ A VM running with a large 4K display.
 #+end_src
 
 ** USB Installation Image
-
-#+begin_src scheme :tangle .config/guix/systems/usb-install.scm
-;;* Copyright
-;;; Copyright © 2019 Alex Griffin <a@ajgrf.com>
-;;; Copyright © 2019 Pierre Neidhardt <mail@ambrevar.xyz>
-;;; Copyright © 2019 David Wilson <david@daviwil.com>
-;;; Copyright © 2021 David Conner
-;;;
-;;; This program is free software: you can redistribute it and/or modify
-;;; it under the terms of the GNU General Public License as published by
-;;; the Free Software Foundation, either version 3 of the License, or
-;;; (at your option) any later version.
-;;;
-;;; This program is distributed in the hope that it will be useful,
-;;; but WITHOUT ANY WARRANTY; without even the implied warranty of
-;;; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-;;; GNU General Public License for more details.
-;;;
-;;; You should have received a copy of the GNU General Public License
-;;; along with this program.  If not, see <https://www.gnu.org/licenses/>.
-
-;; Generate a bootable image (e.g. for USB sticks, etc.) with:
-;; $ guix system disk-image nongnu/system/install.scm
-
-;;Module usb-install
-(define-module (nongnu system usb-install)
-  #:use-module (gnu system)
-  #:use-module (gnu system install)
-  #:use-module (gnu packages version-control)
-  #:use-module (gnu packages vim)
-  #:use-module (gnu packages curl)
-  #:use-module (gnu packages emacs)
-  #:use-module (gnu packages linux)
-  #:use-module (gnu packages mtools)
-  #:use-module (gnu packages package-management)
-  #:use-module (gnu packages file-systems)
-  #:use-module (nongnu packages linux)
-  #:export (installation-os-nonfree))
-
-(define installation-os-nonfree
-  (operating-system
-   (inherit installation-os)
-   (kernel linux)
-   (firmware (list linux-firmware))
-
-   (kernel-arguments '("quiet" "modprobe.blacklist=radeon" "net.iframes=0"))
-
-   (packages
-    (append (list exfat-utils
-                  fuse-exfat
-                  git
-                  curl
-                  stow
-                  vim
-                  emacs-no-x-toolkit)
-            (operating-system-packages installation-os)))))
-
-    installation-os-nonfree
-
-#+end_src
 
 * Profile Management
 

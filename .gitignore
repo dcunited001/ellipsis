@@ -43,6 +43,9 @@ skel-images/**/*
 
 .emacs.d/per-system-settings.el
 
+# guile
+.guile
+
 # guix
 .config/guix/channels.scm
 .config/guix/systems/base-system.scm

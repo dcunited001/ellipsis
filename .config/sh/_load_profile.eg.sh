@@ -3,7 +3,7 @@
 # This is the default _load_profile.d.sh script
 
 __scripts=(
-"guix.sh"
+"guix.sh"   
 "apps.sh"
 "xdg.sh"
 "gtk.sh"
@@ -11,6 +11,7 @@ __scripts=(
 "emacs.sh"
 "java.sh"
 "julia.sh"
+"graphviz.sh"
     )
 
 for __script in ${__scripts[@]}; do

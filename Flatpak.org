@@ -1,0 +1,93 @@
+#+TITLE:     Flatpak
+#+AUTHOR:    David Conner
+#+EMAIL:     noreply@te.xel.io
+#+DESCRIPTION: notes
+
+* Tasks
+
+*** TODO create link to =/flatpak=
+
+*** TODO update XDG =~/Documents=, etc locations (should already be done)
+
+*** TODO
+
+* Overview
+
+This file describes most of the setup, which may require some steps
+in [[file:Bash.org::*Flatpak][Bash.org: Flatpak]] to complete. e.g.
+
++ prepend =/flatpak= to =XDG_DATA_DIRS=
++ create link from =/data/flatpak= to =/flatpak=
+
+** Environment
+
+Quick reminder of the environment before proceeding
+
+#+begin_src emacs-lisp :results output
+(let* ((+-env-vars '("_DF" "_DATA" "_XS" "_ECTO" "_REPO" "_STEAM" "_FLATPAK" "DOOMDIR" "_GUIX"))
+       (+-env-alist (->> +-env-vars
+                         (--annotate (getenv it))
+                         (--> (-lambda (a) (rassoc it))))))
+  (--each +-env-alist (print it)))
+#+end_src
+
+#+RESULTS:
+#+begin_example
+
+("/home/dc/.dotfiles" . "_DF")
+
+("/data" . "_DATA")
+
+("/data" . "_XS")
+
+("/data/ecto" . "_ECTO")
+
+("/data/repo" . "_REPO")
+
+("/steam" . "_STEAM")
+
+(nil . "_FLATPAK")
+
+("/home/dc/.doom.d" . "DOOMDIR")
+
+("/gnu" . "_GUIX")
+#+end_example
+
+* Setup
+
+** Installation
+
+This should setup the custom flatpak installation
+
+#+begin_src shell
+
+#+end_src
+
+** Repos
+
+#+begin_src shell
+
+flatpak remote-add --user --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
+
+flatpak remote-add --user --if-not-exists flathub-beta https://flathub.org/beta-repo/flathub-beta.flatpakrepo
+
+#+end_src
+
+** Applications
+
+*Applications to Install*
+
+#+begin_src shell
+case $(hostname) in
+
+    hersai)
+
+        flatpak install --user flathub com.discordapp.Discord
+        flatpak install --user flathub-beta com.obsproject.Studio
+
+        flatpak install --user flathub com.valvesoftware.Steam
+        flatpak install --user flathub com.valvesoftware.Steam.CompatibilityTool.Proton
+
+esac
+
+#+end_src

@@ -29,6 +29,7 @@
   - [[#java][Java]]
   - [[#julia][Julia]]
   - [[#node][Node]]
+  - [[#graphviz][Graphviz]]
 - [[#profile][Profile]]
   - [[#profile-1][=.profile=]]
 - [[#alacritty][Alacritty]]
@@ -193,6 +194,7 @@ __scripts=(
 "emacs.sh"
 "java.sh"
 "julia.sh"
+"graphviz.sh"
     )
 
 for __script in ${__scripts[@]}; do
@@ -247,6 +249,7 @@ export XDG_DATA_DIRS="/flatpak/.local/share/flexpak/exports/share:${XDG_DATA_DIR
 Flatpak docs imply that =FLATPAK_USER_DIR= can be used to set a custom location for the user's flatpak installtion, but i have not tested it. (this approach is separate from the above)
 
 #+begin_src sh :tangle .config/sh/profile.d/xdg.sh :shebang #!/bin/sh
+
 # Installation should be linked to
 #export FLATPAK_CONFIG_DIR=/flatpak/.config/flatpak
 #export FLATPAK_UESR_DIR=/flatpak/.local/share/flatpak
@@ -341,9 +344,11 @@ export GTK2_RC_FILES="$HOME/.gtkrc-2.0"
 ** Emacs
 
 #+begin_src sh :tangle .config/sh/profile.d/emacs.sh :shebang #!/bin/sh
+
 export ORG_DIRECTORY=/data/org
 #export ORG_AGENDA_ROOT=
 #export ORG_ROAM_ROOT
+
 #+end_src
 
 * Languages
@@ -385,6 +390,12 @@ export JULIA_DEPOT_PATH="$_DATA/lang/.julia:$JULIA_DEPOT_PATH"
 
 #+begin_src sh :tangle .config/sh/profile.d/node.sh :shebang #!/bin/sh
 [[ -f /usr/share/nvm/init-nvm.sh ]] && source /usr/share/nvm/init-nvm.sh
+#+end_src
+
+** Graphviz
+
+#+begin_src sh :tangle .config/sh/profile.d/graphviz.sh :shebang #!/bin/sh
+export GRAPHVIZ_DOT=~/.guix-extra-profiles/desktop/desktop/bin/dot
 #+end_src
 
 * Profile
@@ -456,9 +467,6 @@ export NO_AT_BRIDGE=1
 # sdl
 #export SDL_VIDEODRIVER=wayland        # this can prevent programs from starting old sdl games. therefore, this should be set per app instead of globally.
 
-# Graphviz
-export GRAPHVIZ_DOT=/usr/bin/dot
-
 #+end_src
 
 *** After Profile.d
@@ -492,7 +500,7 @@ Try to source =.bashrc=. If the shell is non-interactive, =.bashrc= will return
 #+begin_src sh :tangle .alacritty_profile :shebang #!/bin/sh
 GUIX_AUTOLOAD_PROFILES=(desktop i3 devtools)
 
-[[ -f $HOME/.profile ]] && . $HOME/.profile
+[[ -f $HOME/.profile ]] && source $HOME/.profile
 #+end_src
 
 ***** TODO move direnv into the user profile
