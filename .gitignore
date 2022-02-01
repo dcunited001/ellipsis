@@ -48,10 +48,13 @@ skel-images/**/*
 
 # guix
 .config/guix/channels.scm
-.config/guix/systems/base-system.scm
+.config/guix/base-channels.scm
+#.config/guix/systems/base-system.scm
+#.config/guix/systems/*.scm
 .config/guix/systems/install.scm
-.config/guix/systems/*.scm
 .config/guix/manifests
+
+# shepherd
 .config/shepherd/init.scm
 
 # user-level guix channel signing keys
