@@ -1,6 +1,12 @@
 ;;* Module: hersai
 (define-module (hersai)
   #:use-module (base-system)
+  #:use-module (gnu services)
+  #:use-module (gnu system)
+  #:use-module (gnu system uuid)
+  #:use-module (gnu system file-systems)
+  #:use-module (gnu system mapped-devices)
+
   #:use-module (gnu packages firmware)
   #:use-module (nongnu packages linux))
 
