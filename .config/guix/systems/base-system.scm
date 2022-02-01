@@ -10,6 +10,7 @@
   #:use-module (gnu services networking)
   #:use-module (gnu services virtualization)
   #:use-module (gnu packages wm)
+  #:use-module (gnu packages ssh)
   #:use-module (gnu packages cups)
   #:use-module (gnu packages vim)
   #:use-module (gnu packages gtk)
@@ -27,7 +28,6 @@
   #:use-module (gnu packages package-management)
   #:use-module (nongnu packages linux)
   #:use-module (nongnu system linux-initrd))
-
 
 ;;** use-service-modules nix, desktop, xorg
 (use-service-modules nix)
@@ -52,7 +52,7 @@
 ;;
 ;; Override the default %desktop-services to add the udev backlight config
 ;; and include OpenVPN in the list of NetworkManager plugins.
-(define %dc-desktop-services
+(define-public dc-desktop-services
   (modify-services
    %desktop-services
 
@@ -143,22 +143,22 @@ EndSection
                   (comment "David Conner")
                   (group "users")
                   (home-directory "/home/dc")
-                  (supplementary-groups '(
-                                          "wheel"      ;; sudo
-                                          "netdev"     ;; network devices
+                  (supplementary-groups '("wheel"  ;; sudo
+                                          "netdev" ;; network devices
                                           "kvm"
                                           "tty"
                                           "input"
                                           "docker"
-                                          "realtime"   ;; Enable RT scheduling
-                                          "lp"         ;; control bluetooth
-                                          "audio"      ;; control audio
-                                          "video"      ;; control video
+                                          "realtime" ;; Enable RT scheduling
+                                          "lp"       ;; control bluetooth
+                                          "audio"    ;; control audio
+                                          "video"    ;; control video
                                           )))
 
                  %base-user-accounts))
 
-    (groups (cons (user-group (system? #t) (name "realtime"))
+    (groups (cons* (user-group (system? #t) (name "realtime"))
+                  (user-group (system? #t) (name "docker"))
                   %base-groups))
 
     ;; install bare-minimum system packages
@@ -219,7 +219,7 @@ EndSection
                      (bluetooth-service #:auto-enable? #t)
                      (remove (lambda (service)
                                (eq? (service-kind service)  gdm-service-type))
-                             %dc-desktop-services)))
+                             dc-desktop-services)))
 
     ;; allow resolution of '.local' hostnames with mDNS
     (name-service-switch %mdns-host-lookup-nss)))
