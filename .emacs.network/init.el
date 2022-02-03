@@ -39,7 +39,8 @@
 (require 'package)
 (add-to-list 'package-archives
              '("melpa-stable" . "https://stable.melpa.org/packages/"))
-(setq package-selected-packages '(ios-config-mode quelpa ansible))
+;; TODO determine whether this is necessary
+;; (setq package-selected-packages '(ios-config-mode quelpa ansible))
 
 ;;** Theme
 
@@ -47,7 +48,6 @@
           (lambda () (progn
                        (modus-themes-load-themes)
                        (modus-themes-load-vivendi))
-	    ;;(lambda () (load-theme 'tsdh-dark))
             ))
 
 ;;** Lispy

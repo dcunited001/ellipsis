@@ -12,18 +12,24 @@ All the configuration takes place in config.el. For most of the dependencies,
 you will need to have the corresponding Guix package loaded
 
 **** TODO manual links
-
 **** TODO guix profile list for .emacs.network
-
 **** TODO port over minimal elisp
 
-* Configuration
+* Setup
 
 ** Emacs
 
 Set up [[github:plexus/chemacs2][plexus/chemacs2]]. Plexus is one of those github repo strings worth
 memorizing, like drduh and loxodo. I would install this configuration into
 =~/.emacs.network=.
+
+** Quelpa
+
+For now, there is no =emacs-quelpa= package from Guix/
+
+This config uses Quelpa, which is for emacs-lisp developers who want a faster
+feedback loop. In this config, I'm using it for recipes to download
+less-available packages like Cisco IOS mode.
 
 ** Guix Manifest
 
@@ -116,3 +122,53 @@ addition to a system-wide emacs server.
 **** Guix Environment
 
 This is the abstraction membrane to use. (I say membrane because there is no clear up or down to this tree). With a =guix shell= or =guix environment= you will be able to spawn a process, stripped down to only the guix profiles that you want to load.
+
+* Functionality
+
+** Guix
+
+**** TODO complete Guix description
+
+** Ansible
+
+This configuration is intended mostly to get me an interface to Ansible or,
+shit, at least a mode that completes my YAML keywords (something, something VS
+Code).
+
+**** TODO complete Ansible description
+
+** Babel
+
+Babel can be used with templating functionality, although noweb templates are do
+not include funtionality that most templating systems include. Thus something more complex, like =Babel -> Jinja2= then =Shell= would be required.
+
+**** TODO complete description
+
+** Tramp
+
+Configs can be deployed via SSH/Tramp. This can be done on some servers if SSH can write to the file system. Because of how
+
+**** TODO complete Tramp description
+
+*** Tramp with Babel
+
+Babel can also run shell scripts on a remote server, but Ansible should be used
+for this instead. Using Babel makes sense if:
+
++ you are working on an Ansible playbook where you don't plan on using roles or
+  they are not well defined .....
+
+** TFTP
+
+** Cisco
+
+This config uses =cisco-ios-mode= which i haven't fully explored yet, but should
+provide a major-mode with some basic completion.
+
+**** TODO update with more details (cisco IOS mode)
+
+** Certificate Management
+
+=x509-mode= provides some capability for interacting with certificates. I don't believe I'll use emacs to push certs, but instead to inspect/reflect on them.
+
+**** TODO update with more details (x509 mode)
