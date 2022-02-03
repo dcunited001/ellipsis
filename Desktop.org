@@ -1467,18 +1467,24 @@ flatpak install --user flathub com.valvesoftware.Steam.CompatibilityTool.Proton
 #+begin_src scheme :noweb-ref packages :noweb-sep ""
 
 "xev"
-"xset"
-"xrdb"
-"xhost"
+"xkbcomp"
+"xkbprint"
+"xkbevd"
+"xkbutils"
 "xmodmap"
 "setxkbmap"
-"xrandr"
-"arandr"
-"xss-lock"
+;; "xkeyboard-config" ;; too many deps
+
 "libinput"
 "xinput"
 
-"xkbcomp"
+"xset"
+"xrdb"
+"xhost"
+"xss-lock"
+
+"xrandr"
+"arandr"
 "autorandr"
 
 #+end_src

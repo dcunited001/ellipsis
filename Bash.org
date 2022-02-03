@@ -578,9 +578,19 @@ if [ -f ~/.profile ]; then . ~/.profile; fi
 #+begin_src scheme :tangle ".config/guix/manifests/devtools.scm"
 
 (specifications->manifest
-'("gcc-toolchain"
+'("git"
+  "gcc-toolchain"
   "git-repo"
   "direnv"
+
+  "fd"
+  "ripgrep"
+
+  "plantuml"
+  "graphviz"
+
+  "htop"
+  "stow"
   ))
 
 #+end_src
@@ -613,7 +623,6 @@ in a terminal-only interface.
 #+begin_src scheme :tangle .config/guix/manifests/tui-apps.scm
 (specifications->manifest
  '(
-   "htop"
    ;"lnav"
    ))
 #+end_src

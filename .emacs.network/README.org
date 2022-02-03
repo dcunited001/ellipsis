@@ -68,12 +68,14 @@ memorizing, like drduh and loxodo. I would install this configuration into
 Then link the profile
 
 #+begin_src shell
-[[ -L $XDG_CONFIG_HOME/guix/manifests/emacs.network.scm ]] || ln -s $PWD/emacs-network.scm $XDG_CONFIG_HOME/guix/manifests/emacs.network.scm
+[[ -L $XDG_CONFIG_HOME/guix/manifests/emacs.network.scm ]] || ln -s $PWD/emacs.network.scm $XDG_CONFIG_HOME/guix/manifests/emacs.network.scm
 #+end_src
+
+#+RESULTS:
 
 *** Loading the Manifest
 
-If you are using this in a windows manager, then you'll need to ensure that your xsession /or whatever/ has the profile loaded when you start emacs. There are a few ways to do this:
+If you are using this in a windows manager, then you'll need to ensure that your xsession /or whatever/ has the profile loaded wfhen you start emacs. There are a few ways to do this:
 
 **** Windows Manager
 
