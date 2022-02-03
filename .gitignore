@@ -40,8 +40,11 @@ skel-images/**/*
 .config/xsettingsd/xsettingsd.conf
 
 # Emacs
-
 .emacs.d/per-system-settings.el
+
+# .emacs.network
+.config/guix/manifests/emacs-network.scm
+.emacs.network/.emacs-network.scm
 
 # guile
 .guile

@@ -1,11 +1,8 @@
 #!/bin/sh
-echo "loading profile"
 
 # Source .profile for common environment vars
 GUIX_AUTOLOAD_PROFILES=(desktop i3 devtools)
-. ~/.profile
-
-echo "GUIX_AUTOLOAD_PROFILES: loaded"
+source ~/.profile
 
 setxkbmap -option "caps:escape"
 

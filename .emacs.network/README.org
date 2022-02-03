@@ -11,30 +11,6 @@
 All the configuration takes place in config.el. For most of the dependencies,
 you will need to have the corresponding Guix package loaded
 
-** Why Guix
-
-NOTE: this is just a brief overview of the methods available to you for
-customizing precisely how an environment is loaded for an application run under
-guix. You CANNOT replicate this functionality in debian, arch or flatpak ... not
-without being an expert.
-
-+ Debian :: you will make fairly heavy use of their package mgmt toolchain.
-  - You will likely need a custom package repository.
-  - You will need tooling to auto-upgrade the builds of your custom packages.
-+ Arch :: you will need to ... ditto.
-  - You will also need =aurutils= and, again, a custom package repo.
-  - You will again need to automate upgraded packages
-  - Running multiple pacman databases is complicated and it is difficult to make packages install to the correct endpoints, while ensuring shared library objects are available (of the proper version, etc)
-  - It will break when you don't upgrade things or when you reinstall.
-+ Guix :: you will also need to do similar things: you must run at least one channel (i.e. package repo on your local file system) and you will heavily interface with the package management tools.
-  - if I said Guix too much easier than the above, i'd be lying. nothing is simpler than the domain. the difference with Guix is that, if you want a build farm, it's about as easy as it could possibly be.
-    * See [[github:emacsmirror/build-farm][Hydra/Cuirass]]
-    * .... find manual link for build farms
-  - additionally working with Scheme is a requirement. it's hard. if you don't
-    want want to use Scheme (or learn 2+ lisps), then _you can use Nix._ That is completely reasonable.
-  - with the alternatives above, good luck getting things like having consistent man pages or avoiding things like Gnome/GTK dependency issues.
-
-
 **** TODO manual links
 
 **** TODO guix profile list for .emacs.network
@@ -54,20 +30,52 @@ memorizing, like drduh and loxodo. I would install this configuration into
 + Tangle the manifest in this file
 + Install the the guix man
 
-If anything like the above sounds unfamiliar, you're probably not using linux.
-Additionally, your system is probably not robust to failure. If the big bad wolf
-comes along and blows your shit over, GLHF. If you have a job where you use
-linux and your system goes down in such a way, you may get fired. You must
-automate.
+#+begin_src scheme :tangle ./emacs.network.scm
+(specifications->manifest
+ '(
+   "git"
 
-+ Yes, you can have backups. This helps
-+ But the technical debt you'll incur when having a polluted environment is somethign that backups cannot give you. If youre environment is polluted, you're probably on stack overflow right now.
+   ;; emacs
+   "emacs-better-defaults"
+   "emacs-hydra"
+   "emacs-discover-my-major"
 
-Precise control over a process's environment with /minimal effort/: this is what makes guix shine. It might seem like more work at first, but you should know about all these interfaces anyways.
+   ;; guix
+   "emacs-guix"
+
+   ;; emacs-lisp
+   "emacs-dash"
+
+   ;; lisp
+   "emacs-lispy"
+
+   ;; scheme/geiser/guile
+   "emacs-geiser"
+   "emacs-geiser-guile"
+
+   ;; ansible
+   "emacs-polymode-ansible"
+
+   ;; autocomplete
+   "emacs-autocomplete"
+
+   ;; snippets
+   "emacs-yasnippet"
+   "emacs-yasnippet-snippets"
+))
+#+end_src
+
+Then link the profile
+
+#+begin_src shell
+[[ -L $XDG_CONFIG_HOME/guix/manifests/emacs.network.scm ]] || ln -s $PWD/emacs-network.scm $XDG_CONFIG_HOME/guix/manifests/emacs.network.scm
+#+end_src
+
+*** Loading the Manifest
 
 If you are using this in a windows manager, then you'll need to ensure that your xsession /or whatever/ has the profile loaded when you start emacs. There are a few ways to do this:
 
-*** Windows Manager
+**** Windows Manager
 
 Ensure the guix profile is loaded by your =.xsession= script and restart your
 window manager. See [[file:~/.dotfiles/.xsession.eg][.xsession.eg]] for more details.
@@ -77,23 +85,24 @@ it's not the only dep. injection point. You shouldn't over-rely on this one --
 since =guix shell= and =guix environment= obviate it and more appropriately
 constructs the stripped down environment you want for whatever project you're
 working on. Regardless, sometimes you need a consistent set of dependencies
-available for anything loaded by your xsession or window manager shell. So, it maybe should be here:
+available for anything loaded by your xsession or window manager shell. So, it
+maybe should be here:
 
 - if a =*.desktop= file will launch a process that needs a dep
 - if you want rofi to launch it.
 
 If you want to be able to run this profile in the console -- bc your vttys might as well be i3, right? -- then you'll want to avoid this method
 
-*** XDG Desktop File
+**** XDG Desktop File
 
 + Add a =*.desktop= file and configure appropriately for your =.profile= and
   emacs. These are annoying to mess with and easily lost if not stored in VC.
 
-*** Shepherd Service
+**** Shepherd Service
 
-**** TODO describe how to load a set of dependencies in on top of the shephered service before it is loaded (and when it is reloaded)
+***** TODO describe how to load a set of dependencies in on top of the shephered service before it is loaded (and when it is reloaded)
 
-*** Emacs-Guix
+**** Emacs-Guix
 
 The =emacs-guix= package allows you to reconcile the =GUIX_PROFILE= you have
 loaded into emacs. To do this, you _may_ be able to ensure that
@@ -102,6 +111,6 @@ loaded into emacs. To do this, you _may_ be able to ensure that
 server-wide, so you may decide to manage multiple processes for emacs in
 addition to a system-wide emacs server.
 
-*** Guix Environment
+**** Guix Environment
 
 This is the abstraction membrane to use. (I say membrane because there is no clear up or down to this tree). With a =guix shell= or =guix environment= you will be able to spawn a process, stripped down to only the guix profiles that you want to load.
