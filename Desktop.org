@@ -41,7 +41,6 @@
     - [[#mpv][mpv]]
     - [[#codecs-and-drivers][Codecs and Drivers]]
   - [[#image-viewers-and-editors][Image Viewers and Editors]]
-  - [[#games][Games]]
   - [[#document-readers][Document Readers]]
   - [[#syncthing][Syncthing]]
   - [[#flatpak][Flatpak]]
@@ -424,6 +423,7 @@ hide_edge_borders both
 "i3status"
 "i3lock"
 "dmenu"
+"xwallpaper"
 
 #+end_src
 
@@ -1319,16 +1319,6 @@ keep-open
 "scrot"
 #+end_src
 
-** Games
-
-*.config/guix/manifests/games.scm*
-
-#+begin_src scheme :tangle .config/guix/manifests/games.scm :noweb yes
-(specifications->manifest
- '("aisleriot"
-   "gnome-mahjongg"))
-#+end_src
-
 ** Document Readers
 
 #+begin_src conf :tangle .config/zathura/zathurarc
@@ -1500,7 +1490,6 @@ flatpak install --user flathub com.valvesoftware.Steam.CompatibilityTool.Proton
 "ripgrep"
 
 #+end_src
-
 
 * Desktop Profiles
 
