@@ -33,56 +33,60 @@
 ;;** operating-system
 (define system
   (operating-system
-    (inherit base-operating-system)
-    (host-name "hersai")
+   (inherit base-operating-system)
+   (host-name "hersai")
 
-    ;; NOTE: has Broadcom BCM4360 wifi (broadcom-sta n/a)
-    ;; TODO: add broadcom-bt-firmware
-    (firmware (list linux-firmware
-                    openfwwf-firmware))
+   ;; NOTE: has Broadcom BCM4360 wifi (broadcom-sta n/a)
+   ;; TODO: add broadcom-bt-firmware
+   (firmware (list linux-firmware
+                   openfwwf-firmware))
 
-    (mapped-devices
-     (list (mapped-device
-            (source (uuid "5d969658-9af4-48f0-b467-0ea6a4f82195"))
-            (targets (list "pde"))
-            (type luks-device-mapping))
+   (mapped-devices
+    (list (mapped-device
+           (source (uuid "5d969658-9af4-48f0-b467-0ea6a4f82195"))
+           (targets (list "pde"))
+           (type luks-device-mapping))
 
-           (mapped-device
-            (source "matrix")
-            (targets (list "matrix-rootvol" "matrix-swapvol" "matrix-homevol"))
-            (type lvm-device-mapping))))
+          (mapped-device
+           (source "matrix")
+           (targets (list "matrix-rootvol" "matrix-swapvol" "matrix-homevol"))
+           (type lvm-device-mapping))))
 
- (file-systems (cons*
+   (services %hersai-desktop-services)
 
-                (file-system
-                 (device (file-system-label "root"))
-                 (mount-point "/")
-                 (type "ext4")
-                 (needed-for-boot? #t)
-                 (dependencies mapped-devices))
+   (file-systems (cons*
 
-                (file-system
-                 (device (file-system-label "home"))
-                 (mount-point "/home")
-                 (type "ext4")
-                 (needed-for-boot? #f)
-                 (dependencies mapped-devices))
+                  (file-system
+                   (device (file-system-label "root"))
+                   (mount-point "/")
+                   (type "ext4")
+                   (needed-for-boot? #t)
+                   (dependencies mapped-devices))
 
-                (file-system
-                 (device (file-system-label "Data"))
-                 (mount-point "/data")
-                 (type "ext4")
-                 (needed-for-boot? #f))
+                  (file-system
+                   (device (file-system-label "home"))
+                   (mount-point "/home")
+                   (type "ext4")
+                   (needed-for-boot? #f)
+                   (dependencies mapped-devices))
 
-                ;; /boot/efi needs to be enumerated here
-                ;;   in addition to the (bootloader...) declaration
-                (file-system
-                 (device "/dev/sda1")
-                 (mount-point "/boot/efi")
-                 (type "vfat"))
-                %base-file-systems))
+                  (file-system
+                   (device (file-system-label "Data"))
+                   (mount-point "/data")
+                   (type "ext4")
+                   (needed-for-boot? #f))
 
-    (services %hersai-desktop-services)
-    (swap-devices (list (file-system-label "swap")))))
+                  ;; /boot/efi needs to be enumerated here
+                  ;;   in addition to the (bootloader...) declaration
+                  (file-system
+                   (device "/dev/sda1")
+                   (mount-point "/boot/efi")
+                   (type "vfat"))
+                  %base-file-systems))
+
+
+   (swap-devices (list (file-system-label "swap")))
+
+   ))
 
 system

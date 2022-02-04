@@ -6,7 +6,7 @@
   #:use-module (gnu services base)
   #:use-module (gnu system)
   #:use-module (gnu system uuid)
-  #:use-module (gnu system file-system)
+  #:use-module (gnu system file-systems)
   #:use-module (gnu system mapped-devices)
   #:use-module (gnu packages firmware)
   #:use-module (nongnu packages linux))
@@ -37,10 +37,11 @@
                  ;; has Broadcom BCM4331 wifi
                  openfwwf-firmware))
 
+ (services %tokos-desktop-services)
+ (swap-devices (list (file-system-label "swap")))
 
  ;; NOTE expect patch for:
  ;; - (mapped-devices ...)
  ;; - (file-systems ...)
 
- (services %tokos-desktop-services)
- (swap-devices (list (file-system-label "swap"))))
+ )
