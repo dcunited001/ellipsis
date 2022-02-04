@@ -36,12 +36,32 @@ comes along and blows your shit over, GLHF. If you have a job where you use
 linux and your system goes down in such a way, you may get fired. You must
 automate.
 
-+ Yes, you can have backups. This helps
+*** Backups Vs Declarative Config
+
+In analogy to dialectical terms, Backups are like Marxist Dialectical and
+Declarative Config like Hegelian Dialectical. You want both.
+
++ Yes, you can have backups.
+  - This helps with problems you expect to have.
+  - Marxist dialectical because: /this was the system state./
 + But the technical debt you'll incur when having a polluted environment is
   something that backups cannot protect you from. If your environment is
   polluted, you're probably on stack overflow right now.
+  - These are the problems you don't know you're going to encounter.
+  - Hegelian dialectical because: /ideally, this will be the system state, but is yet to be proven./
 
 Precise control over a process's environment with /minimal effort/: this is what makes guix shine. It might seem like more work at first, but you should know about all these interfaces anyways.
+
+*** /etc/strange
+
+#+begin_quote
+Another advantage of Guix System's bloat-free Guix profiles, Shepherd service
+manager and declarative =/etc/strange= configs:
+
+Quite a bit of malware/metasploits will simply misfire. And persistence is just as amusing.
+
+Just log the right shit, sit back and enjoy the unintended fireworks.
+#+end_quote
 
 
 * Deploying
@@ -51,6 +71,52 @@ First and foremost, go look at [[https://github.com/daviwil/dotfiles][daviwil's 
 This is for my own reference. My config is slightly different -- it doesn't use emacs windows manager, but still keeps the elisp snippets for templates. So the setup process is also different.
 
 ** Get the code
+
+*** Install Guix System if necessary
+
+It is highly recommended that you install with the System Crafters USB image.
+You'll need to build this first. Why? You can skip one or two =guix reconfigure=
+commands this way, which will slow you down. Further, you will want to know how
+to use the following command in the command-line installer to get access to
+nonguix substitutes (without needing to restart, then authorize guix channel
+substitutes, then reconfigure, then restart)
+
+=sudo guix reconfigure --substitute-urls=...=
+
+**** RTFM
+
+You will need to skim about 1,500 pages before you start. Learn how to use the
+=info= command. Expect to need to learn scheme. Trying out Guix commands on the
+ISO is an easy, low-commitment way to try it out.
+
+**** Guix System is simpler
+
+IMO, it's just simpler to run the entire Guix system than it is to run another Linux with Guix. Doing so means that you'll end up with:
+
++ Package Manager :: Pacman + Guix
+  + You will need to more tightly manage the integration of Guix into your
+    =.profile= so that it properly loads things like =$PATH= without causing incompatibilities
+  + In other words, you'll probably just want to load Guix profiles manually without making applications downloaded via guix (e.g. pGTK build of emacs) available to users in the WM
+    - in this approach, if you download GUI apps via guix, then you will edit
+      desktop files to ensure the proper profiles are loaded. This will require
+      creating some init scripts to accompany those desktop files.
++ Service Manager :: Systemd + Shepherd
+  - It will be confusing to install things that depend on other services which are not available to shepherd in its graph.
+    - you can still have these services load, but its much less confusing if you just have one service manager.
+  - System Services
++ System Updates/Maintainence :: Arch + Guix System
+  - Don't touch the =/gnu/store= or anything related to it. if you want it in
+    it's own partition, put it there before you install. If you break =/gnu/store= you may not be able to reinstall guix ... at least not without some serious headaches.
+
+**** TLDR: if you want Guix on Arch or some other distribution:
+
+- You can use Guix itself to produce these images.
+  - This can be done within a VM, as well.
+  - Guix can also produce OCI Docker images, so generating images from within
+    and container is an option.
+- You may want to interact with Guix work within a VM (at least initially)
+- You're going to have to think _more_ about how your *Guix packages* and
+  *Shepherd Services* interact with the system, _not less_ .
 
 *** Clone the dotfiles
 
@@ -93,6 +159,9 @@ have any bookmarks/cache, then it may complain that files are missing.
 Alternatively, you could have started it with =emacs -q= to avoid loading an
 init file, but i have not tried this.
 
+*** TODO reorder the contents here
++ e.g. =.guix-extra-profiles= must be activated before they can be loaded
+
 *** Verify Host Configuration
 
 There are several scripts that depend on the hostname:
@@ -113,7 +182,8 @@ There are several scripts that depend on the hostname:
 
 The artifacts thus far need to be linked. The main ones of concern are:
 
-+ ~/.emacs-profiles.el :: the emacsclient scripts will check for the server available. Emacs servers use unix sockets.
++ ~/.emacs-profiles.el :: the emacsclient scripts will check for the server
+  available. Emacs servers use unix sockets.
   - If no server is available, I believe one will be started for you
   - This will use the default chemacs config.
   - This could be a problem (like if you haven't set up =.doom.d=, but doom is
@@ -123,11 +193,17 @@ The artifacts thus far need to be linked. The main ones of concern are:
 
 Simply run =~/.bin/update-dotfiles= and follow the white rabbit.
 
+#+begin_quote
+You'll need to =guix install git emacs stow=, especially if you installed from
+the Guix system ISO.
+#+end_quote
+
 *** Create the Environment Configuration
 
 In the Bash.org script, you will notice several =*.eg.sh= files. These are all
 intended to provide insertion points for the environment to be configured. If
-you don't configure them before you restart -- then if some variables are not set properly -- this will prevent you from logging in.
+you don't configure them before you restart -- then if some variables are not
+set properly -- this will prevent you from logging in.
 
 + Copy all the =~/.dotfiles/.config/sh/**/*.eg.sh= to their counterparts.
   - the configuration is designed to load profile with =.profile= and
@@ -136,8 +212,8 @@ you don't configure them before you restart -- then if some variables are not se
     - =.profile= will load =.bashrc=
 
 + There are four main insertion points:
-  - ~/.config/sh/_load_profiles.sh :: a whitelist of scripts to load
-  - ~/.config/sh/_load_rc.sh :: another whitelist of scripts to load
+  - ~/.config/sh/_load_profiles.d.sh :: a whitelist of scripts to load
+  - ~/.config/sh/_load_rc.d.sh :: another whitelist of scripts to load
   - ~/.xdg_shim.sh :: this provices a place to override xdg defaults
     - this is not really used at the moment and can be omitted.
   - .xession :: this is the file that, for me, loads xorg.
@@ -158,25 +234,36 @@ the upcoming updates to guix profiles and the last =guix reconfigure=.
 You can test that the above =.profile= changes are working properly by
 inspecting your environment in a vtty.
 
-** Finish
+** Complete Dotfiles Setup
+
+*** Authorize nonguix repository
+
+**** TODO i3-gaps is failing
+
+*** Activate Profiles
+
+The profiles need to be activated (before they can be updates
 
 *** Test the environment
 
 **** TODO finish docs
 
+** Finish
+
 *** Customize Guix System
 
 Not everything for your system should be kept in git -- thus, the =ellipsis= in
-[[github:dcunited001/ellipsis][dcunited001/ellipsis]]. So at this point, you'll need to fill in those blanks, however you do that for =~/.config/guix/systems/blank.scm=:
+[[github:dcunited001/ellipsis][dcunited001/ellipsis]]. So at this point, you'll need to fill in those blanks,
+however you do that for =~/.config/guix/systems/blank.scm=:
 
 - decrypting system configurations with PGP
 - patching system configs
 - manually fetching things like disk UUID's and filling in =(file-system ...)=
   directives
 
-  This would usually mean fetching 
+  This would usually mean fetching .....
 
-*** Reconfigure Guix
+*** Reconfigure
 
 Run =~/.bin/update-system= and wait. 
 
