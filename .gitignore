@@ -1,9 +1,15 @@
 # daviwil/dotfiles scripts
-.bin/update-dotfiles
+.bin/activate-profiles
 .bin/sync-dotfiles
 .bin/update-channels
+.bin/update-dotfiles
 .bin/update-profiles
-.bin/activate-profiles
+.bin/update-screens
+.bin/update-system
+
+# generally exclude all
+.local/share
+.config/polybar
 
 # bash
 .bashrc
@@ -29,9 +35,13 @@ skel-images/**/*
 
 # X11
 .xinitrc
+.xsession
+.xprofile
+.xessionrc
 
 # alacritty
 .config/alacritty/*
+.alacritty_profile
 
 # fontconfig
 .config/fontconfig/fonts.conf
@@ -72,12 +82,9 @@ skel-images/**/*
 # dunst
 .config/dunst
 
-# polybar
-.config/polybar/config
-.config/polybar/player-status.sh
-
 # mimetypes
 .config/mimetypes
+.config/mimeapps.list
 .local/share/mime/packages/org.xml
 
 # qutebrowser
