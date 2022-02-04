@@ -1,4 +1,4 @@
-# [[file:../../../Desktop.org::*Input][Input:1]]
+# [[file:../../../Sway.org::*Input][Input:1]]
 input type:touchpad {
       dwt enabled
       tap enabled
@@ -19,7 +19,7 @@ input type:keyboard {
 # input type:keyboard xkb_model "pc105"
 # Input:1 ends here
 
-# [[file:../../../Desktop.org::*Input][Input:2]]
+# [[file:../../../Sway.org::*Input][Input:2]]
 #exec_always {
 #   'swaymsg input type:keyboard xkb_layout "$(localectl status | grep "X11 Layout" | sed -e "s/^.*X11 Layout://")"'
 #   'swaymsg input type:keyboard xkb_variant "$(localectl status | grep "X11 Variant" | sed -e "s/^.*X11 Variant://")"'

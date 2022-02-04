@@ -1,4 +1,4 @@
-# [[file:../../../Desktop.org::*Tiling][Tiling:1]]
+# [[file:../../../Sway.org::*Tiling][Tiling:1]]
 for_window [class="Pwsafe" instance="pwsafe"] floating enable
 for_window [class="Gnuplot" instance="gnuplot"] floating enable
 for_window [app_id="org.fcitx.fcitx5-config-qt"] floating enable

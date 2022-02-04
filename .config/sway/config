@@ -1,21 +1,15 @@
-# [[file:../../Desktop.org::*Startup][Startup:1]]
+# [[file:../../Sway.org::*Startup][Startup:1]]
 # Config for sway
 #
 # Read `man 5 sway` for a complete reference.
 
 set $configpath $HOME/.config/sway/config.d
 
-include $configpath/_startp
-
-include $configpath/autostart.garuda
+include $configpath/_startup
 include $configpath/autostart
-
-include $configpath/default.garuda
 include $configpath/default
 
-include $configpath/clamshell
-
-include $configpath/tiling.garuda
+#include $configpath/clamshell
 include $configpath/tiling
 
 include $configpath/input

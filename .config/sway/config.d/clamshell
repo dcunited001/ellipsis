@@ -1,4 +1,4 @@
-# [[file:../../../Desktop.org::*Clamshell Mode][Clamshell Mode:1]]
+# [[file:../../../Sway.org::*Clamshell Mode][Clamshell Mode:1]]
 set $laptop <eDP-1>
 bindswitch --reload --locked lid:on output $laptop disable
 bindswitch --reload --locked lid:off output $laptop enable

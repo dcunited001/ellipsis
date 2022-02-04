@@ -1,4 +1,4 @@
-# [[file:../../../Desktop.org::*Theme][Theme:1]]
+# [[file:../../../Sway.org::*Theme][Theme:1]]
 # Apply gtk theming
 exec_always ~/.config/sway/scripts/import-gsettings
 
