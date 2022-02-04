@@ -42,6 +42,14 @@
 ;; TODO determine whether this is necessary
 ;; (setq package-selected-packages '(ios-config-mode quelpa ansible))
 
+;;** Quelpa
+(unless (package-installed-p 'quelpa)
+  (with-temp-buffer
+    (url-insert-file-contents "https://raw.githubusercontent.com/quelpa/quelpa/master/quelpa.el")
+    (eval-buffer)
+    (quelpa-self-upgrade))
+  (require 'quelpa))
+
 ;;** Theme
 
 (add-hook 'window-setup-hook
