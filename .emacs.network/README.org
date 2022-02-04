@@ -61,6 +61,10 @@ At first, this seems like WHOA! WTF?! but it's really not a big deal:
 
 Org-Roam is a fantastic example of this multi-process approach. LSP Server and LSP in containers is another great example of using the process abstraction to balance resource utilization.
 
+Meanwhile, open 20 tabs in chromium/firefox and all those shiny single-page
+javascript frameworks have your computer catatonic, keeling over like its on
+chemo.
+
 * Setup
 
 ** Emacs
