@@ -1,7 +1,7 @@
 #!/bin/sh
 
 # Source .profile for common environment vars
-GUIX_AUTOLOAD_PROFILES=(desktop i3 devtools)
+GUIX_AUTOLOAD_PROFILES=(i3 desktop bigbuild xdg devtools)
 source ~/.profile
 
 setxkbmap -option "caps:escape"

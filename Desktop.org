@@ -51,6 +51,9 @@
   - [[#xorg-tools][Xorg Tools]]
   - [[#misc-tools][Misc Tools]]
 - [[#desktop-profiles][Desktop Profiles]]
+  - [[#desktop-profile][Desktop Profile]]
+  - [[#i3-profile][i3 Profile]]
+  - [[#big-build][Big Build]]
 - [[#notes][Notes]]
   - [[#bluetooth-setup][Bluetooth Setup]]
 - [[#footnotes][Footnotes]]
@@ -1008,7 +1011,6 @@ xdg-mime default emacs.desktop text/org
 #+begin_src scheme :noweb-ref packages :noweb-sep ""
 
 "icecat"
-"ungoogled-chromium"
 "qutebrowser"
 "nyxt"
 
@@ -1426,7 +1428,6 @@ flatpak install --user flathub com.valvesoftware.Steam.CompatibilityTool.Proton
 
 #+begin_src scheme :noweb-ref packages :noweb-sep ""
 
-"xdg-utils"          ;; for xdg-open, etc
 "xdg-dbus-proxy"     ;; for Flatpak
 "gtk+:bin"           ;; for gtk-launch
 "glib:bin"           ;; for gio-launch-desktop
@@ -1486,12 +1487,16 @@ flatpak install --user flathub com.valvesoftware.Steam.CompatibilityTool.Proton
 "graphviz"
 "plantuml"
 
+"file"
+
 "fd"
 "ripgrep"
 
 #+end_src
 
 * Desktop Profiles
+
+** Desktop Profile
 
 *.config/guix/manifests/desktop.scm:*
 
@@ -1504,6 +1509,7 @@ flatpak install --user flathub com.valvesoftware.Steam.CompatibilityTool.Proton
 
 #+end_src
 
+** i3 Profile
 
 *.config/guix/manifests/i3.scm:*
 
@@ -1512,6 +1518,20 @@ flatpak install --user flathub com.valvesoftware.Steam.CompatibilityTool.Proton
 (specifications->manifest
  '(
    <<i3packages>>
+))
+
+#+end_src
+
+** Big Build
+
+Things I might want to build ... but not all the time.
+
+#+begin_src scheme :tangle .config/guix/manifests/bigbuild.scm :comments none
+
+(specifications->manifest
+'(
+  "ungoogled-chromium"
+  "firefox"
 ))
 
 #+end_src

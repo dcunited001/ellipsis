@@ -14,6 +14,7 @@
 - [[#environment][Environment]]
   - [[#org-variables][Org Variables]]
   - [[#xdg-shim][XDG Shim]]
+  - [[#xdg-user-dirs][XDG User Dirs]]
   - [[#profile-hooks][Profile Hooks]]
   - [[#rc-hooks][RC Hooks]]
   - [[#apps][Apps]]
@@ -39,6 +40,7 @@
   - [[#zsh][Zsh]]
 - [[#environment-1][Environment]]
   - [[#main][Main]]
+  - [[#xdg-1][XDG]]
   - [[#direnv][Direnv]]
   - [[#languages-1][Languages]]
 - [[#tui][TUI]]
@@ -149,6 +151,32 @@ export XDG_CONFIG_HOME=$HOME/.config
 #+end_src
 
 ***** TODO fix the above example script. these are XDG spec defaults, but sway will not startup...
+
+** XDG User Dirs
+
+This requires the =xdg-user-dirs= tool
+
+See [[https://wiki.archlinux.org/title/XDG_user_directories][XDG User Directories]] for more info. This file allows directories like
+=$HOME/Documents= to survive reinstallation of systems & home directories in a
+sane way.
+
+
+
+#+begin_src shell :tangle .config/user-dirs.dirs
+
+#XDG_DESKTOP_DIR="$HOME/Desktop"
+#XDG_DOWNLOAD_DIR="$_DATA/"
+XDG_DOCUMENTS_DIR="$_DATA/xdg/Documents"
+XDG_MUSIC_DIR="$_DATA/xdg/Music"
+XDG_PICTURES_DIR="$_DATA/xdg/Pictures"
+XDG_VIDEOS_DIR="$_DATA/Videos"
+#XDG_TEMPLATES_DIR="$_DATA/"
+#XDG_PUBLICSHARE_DIR="$_DATA/"
+
+#+end_src
+
+**** TODO run =xdg-user-dirs= tool on startup
+
 
 ** Profile Hooks
 
@@ -498,7 +526,7 @@ Try to source =.bashrc=. If the shell is non-interactive, =.bashrc= will return
 - for now, alacritty is set to avoid the =--login= flag
 
 #+begin_src sh :tangle .alacritty_profile :shebang #!/bin/sh
-GUIX_AUTOLOAD_PROFILES=(desktop i3 devtools)
+GUIX_AUTOLOAD_PROFILES=(i3 desktop xdg devtools)
 
 [[ -f $HOME/.profile ]] && source $HOME/.profile
 #+end_src
@@ -597,6 +625,22 @@ if [ -f ~/.profile ]; then . ~/.profile; fi
 
 **** TODO perhaps move gcc-toolchain to a separate profile
 
+** XDG
+
+I can't really imagine a desktop/terminal context where I wouldn't want XDG
+utils in the environment, but this is split out anyways...
+
+#+begin_src scheme :tangle .config/guix/manifests/xdg.scm
+
+(specifications->manifest
+    '(
+      "xdg-utils"
+      "xdg-user-dirs"
+    ))
+
+"xdg-utils"
+
+#+end_src
 
 
 ** Direnv
