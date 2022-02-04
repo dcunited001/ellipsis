@@ -44,10 +44,13 @@
 
 ;;** Quelpa
 (unless (package-installed-p 'quelpa)
+  ;; fetch if quelpa doesnt exist
   (with-temp-buffer
     (url-insert-file-contents "https://raw.githubusercontent.com/quelpa/quelpa/master/quelpa.el")
     (eval-buffer)
     (quelpa-self-upgrade))
+
+  ;; otherwise, simply require quelpa; must previously (require 'package)
   (require 'quelpa))
 
 ;;** Theme

@@ -14,7 +14,52 @@ you will need to have the corresponding Guix package loaded
 **** TODO manual links
 **** TODO guix profile list for .emacs.network
 **** TODO port over minimal elisp
-**** TODO caveat for org-agenda across multiple emacs
+
+* Caveats
+
+Using multiple emacs profiles can confuse an org-agenda workflow. If you use
+org-agenda, the simplest way to do this is to have one emacs and only one
+emacs...
+
+Some of these gotchas are fairly difficult to foresee without experience. It may
+mean that what you're working towards just won't work out. Hopefully, someone is
+there to tell you about it beforehand...
+
+**** TODO complete caveat for org-agenda across multiple emacs
+
+***** Emacs Buffers are Shared At the Emacs Server Level Only
+
+To work on distributed systems, I would recommend using the Tramp approach. This allows you to connect to remote servers to edit files, so long as you have SSH access.
+
+This means that you have to track which instance of Emacs has which projects/files open, or the various instances can stomp on each other.
+
++ One solution to this is autosaving files for a specific mode when they are changed. Save as quickly as possible and the likelihood that another
+  - if two emacsen [processes] have the same file read to memory, the only with
+    the older version wil complain. When using Tramp, this notification to emacs
+    that the file has changed under the surface may lag.
+  - This presents some challenges for syncthing.
+
+***** Org Agenda Compounds Things
+
+Most org-agenda content is read from files, maintained in memory (in emacs buffers), then updated into those files. So if you're using the "Tramp" approach, then you need to be extra mindful of which projects/files you are working on.
+
+***** Syncthing for files, Git for Transactions
+
+The configuration here is pretty complex.
+
+***** Multiple Emacsen are More Efficient
+
+This isn't usually the sense in which emacsen is used. Emacs is single-threaded.
+At first, this seems like WHOA! WTF?! but it's really not a big deal:
+
++ child processes can have their own threads and emacs can pull updates in at
+  file-system boundaries or at other interfaces/membranes.
++ In some ways, this approach is genius. For example, your editor and all the
+  community plugins /NEVER, EVER/ (not once) have to really care about
+  thread-locking or mutex issues. Also, your development env/IDE can never
+  consume all your CPU.
+
+Org-Roam is a fantastic example of this multi-process approach. LSP Server and LSP in containers is another great example of using the process abstraction to balance resource utilization.
 
 * Setup
 
@@ -83,6 +128,8 @@ Then link the profile
 #+end_src
 
 #+RESULTS:
+
+*** Activating the Manifest
 
 *** Loading the Manifest
 
