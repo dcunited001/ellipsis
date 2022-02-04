@@ -267,6 +267,18 @@ retrieve these settings appropriately. This is used throughout =Desktop.org=.
 
 #+end_src
 
+*** peku
+
+This term denotes livestock and thus:
+
++ Undifferentiated Generic VM :: [[file:.config/guix/systems/peku.scm][.config/guix/systems/peku.scm]]
+  - This will be a TUI-only system. libsixel, maybe.
+  - no per-system-settings.el
+
+**** TODO assume profiles for these VMs to be copied from  =/etc/skel=
+- use refer to =skeletons= in the guix manual
+
+
 ** USB Installation Image
 
 * Profile Management
