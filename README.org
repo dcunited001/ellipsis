@@ -39,7 +39,7 @@ automate.
 *** Backups Vs Declarative Config
 
 In analogy to dialectical terms, Backups are like Marxist Dialectical and
-Declarative Config like Hegelian Dialectical. You want both.
+Declarative Config is like Hegelian Dialectical. You want both.
 
 + Yes, you can have backups.
   - This helps with problems you expect to have.

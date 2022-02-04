@@ -306,6 +306,7 @@ GREEN='\033[1;32m'
 RED='\033[1;30m'
 NC='\033[0m'
 GUIX_EXTRA_PROFILES=$HOME/.guix-extra-profiles
+__substitute_urls=${__GUIX_SUBSTITUTE_URLS:-https://ci.guix.gnu.org https://bordeaux.guix.gnu.org}
 
 profiles=$*
 if [[ $# -eq 0 ]]; then
@@ -325,7 +326,7 @@ for profile in $profiles; do
     echo
 
     mkdir -p $profilePath
-    guix package --manifest=$manifestPath --profile="$profilePath/$profileName"
+    guix package --manifest=$manifestPath --profile="$profilePath/$profileName" --substitute-urls="$__substitute_urls"
 
     # Source the new profile
     GUIX_PROFILE="$profilePath/$profileName"
@@ -358,6 +359,7 @@ update-profiles emacs
 GREEN='\033[1;32m'
 NC='\033[0m'
 GUIX_EXTRA_PROFILES=$HOME/.guix-extra-profiles
+__substitute_urls=${__GUIX_SUBSTITUTE_URLS:-https://ci.guix.gnu.org https://bordeaux.guix.gnu.org}
 
 profiles=$*
 if [[ $# -eq 0 ]]; then
@@ -372,7 +374,7 @@ for profile in $profiles; do
   echo -e "${GREEN}Updating profile:" $profilePath "${NC}"
   echo
 
-  guix package --profile="$profilePath/$profileName" --manifest="$HOME/.config/guix/manifests/$profileName.scm"
+  guix package --profile="$profilePath/$profileName" --manifest="$HOME/.config/guix/manifests/$profileName.scm" --substitute-urls="$__substitute_urls"
 done
 
 #+end_src
@@ -383,7 +385,9 @@ This script makes it easy to update all channels to the latest commit based on a
 
 #+begin_src sh :tangle .bin/update-channels :shebang #!/bin/sh
 
-  guix pull --channels=$HOME/.config/guix/base-channels.scm
+  __substitute_urls=${__GUIX_SUBSTITUTE_URLS:-https://ci.guix.gnu.org https://bordeaux.guix.gnu.org}
+
+  guix pull --channels=$HOME/.config/guix/base-channels.scm --substitute-urls="$__substitute_urls"
   guix describe --format=channels > ~/.config/guix/channels.scm
 
 #+end_src
