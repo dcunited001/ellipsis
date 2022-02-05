@@ -165,13 +165,13 @@ sane way.
 #+begin_src shell :tangle .config/user-dirs.dirs
 
 #XDG_DESKTOP_DIR="$HOME/Desktop"
-#XDG_DOWNLOAD_DIR="$_DATA/"
+#XDG_DOWNLOAD_DIR="$_DATA/Downloads"
 XDG_DOCUMENTS_DIR="$_DATA/xdg/Documents"
 XDG_MUSIC_DIR="$_DATA/xdg/Music"
 XDG_PICTURES_DIR="$_DATA/xdg/Pictures"
 XDG_VIDEOS_DIR="$_DATA/Videos"
-#XDG_TEMPLATES_DIR="$_DATA/"
-#XDG_PUBLICSHARE_DIR="$_DATA/"
+XDG_TEMPLATES_DIR="$_DATA/Templates"
+#XDG_PUBLICSHARE_DIR="$_DATA/Public"
 
 #+end_src
 

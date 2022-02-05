@@ -22,6 +22,9 @@
 - [[#window-management][Window Management]]
   - [[#i3][i3]]
 - [[#panel][Panel]]
+  - [[#polybar][Polybar]]
+- [[#notifications][Notifications]]
+  - [[#dunst][Dunst]]
 - [[#launchers][Launchers]]
 - [[#display-management][Display Management]]
 - [[#xdg][XDG]]
@@ -214,7 +217,16 @@ Xft/HintStyle "hintnone"
 
 * Window Management
 
++ example configs:
+  + [[file:/data/ecto/x.files/benmezger/dotfiles/dot_config/i3/config::bindsym Return mode "default"][benmezger]]
+  +
+
 **** TODO change xss-lock/i3-lock to have better images
++ pick a random image from walllocks
+
+**** TODO fix i3lock hotkey
+
+
 
 ** i3
 
@@ -240,6 +252,9 @@ exec --no-startup-id xss-lock --transfer-sleep-lock -- i3lock --nofork
 # NetworkManager is the most popular way to manage wireless networks on Linux,
 # and nm-applet is a desktop environment-independent system tray GUI for it.
 exec --no-startup-id nm-applet
+
+exec_always polybar panel 2>&1 > /tmp/polybar.1.log
+exec_always syncthing-gtk
 
 # Use pactl to adjust volume in PulseAudio.
 set $refresh_i3status killall -SIGUSR1 i3status
@@ -386,14 +401,14 @@ mode "resize" {
 
 bindsym $mod+r mode "resize"
 
-exec_always polybar panel 2>&1 > /tmp/polybar.1.log
-exec_always syncthing-gtk
-
 # Start i3bar to display a workspace bar (plus the system information i3status
 # finds out, if available)
 # bar {
 #         status_command i3status
 # }
+
+for_window [window_role="pop-up"] floating enable
+for_window [window_role="task_dialog"] floating enable
 
 for_window [class="Pwsafe" instance="pwsafe"] floating enable, sticky enable
 for_window [class="Gnuplot" instance="gnuplot"] floating enable
@@ -412,8 +427,11 @@ bindsym $mod+Control+d [conmark="dev"] focus
 # Marks
 bindsym $mod+Control+shift+d mark dev
 
+smart_gaps on
+
 default_border pixel 2
 gaps inner 12
+gaps outer 0
 hide_edge_borders both
 
 #+end_src
@@ -433,12 +451,31 @@ hide_edge_borders both
 
 * Panel
 
+** Polybar
+
+*.config/polybar/custom:*
+
+#+begin_src conf :tangle .config/polybar/custom.ini :noweb yes :comments none
+
+[custom/per_settings]
+
+height = <<get-setting(name="polybar/height")>>
+font-0 = "Cantarell:size=<<get-setting(name="polybar/font-0-size")>>:weight=bold;2"
+font-1 = "Font Awesome:size=<<get-setting(name="polybar/font-1-size")>>;2"
+font-2 = "Material Icons:size=<<get-setting(name="polybar/font-2-size")>>;5"
+font-3 = "Fira Mono:size=<<get-setting(name="polybar/font-3-size")>>;-3"
+
+#+end_src
+
 *.config/polybar/config:*
 
 #+begin_src conf :tangle .config/polybar/config :noweb yes :comments none
 
 ; Docs: https://github.com/polybar/polybar
+; Themes: https:// adi1090x/polybar-themes
 ;==========================================================
+
+include-file = ~/.config/polybar/custom.ini
 
 [settings]
 screenchange-reload = true
@@ -459,7 +496,7 @@ underline-1 = #c792ea
 
 [bar/panel]
 width = 100%
-height = <<get-setting(name="polybar/height")>>
+height = ${custom/per_settings.height}
 offset-x = 0
 offset-y = 0
 fixed-center = true
@@ -480,10 +517,10 @@ padding-right = 1
 
 module-margin = 1
 
-font-0 = "Cantarell:size=<<get-setting(name="polybar/font-0-size")>>:weight=bold;2"
-font-1 = "Font Awesome:size=<<get-setting(name="polybar/font-1-size")>>;2"
-font-2 = "Material Icons:size=<<get-setting(name="polybar/font-2-size")>>;5"
-font-3 = "Fira Mono:size=<<get-setting(name="polybar/font-3-size")>>;-3"
+font-0 = ${custom/per_settings.font-0}
+font-1 = ${custom/per_settings.font-1}
+font-2 = ${custom/per_settings.font-2}
+font-3 = ${custom/per_settings.font-3}
 
 ;modules-left = exwm exwm-path
 ;modules-center = spotify
@@ -492,7 +529,6 @@ font-3 = "Fira Mono:size=<<get-setting(name="polybar/font-3-size")>>;-3"
 modules-left = xworkspaces xwindow
 modules-center = date
 modules-right = cpu temperature battery pulseaudio xkeyboard
-
 
 tray-position = right
 tray-padding = 2
@@ -518,7 +554,6 @@ cursor-scroll = ns-resize
 ; hook-0 = emacsclient -e '(dw/polybar-telegram-chats)' | sed -e 's/^"//' -e 's/"$//'
 ; format-padding = 3
 ; initial = 1
-
 
 [module/pulseaudio]
 type = internal/pulseaudio
@@ -682,6 +717,10 @@ fi
 "polybar"
 
 #+end_src
+
+* Notifications
+
+** Dunst
 
 *.config/dunst/dunstrc:*
 

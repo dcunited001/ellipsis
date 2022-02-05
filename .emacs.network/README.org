@@ -63,7 +63,8 @@ Org-Roam is a fantastic example of this multi-process approach. LSP Server and L
 
 Meanwhile, open 20 tabs in chromium/firefox and all those shiny single-page
 javascript frameworks have your computer catatonic, keeling over like its on
-chemo. Seriously though, if you say that "bitcoin is bad for the environment" but you use javascript, that's just a very special kind of bliss, isn't it?
+chemo. Seriously though, if you say that "bitcoin is bad for the environment"
+but you use javascript, that's just a very special kind of bliss, isn't it?
 
 * Setup
 
