@@ -306,14 +306,34 @@ GREEN='\033[1;32m'
 RED='\033[1;30m'
 NC='\033[0m'
 GUIX_EXTRA_PROFILES=$HOME/.guix-extra-profiles
-__substitute_urls=${__GUIX_SUBSTITUTE_URLS:-https://ci.guix.gnu.org https://bordeaux.guix.gnu.org}
 
-profiles=$*
-if [[ $# -eq 0 ]]; then
-    profiles="$HOME/.config/guix/manifests/*.scm";
+__profiles=""
+while [ "$1" != "" ]; do
+    echo $1
+
+    case $1 in
+        --substitute-urls)
+            __substitute_urls="$2"
+            shift 2
+            ;;
+        -*|--*=) # unsupported flags
+        echo "Error: Unsupported flags $1" >&2
+        exit 1
+        ;;
+        *)
+            __profiles="$__profiles $1"
+            shift
+            ;;
+    esac
+done
+
+if [ -z "$__profiles" ]; then
+    __profiles="$HOME/.config/guix/manifests/*.scm"
 fi
 
-for profile in $profiles; do
+__substitute_urls=${__substitute_urls:-https://ci.guix.gnu.org https://bordeaux.guix.gnu.org https://substitutes.nonguix.org}
+
+for profile in $__profiles; do
   # Remove the path and file extension, if any
   profileName=$(basename $profile)
   profileName="${profileName%.*}"
@@ -327,6 +347,8 @@ for profile in $profiles; do
 
     mkdir -p $profilePath
     guix package --manifest=$manifestPath --profile="$profilePath/$profileName" --substitute-urls="$__substitute_urls"
+
+    notify-send "GUIX (Activate Profile)" "Complete: $profileName"
 
     # Source the new profile
     GUIX_PROFILE="$profilePath/$profileName"
@@ -359,14 +381,35 @@ update-profiles emacs
 GREEN='\033[1;32m'
 NC='\033[0m'
 GUIX_EXTRA_PROFILES=$HOME/.guix-extra-profiles
-__substitute_urls=${__GUIX_SUBSTITUTE_URLS:-https://ci.guix.gnu.org https://bordeaux.guix.gnu.org}
 
-profiles=$*
-if [[ $# -eq 0 ]]; then
-    profiles="$GUIX_EXTRA_PROFILES/*";
+__profiles=""
+__substitute_urls=""
+while [ "$1" != "" ]; do
+    echo $1
+
+    case $1 in
+        --substitute-urls)
+            __substitute_urls="$2"
+            shift 2
+            ;;
+        -*|--*=) # unsupported flags
+        echo "Error: Unsupported flags $1" >&2
+        exit 1
+        ;;
+        *)
+            __profiles="$__profiles $1"
+            shift
+            ;;
+    esac
+done
+
+if [ -z "$__profiles" ]; then
+    __profiles="$GUIX_EXTRA_PROFILES/*";
 fi
 
-for profile in $profiles; do
+__substitute_urls=${__substitute_urls:-https://ci.guix.gnu.org https://bordeaux.guix.gnu.org https://substitutes.nonguix.org}
+
+for profile in $__profiles; do
   profileName=$(basename $profile)
   profilePath=$GUIX_EXTRA_PROFILES/$profileName
 
@@ -375,6 +418,8 @@ for profile in $profiles; do
   echo
 
   guix package --profile="$profilePath/$profileName" --manifest="$HOME/.config/guix/manifests/$profileName.scm" --substitute-urls="$__substitute_urls"
+
+  notify-send "GUIX (Update Profile)" "Complete: $profileName"
 done
 
 #+end_src
@@ -385,11 +430,29 @@ This script makes it easy to update all channels to the latest commit based on a
 
 #+begin_src sh :tangle .bin/update-channels :shebang #!/bin/sh
 
-  __substitute_urls=${__GUIX_SUBSTITUTE_URLS:-https://ci.guix.gnu.org https://bordeaux.guix.gnu.org}
+__substitute_urls=""
+while [ "$1" != "" ]; do
+    case $1 in
+        --substitute-urls)
+            __substitute_urls="$2"
+            shift 2
+            ;;
+        -*|--*=) # unsupported flags
+        echo "Error: Unsupported flags $1" >&2
+        exit 1
+        ;;
+        ,*)
+            break
+            ;;
+    esac
+done
 
-  guix pull --channels=$HOME/.config/guix/base-channels.scm --substitute-urls="$__substitute_urls"
-  guix describe --format=channels > ~/.config/guix/channels.scm
+__substitute_urls=${__substitute_urls:-https://ci.guix.gnu.org https://bordeaux.guix.gnu.org https://substitutes.nonguix.org}
 
+guix pull --channels=$HOME/.config/guix/base-channels.scm --substitute-urls="$__substitute_urls"
+guix describe --format=channels > ~/.config/guix/channels.scm
+
+notify-send "GUIX (Update Channels)" "Complete: $profileName"
 #+end_src
 
 * Dotfiles Management
