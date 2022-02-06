@@ -1,11 +1,4 @@
 # daviwil/dotfiles scripts
-.bin/activate-profiles
-.bin/sync-dotfiles
-.bin/update-channels
-.bin/update-dotfiles
-.bin/update-profiles
-.bin/update-screens
-.bin/update-system
 
 # generally exclude all
 .local/share

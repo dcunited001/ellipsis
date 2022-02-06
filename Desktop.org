@@ -116,6 +116,8 @@
 
 ** Scheduled Tasks
 
+Mcron definitions go in [[file:.config/cron][.config/cron]]. For mcron usage, see the info pages. This
+doesn't include all definitions.
 
 * Fonts
 
@@ -254,8 +256,9 @@ exec --no-startup-id xss-lock --transfer-sleep-lock -- i3lock --nofork
 # and nm-applet is a desktop environment-independent system tray GUI for it.
 exec --no-startup-id nm-applet
 
-exec_always polybar panel 2>&1 > /tmp/polybar.1.log
-exec_always syncthing-gtk
+exec_always --no-startup-id dunst 2>&1 > /tmp/dunst.1.log
+exec_always --no-startup-id polybar panel 2>&1 > /tmp/polybar.1.log
+exec_always --no-startup-id syncthing-gtk
 
 # Use pactl to adjust volume in PulseAudio.
 set $refresh_i3status killall -SIGUSR1 i3status
@@ -430,7 +433,7 @@ bindsym $mod+Control+shift+d mark dev
 
 smart_gaps on
 
-default_border pixel 2
+default_border pixel 3
 gaps inner 12
 gaps outer 0
 hide_edge_borders both
@@ -728,12 +731,10 @@ fi
 #+begin_src conf :tangle .config/dunst/dunstrc :noweb yes :comments none
 
 [global]
-
     browser = nyxt
     title = Dunst
     class = Dunst
-    startup_notification = true
-    verbosity = mesg
+    # DEPRECATED verbosity = mesg
     corner_radius = 12
 
     ### Interactions ###
@@ -743,12 +744,15 @@ fi
 
     ### Display ###
     monitor = 0
-    geometry = "500x10-10+50"  # [{width}]x{height}[+/-{x}+/-{y}]
+    width = (100, 500)
+
+    #height = (100, 300)
+
     indicate_hidden = yes # Show number of messages hidden
 
     shrink = no # Shrink windows smaller than width. ignore width=0
     transparency = 20
-    notification_height = 0
+    # DEPRECATED notification_height = 0
 
     separator_height = 5 # Draw a line of pixels between two notifications.
     separator_color = frame
@@ -822,11 +826,6 @@ fi
     # using the resolution and physical size. This might be useful in setups
     # where there are multiple screens with very different dpi values.
     per_monitor_dpi = false
-
-[shortcuts]
-    # Redisplay last message(s).
-    history = ctrl+grave
-    context = ctrl+shift+period # context menu
 
 [urgency_low]
     # IMPORTANT: colors have to be defined in quotation marks.

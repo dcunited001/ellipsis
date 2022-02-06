@@ -1,0 +1,26 @@
+#!/bin/sh
+__substitute_urls=""
+while [ "$1" != "" ]; do
+    case $1 in
+        --substitute-urls)
+            __substitute_urls="$2"
+            shift 2
+            ;;
+        -*|--*=) # unsupported flags
+        echo "Error: Unsupported flags $1" >&2
+        exit 1
+        ;;
+        *)
+            break
+            ;;
+    esac
+done
+
+__substitute_urls=${__substitute_urls:-https://ci.guix.gnu.org https://bordeaux.guix.gnu.org https://substitutes.nonguix.org}
+
+echo SUBS: $__substitute_urls
+
+guix pull --channels=$HOME/.config/guix/base-channels.scm --substitute-urls="$__substitute_urls"
+guix describe --format=channels > ~/.config/guix/channels.scm
+
+notify-send "GUIX (Update Channels)" "Complete: $profileName"

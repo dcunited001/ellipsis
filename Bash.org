@@ -448,7 +448,7 @@ If =.bash_profile= does not exist, =.profile= will be sourced instead. When bash
 #[[ -z $XDG_STATE_HOME ]] && export XDG_STATE_HOME=$HOME/.local/state
 #[[ -z $XDG_CACHE_HOME ]] && export XDG_CACHE_HOME=$HOME/.cache
 
-export PATH=$HOME/.local/bin:$PATH
+export PATH=$HOME/.local/bin:$HOME/.bin:$PATH
 #+end_src
 
 #+RESULTS:
@@ -625,6 +625,8 @@ if [ -f ~/.profile ]; then . ~/.profile; fi
 
 **** TODO perhaps move gcc-toolchain to a separate profile
 
+
+
 ** XDG
 
 I can't really imagine a desktop/terminal context where I wouldn't want XDG
@@ -638,14 +640,21 @@ utils in the environment, but this is split out anyways...
       "xdg-user-dirs"
     ))
 
-"xdg-utils"
-
 #+end_src
 
 
 ** Direnv
 
 ** Languages
+
+*** Casual Python
+
+Return a casual python environment
+
+#+begin_src scheme :tangle .config/guix/manifests/casual-python.scm
+(specifications->manifest '("python"))
+#+end_src
+
 
 * TUI
 
