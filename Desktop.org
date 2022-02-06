@@ -734,7 +734,6 @@ fi
     browser = nyxt
     title = Dunst
     class = Dunst
-    # DEPRECATED verbosity = mesg
     corner_radius = 12
 
     ### Interactions ###
@@ -744,9 +743,8 @@ fi
 
     ### Display ###
     monitor = 0
-    width = (100, 500)
-
-    #height = (100, 300)
+    width = (100, 700)
+    height = 400
 
     indicate_hidden = yes # Show number of messages hidden
 
@@ -758,9 +756,8 @@ fi
     separator_color = frame
 
     horizontal_padding = 8
+    padding = 8    # between text and separator.
 
-    # Padding between text and separator.
-    padding = 8
     frame_color = "#89AAEB"
     frame_width = 2
     sort = yes # Sort messages by urgency.

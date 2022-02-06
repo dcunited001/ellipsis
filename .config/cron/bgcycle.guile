@@ -1,0 +1,4 @@
+(job
+ '(next-minute-from
+   (next-minute (range 0 1440 1)))
+ "setbg /data/xdg/Pictures/wallpapers/anime")

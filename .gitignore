@@ -32,6 +32,9 @@ skel-images/**/*
 .xprofile
 .xessionrc
 
+# XDG
+.config/user-dirs.dir
+
 # alacritty
 .config/alacritty/*
 .alacritty_profile
