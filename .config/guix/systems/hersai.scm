@@ -76,6 +76,12 @@
                    (type "ext4")
                    (needed-for-boot? #f))
 
+                  (file-system
+                   (device (file-system-label "Flatpak"))
+                   (mount-point "/flatpak")
+                   (type "ext4")
+                   (needed-for-boot? #f))
+
                   ;; /boot/efi needs to be enumerated here
                   ;;   in addition to the (bootloader...) declaration
                   (file-system
