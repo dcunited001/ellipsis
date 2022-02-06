@@ -18,6 +18,7 @@
   - [[#base-configuration][Base Configuration]]
   - [[#machines][Machines]]
   - [[#usb-installation-image][USB Installation Image]]
+  - [[#pgp-generation-image][PGP Generation Image]]
 - [[#profile-management][Profile Management]]
   - [[#activating-profiles][Activating Profiles]]
   - [[#updating-profiles][Updating Profiles]]
@@ -278,8 +279,9 @@ This term denotes livestock and thus:
 **** TODO assume profiles for these VMs to be copied from  =/etc/skel=
 - use refer to =skeletons= in the guix manual
 
-
 ** USB Installation Image
+
+** PGP Generation Image
 
 * Profile Management
 
@@ -296,73 +298,7 @@ This script accepts a space-separated list of manifest file names (without exten
 activate-profiles desktop emacs music
 #+end_example
 
-*.bin/activate-profiles:*
-
-#+begin_src sh :tangle .bin/activate-profiles :shebang #!/bin/sh
-
-# NOTE: This file is generated from ~/.dotfiles/System.org.  Please see commentary there.
-
-GREEN='\033[1;32m'
-RED='\033[1;30m'
-NC='\033[0m'
-GUIX_EXTRA_PROFILES=$HOME/.guix-extra-profiles
-
-__profiles=""
-while [ "$1" != "" ]; do
-    echo $1
-
-    case $1 in
-        --substitute-urls)
-            __substitute_urls="$2"
-            shift 2
-            ;;
-        -*|--*=) # unsupported flags
-        echo "Error: Unsupported flags $1" >&2
-        exit 1
-        ;;
-        *)
-            __profiles="$__profiles $1"
-            shift
-            ;;
-    esac
-done
-
-if [ -z "$__profiles" ]; then
-    __profiles="$HOME/.config/guix/manifests/*.scm"
-fi
-
-__substitute_urls=${__substitute_urls:-https://ci.guix.gnu.org https://bordeaux.guix.gnu.org https://substitutes.nonguix.org}
-
-for profile in $__profiles; do
-  # Remove the path and file extension, if any
-  profileName=$(basename $profile)
-  profileName="${profileName%.*}"
-  profilePath="$GUIX_EXTRA_PROFILES/$profileName"
-  manifestPath=$HOME/.config/guix/manifests/$profileName.scm
-
-  if [ -f $manifestPath ]; then
-    echo
-    echo -e "${GREEN}Activating profile:" $manifestPath "${NC}"
-    echo
-
-    mkdir -p $profilePath
-    guix package --manifest=$manifestPath --profile="$profilePath/$profileName" --substitute-urls="$__substitute_urls"
-
-    notify-send "GUIX (Activate Profile)" "Complete: $profileName"
-
-    # Source the new profile
-    GUIX_PROFILE="$profilePath/$profileName"
-    if [ -f $GUIX_PROFILE/etc/profile ]; then
-        . "$GUIX_PROFILE"/etc/profile
-    else
-        echo -e "${RED}Couldn't find profile:" $GUIX_PROFILE/etc/profile "${NC}"
-    fi
-  else
-    echo "No profile found at path" $profilePath
-  fi
-done
-
-#+end_src
++ [[file:.bin/activate-profiles][.bin/activate-profiles]]
 
 ** Updating Profiles
 
@@ -372,88 +308,13 @@ This script accepts a space-separated list of manifest file names (without exten
 update-profiles emacs
 #+end_example
 
-*.bin/update-profiles:*
-
-#+begin_src sh :tangle .bin/update-profiles :shebang #!/bin/sh
-
-# NOTE: This file is generated from ~/.dotfiles/System.org.  Please see commentary there.
-
-GREEN='\033[1;32m'
-NC='\033[0m'
-GUIX_EXTRA_PROFILES=$HOME/.guix-extra-profiles
-
-__profiles=""
-__substitute_urls=""
-while [ "$1" != "" ]; do
-    echo $1
-
-    case $1 in
-        --substitute-urls)
-            __substitute_urls="$2"
-            shift 2
-            ;;
-        -*|--*=) # unsupported flags
-        echo "Error: Unsupported flags $1" >&2
-        exit 1
-        ;;
-        *)
-            __profiles="$__profiles $1"
-            shift
-            ;;
-    esac
-done
-
-if [ -z "$__profiles" ]; then
-    __profiles="$GUIX_EXTRA_PROFILES/*";
-fi
-
-__substitute_urls=${__substitute_urls:-https://ci.guix.gnu.org https://bordeaux.guix.gnu.org https://substitutes.nonguix.org}
-
-for profile in $__profiles; do
-  profileName=$(basename $profile)
-  profilePath=$GUIX_EXTRA_PROFILES/$profileName
-
-  echo
-  echo -e "${GREEN}Updating profile:" $profilePath "${NC}"
-  echo
-
-  guix package --profile="$profilePath/$profileName" --manifest="$HOME/.config/guix/manifests/$profileName.scm" --substitute-urls="$__substitute_urls"
-
-  notify-send "GUIX (Update Profile)" "Complete: $profileName"
-done
-
-#+end_src
++ [[file:.bin/update-profiles][.bin/update-profiles]]
 
 ** Updating Channels
 
 This script makes it easy to update all channels to the latest commit based on an original channel file (see the Channels section at the top of this document).
 
-#+begin_src sh :tangle .bin/update-channels :shebang #!/bin/sh
-
-__substitute_urls=""
-while [ "$1" != "" ]; do
-    case $1 in
-        --substitute-urls)
-            __substitute_urls="$2"
-            shift 2
-            ;;
-        -*|--*=) # unsupported flags
-        echo "Error: Unsupported flags $1" >&2
-        exit 1
-        ;;
-        ,*)
-            break
-            ;;
-    esac
-done
-
-__substitute_urls=${__substitute_urls:-https://ci.guix.gnu.org https://bordeaux.guix.gnu.org https://substitutes.nonguix.org}
-
-guix pull --channels=$HOME/.config/guix/base-channels.scm --substitute-urls="$__substitute_urls"
-guix describe --format=channels > ~/.config/guix/channels.scm
-
-notify-send "GUIX (Update Channels)" "Complete: $profileName"
-#+end_src
++ [[file:.bin/update-channels][.bin/update-channels]]
 
 * Dotfiles Management
 ** Syncing
