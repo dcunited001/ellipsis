@@ -250,7 +250,10 @@ font pango:DejaVu Serif Mono 12
 
 # xss-lock grabs a logind suspend inhibit lock and will use i3lock to lock the
 # screen before suspend. Use loginctl lock-session to lock your screen.
-exec --no-startup-id xss-lock --transfer-sleep-lock -- i3lock --nofork
+set $lockpaper /data/xdg/Pictures/wallpapers/anime/blood-blockade-leonardo-2a.jpg
+exec --no-startup-id xss-lock --transfer-sleep-lock -- i3lock --nofork -e -i $lockpaper
+
+# TODO: fix reference to path
 
 # NetworkManager is the most popular way to manage wireless networks on Linux,
 # and nm-applet is a desktop environment-independent system tray GUI for it.
@@ -377,7 +380,12 @@ bindsym $mod+Shift+c reload
 bindsym $mod+Shift+r restart
 
 # exit i3 (logs you out of your X session)
-bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -B 'Yes, exit i3' 'i3-msg exit'"
+bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'Do you really want to exit i3? This will end your X session.' -B 'Yes, exit i3' 'i3-msg exit'"
+
+# lock
+bindsym $mod+q exec "loginctl lock-session"
+# FIXME: i3nag-bar does not close after logging back in
+# bindsym $mod+q exec "i3-nagbar -t warning -m 'Do really want to lock your session?' -B 'Yes, lock session' 'loginctl lock-session'"
 
 set $resizeX 5
 set $resizeY 5

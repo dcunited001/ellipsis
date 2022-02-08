@@ -1,8 +1,11 @@
 #!/bin/sh
+echo "loading profile"
 
 # Source .profile for common environment vars
-GUIX_AUTOLOAD_PROFILES=(i3 desktop bigbuild xdg devtools)
+GUIX_AUTOLOAD_PROFILES=(i3 desktop xdg devtools)
 source ~/.profile
+
+echo "GUIX_AUTOLOAD_PROFILES: loaded"
 
 setxkbmap -option "caps:escape"
 
@@ -32,6 +35,8 @@ xset -b
 
 # Enable screen locking on suspend
 xss-lock -- slock &
+
+setbg $_WALLPAPERS
 
 #exec dbus-launch --exit-with-session 
 i3 -V -d all 

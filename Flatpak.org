@@ -5,11 +5,7 @@
 
 * Tasks
 
-*** TODO create link to =/flatpak=
-
 *** TODO update XDG =~/Documents=, etc locations (should already be done)
-
-*** TODO
 
 * Overview
 
@@ -24,7 +20,7 @@ in [[file:Bash.org::*Flatpak][Bash.org: Flatpak]] to complete. e.g.
 Quick reminder of the environment before proceeding
 
 #+begin_src emacs-lisp :results output
-(let* ((+-env-vars '("_DF" "_DATA" "_XS" "_ECTO" "_REPO" "_STEAM" "_FLATPAK" "DOOMDIR" "_GUIX"))
+(let* ((+-env-vars '("_DF" "_DATA" "_XS" "_ECTO" "_REPO" "_STEAM" "_FLATPAK" "_FLATPAK_NAME" "DOOMDIR" "_GUIX"))
        (+-env-alist (->> +-env-vars
                          (--annotate (getenv it))
                          (--> (-lambda (a) (rassoc it))))))
@@ -46,48 +42,81 @@ Quick reminder of the environment before proceeding
 
 ("/steam" . "_STEAM")
 
-(nil . "_FLATPAK")
+("/flatpak" . "_FLATPAK")
+
+("flexpak" . "_FLATPAK_NAME")
 
 ("/home/dc/.doom.d" . "DOOMDIR")
 
 ("/gnu" . "_GUIX")
 #+end_example
 
-* Setup
+* Channel
 
-** Installation
+This requires having a custom channel and creating a packge which inherits.
 
-This should setup the custom flatpak installation
++ Config lives in the =./etc= directory [[file:/gnu/store/hnwpzwshaq2nfvmdvlsg2fcp8b45c4hg-flatpak-1.12.3][file:/gnu/store/hnwpzwshaq2nfvmdvlsg2fcp8b45c4hg-flatpak-1.12.3]]
+
++ /gnu/store/hnwpzwshaq2nfvmdvlsg2fcp8b45c4hg-flatpak-1.12.3
+
+
+* System Setup
+
+The installation endpoint (i.e. =$_FLATPAK=) should have already been created
+
+** Installation ([[\[Installation "extra"\]][docs]])
+
+Ensure the configuration directory exists
 
 #+begin_src shell
+
+sudo mkdir -p /etc/flatpak/installations.d/
+
+#+end_src
+
+Create the flatpak configuration
+
+#+begin_src conf :tangle /sudo:root@localhost:/etc/flatpak/installations.d/flexpak.conf
+
+[Installation "flexpak"]
+Path=/flatpak
+DisplayName=Flexpak
+StorageType=harddisk
 
 #+end_src
 
 ** Repos
 
+Set up the remotes for the flatpak install
+
 #+begin_src shell
 
-flatpak remote-add --user --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
-
-flatpak remote-add --user --if-not-exists flathub-beta https://flathub.org/beta-repo/flathub-beta.flatpakrepo
+flatpak remote-add --installation=$_FLATPAK_NAME --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
+flatpak remote-add --installation=$_FLATPAK_NAME --if-not-exists flathub-beta https://flathub.org/beta-repo/flathub-beta.flatpakrepo
 
 #+end_src
+
+#+RESULTS:
 
 ** Applications
 
 *Applications to Install*
 
 #+begin_src shell
+
 case $(hostname) in
 
     hersai)
 
-        flatpak install --user flathub com.discordapp.Discord
-        flatpak install --user flathub-beta com.obsproject.Studio
-
-        flatpak install --user flathub com.valvesoftware.Steam
-        flatpak install --user flathub com.valvesoftware.Steam.CompatibilityTool.Proton
+        flatpak install --installation=$_FLATPAK_NAME flathub com.discordapp.Discord
+        flatpak install --installation=$_FLATPAK_NAME flathub-beta com.obsproject.Studio
+        flatpak install --installation=$_FLATPAK_NAME flathub us.zoom.Zoom
+        flatpak install --installation=$_FLATPAK_NAME flathub org.blender.Blender
 
 esac
+
+
+        #flatpak install --user flathub com.valvesoftware.Steam
+        #flatpak install --user flathub com.valvesoftware.Steam.CompatibilityTool.Proton
 
 #+end_src
