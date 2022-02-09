@@ -59,6 +59,11 @@ This requires having a custom channel and creating a packge which inherits.
 
 + /gnu/store/hnwpzwshaq2nfvmdvlsg2fcp8b45c4hg-flatpak-1.12.3
 
+* Manifest
+
+#+begin_src scheme :tangle .config/guix/manifests/flexpak.scm
+(specifications->manifest "flatpak")
+#+end_src
 
 * System Setup
 
@@ -76,6 +81,7 @@ sudo mkdir -p /etc/flatpak/installations.d/
 
 Create the flatpak configuration
 
+#+begin_example org
 #+begin_src conf :tangle /sudo:root@localhost:/etc/flatpak/installations.d/flexpak.conf
 
 [Installation "flexpak"]
@@ -84,6 +90,7 @@ DisplayName=Flexpak
 StorageType=harddisk
 
 #+end_src
+#+end_example
 
 ** Repos
 
