@@ -18,8 +18,6 @@ done
 
 __substitute_urls=${__substitute_urls:-https://ci.guix.gnu.org https://bordeaux.guix.gnu.org https://substitutes.nonguix.org}
 
-echo SUBS: $__substitute_urls
-
 guix pull --channels=$HOME/.config/guix/base-channels.scm --substitute-urls="$__substitute_urls"
 guix describe --format=channels > ~/.config/guix/channels.scm
 

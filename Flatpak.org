@@ -51,13 +51,16 @@ Quick reminder of the environment before proceeding
 ("/gnu" . "_GUIX")
 #+end_example
 
+
 * Channel
 
 This requires having a custom channel and creating a packge which inherits.
 
-+ Config lives in the =./etc= directory [[file:/gnu/store/hnwpzwshaq2nfvmdvlsg2fcp8b45c4hg-flatpak-1.12.3][file:/gnu/store/hnwpzwshaq2nfvmdvlsg2fcp8b45c4hg-flatpak-1.12.3]]
++ Config lives in the =./etc= directory of the installed packages
+  -  [[file:/gnu/store/hnwpzwshaq2nfvmdvlsg2fcp8b45c4hg-flatpak-1.12.3][file:/gnu/store/hnwpzwshaq2nfvmdvlsg2fcp8b45c4hg-flatpak-1.12.3]]
 
-+ /gnu/store/hnwpzwshaq2nfvmdvlsg2fcp8b45c4hg-flatpak-1.12.3
++ Need to apply the custom =flexpak.conf= configuration to a custom package
+  - find the source [[file:/data/ecto/guix/guix/gnu/packages/package-management.scm][here]] in =(gnu packages package-management)= module
 
 * Manifest
 

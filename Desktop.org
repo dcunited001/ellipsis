@@ -54,6 +54,7 @@
   - [[#system-tools][System Tools]]
   - [[#xorg-tools][Xorg Tools]]
   - [[#misc-tools][Misc Tools]]
+  - [[#academic-tools][Academic Tools]]
 - [[#desktop-profiles][Desktop Profiles]]
   - [[#desktop-profile][Desktop Profile]]
   - [[#i3-profile][i3 Profile]]
@@ -1473,6 +1474,22 @@ flatpak install --user flathub com.valvesoftware.Steam.CompatibilityTool.Proton
 
 #+end_src
 
+** Academic Tools
+
+This will likely be moved to its own manifest.
+
+#+begin_src scheme :tangle .config/guix/manifests/academic.scm
+(specifications->manifest
+ '(
+   "anki"
+   "texlive-bin"))
+
+#+end_src
+
+**** TODO explore texlive ecosystem :latex:
++ Main Guix texlive package entrypoint
+  - [[file:/data/ecto/guix/guix/gnu/packages/tex.scm::(define-public texlive-bin][guix/gnu/packages/tex.scm]]
+
 * Desktop Profiles
 
 ** Desktop Profile
@@ -1509,7 +1526,7 @@ Things I might want to build ... but not all the time.
 
 (specifications->manifest
 '(
-  "ungoogled-chromium"
+  ;; "ungoogled-chromium"
   "firefox"
 ))
 
