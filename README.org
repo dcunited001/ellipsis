@@ -1,7 +1,29 @@
 #+TITLE: Dotfiles
 #+DESCRIPTION: Based on daviwil's dotfiles
 
+
+
 Based on [[https://github.com/daviwil/dotfiles][daviwil's dotfiles]]
+
+* Table of Contents :TOC_2_gh:
+- [[#why-guix][Why Guix]]
+- [[#overview][Overview]]
+  - [[#there-is-no-systemd][There is no SystemD]]
+  - [[#thus-there-is-no-journalctl][Thus there is no journalctl]]
+  - [[#guix-can-generate-graphs-of-package-dependencies][Guix Can Generate Graphs of Package Dependencies]]
+  - [[#download-all-the-guix-savannah-source][Download all the Guix Savannah Source]]
+  - [[#run-into-problems-on-install-or-boot][Run into problems on install or boot?]]
+  - [[#managing-guix-visually][Managing Guix Visually]]
+  - [[#where-are-configuration-files][Where are configuration files?]]
+  - [[#for-user-jobs-use-mcron-bin-and-libnotify][For User jobs, use mcron, =~/.bin= and libnotify]]
+  - [[#setup-geiser-to-run-guile-scheme-code][Setup Geiser to Run Guile Scheme Code]]
+  - [[#setup-geiser-to-run-guix-code][Setup Geiser to run Guix Code]]
+- [[#deploying][Deploying]]
+  - [[#get-the-code][Get the code]]
+  - [[#initial-tangling][Initial Tangling]]
+  - [[#interlude][Interlude]]
+  - [[#complete-dotfiles-setup][Complete Dotfiles Setup]]
+  - [[#finish][Finish]]
 
 * Why Guix
 
@@ -62,6 +84,200 @@ Quite a bit of malware/metasploits will simply misfire. And persistence is just 
 
 Just log the right shit, sit back and enjoy the unintended fireworks.
 #+end_quote
+
+* Overview
+
+Guix and perhaps the Dotfiles project will confuse many people. This is a Linux
+without SystemD, for example. Very confusing! I mean how do you even =journalctl
+-xb=?
+
+Guix is fairly simple, but the language will be the main hangup for people.
+
++ That's really too bad. Guix, Shepherd and mcron all use Guile Scheme.
++ There is a common interface for all of them. This means that they can all
+  extend each other without needing to shift through a language barrier.
+  - Ever wonder why so many tools integrate shell scripts?
+  - Among other reasons, the shell is how programs (processes) of various
+    languages can speak a common language. Any language can be your shell. Here,
+    scheme is not the shell, per se, but it is its own universal extension
+    language.
+  - Still, the scheme programs confined to the domains of the processes/services
+    that run Scheme. So it's not like you have the possiblity of non-hygenic
+    macros running everywhere ... but you do still have to understand how the
+    environment for each scheme process is constructed.
+    - i.e. mcron may spawn a scheme program, but there should be a process
+      boundary between them.
+    - viz. scheme processes should spawn with the parent env or with no env, but
+      it should not share all the modules loaded into the parent process.
+
+** There is no SystemD
+
+Instead, you have GNU Shepherd to manage services.
+
++ =shepherd= is the daemon =herd= is the service manager.
++ There are only two universal actions for herd: enable & disable.
++ There should be at least two instances of shepherd running on your system:
+  - one for root and one for the user.
++ For user services, you will find the logs in
++ Service definitions are written in scheme.
+
+See the [[https://www.gnu.org/software/shepherd/manual/shepherd.html
+][Shepherd manual]] for more information.
+
+** Thus there is no journalctl
+
+Instead find most logs in =/var/log=.
+
+To determine what logger your service uses, /GENERATE A SERVICE GRAPH WITH
+GUIX/.
+
+See background behind commands like =guix system shepherd-graph= for more
+information.
+
+** Guix Can Generate Graphs of Package Dependencies
+
+Thus, Guix is like x-ray vision for GNU/Linux. Here are the packages for
+bootstrapping GCC. Search the Guix Manual for =guix graph=.
+
+#+begin_src shell
+guix graph -t derivation \
+    -e '(@@ (gnu packages bootstrap) %bootsrap-gcc)' \
+    | dot -Tpng > bootstrap-gcc.png
+#+end_src
+
+** Download all the Guix Savannah Source
+
+The code for most core Guix packages -- i.e. those available
+without adding a channel -- is available in the source.
+
+I would strongly recommend downloading the source and learning to search it with
+=find-grep= (in emacs) or with other features like =+lookup/...= in doom emacs.
+
+You can clone all the repositories for Guix with =repo sync -u
+https://github.com/ectorepo/guix.git=. This Repo project includes several
+channels as well. You will need to install [[https://gerrit.googlesource.com/git-repo/][Google Repo]] with your package manager.
+
+You can then update all the repositories with such commands:
+
+#+begin_example shell
+repo help --all
+repo forall git stash # if you have updated any files in the project
+repo sync
+repo forall git stash pop # if you're feeling lucky
+#+end_example
+
+This will update each subproject to its most current version.
+
+Repo is a tool that you'll learn in your Google onboarding. Such a tool is
+essential for software development on a team..
+
+** Run into problems on install or boot?
+
+Switch between =vtty='s and use emacs/tramp to view logs:
+
++ Use =C-x d= and emacs will ask for a directory.
++ Then open =/sudo:root@localhost:/var/log= to view the logs directory
+  - anywhere emacs asks for a file, this Tramp syntax is accepted.
+  - it is based on character gaps in the URL specification protocol and other
+    features thereof. Tramp knows how to interpret these URL's.
+  - You can use similar syntax to SSH or SCP to systems.
++ Tramp will automatically timeout your sudo access (but buffers may remain
+  open... they may not remain writable IDK)
+
+** Managing Guix Visually
+
+You should run =guix install emacs-guix= and run =M-x guix= to manage/view Guix
+information from inside emacs while you are still learning "unknown unknowns".
+
++ The Guix package in emacs gives you transient buffers.
+  - This makes it so much easier to begin to understand where profiles are
+    installed, how Guix profiles are linked together
++ You can even manage Shepherd services in this way.
+  - Bonus points: clone the guix.el source to learn how emacs interfaces with
+    Guix. This is probably faster than reading the GNU Info manuals if you know
+    emacs-lisp.
+
+** Where are configuration files?
+
+These live in the Guix packages. Navigate Guix from within emacs. You can find a
+package build directories there.
+
+Or you can explore them:
+
++ Bottom up: by browsing =/gnu/store=. Don't ever touch anything inside this
+  (it's tough, but don't)
++ Top Down: by browsing =~/.config/guix/current/= or with the paths in
+  =~/.guix-profile=
+
+There are several variables in the =~/.guix-profile/etc/profile= scripts.
+Inspect these varibles in the shell to find your config files. (there's probably
+a better way to do this)
+
+** For User jobs, use mcron, =~/.bin= and libnotify
+
+[[https://savannah.gnu.org/projects/mcron][mcron]] has an GNU info manual.
+
+** Setup Geiser to Run Guile Scheme Code
+
+If you get stuck on Scheme (outside of Guix source), [[https://www.nongnu.org/geiser/geiser_3.html][open a Geiser repl]] and
+evaluate the [[https://git.savannah.gnu.org/cgit/mcron.git/tree/tests][test cases]] to get a feel for the scheme cron syntax. To do this,
+you'll need =scheme-mode= and =geiser= installed/configured. Geiser should be
+configured with the Guile variant of Scheme, which will require about 10 lines
+of emacs-lisp.
+
+You need to read the Geiser docs before attempting this. To open the REPL,
+navigate to the [[https://git.savannah.gnu.org/cgit/mcron.git/tree/tests/job-specifier.scm][./tests/job-specifier.scm]] buffer for your file, and =M-x
+run-geiser=.
+
+#+begin_example scheme
+,help ;; view help
+,m  ;; show the module or switch to the module's namespace
+;; in this case, evaluating code in the module namespace is not required
+#+end_example
+
+Now, from within the =./tests/job-specifier.scm= buffer, run =M-x
+geiser-eval-buffer= to run the tests. You may need to adjust the load path with
+=M-x geiser-add-to-load-path=. The mcron root folder must be in the Geiser load
+path. Then from the source buffer, all =lisp-mode= buffers will allow you to run
+=C-x C-e= to =eval-last-sexp=.
+
++ Placing the cursor behind the test defintion and running this will run the
+  test _and only that test_!
++ To mutate function definitions
++ To inspect macros, set up =macrostep-expand= within emacs or doom-emacs.
+  - It is a life-saver and will help you learn how top-level macros can be
+    translated into "code you could write but could be written for you"
+  - it works for emacs-lisp, at least. Scheme has weird "define-syntax"
+    macros... dot dot dot
+
+#+begin_quote
+Only rarely should you have to restart your REPL ... if you've ever waited 15
+minutes for your web-applications tests to run, then getting a lisp
+environment/project set up is well worth the wait.
+
+No more [[https://github.com/sporkrb/spork-rails][sporking processes]] for your Rails environment.
+
+It's gonna be great to finally get around to Clojure development.
+#+end_quote
+
++ When doing REPL-driven development in Scheme, mulitple Geiser repls will run.
+  - make sure you have the correct one selected.
++ Also, the mcron code is included with other guile/scheme projects if you run
+  =repo init -u https://github.com/ectorepo/scheme.git=. View the
+  =./default.xml= to see the full list of projects.
+
+** Setup Geiser to run Guix Code
+
+Using the scheme repl with =mcron= should be a lot easier than evaluating Guix
+=package= and =operating-system= specs from inside a Geiser Repl -- i still
+haven't figured this out, except randomly getting it to work.
+
+Emacs & Geiser don't play nice with a =guix repl= that's started from the
+commandline, whether it's served via HTTP or via Unix socket. Emacs basically
+locks up.
+
+**** TODO figure out Guix/Geiser
+- it enables much faster development of =(operating-system...)= declarations and of =(package ...)= declarations using lambda's and macros, but it may not be super-useful
 
 * Deploying
 

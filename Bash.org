@@ -109,25 +109,37 @@ Note: getting this to tangle properly requires =C-c C-v C-t=
     common parent directory, so relative links should always work.
 
 #+RESULTS: bash-env-bindings_GEN
-: export _DF=$HOME/.dotfiles
-: export _DATA=/data
-: export _XS=/data
-: export _ECTO=/data/ecto
-: export _REPO=/data/repo
-: export _STEAM=/steam
-: export _GUIX=/gnu
+#+begin_example
+export _DF=$HOME/.dotfiles
+export _DATA=/data
+export _XS=/data
+export _ECTO=/data/ecto
+export _REPO=/data/repo
+export _STEAM=/steam
+export _GUIX=/gnu
+export _WALLPAPERS=/data/xdg/Pictures/wallpapers/anime
+export _FLATPAK=/flatpak
+export _FLATPAK_NAME=flexpak
+export DOOMDIR=$HOME/.doom.d
+#+end_example
 
 #+name: bash-env-bindings_CALL
 #+call: bash-env-bindings_GEN()
 
 #+RESULTS: bash-env-bindings_CALL
-: export _DF=$HOME/.dotfiles
-: export _DATA=/data
-: export _XS=/data
-: export _ECTO=/data/ecto
-: export _REPO=/data/repo
-: export _STEAM=/steam
-: export _GUIX=/gnu
+#+begin_example
+export _DF=$HOME/.dotfiles
+export _DATA=/data
+export _XS=/data
+export _ECTO=/data/ecto
+export _REPO=/data/repo
+export _STEAM=/steam
+export _GUIX=/gnu
+export _WALLPAPERS=/data/xdg/Pictures/wallpapers/anime
+export _FLATPAK=/flatpak
+export _FLATPAK_NAME=flexpak
+export DOOMDIR=$HOME/.doom.d
+#+end_example
 
 #+begin_src sh :tangle .profile :noweb yes :comments none :results none :exports none :shebang #!/bin/sh
 <<bash-env-bindings_CALL()>>
@@ -226,6 +238,7 @@ __scripts=(
 "java.sh"
 "julia.sh"
 "graphviz.sh"
+"flatpak.sh"
     )
 
 for __script in ${__scripts[@]}; do
@@ -271,7 +284,7 @@ export EDITOR=/usr/bin/vim
 
 ** Flatpak
 
-#+begin_src sh :tangle .config/sh/profile.d/xdg.sh :shebang #!/bin/sh
+#+begin_src sh :tangle .config/sh/profile.d/flatpak.sh :shebang #!/bin/sh
 export XDG_DATA_DIRS="/flatpak/.local/share/flexpak/exports/share:${XDG_DATA_DIRS}"
 #+end_src
 
@@ -279,7 +292,7 @@ export XDG_DATA_DIRS="/flatpak/.local/share/flexpak/exports/share:${XDG_DATA_DIR
 
 Flatpak docs imply that =FLATPAK_USER_DIR= can be used to set a custom location for the user's flatpak installtion, but i have not tested it. (this approach is separate from the above)
 
-#+begin_src sh :tangle .config/sh/profile.d/xdg.sh :shebang #!/bin/sh
+#+begin_src sh :tangle .config/sh/profile.d/flatpak.sh :shebang #!/bin/sh
 
 # Installation should be linked to
 #export FLATPAK_CONFIG_DIR=/flatpak/.config/flatpak

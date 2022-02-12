@@ -55,6 +55,8 @@
   - [[#xorg-tools][Xorg Tools]]
   - [[#misc-tools][Misc Tools]]
   - [[#academic-tools][Academic Tools]]
+  - [[#issues][Issues]]
+    - [[#packaging-static-files][Packaging Static Files]]
 - [[#desktop-profiles][Desktop Profiles]]
   - [[#desktop-profile][Desktop Profile]]
   - [[#i3-profile][i3 Profile]]
@@ -1476,13 +1478,22 @@ flatpak install --user flathub com.valvesoftware.Steam.CompatibilityTool.Proton
 
 ** Academic Tools
 
-This will likely be moved to its own manifest.
+This will likely be moved to its own manifest. Note, this profile is not loaded
+by default and needs to be activated from within Emacs
+** Issues
+
+*** Packaging Static Files
++ =(with-output-to-file "file.eg")=
+  - [[file:/data/ecto/guix/channels/guixrus/guixrus/packages/cyberia.scm::(with-output-to-file "shitchat.gemspec"][./guix/channels/guixrus/cyberia.scm]]
+via =C-c G=
 
 #+begin_src scheme :tangle .config/guix/manifests/academic.scm
 (specifications->manifest
  '(
    "anki"
-   "texlive-bin"))
+   "texlive-bin"
+   "curl"
+    ))
 
 #+end_src
 
@@ -1526,7 +1537,7 @@ Things I might want to build ... but not all the time.
 
 (specifications->manifest
 '(
-  ;; "ungoogled-chromium"
+  "ungoogled-chromium"
   "firefox"
 ))
 

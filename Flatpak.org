@@ -122,11 +122,24 @@ case $(hostname) in
         flatpak install --installation=$_FLATPAK_NAME flathub-beta com.obsproject.Studio
         flatpak install --installation=$_FLATPAK_NAME flathub us.zoom.Zoom
         flatpak install --installation=$_FLATPAK_NAME flathub org.blender.Blender
+        flatpak install --installation=$_FLATPAK_NAME flathub net.ankiweb.Anki
 
 esac
 
 
         #flatpak install --user flathub com.valvesoftware.Steam
         #flatpak install --user flathub com.valvesoftware.Steam.CompatibilityTool.Proton
+
+#+end_src
+
+*** Until the custom flatpak installation is setup
+
+#+begin_src shell
+
+flatpak --user flathub com.discordapp.Discord
+flatpak --user flathub-beta com.obsproject.Studio
+flatpak --user flathub us.zoom.Zoom
+flatpak --user flathub org.blender.Blender
+flatpak --user flathub net.ankiweb.Anki
 
 #+end_src
