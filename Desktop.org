@@ -65,12 +65,6 @@
   - [[#bluetooth-setup][Bluetooth Setup]]
 - [[#footnotes][Footnotes]]
 
-**** TODO tangle permissions
-**** TODO set the org-babel :comments format
-- run =find . -name "ob-*.el" -type f -exec grep --color=auto -nH --null -e 'comment' \{\} += from within the org repo
-- look in =ob-core= for interface and elsewhere for =(comment-region)= refs
-- until then, treat sway configs as =shell=
-
 * System Settings
 
 #+NAME: system-settings
@@ -220,20 +214,10 @@ Xft/HintStyle "hintnone"
 
 #+end_src
 
-**** TODO guix packages for FCITX5
-
 * Window Management
 
 + example configs:
   + [[file:/data/ecto/x.files/benmezger/dotfiles/dot_config/i3/config::bindsym Return mode "default"][benmezger]]
-  +
-
-**** TODO change xss-lock/i3-lock to have better images
-+ pick a random image from walllocks
-
-**** TODO fix i3lock hotkey
-
-
 
 ** i3
 
@@ -256,8 +240,6 @@ font pango:DejaVu Serif Mono 12
 # screen before suspend. Use loginctl lock-session to lock your screen.
 set $lockpaper /data/xdg/Pictures/wallpapers/anime/blood-blockade-leonardo-2a.jpg
 exec --no-startup-id xss-lock --transfer-sleep-lock -- i3lock --nofork -e -i $lockpaper
-
-# TODO: fix reference to path
 
 # NetworkManager is the most popular way to manage wireless networks on Linux,
 # and nm-applet is a desktop environment-independent system tray GUI for it.
@@ -894,8 +876,6 @@ fi
 
 * Display Management
 
-**** TODO update or remove xrandr scripts
-
 #+begin_src sh :tangle .bin/update-screens :shebang #!/bin/sh
 
 case $(hostname) in
@@ -929,8 +909,6 @@ esac
 
 ** Desktop Entries
 ** Restrict Autostart entries
-
-**** TODO review =.config/autostart/*=
 
 ** MIME Handlers
 
@@ -1075,8 +1053,6 @@ oai3 https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md
 oai3 https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.3.md
 dwdot https://github.com/daviwil/dotfiles
 #+end_src
-
-**** TODO find reference for the main =duckduckgo= !bang search urls
 
 ** File Managers
 
@@ -1501,10 +1477,6 @@ via =C-c G=
     ))
 
 #+end_src
-
-**** TODO explore texlive ecosystem :latex:
-+ Main Guix texlive package entrypoint
-  - [[file:/data/ecto/guix/guix/gnu/packages/tex.scm::(define-public texlive-bin][guix/gnu/packages/tex.scm]]
 
 * Desktop Profiles
 

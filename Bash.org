@@ -48,10 +48,6 @@
   - [[#apps-1][Apps]]
   - [[#guix-1][Guix]]
 
-**** TODO double check =.bash*= permissions
-**** TODO figure out how to circumvent saving readonly files
-- this is needed to easily detangle files
-
 * Environment
 :PROPERTIES:
 :header-args+: :comments link :mkdirp yes
@@ -98,16 +94,6 @@ Note: getting this to tangle properly requires =C-c C-v C-t=
            (princ (format "export %s=%s\n" (cl-first row) (cl-second row)))) bindings)
 #+end_src
 
-**** TODO move =$_ECTO= and =$_REPO= variables into their own scripts :dotfiles:bash:
-+ these need to be set differently on various machines, as not all of them may
-  have =/data/ecto= or =/data/repo= mounted in the same place
-  - for now, this will probably be true (syncthing will push data around)
-  - but if these paths change, the links _from_ org-roam docs will break
-  - there are options for this, including an automated task for replacing
-    absolute links with relative links.
-  - for most projects in =/data/repo= XML's, =/data/org= is expected to share a
-    common parent directory, so relative links should always work.
-
 #+RESULTS: bash-env-bindings_GEN
 #+begin_example
 export _DF=$HOME/.dotfiles
@@ -147,8 +133,6 @@ export DOOMDIR=$HOME/.doom.d
 
 #+RESULTS:
 
-**** TODO set up =<<noweb>>= style templates?
-
 ** XDG Shim
 
 
@@ -179,18 +163,16 @@ sane way.
 
 #+begin_src shell :tangle .config/user-dirs.dirs
 
-#XDG_DESKTOP_DIR="$HOME/Desktop"
-#XDG_DOWNLOAD_DIR="$_DATA/Downloads"
+#XDG_DESKTOP_DIR="$HOME/xdg/Desktop"
+#XDG_DOWNLOAD_DIR="$_DATA/xdg/Downloads"
 XDG_DOCUMENTS_DIR="$_DATA/xdg/Documents"
 XDG_MUSIC_DIR="$_DATA/xdg/Music"
 XDG_PICTURES_DIR="$_DATA/xdg/Pictures"
-XDG_VIDEOS_DIR="$_DATA/Videos"
-XDG_TEMPLATES_DIR="$_DATA/Templates"
-#XDG_PUBLICSHARE_DIR="$_DATA/Public"
+XDG_VIDEOS_DIR="$_DATA/xdg/Videos"
+XDG_TEMPLATES_DIR="$_DATA//xdg/Templates"
+#XDG_PUBLICSHARE_DIR="$_DATA/xdg/Public"
 
 #+end_src
-
-**** TODO run =xdg-user-dirs= tool on startup
 
 
 ** Profile Hooks
@@ -349,15 +331,6 @@ done
 export GUIX_LOCPATH=$HOME/.guix-profile/lib/locale
 #+end_src
 
-**** TODO move loading some guix profiles to =.bashrc=
-
-**** TODO create =.bashrc= scripts that load =$PATH= for specific applications that might share dependencies.
-+ e.g. custom builds of OBS and VLC (common dep. ffmpeg)
-+ can start bash with =--rcfile= ... but how to do this in GUI?
-+ for gui apps, the best way to handle this is with =x11-docker=
-+ is there a better way to avoid cross-environment contamination? (not a problem if the environments are isolated into different users)
-
-
 ** FCITX
 
 #+begin_src sh :tangle .local/share/applications/fcitx5-launch-debug.sh :shebang #!/bin/sh
@@ -480,7 +453,6 @@ If there is no =.xdg_shim.sh=, none of the =$GUIX_AUTOLOAD_PROFILES= will be
 loaded into =$PATH= and =.xsession= will fail. Several scripts are dependent on
 =$XDG_CONFIG_HOME= at least.
 
-***** TODO ... fix XDG path references in bash scripts ([[https://unix.stackexchange.com/questions/57658/how-to-utilize-xdg-directories-and-paths-in-bash][stackexchange]])
 
 *** Before Profile.d
 
@@ -494,8 +466,6 @@ export DOTS_PROFILE_D=$DOTS_CFG_SHELL/profile.d
 #+end_src
 
 #+RESULTS:
-
-*** TODO Process
 
 #+begin_src sh :tangle .profile :shebang #!/bin/sh
 # Browser
@@ -542,25 +512,12 @@ Try to source =.bashrc=. If the shell is non-interactive, =.bashrc= will return
 
 * Alacritty
 
-***** TODO trying to load =/bin/sh= with alacritty has a few problems
-
-- either it inherits the =i3= process's environment (and thus exactly the
-  =GUIX_AUTOLOAD_PROFILES= set there)
-  - or =--login= is specified and it dumps this process's environment and has NO
-    loaded guix profiles. this latter is preferable, but requires:
-    - either re-sourcing =.config/sh/profile.d/guix.sh= after setting
-      =GUIX_AUTOLOAD_PROFILES=
-      - this results in the user's =$HOME/.guix-profile= being sourced twice
-    - or loading/unloading the =GUIX_AUTOLOAD_PROFILES= via =direnv=
-- for now, alacritty is set to avoid the =--login= flag
-
 #+begin_src sh :tangle .alacritty_profile :shebang #!/bin/sh
 GUIX_AUTOLOAD_PROFILES=(i3 desktop xdg devtools)
 
 [[ -f $HOME/.profile ]] && source $HOME/.profile
 #+end_src
 
-***** TODO move direnv into the user profile
 
 * Shells
 :PROPERTIES:
@@ -586,12 +543,9 @@ alias emacs-debug-wayland='WAYLAND_DEBUG=1 emacs --fg-daemon > $HOME/.cache/log/
 
 PS1='[\u@\h \W]\$ '
 
-# TODO: source $HOME/.config/sh/rc.d files here
 #+end_src
 
 #+RESULTS:
-
-**** TODO alias =rg= for grep
 
 *** Color
 
@@ -621,13 +575,6 @@ if [ -f $HOME/.profile ]; then . $HOME/.profile; fi
 
 ** Zsh
 
-**** TODO introduce hooks that integrate with the RC
-+ [ ] =_before_zprofile= and =_after_zprofile=
-+ [ ] =_before_zshrc= and =_after_zshrc=
-
-
-[[file:/data/ecto/x.files/protesilaos/dotfiles/shell/.bashrc::Colourise man pages][orgit-test]]
-
 * Environment
 
 ** Main
@@ -651,10 +598,6 @@ if [ -f $HOME/.profile ]; then . $HOME/.profile; fi
   ))
 
 #+end_src
-
-**** TODO perhaps move gcc-toolchain to a separate profile
-
-
 
 ** XDG
 
