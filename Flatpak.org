@@ -65,7 +65,10 @@ This requires having a custom channel and creating a packge which inherits.
 * Manifest
 
 #+begin_src scheme :tangle .config/guix/manifests/flexpak.scm
-(specifications->manifest "flatpak")
+(specifications->manifest
+ "flatpak"
+  "xdg-desktop-portal-gtk"
+    )
 #+end_src
 
 * System Setup
@@ -124,6 +127,7 @@ case $(hostname) in
         flatpak install --installation=$_FLATPAK_NAME flathub org.blender.Blender
         flatpak install --installation=$_FLATPAK_NAME flathub net.ankiweb.Anki
 
+        flatpak install --installation=$_FLATPAK_NAME flathub org.gustavoperedo.FontDownloader
 esac
 
 

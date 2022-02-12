@@ -383,7 +383,12 @@ export GTK2_RC_FILES="$HOME/.gtkrc-2.0"
 #export QT_WAYLAND_FORCE_DPI=physical
 #export QT_WAYLAND_DISABLE_WINDOWDECORATION=1
 
+alias qutebrowser "QTWEBENGINE_CHROMIUM_FLAGS='--disable-seccomp-filter-sandbox' qutebrowser"
+alias anki "QTWEBENGINE_CHROMIUM_FLAGS='--disable-seccomp-filter-sandbox' anki"
+
 #+end_src
+
+**** TODO remove aliases aboves after fix for [[https://issues.guix.gnu.org/52993][Guix #52993]] is fixed
 
 ** Emacs
 
@@ -439,7 +444,7 @@ export JULIA_DEPOT_PATH="$_DATA/lang/.julia:$JULIA_DEPOT_PATH"
 ** Graphviz
 
 #+begin_src sh :tangle .config/sh/profile.d/graphviz.sh :shebang #!/bin/sh
-export GRAPHVIZ_DOT=~/.guix-extra-profiles/desktop/desktop/bin/dot
+export GRAPHVIZ_DOT=$HOME/.guix-extra-profiles/desktop/desktop/bin/dot
 #+end_src
 
 * Profile
@@ -451,11 +456,11 @@ export GRAPHVIZ_DOT=~/.guix-extra-profiles/desktop/desktop/bin/dot
 
 If =.bash_profile= does not exist, =.profile= will be sourced instead. When bash is invoked as =sh=, then it will source =.profile= anyways.
 
-*** XDG Shim
+*** Load XDG Shim
 
 #+begin_src sh :tangle .profile :shebang #!/bin/sh
 # If XDG variables need to change from default, set them here.
-[[ -f ~/.xdg_shim.sh ]] && source $HOME/.xdg_shim.sh
+[[ -f $HOME/.xdg_shim.sh ]] && source $HOME/.xdg_shim.sh
 
 #[[ -z $XDG_CONFIG_HOME ]] && export XDG_CONFIG_HOME=$HOME/.config
 #[[ -z $XDG_CONFIG_DIRS ]] && export XDG_CONFIG_DIRS=/etc/xdg
@@ -468,6 +473,14 @@ export PATH=$HOME/.local/bin:$HOME/.bin:$PATH
 #+end_src
 
 #+RESULTS:
+
+***** NOTA BIG BENE:
+
+If there is no =.xdg_shim.sh=, none of the =$GUIX_AUTOLOAD_PROFILES= will be
+loaded into =$PATH= and =.xsession= will fail. Several scripts are dependent on
+=$XDG_CONFIG_HOME= at least.
+
+***** TODO ... fix XDG path references in bash scripts ([[https://unix.stackexchange.com/questions/57658/how-to-utilize-xdg-directories-and-paths-in-bash][stackexchange]])
 
 *** Before Profile.d
 
@@ -524,7 +537,7 @@ export NO_AT_BRIDGE=1
 Try to source =.bashrc=. If the shell is non-interactive, =.bashrc= will return
 
 #+begin_src sh :tangle .profile :shebang #!/bin/sh
-[[ -f $HOME/.bashrc ]] && . $HOME/.bashrc
+[[ -f $HOME/.bashrc ]] && source $HOME/.bashrc
 #+end_src
 
 * Alacritty
@@ -569,11 +582,11 @@ alias grep='grep --color=auto'
 alias diff='diff --color=auto'
 alias sysu='systemctl --user'
 
-alias emacs-debug-wayland='WAYLAND_DEBUG=1 emacs --fg-daemon > ~/.cache/log/emacs.wayland.`date +%Y-%m%d-%H%M`.log 2>&1'
+alias emacs-debug-wayland='WAYLAND_DEBUG=1 emacs --fg-daemon > $HOME/.cache/log/emacs.wayland.`date +%Y-%m%d-%H%M`.log 2>&1'
 
 PS1='[\u@\h \W]\$ '
 
-# TODO: source ~/.config/sh/rc.d files here
+# TODO: source $HOME/.config/sh/rc.d files here
 #+end_src
 
 #+RESULTS:
@@ -603,7 +616,7 @@ export LESS_TERMCAP_us=$'\E[01;32m'
 In case an installation automatically creates =.bash_profile=
 
 #+begin_src sh :tangle .bash_profile :shebang #!/bin/sh
-if [ -f ~/.profile ]; then . ~/.profile; fi
+if [ -f $HOME/.profile ]; then . $HOME/.profile; fi
 #+end_src
 
 ** Zsh

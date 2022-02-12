@@ -12,6 +12,7 @@ __scripts=(
 "java.sh"
 "julia.sh"
 "graphviz.sh"
+"flatpak.sh"
     )
 
 for __script in ${__scripts[@]}; do

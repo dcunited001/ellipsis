@@ -430,7 +430,10 @@ set properly -- this will prevent you from logging in.
   - ~/.config/sh/_load_profiles.d.sh :: a whitelist of scripts to load
   - ~/.config/sh/_load_rc.d.sh :: another whitelist of scripts to load
   - ~/.xdg_shim.sh :: this provices a place to override xdg defaults
-    - if you don't do this, =$XDG_CONFIG_HOME= values in some scripts will be their defaults ... but in my scripts will be nil.
+    - if you don't do this, =$XDG_CONFIG_HOME= values in some dependencies will
+      be their defaults ... but in my scripts will be nil. (and .xsession will
+      fail, see notes in [[https://unix.stackexchange.com/questions/57658/how-to-utilize-xdg-directories-and-paths-in-bash][XDG Shim]])
+    - if this isn't set up
   - .xession :: this is the file that, for me, loads xorg.
     - if the Guix system uses GDM to launch, it may not need an .xsession. 
     - if the Guix system uses Slim, it probably does
@@ -438,6 +441,7 @@ set properly -- this will prevent you from logging in.
 There are before/after hooks, but this is all explained in =Bash.org=.
 
 **** TODO reassess why .profile loads .bashrc
+**** TODO Change =.profile= scripts to use =xdg= libs to access these values=
 
 *** Restart
 
