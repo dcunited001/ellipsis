@@ -356,8 +356,8 @@ export GTK2_RC_FILES="$HOME/.gtkrc-2.0"
 #export QT_WAYLAND_FORCE_DPI=physical
 #export QT_WAYLAND_DISABLE_WINDOWDECORATION=1
 
-alias qutebrowser "QTWEBENGINE_CHROMIUM_FLAGS='--disable-seccomp-filter-sandbox' qutebrowser"
-alias anki "QTWEBENGINE_CHROMIUM_FLAGS='--disable-seccomp-filter-sandbox' anki"
+alias qutebrowser='QTWEBENGINE_CHROMIUM_FLAGS=\"--disable-seccomp-filter-sandbox\" qutebrowser'
+alias anki='QTWEBENGINE_CHROMIUM_FLAGS=\"--disable-seccomp-filter-sandbox\" anki'
 
 #+end_src
 
