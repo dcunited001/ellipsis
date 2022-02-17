@@ -95,6 +95,7 @@ You must clone quelpa into =~/.quelpa=, where it will be loaded by =init.el=
 (specifications->manifest
  '(
    "git"
+   "emacs-native-comp"
 
    ;; emacs
    "emacs-better-defaults"
@@ -128,17 +129,25 @@ You must clone quelpa into =~/.quelpa=, where it will be loaded by =init.el=
 
 Then link the manifest (and run =~/.bin/update-dotfiles=)
 
-#+begin_src shell
+#+begin_src shell :results none
 [[ -L $_DF/.config/guix/manifests/emacs.network.scm ]] || ln -s $PWD/emacs.network.scm $_DF/.config/guix/manifests/emacs.network.scm
 #+end_src
 
-#+RESULTS:
+*** Activating the Manifest's Profile
 
-*** Activating the Manifest
+If everything has been specified properly, then running the following will
+download the dependencies into an isolated profile.
 
-*** Loading the Manifest
+#+begin_src shell
+activate-profiles emacs.network.scm
+#+end_src
 
-If you are using this in a windows manager, then you'll need to ensure that your xsession /or whatever/ has the profile loaded wfhen you start emacs. There are a few ways to do this:
+
+*** Loading the Profile
+
+If you are using this in a windows manager, then you'll need to ensure that your
+xsession /or whatever/ has the profile loaded wfhen you start emacs. There are a
+few ways to do this:
 
 **** Windows Manager
 
@@ -156,7 +165,8 @@ maybe should be here:
 - if a =*.desktop= file will launch a process that needs a dep
 - if you want rofi to launch it.
 
-If you want to be able to run this profile in the console -- bc your vttys might as well be i3, right? -- then you'll want to avoid this method
+If you want to be able to run this profile in the console -- bc your vttys might
+as well be i3, right? -- then you'll want to avoid this method
 
 **** XDG Desktop File
 
@@ -178,7 +188,21 @@ addition to a system-wide emacs server.
 
 **** Guix Environment
 
-This is the abstraction membrane to use. (I say membrane because there is no clear up or down to this tree). With a =guix shell= or =guix environment= you will be able to spawn a process, stripped down to only the guix profiles that you want to load.
+This is the abstraction membrane to use. (I say membrane because there is no
+clear up or down to this tree). With a =guix shell= or =guix environment= you
+will be able to spawn a process, stripped down to only the guix profiles that
+you want to load.
+
+To do this, create an executable bin to run the emacs with isolated
+dependencies:
+
+#+begin_src shell :tangle .bin/emacs_network :results none :shebang #!/bin/sh
+guix environment -p ~/.guix-extra-profiles/emacs.network/emacs.network -- emacs --with-profile=network
+#+end_src
+
+Now running =emacs_network= from a shell or from dmenu should run the editor in
+the appropriate environment. If not, emacs will tell you that your =init.el=
+failed.
 
 * Functionality
 
