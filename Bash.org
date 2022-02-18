@@ -169,7 +169,7 @@ XDG_DOCUMENTS_DIR="$_DATA/xdg/Documents"
 XDG_MUSIC_DIR="$_DATA/xdg/Music"
 XDG_PICTURES_DIR="$_DATA/xdg/Pictures"
 XDG_VIDEOS_DIR="$_DATA/xdg/Videos"
-XDG_TEMPLATES_DIR="$_DATA//xdg/Templates"
+XDG_TEMPLATES_DIR="$_DATA/xdg/Templates"
 #XDG_PUBLICSHARE_DIR="$_DATA/xdg/Public"
 
 #+end_src
