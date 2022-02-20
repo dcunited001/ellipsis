@@ -33,7 +33,7 @@ skel-images/**/*
 .xessionrc
 
 # XDG
-.config/user-dirs.dir
+.config/user-dirs.dirs
 
 # alacritty
 .config/alacritty/*
@@ -66,6 +66,7 @@ skel-images/**/*
 
 # shepherd
 .config/shepherd/init.scm
+.config/shepherd/shepherd.log
 
 # user-level guix channel signing keys
 .config/guix/*.pub

@@ -127,6 +127,7 @@ case $(hostname) in
         flatpak install --installation=$_FLATPAK_NAME flathub org.gustavoperedo.FontDownloader
 esac
 
+        #flatpak --user install flathub org.kde.konversation
         #flatpak install --user flathub com.valvesoftware.Steam
         #flatpak install --user flathub com.valvesoftware.Steam.CompatibilityTool.Proton
         #flatpak install --installation=$_FLATPAK_NAME flathub net.ankiweb.Anki
