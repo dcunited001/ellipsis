@@ -51,7 +51,7 @@ skel-images/**/*
 
 # .emacs.network
 .config/guix/manifests/emacs-network.scm
-.emacs.network/.emacs-network.scm
+.emacs.network/.emacs.network.scm
 
 # guile
 .guile
