@@ -38,6 +38,7 @@ skel-images/**/*
 # alacritty
 .config/alacritty/*
 .alacritty_profile
+!.config/alacritty/alacritty.yml
 
 # fontconfig
 .config/fontconfig/fonts.conf
