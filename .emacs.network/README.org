@@ -59,7 +59,9 @@ At first, this seems like WHOA! WTF?! but it's really not a big deal:
   thread-locking or mutex issues. Also, your development env/IDE can never
   consume all your CPU.
 
-Org-Roam is a fantastic example of this multi-process approach. LSP Server and LSP in containers is another great example of using the process abstraction to balance resource utilization.
+Org-Roam is a fantastic example of this multi-process approach. LSP
+Server and LSP in containers is another great example of using the
+process abstraction to balance resource utilization.
 
 Meanwhile, open 20 tabs in chromium/firefox and all those shiny single-page
 javascript frameworks have your computer catatonic, keeling over like its on
@@ -84,47 +86,48 @@ less-available packages like Cisco IOS mode.
 
 You must clone quelpa into =~/.quelpa=, where it will be loaded by =init.el=
 
-**** TODO update the load-path in init.el to ... uhhh make this happen
-
 ** Guix Manifest
 
 + Tangle the manifest in this file
 + Install the the guix man
 
 #+begin_src scheme :tangle ./emacs.network.scm
-(specifications->manifest
- '(
-   "git"
-   "emacs-native-comp"
+  (specifications->manifest
+   '(
+     "git"
 
-   ;; emacs
-   "emacs-better-defaults"
-   "emacs-hydra"
-   "emacs-discover-my-major"
+     ;; emacs
+     "emacs-native-comp"
+     "emacs-better-defaults"
+     "emacs-hydra"
+     "emacs-discover-my-major"
 
-   ;; guix
-   "emacs-guix"
+     ;; modus in dev builds only
+     "emacs-modus-themes"
 
-   ;; emacs-lisp
-   "emacs-dash"
+     ;; guix
+     "emacs-guix"
 
-   ;; lisp
-   "emacs-lispy"
+     ;; emacs-lisp
+     "emacs-dash"
 
-   ;; scheme/geiser/guile
-   "emacs-geiser"
-   "emacs-geiser-guile"
+     ;; lisp
+     "emacs-lispy"
 
-   ;; ansible
-   "emacs-polymode-ansible"
+     ;; scheme/geiser/guile
+     "emacs-geiser"
+     "emacs-geiser-guile"
 
-   ;; autocomplete
-   "emacs-auto-complete"
+     ;; ansible
+     "emacs-polymode-ansible"
 
-   ;; snippets
-   "emacs-yasnippet"
-   "emacs-yasnippet-snippets"
-   ))
+     ;; autocomplete
+     "emacs-auto-complete"
+
+     ;; snippets
+     "emacs-yasnippet"
+     "emacs-yasnippet-snippets"
+     ))
 #+end_src
 
 Then link the manifest (and run =~/.bin/update-dotfiles=)
@@ -196,13 +199,15 @@ you want to load.
 To do this, create an executable bin to run the emacs with isolated
 dependencies:
 
-#+begin_src shell :tangle .bin/emacs_network :results none :shebang #!/bin/sh
+#+begin_src shell :tangle (concat (getenv "HOME") "/.bin/emacs_network") :results none :shebang #!/bin/sh
 guix environment -p ~/.guix-extra-profiles/emacs.network/emacs.network -- emacs --with-profile=network
 #+end_src
 
 Now running =emacs_network= from a shell or from dmenu should run the editor in
 the appropriate environment. If not, emacs will tell you that your =init.el=
 failed.
+
+**** TODO update the load-path in init.el to ... uhhh make this happen
 
 * Functionality
 

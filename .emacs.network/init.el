@@ -21,6 +21,17 @@
 
 ;;* Emacs Config
 
+;;(message (concat "CURRENT BUFFER: " (current-buffer)))
+;; default-directory
+
+;;** load-path
+;; TODO: use something like ruby's __FILE__ (default-directory returns ~/ when invoked by i3 shell & chemacs)
+(setq load-path
+      (append (list
+               (directory-file-name (concat (file-name-as-directory (getenv "HOME")) ".emacs.network/lisp"))
+               (directory-file-name (concat (file-name-as-directory (getenv "HOME")) ".emacs.network/lisp/quelpa")))
+              load-path))
+
 ;;** Main Configs
 
 (setq make-backup-files nil)
@@ -33,6 +44,7 @@
 ;;** Discover My Major
 (define-key global-map (kbd "C-h <f5>") #'discover-my-major)
 ;; (define-key global-map (kbd "C-h S-<f5>") #'discover-my-mode)
+ 
 
 ;;** MELPA
 
@@ -43,18 +55,12 @@
 ;; (setq package-selected-packages '(ios-config-mode quelpa ansible))
 
 ;;** Quelpa
-(unless (package-installed-p 'quelpa)
-  ;; fetch if quelpa doesnt exist
-  (with-temp-buffer
-    (url-insert-file-contents "https://raw.githubusercontent.com/quelpa/quelpa/master/quelpa.el")
-    (eval-buffer)
-    (quelpa-self-upgrade))
-
-  ;; otherwise, simply require quelpa; must previously (require 'package)
-  (require 'quelpa))
+;; NOTE: load-path is set. into ./lisp, curl quelpa or clone it
+(require 'quelpa)
 
 ;;** Theme
-
+;;TODO: fix this
+(require 'modus-themes)
 (add-hook 'window-setup-hook
           (lambda () (progn
                        (modus-themes-load-themes)
@@ -110,3 +116,15 @@
 			       (scheme . t)))
 
 ;;; init.el ends here
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(package-selected-packages '(quelpa ios-config-mode)))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )

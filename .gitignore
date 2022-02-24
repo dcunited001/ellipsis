@@ -1,5 +1,9 @@
 # daviwil/dotfiles scripts
 
+
+# .bin scripts
+.bin/emacs_network
+
 # generally exclude all
 .local/share
 .config/polybar
