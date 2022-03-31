@@ -45,7 +45,7 @@ skel-images/**/*
 !.config/alacritty/alacritty.yml
 
 # fontconfig
-.config/fontconfig/fonts.conf
+.config/fontconfig/**
 
 # xsettings
 .config/xsettingsd/xsettingsd.conf
@@ -55,7 +55,7 @@ skel-images/**/*
 
 # .emacs.network
 .config/guix/manifests/emacs-network.scm
-.emacs.network/.emacs.network.scm
+.emacs.network/emacs.network.scm
 
 # guile
 .guile

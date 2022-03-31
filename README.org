@@ -24,6 +24,7 @@ Based on [[https://github.com/daviwil/dotfiles][daviwil's dotfiles]]
   - [[#interlude][Interlude]]
   - [[#complete-dotfiles-setup][Complete Dotfiles Setup]]
   - [[#finish][Finish]]
+- [[#deploying-to-not-guix-systems][Deploying to Not-Guix Systems]]
 
 * Why Guix
 
@@ -38,10 +39,16 @@ without being an expert.
 + Arch :: you will need to ... ditto.
   - You will also need =aurutils= and, again, a custom package repo.
   - You will again need to automate upgraded packages
-  - Running multiple pacman databases is complicated and it is difficult to make packages install to the correct endpoints, while ensuring shared library objects are available (of the proper version, etc)
+  - Running multiple pacman databases is complicated and it is difficult to make
+    packages install to the correct endpoints, while ensuring shared library
+    objects are available (of the proper version, etc)
   - It will break when you don't upgrade things or when you reinstall.
-+ Guix :: you will also need to do similar things: you must run at least one channel (i.e. package repo on your local file system) and you will heavily interface with the package management tools.
-  - if I said Guix too much easier than the above, i'd be lying. nothing is simpler than the domain. the difference with Guix is that, if you want a build farm, it's about as easy as it could possibly be.
++ Guix :: you will also need to do similar things: you must run at least one
+  channel (i.e. package repo on your local file system) and you will heavily
+  interface with the package management tools.
+  - if I said Guix too much easier than the above, i'd be lying. nothing is
+    simpler than the domain. the difference with Guix is that, if you want a
+    build farm, it's about as easy as it could possibly be.
     * See [[github:emacsmirror/build-farm][Hydra/Cuirass]]
     * [[https://guix.gnu.org/manual/en/guix.html#Continuous-Integration][Cuirass]] (Guix Manual)
     * [[https://guix.gnu.org/en/blog/2016/growing-our-build-farm/][Growing Our Build Farm]] (Guix Blog 2016)
@@ -70,9 +77,12 @@ Declarative Config is like Hegelian Dialectical. You want both.
   something that backups cannot protect you from. If your environment is
   polluted, you're probably on stack overflow right now.
   - These are the problems you don't know you're going to encounter.
-  - Hegelian dialectical because: /ideally, this will be the system state, but is yet to be proven./
+  - Hegelian dialectical because: /ideally, this will be the system state, but
+    is yet to be proven./
 
-Precise control over a process's environment with /minimal effort/: this is what makes guix shine. It might seem like more work at first, but you should know about all these interfaces anyways.
+Precise control over a process's environment with /minimal effort/: this is what
+makes guix shine. It might seem like more work at first, but you should know
+about all these interfaces anyways.
 
 *** /etc/strange
 
@@ -80,7 +90,8 @@ Precise control over a process's environment with /minimal effort/: this is what
 Another advantage of Guix System's bloat-free Guix profiles, Shepherd service
 manager and declarative =/etc/strange= configs:
 
-Quite a bit of malware/metasploits will simply misfire. And persistence is just as amusing.
+Quite a bit of malware/metasploits will simply misfire. And persistence is just
+as amusing.
 
 Just log the right shit, sit back and enjoy the unintended fireworks.
 #+end_quote
@@ -277,13 +288,20 @@ commandline, whether it's served via HTTP or via Unix socket. Emacs basically
 locks up.
 
 **** TODO figure out Guix/Geiser
-- it enables much faster development of =(operating-system...)= declarations and of =(package ...)= declarations using lambda's and macros, but it may not be super-useful
+- it enables much faster development of =(operating-system...)= declarations and
+  of =(package ...)= declarations using lambda's and macros, but it may not be
+  super-useful
 
 * Deploying
 
-First and foremost, go look at [[https://github.com/daviwil/dotfiles][daviwil's dotfiles]]. It's probably cleaner and (last time i checked) there's better documentation. =<sarcasm mode=text/>= Most of the [[https://youtube.com/c/systemcrafters][SystemCrafters]] streams are also summarized in org files -- and daviwil also makes the squashed emacs-lisp files available.
+First and foremost, go look at [[https://github.com/daviwil/dotfiles][daviwil's dotfiles]]. It's probably cleaner and
+(last time i checked) there's better documentation. =<sarcasm mode=text/>= Most
+of the [[https://youtube.com/c/systemcrafters][SystemCrafters]] streams are also summarized in org files -- and daviwil
+also makes the squashed emacs-lisp files available.
 
-This is for my own reference. My config is slightly different -- it doesn't use emacs windows manager, but still keeps the elisp snippets for templates. So the setup process is also different.
+This is for my own reference. My config is slightly different -- it doesn't use
+emacs windows manager, but still keeps the elisp snippets for templates. So the
+setup process is also different.
 
 ** Get the code
 
@@ -306,22 +324,30 @@ ISO is an easy, low-commitment way to try it out.
 
 **** Guix System is simpler
 
-IMO, it's just simpler to run the entire Guix system than it is to run another Linux with Guix. Doing so means that you'll end up with:
+IMO, it's just simpler to run the entire Guix system than it is to run another
+Linux with Guix. Doing so means that you'll end up with:
 
 + Package Manager :: Pacman + Guix
   + You will need to more tightly manage the integration of Guix into your
-    =.profile= so that it properly loads things like =$PATH= without causing incompatibilities
-  + In other words, you'll probably just want to load Guix profiles manually without making applications downloaded via guix (e.g. pGTK build of emacs) available to users in the WM
+    =.profile= so that it properly loads things like =$PATH= without causing
+    incompatibilities
+  + In other words, you'll probably just want to load Guix profiles manually
+    without making applications downloaded via guix (e.g. pGTK build of emacs)
+    available to users in the WM
     - in this approach, if you download GUI apps via guix, then you will edit
       desktop files to ensure the proper profiles are loaded. This will require
       creating some init scripts to accompany those desktop files.
 + Service Manager :: Systemd + Shepherd
-  - It will be confusing to install things that depend on other services which are not available to shepherd in its graph.
-    - you can still have these services load, but its much less confusing if you just have one service manager.
+  - It will be confusing to install things that depend on other services which
+    are not available to shepherd in its graph.
+    - you can still have these services load, but its much less confusing if you
+      just have one service manager.
   - System Services
 + System Updates/Maintainence :: Arch + Guix System
   - Don't touch the =/gnu/store= or anything related to it. if you want it in
-    it's own partition, put it there before you install. If you break =/gnu/store= you may not be able to reinstall guix ... at least not without some serious headaches.
+    it's own partition, put it there before you install. If you break
+    =/gnu/store= you may not be able to reinstall guix ... at least not without
+    some serious headaches.
 
 **** TLDR: if you want Guix on Arch or some other distribution:
 
@@ -353,10 +379,13 @@ had chemacs on my system.
 
 *** Bash.org
 
-From vanilla emacs, open =Bash.org=, customize the environment variables in the org table and tangle it with =C-c C-v C-t=. These org vars will be inserted into a script that is included with your =.profile=.
+From vanilla emacs, open =Bash.org=, customize the environment variables in the
+org table and tangle it with =C-c C-v C-t=. These org vars will be inserted into
+a script that is included with your =.profile=.
 
 #+begin_quote
-Note that not all of these are used at the moment. Some will be removed, when I transition over to syncing things with syncthing.
+Note that not all of these are used at the moment. Some will be removed, when I
+transition over to syncing things with syncthing.
 #+end_quote
 
 *** Systems.org
@@ -487,3 +516,21 @@ however you do that for =~/.config/guix/systems/blank.scm=:
 Run =~/.bin/update-system= and wait. 
 
 **** TODO finish docs. there's probably some typos. =no spellchack &=
+
+* Deploying to Not-Guix Systems
+
+In the =Bash.org= file is a subset of functionality that, with some tweaks, can
+be deployed to most environments/systems.
+
+The functionality therein should be independent of:
+
++ File System
++ Disk mount paths
++ Window Manager
++
+
+
+
+
+It will only run in POSIX-compliant shells -- though there remain many bashisms
+i'm sure.

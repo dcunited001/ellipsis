@@ -133,6 +133,12 @@ export DOOMDIR=$HOME/.doom.d
 
 #+RESULTS:
 
+*** Create Paths
+
+Once paths are set in your profile, you will need to do something like:
+
+
+
 ** XDG Shim
 
 
