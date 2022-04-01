@@ -37,6 +37,9 @@
 (use-package-modules certs)
 (use-package-modules shells)
 
+;;** DEBUG
+;;(use-modules (ice-9 pretty-print))
+
 ;;** backlight-udev-rule
 ;; Add udev rule that allows members of the "video" group to change brightness.
 (define %backlight-udev-rule
@@ -48,6 +51,25 @@
                   "ACTION==\"add\", SUBSYSTEM==\"backlight\", "
                   "RUN+=\"/run/current-system/profile/bin/chmod g+w /sys/class/backlight/%k/brightness\"")))
 
+;;(pretty-print %base-groups)
+
+(define-public dc-groups
+  (cons* (user-group (system? #t) (name "realtime"))
+         (user-group (system? #t) (name "docker"))
+	 (user-group (system? #t) (id 1100) (name "users"))
+	 (remove (lambda (g) (equal? (user-group-name g) "users"))
+		 %base-groups)))
+
+;;(pretty-print (map user-group-name %base-groups))
+;;(pretty-print (map (lambda (g) (eq? (user-group-name g) "users"))
+;;		 %base-groups))
+;;(pretty-print dc-groups)
+
+(define-public (remove-gdm-service services-list)
+  (remove (lambda (service)
+            (eq? (service-kind service)  gdm-service-type))
+          services-list))
+	  
 ;;** %dc-desktop-services
 ;;
 ;; Override the default %desktop-services to add the udev backlight config
@@ -74,8 +96,6 @@
     (network-manager-configuration
      (inherit config)
      (vpn-plugins (list network-manager-openvpn))))))
-
-
 
 ;;** %xorg-libinput-config
 
@@ -138,10 +158,12 @@ EndSection
                     (check? #f))
                    %base-file-systems))
 
+    (groups dc-groups)
     (users (cons (user-account
+		  (uid 1000)
                   (name "dc")
                   (comment "David Conner")
-                  (group "users")
+		  (group "users")
                   (home-directory "/home/dc")
                   (supplementary-groups '("wheel"  ;; sudo
                                           "netdev" ;; network devices
@@ -156,10 +178,6 @@ EndSection
                                           )))
 
                  %base-user-accounts))
-
-    (groups (cons* (user-group (system? #t) (name "realtime"))
-                  (user-group (system? #t) (name "docker"))
-                  %base-groups))
 
     ;; install bare-minimum system packages
     (packages (append (list
@@ -217,9 +235,7 @@ EndSection
                                 (list cups-filters))))
                      (service nix-service-type)
                      (bluetooth-service #:auto-enable? #t)
-                     (remove (lambda (service)
-                               (eq? (service-kind service)  gdm-service-type))
-                             dc-desktop-services)))
+		     (remove-gdm-service dc-desktop-services)))
 
     ;; allow resolution of '.local' hostnames with mDNS
     (name-service-switch %mdns-host-lookup-nss)))

@@ -404,7 +404,22 @@ Alternatively, you could have started it with =emacs -q= to avoid loading an
 init file, but i have not tried this.
 
 *** TODO reorder the contents here
++ tangle Desktop.org by running =update-dotfiles=
+  - this contains the desktop profiles
+  - you will want to =stow .= before you run this
+    - then the first =update-dotfiles= invocation will complain about
+      =per-system-settings.el= not existing it. run =stow .= again to
+      fix this.
+    - then run =update-dotfiles= again to complete.
 + e.g. =.guix-extra-profiles= must be activated before they can be loaded
+  - =update-channels= needs to be run for the user
+    - if you haven't authorized substitutes (read Guix manual) now is
+      the time to do that
+  - then =activate-channels=, at least for profiles containing
+    xorg/desktop dependencies
+    - run =activate-profiles i3 desktop xdg devtools= or for the list
+      of Guix profiles in either =~/.xsession= or
+      =~/.config/sh/profile.d/guix.sh=
 
 *** Verify Host Configuration
 
