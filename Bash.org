@@ -85,7 +85,6 @@ Note: getting this to tangle properly requires =C-c C-v C-t=
 | _GUIX         | /gnu                                |
 | _WALLPAPERS   | /data/xdg/Pictures/wallpapers/anime |
 | _FLATPAK      | /flatpak                            |
-| _FLATPAK_NAME | flexpak                             |
 | DOOMDIR       | $HOME/.doom.d                       |
 
 #+name: bash-env-bindings_GEN
@@ -272,21 +271,38 @@ export EDITOR=/usr/bin/vim
 
 ** Flatpak
 
+Here, flatpak will be configured to use a custom installation on another
+partition at =/flatpak/$USER=. To keep the flatpak app state on the same
+partition, link =$HOME/.var= to =$FLATPAK_USER_VAR=.
+
 #+begin_src sh :tangle .config/sh/profile.d/flatpak.sh :shebang #!/bin/sh
-export XDG_DATA_DIRS="/flatpak/.local/share/flexpak/exports/share:${XDG_DATA_DIRS}"
+export XDG_DATA_DIRS="/flatpak/dc/.local/share/flatpak/exports/share:${XDG_DATA_DIRS}"
+export FLATPAK_USER_DIR=/flatpak/$(id -un)/.local/share/flatpak
+
+# this is another variable for convenience (this var isn't used by flatpak)
+export FLATPAK_USER_VAR=/flatpak/$(id -un)/.var
 #+end_src
+
+*** Custom Installations
+
+Guix packs =/etc/configs= into the packages, so customization requires either
+CLI, environment or extending the flatpak package. For flatpak, changing this
+variable allows for a new custom installation config. Custom installations need
+to be configured in =$FLATPAK_CONFIG_DIR=.
+
+#+begin_example sh
+# to override the default /etc/flatpak, which is inside the guix package
+# - or simply use $FLATPAK_USER_DIR
+# FLATPAK_CONFIG_DIR=/flatpak/$(id -un)/.config/flatpak
+#+end_example
+
+And, flatpak overrides $XDG_DATA_DIRS anyway, so this won't work
+
+#+begin_example sh
+# export XDG_DATA_DIRS="/flatpak/$(id -un)/.local/share/flexpak/exports/share:${XDG_DATA_DIRS}"
+#+end_example
 
 *** Setting the User Install to a Custom Install
-
-Flatpak docs imply that =FLATPAK_USER_DIR= can be used to set a custom location for the user's flatpak installtion, but i have not tested it. (this approach is separate from the above)
-
-#+begin_src sh :tangle .config/sh/profile.d/flatpak.sh :shebang #!/bin/sh
-
-# Installation should be linked to
-#export FLATPAK_CONFIG_DIR=/flatpak/.config/flatpak
-#export FLATPAK_UESR_DIR=/flatpak/.local/share/flatpak
-
-#+end_src
 
 *** The Goal
 

@@ -228,6 +228,30 @@ retrieve these settings appropriately. This is used throughout =Desktop.org=.
 
 #+end_src
 
+*** kharis
+
++ HP Elitebook
+
+#+begin_src emacs-lisp :noweb-ref system-settings :noweb-sep ""
+
+  (when (equal system-name "kharis")
+    '((desktop/dpi . 157) ;; TODO verify DPI
+      (emacs/default-face-size . 190)
+      (emacs/variable-face-size . 200)
+      (emacs/fixed-face-size . 190)
+      (polybar/height . 32)
+      (polybar/font-0-size . 14)
+      (polybar/font-1-size . 12)
+      (polybar/font-2-size . 18)
+      (polybar/font-3-size . 8)
+      (dunst/font-size . 16)
+      (dunst/max-icon-size . 88)
+      ;(vimb/default-zoom . 160)
+      ;(qutebrowser/default-zoom . 180)
+      ))
+
+#+end_src
+
 *** kratos
 
 + Casual Desktop VM :: [[file:.config/guix/systems/tokos.scm][.config/guix/systems/tokos.scm]]

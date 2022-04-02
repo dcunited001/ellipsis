@@ -40,7 +40,8 @@
 ;;** DEBUG
 ;;(use-modules (ice-9 pretty-print))
 
-;;** backlight-udev-rule
+;;** udev rules
+;;*** backlight-udev-rule
 ;; Add udev rule that allows members of the "video" group to change brightness.
 (define %backlight-udev-rule
   (udev-rule
@@ -56,9 +57,11 @@
 (define-public dc-groups
   (cons* (user-group (system? #t) (name "realtime"))
          (user-group (system? #t) (name "docker"))
-	 (user-group (system? #t) (id 1100) (name "users"))
-	 (remove (lambda (g) (equal? (user-group-name g) "users"))
-		 %base-groups)))
+         (user-group (system? #t) (name "fuse"))
+         (user-group (id 1100) (name "users"))
+         (user-group (id 1000) (name "dc"))
+         (remove (lambda (g) (equal? (user-group-name g) "users"))
+                 %base-groups)))
 
 ;;(pretty-print (map user-group-name %base-groups))
 ;;(pretty-print (map (lambda (g) (eq? (user-group-name g) "users"))
@@ -88,7 +91,7 @@
     config =>
     (udev-configuration
      (inherit config)
-     (rules (cons %backlight-udev-rule
+     (rules (cons %udev-backlight-rule
                   (udev-configuration-rules config)))))
 
    (network-manager-service-type
@@ -106,7 +109,7 @@
 ;; TODO: update this for wacom device
 ;; TODO: allow %xorg-libinput-config to be extended
 
-(define %xorg-libinput-config
+(define-public %xorg-libinput-config
   "
 Section \"InputClass\"
   Identifier \"Touchpads\"
@@ -129,6 +132,9 @@ Section \"InputClass\"
 EndSection
 ")
 
+(define-public %dc-default-shell-keyboard
+  (keyboard-layout "us" "altgr-intl" #:model "pc105"))
+
 ;;** base-operating-system
 (define-public base-operating-system
   (operating-system
@@ -136,106 +142,97 @@ EndSection
    (timezone "America/New_York")
    (locale "en_US.utf8")
 
-   (kernel linux) ;use the non-free Linux kernel and firmware
+   (kernel linux)                    ;use the non-free Linux kernel and firmware
    (firmware (list linux-firmware))
    (initrd microcode-initrd)
 
-   (keyboard-layout (keyboard-layout "us" "altgr-intl"
-                                     #:model "pc105"))
+   (keyboard-layout %dc-default-shell-keyboard)
 
    (bootloader (bootloader-configuration
                 (bootloader grub-efi-bootloader)
                 (targets (list "/boot/efi"))
                 (keyboard-layout keyboard-layout)))
 
-    ;; Guix doesn't like it when there isn't a file-systems
-    ;; entry, so add one that is meant to be overridden
-    (file-systems (cons*
-                   (file-system
-                    (mount-point "/tmp")
-                    (device "none")
-                    (type "tmpfs")
-                    (check? #f))
-                   %base-file-systems))
+   ;; Guix doesn't like it when there isn't a file-systems
+   ;; entry, so add one that is meant to be overridden
+   (file-systems (cons*
+                  (file-system
+                   (mount-point "/tmp")
+                   (device "none")
+                   (type "tmpfs")
+                   (check? #f))
+                  %base-file-systems))
 
-    (groups dc-groups)
-    (users (cons (user-account
-		  (uid 1000)
-                  (name "dc")
-                  (comment "David Conner")
-		  (group "users")
-                  (home-directory "/home/dc")
-                  (supplementary-groups '("wheel"  ;; sudo
-                                          "netdev" ;; network devices
-                                          "kvm"
-                                          "tty"
-                                          "input"
-                                          "docker"
-                                          "realtime" ;; Enable RT scheduling
-                                          "lp"       ;; control bluetooth
-                                          "audio"    ;; control audio
-                                          "video"    ;; control video
-                                          )))
+   (groups dc-groups)
+   (users (cons (user-account
+		         (uid 1000)
+                 (name "dc")
+                 (comment "David Conner")
+		         (group "users")
+                 (home-directory "/home/dc")
+                 (supplementary-groups '("wheel"  ;; sudo
+                                         "netdev" ;; network devices
+                                         "kvm"
+                                         "tty"
+                                         "input"
+                                         "docker"
+                                         "realtime" ;; Enable RT scheduling
+                                         "lp"       ;; control bluetooth
+                                         "audio"    ;; control audio
+                                         "video"    ;; control video
+                                         "fuse")))
 
-                 %base-user-accounts))
+                %base-user-accounts))
 
-    ;; install bare-minimum system packages
-    (packages (append (list
-                       openssh
-                       git
-                       ntfs-3g
-                       exfat-utils
-                       fuse-exfat
-                       stow
-                       vim
-                       emacs
-                       xterm
-                       bluez
-                       bluez-alsa
-                       pipewire ;; TODO: pipewire?
-                       tlp
-                       xf86-input-libinput
-                       nss-certs
-                       gvfs)
-                      %base-packages))
+   ;; install bare-minimum system packages
+   (packages (append (list
+                      openssh
+                      git
+                      ntfs-3g
+                      exfat-utils
+                      fuse-exfat
+                      stow
+                      vim
+                      emacs
+                      xterm
+                      bluez
+                      bluez-alsa
+                      pipewire ;; TODO: pipewire?
+                      tlp
+                      xf86-input-libinput
+                      ;; usbmuxd and ifuse for iphone-usb
+                      usbmuxd
+                      ifuse
+                      gvfs
+                      nss-certs)
+                     %base-packages))
 
-    (services (cons* (service slim-service-type
+   (services (cons*
+              (service tlp-service-type
+                       (tlp-configuration
+                        (cpu-boost-on-ac? #t)
+                        (wifi-pwr-on-bat? #t)))
+              (pam-limits-service ;; This enables JACK to enter realtime mode
+               (list
+                (pam-limits-entry "@realtime" 'both 'rtprio 99)
+                (pam-limits-entry "@realtime" 'both 'memlock 'unlimited)))
+              (extra-special-file "/usr/bin/env"
+                                  (file-append coreutils "/bin/env"))
+              (service thermald-service-type)
+              (service docker-service-type)
+              (service libvirt-service-type ;; TODO how is libvirt configured?
+                       (libvirt-configuration
+                        (unix-sock-group "libvirt")
+                        (tls-port "16555")))
+              (service cups-service-type
+                       (cups-configuration
+                        (web-interface? #t)
+                        (extensions
+                         (list cups-filters))))
+              (service nix-service-type)
+              (bluetooth-service #:auto-enable? #t)
+              dc-desktop-services
+		      ))
 
-                              ;; TODO: customize slim
-                              ;; - %default-slim-theme
-                              ;; - %default-slim-theme-name
-                              (slim-configuration
-                               (xorg-configuration
-                                (xorg-configuration
-                                 (keyboard-layout keyboard-layout)
-                                 (extra-config (list %xorg-libinput-config))))
-                               (default-user "dc")
-                               ))
-
-                     (service tlp-service-type
-                              (tlp-configuration
-                               (cpu-boost-on-ac? #t)
-                               (wifi-pwr-on-bat? #t)))
-                     (pam-limits-service ;; This enables JACK to enter realtime mode
-                                            (list
-                                             (pam-limits-entry "@realtime" 'both 'rtprio 99)
-                                             (pam-limits-entry "@realtime" 'both 'memlock 'unlimited)))
-                     (extra-special-file "/usr/bin/env"
-                                         (file-append coreutils "/bin/env"))
-                     (service thermald-service-type)
-                     (service docker-service-type)
-                     (service libvirt-service-type ;; TODO how is libvirt configured?
-                              (libvirt-configuration
-                               (unix-sock-group "libvirt")
-                               (tls-port "16555")))
-                     (service cups-service-type
-                              (cups-configuration
-                               (web-interface? #t)
-                               (extensions
-                                (list cups-filters))))
-                     (service nix-service-type)
-                     (bluetooth-service #:auto-enable? #t)
-		     (remove-gdm-service dc-desktop-services)))
-
-    ;; allow resolution of '.local' hostnames with mDNS
-    (name-service-switch %mdns-host-lookup-nss)))
+   ;; allow resolution of '.local' hostnames with mDNS
+   (name-service-switch %mdns-host-lookup-nss)))

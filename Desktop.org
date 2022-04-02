@@ -62,6 +62,7 @@
   - [[#desktop-profile][Desktop Profile]]
   - [[#i3-profile][i3 Profile]]
   - [[#big-build][Big Build]]
+  - [[#browsers-1][Browsers]]
 - [[#notes][Notes]]
   - [[#bluetooth-setup][Bluetooth Setup]]
 - [[#footnotes][Footnotes]]
@@ -233,14 +234,6 @@ set $mod Mod4
 # This font is widely installed, provides lots of unicode glyphs, right-to-left
 # text rendering and scalability on retina/hidpi displays (thanks to pango).
 font pango:DejaVu Serif Mono 12
-
-# The combination of xss-lock, nm-applet and pactl is a popular choice, so
-# they are included here as an example. Modify as you see fit.
-
-# xss-lock grabs a logind suspend inhibit lock and will use i3lock to lock the
-# screen before suspend. Use loginctl lock-session to lock your screen.
-set $lockpaper /data/xdg/Pictures/wallpapers/anime/blood-blockade-leonardo-2a.jpg
-exec --no-startup-id xss-lock --transfer-sleep-lock -- i3lock --nofork -e -i $lockpaper
 
 # NetworkManager is the most popular way to manage wireless networks on Linux,
 # and nm-applet is a desktop environment-independent system tray GUI for it.
@@ -1096,8 +1089,8 @@ env:
 
 shell:
   program:  /bin/sh
-#  args:
-#    - --login
+  args:
+    - --login
 
 window:
   dimensions:
@@ -1369,11 +1362,31 @@ map <C-g> abort
 
 flatpak remote-add --user --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
 flatpak remote-add --user --if-not-exists flathub-beta https://flathub.org/beta-repo/flathub-beta.flatpakrepo
-flatpak install --user flathub com.discordapp.Discord
-flatpak install --user flathub-beta com.obsproject.Studio
 
+# browser
+flatpak install --user flathub com.qutebrowser.qutebrowser
+
+# chat
+flatpak install --user flathub com.discordapp.Discord
+flatpak install --user flathub com.zulip.Zulip
+flatpak install --user flathub org.kde.konversation
+flatpak install --user flathub us.zoom.Zoom
+
+# media
+flatpak install --user flathub com.obsproject.Studio
+flatpak install --user flathub org.videolan.VLC
+
+# creative
+flatpak install --user flathub org.blender.Blender
+flatpak install --user flathub org.kde.Krita
+flatpak install --user flathub org.freecadweb.FreeCAD
+
+# gaming
 flatpak install --user flathub com.valvesoftware.Steam
 flatpak install --user flathub com.valvesoftware.Steam.CompatibilityTool.Proton
+
+# misc
+flatpak install --user flathub net.ankiweb.Anki
 
 # needed for fonts
 flatpak install --user flathub org.gustavoperedo.FontDownloader
@@ -1548,12 +1561,26 @@ via =C-c G=
 
 Things I might want to build ... but not all the time.
 
+#+begin_example org
 #+begin_src scheme :tangle .config/guix/manifests/bigbuild.scm :comments none
 
 (specifications->manifest
 '(
-  "ungoogled-chromium"
-  "firefox"
+"ungoogled-chromium"
+"firefox"
+))
+
+#+end_src
+#+end_example
+
+** Browsers
+
+#+begin_src scheme :tangle .config/guix/manifests/browsers.scm :comments none
+
+(specifications->manifest
+'(
+"ungoogled-chromium"
+"firefox"
 ))
 
 #+end_src
