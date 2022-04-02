@@ -1,4 +1,5 @@
 .*.eg.sh
+.*.eg
 .*\/\.gitkeep
 \.git
 \.site

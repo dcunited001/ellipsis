@@ -34,8 +34,7 @@ compton &
 xset -b
 
 # Enable screen locking on suspend
-xss-lock -- slock &
-
+xss-lock --transfer-sleep-lock -- xlock &
 setbg $_WALLPAPERS
 
 #exec dbus-launch --exit-with-session 
