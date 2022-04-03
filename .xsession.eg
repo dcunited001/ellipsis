@@ -2,7 +2,7 @@
 echo "loading profile"
 
 # Source .profile for common environment vars
-GUIX_AUTOLOAD_PROFILES=(i3 desktop xdg devtools academic)
+GUIX_AUTOLOAD_PROFILES=(i3 desktop xdg devtools browsers)
 source ~/.profile
 
 echo "GUIX_AUTOLOAD_PROFILES: loaded"
