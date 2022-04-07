@@ -40,6 +40,7 @@
   - [[#zsh][Zsh]]
 - [[#environment-1][Environment]]
   - [[#main][Main]]
+  - [[#debugging][Debugging]]
   - [[#xdg-1][XDG]]
   - [[#direnv][Direnv]]
   - [[#languages-1][Languages]]
@@ -164,10 +165,8 @@ See [[https://wiki.archlinux.org/title/XDG_user_directories][XDG User Directorie
 =$HOME/Documents= to survive reinstallation of systems & home directories in a
 sane way.
 
-
-
 #+begin_src shell :result none
-dirsfile=$_DF/.config/user-dirs.dirs
+dirsfile=$XDG_CONFIG_HOME/user-dirs.dirs
 
 # overwrite (requires stow .)
 echo > $dirsfile
@@ -183,12 +182,11 @@ echo "XDG_TEMPLATES_DIR=\"$_DATA/xdg/Templates\"" >> $dirsfile
 #XDG_PUBLICSHARE_DIR="$_DATA/xdg/Public"
 #+end_src
 
+*** Note
 
-***** TODO finish XDG User Dirs config
-+ [ ] xdg-user-dirs-update will replace everything if anything is invalid (only =$HOME/yyy= or =/path/to/yyy= is valid)
-  - it will autoupdate everything if anything doesn't exist
-+ [ ] determine whether this goes here or in Bash.org
-+ [ ] autogenerate this, but determine how the =update-dotfiles= environment will handle this.
++ xdg-user-dirs-update will replace everything if anything is invalid (only =$HOME/yyy= or =/path/to/yyy= is valid)
++ it will autoupdate everything if any dirs don't exist
+
 
 ** Profile Hooks
 
@@ -298,21 +296,6 @@ export FLATPAK_USER_VAR=/flatpak/$(id -un)/.var
 #Custom installations need to be configured here
 # export FLATPAK_CONFIG_DIR=/flatpak/...
 #+end_src
-
-*** Fontconfig Fix
-
-Reference [[https://www.reddit.com/r/flatpak/comments/spwck9/flatpak_doesnt_follow_custom_fontconfig_file/][this reddit post]] for more info. This is [[https://blogs.gnome.org/alexl/page/3/][a long-running issue]].
-
-+ You may need =flatpak --user override= for paths in =fonts.conf=
-+
-
-#+begin_example sh
-for app_dir in $FLATPAK_USER_VAR/app/*; do
-    [[ -L app_dir ]] && ln -s $_DF/.config/fontconfig $app_dir/config/fontconfig
-done
-#+end_example
-
-***** TODO turn this into a shepherd service that can be run on demand
 
 *** The Goal
 
@@ -625,6 +608,8 @@ if [ -f $HOME/.profile ]; then . $HOME/.profile; fi
   "ripgrep"
 
   "file"
+  "lsof"
+  "lsofgraph"
 
   "plantuml"
   "graphviz"
@@ -643,7 +628,28 @@ if [ -f $HOME/.profile ]; then . $HOME/.profile; fi
 
 #+end_src
 
+** Debugging
 
+#+begin_src scheme :tangle ".config/guix/manifests/devdebug.scm"
+(specifications->manifest
+    '(
+      "ltrace"
+      "strace"
+      ;; "ftrace"
+      ;; "uftrace"
+      "traceroute"
+      "sysprof"
+      ;; "perf"
+      ;; "bpftrace"
+      ;; "elfutils"
+
+      ;; "kernelshark"
+      ;; "traceshark"
+      ;; "babeltrace"
+      ;; "tracecompass"
+
+      ))
+#+end_src
 
 ** XDG
 

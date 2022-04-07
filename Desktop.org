@@ -14,6 +14,7 @@
   - [[#user-services][User Services]]
   - [[#scheduled-tasks][Scheduled Tasks]]
 - [[#fonts][Fonts]]
+  - [[#fontconfig-fix][Fontconfig Fix]]
 - [[#themes][Themes]]
   - [[#xsettings][XSettings]]
   - [[#color-schemes][Color Schemes]]
@@ -176,6 +177,21 @@ doesn't include all definitions.
   </alias>
 </fontconfig>
 #+end_src
+
+** Fontconfig Fix
+
+Reference [[https://www.reddit.com/r/flatpak/comments/spwck9/flatpak_doesnt_follow_custom_fontconfig_file/][this reddit post]] for more info. This is [[https://blogs.gnome.org/alexl/page/3/][a long-running issue]].
+
++ You may need =flatpak --user override= for paths in =fonts.conf=
++
+
+#+begin_example sh
+for app_dir in $FLATPAK_USER_VAR/app/*; do
+    [[ -L app_dir ]] && ln -s $_DF/.config/fontconfig $app_dir/config/fontconfig
+done
+#+end_example
+
+***** TODO turn this into a shepherd service that can be run on demand
 
 
 * Themes
