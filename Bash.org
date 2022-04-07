@@ -166,17 +166,21 @@ sane way.
 
 
 
-#+begin_src shell :tangle .config/user-dirs.dirs
+#+begin_src shell :result none
+dirsfile=$_DF/.config/user-dirs.dirs
 
-#XDG_DESKTOP_DIR="$HOME/xdg/Desktop"
-#XDG_DOWNLOAD_DIR="$_DATA/xdg/Downloads"
-XDG_DOCUMENTS_DIR="$_DATA/xdg/Documents"
-XDG_MUSIC_DIR="$_DATA/xdg/Music"
-XDG_PICTURES_DIR="$_DATA/xdg/Pictures"
-XDG_VIDEOS_DIR="$_DATA/xdg/Videos"
-XDG_TEMPLATES_DIR="$_DATA/xdg/Templates"
+# overwrite (requires stow .)
+echo > $dirsfile
+echo "XDG_DOCUMENTS_DIR=\"$_DATA/xdg/Documents\"" >> $dirsfile
+echo "XDG_MUSIC_DIR=\"$_DATA/xdg/Music\"" >> $dirsfile
+echo "XDG_PICTURES_DIR=\"$_DATA/xdg/Pictures\"" >> $dirsfile
+echo "XDG_VIDEOS_DIR=\"$_DATA/xdg/Videos\"" >> $dirsfile
+echo "XDG_TEMPLATES_DIR=\"$_DATA/xdg/Templates\"" >> $dirsfile
+
+# and ignore these
+#XDG_DESKTOP_DIR="$_DATA/xdg/Desktop"
+#XDG_DOWNLOADS_DIR="$_DATA/xdg/Downloads"
 #XDG_PUBLICSHARE_DIR="$_DATA/xdg/Public"
-
 #+end_src
 
 
@@ -308,6 +312,7 @@ for app_dir in $FLATPAK_USER_VAR/app/*; do
 done
 #+end_example
 
+***** TODO turn this into a shepherd service that can be run on demand
 
 *** The Goal
 
