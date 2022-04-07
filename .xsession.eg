@@ -7,8 +7,6 @@ source ~/.profile
 
 echo "GUIX_AUTOLOAD_PROFILES: loaded"
 
-setxkbmap -option "caps:escape"
-
 # prevent automatic suspend
 xset dpms force on
 xset s off

@@ -20,12 +20,14 @@
   #:use-module (gnu packages gnome)
   #:use-module (gnu packages mtools)
   #:use-module (gnu packages linux)
+  #:use-module (gnu packages libusb)
   #:use-module (gnu packages audio)
   #:use-module (gnu packages gnuzilla)
   #:use-module (gnu packages pulseaudio)
   #:use-module (gnu packages web-browsers)
   #:use-module (gnu packages version-control)
   #:use-module (gnu packages package-management)
+  #:use-module (gnu packages freedesktop)
   #:use-module (nongnu packages linux)
   #:use-module (nongnu system linux-initrd))
 
@@ -43,7 +45,7 @@
 ;;** udev rules
 ;;*** backlight-udev-rule
 ;; Add udev rule that allows members of the "video" group to change brightness.
-(define %backlight-udev-rule
+(define %udev-backlight-rule
   (udev-rule
    "90-backlight.rules"
    (string-append "ACTION==\"add\", SUBSYSTEM==\"backlight\", "
@@ -133,7 +135,9 @@ EndSection
 ")
 
 (define-public %dc-default-shell-keyboard
-  (keyboard-layout "us" "altgr-intl" #:model "pc105"))
+  (keyboard-layout "us" "altgr-intl"
+                   #:model "pc105"
+                   #:options '("caps:escape")))
 
 ;;** base-operating-system
 (define-public base-operating-system
@@ -200,9 +204,14 @@ EndSection
                       pipewire ;; TODO: pipewire?
                       tlp
                       xf86-input-libinput
+
+                      ;; required for xdg-user-dirs-update
+                      xdg-user-dirs
+
                       ;; usbmuxd and ifuse for iphone-usb
                       usbmuxd
                       ifuse
+
                       gvfs
                       nss-certs)
                      %base-packages))

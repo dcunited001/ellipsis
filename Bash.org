@@ -180,6 +180,12 @@ XDG_TEMPLATES_DIR="$_DATA/xdg/Templates"
 #+end_src
 
 
+***** TODO finish XDG User Dirs config
++ [ ] xdg-user-dirs-update will replace everything if anything is invalid (only =$HOME/yyy= or =/path/to/yyy= is valid)
+  - it will autoupdate everything if anything doesn't exist
++ [ ] determine whether this goes here or in Bash.org
++ [ ] autogenerate this, but determine how the =update-dotfiles= environment will handle this.
+
 ** Profile Hooks
 
 + =.config/sh/=
@@ -267,6 +273,9 @@ export EDITOR=/usr/bin/vim
 
 # TODO set in login manager script
 #export XDG_CURRENT_DESKTOP=i3
+
+# NOTE this fixes alacritty HiDPI
+export WINIT_X11_SCALE_FACTOR=1
 #+end_src
 
 ** Flatpak
@@ -281,28 +290,24 @@ export FLATPAK_USER_DIR=/flatpak/$(id -un)/.local/share/flatpak
 
 # this is another variable for convenience (this var isn't used by flatpak)
 export FLATPAK_USER_VAR=/flatpak/$(id -un)/.var
+
+#Custom installations need to be configured here
+# export FLATPAK_CONFIG_DIR=/flatpak/...
 #+end_src
 
-*** Custom Installations
+*** Fontconfig Fix
 
-Guix packs =/etc/configs= into the packages, so customization requires either
-CLI, environment or extending the flatpak package. For flatpak, changing this
-variable allows for a new custom installation config. Custom installations need
-to be configured in =$FLATPAK_CONFIG_DIR=.
+Reference [[https://www.reddit.com/r/flatpak/comments/spwck9/flatpak_doesnt_follow_custom_fontconfig_file/][this reddit post]] for more info. This is [[https://blogs.gnome.org/alexl/page/3/][a long-running issue]].
 
-#+begin_example sh
-# to override the default /etc/flatpak, which is inside the guix package
-# - or simply use $FLATPAK_USER_DIR
-# FLATPAK_CONFIG_DIR=/flatpak/$(id -un)/.config/flatpak
-#+end_example
-
-And, flatpak overrides $XDG_DATA_DIRS anyway, so this won't work
++ You may need =flatpak --user override= for paths in =fonts.conf=
++
 
 #+begin_example sh
-# export XDG_DATA_DIRS="/flatpak/$(id -un)/.local/share/flexpak/exports/share:${XDG_DATA_DIRS}"
+for app_dir in $FLATPAK_USER_VAR/app/*; do
+    [[ -L app_dir ]] && ln -s $_DF/.config/fontconfig $app_dir/config/fontconfig
+done
 #+end_example
 
-*** Setting the User Install to a Custom Install
 
 *** The Goal
 
@@ -534,10 +539,12 @@ Try to source =.bashrc=. If the shell is non-interactive, =.bashrc= will return
 
 * Alacritty
 
-#+begin_src sh :tangle .alacritty_profile :shebang #!/bin/sh
-GUIX_AUTOLOAD_PROFILES=(i3 desktop xdg devtools)
+**** TODO remove (doesn't work when alacritty calls /bin/sh)
 
-[[ -f $HOME/.profile ]] && source $HOME/.profile
+#+begin_src sh :tangle .alacritty_bashrc :shebang #!/bin/sh
+#GUIX_AUTOLOAD_PROFILES=(i3 desktop xdg devtools)
+
+#[[ -f $HOME/.bashrc ]] && source $HOME/.bashrc
 #+end_src
 
 
@@ -612,14 +619,26 @@ if [ -f $HOME/.profile ]; then . $HOME/.profile; fi
   "fd"
   "ripgrep"
 
+  "file"
+
   "plantuml"
   "graphviz"
 
+  "sqlite"
+
   "htop"
   "stow"
+
+  "openssh"
+  "screen"
+
+  "zip"
+  "unzip"
   ))
 
 #+end_src
+
+
 
 ** XDG
 
@@ -632,10 +651,62 @@ utils in the environment, but this is split out anyways...
     '(
       "xdg-utils"
       "xdg-user-dirs"
+
+      "xev"
+      "xkbcomp"
+      "setxkbmap"
+
+      "libinput"
+      "xinput"
+
+      "xset"
+      "xrdb"
+      "xhost"
+      "xss-lock"
+
+      "xrandr"
+      "arandr"
+      "autorandr"
+
+      "trash-cli"
+
+      "xwallpaper"
+
+      ;; notifications
+      "libnotify"  ; For notify-send
+
+      "flatpak"
+      "xdg-desktop-portal-gtk"
+
+      "xdg-dbus-proxy"     ;; for Flatpak
+      "gtk+:bin"           ;; for gtk-launch
+      "glib:bin"           ;; for gio-launch-desktop
+      "shared-mime-info"   ;; for mimes
+
+      "compton"
+      ;;"redshift"
+      "gucharmap"
+      "fontmanager"
+      "brightnessctl"
+
+      ;; audio device control
+      "alsa-utils"
+      "pavucontrol"
+
+      ;; chat
+      "weechat"
     ))
 
 #+end_src
 
++ compton :: an alternative compositor for X
+  - incompatible in Wayland, since it doesn't offer modular compositors
++ redshift :: control color temperature according to surroundings.
+  - requires =libxcb= X11 client lib
+  - for wayland: =gammastep= or =wlsunset=
++ gucharmap :: unicode character map (GTK)
++ fontmanager :: provides GTK tools to aid configuration of fonts
++ brightnessctl :: lightweight brightness control tool
 
 ** Direnv
 

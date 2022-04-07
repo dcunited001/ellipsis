@@ -50,16 +50,12 @@
   - [[#syncthing][Syncthing]]
   - [[#flatpak][Flatpak]]
   - [[#printing][Printing]]
-  - [[#desktop-tools][Desktop Tools]]
-    - [[#xdg-1][XDG]]
-  - [[#system-tools][System Tools]]
-  - [[#xorg-tools][Xorg Tools]]
-  - [[#misc-tools][Misc Tools]]
   - [[#academic-tools][Academic Tools]]
   - [[#issues][Issues]]
     - [[#packaging-static-files][Packaging Static Files]]
 - [[#desktop-profiles][Desktop Profiles]]
   - [[#desktop-profile][Desktop Profile]]
+  - [[#desktop-bin-profile][Desktop Bin Profile]]
   - [[#i3-profile][i3 Profile]]
   - [[#big-build][Big Build]]
   - [[#browsers-1][Browsers]]
@@ -105,11 +101,18 @@
     #:start (make-forkexec-constructor '("syncthing" "-no-browser"))
     #:stop (make-kill-destructor)))
 
-(register-services mcron syncthing)
+(define xdg-user-dirs
+  (make <service>
+    #:provides '(xdg-user-dirs)
+    #:one-shot? #t
+    #:start (make-forkexec-constructor '("xdg-user-dirs-update"))
+    #:stop (make-kill-destructor)))
+
+(register-services mcron syncthing xdg-user-dirs)
 (action 'shepherd 'daemonize)
 
 ;; Start user services
-(for-each start '(mcron syncthing))
+(for-each start '(mcron syncthing xdg-user-dirs))
 
 #+end_src
 
@@ -438,7 +441,6 @@ hide_edge_borders both
 "i3lock"
 "dmenu"
 "j4-dmenu-desktop"
-"xwallpaper"
 
 #+end_src
 
@@ -846,7 +848,6 @@ fi
 #+begin_src scheme :noweb-ref packages :noweb-sep ""
 
 "dunst"
-"libnotify"  ; For notify-send
 
 #+end_src
 
@@ -1055,13 +1056,10 @@ dwdot https://github.com/daviwil/dotfiles
 
 ** Chat
 
-Use weechat as backup irc. Anything like Discord/Zoom/Telegram needs
-to come in through flatpak.
-
 #+begin_src scheme :noweb-ref packages :noweb-sep ""
 
 ;; chat
-"weechat"
+"quassel"
 
 #+end_src
 
@@ -1220,14 +1218,12 @@ colors:
 "pwsafe"
 
 #+end_src
+
 ** Audio Device Control
 
 *Guix Packages*
 
 #+begin_src scheme :noweb-ref packages :noweb-sep ""
-
-"alsa-utils"
-"pavucontrol"
 
 #+end_src
 
@@ -1306,7 +1302,6 @@ keep-open
 
 ** Image Viewers and Editors
 
-
 *Guix Packages*
 
 #+begin_src scheme :noweb-ref packages :noweb-sep ""
@@ -1373,6 +1368,7 @@ flatpak install --user flathub com.qutebrowser.qutebrowser
 flatpak install --user flathub com.discordapp.Discord
 flatpak install --user flathub com.zulip.Zulip
 flatpak install --user flathub org.kde.konversation
+flatpak install --user flathub org.quassel_irc.QuasselClient
 flatpak install --user flathub us.zoom.Zoom
 
 # media
@@ -1383,6 +1379,7 @@ flatpak install --user flathub org.videolan.VLC
 flatpak install --user flathub org.blender.Blender
 flatpak install --user flathub org.kde.Krita
 flatpak install --user flathub org.freecadweb.FreeCAD
+flatpak install --user flathub com.ultimaker.cura
 
 # gaming
 flatpak install --user flathub com.valvesoftware.Steam
@@ -1396,16 +1393,6 @@ flatpak install --user flathub org.gustavoperedo.FontDownloader
 
 #+end_example
 
-*Guix Packages*
-
-#+begin_src scheme :noweb-ref packages :noweb-sep ""
-
-"flatpak"
-"xdg-desktop-portal-gtk"
-
-#+end_src
-
-
 ** Printing
 
 *Guix Packages*
@@ -1416,105 +1403,11 @@ flatpak install --user flathub org.gustavoperedo.FontDownloader
 
 #+end_src
 
-** Desktop Tools
-
-*Guix Packages*
-
-#+begin_src scheme :noweb-ref packages :noweb-sep ""
-
-"compton"
-;;"redshift"
-"gucharmap"
-"fontmanager"
-"brightnessctl"
-
-#+end_src
-
-+ compton :: an alternative compositor for X
-  - incompatible in Wayland, since it doesn't offer modular compositors
-+ redshift :: control color temperature according to surroundings.
-  - requires =libxcb= X11 client lib
-  - for wayland: =gammastep= or =wlsunset=
-+ gucharmap :: unicode character map (GTK)
-+ fontmanager :: provides GTK tools to aid configuration of fonts
-+ brightnessctl :: lightweight brightness control tool
-
-*** XDG
-
-*Guix Packages*
-
-#+begin_src scheme :noweb-ref packages :noweb-sep ""
-
-"xdg-dbus-proxy"     ;; for Flatpak
-"gtk+:bin"           ;; for gtk-launch
-"glib:bin"           ;; for gio-launch-desktop
-"shared-mime-info"   ;; for mimes
-
-#+end_src
-
-** System Tools
-
-*Guix Packages*
-
-#+begin_src scheme :noweb-ref packages :noweb-sep ""
-
-"openssh"
-"zip"
-"unzip"
-"trash-cli"
-
-;; for org-roam
-"sqlite"
-
-#+end_src
-
-** Xorg Tools
-
-*Guix Packages*
-
-#+begin_src scheme :noweb-ref packages :noweb-sep ""
-
-"xev"
-"xkbcomp"
-"xkbprint"
-"xkbevd"
-"xkbutils"
-"xmodmap"
-"setxkbmap"
-;; "xkeyboard-config" ;; too many deps
-
-"libinput"
-"xinput"
-
-"xset"
-"xrdb"
-"xhost"
-"xss-lock"
-
-"xrandr"
-"arandr"
-"autorandr"
-
-#+end_src
-
-** Misc Tools
-
-#+begin_src scheme :noweb-ref packages :noweb-sep ""
-
-"graphviz"
-"plantuml"
-
-"file"
-
-"fd"
-"ripgrep"
-
-#+end_src
-
 ** Academic Tools
 
 This will likely be moved to its own manifest. Note, this profile is not loaded
 by default and needs to be activated from within Emacs
+
 ** Issues
 
 *** Packaging Static Files
@@ -1546,6 +1439,10 @@ via =C-c G=
 ))
 
 #+end_src
+
+** Desktop Bin Profile
+
+
 
 ** i3 Profile
 
