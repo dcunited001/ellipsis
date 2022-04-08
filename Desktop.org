@@ -14,7 +14,6 @@
   - [[#user-services][User Services]]
   - [[#scheduled-tasks][Scheduled Tasks]]
 - [[#fonts][Fonts]]
-  - [[#fontconfig-fix][Fontconfig Fix]]
 - [[#themes][Themes]]
   - [[#xsettings][XSettings]]
   - [[#color-schemes][Color Schemes]]
@@ -50,6 +49,7 @@
   - [[#document-readers][Document Readers]]
   - [[#syncthing][Syncthing]]
   - [[#flatpak][Flatpak]]
+    - [[#fontconfig-fix][Fontconfig fix]]
   - [[#printing][Printing]]
   - [[#academic-tools][Academic Tools]]
   - [[#issues][Issues]]
@@ -155,6 +155,10 @@ doesn't include all definitions.
   "font-ghostscript"
   "font-bitstream-vera"
 
+  ;; japanese (CJK)
+  "font-adobe-source-han-sans"
+  "font-wqy-zenhei"
+
   ;; more fonts
   "font-juliamono"
   "font-adobe-source-han-sans"
@@ -167,8 +171,10 @@ doesn't include all definitions.
 <?xml version="1.0"?>
 <!DOCTYPE fontconfig SYSTEM "fonts.dtd">
 <fontconfig>
-  <dir>~/.dotfiles/fonts</dir>
-  <dir>~/.guix-extra-profiles/desktop/desktop/share/fonts</dir>
+  <include ignore_missing="yes">/etc/fonts/fonts.conf</include>
+
+  <dir>/home/dc/.dotfiles/fonts</dir>
+  <dir>/home/dc/.guix-extra-profiles/desktop/desktop/share/fonts</dir>
   <alias>
     <family>Apple Color Emoji</family>
     <prefer>
@@ -177,22 +183,6 @@ doesn't include all definitions.
   </alias>
 </fontconfig>
 #+end_src
-
-** Fontconfig Fix
-
-Reference [[https://www.reddit.com/r/flatpak/comments/spwck9/flatpak_doesnt_follow_custom_fontconfig_file/][this reddit post]] for more info. This is [[https://blogs.gnome.org/alexl/page/3/][a long-running issue]].
-
-+ You may need =flatpak --user override= for paths in =fonts.conf=
-+
-
-#+begin_example sh
-for app_dir in $FLATPAK_USER_VAR/app/*; do
-    [[ -L app_dir ]] && ln -s $_DF/.config/fontconfig $app_dir/config/fontconfig
-done
-#+end_example
-
-***** TODO turn this into a shepherd service that can be run on demand
-
 
 * Themes
 
@@ -1408,6 +1398,21 @@ flatpak install --user flathub net.ankiweb.Anki
 flatpak install --user flathub org.gustavoperedo.FontDownloader
 
 #+end_example
+
+*** Fontconfig fix
+
++ manually add fonts into =~/.dotfiles/fonts=
++ add an override to make this path avaiable in flatpak
+  - ensure the =--filesystem= bind mounts match the =FONTCONFIG_...= var which cannot be or include links
+
+#+begin_src bash
+flatpak --user override \
+    --filesystem=~/.dotfiles/.config/fontconfig:ro \
+    --filesystem=~/.dotfiles/fonts:ro \
+    --filesystem=~/.guix-extra-profiles/desktop/desktop/share/fonts:ro \
+    --env=FONTCONFIG_PATH=$HOME/.dotfiles/.config/fontconfig/conf.d \
+    --env=FONTCONFIG_FILE=$HOME/.dotfiles/.config/fontconfig/fonts.conf
+#+end_src
 
 ** Printing
 

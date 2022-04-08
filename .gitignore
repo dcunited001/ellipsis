@@ -46,6 +46,8 @@ skel-images/**/*
 
 # fontconfig
 .config/fontconfig/**
+fonts/**
+!fonts/.gitkeep
 
 # xsettings
 .config/xsettingsd/xsettingsd.conf
