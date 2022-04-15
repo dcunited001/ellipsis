@@ -401,7 +401,7 @@ date.
     (dw/tangle-org-file "Systems.org")
 
     (dolist (org-file org-files)
-      (unless (member org-file '("README.org" "Systems.org"))
+      (if (member org-file '("Bash.org" "Desktop.org"))
 	(dw/tangle-org-file org-file))))
 
 #+end_src
