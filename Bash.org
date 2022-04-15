@@ -648,6 +648,11 @@ if [ -f $HOME/.profile ]; then . $HOME/.profile; fi
       ;; "babeltrace"
       ;; "tracecompass"
 
+      ;; "hddtemp"
+      ;; "lmsensors"
+
+      "i2c-tools"
+
       ))
 #+end_src
 
