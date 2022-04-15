@@ -411,14 +411,17 @@ bindsym $mod+r mode "resize"
 
 for_window [window_role="pop-up"] floating enable
 for_window [window_role="task_dialog"] floating enable
-
 for_window [class="Pwsafe" instance="pwsafe"] floating enable, sticky enable
 for_window [class="Gnuplot" instance="gnuplot"] floating enable
 for_window [id="org.fcitx.fcitx5-config-qt"] floating enable
 for_window [id="fcitx5-qt5-fcgui-wrapper"] floating enable
-for_window [id="zoom"] floating enable, sticky enable
-for_window [id="zoom"] inhibit_idle fullscreen
 for_window [id="gnome-calculator"] floating enable
+
+for_window [instance=".arandr-real"] floating enable
+for_window [class="Pavucontrol"] floating enable
+
+for_window [instance="zoom"] floating enable, sticky enable
+for_window [instance="zoom"] inhibit_idle fullscreen
 
 focus_on_window_activation focus
 
@@ -570,6 +573,8 @@ label-volume = %percentage%%
 label-muted = muted
 label-muted-foreground = ${colors.disabled}
 
+click-right = pavucontrol
+
 [module/xworkspaces]
 type = internal/xworkspaces
 
@@ -609,7 +614,7 @@ type = internal/cpu
 interval = 2
 format = <label> <ramp-coreload>
 format-underline = ${colors.underline-1}
-click-left = emacsclient -e "(proced)"
+;click-left = emacsclient -e "(proced)"
 label = %percentage:2%%
 ramp-coreload-spacing = 0
 ramp-coreload-0 = ▁
