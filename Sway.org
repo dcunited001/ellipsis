@@ -8,6 +8,7 @@
 #+OPTIONS: toc:nil
 
 * Table of Contents :TOC_3_gh:
+- [[#environment][Environment]]
 - [[#window-management][Window Management]]
   - [[#sway][Sway]]
     - [[#configs][Configs]]
@@ -28,6 +29,44 @@
   - [[#wayland-tools][Wayland Tools]]
     - [[#equivalent-tools][Equivalent Tools]]
 - [[#desktop-profile][Desktop Profile]]
+
+* Environment
+
+Quick reminder of the environment before proceeding
+
+#+begin_src emacs-lisp :results output
+(let* ((+-env-vars '("_DF" "_DATA" "_XS" "_ECTO" "_REPO" "_STEAM" "_FLATPAK" "_FLATPAK_NAME" "DOOMDIR" "_GUIX"))
+       (+-env-alist (->> +-env-vars
+                         (--annotate (getenv it))
+                         (--> (-lambda (a) (rassoc it))))))
+  (--each +-env-alist (print it)))
+#+end_src
+
+#+RESULTS:
+#+begin_example
+
+("/home/dc/.dotfiles" . "_DF")
+
+("/data" . "_DATA")
+
+("/data" . "_XS")
+
+("/data/ecto" . "_ECTO")
+
+("/data/repo" . "_REPO")
+
+("/steam" . "_STEAM")
+
+("/flatpak" . "_FLATPAK")
+
+("flexpak" . "_FLATPAK_NAME")
+
+("/home/dc/.doom.d" . "DOOMDIR")
+
+("/gnu" . "_GUIX")
+#+end_example
+
+
 
 * Window Management
 ** Sway
