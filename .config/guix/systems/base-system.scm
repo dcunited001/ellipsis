@@ -15,6 +15,7 @@
   #:use-module (gnu packages vim)
   #:use-module (gnu packages gtk)
   #:use-module (gnu packages xorg)
+  #:use-module (gnu packages xdisorg)
   #:use-module (gnu packages emacs)
   #:use-module (gnu packages file-systems)
   #:use-module (gnu packages gnome)
@@ -74,33 +75,67 @@
   (remove (lambda (service)
             (eq? (service-kind service)  gdm-service-type))
           services-list))
-	  
-;;** %dc-desktop-services
+
+;;** %dc-desktop-packages
+(define-public %dc-desktop-packages
+  (append (list
+           openssh
+           git
+           ntfs-3g
+           exfat-utils
+           fuse-exfat
+           stow
+           vim
+           emacs
+           xterm
+           bluez
+           bluez-alsa
+           pipewire ;; TODO: pipewire?
+           tlp
+           xf86-input-libinput
+
+           ;; required for wacom
+           ;; - libwacom modifies udev rules & must be in system config
+           xf86-input-wacom
+           libwacom
+
+           ;; required for xdg-user-dirs-update
+           xdg-user-dirs
+
+           ;; usbmuxd and ifuse for iphone-usb
+           usbmuxd
+           ifuse
+
+           gvfs
+           nss-certs)
+          %base-packages))
+
+;;** dc-desktop-services
 ;;
 ;; Override the default %desktop-services to add the udev backlight config
 ;; and include OpenVPN in the list of NetworkManager plugins.
 (define-public dc-desktop-services
   (modify-services
-   %desktop-services
+      %desktop-services
 
-   (elogind-service-type
-    config =>
-    (elogind-configuration
-     (inherit config)
-     (handle-lid-switch-external-power 'suspend)))
+    (elogind-service-type
+     config =>
+     (elogind-configuration
+      (inherit config)
+      (handle-lid-switch-external-power 'suspend)))
 
-   (udev-service-type
-    config =>
-    (udev-configuration
-     (inherit config)
-     (rules (cons %udev-backlight-rule
-                  (udev-configuration-rules config)))))
+    (udev-service-type
+     config =>
+     (udev-configuration
+      (inherit config)
+      (rules (cons %udev-backlight-rule
+                   (udev-configuration-rules config)))))
 
-   (network-manager-service-type
-    config =>
-    (network-manager-configuration
-     (inherit config)
-     (vpn-plugins (list network-manager-openvpn))))))
+    (network-manager-service-type
+     config =>
+     (network-manager-configuration
+      (inherit config)
+      (vpn-plugins (list network-manager-openvpn))))))
 
 ;;** %xorg-libinput-config
 
@@ -109,7 +144,6 @@
 ;; Define the =base-operating-system=
 ;; which will be inherited by all machine configurations.
 ;; TODO: update this for wacom device
-;; TODO: allow %xorg-libinput-config to be extended
 
 (define-public %xorg-libinput-config
   "
@@ -189,32 +223,7 @@ EndSection
                 %base-user-accounts))
 
    ;; install bare-minimum system packages
-   (packages (append (list
-                      openssh
-                      git
-                      ntfs-3g
-                      exfat-utils
-                      fuse-exfat
-                      stow
-                      vim
-                      emacs
-                      xterm
-                      bluez
-                      bluez-alsa
-                      pipewire ;; TODO: pipewire?
-                      tlp
-                      xf86-input-libinput
-
-                      ;; required for xdg-user-dirs-update
-                      xdg-user-dirs
-
-                      ;; usbmuxd and ifuse for iphone-usb
-                      usbmuxd
-                      ifuse
-
-                      gvfs
-                      nss-certs)
-                     %base-packages))
+   (packages %dc-desktop-packages)
 
    (services (cons*
               (service tlp-service-type
