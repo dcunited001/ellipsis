@@ -77,16 +77,17 @@ Note: getting this to tangle properly requires =C-c C-v C-t=
 #+end_quote
 
 #+name: bash-env-bindings
-| _DF           | $HOME/.dotfiles                     |
-| _DATA         | /data                               |
-| _XS           | /data                               |
-| _ECTO         | /data/ecto                          |
-| _REPO         | /data/repo                          |
-| _STEAM        | /steam                              |
-| _GUIX         | /gnu                                |
-| _WALLPAPERS   | /data/xdg/Pictures/wallpapers/anime |
-| _FLATPAK      | /flatpak                            |
-| DOOMDIR       | $HOME/.doom.d                       |
+| _DF         | $HOME/.dotfiles                     |
+| _DATA       | /data                               |
+| _XS         | /data                               |
+| _LANG       | /data/lang                          |
+| _ECTO       | /data/ecto                          |
+| _REPO       | /data/repo                          |
+| _STEAM      | /steam                              |
+| _GUIX       | /gnu                                |
+| _WALLPAPERS | /data/xdg/Pictures/wallpapers/anime |
+| _FLATPAK    | /flatpak                            |
+| DOOMDIR     | $HOME/.doom.d                       |
 
 #+name: bash-env-bindings_GEN
 #+begin_src emacs-lisp :tangle no :var bindings=bash-env-bindings :results output :exports none
@@ -263,7 +264,8 @@ export TERM=alacritty
 
 # TODO: update to use terminal emacsclient
 export VISUAL=emacsclient
-export EDITOR=/usr/bin/vim
+export EDITOR=emacsclient
+export ALTERNATE_EDITOR=vim
 #+end_src
 
 ** XDG
@@ -316,8 +318,10 @@ updates to new flatpak installations to =/flatpak/syncpak123=:
 
 ** Steam & Proton
 
-#+begin_src sh :tangle .config/sh/profile.d/steam.sh :shebang #!/bin/sh
++ [[See ][PC Gaming Wiki]] describes Steam Library & Game Data locations
 
+#+begin_src sh :tangle .config/sh/profile.d/steam.sh :shebang #!/bin/sh
+#STEAM_DIR=
 #+end_src
 
 ** Guix
@@ -329,8 +333,9 @@ by the login/display manager, but not exported.
 alias guix-all-profiles='find /gnu/store -maxdepth 1 -type d -name "*profile" -exec ls -al \{\} +'
 alias guix-main="$HOME/.config/guix/current/bin/guix"
 
-GUIX_PROFILE="$HOME/.guix-profile"
-. "$GUIX_PROFILE/etc/profile"
+# TODO fix for non-guix-systems
+# GUIX_PROFILE="$HOME/.guix-profile"
+# . "$GUIX_PROFILE/etc/profile"
 
 # GUIX_AUTOLOAD_PROFILES=(desktop i3)
 for i in ${GUIX_AUTOLOAD_PROFILES[@]}; do
@@ -413,7 +418,7 @@ Julia [[https://docs.julialang.org/en/v1/manual/environment-variables/][Environm
 
 #+begin_src sh :tangle .config/sh/profile.d/julia.sh :shebang #!/bin/sh
 export JULIA_SHELL=/bin/sh
-export JULIA_EDITOR=vim
+export JULIA_EDITOR=emacsclient
 #+end_src
 
 These auto-expand empty entries, but =JULIA_LOAD_PATH= can't be set if empty.
@@ -421,6 +426,18 @@ These auto-expand empty entries, but =JULIA_LOAD_PATH= can't be set if empty.
 #+begin_src sh :tangle .config/sh/profile.d/julia.sh :shebang #!/bin/sh
 #export JULIA_LOAD_PATH="$JULIA_LOAD_PATH"
 export JULIA_DEPOT_PATH="$_DATA/lang/.julia:$JULIA_DEPOT_PATH"
+#+end_src
+
+*** Setup
+
+Julia depot path is where package bins, logs, etc are found. Projects using =$JULIA_DEPOT_PATH= will share the bin packages satisfying =Project.toml= requirements.
+
++ Julia packages do require significant space.
++ GC can be run to clean up old packages.
+
+#+begin_src shell :eval no
+[[ ! -d $_LANG/julia ]] && mkdir -p $_LANG/julia
+[[ ! -d $JULIA_DEPOT_PATH ]] && mkdir -p $JULIA_DEPOT_PATH
 #+end_src
 
 ** Node
