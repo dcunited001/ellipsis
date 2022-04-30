@@ -168,6 +168,8 @@ retrieve these settings appropriately. This is used throughout =Desktop.org=.
       (polybar/font-1-size . 14)
       (polybar/font-2-size . 20)
       (polybar/font-3-size . 13)
+      (polybar/font-4-size . 18)
+      (polybar/backlight-card . "intel_backlight")
       (dunst/font-size . 20)
       (dunst/max-icon-size . 88)
       (vimb/default-zoom . 180)
@@ -175,6 +177,8 @@ retrieve these settings appropriately. This is used throughout =Desktop.org=.
     <<system-settings>>))
 
 #+end_src
+
++ Use =ls -1 /sys/class/backlight= to get the backlight
 
 *** hersai
 
@@ -244,6 +248,7 @@ retrieve these settings appropriately. This is used throughout =Desktop.org=.
       (polybar/font-1-size . 12)
       (polybar/font-2-size . 18)
       (polybar/font-3-size . 8)
+      (polybar/backlight-card . "amdgpu_bl0")
       (dunst/font-size . 16)
       (dunst/max-icon-size . 88)
       ;(vimb/default-zoom . 160)

@@ -435,7 +435,7 @@ bindsym $mod+Control+shift+d mark dev
 smart_gaps on
 
 default_border pixel 3
-gaps inner 12
+gaps inner 7
 gaps outer 0
 hide_edge_borders both
 
@@ -465,11 +465,13 @@ hide_edge_borders both
 [custom/per_settings]
 
 height = <<get-setting(name="polybar/height")>>
-font-0 = "Cantarell:size=<<get-setting(name="polybar/font-0-size")>>:weight=bold;2"
+font-0 = "Noto Sans:size=<<get-setting(name="polybar/font-0-size")>>:weight=bold;2"
 font-1 = "Font Awesome:size=<<get-setting(name="polybar/font-1-size")>>;2"
 font-2 = "Material Icons:size=<<get-setting(name="polybar/font-2-size")>>;5"
 font-3 = "Fira Mono:size=<<get-setting(name="polybar/font-3-size")>>;-3"
+font-4 = "Noto Sans CJK JP:size=<<get-setting(name="polybar/font-4-size")>>;2"
 
+backlight-card = "<<get-setting(name="polybar/backlight-card")>>"
 #+end_src
 
 *.config/polybar/config:*
@@ -490,13 +492,14 @@ margin-top = 0
 margin-bottom = 0
 
 [colors]
-background = #f0232635
+background = #232635
 background-alt = #576075
 foreground = #A6Accd
 foreground-alt = #555
 primary = #ffb52a
 secondary = #e60053
 alert = #bd2c40
+disabled = #434645
 underline-1 = #c792ea
 
 [bar/panel]
@@ -527,6 +530,7 @@ font-0 = ${custom/per_settings.font-0}
 font-1 = ${custom/per_settings.font-1}
 font-2 = ${custom/per_settings.font-2}
 font-3 = ${custom/per_settings.font-3}
+font-4 = ${custom/per_settings.font-4}
 
 ;modules-left = exwm exwm-path
 ;modules-center = spotify
@@ -534,7 +538,7 @@ font-3 = ${custom/per_settings.font-3}
 
 modules-left = xworkspaces xwindow
 modules-center = date
-modules-right = cpu temperature battery pulseaudio xkeyboard
+modules-right = cpu temperature battery pulseaudio backlight xkeyboard
 
 tray-position = right
 tray-padding = 2
@@ -561,19 +565,41 @@ cursor-scroll = ns-resize
 ; format-padding = 3
 ; initial = 1
 
+[module/backlight]
+type = internal/backlight
+card =  ${custom/per_settings.backlight-card}
+enable-scroll = true
+
+format = <label> <bar>
+label = 明
+label-font = 4
+label-foreground = ${colors.foreground}
+bar-width = 10
+bar-indicator = "⊗"
+bar-indicator-foreground = ${colors.foreground}
+bar-fill = ─
+bar-fill-foreground = ${colors.primary}
+bar-empty = ─
+
 [module/pulseaudio]
 type = internal/pulseaudio
 
-format-volume-prefix = "VOL "
-format-volume-prefix-foreground = ${colors.primary}
-format-volume = <label-volume>
+format-volume-prefix = "音 "
+format-volume-prefix-font = 5
+format-volume-prefix-foreground = ${colors.foreground}
+format-volume = <bar-volume>
 
-label-volume = %percentage%%
-
-label-muted = muted
+label-muted = 音
 label-muted-foreground = ${colors.disabled}
 
 click-right = pavucontrol
+
+bar-volume-width = 10
+bar-volume-indicator = "⊗"
+bar-volume-indicator-foreground = ${colors.foreground}
+bar-volume-fill = ─
+bar-volume-fill-foreground = ${colors.primary}
+bar-volume-empty = ─
 
 [module/xworkspaces]
 type = internal/xworkspaces
@@ -989,6 +1015,8 @@ xdg-mime default emacs.desktop text/org
 #+end_src
 
 *** Nyxt
+
+Configs are cloned from another repo
 
 *** Qutebrowser
 
