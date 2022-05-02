@@ -130,6 +130,22 @@
     #:stop (make-kill-destructor)))
 (register-services doom-emacs)
 
+(define fcitx5
+  (make <service>
+    #:provides '(fcitx5)
+    #:docstring "Emacs server running the default chemacs profile"
+    #:respawn? #t
+
+    #:start (make-forkexec-constructor
+             '("fcitx5" "-d")
+             #:log-file (string-append
+                         (mkdtemp "/tmp/shepherd-XXXXXX")
+                         "/fcitx5-"
+                         (strftime "%Y-%m-%d-" (gmtime (current-time)))
+                         (gethostname) ".log"))
+    #:stop (make-kill-destructor)))
+(register-services fcitx5)
+
 (define xdg-user-dirs
   (make <service>
     #:provides '(xdg-user-dirs)
@@ -141,7 +157,7 @@
 (action 'shepherd 'daemonize)
 
 ;; Start user services
-(for-each start '(mcron syncthing xdg-user-dirs doom-emacs))
+(for-each start '(mcron syncthing xdg-user-dirs doom-emacs fcitx5))
 #+end_src
 
 ** Scheduled Tasks
@@ -248,8 +264,15 @@ Xft/HintStyle "hintnone"
 
 #+*Guix Packages"
 
-#+begin_src scheme :noweb-ref packages :noweb-sep ""
-
+#+begin_src scheme :tangle .config/guix/manifests/fcitx5.scm
+(specifications->manifest
+ '(
+   "fcitx5"
+   "fcitx5-anthy"
+   "fcitx5-configtool"
+   ;;"fcitx5-gtk3"
+   ;;"fcitx6-qt"
+   ))
 #+end_src
 
 * Window Management
