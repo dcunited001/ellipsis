@@ -87,6 +87,9 @@
 ** User Services
 
 #+begin_src scheme :tangle .config/shepherd/init.scm
+;; (use-modules '((guix gexp)))
+
+(use-modules (shepherd support))
 
 (define mcron
   (make <service>
@@ -98,9 +101,34 @@
 (define syncthing
   (make <service>
     #:provides '(syncthing)
+    #:docstring "Run `syncthing' without calling the browser"
     #:respawn? #t
-    #:start (make-forkexec-constructor '("syncthing" "-no-browser"))
+    #:start (make-forkexec-constructor
+             '("syncthing" "-no-browser"))
     #:stop (make-kill-destructor)))
+
+;; (define (dc/chemacs-profile-name profile-name)
+;;   (string-join (list profile-name (gethostname) (getenv "USER")) "-"))
+
+(define doom-emacs
+  (make <service>
+    #:provides '(doom-emacs)
+    #:docstring "Emacs server running the default chemacs profile"
+    #:respawn? #t
+
+    #:start (make-forkexec-constructor
+             '("emacs" "--fg-daemon")
+             #:log-file (string-append
+                         (mkdtemp "/tmp/emacs-XXXXXX")
+                         "/doom-emacs-"
+                         (strftime "%Y-%m-%d-" (gmtime (current-time)))
+                         (gethostname) ".log"))
+    ;; #:handle-termination (exec-command
+    ;;                      '("notify-send"
+    ;;                        "Shepherd: Emacs"
+    ;;                       "Doom Emacs has terminated."))
+    #:stop (make-kill-destructor)))
+(register-services doom-emacs)
 
 (define xdg-user-dirs
   (make <service>
@@ -113,8 +141,7 @@
 (action 'shepherd 'daemonize)
 
 ;; Start user services
-(for-each start '(mcron syncthing xdg-user-dirs))
-
+(for-each start '(mcron syncthing xdg-user-dirs doom-emacs))
 #+end_src
 
 ** Scheduled Tasks
@@ -276,6 +303,8 @@ bindsym $mod+d exec --no-startup-id j4-dmenu-desktop
 # installed.
 # bindsym $mod+d exec --no-startup-id i3-dmenu-desktop
 
+bindsym $mod+m exec --no-startup-id dmenu_screenlayout
+bindsym $mod+Shift+m exec --no-startup-id arandr
 # change focus
 bindsym $mod+j focus left
 bindsym $mod+k focus down
@@ -330,7 +359,7 @@ bindsym $mod+a focus parent
 # We use variables to avoid repeating the names in multiple places.
 set $ws1 "1"
 set $ws2 "2"
-set $ws3 "3"
+set $ws3 "Emacs"
 set $ws4 "4"
 set $ws5 "5"
 set $ws6 "6"
@@ -339,10 +368,12 @@ set $ws8 "8"
 set $ws9 "9"
 set $ws10 "10"
 
+#workspace $ws3 output
+
 # switch to workspace
 bindsym $mod+1 workspace number $ws1
 bindsym $mod+2 workspace number $ws2
-bindsym $mod+3 workspace number $ws3
+bindsym $mod+3 workspace $ws3
 bindsym $mod+4 workspace number $ws4
 bindsym $mod+5 workspace number $ws5
 bindsym $mod+6 workspace number $ws6
@@ -354,7 +385,7 @@ bindsym $mod+0 workspace number $ws10
 # move focused container to workspace
 bindsym $mod+Shift+1 move container to workspace number $ws1
 bindsym $mod+Shift+2 move container to workspace number $ws2
-bindsym $mod+Shift+3 move container to workspace number $ws3
+bindsym $mod+Shift+3 move container to workspace $ws3
 bindsym $mod+Shift+4 move container to workspace number $ws4
 bindsym $mod+Shift+5 move container to workspace number $ws5
 bindsym $mod+Shift+6 move container to workspace number $ws6

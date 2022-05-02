@@ -173,7 +173,8 @@ retrieve these settings appropriately. This is used throughout =Desktop.org=.
       (dunst/font-size . 20)
       (dunst/max-icon-size . 88)
       (vimb/default-zoom . 180)
-      (qutebrowser/default-zoom . 200))
+      (qutebrowser/default-zoom . 200)
+      (xrandr/primary-display . "eDP"))
     <<system-settings>>))
 
 #+end_src
@@ -203,6 +204,7 @@ retrieve these settings appropriately. This is used throughout =Desktop.org=.
       (dunst/max-icon-size . 88)
       ;(vimb/default-zoom . 160)
       ;(qutebrowser/default-zoom . 180)
+      (xrandr/primary-display . "eDP-1")
       ))
 
 #+end_src
@@ -253,7 +255,7 @@ retrieve these settings appropriately. This is used throughout =Desktop.org=.
       (dunst/max-icon-size . 88)
       ;(vimb/default-zoom . 160)
       ;(qutebrowser/default-zoom . 180)
-
+      (xrandr/primary-display . "eDP")
       ))
 
 #+end_src

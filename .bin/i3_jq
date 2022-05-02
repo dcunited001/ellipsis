@@ -1,0 +1,39 @@
+#!/bin/sh
+# from https://www.reddit.com/r/i3wm/comments/psq529/parsing_get_tree_with_jq_example/
+
+i3-msg -t get_tree | jq -r '
+def pad($len): tostring | .[0:$len-5] | . + " " * ($len-length) ;
+
+def makeLineInfo: " #!# "
+    + ( "con_id=\(.id)"
+    + if .window != null       then "; id=\(.window)" else "" end
+    + if (.marks | length) > 0 then "; marks=( "+(.marks|@sh)+" )" else "" end
+    )
+;
+
+def makeLine($y):
+    .focused as $is_focused
+    | ( $y +
+        if .window != null        then "- win:   (\(.window_properties.class) :: \(.window_properties.instance)) \(.window_properties.window_role)"
+        elif .type == "workspace" then "workspace[\"\(.name)\"]: \(.layout)"
+        elif .type == "con"       then "container: \(.layout)"
+        elif .type == "output"    then "output:   \(.name)"
+        else "Well This is unexpected  \(.|tostring)" end
+    | pad(100) ) + makeLineInfo
+    | if $is_focused then "--> " + .[4:] else . end
+;
+
+def i3_descend_nodes($y): makeLine($y), (
+    if .type == "output"
+    then .nodes[] | select(.name == "content")
+    else .nodes[]
+    end | i3_descend_nodes($y + "  ") )
+;
+
+.nodes[]
+| [ select(.name != "__i3") ]
+| if length > 1 then .[] else
+    .[] | .nodes[] | select(.name == "content") | .nodes[]
+end
+| i3_descend_nodes("") '
+#

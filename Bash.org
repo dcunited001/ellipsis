@@ -626,8 +626,19 @@ if [ -f $HOME/.profile ]; then . $HOME/.profile; fi
 (specifications->manifest
 '("git"
   "git-repo"
+
   "gcc-toolchain"
   "cmake"
+  "make"
+  "libtool"
+  "libvterm"
+  "perl"
+
+  "cmake"
+  "make"
+  "libtool"
+  "perl"
+
   "direnv"
 
   "fd"
@@ -754,6 +765,19 @@ utils in the environment, but this is split out anyways...
 ** Direnv
 
 ** Languages
+
+*** C++
+
+#+begin_src scheme :tangle .config/guix/manifests/cpp-build.scm
+(specifications->manifest
+ '(
+    "gcc-toolchain"
+    "cmake"
+    "make"
+    "libtool"
+    "perl"
+   ))
+#+end_src
 
 *** Casual Python
 
