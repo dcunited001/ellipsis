@@ -16,6 +16,12 @@
 
   ;;** PGP Packages
   #:use-module (gnu packages security-token)
+
+  ;; only for keepass w/ yubico support
+  ;; #:use-module (gnu packages password-utils)
+
+  ;; only for yubico-pam
+  ;; #:use-module (gnu packages authentication)
   ;; gnu/packages/openpgp.scm
   ;; gnu/packages/gnu-pw-mgr.scm
 
@@ -24,6 +30,9 @@
 
   #:export (usb-gpg-tools))
 
+
+;; TODO: this will require building an image with firmware
+;; - e.g. on the HP laptop
 ;; TODO: pcscd support
 ;; - pcsd
 ;; TODO: udev.packages support for yubikey-personalization
@@ -33,13 +42,22 @@
 ;; TODO: validate inherited packages/services from installation-os
 
 ;;** Image
+;; TODO: consider (define (usb-gpg-tools some-clojure-destructured-args) ...)
+;; - to pass things like
+;;
+;; invoke this style with
+;;
+;; ... or consider extending
 (define usb-gpg-tools
   (operating-system
    (inherit installation-os) ;; TODO is there a better starting point?
+   ;;
+   ;; TODO: see if kernel-arguments are composable?
    (kernel-arguments '("modprobe.blacklist=radeon" ;; TODO double-check
                        ;; "quiet" ;; .....
                        ;; "net.iframes=0"
                        ))
+
    (packages (append (list exfat-utils
                            fuse-exfat
                            git
@@ -48,8 +66,7 @@
                            vim
                            emacs-no-x-toolkit
 
-                           pcsc-lite
-                           )
+                           pcsc-lite)
                      (operating-system-packages
                       installation-os)
 

@@ -423,6 +423,14 @@ for_window [class="Pavucontrol"] floating enable
 for_window [instance="zoom"] floating enable, sticky enable
 for_window [instance="zoom"] inhibit_idle fullscreen
 
+# Anki
+for_window [class="Anki"] floating enable
+for_window [class="Anki" title="^Add"], floating enable
+for_window [class="Anki" title="^Preferences"], floating enable
+for_window [class="Anki" title="^Browse.*"] floating disable
+for_window [class="Anki" title="^Anki Main"], floating disable
+# Anki Main is the name of the Anki Profile (switch profiles, rename)
+
 focus_on_window_activation focus
 
 # jump to apps
@@ -1420,11 +1428,9 @@ flatpak install --user flathub org.kde.Krita
 flatpak install --user flathub org.freecadweb.FreeCAD
 flatpak install --user flathub com.ultimaker.cura
 
-# gaming
-flatpak install --user flathub com.valvesoftware.Steam
-flatpak install --user flathub com.valvesoftware.Steam.CompatibilityTool.Proton
-
 # misc
+# texlive needs to be installed before anki for latex
+flatpak --user install org.freedesktop.Sdk.Extension.texlive
 flatpak install --user flathub net.ankiweb.Anki
 
 # needed for fonts

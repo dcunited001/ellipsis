@@ -83,7 +83,7 @@ Note: getting this to tangle properly requires =C-c C-v C-t=
 | _LANG       | /data/lang                          |
 | _ECTO       | /data/ecto                          |
 | _REPO       | /data/repo                          |
-| _STEAM      | /steam                              |
+| _STEAM      | /flatpak/steam |
 | _GUIX       | /gnu                                |
 | _WALLPAPERS | /data/xdg/Pictures/wallpapers/anime |
 | _FLATPAK    | /flatpak                            |
@@ -321,7 +321,13 @@ updates to new flatpak installations to =/flatpak/syncpak123=:
 + [[See ][PC Gaming Wiki]] describes Steam Library & Game Data locations
 
 #+begin_src sh :tangle .config/sh/profile.d/steam.sh :shebang #!/bin/sh
-#STEAM_DIR=
+export STEAM_DIR=$_STEAM/.steam
+#+end_src
+
+*** Setup
+
+Add =steam.sh= to =~/.config/sh/_load_profile.sh=
+
 #+end_src
 
 ** Guix
@@ -349,6 +355,9 @@ for i in ${GUIX_AUTOLOAD_PROFILES[@]}; do
 done
 
 export GUIX_LOCPATH=$HOME/.guix-profile/lib/locale
+
+# -c cores -m jobs
+export GUIX_BUILD_OPTIONS="-c6"
 #+end_src
 
 ** FCITX
@@ -614,15 +623,17 @@ if [ -f $HOME/.profile ]; then . $HOME/.profile; fi
 ** Main
 
 #+begin_src scheme :tangle ".config/guix/manifests/devtools.scm"
-
 (specifications->manifest
 '("git"
-  "gcc-toolchain"
   "git-repo"
+  "gcc-toolchain"
+  "cmake"
   "direnv"
 
   "fd"
   "ripgrep"
+
+  "jq"
 
   "file"
   "lsof"
@@ -642,7 +653,6 @@ if [ -f $HOME/.profile ]; then . $HOME/.profile; fi
   "zip"
   "unzip"
   ))
-
 #+end_src
 
 ** Debugging
