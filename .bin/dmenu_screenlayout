@@ -1,0 +1,6 @@
+#!/bin/sh
+DMENU=${DMENU:-dmenu}
+prompt=xrandr
+
+layout=$(ls $HOME/.screenlayout | ${DMENU} -p $prompt)
+source $HOME/.screenlayout/$layout
