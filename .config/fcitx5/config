@@ -1,27 +1,34 @@
 [Hotkey]
-# Trigger Input Method
-TriggerKeys=
 # Enumerate when press trigger key repeatedly
-EnumerateWithTriggerKeys=False
-# Temporally switch between first and current Input Method
-AltTriggerKeys=
-# Enumerate Input Method Backward
-EnumerateBackwardKeys=
+EnumerateWithTriggerKeys=True
 # Skip first input method while enumerating
 EnumerateSkipFirst=False
-# Enumerate Input Method Group Forward
-EnumerateGroupForwardKeys=
-# Enumerate Input Method Group Backward
-EnumerateGroupBackwardKeys=
-# Activate Input Method
-ActivateKeys=
-# Deactivate Input Method
-DeactivateKeys=
-# Toggle embedded preedit
-TogglePreedit=
+
+[Hotkey/TriggerKeys]
+0=Control+space
+1=Zenkaku_Hankaku
+2=Hangul
+
+[Hotkey/AltTriggerKeys]
+0=Shift_L
 
 [Hotkey/EnumerateForwardKeys]
-0=Super+Escape
+0=Control+Shift_L
+
+[Hotkey/EnumerateBackwardKeys]
+0=Control+Shift_R
+
+[Hotkey/EnumerateGroupForwardKeys]
+0=Super+space
+
+[Hotkey/EnumerateGroupBackwardKeys]
+0=Shift+Super+space
+
+[Hotkey/ActivateKeys]
+0=Hangul_Hanja
+
+[Hotkey/DeactivateKeys]
+0=Hangul_Romaja
 
 [Hotkey/PrevPage]
 0=Up
@@ -35,23 +42,26 @@ TogglePreedit=
 [Hotkey/NextCandidate]
 0=Tab
 
+[Hotkey/TogglePreedit]
+0=Control+Alt+P
+
 [Behavior]
 # Active By Default
 ActiveByDefault=False
 # Share Input State
-ShareInputState=All
+ShareInputState=No
 # Show preedit in application
-PreeditEnabledByDefault=False
+PreeditEnabledByDefault=True
 # Show Input Method Information when switch input method
 ShowInputMethodInformation=True
 # Show Input Method Information when changing focus
-showInputMethodInformationWhenFocusIn=True
+showInputMethodInformationWhenFocusIn=False
 # Show compact input method information
-CompactInputMethodInformation=False
+CompactInputMethodInformation=True
 # Show first input method information
 ShowFirstInputMethodInformation=True
 # Default page size
-DefaultPageSize=7
+DefaultPageSize=5
 # Force Enabled Addons
 EnabledAddons=
 # Preload input method to be used by default
@@ -62,7 +72,8 @@ PreloadInputMethod=True
 1=emoji
 2=fcitx4frontend
 3=ibusfrontend
-4=quickphrase
-5=spell
-6=unicode
+4=kimpanel
+5=quickphrase
+6=spell
+7=unicode
 

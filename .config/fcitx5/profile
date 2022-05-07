@@ -1,29 +1,32 @@
 [Groups/0]
 # Group Name
-Name=default
+Name="Group 2"
 # Layout
-Default Layout=io-io-dead-altgr
+Default Layout=us-altgr-intl
 # Default Input Method
-DefaultIM=hangul
+DefaultIM=keyboard-us-altgr-intl
 
 [Groups/0/Items/0]
 # Name
-Name=keyboard-io-io-dead-altgr
+Name=keyboard-us-altgr-intl
 # Layout
 Layout=
 
-[Groups/0/Items/1]
-# Name
-Name=anthy
+[Groups/1]
+# Group Name
+Name="Group 1"
 # Layout
-Layout=
+Default Layout=us-altgr-intl
+# Default Input Method
+DefaultIM=keyboard-us-altgr-intl
 
-[Groups/0/Items/2]
+[Groups/1/Items/0]
 # Name
-Name=hangul
+Name=keyboard-us-altgr-intl
 # Layout
 Layout=
 
 [GroupOrder]
-0=default
+0="Group 1"
+1="Group 2"
 

@@ -630,6 +630,8 @@ if [ -f $HOME/.profile ]; then . $HOME/.profile; fi
 '("git"
   "git-repo"
 
+  "curl"
+
   "gcc-toolchain"
   "cmake"
   "make"
