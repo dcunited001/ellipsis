@@ -481,6 +481,12 @@ for_window [class="Pavucontrol"] floating enable
 for_window [instance="zoom"] floating enable, sticky enable
 for_window [instance="zoom"] inhibit_idle fullscreen
 
+# Steam
+for_window [class="Steam" title="^Steam Guard.*"] floating enable
+for_window [class="Steam" title="^Steam - News.*"] floating enable
+for_window [class="Steam" title="^Friends List"] floating enable
+for_window [class="Steam" title="^Steam Login"] floating enable
+
 # Krita
 for_window [class="krita"] floating enable
 for_window [class="krita"] move container to workspace $ws8

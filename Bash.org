@@ -295,8 +295,11 @@ export FLATPAK_USER_DIR=/flatpak/$(id -un)/.local/share/flatpak
 # this is another variable for convenience (this var isn't used by flatpak)
 export FLATPAK_USER_VAR=/flatpak/$(id -un)/.var
 
-#Custom installations need to be configured here
-# export FLATPAK_CONFIG_DIR=/flatpak/...
+# Custom installations need to be configured here
+# - /flatpak/steam :: $FLATPAK_CONFIG_DIR/installations.d/steam.conf
+# export FLATPAK_CONFIG_DIR=/flatpak/.config/flatpak
+export FLATPAK_CONFIG_DIR=/etc/flatpak
+
 #+end_src
 
 *** The Goal
@@ -322,13 +325,41 @@ updates to new flatpak installations to =/flatpak/syncpak123=:
 
 #+begin_src sh :tangle .config/sh/profile.d/steam.sh :shebang #!/bin/sh
 export STEAM_DIR=$_STEAM/.steam
+export FLATPAK_STEAM_VAR=/flatpak/steam/.var
 #+end_src
 
 *** Setup
 
-Add =steam.sh= to =~/.config/sh/_load_profile.sh=
++ Add =steam.sh= to =~/.config/sh/_load_profile.sh=
 
+#+begin_src shell :tangle no :eval no
+mkdir -p $_STEAM $FLATPAK_STEAM_VAR/com.valvesoftware.Steam
+
+# because flatpak steam will try to symlink /flatpak/dc/.var/com.valvesoftware.Steam/.var to ~/.var (which is very confusing)
+ln -s /flatpak/steam/.var/app/com.valvesoftware.Steam /flatpak/dc/.var/com.valvesoftware.Steam
+
+# ensure that FLATPAK_CONFIG_DIR is defined and that the steam flatpak install exists
+flatpak --installations
+
+flatpak --installation=steam remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
+flatpak --installation=steam remote-add --if-not-exists flathub-beta https://flathub.org/beta-repo/flathub-beta.flatpakrepo
+
+flatpak --installation=steam install flathub com.valvesoftware.Steam
+flatpak --installation=steam install flathub com.valvesoftware.Steam.CompatibilityTool.Proton
 #+end_src
+
+**** Issues
+
++ After invoking for the first time, if this link shows up, remove it
+  - =rm /flatpak/steam/.var/app/com.valvesoftware.Steam/.var=
++ Flatpak steam will ignore =STEAM_DIR= anyways...
+  - it will put the steam library within the steam install under
+    =/flatpak/steam/.var/app/com.valvesoftware.Steam/.var=
+
+
+***** TODO consider creating ./flatpak/installations.d/steam.conf
+
+***** TODO simplyfy config
 
 ** Guix
 
