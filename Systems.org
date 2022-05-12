@@ -98,6 +98,10 @@ for a colorful Guile experience.\n\n"))))
          (openpgp-fingerprint
           "2841 9AC6 5038 7440 C7E9  2FFA 2208 D209 58C1 DEB0"))))
       (channel
+        (name 'gn-bioinformatics)
+        (url "https://git.genenetwork.org/guix-bioinformatics/guix-bioinformatics.git")
+        (branch "master"))
+      (channel
        (name 'guixrus)
        (url "https://git.sr.ht/~whereiseveryone/guixrus")
        (introduction

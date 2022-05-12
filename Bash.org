@@ -326,7 +326,13 @@ updates to new flatpak installations to =/flatpak/syncpak123=:
 #+begin_src sh :tangle .config/sh/profile.d/steam.sh :shebang #!/bin/sh
 export STEAM_DIR=$_STEAM/.steam
 export FLATPAK_STEAM_VAR=/flatpak/steam/.var
+
+alias steam="FLATPAK_CONFIG_DIR=/etc/flatpak flatpak --installation=steam run com.valvesoftware.Steam"
 #+end_src
+
+Run with =FLATPAK_CONFIG_DIR=/etc/flatpak flatpak --installation=steam run com.valvesoftware.Steam=
+
+Or simply =flatpak --installation=steam run com.valvesoftware.Steam=
 
 *** Setup
 
