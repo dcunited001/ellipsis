@@ -57,18 +57,42 @@
 
 ;;(pretty-print %base-groups)
 
-(define-public dc-groups
-  (cons* (user-group (system? #t) (name "realtime"))
-         (user-group (system? #t) (name "docker"))
-         (user-group (system? #t) (name "fuse"))
-         (user-group (id 1100) (name "users"))
-         (user-group (id 1000) (name "dc"))
+(define-public %dc-groups
+  (cons* (user-group (name "realtime") (system? #t))
+         (user-group (name "docker") (system? #t))
+         (user-group (name "fuse") (system? #t))
+         (user-group (name "users") (id 1100))
+         (user-group (name "dc") (id 1000))
          (remove (lambda (g) (equal? (user-group-name g) "users"))
                  %base-groups)))
 
+(define-public %dc-users '())
+
+(define-public %dc-my-groups
+  '("wheel"  ;; sudo
+    "netdev" ;; network devices
+    "kvm"
+    "tty"
+    "input"
+    "docker"
+    "realtime" ;; Enable RT scheduling
+    "lp"       ;; control bluetooth
+    "audio"    ;; control audio
+    "video"    ;; control video
+    "fuse"))
+
+(define-public (dc-user my-groups)
+  (user-account
+   (uid 1000)
+   (name "dc")
+   (comment "David Conner")
+   (group "users")
+   (home-directory "/home/dc")
+   (supplementary-groups my-groups)))
+
 ;;(pretty-print (map user-group-name %base-groups))
 ;;(pretty-print (map (lambda (g) (eq? (user-group-name g) "users"))
-;;		 %base-groups))
+;;   %base-groups))
 ;;(pretty-print dc-groups)
 
 (define-public (remove-gdm-service services-list)
@@ -201,26 +225,10 @@ EndSection
                    (check? #f))
                   %base-file-systems))
 
-   (groups dc-groups)
-   (users (cons (user-account
-		         (uid 1000)
-                 (name "dc")
-                 (comment "David Conner")
-		         (group "users")
-                 (home-directory "/home/dc")
-                 (supplementary-groups '("wheel"  ;; sudo
-                                         "netdev" ;; network devices
-                                         "kvm"
-                                         "tty"
-                                         "input"
-                                         "docker"
-                                         "realtime" ;; Enable RT scheduling
-                                         "lp"       ;; control bluetooth
-                                         "audio"    ;; control audio
-                                         "video"    ;; control video
-                                         "fuse")))
-
-                %base-user-accounts))
+   (groups %dc-groups)
+   (users (append (list (dc-user %dc-my-groups))
+                  %dc-users
+                  %base-user-accounts))
 
    ;; install bare-minimum system packages
    (packages %dc-desktop-packages)
