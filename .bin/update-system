@@ -8,4 +8,22 @@ echo
 echo -e "${GREEN}Updating ${BLUE}$(hostname)${GREEN}...${NC}"
 echo
 
-sudo guix system -L ~/.config/guix/systems reconfigure ~/.config/guix/systems/$(hostname).scm
+__substitute_urls=""
+while [ "$1" != "" ]; do
+    echo $1
+
+    case $1 in
+        --substitute-urls)
+            __substitute_urls="$2"
+            shift 2
+            ;;
+        -*|--*=) # unsupported flags
+        echo "Error: Unsupported flags $1" >&2
+        exit 1
+        ;;
+    esac
+done
+
+__substitute_urls=${__substitute_urls:-https://ci.guix.gnu.org https://bordeaux.guix.gnu.org https://substitutes.nonguix.org}
+
+sudo guix system -L ~/.config/guix/systems reconfigure ~/.config/guix/systems/$(hostname).scm --substitute-urls="$__substitute_urls"

@@ -10,6 +10,7 @@
   #:use-module (gnu services networking)
   #:use-module (gnu services virtualization)
   #:use-module (gnu packages wm)
+  #:use-module (gnu packages dns)
   #:use-module (gnu packages ssh)
   #:use-module (gnu packages cups)
   #:use-module (gnu packages vim)

@@ -705,6 +705,10 @@ if [ -f $HOME/.profile ]; then . $HOME/.profile; fi
 
   "zip"
   "unzip"
+
+  "virt-manager"
+
+  "bind:utils"
   ))
 #+end_src
 
