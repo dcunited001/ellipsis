@@ -489,6 +489,44 @@ Julia depot path is where package bins, logs, etc are found. Projects using =$JU
 [[ ! -d $JULIA_DEPOT_PATH ]] && mkdir -p $JULIA_DEPOT_PATH
 #+end_src
 
+*** Pluto
+
+The dependencies are in a manifest
+
+#+begin_src scheme :tangle .config/guix/manifests/julia-pluto.scm
+(specifications->manifest
+ '(
+   "julia"
+   "julia-pluto"
+   "julia-plutoui"
+   "julia-visuals"
+   ))
+#+end_src
+
+Pluto can be defined as a shepherd service
+
++ requires the manifest and guix-bioinformatics channel
+
+#+begin_src scheme :tangle .config/shepherd/julia-pluto.scm
+(use-modules (shepherd support)
+             (gnu services)
+             (gn services pluto))
+
+(register-services
+ (service pluto-service-type
+          (pluto-configuration
+           (port 9876))))
+
+(action 'shepherd 'daemonize)
+(for-each start '(pluto-service))
+#+end_src
+
+Then start pluto from a separate Shepherd process
+
+#+begin_src shell
+
+#+end_src
+
 ** Node
 
 #+begin_src sh :tangle .config/sh/profile.d/node.sh :shebang #!/bin/sh
@@ -737,6 +775,7 @@ if [ -f $HOME/.profile ]; then . $HOME/.profile; fi
 
       "i2c-tools"
 
+      "tcpdump"
       ))
 #+end_src
 

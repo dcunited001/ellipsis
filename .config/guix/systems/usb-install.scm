@@ -52,7 +52,24 @@
                   curl
                   stow
                   vim
+		  lvm2
                   emacs-no-x-toolkit)
             (operating-system-packages installation-os)))))
 
     installation-os-nonfree
+
+;;; NOTE: this requires (gnu) and (srfi srfi-1) above, but will
+;;; for some reason leave the installer without the cow-store service
+    ;; (services
+    ;;  (modify-services
+    ;;      %base-services
+    ;;    (guix-service-type config =>
+    ;;                       (guix-configuration
+    ;;                        (inherit config)
+    ;;                        (substitute-urls
+    ;;                         (append (list "https://substitutes.nonguix.org")
+    ;;                                 %default-substitute-urls))
+    ;;                        (authorized-keys
+    ;;                         (append (list (local-file "../nonguix.pub"))
+    ;;                                 %default-authorized-guix-keys))))
+    ;;    ))

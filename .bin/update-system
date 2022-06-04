@@ -26,4 +26,5 @@ done
 
 __substitute_urls=${__substitute_urls:-https://ci.guix.gnu.org https://bordeaux.guix.gnu.org https://substitutes.nonguix.org}
 
-sudo guix system -L ~/.config/guix/systems reconfigure ~/.config/guix/systems/$(hostname).scm --substitute-urls="$__substitute_urls"
+# not sure on sudo -E, sudo -i or no option
+sudo -i guix system -L $HOME/.config/guix/systems reconfigure $HOME/.config/guix/systems/$(hostname).scm --substitute-urls="$__substitute_urls"

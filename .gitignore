@@ -1,11 +1,14 @@
 # daviwil/dotfiles scripts
 
+# misc files (notes/etc)
+misc/**
 
 # .bin scripts
 .bin/emacs_network
 
 # generally exclude all
 .local/share
+.local/state
 .config/polybar
 
 # bash
@@ -41,7 +44,7 @@ skel-images/**/*
 
 # alacritty
 .config/alacritty/*
-.alacritty_profile
+.alacritty_bashrc
 !.config/alacritty/alacritty.yml
 
 # fontconfig
@@ -54,6 +57,7 @@ fonts/**
 
 # Emacs
 .emacs.d/per-system-settings.el
+.emacs.d/tangle-dotfiles.el
 
 # .emacs.network
 .config/guix/manifests/emacs-network.scm

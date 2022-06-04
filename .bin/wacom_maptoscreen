@@ -1,0 +1,20 @@
+#!/bin/sh
+DMENU=${DMENU:-dmenu}
+prompt="display: "
+
+# xrandr --listmonitors | rev | cut -f1 -d " " -s | rev
+# TODO create a separate script for remapping wacom to all displays
+# connected_displays=$()
+# connected_displays=$connected_displays ALL
+
+selected_display=$(xrandr --listmonitors | tail -n+2 | awk '{ print $NF; }' | ${DMENU} -p $prompt)
+#[[ $selected_display -eq "ALL" ]] && selected_display=ALL
+
+# TODO determine if mapping the tablet device is required
+#tablet=$(xsetwacom list devices | awk -F "id" '{ print $1; }' | grep 'pad' | xargs)
+stylus=$(xsetwacom list devices | awk -F "id" '{ print $1; }' | grep 'stylus' | xargs)
+eraser=$(xsetwacom list devices | awk -F "id" '{ print $1; }' | grep 'eraser' | xargs)
+
+#xsetwacom set "${tablet}" MapToOutput $selected_display
+xsetwacom set "${stylus}" MapToOutput $selected_display
+xsetwacom set "${eraser}" MapToOutput $selected_display

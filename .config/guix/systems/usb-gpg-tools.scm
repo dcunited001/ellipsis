@@ -30,7 +30,6 @@
 
   #:export (usb-gpg-tools))
 
-
 ;; TODO: this will require building an image with firmware
 ;; - e.g. on the HP laptop
 ;; TODO: pcscd support

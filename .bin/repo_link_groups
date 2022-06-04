@@ -1,0 +1,26 @@
+#!/bin/sh
+
+#__group=magit
+__group=emacs
+
+## TODO: finish script............................
+
+[[ -eq 0 $# ]] && echo "At least one group is required" && exit 1
+
+[[ -d $]]
+# mkdir $__group
+
+__pwd=$PWD
+cd /data/ecto/x.files
+__repos=$(repo list -g emacs -p)
+
+# TODO return if error status
+for  __repo in $__repos; do
+    sed 's/\//_/' <(echo $__repo)
+    echo $__repo
+done
+
+# can't use xargs
+#repo list -g emacs -p | xargs -P4 -I \{\} 'ln -s \{\}'
+
+#cd $PWD
