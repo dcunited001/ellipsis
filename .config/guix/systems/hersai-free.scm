@@ -1,6 +1,6 @@
 ;;* Module: hersai
-(define-module (hersai)
-  #:use-module (base-system)
+(define-module (hersai-free)
+  #:use-module (base-system-free)
   #:use-module (guix gexp)
   #:use-module (guix utils)
   #:use-module (gnu)
@@ -19,9 +19,10 @@
   #:use-module (gnu packages xdisorg)
 
   ;;NONFREE
-  #:use-module (nongnu packages linux)
+  ;;#:use-module (nongnu packages linux)
   )
 
+;; (use-modules (base-system-free))
 (use-service-modules desktop xorg)
 (use-package-modules certs shells linux)
 
@@ -48,21 +49,18 @@
                        )
                       (default-user "dc")))
 
-   (guix-service-type config =>
-                      (guix-configuration
-                       (inherit config)
-                       (substitute-urls
-                        (append (list "https://substitutes.nonguix.org")
-                                %default-substitute-urls))
-                       (authorized-keys
-                        (append (list (local-file "/etc/guix/nonguix.pub"))
-                                %default-authorized-guix-keys))))
+   ;; (guix-service-type config =>
+   ;;                    (guix-configuration
+   ;;                     (inherit config)
+   ;;                     (substitute-urls
+   ;;                      (append (list "https://substitutes.nonguix.org")
+   ;;                              %default-substitute-urls))
+   ;;                     (authorized-keys
+   ;;                      (append (list (local-file "../nonguix.pub"))
+   ;;                              %default-authorized-guix-keys))))
 
    ;; (fuse-desktop-type)
    ))
-
-(define %hersai-modprobe-blacklist
- (dc-modprobe-blacklist %dc-broadcom-modules))
 
 ;;** operating-system
 (define system
@@ -70,20 +68,12 @@
    (inherit base-operating-system-free)
    (host-name "hersai")
 
-   ;; FREE
-   ;; (kernel linux-libre)
-
+   (kernel linux-libre)
+   ;; (firmware %base-firmware) ;; includes openfwwf-firmware
    ;; NONFREE
-   (kernel linux)
-   (kernel-arguments (list %hersai-modprobe-blacklist)) ;; WIFI
-   ;; (kernel-loadable-modules (list
-			     ;; TODO can't build without nonfree linux?
-			     ;; broadcom-sta ;; WIFI
-   ;;))
-   
-   (firmware (cons* linux-firmware
-		    broadcom-bt-firmware ;; WIFI (hersai)
-		    %base-firmware))
+   ;; (firmware (cons*
+   ;; 	      linux-firmware
+   ;; 	      %base-firmware))
 
    (mapped-devices
     (list (mapped-device
@@ -103,7 +93,7 @@
    (packages %hersai-desktop-packages)
    
    (services (cons*
-
+	      
 	      (service tlp-service-type
                        (tlp-configuration
                         (cpu-boost-on-ac? #t)
@@ -131,7 +121,7 @@
 	      
               (bluetooth-service #:auto-enable? #t)
 
-              %hersai-desktop-services))
+	      %hersai-desktop-services))
 
    (groups (append (list (user-group (name "julia") (system? #t)))
                    %dc-groups))

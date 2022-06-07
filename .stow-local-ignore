@@ -2,6 +2,7 @@
 .*.eg
 .*\/\.gitkeep
 \.git
+\.gitignore
 \.site
 \.build.yml
 backgrounds
@@ -10,3 +11,4 @@ fonts
 ^/.*\.org
 LICENSE
 .local/share/applications
+misc

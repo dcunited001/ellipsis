@@ -1,5 +1,5 @@
 ;;* Module: base-system
-(define-module (base-system)
+(define-module (base-system-free)
   #:use-module (gnu)
   #:use-module (srfi srfi-1)
   #:use-module (gnu system nss)
@@ -18,7 +18,6 @@
   #:use-module (gnu packages xorg)
   #:use-module (gnu packages xdisorg)
   #:use-module (gnu packages emacs)
-  #:use-module (gnu packages emacs-xyz)
   #:use-module (gnu packages file-systems)
   #:use-module (gnu packages gnome)
   #:use-module (gnu packages mtools)
@@ -32,8 +31,8 @@
   #:use-module (gnu packages freedesktop)
 
   ;;NONFREE
-  #:use-module (nongnu packages linux)
-  #:use-module (nongnu system linux-initrd)
+  ;;#:use-module (nongnu packages linux)
+  ;;#:use-module (nongnu system linux-initrd)
   )
 
 ;;** use-service-modules nix, desktop, xorg
@@ -114,20 +113,7 @@
            fuse-exfat
            stow
            vim
-	   
            emacs
-	   emacs-better-defaults
-	   emacs-auto-complete
-	   emacs-hydra
-	   emacs-modus-themes
-	   emacs-dash
-	   emacs-lispy
-	   emacs-geiser
-	   emacs-geiser-guile
-	   emacs-guix
-	   emacs-yasnippet
-	   emacs-yasnippet-snippets
-
            xterm
            bluez
            bluez-alsa
@@ -217,23 +203,6 @@ EndSection
                    #:model "pc105"
                    #:options '("caps:escape")))
 
-(define-public %dc-broadcom-modules
-  '("b43"
-    "b43-legacy"
-    "ssb"
-    "bcm43xx"
-    "brcm80211"
-    "brcmfmac"
-    "brcmsmac"
-    "bcma"))
-
-(define-public (dc-modprobe-blacklist modules)
-  (string-concatenate
-   (list "modprobe.blacklist=" 
-	 (string-join
-	  modules
-	  ","))))
-
 ;;** base-operating-system
 (define-public base-operating-system-free
   (operating-system
@@ -241,15 +210,14 @@ EndSection
    (timezone "America/New_York")
    (locale "en_US.utf8")
 
-   ;; FREE (specify kernel in system.scm
-   ;; (kernel linux-libre)                    ;use the non-free Linux kernel and firmware
+   (kernel linux-libre)                    ;use the non-free Linux kernel and firmware
 
    ;; NONFREE
-   (firmware (cons* linux-firmware
-		    %base-firmware))
+   ;; (firmware (list linux-firmware))
+   ;; (firmware %base-firmware)
 
    ;; NONFREE
-   (initrd microcode-initrd)
+   ;; (initrd microcode-initrd)
 
    (keyboard-layout %dc-default-shell-keyboard)
 
@@ -277,7 +245,7 @@ EndSection
    (packages %dc-desktop-packages)
 
    (services (cons*
-	      
+
               ;; TODO: tweak TLP config
               ;; - ensure cpu-scaling-governor-on-ac is not affecting performance              
               (service tlp-service-type
@@ -317,6 +285,6 @@ EndSection
 
               dc-desktop-services
 	      ))
-
+   
    ;; allow resolution of '.local' hostnames with mDNS
    (name-service-switch %mdns-host-lookup-nss)))
