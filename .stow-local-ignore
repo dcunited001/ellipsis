@@ -1,3 +1,4 @@
+.*org_archive
 .*.eg.sh
 .*.eg
 .*\/\.gitkeep
@@ -11,4 +12,5 @@ fonts
 ^/.*\.org
 LICENSE
 .local/share/applications
+.local/share/bg
 misc

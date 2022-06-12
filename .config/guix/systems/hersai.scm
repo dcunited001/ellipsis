@@ -9,10 +9,12 @@
   #:use-module (gnu services pm)
   #:use-module (gnu services virtualization)
   #:use-module (gnu services audio)
+
   #:use-module (gnu system)
   #:use-module (gnu system uuid)
   #:use-module (gnu system file-systems)
   #:use-module (gnu system mapped-devices)
+
   #:use-module (gnu packages firmware)
   #:use-module (gnu packages xorg)
   #:use-module (gnu packages admin)
@@ -51,6 +53,7 @@
    (guix-service-type config =>
                       (guix-configuration
                        (inherit config)
+		       (extra-options '("-c6"))
                        (substitute-urls
                         (append (list "https://substitutes.nonguix.org")
                                 %default-substitute-urls))
@@ -82,6 +85,7 @@
    ;;))
    
    (firmware (cons* linux-firmware
+		    ;; TODO: intel-microcode
 		    broadcom-bt-firmware ;; WIFI (hersai)
 		    %base-firmware))
 
@@ -95,7 +99,7 @@
            (source "hersaivg")
            (targets (list "hersaivg-rootvol"
 			  "hersaivg-swapvol"
-		  "hersaivg-homevol"
+			  "hersaivg-homevol"
 			  "hersaivg-datavol"
 			  "hersaivg-flatpakvol"))
            (type lvm-device-mapping))))
@@ -182,12 +186,12 @@
                   ;; /boot/efi needs to be enumerated here
                   ;;   in addition to the (bootloader...) declaration
                   (file-system
+		   ;; TODO: change to UUID
                    (device "/dev/sda1")
                    (mount-point "/boot/efi")
                    (type "vfat"))
 		  
                   %base-file-systems))
-
 
    (swap-devices (list (file-system-label "hersaiSwap")))))
 
