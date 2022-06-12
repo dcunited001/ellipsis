@@ -83,7 +83,6 @@ for a colorful Guile experience.\n\n"))))
       (channel
        (name 'flat)
        (url "https://github.com/flatwhatson/guix-channel.git")
-       ;(commit "ef4714c105b8c5998f1d3d8db0dab9a461918595")
        (introduction
         (make-channel-introduction
          "33f86a4b48205c0dc19d7c036c85393f0766f806"
@@ -100,6 +99,10 @@ for a colorful Guile experience.\n\n"))))
       (channel
         (name 'gn-bioinformatics)
         (url "https://git.genenetwork.org/guix-bioinformatics/guix-bioinformatics.git")
+        (branch "master"))
+      (channel
+        (name 'guix-past)
+        (url "https://gitlab.inria.fr/guix-hpc/guix-past")
         (branch "master"))
       (channel
        (name 'guixrus)

@@ -156,7 +156,7 @@
     #:respawn? #t
 
     #:start (make-forkexec-constructor
-             '("fcitx5" "-d")
+             '("fcitx5" "-D")
              #:log-file (string-append
                          (mkdtemp "/tmp/shepherd-XXXXXX")
                          "/fcitx5-"

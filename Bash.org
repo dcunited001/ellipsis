@@ -829,7 +829,10 @@ utils in the environment, but this is split out anyways...
       "xwallpaper"
 
       ;; notifications
+      ;; sounds: .guix-extra-profiles/xdg/xdg/share/sounds
       "libnotify"  ; For notify-send
+      "libcanberra"
+      "sound-theme-freedesktop"
 
       "flatpak"
       "xdg-desktop-portal"
