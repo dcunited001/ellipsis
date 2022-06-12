@@ -70,7 +70,7 @@
 ;;** operating-system
 (define system
   (operating-system
-   (inherit base-operating-system-free)
+   (inherit base-operating-system)
    (host-name "hersai")
 
    ;; FREE
@@ -188,6 +188,7 @@
                   (file-system
 		   ;; TODO: change to UUID
                    (device "/dev/sda1")
+                   ;; (device (uuid "") 'fat)
                    (mount-point "/boot/efi")
                    (type "vfat"))
 		  
