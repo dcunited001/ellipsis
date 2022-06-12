@@ -131,7 +131,7 @@
            xterm
            bluez
            bluez-alsa
-           ;; pipewire ;; TODO: pipewire?
+           pipewire ;; TODO: pipewire?
            tlp
            xf86-input-libinput
 

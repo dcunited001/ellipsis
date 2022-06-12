@@ -172,11 +172,41 @@
     #:start (make-forkexec-constructor '("xdg-user-dirs-update"))
     #:stop (make-kill-destructor)))
 
-(register-services mcron syncthing xdg-user-dirs)
+(define xdg-desktop-portal
+  (make <service>
+    #:provides '(xdg-desktop-portal)
+    #:respawn? #f
+    #:start (make-forkexec-constructor
+             '("/home/dc/.guix-extra-profiles/xdg/xdg/libexec/xdg-desktop-portal")
+             #:log-file (string-append
+                         (mkdtemp "/tmp/xdg-XXXXXX")
+                         "/xdg-desktop-portal-"
+                         (strftime "%Y-%m-%d-" (gmtime (current-time)))
+                         (gethostname) ".log"))
+    ;; TODO: setsid error when using handle-termination
+    ;; #:handle-termination (exec-command '("notify-send" "Shepherd: XDG" "XDG Desktop Portal stopped"))
+    #:stop  (make-kill-destructor)))
+
+(define xdg-desktop-portal-gtk
+  (make <service>
+    #:provides '(xdg-desktop-portal-gtk)
+    #:respawn? #f
+    #:start (make-forkexec-constructor
+             '("/home/dc/.guix-extra-profiles/xdg/xdg/libexec/xdg-desktop-portal-gtk")
+             #:log-file (string-append
+                         (mkdtemp "/tmp/xdg-XXXXXX")
+                         "/xdg-desktop-portal-gtk-"
+                         (strftime "%Y-%m-%d-" (gmtime (current-time)))
+                         (gethostname) ".log"))
+    ;; TODO: setsid error when using handle-termination
+    ;; #:handle-termination (exec-command '("notify-send" "Shepherd: XDG" "XDG Desktop Portal GTK stopped"))
+    #:stop  (make-kill-destructor)))
+
+(register-services mcron syncthing xdg-user-dirs xdg-desktop-portal xdg-desktop-portal-gtk)
 (action 'shepherd 'daemonize)
 
 ;; Start user services
-(for-each start '(mcron syncthing xdg-user-dirs doom-emacs fcitx5))
+(for-each start '(mcron syncthing xdg-user-dirs doom-emacs fcitx5 xdg-desktop-portal xdg-desktop-portal-gtk))
 #+end_src
 
 ** Scheduled Tasks
@@ -223,6 +253,7 @@ doesn't include all definitions.
 
   ;; more fonts
   "font-juliamono"
+
   "font-adobe-source-han-sans"
 
 #+end_src
@@ -1049,7 +1080,7 @@ esac
 ** MIME Handlers
 
 
-#+begin_src xml :tangle ~/.local/share/mime/packages/org.xml :mkdirp yes :comments no
+#+begin_src xml :tangle .local/share/mime/packages/org.xml :mkdirp yes :comments no
 <mime-info xmlns='http://www.freedesktop.org/standards/shared-mime-info'>
   <mime-type type="text/org">
     <comment>Emacs Org-mode File</comment>
@@ -1063,13 +1094,14 @@ esac
 
 #+begin_src conf :tangle .config/mimeapps.list
   [Default Applications]
-  text/html=qutebrowser.desktop
+  text/html=nyxt.desktop
   x-scheme-handler/http=nyxt.desktop
   x-scheme-handler/https=nyxt.desktop
   x-scheme-handler/about=nyxt.desktop
   x-scheme-handler/unknown=nyxt.desktop
-  x-scheme-handler/irc=weechat.desktop
-  x-scheme-handler/ircs=weechat.desktop
+  x-scheme-handler/irc=org.kde.konversation.desktop
+  x-scheme-handler/ircs=org.kde.konversation.desktop
+  x-scheme-handler/zoommtg=us.zoom.Zoom.desktop
   text/org=emacs.desktop
 #+end_src
 
@@ -1523,8 +1555,8 @@ flatpak install --user flathub com.ultimaker.cura
 
 # misc
 # texlive needs to be installed before anki for latex
-flatpak --user install org.freedesktop.Sdk.Extension.texlive
-flatpak install --user flathub net.ankiweb.Anki
+flatpak --user install flathub org.freedesktop.Sdk.Extension.texlive
+flatpak --user install flathub net.ankiweb.Anki
 
 # needed for fonts
 flatpak install --user flathub org.gustavoperedo.FontDownloader
