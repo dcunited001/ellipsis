@@ -543,6 +543,9 @@ for_window [class="krita"] move container to workspace $ws8
 for_window [class="krita" title="^Configure.*"] floating enable
 
 # IRC
+for_window [class=quassel] floating enable
+for_window [class=quassel] move container to workspace $ws9
+for_window [class=konversation title="^Quassel IRC -"] floating disable
 for_window [class=konversation] floating enable
 for_window [class=konversation] move container to workspace $ws9
 for_window [class=konversation window_role="^MainWindow"] floating disable
