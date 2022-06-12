@@ -235,7 +235,7 @@ EndSection
 	  ","))))
 
 ;;** base-operating-system
-(define-public base-operating-system-free
+(define-public base-operating-system
   (operating-system
    (host-name "eerse")
    (timezone "America/New_York")

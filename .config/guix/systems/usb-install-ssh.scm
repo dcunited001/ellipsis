@@ -51,22 +51,9 @@
 (define isoguix-openssh-extra-content
   (local-file (string-concatenate (list isoguix-home "/.ssh/sshd_config_extra"))))
 
-(define %iso-services
-  (modify-services
-   %base-services
-   
-   (guix-service-type
-    config => (guix-configuration
-	       (inherit config)
-	       (extra-options '("-c6"))
-	       (substitute-urls
-		(append (list "https://substitutes.nonguix.org")
-			%default-substitute-urls))
-	       (authorized-keys
-		(append (list (local-file "/etc/guix/nonguix.pub"))
-			%default-authorized-guix-keys))))
+;; (define %iso-services
+;;   )
 
-   )) 
 
 ;;** installation-os-nonfree
 (define installation-os-nonfree
@@ -100,37 +87,53 @@
 		  emacs-yasnippet-snippets)
             (operating-system-packages installation-os)))
 
-   (services (cons*
+   ;; (services 
+   ;;  (modify-services
+   ;;   (operating-system-services installation-os)
+   
+   ;;   (guix-service-type
+   ;;    config => (guix-configuration
+   ;;               (inherit config)
+   ;;               (extra-options '("-c6"))
+   ;;               (substitute-urls
+   ;;      	  (append (list "https://substitutes.nonguix.org")
+   ;;      		  %default-substitute-urls))
+   ;;               (authorized-keys
+   ;;      	  (append (list (local-file "/etc/guix/nonguix.pub"))
+   ;;      		  %default-authorized-guix-keys))))
+   ;;   (openssh-service-type
+   ;;    config => (openssh-configuration
+   ;;               (inherit config)
+   ;;               (port-number 2222)
+   ;;               (password-authentication? #f)
+   ;;               (permit-root-login 'prohibit-password)
+   ;;               (authorized-keys isoguix-authorized-keys)
+   ;;               (allow-agent-forwarding? #f)
+   ;;               ;; (allow-tcp-forwarding? #f)
+   ;;               ))
+   ;;   ))
 
-	      (service openssh-service-type
-		       (openssh-configuration
-			(port-number 2222)
-			(password-authentication? #f)
-			(permit-root-login 'prohibit-password)
-			(authorized-keys isoguix-authorized-keys)
-			(allow-agent-forwarding? #f)
-			;; (allow-tcp-forwarding? #f)
-			))
-	      
-	      ;; service network-manager-service-type
-	      (service dhcp-client-service-type)
-	      %iso-services))
    ))
 
-    installation-os-nonfree
+installation-os-nonfree
+
+;;; NOTE: modifying the (installation-os ...) in any way (other than
+;;;   appending to the list (e.g. (modify-services...)) will cause
+;;;   the booted installation-os to come online without services like
+;;;   the cow-store
 
 ;;; NOTE: this requires (gnu) and (srfi srfi-1) above, but will
 ;;; for some reason leave the installer without the cow-store service
-    ;; (services
-    ;;  (modify-services
-    ;;      %base-services
-    ;;    (guix-service-type config =>
-    ;;                       (guix-configuration
-    ;;                        (inherit config)
-    ;;                        (substitute-urls
-    ;;                         (append (list "https://substitutes.nonguix.org")
-    ;;                                 %default-substitute-urls))
-    ;;                        (authorized-keys
-    ;;                         (append (list (local-file "../nonguix.pub"))
-    ;;                                 %default-authorized-guix-keys))))
-    ;;    ))
+;; (services
+;;  (modify-services
+;;      %base-services
+;;    (guix-service-type config =>
+;;                       (guix-configuration
+;;                        (inherit config)
+;;                        (substitute-urls
+;;                         (append (list "https://substitutes.nonguix.org")
+;;                                 %default-substitute-urls))
+;;                        (authorized-keys
+;;                         (append (list (local-file "../nonguix.pub"))
+;;                                 %default-authorized-guix-keys))))
+;;    ))

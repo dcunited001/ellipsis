@@ -29,6 +29,7 @@
   #:use-module (gnu packages vim)
   #:use-module (gnu packages curl)
   #:use-module (gnu packages emacs)
+  #:use-module (gnu packages emacs-xyz)
   #:use-module (gnu packages linux)
   #:use-module (gnu packages mtools)
   #:use-module (gnu packages package-management)
@@ -53,8 +54,21 @@
                   stow
                   vim
 		  lvm2
-                  emacs-no-x-toolkit)
-            (operating-system-packages installation-os)))))
+                  emacs-no-x-toolkit
+		  emacs-better-defaults
+		  emacs-hydra
+		  emacs-modus-themes
+		  emacs-dash
+		  emacs-lispy
+		  emacs-geiser
+		  emacs-geiser-guile
+		  emacs-guix
+		  emacs-yasnippet
+		  emacs-yasnippet-snippets)
+
+            (operating-system-packages installation-os))
+
+    )))
 
     installation-os-nonfree
 
