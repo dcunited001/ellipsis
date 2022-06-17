@@ -11,8 +11,8 @@
 * Table of Contents :TOC_3_gh:
 - [[#system-settings][System Settings]]
   - [[#disk-mounting][Disk Mounting]]
-  - [[#user-services][User Services]]
   - [[#scheduled-tasks][Scheduled Tasks]]
+  - [[#user-services][User Services]]
 - [[#fonts][Fonts]]
 - [[#themes][Themes]]
   - [[#xsettings][XSettings]]
@@ -58,7 +58,7 @@
   - [[#browsers-1][Browsers]]
 - [[#notes][Notes]]
   - [[#bluetooth-setup][Bluetooth Setup]]
-- [[#footnotes][Footnotes]]
+- [[#footnoputes][FootnoPutes]]
 
 * System Settings
 
@@ -80,6 +80,11 @@
 "udiskie"
 #+end_src
 
+** Scheduled Tasks
+
+Mcron definitions go in [[file:.config/cron][.config/cron]]. For mcron usage, see the info pages. This
+doesn't include all definitions.
+
 ** User Services
 
 #+begin_src scheme :tangle .config/shepherd/init.scm
@@ -93,6 +98,7 @@
     #:respawn? #t
     #:start (make-forkexec-constructor '("mcron"))
     #:stop  (make-kill-destructor)))
+(register-services mcron)
 
 (define syncthing
   (make <service>
@@ -102,6 +108,7 @@
     #:start (make-forkexec-constructor
              '("syncthing" "-no-browser"))
     #:stop (make-kill-destructor)))
+(register-services syncthing)
 
 ;; (define (dc/chemacs-profile-name profile-name)
 ;;   (string-join (list profile-name (gethostname) (getenv "USER")) "-"))
@@ -167,6 +174,7 @@
     #:one-shot? #t
     #:start (make-forkexec-constructor '("xdg-user-dirs-update"))
     #:stop (make-kill-destructor)))
+(register-services xdg-user-dirs)
 
 (define xdg-desktop-portal
   (make <service>
@@ -182,6 +190,7 @@
     ;; TODO: setsid error when using handle-termination
     ;; #:handle-termination (exec-command '("notify-send" "Shepherd: XDG" "XDG Desktop Portal stopped"))
     #:stop  (make-kill-destructor)))
+(register-services xdg-desktop-portal)
 
 (define xdg-desktop-portal-gtk
   (make <service>
@@ -197,18 +206,17 @@
     ;; TODO: setsid error when using handle-termination
     ;; #:handle-termination (exec-command '("notify-send" "Shepherd: XDG" "XDG Desktop Portal GTK stopped"))
     #:stop  (make-kill-destructor)))
-
-(register-services mcron xdg-user-dirs xdg-desktop-portal xdg-desktop-portal-gtk)
+(register-services xdg-desktop-portal-gtk)
 (action 'shepherd 'daemonize)
 
 ;; Start user services
-(for-each start '(mcron syncthing xdg-user-dirs doom-emacs fcitx5 xdg-desktop-portal xdg-desktop-portal-gtk))
+(for-each start '(mcron
+                  syncthing
+                  doom-emacs
+                  fcitx5
+                  xdg-desktop-portal
+                  xdg-desktop-portal-gtk))
 #+end_src
-
-** Scheduled Tasks
-
-Mcron definitions go in [[file:.config/cron][.config/cron]]. For mcron usage, see the info pages. This
-doesn't include all definitions.
 
 * Fonts
 
