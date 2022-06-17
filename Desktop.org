@@ -51,14 +51,10 @@
   - [[#flatpak][Flatpak]]
     - [[#fontconfig-fix][Fontconfig fix]]
   - [[#printing][Printing]]
-  - [[#academic-tools][Academic Tools]]
-  - [[#issues][Issues]]
-    - [[#packaging-static-files][Packaging Static Files]]
 - [[#desktop-profiles][Desktop Profiles]]
   - [[#desktop-profile][Desktop Profile]]
   - [[#desktop-bin-profile][Desktop Bin Profile]]
   - [[#i3-profile][i3 Profile]]
-  - [[#big-build][Big Build]]
   - [[#browsers-1][Browsers]]
 - [[#notes][Notes]]
   - [[#bluetooth-setup][Bluetooth Setup]]
@@ -102,7 +98,7 @@
   (make <service>
     #:provides '(syncthing)
     #:docstring "Run `syncthing' without calling the browser"
-    #:respawn? #t
+    #:respawn? #f
     #:start (make-forkexec-constructor
              '("syncthing" "-no-browser"))
     #:stop (make-kill-destructor)))
@@ -202,7 +198,7 @@
     ;; #:handle-termination (exec-command '("notify-send" "Shepherd: XDG" "XDG Desktop Portal GTK stopped"))
     #:stop  (make-kill-destructor)))
 
-(register-services mcron syncthing xdg-user-dirs xdg-desktop-portal xdg-desktop-portal-gtk)
+(register-services mcron xdg-user-dirs xdg-desktop-portal xdg-desktop-portal-gtk)
 (action 'shepherd 'daemonize)
 
 ;; Start user services
@@ -439,7 +435,7 @@ set $ws6 "6"
 set $ws7 "7"
 set $ws8 "Krita"
 set $ws9 "IRC"
-set $ws10 "10"
+set $ws10 "Mail"
 
 workspace $ws1 output <<get-setting("xrandr/primary-display")>>
 workspace $ws2 output <<get-setting("xrandr/primary-display")>>
@@ -455,7 +451,7 @@ bindsym $mod+6 workspace number $ws6
 bindsym $mod+7 workspace number $ws7
 bindsym $mod+8 workspace $ws8
 bindsym $mod+9 workspace $ws9
-bindsym $mod+0 workspace number $ws10
+bindsym $mod+0 workspace $ws10
 
 # move focused container to workspace
 bindsym $mod+Shift+1 move container to workspace number $ws1
@@ -467,7 +463,7 @@ bindsym $mod+Shift+6 move container to workspace number $ws6
 bindsym $mod+Shift+7 move container to workspace number $ws7
 bindsym $mod+Shift+8 move container to workspace $ws8
 bindsym $mod+Shift+9 move container to workspace $ws9
-bindsym $mod+Shift+0 move container to workspace number $ws10
+bindsym $mod+Shift+0 move container to workspace $ws10
 
 # reload the configuration file
 bindsym $mod+Shift+c reload
@@ -515,6 +511,7 @@ bindsym $mod+r mode "resize"
 #         status_command i3status
 # }
 
+# Window Roles
 for_window [window_role="pop-up"] floating enable
 for_window [window_role="task_dialog"] floating enable
 for_window [title="Preferences$"] floating enable
@@ -525,9 +522,21 @@ for_window [class="Gnuplot" instance="gnuplot"] floating enable
 # FIXME: for_window [id="fcitx5-qt5-fcgui-wrapper"] floating enable
 # FIXME: for_window [id="gnome-calculator"] floating enable
 
+# WM Configs
 for_window [instance=".arandr-real"] floating enable
 for_window [class="Pavucontrol"] floating enable
 
+# File Managers
+for_window [class="Thunar"] floating enable
+
+# Productivity (Mail/Calendar)
+#for_window [class="Thunderbird"] floating enable
+for_window [class="Thunderbird"] move container to workspace $ws10
+
+# Terminals (to encourage vterm/etc)
+for_window [class="Alacritty"] floating enable
+
+# Zoom
 for_window [instance="zoom"] floating enable, sticky enable
 for_window [instance="zoom"] inhibit_idle fullscreen
 
@@ -1591,27 +1600,6 @@ flatpak --user override \
 
 #+end_src
 
-** Academic Tools
-
-This will likely be moved to its own manifest. Note, this profile is not loaded
-by default and needs to be activated from within Emacs
-
-** Issues
-
-*** Packaging Static Files
-+ =(with-output-to-file "file.eg")=
-  - [[file:/data/ecto/guix/channels/guixrus/guixrus/packages/cyberia.scm::(with-output-to-file "shitchat.gemspec"][./guix/channels/guixrus/cyberia.scm]]
-via =C-c G=
-
-#+begin_src scheme :tangle .config/guix/manifests/academic.scm
-(specifications->manifest
- '(
-   "anki"
-   "texlive-bin"
-   "curl"
-    ))
-
-#+end_src
 
 * Desktop Profiles
 
@@ -1630,8 +1618,6 @@ via =C-c G=
 
 ** Desktop Bin Profile
 
-
-
 ** i3 Profile
 
 *.config/guix/manifests/i3.scm:*
@@ -1644,22 +1630,6 @@ via =C-c G=
 ))
 
 #+end_src
-
-** Big Build
-
-Things I might want to build ... but not all the time.
-
-#+begin_example org
-#+begin_src scheme :tangle .config/guix/manifests/bigbuild.scm :comments none
-
-(specifications->manifest
-'(
-"ungoogled-chromium"
-"firefox"
-))
-
-#+end_src
-#+end_example
 
 ** Browsers
 

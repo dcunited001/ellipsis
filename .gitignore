@@ -73,6 +73,11 @@ fonts/**
 #.config/guix/systems/*.scm
 .config/guix/systems/install.scm
 .config/guix/manifests
+!.config/guix/manifests
+!.config/guix/manifests/.gitkeep
+!.config/guix/manifests/academic.scm
+!.config/guix/manifests/cpp-build.scm
+!.config/guix/manifests/python.scm
 
 # shepherd
 .config/shepherd/init.scm

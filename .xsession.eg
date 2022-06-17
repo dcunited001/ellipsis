@@ -1,11 +1,7 @@
 #!/bin/sh
-echo "loading profile"
-
 # Source .profile for common environment vars
-GUIX_AUTOLOAD_PROFILES=(i3 desktop browsers xdg fcitx5 devtools)
+GUIX_AUTOLOAD_PROFILES=(i3 desktop browsers xdg fcitx5 devtools academic)
 source ~/.profile
-
-echo "GUIX_AUTOLOAD_PROFILES: loaded"
 
 # prevent automatic suspend
 xset dpms force on
@@ -35,5 +31,6 @@ xset -b
 xss-lock --transfer-sleep-lock -- xlock &
 setbg $_WALLPAPERS
 
-#exec dbus-launch --exit-with-session 
-i3 -V -d all 
+#exec dbus-launch --exit-with-session
+XDG_CURRENT_DESKTOp=i3
+i3 -V -d all

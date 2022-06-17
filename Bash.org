@@ -872,27 +872,7 @@ utils in the environment, but this is split out anyways...
 
 ** Languages
 
-*** C++
-
-#+begin_src scheme :tangle .config/guix/manifests/cpp-build.scm
-(specifications->manifest
- '(
-    "gcc-toolchain"
-    "cmake"
-    "make"
-    "libtool"
-    "perl"
-   ))
-#+end_src
-
-*** Casual Python
-
-Return a casual python environment
-
-#+begin_src scheme :tangle .config/guix/manifests/casual-python.scm
-(specifications->manifest '("python"))
-#+end_src
-
+Manifests for language environments
 
 * TUI
 
