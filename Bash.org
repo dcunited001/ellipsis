@@ -810,6 +810,7 @@ utils in the environment, but this is split out anyways...
 
       "xev"
       "xkbcomp"
+      "xkeyboard-config"
       "setxkbmap"
 
       "libinput"

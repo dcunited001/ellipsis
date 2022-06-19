@@ -58,7 +58,7 @@
   - [[#browsers-1][Browsers]]
 - [[#notes][Notes]]
   - [[#bluetooth-setup][Bluetooth Setup]]
-- [[#footnoputes][FootnoPutes]]
+- [[#footnotes][Footnotes]]
 
 * System Settings
 
@@ -569,11 +569,17 @@ for_window [class=konversation window_role="^MainWindow"] floating disable
 
 # Anki
 for_window [class="Anki"] floating enable
-for_window [class="Anki" title="^Add"], floating enable
-for_window [class="Anki" title="^Preferences"], floating enable
+for_window [class="Anki" title="^Add"] floating enable
+for_window [class="Anki" title="^Preferences"] floating enable
 for_window [class="Anki" title="^Browse.*"] floating disable
-for_window [class="Anki" title="^Anki Main"], floating disable
+for_window [class="Anki" title="^Anki Main"] floating disable
 # Anki Main is the name of the Anki Profile (switch profiles, rename)
+
+# RDP
+
+for_window [class="org.remmina.Remmina" title="Remmina Remote Desktop Client"] floating enable
+
+# VNC
 
 focus_on_window_activation focus
 
