@@ -1,0 +1,36 @@
+[user]
+	email = dconner.pro@gmail.com
+	name = David Conner
+[alias]
+	co = checkout
+[color]
+	diff = auto
+	status = auto
+	branch = auto
+[core]
+	excludesfile = /home/dc/.gitignore_global
+	editor = emacsclient -t
+	autocrlf = input
+	pager = less -R
+[apply]
+	whitespace = nowarn
+[format]
+	pretty = %C(yellow)%h%Creset %s %C(red)(%an, %cr)%Creset
+        enabled = true
+[pull]
+	rebase = true
+[init]
+	defaultBranch = master
+
+# TODO: [difftool "emacsclient"] with smerge
+#[difftool "sourcetree"]
+#	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
+#	path =
+
+# TODO: [mergetool "emacsclient"] with smerge
+#[mergetool "sourcetree"]
+#       cmd = /Applications/SourceTree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
+#       trustExitCode = true
+
+[rerere]
+        enabled = true
