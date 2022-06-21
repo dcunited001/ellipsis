@@ -736,6 +736,9 @@ if [ -f $HOME/.profile ]; then . $HOME/.profile; fi
   "fd"
   "ripgrep"
 
+  ;; TODO consider moving to a media profile
+  "ffmpeg"
+
   "jq"
   "rsync"
 
