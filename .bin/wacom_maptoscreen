@@ -10,10 +10,9 @@ prompt="display: "
 selected_display=$(xrandr --listmonitors | tail -n+2 | awk '{ print $NF; }' | ${DMENU} -p $prompt)
 #[[ $selected_display -eq "ALL" ]] && selected_display=ALL
 
-# TODO determine if mapping the tablet device is required
-#tablet=$(xsetwacom list devices | awk -F "id" '{ print $1; }' | grep 'pad' | xargs)
-stylus=$(xsetwacom list devices | awk -F "id" '{ print $1; }' | grep 'stylus' | xargs)
-eraser=$(xsetwacom list devices | awk -F "id" '{ print $1; }' | grep 'eraser' | xargs)
+tablet=$(xsetwacom list devices | awk -F "id:" '{ print $2; }' | grep PAD | cut -f1 | xargs)
+stylus=$(xsetwacom list devices | awk -F "id:" '{ print $2; }' | grep STYLUS | cut -f1 | xargs)
+eraser=$(xsetwacom list devices | awk -F "id:" '{ print $2; }' | grep ERASER | cut -f1 | xargs)
 
 #xsetwacom set "${tablet}" MapToOutput $selected_display
 xsetwacom set "${stylus}" MapToOutput $selected_display

@@ -1,0 +1,55 @@
+#!/bin/sh
+DMENU=${DMENU:-dmenu}
+
+# this was a bit hacky
+#tablet=$(xsetwacom list devices | awk -F "id" '{ print $1; }' | grep 'pad' | xargs)
+tablet=$(xsetwacom list devices | awk -F "id:" '{ print $2; }' | grep PAD | cut -f1 | xargs)
+stylus=$(xsetwacom list devices | awk -F "id:" '{ print $2; }' | grep STYLUS | cut -f1 | xargs)
+eraser=$(xsetwacom list devices | awk -F "id:" '{ print $2; }' | grep ERASER | cut -f1 | xargs)
+
+# ============================
+# 1 - 3, 8: top 4
+# 4 - 5: mouse wheel (vert)
+# 13
+# 9 - 12: bottom 4
+
+xsetwacom set "${tablet}" Button 1 10 # Mouse 10
+xsetwacom set "${tablet}" Button 2 11  # Mouse
+xsetwacom set "${tablet}" Button 3 12  # Mouse
+xsetwacom set "${tablet}" Button 8 "key lctrl" # modkey
+
+xsetwacom set "${tablet}" Button 13 13 # modkey
+
+xsetwacom set "${tablet}" Button 9 "key meta" # Mouse 10
+xsetwacom set "${tablet}" Button 10 "key lshift"  # Mouse
+xsetwacom set "${tablet}" Button 11 14 # Mouse
+xsetwacom set "${tablet}" Button 12 15 # modkey
+
+# ============================
+# tablet surface:
+# ============================
+# 4 - 5: vert scrolling gesture
+# 6 - 7: horiz scrolling gesture
+# 1: single
+# 2: triple
+# 3: double
+
+# just keep defaults
+
+# ============================
+# Stylus
+# ============================
+#xwacom set "${stylus}" Button 1 +1
+#xwacom set "${stylus}" Button 2 +2
+#xwacom set "${stylus}" Button 3 +3
+xsetwacom set "${stylus}" Threshold 7 # default: zero
+xsetwacom set "${stylus}" PressureCurve 0 0 100 100 # default
+
+# ============================
+# Eraser
+# ============================
+#xwacom set "${eraser}" Button 1 +1
+#xwacom set "${eraser}" Button 2 +2
+#xwacom set "${eraser}" Button 3 +3
+xsetwacom set "${eraser}" Threshold 7 # default: zero
+xsetwacom set "${eraser}" PressureCurve 0 0 100 100 # default
