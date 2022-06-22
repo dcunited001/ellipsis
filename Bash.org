@@ -728,6 +728,8 @@ if [ -f $HOME/.profile ]; then . $HOME/.profile; fi
   "libvterm"
   "screen"
 
+  "libxcrypt"
+
   "perl"
   "cmake"
   "make"
@@ -751,7 +753,7 @@ if [ -f $HOME/.profile ]; then . $HOME/.profile; fi
   "lsof"
   "lsofgraph"
 
-  "btrfs-tools"
+  "btrfs-progs"
 
   "plantuml"
   "graphviz"
@@ -765,10 +767,19 @@ if [ -f $HOME/.profile ]; then . $HOME/.profile; fi
 
   "zip"
   "unzip"
+  "patool"
 
   "virt-manager"
 
   "bind:utils"
+
+  ;; matlab installer is broken if /bin/pwd doesn't exist
+  ;; - it accounts for legacy_unix and BSD and 8 levels of links
+  ;;   (for continuous integration?)
+  ;; - ... and i think it checks for modifications
+  ;; - i tried strace and gdb/disassembly ... nothing
+  ;; - the zip file also doesn't unpack correctly
+  "octave"
   ))
 #+end_src
 
