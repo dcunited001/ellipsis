@@ -289,6 +289,9 @@ partition at =/flatpak/$USER=. To keep the flatpak app state on the same
 partition, link =$HOME/.var= to =$FLATPAK_USER_VAR=.
 
 #+begin_src sh :tangle .config/sh/profile.d/flatpak.sh :shebang #!/bin/sh
+alias flatagenda="flatpak --installation=agenda"
+alias flatsteam="flatpak --installation=steam"
+
 export XDG_DATA_DIRS="/flatpak/dc/.local/share/flatpak/exports/share:${XDG_DATA_DIRS}"
 export FLATPAK_USER_DIR=/flatpak/$(id -un)/.local/share/flatpak
 
@@ -330,7 +333,7 @@ updates to new flatpak installations to =/flatpak/syncpak123=:
 export STEAM_DIR=$_STEAM/.steam
 export FLATPAK_STEAM_VAR=/flatpak/steam/.var
 
-alias steam="FLATPAK_CONFIG_DIR=/etc/flatpak flatpak --installation=steam run com.valvesoftware.Steam"
+alias run_steam="flatpak --installation=steam run com.valvesoftware.Steam"
 #+end_src
 
 Run with =FLATPAK_CONFIG_DIR=/etc/flatpak flatpak --installation=steam run com.valvesoftware.Steam=
@@ -732,6 +735,7 @@ if [ -f $HOME/.profile ]; then . $HOME/.profile; fi
   "perl"
 
   "direnv"
+  "stow"
 
   "fd"
   "ripgrep"
@@ -742,9 +746,12 @@ if [ -f $HOME/.profile ]; then . $HOME/.profile; fi
   "jq"
   "rsync"
 
+  "tree"
   "file"
   "lsof"
   "lsofgraph"
+
+  "btrfs-tools"
 
   "plantuml"
   "graphviz"
@@ -752,7 +759,6 @@ if [ -f $HOME/.profile ]; then . $HOME/.profile; fi
   "sqlite"
 
   "htop"
-  "stow"
 
   "openssh"
   "screen"
@@ -771,6 +777,7 @@ if [ -f $HOME/.profile ]; then . $HOME/.profile; fi
 #+begin_src scheme :tangle ".config/guix/manifests/devdebug.scm"
 (specifications->manifest
     '(
+      "gdb"
       "ltrace"
       "strace"
       ;; "ftrace"
@@ -838,7 +845,7 @@ utils in the environment, but this is split out anyways...
       "libcanberra"
       "sound-theme-freedesktop"
 
-      "flatpak"
+      "flatpak-custom"     ;; flatpak with custom installations
       "xdg-desktop-portal"
       "xdg-desktop-portal-gtk"
 

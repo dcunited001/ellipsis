@@ -579,6 +579,9 @@ for_window [class="Anki" title="^Anki Main"] floating disable
 
 for_window [class="org.remmina.Remmina" title="Remmina Remote Desktop Client"] floating enable
 
+# Xev
+for_window [title="Event Tester"] floating enable
+
 # VNC
 
 focus_on_window_activation focus
