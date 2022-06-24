@@ -498,41 +498,8 @@ Julia depot path is where package bins, logs, etc are found. Projects using =$JU
 
 *** Pluto
 
-The dependencies are in a manifest
-
-#+begin_src scheme :tangle .config/guix/manifests/julia-pluto.scm
-(specifications->manifest
- '(
-   "julia"
-   "julia-pluto"
-   "julia-plutoui"
-   "julia-visuals"
-   ))
-#+end_src
-
-Pluto can be defined as a shepherd service
-
-+ requires the manifest and guix-bioinformatics channel
-
-#+begin_src scheme :tangle .config/shepherd/julia-pluto.scm
-(use-modules (shepherd support)
-             (gnu services)
-             (gn services pluto))
-
-(register-services
- (service pluto-service-type
-          (pluto-configuration
-           (port 9876))))
-
-(action 'shepherd 'daemonize)
-(for-each start '(pluto-service))
-#+end_src
-
-Then start pluto from a separate Shepherd process
-
-#+begin_src shell
-
-#+end_src
++ The dependencies are in the [[file:.config/guix/manifests/julia-pluto.scm][julia-pluto.scm]] manifest.
++ The pluto service is defined in the [[.config/shepherd/init.d/julia-pluto.scm][julia-pluto.scm]] service.
 
 ** Node
 
@@ -694,7 +661,10 @@ export LESS_TERMCAP_se=$'\E[0m'
 export LESS_TERMCAP_so=$'\E[00;44;37m'
 export LESS_TERMCAP_ue=$'\E[0m'
 export LESS_TERMCAP_us=$'\E[01;32m'
+
+[[ -e "$(command -v direnv)" ]] && eval "$(direnv hook bash)"
 #+end_src
+
 
 ** Bash
 

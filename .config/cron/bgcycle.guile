@@ -1,4 +1,4 @@
 (job
  '(next-minute-from
    (next-minute (range 0 1440 5)))
- "setbg /data/xdg/Pictures/wallpapers/anime")
+ "setbg $_WALLPAPERS")
