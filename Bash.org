@@ -42,7 +42,6 @@
   - [[#main][Main]]
   - [[#debugging][Debugging]]
   - [[#xdg-1][XDG]]
-  - [[#direnv][Direnv]]
   - [[#languages-1][Languages]]
 - [[#tui][TUI]]
   - [[#env][Env]]
@@ -661,10 +660,23 @@ export LESS_TERMCAP_se=$'\E[0m'
 export LESS_TERMCAP_so=$'\E[00;44;37m'
 export LESS_TERMCAP_ue=$'\E[0m'
 export LESS_TERMCAP_us=$'\E[01;32m'
+#+end_src
 
+*** Direnv
+
+Load at end of =.bashrc=
+
+#+begin_src sh :tangle .bashrc :shebang #!/bin/sh
 [[ -e "$(command -v direnv)" ]] && eval "$(direnv hook bash)"
 #+end_src
 
+Add =use guixs= to direnv capabilities in =.envrc=. Thanks [[https://sr.ht/~abcdw/rde/][abcdw/RDE]].
+
+#+begin_src sh :tangle .config/direnve/direnvrc :shebang #!/bin/sh
+use_guixs() {
+  eval \"$(guix shell \"$@\" --search-paths)\"
+}
+#+end_src
 
 ** Bash
 
@@ -859,8 +871,6 @@ utils in the environment, but this is split out anyways...
 + gucharmap :: unicode character map (GTK)
 + fontmanager :: provides GTK tools to aid configuration of fonts
 + brightnessctl :: lightweight brightness control tool
-
-** Direnv
 
 ** Languages
 
