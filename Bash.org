@@ -502,7 +502,7 @@ Patch julia's binary with
 actual_julia=$JULIA_PATH/.bin/julia-$JULIA_VERSION/bin/julia
 actual_7z=$JULIA_PATH/.bin/julia-$JULIA_VERSION/libexec/7z
 
-# then patch
+# then patch (after loading use_julia_system() with direnv)
 patchelf --set-interpreter $GUIX_DEVTOOLS/lib/ld-linux-x86-64.so.2 $actual_julia
 patchelf --set-interpreter $GUIX_DEVTOOLS/lib/ld-linux-x86-64.so.2 $actual_7z
 
@@ -546,9 +546,112 @@ Start pluto with =julia --project=nb --threads=auto -e "using Pluto; Pluto.run(p
 
 Turns out, matlab needs the same treatment.
 
-Download the MathWorks installer.
+Download the MathWorks installer and unzip in =$MATLAB_HOME=
 
+#+begin_src sh :tangle .config/sh/profile.d/matlab.sh :shebang #!/bin/sh
+#alias matlab=
+export MATLAB_HOME=$_LANG/matlab
+export MATLAB_ARCH=glnxa64
+export MATLAB_PATH=$MATLAB_HOME/bin/$MATLAB_ARCH
+export MW_INSTALLER=MathWorksProductInstaller
+export MATLAB_GLIBC=$MATLAB_PATH/glibc-2.17_shim.so
 
+alias matlab_installer="LD_LIBRARY_PATH=$MATLAB_LIB $MATLAB_PATH"
+#+end_src
+
+Set up and environment
+
+#+begin_src sh :tangle /data/lang/matlab/.envrc :shebang #!/bin/sh
+[[ -z $MATLAB_PATH ]] && source $XDG_CONFIG_HOME/sh/profile.d/matlab.sh
+
+GUIX_PROFILE=/home/dc/.guix-extra-profiles/devdebug/devdebug
+source $GUIX_PROFILE/etc/profile
+
+PATH=$MATLAB_PATH:$PATH
+#+end_src
+
+Patch MathWorksProductInstaller and the required dynamic libs
+
+#+begin_src sh :tangle /data/lang/matlab/patch_matlab :shebang #!/bin/sh
+export LD_PRELOAD="$LD_PRELOAD:$MATLAB_PATH/glibc-2.17_shim.so"
+export LD_LIBRARY_PRELOAD=$MATLAB_PATH/sys:$MATLAB_PATH/bin
+
+# to get past 'patchelf: open: Permission denied' export LD_LIBRARY_PRELOAD as above
+
+patchelf --set-interpreter $GUIX_DEVTOOLS/lib/ld-linux-x86-64.so.2 $MATLAB_PATH/$MW_INSTALLER
+#+end_src
+
+Then run the installer. Once it starts downloading ...
+
+#+begin_src sh :tangle /data/lang/matlab/install_matlab :shebang #!/bin/sh
+export LD_PRELOAD="$LD_PRELOAD:$MATLAB_PATH/glibc-2.17_shim.so"
+export LD_LIBRARY_PRELOAD=$MATLAB_PATH/sys:$MATLAB_PATH/bin
+# Add libpam.so & libz.so to LD_LIBRARY_PATH
+
+# try symlinking "licensed" file to spring the trap
+# ln -s bin/glnxa64/libmwproduct_config_licensed.so libmwproduct_config_licensed.so
+
+# and ... segfault
+#strace -o s.log -e %file $MW_INSTALLER
+
+# apparently, you can't `stat` exec ...
+# it's a builtin... i've heard this before somewhere
+# eval strace -o fdsa.log exec echo 'fdsa'
+
+# the installer runs:
+# eval exec \"$thisDir/bin/$ARCH/$targetAppName\" $argList
+#
+# ... and now i think i know why.
+
+#eval exec $MW_INSTALLER
+strace -o s.log -e %file bash -c 'eval exec $MW_INSTALLER'
+#+end_src
+
+*** Troubleshooting:
+
+#+begin_src sh :eval no
+# print useful elf data from main bin
+patchelf --print-interpreter $MATLAB_PATH/$MATLAB_INSTALLER
+patchelf --print-rpath $MATLAB_PATH/$MATLAB_INSTALLER
+patchelf --print-soname $MATLAB_PATH/$MATLAB_INSTALLER
+patchelf --print-needed $MATLAB_PATH/$MATLAB_INSTALLER
+
+# find all dynlibs without execute bit
+find . -name "*.so*" ! -perm -u+x -exec ls -al \{\} +
+
+# print entry points for dynlibs
+find . -name "*.so*" ! -perm -u+x -exec readelf --segments \{\} +
+
+# read the RPATH from the ELF header
+readelf -d $MATLAB_PATH/$MW_INSTALLER | grep 'R.*PATH'
+#+end_src
+
+*** More Troubleshooting
+
+List dynlibs required by =$MW_INSTALLER= as it expects them to resolve
+
+=ldd bin/glnxa64/MathWorksProductInstaller=
+
+[[https://www.baeldung.com/linux/ld_preload-trick-what-is][What is the LD_PRELOAD trick]]
+
++ matlab is overriding LD_PRELOAD with a =glibc= shim.
++ but =strace= indicates searching for dynamic libs that Matlab doesn't package:
+  - libstdc++.so
+  - libdl.so
+  - libc.so
+  - libm.so
++ changing =$LD_LIBRARY_PATH= to =$MATLAB_PATH/sys:$MATLAB_PATH/bin= allows =patchelf= to find them (eventually), but it fails when opening =$MW_INSTALLER= with more expansive permissions . . . oh
+
++ Find all references to dynlib on guix (faster than general reverse-symlink searches)
+  - =ls -al /gnu/store/*/lib/ | grep libpam.so=
+  - i think matlab wants me to sudo
+  - PAM is in =./gnu/system/pam.scm=. i'm more interested in these things than matlab.
+
+*** The main problem
+
+Unzipping the file indicates that most functionality is downloaded from a server
+once the license is confirmed (empty directories). If these libraries/bins need
+patching, this is going to real fun.
 
 ** Node
 
