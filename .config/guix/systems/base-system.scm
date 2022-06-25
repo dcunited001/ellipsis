@@ -36,6 +36,10 @@
   #:use-module (nongnu system linux-initrd)
   )
 
+;;; TODO: create a link in /data for /etc/flatpak?
+;; (instead of needing the config file)
+
+
 ;;** use-service-modules nix, desktop, xorg
 (use-service-modules nix)
 (use-service-modules desktop xorg) ;sway/wayland?

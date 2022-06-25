@@ -29,6 +29,7 @@
 - [[#languages][Languages]]
   - [[#java][Java]]
   - [[#julia][Julia]]
+  - [[#matlab][Matlab]]
   - [[#node][Node]]
   - [[#graphviz][Graphviz]]
 - [[#profile][Profile]]
@@ -401,6 +402,9 @@ export GUIX_LOCPATH=$HOME/.guix-profile/lib/locale
 
 # -c cores -m jobs
 export GUIX_BUILD_OPTIONS="-c6"
+
+export GUIX_DEVTOOLS=$HOME/.guix-extra-profiles/devtools/devtools
+export GUIX_DEVDEBUG=$HOME/.guix-extra-profiles/devdebug/devdebug
 #+end_src
 
 ** FCITX5
@@ -473,14 +477,35 @@ Julia [[https://docs.julialang.org/en/v1/manual/environment-variables/][Environm
 
 #+begin_src sh :tangle .config/sh/profile.d/julia.sh :shebang #!/bin/sh
 export JULIA_SHELL=/bin/sh
-export JULIA_EDITOR=emacsclient
+export JULIA_EDITOR='emacsclient -nw'
 #+end_src
 
 These auto-expand empty entries, but =JULIA_LOAD_PATH= can't be set if empty.
 
 #+begin_src sh :tangle .config/sh/profile.d/julia.sh :shebang #!/bin/sh
-#export JULIA_LOAD_PATH="$JULIA_LOAD_PATH"
-export JULIA_DEPOT_PATH="$_DATA/lang/.julia:$JULIA_DEPOT_PATH"
+#export JULIA_DEPOT_PATH="$_LANG/.julia:"
+#export JULIA_LOAD_PATH="$_LANG/.julia:"
+
+export JULIA_PATH="$_LANG/julia"
+export JULIA_VERSION="1.7.3"
+# TODO link .bin/julia => .bin/julia-$JULIA_VERSION
+export JULIA_BIN=$JULIA_PATH/.bin/julia-$JULIA_VERSION/bin/julia
+export JULIA_LIB=$JULIA_PATH/.bin/julia-$JULIA_VERSION/lib/julia
+
+# TODO: fix julia alias (it's wiped unless this script is reloaded)
+alias julia="LD_LIBRARY_PATH=$JULIA_LIB $JULIA_PATH/.bin/julia-$JULIA_VERSION/bin/julia"
+#+end_src
+
+Patch julia's binary with
+
+#+begin_src sh :eval no
+actual_julia=$JULIA_PATH/.bin/julia-$JULIA_VERSION/bin/julia
+actual_7z=$JULIA_PATH/.bin/julia-$JULIA_VERSION/libexec/7z
+
+# then patch
+patchelf --set-interpreter $GUIX_DEVTOOLS/lib/ld-linux-x86-64.so.2 $actual_julia
+patchelf --set-interpreter $GUIX_DEVTOOLS/lib/ld-linux-x86-64.so.2 $actual_7z
+
 #+end_src
 
 *** Setup
@@ -491,14 +516,39 @@ Julia depot path is where package bins, logs, etc are found. Projects using =$JU
 + GC can be run to clean up old packages.
 
 #+begin_src shell :eval no
+# main JULIA_DEPOT_PATH and JULIA_LOAD_PATH for direnv use_julia_system()
+[[ ! -d $_LANG/.julia ]] && mkdir -p $_LANG/.julia
 [[ ! -d $_LANG/julia ]] && mkdir -p $_LANG/julia
-[[ ! -d $JULIA_DEPOT_PATH ]] && mkdir -p $JULIA_DEPOT_PATH
+[[ ! -d $_LANG/julia/.bin ]] && mkdir -p $_LANG/julia/.bin
+
+# julia will still try to download to ~/.julia
+ln -s /data/lang/.julia $HOME/.julia
+
+# after downloading the official julia
+ln -s /$_LANG/julia/.bin/julia-$JULIA_VERSION/bin/julia $_LANG/julia/.bin/julia
 #+end_src
+
+**** Registry Issues
+
+Pkg Servers may be running outdated versions of the General Registry. This
+causes HTTPS or validation failures. See [[https://discourse.julialang.org/t/general-registry-delays-and-a-workaround/67537][this discourse]] for the fix.
+
++ Also, to debug artifacts, use https://github.com/giordano/DebugArtifacts.jl,
 
 *** Pluto
 
 + The dependencies are in the [[file:.config/guix/manifests/julia-pluto.scm][julia-pluto.scm]] manifest.
 + The pluto service is defined in the [[.config/shepherd/init.d/julia-pluto.scm][julia-pluto.scm]] service.
+
+Start pluto with =julia --project=nb --threads=auto -e "using Pluto; Pluto.run(port=4321)"=
+
+** Matlab
+
+Turns out, matlab needs the same treatment.
+
+Download the MathWorks installer.
+
+
 
 ** Node
 
@@ -637,7 +687,7 @@ alias emacs-debug-wayland='WAYLAND_DEBUG=1 emacs --fg-daemon > $HOME/.cache/log/
 
 if [ -n "$GUIX_ENVIRONMENT" ]
 then
-    PS1='\[\033[1;33m\]\A'' \[\033[1;32m\]''\u''\[\033[31m\]''@''\[\033[1;36m\]''\h \[\033[31m\]::''\[\033[1;33m\] \w''\[\033[31m\] [env] :: \[\033[00m\]'
+    PS1='\[\033[1;33m\]\A'' \[\033[1;32m\]''\u''\[\033[31m\]''@''\[\033[1;36m\]''\h \[\033[31m\]::''\[\033[1;33m\] \w''\[\033[31m\] [''\[\033[1;00m\]env''\[\033[31m\]] :: \[\033[00m\]'
 else
     PS1='\[\033[1;33m\]\A'' \[\033[1;32m\]''\u''\[\033[31m\]''@''\[\033[1;36m\]''\h \[\033[31m\]::''\[\033[1;33m\] \w''\[\033[31m\] :: \[\033[00m\]'
 fi
@@ -670,11 +720,65 @@ Load at end of =.bashrc=
 [[ -e "$(command -v direnv)" ]] && eval "$(direnv hook bash)"
 #+end_src
 
+#+RESULTS:
+
+**** Guix Direnv
+
 Add =use guixs= to direnv capabilities in =.envrc=. Thanks [[https://sr.ht/~abcdw/rde/][abcdw/RDE]].
 
-#+begin_src sh :tangle .config/direnve/direnvrc :shebang #!/bin/sh
+#+begin_src sh :tangle .config/direnv/direnvrc :shebang #!/bin/sh
+# when using guix environment in a project, the downloaded environment
+# will be cached in ./.guix-profile. delete it to update the profile
+#
+# https://github.com/direnv/direnv/wiki/GNU-Guix
+use_guix() {
+  local cache_dir="$(direnv_layout_dir)/.guix-profile"
+  if [[ -e "$cache_dir/etc/profile" ]]; then
+    # shellcheck disable=SC1091
+    source "$cache_dir/etc/profile"
+  else
+    mkdir -p "$(direnv_layout_dir)"
+    eval "$(guix environment --root="$cache_dir" "$@" --search-paths)"
+  fi
+}
+
+# guix environment is being deprecated
 use_guixs() {
   eval \"$(guix shell \"$@\" --search-paths)\"
+}
+
+# NOTE need to install the profile with `guix environment --root`
+# - then it's available to use with guix shell?
+use_guixs_cached() {
+  echo "$(direnv_layout_dir)"
+  local cache_dir="$(direnv_layout_dir)/.guix-profile"
+  if [[ -e "$cache_dir/etc/profile" ]]; then
+    # shellcheck disable=SC1091
+    source "$cache_dir/etc/profile"
+  else
+    mkdir -p "$(direnv_layout_dir)"
+    eval "$(guix shell --root="$cache_dir" "$@" --search-paths)"
+  fi
+}
+#+end_src
+
+#+RESULTS:
+
+**** Julia Direnv
+
+=use julia_system()= will use a common set of packages.
+
++ This may not end up working out, but julia packages quickly get large.
+
+#+begin_src sh :tangle .config/direnv/direnvrc :shebang #!/bin/sh
+
+# The guix package for julia creates ./bin/julia,
+# which is a wrapper for ./bin/.julia-real
+use_julia_system() {
+    JULIA_DEPOT_PATH="$_LANG/.julia:"
+    JULIA_LOAD_PATH="$_LANG/.julia:"
+    JULIA_PATH="$_LANG/julia"
+    PATH_add "$_LANG/julia/.bin"
 }
 #+end_src
 
@@ -694,7 +798,6 @@ if [ -f $HOME/.profile ]; then . $HOME/.profile; fi
 
 ** Main
 
-
 #+begin_src scheme :tangle ".config/guix/manifests/devtools.scm"
 (specifications->manifest
 '("git"
@@ -703,6 +806,7 @@ if [ -f $HOME/.profile ]; then . $HOME/.profile; fi
 
   "curl"
 
+  "glibc"
   "gcc-toolchain"
   "cmake"
   "make"
@@ -727,6 +831,10 @@ if [ -f $HOME/.profile ]; then . $HOME/.profile; fi
   ;; TODO consider moving to a media profile
   "ffmpeg"
 
+  ;; TODO move openblas to a data science profile?
+  "openblas"
+  "lapack"
+
   "jq"
   "rsync"
 
@@ -750,6 +858,7 @@ if [ -f $HOME/.profile ]; then . $HOME/.profile; fi
   "zip"
   "unzip"
   "patool"
+  "p7zip"
 
   "virt-manager"
 
@@ -771,6 +880,7 @@ if [ -f $HOME/.profile ]; then . $HOME/.profile; fi
 (specifications->manifest
     '(
       "gdb"
+      "patchelf"
       "ltrace"
       "strace"
       ;; "ftrace"
