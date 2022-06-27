@@ -28,9 +28,9 @@
   - [[#emacs][Emacs]]
 - [[#languages][Languages]]
   - [[#java][Java]]
-  - [[#julia][Julia]]
   - [[#node][Node]]
   - [[#graphviz][Graphviz]]
+  - [[#julia][Julia]]
 - [[#profile][Profile]]
   - [[#profile-1][=.profile=]]
 - [[#alacritty][Alacritty]]
@@ -472,6 +472,18 @@ export _JAVA_AWT_WM_NONREPARENTING=1
 
 #+end_src
 
+** Node
+
+#+begin_src sh :tangle .config/sh/profile.d/node.sh :shebang #!/bin/sh
+[[ -f /usr/share/nvm/init-nvm.sh ]] && source /usr/share/nvm/init-nvm.sh
+#+end_src
+
+** Graphviz
+
+#+begin_src sh :tangle .config/sh/profile.d/graphviz.sh :shebang #!/bin/sh
+export GRAPHVIZ_DOT=$HOME/.guix-extra-profiles/desktop/desktop/bin/dot
+#+end_src
+
 ** Julia
 
 Julia [[https://docs.julialang.org/en/v1/manual/environment-variables/][Environment Variables]]
@@ -479,7 +491,6 @@ Julia [[https://docs.julialang.org/en/v1/manual/environment-variables/][Environm
 #+begin_src sh :tangle .config/sh/profile.d/julia.sh :shebang #!/bin/sh
 export JULIA_SHELL=/bin/sh
 export JULIA_EDITOR='emacsclient -nw'
-alias pluto='julia --project=nb --threads=auto -e "using Pluto; Pluto.run(port=4321)"'
 
 #+end_src
 
@@ -518,7 +529,11 @@ use_julia_system() {
     export MINIFORGE_LIB=$_LANG/miniforge3/lib
     export MINIFORGE_PYTHON=$_LANG/miniforge3/bin/python
 
+    export _LOAD_PYTHON=fdsa
+
     PATH_add "$JULIA_PATH/.bin" "$MINIFORGE_BIN"
+
+    alias pluto='julia --project=nb --threads=auto -e "using Pluto; Pluto.run(port=4321)"'
 }
 #+end_src
 
@@ -627,28 +642,9 @@ Get a clean env. Ensure that Julia installs packages properly. When one requires
 
 Run =conda init bash= which will modify =.bashrc=, but offers a =--json= option that doesn't output anything (when on miniforge? i donno). So, in theory, I could parse with =jq= and pipe to a file I can modify.
 
-But it's ok because conda is simple python for simple man.
+But it's ok because conda is simple python for simple man:
 
-#+begin_src shell :tangle .bashrc
-
-# >>> conda initialize >>>
-# !! Contents within this block are managed by 'conda init' !!
-# ... so i can just add environment variables, right?
-__conda_setup="$('$MINIFORGE_BIN/conda' 'shell.bash' 'hook' 2> /dev/null)"
-if [ $? -eq 0 ]; then
-    eval "$__conda_setup"
-else
-    if [ -f "$MINIFORGE_BIN/miniforge3/etc/profile.d/conda.sh" ]; then
-        . "$MINIFORGE_BIN/miniforge3/etc/profile.d/conda.sh"
-    else
-        # make sure this is the very last, last, last thing that runs in your shell. after that other last thing
-        export PATH="$MINIFORGE_BIN:$PATH"
-    fi
-fi
-unset __conda_setup
-# <<< conda initialize <<<
-
-#+end_src
+=conda install sympy tensorflow=
 
 *** Setup
 
@@ -683,18 +679,6 @@ causes HTTPS or validation failures. See [[https://discourse.julialang.org/t/gen
 + The pluto service is defined in the [[.config/shepherd/init.d/julia-pluto.scm][julia-pluto.scm]] service.
 
 Start pluto with =julia --project=nb --threads=auto -e "using Pluto; Pluto.run(port=4321)"=
-
-** Node
-
-#+begin_src sh :tangle .config/sh/profile.d/node.sh :shebang #!/bin/sh
-[[ -f /usr/share/nvm/init-nvm.sh ]] && source /usr/share/nvm/init-nvm.sh
-#+end_src
-
-** Graphviz
-
-#+begin_src sh :tangle .config/sh/profile.d/graphviz.sh :shebang #!/bin/sh
-export GRAPHVIZ_DOT=$HOME/.guix-extra-profiles/desktop/desktop/bin/dot
-#+end_src
 
 * Profile
 :PROPERTIES:
