@@ -8,8 +8,6 @@ GUIX_EXTRA_PROFILES=$HOME/.guix-extra-profiles
 
 __profiles=""
 while [ "$1" != "" ]; do
-    echo $1
-
     case $1 in
         --substitute-urls)
             __substitute_urls="$2"

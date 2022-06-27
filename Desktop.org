@@ -193,12 +193,16 @@ Xft/HintStyle "hintnone"
 (specifications->manifest
  '(
    "fcitx5"
-   "fcitx5-anthy"
+   "fcitx5-anthy-fix"
    "fcitx5-configtool"
-   ;;"fcitx5-gtk3"
-   ;;"fcitx6-qt"
+   "fcitx5-chinese-addons"
+   "fcitx5-material-color-theme"
+   ;; "fcitx5-gtk3"
+   ;; "fcitx5-qt"
    ))
 #+end_src
+
+#+RESULTS:
 
 * Window Management
 

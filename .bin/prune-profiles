@@ -6,11 +6,11 @@ NC='\033[0m'
 GUIX_EXTRA_PROFILES=$HOME/.guix-extra-profiles
 
 __profiles=""
-__substitute_urls=""
+__delete_generations="3.."
 while [ "$1" != "" ]; do
     case $1 in
-        --substitute-urls)
-            __substitute_urls="$2"
+        -d)
+            __delete_generations="$2"
             shift 2
             ;;
         -*|--*=) # unsupported flags
@@ -28,17 +28,15 @@ if [ -z "$__profiles" ]; then
     __profiles="$GUIX_EXTRA_PROFILES/*";
 fi
 
-__substitute_urls=${__substitute_urls:-https://ci.guix.gnu.org https://bordeaux.guix.gnu.org https://substitutes.nonguix.org}
-
 for profile in $__profiles; do
   profileName=$(basename $profile)
   profilePath=$GUIX_EXTRA_PROFILES/$profileName
 
   echo
-  echo -e "${GREEN}Updating profile:" $profilePath "${NC}"
+  echo -e "${GREEN}Pruning profile:" $profilePath "${NC}"
   echo
 
-  guix package --profile="$profilePath/$profileName" --manifest="$HOME/.config/guix/manifests/$profileName.scm" --substitute-urls="$__substitute_urls"
+  guix pull --profile="$profilePath/$profileName" --delete-generations=$__delete_generations
 
-  notify-send "GUIX (Update Profile)" "Complete: $profileName"
+  notify-send "GUIX (Pruned Profile)" "Complete: $profileName"
 done
