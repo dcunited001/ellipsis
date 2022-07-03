@@ -281,6 +281,11 @@ EndSection
    (packages %dc-desktop-packages)
 
    (services (cons*
+    ;; networking
+    (name-service-switch
+     ;; allow resolution of '.local' hostnames with mDNS
+     %mdns-host-lookup-nss)
+
 	      
               ;; TODO: tweak TLP config
               ;; - ensure cpu-scaling-governor-on-ac is not affecting performance              
@@ -322,5 +327,3 @@ EndSection
               dc-desktop-services
 	      ))
 
-   ;; allow resolution of '.local' hostnames with mDNS
-   (name-service-switch %mdns-host-lookup-nss)))

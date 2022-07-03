@@ -193,7 +193,8 @@ Xft/HintStyle "hintnone"
 (specifications->manifest
  '(
    "fcitx5"
-   "fcitx5-anthy-fix"
+   "anthy"
+   "fcitx5-anthy"
    "fcitx5-configtool"
    "fcitx5-chinese-addons"
    "fcitx5-material-color-theme"

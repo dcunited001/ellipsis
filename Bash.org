@@ -41,6 +41,7 @@
 - [[#environment-1][Environment]]
   - [[#main][Main]]
   - [[#debugging][Debugging]]
+  - [[#yubikey][Yubikey]]
   - [[#xdg-1][XDG]]
   - [[#languages-1][Languages]]
 - [[#tui][TUI]]
@@ -85,6 +86,7 @@ Changing the variables above requires evaluating the block below.
 | _ECTO       | /data/ecto                 |
 | _REPO       | /data/repo                 |
 | _STEAM      | /flatpak/steam             |
+| _AGENDA     | /flatpak/agenda            |
 | _GUIX       | /gnu                       |
 | _WALLPAPERS | /data/xdg/Wallpapers/anime |
 | _FLATPAK    | /flatpak                   |
@@ -294,6 +296,10 @@ alias flatagenda="flatpak --installation=agenda"
 alias flatsteam="flatpak --installation=steam"
 
 export XDG_DATA_DIRS="/flatpak/dc/.local/share/flatpak/exports/share:${XDG_DATA_DIRS}"
+# TODO move this to the guix package?
+export XDG_DATA_DIRS="/flatpak/steam/.local/share/flatpak/exports/share:${XDG_DATA_DIRS}"
+export XDG_DATA_DIRS="/flatpak/agenda/.local/share/flatpak/exports/share:${XDG_DATA_DIRS}"
+
 export FLATPAK_USER_DIR=/flatpak/$(id -un)/.local/share/flatpak
 
 # this is another variable for convenience (this var isn't used by flatpak)
@@ -361,6 +367,7 @@ flatpak --installation=steam install flathub com.valvesoftware.Steam
 flatpak --installation=steam install flathub com.valvesoftware.Steam.CompatibilityTool.Proton
 #+end_src
 
+
 **** Issues
 
 + After invoking for the first time, if this link shows up, remove it
@@ -411,10 +418,10 @@ export GUIX_DEVDEBUG=$HOME/.guix-extra-profiles/devdebug/devdebug
 ** FCITX5
 
 #+begin_src shell :tangle .config/sh/profile.d/fcitx5.sh :shebang #!/bin/sh
-export QT_IM_MODULE=fcitx
-export GTK_IM_MODULE=fcitx
-export SDL_IM_MODULE=fcitx
-export XMODIFIERS=@im=fcitx
+export QT_IM_MODULE=fcitx5
+export GTK_IM_MODULE=fcitx5
+export SDL_IM_MODULE=fcitx5
+export XMODIFIERS="@im=fcitx5"
 #+end_src
 
 ** GTK
@@ -1007,6 +1014,19 @@ if [ -f $HOME/.profile ]; then . $HOME/.profile; fi
 
       "tcpdump"
       ))
+#+end_src
+
+** Yubikey
+
+#+begin_src scheme :tangle ".config/guix/manifests/yubikey.scm"
+(specifications->manifest
+ '("yubikey-personalization"
+   "python-yubikey-manager"
+   ;; "libyubikey"
+   "yubico-piv-tool"
+   "yubico-pam"
+   "pam-u2f")
+ )
 #+end_src
 
 ** XDG
