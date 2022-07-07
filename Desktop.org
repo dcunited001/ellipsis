@@ -1689,7 +1689,7 @@ flatpak install --user flathub org.gustavoperedo.FontDownloader
 + add an override to make this path avaiable in flatpak
   - ensure the =--filesystem= bind mounts match the =FONTCONFIG_...= var which cannot be or include links
 
-#+begin_src bash
+#+begin_src bash :eval no
 flatpak --user override \
     --filesystem=~/.dotfiles/.config/fontconfig:ro \
     --filesystem=~/.dotfiles/fonts:ro \
@@ -1759,7 +1759,7 @@ If you need to manually connect to Bluetooth audio devices using =bluetoothctl=,
 as DW currently does in Guix, you'll need to enter these commands at the
 =bluetoothctl= prompt:
 
-#+begin_src shell
+#+begin_src shell :eval no
 
   system-alias "my-hostname" # To configure your laptop's device name
   default-agent
