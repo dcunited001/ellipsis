@@ -285,7 +285,7 @@ retrieve these settings appropriately. This is used throughout =Desktop.org=.
 #+begin_src emacs-lisp :noweb-ref system-settings :noweb-sep ""
 
   (when (equal system-name "kratos")
-    '((desktop/dpi . 158) ;; TODO verify DPI
+    '((desktop/dpi . 221) ;; TODO verify DPI
       (emacs/default-face-size . 190)
       (emacs/variable-face-size . 200)
       (emacs/fixed-face-size . 190)
