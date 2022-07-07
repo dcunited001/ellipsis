@@ -187,6 +187,9 @@ retrieve these settings appropriately. This is used throughout =Desktop.org=.
       (polybar/backlight-card . "intel_backlight")
       (dunst/font-size . 20)
       (dunst/max-icon-size . 88)
+
+      ;; TODO: refactor this
+      (dunst/icon-path . "/home/dc/.guix-extra-profiles/desktop/desktop/share/icons/gnome/256x256/status/:/home/dc/.guix-extra-profiles/desktop/desktop/share/icons/gnome/256x256/devices/:/home/dc/.guix-extra-profiles/desktop/desktop/share/icons/gnome/256x256/emblems/")
       (vimb/default-zoom . 180)
       (qutebrowser/default-zoom . 200)
       (xrandr/primary-display . "eDP"))
@@ -294,6 +297,9 @@ retrieve these settings appropriately. This is used throughout =Desktop.org=.
       (polybar/font-3-size . 13)
       (dunst/font-size . 32)
       (dunst/max-icon-size . 88)
+
+      ;; TODO: refactor
+      (dunst/icon-path "/usr/share/icons/Adwaita/16x16/status/:/usr/share/icons/Adwaita/16x16/devices/")
       ;(vimb/default-zoom . 160)
       ;(qutebrowser/default-zoom . 180)
       ))
