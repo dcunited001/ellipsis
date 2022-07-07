@@ -250,7 +250,7 @@ EndSection
 
    ;; NONFREE
    (firmware (cons* linux-firmware
-		    %base-firmware))
+		            %base-firmware))
 
    ;; NONFREE
    (initrd microcode-initrd)
@@ -280,13 +280,9 @@ EndSection
    ;; install bare-minimum system packages
    (packages %dc-desktop-packages)
 
+   ;; networking
    (services (cons*
-    ;; networking
-    (name-service-switch
-     ;; allow resolution of '.local' hostnames with mDNS
-     %mdns-host-lookup-nss)
 
-	      
               ;; TODO: tweak TLP config
               ;; - ensure cpu-scaling-governor-on-ac is not affecting performance              
               (service tlp-service-type
@@ -295,35 +291,40 @@ EndSection
                         (tlp-default-mode "AC") ;; this is the default
                         (wifi-pwr-on-bat? #t)))
 
-	      (pam-limits-service ;; This enables JACK to enter realtime mode
+	          (pam-limits-service ;; This enables JACK to enter realtime mode
                (list
                 (pam-limits-entry "@realtime" 'both 'rtprio 99)
                 (pam-limits-entry "@realtime" 'both 'memlock 'unlimited)))
 
-	      (extra-special-file "/usr/bin/env"
+	          (extra-special-file "/usr/bin/env"
                                   (file-append coreutils "/bin/env"))
 
-	      (service thermald-service-type)
+	          (service thermald-service-type)
 
-	      ;; (service docker-service-type)
+	          ;; (service docker-service-type)
 
-	      (service libvirt-service-type ;; TODO how is libvirt configured?
+	          (service libvirt-service-type ;; TODO how is libvirt configured?
                        (libvirt-configuration
                         (unix-sock-group "libvirt")
                         (tls-port "16555")))
 
-	      ;; (service cups-service-type
+	          ;; (service cups-service-type
               ;;          (cups-configuration
               ;;           (web-interface? #t)
               ;;           (extensions
               ;;            (list cups-filters))))
 
-	      ;; (service nix-service-type)
+	          ;; (service nix-service-type)
 
-	      (udev-rules-service 'pipewire-add-udev-rules pipewire)
+	          (udev-rules-service 'pipewire-add-udev-rules pipewire)
 	      
-	      (bluetooth-service #:auto-enable? #t)
+	          (bluetooth-service #:auto-enable? #t)
 
               dc-desktop-services
-	      ))
+              ;; NOTE: see also desktop-services-for-system
+              ;;   in guix/gnu/services/desktop.scm
+              ))
+   ;; allow resolution of '.local' hostnames with mDNS
+   (name-service-switch %mdns-host-lookup-nss)
 
+   ))

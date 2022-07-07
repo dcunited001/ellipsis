@@ -88,36 +88,37 @@ for a colorful Guile experience.\n\n"))))
          "33f86a4b48205c0dc19d7c036c85393f0766f806"
          (openpgp-fingerprint
           "736A C00E 1254 378B A982  7AF6 9DBE 8265 81B6 4490"))))
+      (channel
+       (name 'rde)
+       (url "https://git.sr.ht/~abcdw/rde")
+       (introduction
+        (make-channel-introduction
+         "257cebd587b66e4d865b3537a9a88cccd7107c95"
+         (openpgp-fingerprint
+          "2841 9AC6 5038 7440 C7E9  2FFA 2208 D209 58C1 DEB0"))))
       ;; (channel
-      ;;  (name 'rde)
-      ;;  (url "https://git.sr.ht/~abcdw/rde")
-      ;;  (introduction
-      ;;   (make-channel-introduction
-      ;;    "257cebd587b66e4d865b3537a9a88cccd7107c95"
-      ;;    (openpgp-fingerprint
-      ;;     "2841 9AC6 5038 7440 C7E9  2FFA 2208 D209 58C1 DEB0"))))
-      (channel
-        (name 'gn-bioinformatics)
-        (url "https://git.genenetwork.org/guix-bioinformatics/guix-bioinformatics.git")
-        (branch "master"))
-      (channel
-        (name 'guix-past)
-        (url "https://gitlab.inria.fr/guix-hpc/guix-past")
-        (branch "master"))
+      ;;  (name 'gn-bioinformatics)
+      ;;  (url "https://git.genenetwork.org/guix-bioinformatics/guix-bioinformatics.git")
+      ;;  (branch "master"))
       ;; (channel
-      ;;  (name 'guixrus)
-      ;;  (url "https://git.sr.ht/~whereiseveryone/guixrus")
-      ;;  (introduction
-      ;;   (make-channel-introduction
-      ;;    "7c67c3a9f299517bfc4ce8235628657898dd26b2"
-      ;;    (openpgp-fingerprint
-      ;;     "CD2D 5EAA A98C CB37 DA91  D6B0 5F58 1664 7F8B E551"))))
+      ;;  (name 'guix-past)
+      ;;  (url "https://gitlab.inria.fr/guix-hpc/guix-past")
+      ;;  (branch "master"))
       (channel
-       (name 'nonguix)
+       (name 'guixrus)
+       (url "https://git.sr.ht/~whereiseveryone/guixrus")
+       (introduction
+        (make-channel-introduction
+         "7c67c3a9f299517bfc4ce8235628657898dd26b2"
+         (openpgp-fingerprint
+          "CD2D 5EAA A98C CB37 DA91  D6B0 5F58 1664 7F8B E551"))))
+      (channel
+      (name 'nonguix)
        (url "https://gitlab.com/nonguix/nonguix"))
       (channel
        (name 'guix)
        (url "https://git.savannah.gnu.org/git/guix.git")
+       ;; (url "file:///data/ecto/guix/guix")
        (introduction
         (make-channel-introduction
          "9edb3f66fd807b096b48283debdcddccfea34bad"
@@ -166,10 +167,17 @@ retrieve these settings appropriately. This is used throughout =Desktop.org=.
   (map-merge
     'list
     '((desktop/dpi . 180)
-      (desktop/background . "samuel-ferrara-uOi3lg8fGl4-unsplash.jpg")
+      (desktop/background . (concat (or (getenv "$_WALLPAPERS") "/data/xdg/wallpapers/anime") "default.jpg"))
+      (rofi/theme . "gruvbox-dark")
+      (rofi/icons . "Papirus-Dark")
+      (rofi/drun-theme . "gruvbox-dark")
+      (rofi/drun-icons . "Papirus-Dark")
+      (rofi/file-theme . "sidebar")
+      (rofi/file-icons . "Papirus-Dark")
       (emacs/default-face-size . 220)
       (emacs/variable-face-size . 245)
       (emacs/fixed-face-size . 200)
+      (i3/bar-type . "polybar.conf")
       (polybar/height . 35)
       (polybar/font-0-size . 18)
       (polybar/font-1-size . 14)
@@ -278,6 +286,7 @@ retrieve these settings appropriately. This is used throughout =Desktop.org=.
       (emacs/default-face-size . 190)
       (emacs/variable-face-size . 200)
       (emacs/fixed-face-size . 190)
+      (i3/bar-type . "i3bar.conf")
       (polybar/height . 48)
       (polybar/font-0-size . 24)
       (polybar/font-1-size . 18)

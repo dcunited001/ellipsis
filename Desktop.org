@@ -21,6 +21,7 @@
   - [[#fcitx5][FCITX5]]
 - [[#window-management][Window Management]]
   - [[#i3][i3]]
+    - [[#setup-xidlehook-to-notify-send-when-idletime-is-about-to-lock-the-computer][setup =xidlehook= to notify-send when idletime is about to lock the computer]]
 - [[#panel][Panel]]
   - [[#polybar][Polybar]]
 - [[#notifications][Notifications]]
@@ -135,7 +136,9 @@ These are defined in [[file:.config/shepherd/init.d][.config/shepherd/init.d]] a
 
 *.config/fontconfig/fonts.conf*
 
-#+begin_src xml :tangle .config/fontconfig/fonts.conf
+This needs to be copied after deploy. It needs to be modified if not running on a guix system.
+
+#+begin_src xml :tangle .config/fontconfig/fonts.conf.eg
 <?xml version="1.0"?>
 <!DOCTYPE fontconfig SYSTEM "fonts.dtd">
 <fontconfig>
@@ -216,6 +219,13 @@ Xft/HintStyle "hintnone"
 
 set $mod Mod4
 
+set $rofi-theme <<get-setting(name="rofi/theme")>>
+set $rofi-icons <<get-setting(name="rofi/icons")>>
+set $rofi-drun-theme <<get-setting(name="rofi/drun-theme")>>
+set $rofi-drun-icons <<get-setting(name="rofi/drun-icons")>>
+set $rofi-file-theme <<get-setting(name="rofi/file-theme")>>
+set $rofi-file-icons <<get-setting(name="rofi/file-icons")>>
+
 # Font for window titles. Will also be used by the bar unless a different font
 # is used in the bar {} block below.
 #font pango:monospace 8
@@ -229,7 +239,6 @@ font pango:DejaVu Serif Mono 12
 exec --no-startup-id nm-applet
 
 exec_always --no-startup-id dunst 2>&1 > /tmp/dunst.1.log
-exec_always --no-startup-id polybar panel 2>&1 > /tmp/polybar.1.log
 exec_always --no-startup-id syncthing-gtk
 
 # Use pactl to adjust volume in PulseAudio.
@@ -249,15 +258,26 @@ bindsym $mod+Return exec terminator
 bindsym $mod+Shift+q kill
 
 # start dmenu (a program launcher)
-bindsym $mod+Shift+d exec dmenu_run
-bindsym $mod+d exec --no-startup-id j4-dmenu-desktop
+#bindsym $mod+Shift+d exec dmenu_run
+#bindsym $mod+d exec --no-startup-id j4-dmenu-desktop
+
+bindsym $mod+d exec "rofi -show run -show-icons -icon-theme $rofi-icons -theme $rofi-theme"
+
+bindsym $mod+z exec "rofi -show drun -show-icons -icon-theme $rofi-drun-icons -theme $rofi-drun-theme"
+
+bindsym $mod+shift+z exec "rofi -show filebrowser -show-icons -icon-theme $rofi-file-icons -theme $rofi-file-theme"
+
+bindsym Print exec --no-startup-id i3-scrot
+bindsym $mod+Print --release exec --no-startup-id i3-scrot -w
+bindsym $mod+Shift+Print --release exec --no-startup-id i3-scrot -s
+
 # There also is the (new) i3-dmenu-desktop which only displays applications
 # shipping a .desktop file. It is a wrapper around dmenu, so you need that
 # installed.
 # bindsym $mod+d exec --no-startup-id i3-dmenu-desktop
 
 bindsym $mod+m exec --no-startup-id dmenu_screenlayout
-bindsym $mod+Shift+m exec --no-startup-id arandr
+
 # change focus
 bindsym $mod+j focus left
 bindsym $mod+k focus down
@@ -282,11 +302,9 @@ bindsym $mod+Shift+Down move down
 bindsym $mod+Shift+Up move up
 bindsym $mod+Shift+Right move right
 
-# split in horizontal orientation
-bindsym $mod+h split h
-
-# split in vertical orientation
-bindsym $mod+v split v
+# split orientation
+bindsym $mod+h split h;exec notify-send 'tile horizontally'
+bindsym $mod+v split v;exec notify-send 'tile vertically'
 
 # enter fullscreen mode for the focused container
 bindsym $mod+f fullscreen toggle
@@ -325,6 +343,15 @@ workspace $ws1 output <<get-setting("xrandr/primary-display")>>
 workspace $ws2 output <<get-setting("xrandr/primary-display")>>
 workspace $ws3 output <<get-setting("xrandr/primary-display")>>
 
+
+# back and forth?
+workspace_auto_back_and_forth yes
+bindsym $mod+b workspace back_and_forth
+bindsym $mod+Shift+b move container to workspace back_and_forth; workspace back_and_forth
+
+bindsym $mod+Ctrl+Left workspace prev
+bindsym $mod+Ctrl+Right workspace next
+
 # switch to workspace
 bindsym $mod+1 workspace number $ws1
 bindsym $mod+2 workspace number $ws2
@@ -349,6 +376,8 @@ bindsym $mod+Shift+8 move container to workspace $ws8
 bindsym $mod+Shift+9 move container to workspace $ws9
 bindsym $mod+Shift+0 move container to workspace $ws10
 
+for_window [urgent=latest] focus
+
 # reload the configuration file
 bindsym $mod+Shift+c reload
 
@@ -356,7 +385,23 @@ bindsym $mod+Shift+c reload
 bindsym $mod+Shift+r restart
 
 # exit i3 (logs you out of your X session)
-bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'Do you really want to exit i3? This will end your X session.' -B 'Yes, exit i3' 'i3-msg exit'"
+#bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'Do you really want to exit i3? This will end your X session.' -B 'Yes, exit i3' 'i3-msg exit'"
+
+bindsym $mod+shift+e mode "$mode_system"
+set $mode_system (l)ock, (e)xit, switch_(u)ser, (s)uspend, (h)ibernate, (r)eboot, (Shift+s)hutdown
+mode "$mode_system" {
+    bindsym l exec --no-startup-id i3exit lock, mode "default"
+    bindsym s exec --no-startup-id i3exit suspend, mode "default"
+    bindsym u exec --no-startup-id i3exit switch_user, mode "default"
+    bindsym e exec --no-startup-id i3exit logout, mode "default"
+    bindsym h exec --no-startup-id i3exit hibernate, mode "default"
+    bindsym r exec --no-startup-id i3exit reboot, mode "default"
+    bindsym Shift+s exec --no-startup-id i3exit shutdown, mode "default"
+
+    # exit system mode: "Enter" or "Escape"
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
+}
 
 # lock
 bindsym $mod+q exec "loginctl lock-session"
@@ -389,16 +434,42 @@ mode "resize" {
 
 bindsym $mod+r mode "resize"
 
-# Start i3bar to display a workspace bar (plus the system information i3status
-# finds out, if available)
-# bar {
-#         status_command i3status
-# }
+# start either i3bar or polybar (defaults to polybar)
+include <<get-setting(name="i3/bar-type")>>
+
+# Open applications on specific workspaces
+# assign [class="Thunderbird"] $ws1
 
 # Window Roles
 for_window [window_role="pop-up"] floating enable
 for_window [window_role="task_dialog"] floating enable
 for_window [title="Preferences$"] floating enable
+
+for_window [class="calamares"] floating enable border normal
+for_window [class="Clipgrab"] floating enable
+for_window [title="File Transfer*"] floating enable
+for_window [class="fpakman"] floating enable
+for_window [class="Galculator"] floating enable border pixel 1
+for_window [class="GParted"] floating enable border normal
+for_window [title="i3_help"] floating enable sticky enable border normal
+for_window [class="Lightdm-settings"] floating enable
+for_window [class="Lxappearance"] floating enable sticky enable border normal
+for_window [class="Manjaro-hello"] floating enable
+for_window [class="Manjaro Settings Manager"] floating enable border normal
+for_window [title="MuseScore: Play Panel"] floating enable
+for_window [class="Nitrogen"] floating enable sticky enable border normal
+for_window [class="Oblogout"] fullscreen enable
+for_window [class="octopi"] floating enable
+for_window [title="About Pale Moon"] floating enable
+for_window [class="Pamac-manager"] floating enable
+for_window [class="qt5ct"] floating enable sticky enable border normal
+for_window [class="Qtconfig-qt4"] floating enable sticky enable border normal
+for_window [class="Simple-scan"] floating enable border normal
+for_window [class="(?i)System-config-printer.py"] floating enable border normal
+for_window [class="Skype"] floating enable border normal
+for_window [class="Timeset-gui"] floating enable border normal
+for_window [class="(?i)virtualbox"] floating enable border normal
+for_window [class="Xfburn"] floating enable
 
 for_window [class="Pwsafe" instance="pwsafe"] floating enable, sticky enable
 for_window [class="Gnuplot" instance="gnuplot"] floating enable
@@ -409,6 +480,7 @@ for_window [class="Gnuplot" instance="gnuplot"] floating enable
 # WM Configs
 for_window [instance=".arandr-real"] floating enable
 for_window [class="Pavucontrol"] floating enable
+for_window [title="alsamixer"] floating enable border pixel 1
 
 # File Managers
 for_window [class="Thunar"] floating enable
@@ -470,6 +542,7 @@ bindsym $mod+Control+d [conmark="dev"] focus
 bindsym $mod+Control+shift+d mark dev
 
 smart_gaps on
+smart_borders on
 
 default_border pixel 3
 gaps inner 7
@@ -485,11 +558,115 @@ hide_edge_borders both
 "i3-gaps"
 "i3status"
 "i3lock"
-"dmenu"
 "j4-dmenu-desktop"
 
 #+end_src
 
+And start either i3bar:
+
+#+begin_src conf :tangle .config/i3/i3bar.conf :noweb yes :comments none
+bar {
+    i3bar_command i3bar
+    status_command i3status
+    position bottom
+
+    bindsym button4 nop
+    bindsym button4 nop
+    # font
+    strip_workspace_numbers yes
+
+    colors {
+        background #222D31
+        statusline #F9FAF9
+        separator  #454947
+
+#                      border  backgr. text
+        focused_workspace  #F9FAF9 #16a085 #292F34
+        active_workspace   #595B5B #353836 #FDF6E3
+        inactive_workspace #595B5B #222D31 #EEE8D5
+        binding_mode       #16a085 #2C2C2C #F9FAF9
+        urgent_workspace   #16a085 #FDF6E3 #E5201D
+    }
+}
+
+# Theme colors
+# class                 border  backgr. text    indic.   child_border
+client.focused          #556064 #556064 #80FFF9 #FDF6E3
+client.focused_inactive #2F3D44 #2F3D44 #1ABC9C #454948
+client.unfocused        #2F3D44 #2F3D44 #1ABC9C #454948
+client.urgent           #CB4B16 #FDF6E3 #1ABC9C #268BD2
+client.placeholder      #000000 #0c0c0c #ffffff #000000
+
+client.background       #2B2C2B
+
+# hide/unhide i3status bar
+bindsym $mod+m bar mode toggle
+
+# ===========
+# TODO: move to a script for manjaro/nonguix systems
+# ===========
+
+# an xfce file manager (lighter than thunar)
+bindsym $mod+F3 exec pcmanfm
+bindsym $mod+q exec --no-startup-id blurlock
+exec --no-startup-id xautolock -time 10 -locker blurlock
+
+# autostart tools (most of these end up in the tray)
+exec --no-startup-id /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
+exec --no-startup-id nitrogen --restore; sleep 1; picom -b
+exec --no-startup-id manjaro-hello
+exec --no-startup-id nm-applet
+exec --no-startup-id xfce4-power-manager
+exec --no-startup-id pamac-tray
+exec --no-startup-id clipit
+# exec --no-startup-id blueman-applet
+# exec_always --no-startup-id sbxkb
+exec --no-startup-id start_conky_maia
+# exec --no-startup-id start_conky_green
+
+exec_always --no-startup-id ff-theme-util
+exec_always --no-startup-id fix_xcursor
+
+# Color palette used for the terminal ( ~/.Xresources file )
+# Colors are gathered based on the documentation:
+# https://i3wm.org/docs/userguide.html#xresources
+# Change the variable name at the place you want to match the color
+# of your terminal like this:
+# [example]
+# If you want your bar to have the same background color as your
+# terminal background change the line 362 from:
+# background #14191D
+# to:
+# background $term_background
+# Same logic applied to everything else.
+set_from_resource $term_background background
+set_from_resource $term_foreground foreground
+set_from_resource $term_color0     color0
+set_from_resource $term_color1     color1
+set_from_resource $term_color2     color2
+set_from_resource $term_color3     color3
+set_from_resource $term_color4     color4
+set_from_resource $term_color5     color5
+set_from_resource $term_color6     color6
+set_from_resource $term_color7     color7
+set_from_resource $term_color8     color8
+set_from_resource $term_color9     color9
+set_from_resource $term_color10    color10
+set_from_resource $term_color11    color11
+set_from_resource $term_color12    color12
+set_from_resource $term_color13    color13
+set_from_resource $term_color14    color14
+set_from_resource $term_color15    color15
+#+end_src
+
+or polybar:
+
+#+begin_src conf :tangle .config/i3/polybar.conf :noweb yes :comments none
+exec_always --no-startup-id polybar panel 2>&1 > /tmp/polybar.1.log
+#+end_src
+
+
+*** TODO setup =xidlehook= to notify-send when idletime is about to lock the computer
 
 * Panel
 
@@ -942,9 +1119,19 @@ fi
 
 *Guix Packages*
 
-#+begin_src scheme :noweb-ref packages :noweb-sep ""
++ Find rofi themes with =ls $HOME/.guix-extra-profiles/desktop/desktop/share/rofi/themes=
++ Specify icon themes with =--icon-theme= (e.g. papirus/breeze)
++ Example scripts [[https://github.com/davatorium/rofi/blob/next/Examples/rofi-file-browser.sh][here]] (e.g. file browser)
 
+#+begin_src scheme :noweb-ref packages :noweb-sep ""
+"dmenu"
+"rofi"
+"rofi-dmenu"
 #+end_src
+
+
+**** TODO try using rofi to [[https://wiki.archlinux.org/title/Rofi#Execute_shell_commands_from_rofi][run quick shell commands]]
+
 
 * Display Management
 
