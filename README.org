@@ -1,3 +1,4 @@
+
 #+TITLE: Dotfiles
 #+DESCRIPTION: Based on daviwil's dotfiles
 
@@ -25,6 +26,7 @@ Based on [[https://github.com/daviwil/dotfiles][daviwil's dotfiles]]
   - [[#complete-dotfiles-setup][Complete Dotfiles Setup]]
   - [[#finish][Finish]]
 - [[#deploying-to-not-guix-systems][Deploying to Not-Guix Systems]]
+  - [[#deploy-on-top-of-an-manjaro-i3][Deploy on top of an Manjaro i3]]
 
 * Why Guix
 
@@ -542,10 +544,97 @@ The functionality therein should be independent of:
 + File System
 + Disk mount paths
 + Window Manager
-+
+
+** Deploy on top of an Manjaro i3
+
+I'm not sure how long i'll be using Manjaro, but I needed something
+quick to run in a VM with passthrough. I haven't gotten around to
+tracing through the Guix OVMF packages to set up a system.
+
+*** Dotfiles
+
+**** Comparing the extant config files
+
++ I also diffed the directories in the standard installation's
+  =~/.config= and =~/.dotfiles/.config~
+  + I also skimmed the tangled scripts in
+    + Bash.org
+    + Desktop.org
+    + Systems.org
+  + Conflicts include
+    - .config/dunstrc
++ Collect the configs that may conflict & copy to =~/manjaro=
+
+**** Installing dependencies
+
+To avoid boot issues or empty env-vars, install needed deps:
+
+=pacman -Syu stow direnv emacs-nativecomp=
+
+**** Tangling Configs and Stow
+
+After grokking the differences,
 
 
+**** Test out the env
 
+Test in bash before logging in/out:
 
-It will only run in POSIX-compliant shells -- though there remain many bashisms
-i'm sure.
++ Dunst
+
+(this needs to be cleaned up lol)
+
+**** Manjaro startup
+
+I3 is started with lightdm, which uses an =.xinitrc= instead of a
+=.xsession=.
+
+Manjaro uses i3bar instead of polybar. It's i3 config is loaded from =~/.i3/config= instead of =$XDG_CONFIG_HOME=, so there shouldn't be any dependency mismatches.
+
+*** Doom Emacs
+
+This is a bit of a pain, but some packages won't finish compiling and
+deferred compilation is needed.
+
+**** Install plexus2/chemacs:
+
+#+begin_src sh
+ln -s $HOME/.dotfiles/.emacs-profiles.el $HOME/.emacs-profiles.el
+mv ~/.emacs.d ~/.emacs.vanilla
+echo "vanilla" > ~/.emacs-profile
+fdsa#+end_src
+
+Clones & Directories
+
++ plexus/chemacs2 => ~/.emacs.d
++ dcunited001/dotfiles_doom => ~/.doom.d
++ doomemacs/doomemacs => ~/.emacs.doom
+
+**** Install Doom
+
+Tangle the Doom Config first. Otherwise, Doom install creates its ~/.doom.d first
+
+Doom won't compile right unless a server is running and native comp is
+deferred. This is why =.emacs-profile= points to =~/.emacs.d= This
+needs to be set in the Chemacs =early-init.el=, so add:
+
+#+begin_src emacs-lisp :tangle no
+(setq native-comp-deferred-compilation t
+  native-comp-async-report-warnings-errors t ;; nil
+  native-comp-warning-on-missing source t)
+#+end_src
+
+Then start a vanilla emacs server and run the doom installer.
+
+**** Update Doom
+
+After install is complete, stop/disable the vanilla server.
+
++ =DOOMDIR= must be defined...
++ and =ORG_DIRECTORY= must exist...
+
+**** Setup emacs as a service
+
+**** Ensure the emacs/org mime types are correct
+
+**** Import bookmarks/etc
