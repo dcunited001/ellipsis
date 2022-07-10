@@ -603,28 +603,30 @@ And start either i3bar:
 
   # an xfce file manager (lighter than thunar)
   # NOTE: manjaro:
-  # bindsym $mod+F3 exec pcmanfm
-  # exec --no-startup-id xautolock -time 10 -locker blurlock
-  # bindsym $mod+q exec --no-startup-id blurlock
+  bindsym $mod+F3 exec pcmanfm
+  exec --no-startup-id xautolock -time 10 -locker blurlock
+  bindsym $mod+q exec --no-startup-id blurlock
 
   # NOTE: fedora
-  bindsym $mod+q exec "loginctl lock-session"
+  # bindsym $mod+q exec "loginctl lock-session"
 
   # autostart tools (most of these end up in the tray)
-  exec --no-startup-id /usr/libexec/polkit-gnome-authentication-agent-1
+  # in fedora:  
+  # exec --no-startup-id /usr/libexec/polkit-gnome-authentication-agent-1
+  exec --no-startup-id /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
   exec --no-startup-id nitrogen --restore; sleep 1; picom -b
   exec --no-startup-id xfce4-power-manager
   exec --no-startup-id blueman-applet
 
   # ===== manjaro specific =====
   # exec --no-startup-id manjaro-hello
-  # exec --no-startup-id pamac-tray
-  # exec --no-startup-id clipit
-  # exec_always --no-startup-id sbxkb
-  # exec --no-startup-id start_conky_maia
-  # exec --no-startup-id start_conky_green
-  # exec_always --no-startup-id ff-theme-util
-  # exec_always --no-startup-id fix_xcursor
+  exec --no-startup-id pamac-tray
+  exec --no-startup-id clipit
+  exec_always --no-startup-id sbxkb
+  exec --no-startup-id start_conky_maia
+  exec --no-startup-id start_conky_green
+  exec_always --no-startup-id ff-theme-util
+  exec_always --no-startup-id fix_xcursor
 
   # Color palette used for the terminal ( ~/.Xresources file )
   # Colors are gathered based on the documentation:
