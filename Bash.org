@@ -337,8 +337,12 @@ updates to new flatpak installations to =/flatpak/syncpak123=:
 + [[See ][PC Gaming Wiki]] describes Steam Library & Game Data locations
 
 #+begin_src sh :tangle .config/sh/profile.d/steam.sh :shebang #!/bin/sh
-export STEAM_DIR=$_STEAM/.steam
+export STEAM_DIR=$_STEAM/.var/app/com.valvesoftware.Steam/.steam
 export FLATPAK_STEAM_VAR=/flatpak/steam/.var
+
+# log with PROTON_LOG=1
+export PROTON_LOG_DIR=$_STEAM/log/proton
+export PROTON_CRASH_REPORT_DIR=$_STEAM/log/proton-crash
 
 alias run_steam="flatpak --installation=steam run com.valvesoftware.Steam"
 #+end_src
@@ -499,18 +503,20 @@ Julia [[https://docs.julialang.org/en/v1/manual/environment-variables/][Environm
 export JULIA_SHELL=/bin/sh
 export JULIA_EDITOR='emacsclient -nw'
 
+export JULIA_DEPOT_PATH="$_LANG/.julia:"
+export JULIA_LOAD_PATH="$_LANG/.julia:"
 #+end_src
 
 *** Wrapper
 
-#+begin_src sh :tangle (concat (getenv "_LANG") "/julia/.bin/julia")
+##+begin_src sh :tangle (concat (getenv "_LANG") "/julia/.bin/julia")
 # these variables may need to be exported to subshells
 # for pluto
 export PATH=$MINIFORGE_BIN:$PATH
 export PYTHON=$MINIFORGE_PYTHON
 export LD_LIBRARY_PATH=$JULIA_LIB:$MINIFORGE_LIB
 $JULIA_PATH/.bin/julia-$JULIA_VERSION/bin/julia "$@"
-#+end_src
+##+end_src
 
 *** Julia Direnv
 
