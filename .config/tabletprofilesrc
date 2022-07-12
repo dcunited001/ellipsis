@@ -1,0 +1,48 @@
+[056A:0357]
+CurrentProfileEntry=-1
+ProfileRotationList=
+
+[056A:0357][Default][eraser]
+Area=0 0 44800 29600
+Button1=1
+Button2=2
+Button3=3
+Mode=absolute
+PressureCurve=0 0 100 100
+RawSample=4
+Rotate=auto
+ScreenMap=DisplayPort-2:0 0 44800 29600|desktop:0 0 44800 29600
+ScreenSpace=DisplayPort-2
+Suppress=2
+TabletPcButton=off
+Threshold=27
+
+[056A:0357][Default][pad]
+AbsWheel2Down=5
+AbsWheel2Up=4
+AbsWheelDown=5
+AbsWheelUp=4
+Button1=10
+Button2=11
+Button3=12
+Button4=key ctrl
+Button5=key alt
+Button6=key shift
+Button7=14
+Button8=15
+Button9=13
+
+[056A:0357][Default][stylus]
+Area=0 0 44800 29600
+Button1=1
+Button2=2
+Button3=3
+Mode=absolute
+PressureCurve=0 0 100 100
+RawSample=4
+Rotate=auto
+ScreenMap=DisplayPort-2:0 0 44800 29600|desktop:0 0 44800 29600
+ScreenSpace=DisplayPort-2
+Suppress=2
+TabletPcButton=off
+Threshold=27
