@@ -229,7 +229,7 @@ set $preferredScreenCaptureTool /usr/bin/flameshot gui
 font pango:DejaVu Serif Mono 12  
 #+end_src
 
-
+i3 shim for Garuda
 
 #+begin_src conf :tangle .config/i3/garuda.shim :noweb yes :comments none
 set $preferredTerminalEmulator /usr/bin/alacritty
@@ -250,12 +250,12 @@ bindsym $super+t exec xfce4-terminal
 bindsym $super+l exec i3lock -i $lockScreenWallpaper
 
 exec --no-startup-id ~/.fehbg
-exec --no-startup-id xsettingsd &
+# exec --no-startup-id xsettingsd &
 #exec --no-startup-id pasystray
 exec --no-startup-id conky
 exec --no-startup-id conky -c ~/.config/conky/conky-shcts
-exec --no-startup-id copyq
-exec --no-startup-id dunst
+# exec --no-startup-id copyq
+# exec --no-startup-id dunst
 exec --no-startup-id dex -a -s /etc/xdg/autostart/:~/.config/autostart/
 exec --no-startup-id redshift
 exec --no-startup-id desktop-items
@@ -308,9 +308,9 @@ exec --no-startup-id desktop-items
 
 #+end_src
 
+The main i3 config
 
-
-#+begin_src conf :tangle .config/i3/config.bak :noweb yes :comments none
+#+begin_src conf :tangle .config/i3/config :noweb yes :comments none
 set $super Mod4
 set $alt Mod1
 

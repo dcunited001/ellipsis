@@ -804,7 +804,8 @@ Try to source =.bashrc=. If the shell is non-interactive, =.bashrc= will return
 If not running interactively, return
 
 #+begin_src sh :tangle .bashrc :shebang #!/bin/sh
-[[ $- != *i* ]] && return
+[[$- != *i* ]] && return
+shopt -s histappend
 #+end_src
 
 
