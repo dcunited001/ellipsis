@@ -215,8 +215,8 @@ Gtk/CursorThemeName "Sweet-cursors"
    "fcitx5-configtool"
    "fcitx5-chinese-addons"
    "fcitx5-material-color-theme"
-   ;; "fcitx5-gtk3"
-   ;; "fcitx5-qt"
+   "fcitx5-gtk3"
+   "fcitx5-qt"
    ))
 #+end_src
 

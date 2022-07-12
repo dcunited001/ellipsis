@@ -423,10 +423,10 @@ export GUIX_DEVDEBUG=$HOME/.guix-extra-profiles/devdebug/devdebug
 ** FCITX5
 
 #+begin_src shell :tangle .config/sh/profile.d/fcitx5.sh :shebang #!/bin/sh
-export QT_IM_MODULE=fcitx5
-export GTK_IM_MODULE=fcitx5
-export SDL_IM_MODULE=fcitx5
-export XMODIFIERS="@im=fcitx5"
+export QT_IM_MODULE=fcitx
+export GTK_IM_MODULE=fcitx
+export SDL_IM_MODULE=fcitx
+export XMODIFIERS="@im=fcitx"
 #+end_src
 
 ** GTK
