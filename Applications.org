@@ -1,0 +1,78 @@
+:PROPERTIES:
+:ID:       9f2705e8-9195-4e6a-bd01-90d0d3d84aba
+:END:
+#+TITLE:     Applications
+#+AUTHOR:    David Conner
+#+EMAIL:     noreply@te.xel.io
+#+DESCRIPTION: notes
+
+This goes over application setup, since applying the [[https://12factor.net][12 Factor]] approach to
+desktop apps is complicated.
+
+* Krita
+
+** Files
+
+*** Config
++ Persisted with Git
++ Three files
+  - kritarc
+  - kritashortcutsrc
+  - kritadisplayrc
+
+Unfortunately, these files contain KDE's trademark state-information, which
+makes them questionable for git.
+
+#+begin_quote
+I wish I knew what API would allow me to /generate/ these config files. KDE must
+have this on the backend for testing. It makes syncing KDE configs difficult and
+cumbersome, but it seems that these config lines don't make much of a difference.
+#+end_quote
+
+*** Data
++ Persisted by syncthing
++ Contains:
+  - brushes
+  - docker/window arrangements
+
+*** Cache
++ Ignored by syncthing
++ Contains:
+  - an index that is built the first time you run krita.
+  - things that should not be synced.
+
+** Distributions
+
+*** Pacman
+
+Running this will cause krita to pick up config changes in home
+
+*** Guix
+
+This should work ... but may cause problems depending on how the =data= and
+=cache= directory get setup. I'm guessing into =.local/share=.
+
+*** Flatpak
+
+Flatpak may work well if your flatpaks are installed to =$HOME=, but it still
+will not let you save/sync brushes to other machines (i.e. syncing the data dir)
+
++ Config :: $_FLATPAK_ROOT/.var/app/org.kde.krita/config
++ Data :: $_FLATPAK_ROOT/.var/app/org.kde.krita/data
++ Cache :: $_FLATPAK_ROOT/.var/app/org.kde.krita/data
+
+The flatpak app won't easily pick up config changes. I tried linking files, but
+depending on how the Flatpak accesses the files, then its permissions either
+will or won't allow it to pick up config/data/cache. In the case of Krita, the
+application can't readily pick up config changes, which defines the data/cache
+locations.
+
+The flatpak app doesn't seem to want to let go of
+=$_FLATPAK_ROOT/.var/app/org.kde.krita/data=.
+
+This is fine, since any configuration involving flatpak had at least 5 symlinks
+(to containerize the application installations, so they work identically machine
+to machine)
+
+
+* Blender
