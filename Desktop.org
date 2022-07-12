@@ -164,15 +164,29 @@ This needs to be copied after deploy. It needs to be modified if not running on 
 #+begin_src conf :tangle .config/xsettingsd/xsettingsd.conf :noweb yes :comments none
 Net/ThemeName "Matcha-dark-azul"
 Net/IconThemeName "Papirus-Dark"
+Gtk/ToolbarStyle 3  
+Gtk/EnableAnimations 1  
 Gtk/DecorationLayout "menu:minimize,maximize,close"
 Gtk/FontName "Cantarell 11"
 Gtk/MonospaceFontName "Fira Mono 10"
 Gtk/CursorThemeName "Adwaita"
+Gtk/PrimaryButtonWarpsSlider 0
+Gtk/MenuImages 1
+Gtk/ButtonImages 1
 Xft/Antialias 1
 Xft/Hinting 0
 Xft/HintStyle "hintnone"
 <<dpi()>> # 1024 * DPI
 #+end_src
+
+Misc settings from Garuda's KDE theme
+
+#+begin_example conf
+Net/IconThemeName "BeautyLine"
+Gtk/FontName "Fira Sans,  10"
+Gtk/CursorThemeSize 24
+Gtk/CursorThemeName "Sweet-cursors"
+#+end_example
 
 *DPI*
 
@@ -215,6 +229,7 @@ Xft/HintStyle "hintnone"
 
 ** i3
 
+i3 shim for guix
 
 #+begin_src conf :tangle .config/i3/guix.shim :noweb yes :comments none
 set $preferredTerminalEmulator /usr/bin/alacritty

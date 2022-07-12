@@ -1,0 +1,7 @@
+
+#+TITLE:     Nyxt Config
+#+AUTHOR:    David Conner
+#+EMAIL:     noreply@te.xel.io
+#+DESCRIPTION: notes
+
+referencing [[github:aartaka/nyxt-config][aartaka/nyxt-config]] and others

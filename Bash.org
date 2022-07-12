@@ -30,6 +30,7 @@
   - [[#java][Java]]
   - [[#node][Node]]
   - [[#graphviz][Graphviz]]
+  - [[#python][Python]]
   - [[#julia][Julia]]
 - [[#profile][Profile]]
   - [[#profile-1][=.profile=]]
@@ -495,6 +496,23 @@ export _JAVA_AWT_WM_NONREPARENTING=1
 export GRAPHVIZ_DOT=$HOME/.guix-extra-profiles/desktop/desktop/bin/dot
 #+end_src
 
+** Python
+
+#+begin_src sh :tangle .config/sh/profile.d/python.sh :shebang #!/bin/sh
+# to manually specify where venv's are set up
+# export WORKON_HOME=~/.venvs
+export PIPENV_VENV_IN_PROJECT=1
+
+# to load an alternate .env file
+#PIPENV_DOTENV_LOCATION=/path/to/.env pipenv shell
+
+# to prevent loading of .env files (containing config secrets)
+# PIPENV_DONT_LOAD_ENV=1
+
+# to setup shell completion in bash
+# eval "$(_PIPENV_COMPLETE=bash_source pipenv)"
+#+end_src
+
 ** Julia
 
 Julia [[https://docs.julialang.org/en/v1/manual/environment-variables/][Environment Variables]]
@@ -507,22 +525,8 @@ export JULIA_DEPOT_PATH="$_LANG/.julia:"
 export JULIA_LOAD_PATH="$_LANG/.julia:"
 #+end_src
 
-*** Wrapper
+This configuration is intended to be used on archlinux.
 
-##+begin_src sh :tangle (concat (getenv "_LANG") "/julia/.bin/julia")
-# these variables may need to be exported to subshells
-# for pluto
-export PATH=$MINIFORGE_BIN:$PATH
-export PYTHON=$MINIFORGE_PYTHON
-export LD_LIBRARY_PATH=$JULIA_LIB:$MINIFORGE_LIB
-$JULIA_PATH/.bin/julia-$JULIA_VERSION/bin/julia "$@"
-##+end_src
-
-*** Julia Direnv
-
-=use julia_system()= will use a common set of packages.
-
-+ This may not end up working out, but julia packages quickly get large.
 
 #+begin_src sh :tangle .config/direnv/direnvrc :shebang #!/bin/sh
 
@@ -538,13 +542,7 @@ use_julia_system() {
     export JULIA_BIN="$JULIA_PATH/.bin/julia-$JULIA_VERSION/bin/julia"
     export JULIA_LIB="$JULIA_PATH/.bin/julia-$JULIA_VERSION/lib/julia"
 
-    export MINIFORGE_BIN=$_LANG/miniforge3/bin
-    export MINIFORGE_LIB=$_LANG/miniforge3/lib
-    export MINIFORGE_PYTHON=$_LANG/miniforge3/bin/python
-
-    export _LOAD_PYTHON=fdsa
-
-    PATH_add "$JULIA_PATH/.bin" "$MINIFORGE_BIN"
+    PATH_add "$JULIA_PATH/.bin"
 
     alias pluto='julia --project=nb --threads=auto -e "using Pluto; Pluto.run(port=4321)"'
 }
@@ -553,145 +551,9 @@ use_julia_system() {
 Julia .envrc template:
 
 #+begin_src sh :tangle .config/direnv/.julia.envrc
-#use guix --manifest=julia-system.scm
-#use guixs_cached --manifest=julia-system.scm
-
-# ld-linux via glibc is in devtools, which should already be loaded
-GUIX_PROFILE=/home/dc/.guix-extra-profiles/devdebug/devdebug
-source $GUIX_PROFILE/etc/profile
-
 use julia_system
 #watch_file /home/dc/.config/direnv/direnvrc
 #+end_src
-
-*** Packages Requiring 64bit Dynamic Libs
-
-The =julia= Guix package works with most Julia packages if configured with a
-manifest containing the single packaging (or configured with guix packages
-only). However, some julia packages won't run without external Guix channels that address the lack of =ld-linux-ld-linux-x86-64.so.2=:
-
-+ Requiring 64bit openblas:
-  + StatsPlots
-  + MultivariateStats
-+ Requiring 64bit python (via miniconda)
-  + TensorFlow
-  + SymPy (for computer algebra)
-
-
-Patch julia's binary with:
-
-#+begin_src sh :eval no
-actual_julia="$JULIA_PATH/.bin/julia-$JULIA_VERSION/bin/julia"
-actual_7z="$JULIA_PATH/.bin/julia-$JULIA_VERSION/libexec/7z"
-
-# then patch (after loading use_julia_system() with direnv)
-patchelf --set-interpreter $GUIX_DEVTOOLS/lib/ld-linux-x86-64.so.2 $actual_julia
-patchelf --set-interpreter $GUIX_DEVTOOLS/lib/ld-linux-x86-64.so.2 $actual_7z
-#+end_src
-
-**** Setup Conda for Tensorflow and SymPy
-
-The point of going through this process instead of using a Guix python is so all the libs are happily compatible in 64b ways.
-
-+ There's probably a better way, but I don't have time. I just need computer algebra.
-+ These notes here are in case I have to do this again (which I shouldn't).
-
-These require a patched miniconda. Julia Pkg will try to download it into cache and fail. Find it in cache =$_LANG/.julia/conda/3=, patch =conda.exe=.
-
-#+begin_src sh :eval no
-julia_conda="$_LANG/.julia/conda/3"
-patchelf --set-interpreter $GUIX_DEVTOOLS/lib/ld-linux-x86-64.so.2 $julia_conda/conda.exe
-#+end_src
-
-Then run =PREFIX=_LANG/miniforge3 ./installer.sh=. Pick a more permanent install location like =$_LANG/miniforge3=
-
-The installer will have extracted its contents, but will try to install =miniforge3= and fail for the same reason. Patch it (SMH).
-
-#+begin_src sh :eval no
-julia_miniforge3="$_LANG/miniforge3"
-patchelf --set-interpreter $GUIX_DEVTOOLS/lib/ld-linux-x86-64.so.2 $julia_miniforge3/conda.exe
-#+end_src
-
-To prevent the conda installer from blowing away the miniforge boostrap you just patched, run =PREFIX=$julia_miniforge3 $_LANG/.julia/conda/3/installer.sh -u= with =-u= ...
-
-But actually =installer.sh= will ignore the =FORCE= variable and just clobber
-your patched binary anyways. So edit the =installer.sh= and comment this line:
-
-#+begin_src sh :eval no
-extract_range $boundary0 $boundary1 > $CONDA_EXEC
-#+end_src
-
-It will delete the patched =$julia_miniforge3/conda.exe= et cetera. Run this to determine whether it's complete, otherwise grep the file for the =find= command and interpolate.
-
-#+begin_src sh :eval no
-# if this returns no empty directories, the installer is complete
-find $julia_miniforge/pkgs -type d -empty
-#+end_src
-
-Finally, patch the top-level executables in =$julia_miniforge=.
-
-#+begin_src sh :eval no
-julia_miniforge3="$_LANG/miniforge3"
-patchelf --set-interpreter $GUIX_DEVTOOLS/lib/ld-linux-x86-64.so.2 $julia_miniforge3/bin/python
-#+end_src
-
-Congrats. You've reached the end ... for now. But that =ld-linux= file should be owned by root. Technically it is, but the symlink^3 is not. The good news is the =ld-linux= reference doesn't need to be updated and should still dynamically link in libs even when profiles are updated.
-
-**** Build TensorFlow
-
-When running julia, =PYTHON= will need to be set and =MINIFORGE_BIN= will need to be in your path.
-
-If you already added TensorFlow, it may give a build cache error from a partial build of itself or one of its dependencies. Remove it, update the remaining packages in the =Project.toml=, then add Tensorflow back.
-
-Hopefully this runs good (bc countless bins in that python dir)
-
-**** Build StatsPlots
-
-Build cache cleared, but it keeps coming back...
-
-**** Setup Conda Env
-
-Get a clean env. Ensure that Julia installs packages properly. When one requires python, it will blow up.
-
-Run =conda init bash= which will modify =.bashrc=, but offers a =--json= option that doesn't output anything (when on miniforge? i donno). So, in theory, I could parse with =jq= and pipe to a file I can modify.
-
-But it's ok because conda is simple python for simple man:
-
-=conda install sympy tensorflow=
-
-*** Setup
-
-Julia depot path is where package bins, logs, etc are found. Projects using =$JULIA_DEPOT_PATH= will share the bin packages satisfying =Project.toml= requirements.
-
-+ Julia packages do require significant space.
-+ GC can be run to clean up old packages.
-
-#+begin_src shell :eval no
-# main JULIA_DEPOT_PATH and JULIA_LOAD_PATH for direnv use_julia_system()
-[[ ! -d $_LANG/.julia ]] && mkdir -p $_LANG/.julia
-[[ ! -d $_LANG/julia ]] && mkdir -p $_LANG/julia
-[[ ! -d $_LANG/julia/.bin ]] && mkdir -p $_LANG/julia/.bin
-
-# julia will still try to download to ~/.julia
-ln -s /data/lang/.julia $HOME/.julia
-
-# after downloading the official julia
-ln -s /$_LANG/julia/.bin/julia-$JULIA_VERSION/bin/julia $_LANG/julia/.bin/julia
-#+end_src
-
-**** Registry Issues
-
-Pkg Servers may be running outdated versions of the General Registry. This
-causes HTTPS or validation failures. See [[https://discourse.julialang.org/t/general-registry-delays-and-a-workaround/67537][this discourse]] for the fix.
-
-+ Also, to debug artifacts, use https://github.com/giordano/DebugArtifacts.jl,
-
-*** Pluto
-
-+ The dependencies are in the [[file:.config/guix/manifests/julia-pluto.scm][julia-pluto.scm]] manifest.
-+ The pluto service is defined in the [[.config/shepherd/init.d/julia-pluto.scm][julia-pluto.scm]] service.
-
-Start pluto with =julia --project=nb --threads=auto -e "using Pluto; Pluto.run(port=4321)"=
 
 * Profile
 :PROPERTIES:
@@ -804,16 +666,40 @@ Try to source =.bashrc=. If the shell is non-interactive, =.bashrc= will return
 If not running interactively, return
 
 #+begin_src sh :tangle .bashrc :shebang #!/bin/sh
-[[$- != *i* ]] && return
+[[ $- != *i* ]] && return
 shopt -s histappend
 #+end_src
 
-
 #+begin_src sh :tangle .bashrc :shebang #!/bin/sh
+# commandline color by default
 alias ls='ls --color=auto'
-alias grep='grep --color=auto'
+alias dir='dir --color=auto'
+alias egrep='egrep --color=auto'
+alias fgrep='fgrep --color=auto'
 alias diff='diff --color=auto'
+alias grep='grep --color=auto'
+alias grubup="sudo update-grub"
+alias hw='hwinfo --short'
+alias psmem10='ps auxf | sort -nr -k 4 | head -10'
+alias psmem='ps auxf | sort -nr -k 4'
+alias tarnow='tar -acf '
+alias untar='tar -zxvf '
+alias upd='/usr/bin/update'
+alias vdir='vdir --color=auto'
+alias wget='wget -c '
+
+# systemd
+alias jctl="journalctl -p 3 -xb"
 alias sysu='systemctl --user'
+
+# pacman
+alias fixpacman="sudo rm /var/lib/pacman/db.lck"
+alias rmpkg="sudo pacman -Rdd"
+alias cleanup='sudo pacman -Rns `pacman -Qtdq`'
+alias rip="expac --timefmt='%Y-%m-%d %T' '%l\t%n %v' | sort | tail -200 | nl"
+
+# Advanced command-not-found hook
+# source /usr/share/doc/find-the-command/ftc.bash
 
 alias emacs-debug-wayland='WAYLAND_DEBUG=1 emacs --fg-daemon > $HOME/.cache/log/emacs.wayland.`date +%Y-%m%d-%H%M`.log 2>&1'
 
