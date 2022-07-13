@@ -27,3 +27,17 @@ only after it's done.")
 ;;                (nyxt-init-file "status.lisp")
 ;;                (nyxt-init-file "commands.lisp")))
 ;;   (load file))
+;; (define-configuration status-buffer ((height 40)))
+
+;; -F1 s to
+(define-configuration buffer
+    ((default-modes (append '(nyxt::emacs-mode)
+                            %slot-default%))
+     ;; (current-zoom-ratio 0.75)
+     ))
+
+
+;; browser inherits from buffer
+(define-configuration browser
+    ((session-restore-prompt :never-restore))
+  )

@@ -52,6 +52,7 @@
   - [[#flatpak][Flatpak]]
     - [[#fontconfig-fix][Fontconfig fix]]
   - [[#printing][Printing]]
+  - [[#system][System]]
 - [[#desktop-profiles][Desktop Profiles]]
   - [[#desktop-profile][Desktop Profile]]
   - [[#desktop-bin-profile][Desktop Bin Profile]]
@@ -1915,6 +1916,12 @@ flatpak --user override \
 
 #+end_src
 
+** System
+
+#+begin_src scheme :noweb-ref packages :noweb-sep ""
+"d-feet"
+;; "systemdgenie"
+#+end_src
 
 * Desktop Profiles
 
