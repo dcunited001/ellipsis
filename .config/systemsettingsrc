@@ -1,15 +1,14 @@
 [MainWindow]
 DisplayPort-2 DisplayPort-1 HDMI-A-0 Height 2560x1440=700
-DisplayPort-2 DisplayPort-1 HDMI-A-0 Height 3840x2160=668
-DisplayPort-2 DisplayPort-1 HDMI-A-0 Width 2560x1440=1020
-DisplayPort-2 DisplayPort-1 HDMI-A-0 Width 3840x2160=1906
+DisplayPort-2 DisplayPort-1 HDMI-A-0 Height 3840x2160=1011
+DisplayPort-2 DisplayPort-1 HDMI-A-0 Width 2560x1440=1906
+DisplayPort-2 DisplayPort-1 HDMI-A-0 Width 3840x2160=1239
 DisplayPort-2 DisplayPort-1 HDMI-A-0 XPosition 2560x1440=4157
-DisplayPort-2 DisplayPort-1 HDMI-A-0 XPosition 3840x2160=1815
+DisplayPort-2 DisplayPort-1 HDMI-A-0 XPosition 3840x2160=7
 DisplayPort-2 DisplayPort-1 HDMI-A-0 YPosition 2560x1440=431
-DisplayPort-2 DisplayPort-1 HDMI-A-0 YPosition 3840x2160=497
+DisplayPort-2 DisplayPort-1 HDMI-A-0 YPosition 3840x2160=1138
 DisplayPort-2 HDMI-A-0 DisplayPort-1 XPosition 3840x2160=1698
 DisplayPort-2 HDMI-A-0 DisplayPort-1 YPosition 3840x2160=747
 MenuBar=Disabled
-RestorePositionForNextInstance=false
-State=AAAA/wAAAAD9AAAAAAAABe0AAAK8AAAABAAAAAQAAAAIAAAACPwAAAABAAAAAgAAAAEAAAAWAG0AYQBpAG4AVABvAG8AbABCAGEAcgAAAAAA/////wAAAAAAAAAA
+State=AAAA/wAAAAD9AAAAAAAABNcAAAPzAAAABAAAAAQAAAAIAAAACPwAAAABAAAAAgAAAAEAAAAWAG0AYQBpAG4AVABvAG8AbABCAGEAcgAAAAAA/////wAAAAAAAAAA
 ToolBarsMovable=Disabled

@@ -164,9 +164,9 @@ Switch to Desktop 6=none,,Switch to Desktop 6
 Switch to Desktop 7=none,,Switch to Desktop 7
 Switch to Desktop 8=none,,Switch to Desktop 8
 Switch to Desktop 9=none,,Switch to Desktop 9
-Switch to Next Desktop=,,Switch to Next Desktop
+Switch to Next Desktop=Meta+Tab,,Switch to Next Desktop
 Switch to Next Screen=none,,Switch to Next Screen
-Switch to Previous Desktop=,,Switch to Previous Desktop
+Switch to Previous Desktop=Meta+Shift+Tab,,Switch to Previous Desktop
 Switch to Previous Screen=none,,Switch to Previous Screen
 Switch to Screen 0=none,,Switch to Screen 0
 Switch to Screen 1=none,,Switch to Screen 1
@@ -363,7 +363,7 @@ Turn Off Screen=none,none,Turn Off Screen
 _k_friendly_name=Power Management
 
 [plasmashell]
-_k_friendly_name=Latte Dock
+_k_friendly_name=Activity switching
 activate task manager entry 1=Meta+1,Meta+1,Activate Task Manager Entry 1
 activate task manager entry 10=Meta+0,Meta+0,Activate Task Manager Entry 10
 activate task manager entry 2=Meta+2,Meta+2,Activate Task Manager Entry 2
