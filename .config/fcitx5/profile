@@ -1,6 +1,6 @@
 [Groups/0]
 # Group Name
-Name="Group 1"
+Name="Group 2"
 # Layout
 Default Layout=us-altgr-intl
 # Default Input Method
@@ -14,7 +14,7 @@ Layout=
 
 [Groups/1]
 # Group Name
-Name="Group 2"
+Name="Group 1"
 # Layout
 Default Layout=us-altgr-intl
 # Default Input Method
@@ -23,6 +23,18 @@ DefaultIM=keyboard-us-altgr-intl
 [Groups/1/Items/0]
 # Name
 Name=keyboard-us-altgr-intl
+# Layout
+Layout=
+
+[Groups/1/Items/1]
+# Name
+Name=keyboard-gr
+# Layout
+Layout=
+
+[Groups/1/Items/2]
+# Name
+Name=anthy
 # Layout
 Layout=
 
