@@ -1,5 +1,5 @@
 [$Version]
-update_info=kwin.upd:replace-scalein-with-scale,kwin.upd:port-minimizeanimation-effect-to-js,kwin.upd:port-scale-effect-to-js,kwin.upd:port-dimscreen-effect-to-js,kwin.upd:auto-bordersize,kwin.upd:animation-speed,kwin.upd:desktop-grid-click-behavior,kwin.upd:no-swap-encourage,kwin.upd:make-translucency-effect-disabled-by-default,kwin.upd:remove-flip-switch-effect,kwin.upd:remove-cover-switch-effect,kwin.upd:remove-cubeslide-effect,kwin.upd:remove-xrender-backend
+update_info=kwin.upd:replace-scalein-with-scale,kwin.upd:port-minimizeanimation-effect-to-js,kwin.upd:port-scale-effect-to-js,kwin.upd:port-dimscreen-effect-to-js,kwin.upd:auto-bordersize,kwin.upd:animation-speed,kwin.upd:desktop-grid-click-behavior,kwin.upd:no-swap-encourage,kwin.upd:make-translucency-effect-disabled-by-default,kwin.upd:remove-flip-switch-effect,kwin.upd:remove-cover-switch-effect,kwin.upd:remove-cubeslide-effect,kwin.upd:remove-xrender-backend,kwin.upd:animation-speed-cleanup,bismuth_new_logger.upd:bismuth-new-logger
 
 [Compositing]
 GLCore=true
@@ -21,6 +21,7 @@ MoveResize=100
 Meta=org.kde.lattedock,/Latte,org.kde.LatteDock,activateLauncherMenu
 
 [Plugins]
+bismuthEnabled=true
 blurEnabled=false
 contrastEnabled=false
 fallapartEnabled=true
@@ -36,6 +37,12 @@ minimizeallEnabled=false
 synchronizeskipswitcherEnabled=false
 videowallEnabled=false
 zoomEnabled=false
+
+[Script-bismuth]
+screenGapBottom=7
+screenGapLeft=3
+screenGapRight=4
+tileLayoutGap=5
 
 [Script-krohnkite]
 ignoreClass=krunner,yakuake,spectacle,kded5,pwsafe,dolphin

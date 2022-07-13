@@ -15,9 +15,9 @@ IntensityEffect=2
 [ColorEffects:Inactive]
 ChangeSelectionColor=true
 Color=112,111,110
-ColorAmount=0.025
+ColorAmount=0.025000000000000001
 ColorEffect=2
-ContrastAmount=0.1
+ContrastAmount=0.10000000000000001
 ContrastEffect=2
 Enable=false
 IntensityAmount=0
@@ -136,6 +136,7 @@ ForegroundPositive=39,174,96
 ForegroundVisited=155,89,182
 
 [General]
+ColorSchemeHash=080f3f8eac020ac566c252909d74ead45adfd52c
 Name=Breeze Light
 UseSystemBell=true
 XftHintStyle=hintslight
@@ -160,9 +161,10 @@ Show Full Path=false
 Show Inline Previews=true
 Show Preview=false
 Show Speedbar=true
-Show hidden files=false
+Show hidden files=true
 Sort by=Name
 Sort directories first=true
+Sort hidden files last=false
 Sort reversed=false
 Speedbar Width=138
 View Style=DetailTree
