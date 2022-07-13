@@ -1,0 +1,69 @@
+#+TITLE:     XKB: Config
+#+AUTHOR:    David Conner
+#+EMAIL:     noreply@te.xel.io
+#+DESCRIPTION: notes
+
+* Setup
+
++ This directory should be linked from =$HOME/.xkb=
++ Compile the layout with =xkbcomp -I$HOME/.xkb $HOME/.xkb/io.altgr-intl.xkb=
++ Then, in =.xsession=, run =$HOME/.bin/set_xkbcomp=
+
+* Resources
+
++ [[Have you Hyper for Great Good][Have you Hyper for Great Good]]
++ [[https://wiki.archlinux.org/title/X_keyboard_extension][X Keyboard extension]] (archwiki)
++ [[https://www.charvolant.org/doug/xkb/html/node3.html][Charvolant xkb modifiers]]
++ [[https://askubuntu.com/a/41585][Key to choose 5th level]] a
++ Keyboard format expected by =setxkbmap=
+
+Find X11 keyboard configs with: =find /gnu/store/ -wholename "*xkb/symbols" -type d=. They are in the =xkeyboard-config= package.
+
+* Customize
+
++ =xkbcomp -I$HOME/.xkb $HOME/io.altgr-intl.xkb $DISPLAY=
+
+Can roll this into a single step with:
+
+=setxkbmap -print -layout io -variant altgr-intl | xkbcomp -I~/.xkb/ $DISPLAY=
+
+(but it still doesn't load)
+
+** IO
+
+Ensure the keymap has been loaded into X11 with =setxkbmap -query io=
+
+#+begin_src java :tangle ./io.altgr-intl.xkb
+xkb_keymap {
+  xkb_keycodes  { include "evdev+aliases(qwerty)" };
+  xkb_types     { include "complete" };
+  xkb_compat    { include "complete" };
+  xkb_symbols   { include "pc+io(altgr-intl)+inet(evdev)+level3(ralt_alt)+level3(menu_switch)+io(hypermod5)" };
+  //xkb_geometry  { include "pc(pc105)" };
+};
+#+end_src
+
+And the config file (may not be necessary). This is an older, alternate method
+of loading a keyboard. load it with =setxkbmap -config ~/.xkb/$layout.keyboard=
+
+#+begin_src conf :tangle ./io.altgr-intl.keyboard
+Rules    =  "xorg"
+Model    =  "pc105"
+Layout   =  "io"
+Variant  =  "altgr-intl"
+#Options  =  "level3:ralt_alt,level3:menu_switch,io:hypermod5"
+#+end_src
+
+** Basic altgr-intl
+
+Example top-level config for =pc+us(altgr-intl)=
+
+#+begin_src java :tangle ./us.altgr-intl.xkb
+xkb_keymap {
+  xkb_keycodes  { include "evdev+aliases(qwerty)" };
+  xkb_types     { include "complete" };
+  xkb_compat    { include "complete" };
+  xkb_symbols   { include "pc+us(altgr-intl)+inet(evdev)+level3(ralt_alt)+level3(menu_switch)+capslock(hyper)" };
+  //xkb_geometry  { include "pc(pc105)" };
+};
+#+end_src

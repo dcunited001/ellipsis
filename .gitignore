@@ -21,6 +21,9 @@ misc/**
 .config/sh/profile.d/*.sh
 !.config/sh/*.eg.sh
 
+# direnv
+.config/guix/shell-authorized-directories
+
 # /etc/skel to diff from various distros
 skel-images/**/*
 !skel-images/.gitkeep

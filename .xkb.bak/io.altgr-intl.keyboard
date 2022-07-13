@@ -1,0 +1,5 @@
+Rules    =  "xorg"
+Model    =  "pc105"
+Layout   =  "io"
+Variant  =  "altgr-intl"
+#Options  =  "level3:ralt_alt,level3:menu_switch,io:hypermod5"

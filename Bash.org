@@ -36,6 +36,8 @@
 - [[#profile][Profile]]
   - [[#profile-1][=.profile=]]
 - [[#alacritty][Alacritty]]
+- [[#tools][Tools]]
+  - [[#screen][Screen]]
 - [[#shells][Shells]]
   - [[#rc][RC]]
   - [[#bash][Bash]]
@@ -692,6 +694,22 @@ Try to source =.bashrc=. If the shell is non-interactive, =.bashrc= will return
 #[[ -f $HOME/.bashrc ]] && source $HOME/.bashrc
 #+end_src
 
+
+
+* Tools
+:PROPERTIES:
+:header-args+: :comments link :mkdirp yes
+:END:
+
+** Screen
+
+*** TODO basic screenrc
+
+#+begin_src sh :tangle .screenrc
+
+#+end_src
+
+*** Scripts
 
 * Shells
 :PROPERTIES:
