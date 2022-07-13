@@ -11,6 +11,11 @@ desktop apps is complicated.
 
 * Krita
 
+** Issues
+
++ Can't save workspaces
++ Brushes reset unless restoring from a $XDG_DATA_HOME copy
+
 ** Files
 
 *** Config
