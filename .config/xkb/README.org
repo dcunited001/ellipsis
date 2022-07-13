@@ -1,3 +1,6 @@
+:PROPERTIES:
+:ID:       7e38e97b-fb94-45b4-a767-0bb28882f096
+:END:
 #+TITLE:     XKB Notes
 #+AUTHOR:    David Conner
 #+EMAIL:     noreply@te.xel.io

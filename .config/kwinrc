@@ -15,6 +15,7 @@ Rows=1
 ZoomFactor=0.9999999999999998
 
 [Effect-kwin4_effect_translucency]
+IndividualMenuConfig=true
 MoveResize=100
 
 [ModifierOnlyShortcuts]
@@ -26,20 +27,20 @@ blurEnabled=false
 contrastEnabled=false
 fallapartEnabled=true
 forceblurEnabled=false
+invertEnabled=true
 krohnkiteEnabled=true
 kwin4_effect_dimscreenEnabled=true
 kwin4_effect_loginEnabled=false
 kwin4_effect_logoutEnabled=false
-kwin4_effect_translucencyEnabled=true
 kwin4_effect_zoomdesktopEnabled=false
-lattewindowcolorsEnabled=false
+lattewindowcolorsEnabled=true
 minimizeallEnabled=false
 synchronizeskipswitcherEnabled=false
 videowallEnabled=false
 zoomEnabled=false
 
 [Script-bismuth]
-floatingClass=(?i)virtualbox,GParted,Lxappearance,Nitrogen,Oblogout,octopi,Skype,Xfburn,qt5ct,Gnuplot,Timeset-gui,Lightdm-settings,Qtconfig-qt4,Simple-scan,Pamac-updater,Pamac-manager,azote,GParted,Thunar,Alacritty,Anki
+floatingClass=(?i)virtualbox,GParted,Lxappearance,Nitrogen,Oblogout,octopi,Skype,Xfburn,qt5ct,Gnuplot,Timeset-gui,Lightdm-settings,Qtconfig-qt4,Simple-scan,Pamac-updater,Pamac-manager,azote,GParted,Thunar,alacritty,Anki
 floatingTitle=Preferences,Configure Krita,- Krita$,Remmina,Steam - News,Friends List,Steam Guard.*,Steam Login
 ignoreClass=yakuake,spectacle,Conky,zoom,pwsafe,keepassxc,Clipgrab,fpakman,Galculator,Manjaro-hello,Garuda Settings Manager,garuda-welcome,mpv,Xfburn,Lxtask,Pavucontrol,Exo-helper*,Lxrandr,Arandr,Viewnior,feh,Audacious,File-roller,Lxappearance,Timeshift-gtk,Manjaro Settings Manager
 ignoreRole=quake,task_dialog,pop-up
@@ -48,6 +49,7 @@ screenGapBottom=7
 screenGapLeft=3
 screenGapRight=4
 tileLayoutGap=5
+untileByDragging=false
 
 [Script-krohnkite]
 ignoreClass=krunner,yakuake,spectacle,kded5,pwsafe,dolphin

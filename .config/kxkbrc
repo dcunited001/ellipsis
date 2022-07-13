@@ -1,12 +1,6 @@
 [$Version]
-update_info=kxkb_variants.upd:split-variants
+update_info=kxkb.upd:remove-empty-lists,kxkb.upd:add-back-resetoptions,kxkb_variants.upd:split-variants
 
 [Layout]
-DisplayNames=
-LayoutList=io
-LayoutLoopCount=-1
-Model=pc104
-ResetOldOptions=false
-SwitchMode=Global
-Use=true
-VariantList=io-dead-altgr
+Options=caps:escape,lv3:ralt_alt,lv3:menu_switch
+ResetOldOptions=true
