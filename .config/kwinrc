@@ -39,6 +39,11 @@ videowallEnabled=false
 zoomEnabled=false
 
 [Script-bismuth]
+floatingClass=(?i)virtualbox,GParted,Lxappearance,Nitrogen,Oblogout,octopi,Skype,Xfburn,qt5ct,Gnuplot,Timeset-gui,Lightdm-settings,Qtconfig-qt4,Simple-scan,Pamac-updater,Pamac-manager,azote,GParted,Thunar,Alacritty,Anki
+floatingTitle=Preferences,Configure Krita,- Krita$,Remmina,Steam - News,Friends List,Steam Guard.*,Steam Login
+ignoreClass=yakuake,spectacle,Conky,zoom,pwsafe,keepassxc,Clipgrab,fpakman,Galculator,Manjaro-hello,Garuda Settings Manager,garuda-welcome,mpv,Xfburn,Lxtask,Pavucontrol,Exo-helper*,Lxrandr,Arandr,Viewnior,feh,Audacious,File-roller,Lxappearance,Timeshift-gtk,Manjaro Settings Manager
+ignoreRole=quake,task_dialog,pop-up
+ignoreTitle=alsamixer,Event Tester
 screenGapBottom=7
 screenGapLeft=3
 screenGapRight=4

@@ -186,7 +186,7 @@ Walk Through Windows=Alt+Tab,Alt+Tab,Walk Through Windows
 Walk Through Windows (Reverse)=Alt+Shift+Backtab,Alt+Shift+Backtab,Walk Through Windows (Reverse)
 Walk Through Windows Alternative=none,,Walk Through Windows Alternative
 Walk Through Windows Alternative (Reverse)=none,,Walk Through Windows Alternative (Reverse)
-Walk Through Windows of Current Application=,Alt+`,Walk Through Windows of Current Application
+Walk Through Windows of Current Application=none,Alt+`,Walk Through Windows of Current Application
 Walk Through Windows of Current Application (Reverse)=Meta+~,Alt+~,Walk Through Windows of Current Application (Reverse)
 Walk Through Windows of Current Application Alternative=none,,Walk Through Windows of Current Application Alternative
 Walk Through Windows of Current Application Alternative (Reverse)=none,,Walk Through Windows of Current Application Alternative (Reverse)
@@ -363,7 +363,7 @@ Turn Off Screen=none,none,Turn Off Screen
 _k_friendly_name=Power Management
 
 [plasmashell]
-_k_friendly_name=Activity switching
+_k_friendly_name=Latte Dock
 activate task manager entry 1=Meta+1,Meta+1,Activate Task Manager Entry 1
 activate task manager entry 10=Meta+0,Meta+0,Activate Task Manager Entry 10
 activate task manager entry 2=Meta+2,Meta+2,Activate Task Manager Entry 2
