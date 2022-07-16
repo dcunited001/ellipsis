@@ -355,7 +355,7 @@ set $rofi-file-icons <<get-setting(name="rofi/file-icons")>>
 set $lockScreenWallpaper /data/xdg/Wallpapers/anime/blood-blockade-wallpaper.jpg
 
 include <<get-setting(name="i3/shim")>>
-    
+
 ### Applications: ###
 
 
@@ -427,7 +427,7 @@ bindsym $super+Shift+Print --release exec --no-startup-id i3-scrot -s
 # installed.
 # bindsym $super+d exec --no-startup-id i3-dmenu-desktop
 
-bindsym $super+m exec --no-startup-id dmenu_screenlayout
+bindsym $super+m exec --no-startup-id dmenu-screenlayout
 
 # change focus
 # bindsym $super+j focus left
@@ -690,8 +690,10 @@ for_window [class="krita"] move container to workspace $ws8
 for_window [class="krita" title="^Configure.*"] floating enable
 
 # IRC
-for_window [class=quassel] floating enable
-for_window [class=quassel] move container to workspace $ws9
+assign [class=quassel] $ws9
+assign [class=discord] $ws9
+#for_window [class=quassel] floating disable
+#for_window [class=quassel] move container to workspace $ws9
 for_window [class=konversation title="^Quassel IRC -"] floating disable
 for_window [class=konversation] floating enable
 for_window [class=konversation] move container to workspace $ws9
@@ -748,7 +750,7 @@ bar {
 
     # manjaro
     # colors {
-        
+
     #     background #222D31
     #     statusline #F9FAF9
     #     separator  #454947
@@ -760,14 +762,14 @@ bar {
     #     binding_mode       #16a085 #2C2C2C #F9FAF9
     #     urgent_workspace   #16a085 #FDF6E3 #E5201D
     # }
-    
-    # garuda 
+
+    # garuda
     colors {
-	# garuda
+    # garuda
         background #2f343f
         statusline #FFFFFF
         separator  #666666
-	
+
         focused_workspace  #4C7899 #285577 #FFFFFF
         active_workspace   #333333 #222222 #FFFFFF
         inactive_workspace #333333 #222222 #888888

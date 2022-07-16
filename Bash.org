@@ -43,8 +43,9 @@
   - [[#bash][Bash]]
   - [[#zsh][Zsh]]
 - [[#environment-1][Environment]]
-  - [[#main][Main]]
-  - [[#debugging][Debugging]]
+  - [[#main][main]]
+  - [[#devtools][devtools]]
+  - [[#devdebug][devdebug]]
   - [[#yubikey][Yubikey]]
   - [[#xdg-1][XDG]]
   - [[#languages-1][Languages]]
@@ -929,7 +930,7 @@ if [ -f $HOME/.profile ]; then . $HOME/.profile; fi
   ))
 #+end_src
 
-** Debugging
+** devdebug
 
 #+begin_src scheme :tangle ".config/guix/manifests/devdebug.scm"
 (specifications->manifest
