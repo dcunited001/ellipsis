@@ -230,6 +230,18 @@ Gtk/CursorThemeName "Sweet-cursors"
 
 ** i3
 
+
+*Guix Packages*
+
+#+begin_src scheme :noweb-ref i3packages :noweb-sep ""
+
+"i3-gaps"
+"i3status"
+"i3lock"
+"j4-dmenu-desktop"
+
+#+end_src
+
 i3 shim for guix
 
 #+begin_src conf :tangle .config/i3/guix.shim :noweb yes :comments none
@@ -718,17 +730,6 @@ default_border pixel 3
 gaps inner 7
 gaps outer 0
 hide_edge_borders both
-
-#+end_src
-
-*Guix Packages*
-
-#+begin_src scheme :noweb-ref i3packages :noweb-sep ""
-
-"i3-gaps"
-"i3status"
-"i3lock"
-"j4-dmenu-desktop"
 
 #+end_src
 

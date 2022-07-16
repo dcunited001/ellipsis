@@ -909,7 +909,6 @@ if [ -f $HOME/.profile ]; then . $HOME/.profile; fi
   "htop"
 
   "openssh"
-  "screen"
 
   "zip"
   "unzip"
@@ -1002,6 +1001,7 @@ utils in the environment, but this is split out anyways...
       "xrdb"
       "xhost"
       "xss-lock"
+      "xscreensaver"
 
       "xrandr"
       "arandr"
