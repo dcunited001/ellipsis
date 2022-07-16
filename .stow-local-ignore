@@ -11,6 +11,7 @@ mail
 fonts
 ^/.*\.org
 LICENSE
-.local/share/applications
-.local/share/bg
+\.local/share/applications
+\.local/share/bg
 misc
+\.xscreensaver.*
