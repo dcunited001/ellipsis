@@ -84,7 +84,7 @@
     "input"
     "docker"
     "realtime" ;; Enable RT scheduling
-    "lp"       ;; control bluetooth
+    "lp"       ;; control bluetooth and cups
     "audio"    ;; control audio
     "video"    ;; control video
     "users"

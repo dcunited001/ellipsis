@@ -1074,9 +1074,10 @@ if [ -f $HOME/.profile ]; then . $HOME/.profile; fi
  '("yubikey-personalization"
    "python-yubikey-manager"
    ;; "libyubikey"
-   "yubico-piv-tool"
-   "yubico-pam"
-   "pam-u2f")
+   ;; "yubico-piv-tool"
+   ;; "yubico-pam"
+   ;; "pam-u2f"
+   )
  )
 #+end_src
 
