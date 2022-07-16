@@ -118,19 +118,19 @@
            fuse-exfat
            stow
            vim
-	   
+
            emacs
-	   emacs-better-defaults
-	   emacs-auto-complete
-	   emacs-hydra
-	   emacs-modus-themes
-	   emacs-dash
-	   emacs-lispy
-	   emacs-geiser
-	   emacs-geiser-guile
-	   emacs-guix
-	   emacs-yasnippet
-	   emacs-yasnippet-snippets
+           emacs-better-defaults
+           emacs-auto-complete
+           emacs-hydra
+           emacs-modus-themes
+           emacs-dash
+           emacs-lispy
+           emacs-geiser
+           emacs-geiser-guile
+           emacs-guix
+           emacs-yasnippet
+           emacs-yasnippet-snippets
 
            xterm
            bluez
@@ -151,9 +151,9 @@
            usbmuxd
            ifuse
 
-	   ;; doesn't allow you to specify outputs?
-	   ;; `(,bind "utils")
-	   
+           ;; doesn't allow you to specify outputs?
+           ;; `(,bind "utils")
+
            gvfs
            nss-certs)
           %base-packages))
@@ -234,9 +234,9 @@ EndSection
 (define-public (dc-modprobe-blacklist modules)
   (string-concatenate
    (list "modprobe.blacklist=" 
-	 (string-join
-	  modules
-	  ","))))
+         (string-join
+          modules
+          ","))))
 
 ;;** base-operating-system
 (define-public base-operating-system
@@ -250,7 +250,7 @@ EndSection
 
    ;; NONFREE
    (firmware (cons* linux-firmware
-		            %base-firmware))
+                    %base-firmware))
 
    ;; NONFREE
    (initrd microcode-initrd)
@@ -291,34 +291,34 @@ EndSection
                         (tlp-default-mode "AC") ;; this is the default
                         (wifi-pwr-on-bat? #t)))
 
-	          (pam-limits-service ;; This enables JACK to enter realtime mode
+              (pam-limits-service ;; This enables JACK to enter realtime mode
                (list
                 (pam-limits-entry "@realtime" 'both 'rtprio 99)
                 (pam-limits-entry "@realtime" 'both 'memlock 'unlimited)))
 
-	          (extra-special-file "/usr/bin/env"
+              (extra-special-file "/usr/bin/env"
                                   (file-append coreutils "/bin/env"))
 
-	          (service thermald-service-type)
+              (service thermald-service-type)
 
-	          ;; (service docker-service-type)
+              ;; (service docker-service-type)
 
-	          (service libvirt-service-type ;; TODO how is libvirt configured?
+              (service libvirt-service-type ;; TODO how is libvirt configured?
                        (libvirt-configuration
                         (unix-sock-group "libvirt")
                         (tls-port "16555")))
 
-	          ;; (service cups-service-type
+              ;; (service cups-service-type
               ;;          (cups-configuration
               ;;           (web-interface? #t)
               ;;           (extensions
               ;;            (list cups-filters))))
 
-	          ;; (service nix-service-type)
+              ;; (service nix-service-type)
 
-	          (udev-rules-service 'pipewire-add-udev-rules pipewire)
-	      
-	          (bluetooth-service #:auto-enable? #t)
+              (udev-rules-service 'pipewire-add-udev-rules pipewire)
+
+              (bluetooth-service #:auto-enable? #t)
 
               dc-desktop-services
               ;; NOTE: see also desktop-services-for-system
