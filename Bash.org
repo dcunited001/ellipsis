@@ -745,6 +745,7 @@ alias wget='wget -c '
 
 # systemd
 alias jctl="journalctl -p 3 -xb"
+alias jctlu="journalctl --user -u"
 alias sysu='systemctl --user'
 
 # pacman
