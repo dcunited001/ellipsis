@@ -19,7 +19,6 @@ misc/**
 # .config/sh
 .config/sh/*.sh
 .config/sh/profile.d/*.sh
-!.config/sh/*.eg.sh
 
 # direnv
 .config/guix/shell-authorized-directories

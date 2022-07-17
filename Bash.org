@@ -244,11 +244,9 @@ __scripts=(
 "graphviz.sh"
 "flatpak.sh"
     )
-
 for __script in ${__scripts[@]}; do
-    [[ -f $DOTS_PROFILE_D/$__script ]] && . $DOTS_PROFILE_D/$__script
+    [[ -f $DOTS_PROFILE_D/$__script ]] && source $DOTS_PROFILE_D/$__script || echo "couldn't load $__script"
 done
-
 unset $__script
 
 #+end_src
@@ -464,6 +462,8 @@ guix_arch_load() {
 
     return 0
 }
+
+export -f guix_arch_load
 
 #+end_src
 
