@@ -35,6 +35,8 @@
   ;;NONFREE
   #:use-module (nongnu packages linux)
   #:use-module (nongnu system linux-initrd)
+
+  ;; TODO: move code to exports & util modules
   )
 
 ;;; TODO: create a link in /data for /etc/flatpak?
@@ -49,7 +51,7 @@
 (use-package-modules certs shells linux)
 
 ;;** DEBUG
-;;(use-modules (ice-9 pretty-print))
+(use-modules (ice-9 pretty-print))
 
 ;;** udev rules
 ;;*** backlight-udev-rule
@@ -247,7 +249,15 @@ EndSection
     (list (service-extension pam-root-service-type
                              screen-locker-pam-services)
           (service-extension setuid-program-service-type
-                             )))))
+                             ;; (lambda (program)  ... )
+                             (setuid-program
+                              ((lambda (program)
+                                 (pretty-print  (string-append  #$xsecure-lock "/libexec/xsecurelock/authproto_pam"))
+                                 program
+                                 )
+                               (program (string-append  #$xsecure-lock "/libexec/xsecurelock/authproto_pam"))))
+                             )))
+   (description "Setup xsecurelock with authproto_pam to run xscreensaver and configure it as a PAM service")))
 
 ;;** base-operating-system
 (define-public base-operating-system
