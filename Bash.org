@@ -19,6 +19,7 @@
   - [[#rc-hooks][RC Hooks]]
   - [[#apps][Apps]]
   - [[#xdg][XDG]]
+  - [[#arch][Arch]]
   - [[#flatpak][Flatpak]]
   - [[#steam--proton][Steam & Proton]]
   - [[#guix][Guix]]
@@ -287,6 +288,18 @@ export ALTERNATE_EDITOR=vim
 # NOTE this fixes alacritty HiDPI
 export WINIT_X11_SCALE_FACTOR=1
 #+end_src
+
+** Arch
+
+#+begin_src sh :tangle .config/sh/profile.d/arch.sh :shebang #!/bin/sh
+alias octopi=/usr/bin/octopi
+#+end_src
+
+**** TODO autostart applications
++ qpwgraph
+
+**** TODO collect list of pacman packages installed explicitly
++
 
 ** Flatpak
 
@@ -589,6 +602,17 @@ export PIPENV_VENV_IN_PROJECT=1
 # eval "$(_PIPENV_COMPLETE=bash_source pipenv)"
 #+end_src
 
+Activate new environments with:
+
+
+Pass python to Julia Shells with:
+
+
+**** Resources
+
++ [[https://medium.com/analytics-vidhya/install-tensorflow-2-for-amd-gpus-87e8d7aeb812][Setup Tensorflow for AMD GPU's]]
+
+
 ** Julia
 
 Julia [[https://docs.julialang.org/en/v1/manual/environment-variables/][Environment Variables]]
@@ -684,10 +708,10 @@ If =.bash_profile= does not exist, =.profile= will be sourced instead. When bash
 
 #[[ -z $XDG_CONFIG_HOME ]] && export XDG_CONFIG_HOME=$HOME/.config
 #[[ -z $XDG_CONFIG_DIRS ]] && export XDG_CONFIG_DIRS=/etc/xdg
-#[[ -z $XDG_DATA_HOME ]] && export XDG_DATA_HOME=$HOME/.local/share
-#[[ -z $XDG_DATA_DIRS ]] export XDG_DATA_DIRS=/usr/local/share/:/usr/share/
-#[[ -z $XDG_STATE_HOME ]] && export XDG_STATE_HOME=$HOME/.local/state
-#[[ -z $XDG_CACHE_HOME ]] && export XDG_CACHE_HOME=$HOME/.cache
+#[[ -z $XDG_DATA_HOME ]]   && export XDG_DATA_HOME=$HOME/.local/share
+#[[ -z $XDG_DATA_DIRS ]]   && export XDG_DATA_DIRS=/usr/local/share/:/usr/share/
+#[[ -z $XDG_STATE_HOME ]]  && export XDG_STATE_HOME=$HOME/.local/state
+#[[ -z $XDG_CACHE_HOME ]]  && export XDG_CACHE_HOME=$HOME/.cache
 
 export PATH=$HOME/.local/bin:$HOME/.bin:$PATH
 #+end_src
