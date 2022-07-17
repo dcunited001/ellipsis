@@ -424,6 +424,78 @@ export GUIX_DEVTOOLS=$HOME/.guix-extra-profiles/devtools/devtools
 export GUIX_DEVDEBUG=$HOME/.guix-extra-profiles/devdebug/devdebug
 #+end_src
 
+*** On Arch
+
+#+begin_src sh :tangle .config/sh/profile.d/guix-arch-support.sh :shebang #!/bin/bash
+
+guix_arch_load() {
+    local extra_profiles=$HOME/.guix-extra-profiles
+    local profiles=""
+
+    while [ "$1" != "" ]; do
+        case $1 in
+            -*|--*=) # unsupported flags
+            echo "Error: Unsupported flags $1" >&2
+            return 1
+            ;;
+            ,*)
+                profiles="$profiles $1"
+                shift
+                ;;
+        esac
+    done
+
+    if [ -z "$profiles" ]; then
+        # NOTE: this glob behaves strangely when $extra_profiles is empty
+        # profiles="$extra_profiles/*";
+        echo "Error: no profiles specified"
+    fi
+
+    local profilePath=""
+    for p in $profiles; do
+        profile=$(basename $p)
+        echo $profile
+        profilePath=$extra_profiles/$profile
+        if [ -f "$profilePath/$profile/etc/profile" ]; then
+            GUIX_PROFILE="$profilePath/$profile"
+            source "$GUIX_PROFILE/etc/profile"
+        fi
+    done
+
+    return 0
+}
+
+#+end_src
+
+AUR guix-install sets this up in /etc/profile.d/guix.sh
+
+#+begin_example sh :eval no
+if [ -z "$GUIX_LOCPATH" ]; then
+    GUIX_PROFILE=$HOME/.guix-profile
+    source "$GUIX_PROFILE/etc/profile"
+    export GUIX_LOCPATH=$HOME/.guix-profile/lib/locale
+fi
+#+end_example
+
+The default is -c0, which uses as many cores as possible for each build agent,
+so no need to set =-c= in $GUIX_BUILD_OPTIONS
+
+#+begin_src sh :tangle .config/sh/profile.d/guix-arch.sh :shebang #!/bin/bash
+# export GUIX_BUILD_OPTIONS="-c6"
+
+# never again, wxPython ... never again
+GUIX_AUTOLOAD_PROFILES=(arch-pwsafe)
+if [ -z "$GUIX_ARCH_LOADED" ]; then
+    guix_arch_load ${GUIX_AUTOLOAD_PROFILES[@]}
+    export GUIX_ARCH_LOADED=${GUIX_AUTOLOAD_PROFILES[@]}
+fi
+#+end_src
+
+Add to =~/.config/sh/_load_profile.d.sh=:
+
++ arch-guix-support.sh
++ arch-guix.sh
+
 ** FCITX5
 
 #+begin_src shell :tangle .config/sh/profile.d/fcitx5.sh :shebang #!/bin/sh
@@ -853,7 +925,13 @@ if [ -f $HOME/.profile ]; then . $HOME/.profile; fi
 
 * Environment
 
-** Main
+** main
+
+#+begin_src shell
+
+#+end_src
+
+** devtools
 
 #+begin_src scheme :tangle ".config/guix/manifests/devtools.scm"
 (specifications->manifest

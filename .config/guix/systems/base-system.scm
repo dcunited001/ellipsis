@@ -3,6 +3,7 @@
   #:use-module (gnu)
   #:use-module (srfi srfi-1)
   #:use-module (gnu system nss)
+  #:use-module (gnu system pam)
   #:use-module (gnu services pm)
   #:use-module (gnu services cups)
   #:use-module (gnu services desktop)
@@ -103,6 +104,7 @@
 ;;   %base-groups))
 ;;(pretty-print dc-groups)
 
+;; TODO remove pulseaudio from base-services
 (define-public (remove-gdm-service services-list)
   (remove (lambda (service)
             (eq? (service-kind service)  gdm-service-type))
@@ -238,6 +240,15 @@ EndSection
           modules
           ","))))
 
+(define-public xsecurelock-service-type
+  (service-type
+   (name 'xsecurelock)
+   (extensions
+    (list (service-extension pam-root-service-type
+                             screen-locker-pam-services)
+          (service-extension setuid-program-service-type
+                             )))))
+
 ;;** base-operating-system
 (define-public base-operating-system
   (operating-system
@@ -280,6 +291,13 @@ EndSection
    ;; install bare-minimum system packages
    (packages %dc-desktop-packages)
 
+   ;; doesn't setup a guix service (and requires a pam service)
+   ;; (setuid-programs
+   ;;  (cons*
+   ;;   (setuid-program
+   ;;    (program (file-append xsecure-lock "/libexec/xsecurelock/authproto_pam")))
+   ;;   %setuid-programs))
+
    ;; networking
    (services (cons*
 
@@ -319,6 +337,8 @@ EndSection
               (udev-rules-service 'pipewire-add-udev-rules pipewire)
 
               (bluetooth-service #:auto-enable? #t)
+
+
 
               dc-desktop-services
               ;; NOTE: see also desktop-services-for-system

@@ -27,8 +27,9 @@ compton &
 # Turn off the system bell
 xset -b
 
-# Enable screen locking on suspend
-xss-lock --transfer-sleep-lock -- xscreensaver-command -lock &
+# Enable screen locking on suspend (instead, lock in guix system definition)
+# xss-lock --transfer-sleep-lock -- xscreensaver-command -lock &
+
 setbg $_WALLPAPERS
 
 #exec dbus-launch --exit-with-session

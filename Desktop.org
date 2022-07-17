@@ -634,6 +634,7 @@ for_window [class="Timeset-gui"] floating enable border normal
 for_window [class="(?i)virtualbox"] floating enable border normal
 for_window [class="Xfburn"] floating enable
 
+for_window [class="Syncthing GTK"] floating enable
 for_window [class="ykman-gui yubikey manager"] floating enable, sticky enable
 for_window [class="Pwsafe" instance="pwsafe"] floating enable, sticky enable
 for_window [class="Gnuplot" instance="gnuplot"] floating enable
