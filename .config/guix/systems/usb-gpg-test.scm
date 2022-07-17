@@ -13,7 +13,7 @@
   ;; #:use-module (gnu packages curl)
   #:use-module (gnu packages emacs)
   #:use-module (gnu packages linux)
-  #:use-module (gnu packages mtools)
+  #:use-module (gnu packages mtools)    ;; for msdos file systems
   #:use-module (gnu packages file-systems)
 
   ;;** PGP Packages
@@ -40,13 +40,8 @@
 
 ;; TODO: this will require building an image with firmware
 ;; - e.g. on the HP laptop
-;; TODO: pcscd support
-;; - pcsd
-;; TODO: udev.packages support for yubikey-personalization
-;; TODO: Nix packages: gnupg pinentry-curses pinentry-qt paperkey wget
-;; TODO: services: disable ssh-agent
-;; TODO: services: enable gpg-agent (+enable ssh support)
-;; TODO: validate inherited packages/services from installation-os
+;; NOTE: PIV is not necessary
+;;   TODO: udev.packages support for yubikey-personalization
 
 (define usb-gpg-agent-shepherd-service
   (shepherd-service
@@ -62,7 +57,9 @@
 
 ;; (define-configuration usb-gpg-agent-configuration)
 
-
+;; TODO: services: enable gpg-agent
+;; TODO: add config option for GNUPGHOME
+;; TODO: add config option for starting gnupg-connect-agent /bye
 
 (define usb-gpg-agent-service-type
   (service-type
@@ -73,6 +70,7 @@
 
   )
 
+;; TODO this needs to be tested
 (define xsecurelock-service-type
   (service-type
    (name 'xsecurelock)
@@ -117,28 +115,37 @@
                         ))
 
     (packages
-     (cons* (list exfat-utils
-                  fuse-exfat
-                  git
-                  ;; curl
-                  stow
-                  vim
-                  emacs-no-x-toolkit
-                  pcsc-lite
-                  screen
-                  gnupg
-                  )
-            %base-packages))
-            ;; (operating-system-packages installation-os)
+     (append (list exfat-utils
+                   fuse-exfat
+                   git
+                   ;; curl
+                   stow
+                   vim
+                   emacs-no-x-toolkit
+                   pcsc-lite
+                   screen
+                   gnupg
+
+                   ;; Yubikey tools
+                   pinentry-curses
+                   ;; pinentry-qt?
+                   paperkey
+
+
+                   wget
+                   )
+             %base-packages-disk-utilites
+             %base-packages))
 
 ;;;  TODO check essential-services
 ;;;  TODO check services
 ;;;  TODO check pam-services
 
     (services
-     (append (cons*
-              (service pcscd-service-type)
-              %base-services
-              )))))
+     (append (list
+              ;; (dhcp-client-service-type)
+              (service pcscd-service-type))
+             %base-services
+             ))))
 
 ;; usb-gpg-tools
