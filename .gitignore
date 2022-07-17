@@ -80,6 +80,7 @@ fonts/**
 !.config/guix/manifests/academic.scm
 !.config/guix/manifests/cpp-build.scm
 !.config/guix/manifests/python.scm
+!.config/guix/manifests/arch-pwsafe.scm
 
 # shepherd
 .config/shepherd/init.scm
