@@ -216,7 +216,7 @@ Gtk/CursorThemeName "Sweet-cursors"
    "fcitx5-configtool"
    "fcitx5-chinese-addons"
    "fcitx5-material-color-theme"
-   "fcitx5-gtk3"
+   "fcitx5-gtk4"
    "fcitx5-qt"
    ))
 #+end_src
@@ -1366,7 +1366,6 @@ fi
 #+begin_src scheme :noweb-ref packages :noweb-sep ""
 "dmenu"
 "rofi"
-"rofi-dmenu"
 #+end_src
 
 
