@@ -4,15 +4,21 @@
   #:use-module (srfi srfi-1)
   #:use-module (gnu system nss)
   #:use-module (gnu system pam)
+
   #:use-module (gnu services pm)
   #:use-module (gnu services cups)
   #:use-module (gnu services desktop)
   #:use-module (gnu services docker)
   #:use-module (gnu services networking)
   #:use-module (gnu services virtualization)
+  #:use-module (gnu services authentication)
+  #:use-module (gnu services security-token)
+
   #:use-module (gnu packages wm)
   #:use-module (gnu packages dns)
   #:use-module (gnu packages ssh)
+  #:use-module (gnu packages security-token)
+  #:use-module (gnu packages cryptsetup)
   #:use-module (gnu packages cups)
   #:use-module (gnu packages vim)
   #:use-module (gnu packages gtk)
@@ -35,13 +41,10 @@
   ;;NONFREE
   #:use-module (nongnu packages linux)
   #:use-module (nongnu system linux-initrd)
-
-  ;; TODO: move code to exports & util modules
   )
 
 ;;; TODO: create a link in /data for /etc/flatpak?
 ;; (instead of needing the config file)
-
 
 ;;** use-service-modules nix, desktop, xorg
 (use-service-modules nix)
@@ -51,7 +54,7 @@
 (use-package-modules certs shells linux)
 
 ;;** DEBUG
-(use-modules (ice-9 pretty-print))
+;; (use-modules (ice-9 pretty-print))
 
 ;;** udev rules
 ;;*** backlight-udev-rule
@@ -70,6 +73,8 @@
 (define-public %dc-groups
   (cons* (user-group (name "realtime") (system? #t))
          (user-group (name "docker") (system? #t))
+         (user-group (name "yubikey") (system? #t))
+         (user-group (name "plugdev") (system? #t))
          (user-group (name "fuse") (system? #t))
          (user-group (name "users") (id 1100))
          (user-group (name "dc") (id 1000))
@@ -89,6 +94,9 @@
     "lp"       ;; control bluetooth and cups
     "audio"    ;; control audio
     "video"    ;; control video
+    ;; TODO: configure udev for group
+    "yubikey" ;; yubikey (udev)
+    "plugdev" ;; libu2f-host (udev)
     "users"
     "fuse"))
 
@@ -117,6 +125,8 @@
   (append (list
            openssh
            git
+           lvm2
+           cryptsetup
            ntfs-3g
            exfat-utils
            fuse-exfat
@@ -142,6 +152,11 @@
            pipewire ;; TODO: pipewire?
            tlp
            xf86-input-libinput
+
+           ccid
+           yubikey-personalization
+           python-yubikey-manager
+           libu2f-host
 
            ;; required for wacom
            ;; - libwacom modifies udev rules & must be in system config
@@ -242,22 +257,22 @@ EndSection
           modules
           ","))))
 
-(define-public xsecurelock-service-type
-  (service-type
-   (name 'xsecurelock)
-   (extensions
-    (list (service-extension pam-root-service-type
-                             screen-locker-pam-services)
-          (service-extension setuid-program-service-type
-                             ;; (lambda (program)  ... )
-                             (setuid-program
-                              ((lambda (program)
-                                 (pretty-print  (string-append  #$xsecure-lock "/libexec/xsecurelock/authproto_pam"))
-                                 program
-                                 )
-                               (program (string-append  #$xsecure-lock "/libexec/xsecurelock/authproto_pam"))))
-                             )))
-   (description "Setup xsecurelock with authproto_pam to run xscreensaver and configure it as a PAM service")))
+;; (define-public xsecurelock-service-type
+;;   (service-type
+;;    (name 'xsecurelock)
+;;    (extensions
+;;     (list (service-extension pam-root-service-type
+;;                              screen-locker-pam-services)
+;;           (service-extension setuid-program-service-type
+;;                              ;; (lambda (program)  ... )
+;;                              (setuid-program
+;;                               ((lambda (program)
+;;                                  (pretty-print  (string-append  #$xsecure-lock "/libexec/xsecurelock/authproto_pam"))
+;;                                  program
+;;                                  )
+;;                                (program (string-append  #$xsecure-lock "/libexec/xsecurelock/authproto_pam"))))
+;;                              )))
+;;    (description "Setup xsecurelock with authproto_pam to run xscreensaver and configure it as a PAM service")))
 
 ;;** base-operating-system
 (define-public base-operating-system
@@ -336,6 +351,8 @@ EndSection
                         (unix-sock-group "libvirt")
                         (tls-port "16555")))
 
+              (service pcscd-service-type)
+
               ;; (service cups-service-type
               ;;          (cups-configuration
               ;;           (web-interface? #t)
@@ -347,8 +364,6 @@ EndSection
               (udev-rules-service 'pipewire-add-udev-rules pipewire)
 
               (bluetooth-service #:auto-enable? #t)
-
-
 
               dc-desktop-services
               ;; NOTE: see also desktop-services-for-system
