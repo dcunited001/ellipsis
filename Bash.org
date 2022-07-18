@@ -94,7 +94,7 @@ Changing the variables above requires evaluating the block below.
 | _STEAM      | /flatpak/steam             |
 | _AGENDA     | /flatpak/agenda            |
 | _GUIX       | /gnu                       |
-| _WALLPAPERS | /data/xdg/wallpapers/anime |
+| _WALLPAPERS | /data/xdg/Wallpapers/anime |
 | _FLATPAK    | /flatpak                   |
 | DOOMDIR     | $HOME/.doom.d              |
 
@@ -114,7 +114,7 @@ export _ECTO=/data/ecto
 export _REPO=/data/repo
 export _STEAM=/flatpak/steam
 export _GUIX=/gnu
-export _WALLPAPERS=/data/xdg/wallpapers/anime
+export _WALLPAPERS=/data/xdg/Wallpapers/anime
 export _FLATPAK=/flatpak
 export DOOMDIR=$HOME/.doom.d
 #+end_example
@@ -131,7 +131,7 @@ export _ECTO=/data/ecto
 export _REPO=/data/repo
 export _STEAM=/steam
 export _GUIX=/gnu
-export _WALLPAPERS=/data/xdg/wallpapers/anime
+export _WALLPAPERS=/data/xdg/Wallpapers/anime
 export _FLATPAK=/flatpak
 export _FLATPAK_NAME=flexpak
 export DOOMDIR=$HOME/.doom.d
