@@ -248,6 +248,7 @@ retrieve these settings appropriately. This is used throughout =Desktop.org=.
       (dunst/max-icon-size . 88)
       ;(vimb/default-zoom . 160)
       ;(qutebrowser/default-zoom . 180)
+      (xrandr/primary-display . "LVDS-1")
       ))
 
 #+end_src

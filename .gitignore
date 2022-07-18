@@ -4,7 +4,7 @@
 misc/**
 
 # .bin scripts
-.bin/emacs_network
+.bin/emacs-network
 
 # generally exclude all
 .local/share
@@ -63,7 +63,9 @@ fonts/**
 
 # .emacs.network
 .config/guix/manifests/emacs-network.scm
-.emacs.network/emacs.network.scm
+.emacs.network/emacs-network.scm
+.emacs.network/**
+!.emacs.network/README.org
 
 # guile
 .guile
