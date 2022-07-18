@@ -933,7 +933,7 @@ font-4 = ${custom/per_settings.font-4}
 ;modules-center = spotify
 ;modules-right = telegram mu4e cpu temperature battery date
 
-modules-left = xworkspaces xwindow
+modules-left = i3 xworkspaces xwindow
 modules-center = date
 modules-right = cpu temperature battery pulseaudio backlight xkeyboard
 
@@ -997,6 +997,33 @@ bar-volume-indicator-foreground = ${colors.foreground}
 bar-volume-fill = ─
 bar-volume-fill-foreground = ${colors.primary}
 bar-volume-empty = ─
+
+[module/i3]
+type = internal/i3
+format = <label-mode>
+index-sort = true
+wrapping-scroll = false
+pin-workspaces = true
+
+label-mode-background = ${colors.background}
+label-mode-foreground = ${colors.primary}
+label-mode-padding = 1
+
+label-focused = %name%
+label-focused-background = ${colors.foreground-alt}
+label-focused-padding = 1
+
+label-unfocused = %name%
+label-unfocused-background = ${colors.disabled}
+label-unfocused-padding = 1
+
+label-visible = %name%
+label-visible-background = ${colors.background}
+label-visible-padding = 1
+
+label-urgent = %name%
+label-urgent-background = ${colors.alert}
+label-urgent-padding = 1
 
 [module/xworkspaces]
 type = internal/xworkspaces
