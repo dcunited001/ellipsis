@@ -6,7 +6,7 @@ NC='\033[0m'
 GUIX_EXTRA_PROFILES=$HOME/.guix-extra-profiles
 
 __profiles=""
-__delete_generations="3.."
+__delete_generations="4.."
 while [ "$1" != "" ]; do
     case $1 in
         -d)

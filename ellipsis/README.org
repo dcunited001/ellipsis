@@ -1,0 +1,119 @@
+#+TITLE:     Ellipsis
+#+AUTHOR:    David Conner
+#+EMAIL:     noreply@te.xel.io
+#+DESCRIPTION: notes
+
+This is a guix parent module that helps with code reuse.
+
+* Utils
+
+* Services
+
+
+* Home Services
+
+* Systems
+
+** USB GPG Image
+
+This is mostly a reimplementation of the Nix image from [[github:drduh/YubiKey-Guide][drduh/YubiKey-Guide]] in Guix.
+
+**** Resources
+
++ [[https://gnupg.org/aegypten2][gnupg.org/aegypten2]] has an architectural overview of how GnuPG interacts with system services (it's a bit old)
+
+*** Tasks
+
+**** TODO resolve need to use nonguix when generating USB images for laptops requiring non-free firmware
+
+**** TODO add bootloader/disks
+
+**** TODO check essential-services
+**** TODO check services
+**** TODO check pam-services
+
+*** Notes
+**** Yubico
+
+***** PIV
+
+These packages should not be necessary for my use case.
+
+***** PAM
+
+Modules for yubico PAM. Irrelevant for GPG key creation
+
+#+begin_src scheme :eval no
+#:use-module (gnu packages authentication)
+;; gnu/packages/openpgp.scm
+;; gnu/packages/gnu-pw-mgr.scm
+#+end_src
+
+***** Keepass
+
+Modules for keepass w/ yubico support:
+
+#+begin_src scheme :eval no
+#:use-module (gnu packages password-utils)
+#+end_src
+
+**** Refactoring GnuPG services into modules
+
+#+begin_src scheme :eval no
+;; TODO: this will require building an image with firmware
+;; - e.g. on the HP laptop
+;; NOTE: PIV is not necessary
+;;   TODO: udev.packages support for yubikey-personalization
+
+;; =========================
+;; (define-configuration usb-gpg-agent-configuration)
+
+;; TODO: implement as service (later ... just use screen now)
+;;
+;; TODO: services: enable gpg-agent
+;; TODO: add config option for GNUPGHOME
+;; TODO: add config option for starting gnupg-connect-agent /bye
+
+(define usb-gpg-agent-shepherd-service
+  (shepherd-service
+   (documentation "Run a GPG agent")
+   (provision '(usb-gpg-agent gpg-agent))
+   (requirement '(user-processes syslogd loopback))
+
+   (start #~ (make-forkexec-constructor ))
+   ()))
+
+;; if more entropy is needed
+;; "echo 'SCD RANDOM 512 | gpg-connect-agent | tee /dev/random | "
+
+(define usb-gpg-agent-service-type
+  (service-type
+   (name 'usb-gpg-agent-service-type)
+   (extensions (list
+                (service-extensions profile-service-type '(gnupg))))
+   (description )))
+#+end_src
+
+**** Refactoring xsecurelock-service
+
+#+begin_src scheme :eval no
+;; =========================
+;; TODO this needs to be tested (in a separate iso image with xorg)
+;; (define xsecurelock-service-type
+;;   (service-type
+;;    (name 'xsecurelock)
+;;    (extensions
+;;     (list (service-extension pam-root-service-type
+;;                              screen-locker-pam-services)
+;;           (service-extension setuid-program-service-type
+;;                              ;; (lambda (program)  ... )
+;;                              (setuid-program
+;;                               ((lambda (program)
+;;                                  (pretty-print  (string-append  #$xsecure-lock "/libexec/xsecurelock/authproto_pam"))
+;;                                  program
+;;                                  )
+;;                                (program (string-append  #$xsecure-lock "/libexec/xsecurelock/authproto_pam"))))
+;;                              )))
+;;    (description "Setup xsecurelock with authproto_pam to run xscreensaver and configure it as a PAM service")))
+;; =========================
+#+end_src

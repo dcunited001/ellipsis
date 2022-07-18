@@ -1077,6 +1077,7 @@ if [ -f $HOME/.profile ]; then . $HOME/.profile; fi
    ;; "yubico-piv-tool"
    ;; "yubico-pam"
    ;; "pam-u2f"
+   "libu2f-host"
    )
  )
 #+end_src
