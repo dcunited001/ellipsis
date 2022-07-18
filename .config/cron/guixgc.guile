@@ -1,4 +1,0 @@
-(job
- '(next-minute-from
-   (next-hour (range 0 24 4)))
- "guix-check-gc")

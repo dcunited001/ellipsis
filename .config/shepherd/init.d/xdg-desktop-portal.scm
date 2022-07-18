@@ -12,6 +12,6 @@
                          (strftime "%Y-%m-%d-" (gmtime (current-time)))
                          (gethostname) ".log"))
     ;; TODO: setsid error when using handle-termination
-    ;; #:handle-termination (exec-command '("notify-send" "Shepherd: XDG" "XDG Desktop Portal stopped"))
+    ;; #:handle-termination (exec-command '("notify-send" "-i error" "Shepherd: XDG" "XDG Desktop Portal stopped"))
     #:stop  (make-kill-destructor)))
 (register-services xdg-desktop-portal)

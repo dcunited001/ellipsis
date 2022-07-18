@@ -114,7 +114,8 @@ These are defined in [[file:.config/shepherd/init.d][.config/shepherd/init.d]] a
   "font-jetbrains-mono"
   "font-iosevka"
   "font-iosevka-aile"
-  "font-abattis-cantarell"
+  ;; "font-abattis-cantarell"
+  "font-overpass"
   "font-dejavu"
   "font-google-noto"
   "font-gnu-freefont"
@@ -165,10 +166,12 @@ This needs to be copied after deploy. It needs to be modified if not running on 
 #+begin_src conf :tangle .config/xsettingsd/xsettingsd.conf :noweb yes :comments none
 Net/ThemeName "Matcha-dark-azul"
 Net/IconThemeName "Papirus-Dark"
-Gtk/ToolbarStyle 3  
-Gtk/EnableAnimations 1  
+Gtk/ToolbarStyle 3
+Gtk/EnableAnimations 1
 Gtk/DecorationLayout "menu:minimize,maximize,close"
-Gtk/FontName "Cantarell 11"
+# Gtk/FontName "Cantarell 11"
+# Gtk/FontName "DejaVuSerif 11"
+Gtk/FontName "Bitstream 11"
 Gtk/MonospaceFontName "Fira Mono 10"
 Gtk/CursorThemeName "Adwaita"
 Gtk/PrimaryButtonWarpsSlider 0
@@ -841,8 +844,6 @@ set_from_resource $term_color15    color15
 or polybar:
 
 #+begin_src conf :tangle .config/i3/polybar.conf :noweb yes :comments none
-exec_always --no-startup-id polybar panel 2>&1 > /tmp/polybar.1.log
-exec_always --no-startup-id dunst 2>&1 > /tmp/dunst.1.log
 
 # lock
 bindsym $super+q exec "loginctl lock-session"
@@ -1222,7 +1223,8 @@ fi
 
     ### Text ###
 
-    font = Cantarell <<get-setting(name="dunst/font-size")>>
+    # font = Cantarell <<get-setting(name="dunst/font-size")>>
+    font = Bitstream <<get-setting(name="dunst/font-size")>>
     line_height = 0
     alignment = left
     word_wrap = yes
