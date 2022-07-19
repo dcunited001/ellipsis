@@ -1,6 +1,6 @@
 #!/bin/sh
 # Source .profile for common environment vars
-GUIX_AUTOLOAD_PROFILES=(i3 desktop browsers xdg fcitx5 devtools academic)
+GUIX_AUTOLOAD_PROFILES=(i3 desktop fonts browsers xdg fcitx5 devtools academic)
 source ~/.profile
 
 # prevent automatic suspend

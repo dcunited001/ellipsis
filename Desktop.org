@@ -1510,7 +1510,7 @@ xdg-mime default emacs.desktop text/org
 #+begin_src scheme :noweb-ref packages :noweb-sep ""
 
 "icecat"
-"qutebrowser"
+;; "qutebrowser"
 "nyxt"
 
 #+end_src
@@ -1817,20 +1817,12 @@ keep-open
 
 #+end_src
 
-*Guix Packages*
-
-#+begin_src scheme :noweb-ref packages :noweb-sep ""
-"mpv"
-"mpv-mpris"
-"youtube-dl"
-"playerctl"
-#+end_src
-
 *** Codecs and Drivers
 
 *Guix Packages*
 
 #+begin_src scheme :noweb-ref packages :noweb-sep ""
+
 "gstreamer"
 "gst-plugins-base"
 "gst-plugins-good"
@@ -1839,6 +1831,7 @@ keep-open
 "gst-libav"
 "intel-vaapi-driver"
 "libva-utils"
+
 #+end_src
 
 ** Image Viewers and Editors
