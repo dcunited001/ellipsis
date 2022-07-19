@@ -96,6 +96,8 @@ These are defined in [[file:.config/shepherd/init.d][.config/shepherd/init.d]] a
 *Guix Packages"
 
 #+begin_src scheme :noweb-ref packages :noweb-sep ""
+;; TODO: decide whether to include these in the fonts profile
+;; - requires updating icon paths in dunst/etc
 
   ;; Settings Manager
   "xsettingsd"
@@ -108,7 +110,13 @@ These are defined in [[file:.config/shepherd/init.d][.config/shepherd/init.d]] a
   "gnome-backgrounds"
   "papirus-icon-theme"
   "breeze-icons"
+#+end_src
 
+
+
+#+begin_src scheme :tangle .config/guix/manifests/fonts.scm :comments none
+(specifications->manifest
+ '(
   ;; Fonts
   "font-fira-code"
   "font-jetbrains-mono"
@@ -147,7 +155,7 @@ This needs to be copied after deploy. It needs to be modified if not running on 
   <include ignore_missing="yes">/etc/fonts/fonts.conf</include>
 
   <dir>/home/dc/.dotfiles/fonts</dir>
-  <dir>/home/dc/.guix-extra-profiles/desktop/desktop/share/fonts</dir>
+  <dir>/home/dc/.guix-extra-profiles/fonts/fonts/share/fonts</dir>
   <alias>
     <family>Apple Color Emoji</family>
     <prefer>
@@ -673,7 +681,7 @@ for_window [class="Thunar"] floating enable
 
 # Productivity (Mail/Calendar)
 #for_window [class="Thunderbird"] floating enable
-for_window [class="Thunderbird"] move container to workspace $ws10
+assign [class=Thunderbird] $ws0
 
 # Terminals (to encourage vterm/etc)
 for_window [class="Alacritty"] floating enable
@@ -1934,7 +1942,7 @@ flatpak install --user flathub org.gustavoperedo.FontDownloader
 flatpak --user override \
     --filesystem=~/.dotfiles/.config/fontconfig:ro \
     --filesystem=~/.dotfiles/fonts:ro \
-    --filesystem=~/.guix-extra-profiles/desktop/desktop/share/fonts:ro \
+    --filesystem=~/.guix-extra-profiles/fonts/fonts/share/fonts:ro \
     --env=FONTCONFIG_PATH=$HOME/.dotfiles/.config/fontconfig/conf.d \
     --env=FONTCONFIG_FILE=$HOME/.dotfiles/.config/fontconfig/fonts.conf
 #+end_src
