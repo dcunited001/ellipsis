@@ -370,6 +370,4 @@ EndSection
               ;;   in guix/gnu/services/desktop.scm
               ))
    ;; allow resolution of '.local' hostnames with mDNS
-   (name-service-switch %mdns-host-lookup-nss)
-
-   ))
+   (name-service-switch %mdns-host-lookup-nss)))

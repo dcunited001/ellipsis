@@ -65,7 +65,7 @@
    ))
 
 (define %hersai-modprobe-blacklist
- (dc-modprobe-blacklist %dc-broadcom-modules))
+  (dc-modprobe-blacklist %dc-broadcom-modules))
 
 ;;** operating-system
 (define system
