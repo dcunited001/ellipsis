@@ -1,3 +1,4 @@
+
 ;;* Module: tokos
 (define-module (tokos)
   #:use-module (base-system)
@@ -70,7 +71,7 @@
 (define tokos-operating-system
   (operating-system
    (inherit base-operating-system)
-   (hostname %host-name)
+   (host-name %host-name)
 
    (firmware (list linux-firmware
                    ;; has Broadcom BCM4331 wifi
