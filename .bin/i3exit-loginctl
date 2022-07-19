@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 # /usr/bin/i3exit
 
 # from AUR:i3exit: https://aur.archlinux.org/cgit/aur.git/tree/?h=i3exit
