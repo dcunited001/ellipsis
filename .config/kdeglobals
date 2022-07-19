@@ -135,6 +135,10 @@ ForegroundNormal=211,218,227
 ForegroundPositive=113,247,159
 ForegroundVisited=179,13,191
 
+[DirSelect Dialog]
+DirSelectDialog Size=837,590
+History Items[$e]=file:$HOME/.dotfiles
+
 [General]
 ColorSchemeHash=080f3f8eac020ac566c252909d74ead45adfd52c
 Name=Breeze Light
