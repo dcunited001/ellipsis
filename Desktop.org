@@ -265,7 +265,27 @@ set $preferredScreenCaptureTool /usr/bin/flameshot gui
 
 # This font is widely installed, provides lots of unicode glyphs, right-to-left
 # text rendering and scalability on retina/hidpi displays (thanks to pango).
-font pango:DejaVu Serif Mono 12  
+font pango:DejaVu Serif Mono 12
+
+set $i3exitscript i3exit-loginctl
+
+# lock with i3exit-loginctl
+set $supere_system (l)ock, (e)xit, switch_(u)ser, (s)uspend, (h)ibernate, (r)eboot, (Shift+s)hutdown
+bindsym $super+shift+e mode "$supere_system"
+mode "$supere_system" {
+    bindsym l exec --no-startup-id i3exit-loginctl lock, mode "default"
+    bindsym s exec --no-startup-id i3exit-loginctl suspend, mode "default"
+    bindsym u exec --no-startup-id i3exit-loginctl switch_user, mode "default"
+    bindsym e exec --no-startup-id i3exit-loginctl logout, mode "default"
+    bindsym h exec --no-startup-id i3exit-loginctl hibernate, mode "default"
+    bindsym r exec --no-startup-id i3exit-loginctl reboot, mode "default"
+    bindsym Shift+s exec --no-startup-id i3exit-loginctl shutdown, mode "default"
+
+    # exit system mode: "Enter" or "Escape"
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
+}
+
 #+end_src
 
 i3 shim for Garuda
@@ -279,6 +299,24 @@ set $preferredTextEditor /usr/bin/emacsclient -c
 set $preferredScreenCaptureTool /usr/bin/flameshot gui
 
 font pango: source code pro 10
+
+# lock with i3exit
+set $supere_system (l)ock, (e)xit, switch_(u)ser, (s)uspend, (h)ibernate, (r)eboot, (Shift+s)hutdown
+bindsym $super+shift+e mode "$supere_system"
+mode "$supere_system" {
+    bindsym l exec --no-startup-id i3exit lock, mode "default"
+    bindsym s exec --no-startup-id i3exit suspend, mode "default"
+    bindsym u exec --no-startup-id i3exit switch_user, mode "default"
+    bindsym e exec --no-startup-id i3exit logout, mode "default"
+    bindsym h exec --no-startup-id i3exit hibernate, mode "default"
+    bindsym r exec --no-startup-id i3exit reboot, mode "default"
+    bindsym Shift+s exec --no-startup-id i3exit shutdown, mode "default"
+
+    # exit system mode: "Enter" or "Escape"
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
+}
+
 
 # start dmenu (a program launcher)
 bindsym $super+Shift+d exec i3-dmenu-desktop --dmenu="dmenu -i -fn 'Noto Sans:size=20'"
@@ -328,7 +366,7 @@ exec --no-startup-id desktop-items
 # # bindsym $super+q exec "loginctl lock-session"
 
 # # autostart tools (most of these end up in the tray)
-# # in fedora:  
+# # in fedora:
 # # exec --no-startup-id /usr/libexec/polkit-gnome-authentication-agent-1
 # exec --no-startup-id /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
 # exec --no-startup-id nitrogen --restore; sleep 1; picom -b
@@ -555,22 +593,6 @@ bindsym $super+Shift+r restart
 
 # exit i3 (logs you out of your X session)
 #bindsym $super+Shift+e exec "i3-nagbar -t warning -m 'Do you really want to exit i3? This will end your X session.' -B 'Yes, exit i3' 'i3-msg exit'"
-
-bindsym $super+shift+e mode "$supere_system"
-set $supere_system (l)ock, (e)xit, switch_(u)ser, (s)uspend, (h)ibernate, (r)eboot, (Shift+s)hutdown
-mode "$supere_system" {
-    bindsym l exec --no-startup-id i3exit lock, mode "default"
-    bindsym s exec --no-startup-id i3exit suspend, mode "default"
-    bindsym u exec --no-startup-id i3exit switch_user, mode "default"
-    bindsym e exec --no-startup-id i3exit logout, mode "default"
-    bindsym h exec --no-startup-id i3exit hibernate, mode "default"
-    bindsym r exec --no-startup-id i3exit reboot, mode "default"
-    bindsym Shift+s exec --no-startup-id i3exit shutdown, mode "default"
-
-    # exit system mode: "Enter" or "Escape"
-    bindsym Return mode "default"
-    bindsym Escape mode "default"
-}
 
 ###########################################
 ### RESIZE
@@ -856,6 +878,11 @@ or polybar:
 # lock
 bindsym $super+q exec "loginctl lock-session"
 # bindsym $super+q exec "i3-nagbar -t warning -m 'Do really want to lock your session?' -B 'Yes, lock session' 'loginctl lock-session'"
+
+# polybar won't start with the i3 socket (and won't display modes)
+#   unless i3 starts the service
+exec_always --no-startup-id herd restart polybar
+
 #+end_src
 
 *** TODO setup =xidlehook= to notify-send when idletime is about to lock the computer

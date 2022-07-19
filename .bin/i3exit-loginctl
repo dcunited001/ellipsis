@@ -1,0 +1,36 @@
+#!/bin/bash
+# /usr/bin/i3exit
+
+# from AUR:i3exit: https://aur.archlinux.org/cgit/aur.git/tree/?h=i3exit
+
+# TODO test suspend/hibernate
+
+case "$1" in
+    lock)
+        loginctl lock-session
+        ;;
+    logout)
+        i3-msg exit
+        ;;
+    switch_user)
+        dm-tool switch-to-greeter
+        ;;
+    suspend)
+        loginctl lock-session && loginctl suspend
+        ;;
+    hibernate)
+        loginctl lock-session && loginctl hibernate
+        ;;
+    reboot)
+        loginctl reboot
+        ;;
+    shutdown)
+        loginctl poweroff
+        ;;
+    *)
+        echo "== ! i3exit: missing or invalid argument ! =="
+        echo "Try again with: lock | logout | switch_user | suspend | hibernate | reboot | shutdown"
+        exit 2
+esac
+
+exit 0
