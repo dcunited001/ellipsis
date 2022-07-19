@@ -37,6 +37,10 @@
 ;;** keyboard
 ;; (define %tokos-default-shell-keyboard
 
+;;** hardware
+(define %tokos-modprobe-blacklist
+  (dc-modprobe-blacklist '("usbmouse")))
+
 ;;** desktop-packages
 ;; (define %tokos-desktop-packages ...)
 
@@ -72,6 +76,9 @@
   (operating-system
    (inherit base-operating-system)
    (host-name %host-name)
+
+   (kernel linux)
+   (kernel-arguments (list %tokos-modprobe-blacklist))
 
    (firmware (list linux-firmware
                    ;; has Broadcom BCM4331 wifi
