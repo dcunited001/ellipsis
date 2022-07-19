@@ -112,6 +112,7 @@
     (append (list
              ;; (dhcp-client-service-type)
              (service pcscd-service-type)
+             ;; NOTE: udev rules should automatically be in place
              ;; (udev-rules-service
              ;;  (udev-rule "90-libu2f.rules"
              ;;             (string-append "")))

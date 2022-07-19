@@ -213,8 +213,7 @@
 ;; TODO: update this for wacom device
 
 (define-public %xorg-libinput-config
-  "
-Section \"InputClass\"
+  "Section \"InputClass\"
   Identifier \"Touchpads\"
   Driver \"libinput\"
   MatchDevicePath \"/dev/input/event*\"
