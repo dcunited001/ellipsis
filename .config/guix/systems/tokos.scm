@@ -1,4 +1,3 @@
-
 ;;* Module: tokos
 (define-module (tokos)
   #:use-module (base-system)
@@ -32,7 +31,7 @@
 (use-package-modules certs shells linux)
 
 ;;** system info
-(define %host-name (gethostname))
+(define %host-name (or (gethostname) "tokos"))
 
 ;;** keyboard
 ;; (define %tokos-default-shell-keyboard
@@ -143,19 +142,21 @@
    (file-systems (cons*
 
                   (file-system
-                   (device (file-system-label "Root"))
+                   (device (file-system-label "tokosRoot"))
                    (mount-point "/")
-                   (type "ext4")
+		   (flags '(no-atime))
+                   (type "btrfs")
+		   (options "space_cache=v2")
                    (needed-for-boot? #t))
 
                   (file-system
-                   (device (file-system-label "Home"))
+                   (device (file-system-label "tokosHome"))
                    (mount-point "/home")
                    (type "ext4")
                    (needed-for-boot? #f))
 		  
                   (file-system
-                   (device (file-system-label "Data"))
+                   (device (file-system-label "tokosData"))
                    (mount-point "/data")
                    (type "ext4")
                    (needed-for-boot? #f))
