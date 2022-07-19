@@ -50,7 +50,7 @@
   (operating-system
    (host-name "usbgpgtool")
    (timezone "America/New_York")
-   (locale "en_us.UTF-8")
+   (locale "en_US.utf8")
 
    ;; to install on a system with just BIOS (e.g. a VM)
    (bootloader (bootloader-configuration
