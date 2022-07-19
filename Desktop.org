@@ -141,7 +141,7 @@ These are defined in [[file:.config/shepherd/init.d][.config/shepherd/init.d]] a
   "font-juliamono"
 
   "font-adobe-source-han-sans"
-
+))
 #+end_src
 
 *.config/fontconfig/fonts.conf*
