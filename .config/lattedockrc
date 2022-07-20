@@ -41,4 +41,5 @@ parabolicThicknessMarginInfluence=0.5
 screenTrackerInterval=2500
 showInfoWindow=true
 singleModeLayoutName=Dr460nized
+userConfiguredAutostart=true
 version=2
