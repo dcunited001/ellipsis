@@ -10,9 +10,15 @@ DisplayPort-2 DisplayPort-0 DisplayPort-1 Width 3840x2160=805
 [General]
 Number of Actions=0
 
+[KFileDialog Settings]
+detailViewIconSize=16
+
 [KPropertiesDialog]
 DisplayPort-2 DisplayPort-1 HDMI-A-0 Height 3840x2160=500
 DisplayPort-2 DisplayPort-1 HDMI-A-0 Width 3840x2160=498
+
+[LatteSettingsDialog][DetailsDialog]
+windowSize=560,640
 
 [PlasmaThemeExtended]
 outlineWidth=1

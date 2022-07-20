@@ -94,7 +94,7 @@ raiseOnDesktopChange=false
 screensGroup=1
 timerHide=700
 timerShow=200
-viewType=0
+viewType=1
 visibility=0
 wallpaperplugin=org.kde.image
 
@@ -146,37 +146,6 @@ cpu/cpu9/usage=14,210,74
 [Containments][12][Applets][164][Configuration][Sensors]
 highPrioritySensorIds=["cpu/cpu.*/usage"]
 totalSensors=["cpu/all/usage"]
-
-[Containments][12][Applets][165]
-immutability=1
-plugin=org.kde.plasma.systemmonitor.memory
-
-[Containments][12][Applets][165][Configuration]
-PreloadWeight=55
-
-[Containments][12][Applets][165][Configuration][Appearance]
-chartFace=org.kde.ksysguard.linechart
-title=Memory Usage
-updateRateLimit=2000
-
-[Containments][12][Applets][165][Configuration][ConfigDialog]
-DialogHeight=2061
-DialogWidth=3825
-
-[Containments][12][Applets][165][Configuration][SensorColors]
-memory/physical/used=197,14,210
-memory/physical/usedPercent=0,255,127
-
-[Containments][12][Applets][165][Configuration][Sensors]
-highPrioritySensorIds=["memory/physical/usedPercent"]
-lowPrioritySensorIds=["memory/physical/total"]
-totalSensors=["memory/physical/usedPercent"]
-
-[Containments][12][Applets][165][Configuration][org.kde.ksysguard.linechart][General]
-historyAmount=180
-rangeAutoY=false
-showGridLines=false
-showYAxisLabels=false
 
 [Containments][12][Applets][40]
 immutability=1
@@ -323,16 +292,16 @@ PreloadWeight=0
 advanced=false
 alignment=10
 alignmentUpgraded=true
-appletOrder=40;98;162;79;164;165;77;95;129;80;83
+appletOrder=40;98;162;79;164;77;95;129;80;83
 appletShadowsEnabled=false
 backgroundOnlyOnMaximized=true
-configurationSticker=true
 disablePanelShadowForMaximized=true
 dragActiveWindowEnabled=true
-iconSize=32
+iconSize=16
 inConfigureAppletsMode=true
 panelSize=100
 plasmaBackgroundForPopups=true
+proportionIconSize=2.6
 screenEdgeMargin=-1
 shadowOpacity=60
 shadowSize=45
@@ -344,10 +313,9 @@ splitterPosition=5
 splitterPosition2=7
 tasksUpgraded=true
 thickMargin=7
-useThemePanel=false
 userBlocksColorizingApplets=40;129;80;83
 windowColors=TouchingWindowColors
-zoomLevel=1
+zoomLevel=0
 
 [Containments][12][Indicator]
 customType=
@@ -746,25 +714,9 @@ raiseOnDesktopChange=false
 screensGroup=0
 timerHide=700
 timerShow=200
-viewType=0
+viewType=1
 visibility=0
 wallpaperplugin=org.kde.image
-
-[Containments][16][Applets][166]
-immutability=1
-plugin=org.kde.plasma.systemmonitor.memory
-
-[Containments][16][Applets][166][Configuration][Appearance]
-chartFace=org.kde.ksysguard.piechart
-title=Memory Usage
-
-[Containments][16][Applets][166][Configuration][SensorColors]
-memory/physical/used=197,14,210
-
-[Containments][16][Applets][166][Configuration][Sensors]
-highPrioritySensorIds=["memory/physical/used"]
-lowPrioritySensorIds=["memory/physical/total"]
-totalSensors=["memory/physical/usedPercent"]
 
 [Containments][16][Applets][56]
 immutability=1
@@ -865,11 +817,11 @@ immutability=1
 plugin=org.kde.plasma.kickoff
 
 [Containments][16][Applets][61][Configuration]
-PreloadWeight=97
+PreloadWeight=92
 
 [Containments][16][Applets][61][Configuration][ConfigDialog]
-DialogHeight=2035
-DialogWidth=3825
+DialogHeight=558
+DialogWidth=720
 
 [Containments][16][Applets][61][Configuration][General]
 alphaSort=true
@@ -960,16 +912,16 @@ PreloadWeight=0
 advanced=false
 alignment=10
 alignmentUpgraded=true
-appletOrder=61;60;64;58;63;166;59;56;65;57;62
+appletOrder=61;60;64;58;63;59;56;65;57;62
 appletShadowsEnabled=false
 backgroundOnlyOnMaximized=true
-configurationSticker=true
 disablePanelShadowForMaximized=true
 dragActiveWindowEnabled=true
-iconSize=32
+iconSize=16
 inConfigureAppletsMode=true
 panelSize=100
 plasmaBackgroundForPopups=true
+proportionIconSize=2.6
 screenEdgeMargin=-1
 shadowOpacity=60
 shadowSize=45
@@ -981,10 +933,9 @@ splitterPosition=5
 splitterPosition2=7
 tasksUpgraded=true
 thickMargin=7
-useThemePanel=false
 userBlocksColorizingApplets=61;65;57;62
 windowColors=TouchingWindowColors
-zoomLevel=1
+zoomLevel=0
 
 [Containments][16][Indicator]
 customType=
@@ -1125,25 +1076,9 @@ raiseOnDesktopChange=false
 screensGroup=0
 timerHide=700
 timerShow=200
-viewType=0
+viewType=1
 visibility=0
 wallpaperplugin=org.kde.image
-
-[Containments][18][Applets][167]
-immutability=1
-plugin=org.kde.plasma.systemmonitor.memory
-
-[Containments][18][Applets][167][Configuration][Appearance]
-chartFace=org.kde.ksysguard.piechart
-title=Memory Usage
-
-[Containments][18][Applets][167][Configuration][SensorColors]
-memory/physical/used=197,14,210
-
-[Containments][18][Applets][167][Configuration][Sensors]
-highPrioritySensorIds=["memory/physical/used"]
-lowPrioritySensorIds=["memory/physical/total"]
-totalSensors=["memory/physical/usedPercent"]
 
 [Containments][18][Applets][82]
 immutability=1
@@ -1244,11 +1179,11 @@ immutability=1
 plugin=org.kde.plasma.kickoff
 
 [Containments][18][Applets][88][Configuration]
-PreloadWeight=97
+PreloadWeight=92
 
 [Containments][18][Applets][88][Configuration][ConfigDialog]
-DialogHeight=2035
-DialogWidth=3825
+DialogHeight=558
+DialogWidth=720
 
 [Containments][18][Applets][88][Configuration][General]
 alphaSort=true
@@ -1339,16 +1274,16 @@ PreloadWeight=0
 advanced=false
 alignment=10
 alignmentUpgraded=true
-appletOrder=88;87;91;85;90;167;86;82;92;84;89
+appletOrder=88;87;91;85;90;86;82;92;84;89
 appletShadowsEnabled=false
 backgroundOnlyOnMaximized=true
-configurationSticker=true
 disablePanelShadowForMaximized=true
 dragActiveWindowEnabled=true
-iconSize=32
+iconSize=16
 inConfigureAppletsMode=true
 panelSize=100
 plasmaBackgroundForPopups=true
+proportionIconSize=2.6
 screenEdgeMargin=-1
 shadowOpacity=60
 shadowSize=45
@@ -1360,10 +1295,9 @@ splitterPosition=5
 splitterPosition2=7
 tasksUpgraded=true
 thickMargin=7
-useThemePanel=false
 userBlocksColorizingApplets=88;92;84;89
 windowColors=TouchingWindowColors
-zoomLevel=1
+zoomLevel=0
 
 [Containments][18][Indicator]
 customType=
@@ -1380,8 +1314,8 @@ color=blue
 customBackground=
 customTextColor=
 disableBordersForMaximizedWindows=true
-icon=dr460nized-start
-lastUsedActivity=bc3cdced-7201-4291-a43c-fe3ef12080c2
+icon=garudalinux
+lastUsedActivity=
 launchers=
 popUpMargin=0
 preferredForShortcutsTouched=false
