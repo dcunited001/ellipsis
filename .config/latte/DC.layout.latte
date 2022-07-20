@@ -147,6 +147,31 @@ cpu/cpu9/usage=14,210,74
 highPrioritySensorIds=["cpu/cpu.*/usage"]
 totalSensors=["cpu/all/usage"]
 
+[Containments][12][Applets][166]
+immutability=1
+plugin=org.kde.plasma.systemmonitor.memory
+
+[Containments][12][Applets][166][Configuration][Appearance]
+chartFace=org.kde.ksysguard.linechart
+title=Memory Usage
+updateRateLimit=2000
+
+[Containments][12][Applets][166][Configuration][ConfigDialog]
+DialogHeight=2059
+DialogWidth=1906
+
+[Containments][12][Applets][166][Configuration][SensorColors]
+memory/physical/used=197,14,210
+memory/physical/usedPercent=0,255,127
+
+[Containments][12][Applets][166][Configuration][Sensors]
+highPrioritySensorIds=["memory/physical/usedPercent"]
+lowPrioritySensorIds=["memory/physical/total"]
+totalSensors=["memory/physical/usedPercent"]
+
+[Containments][12][Applets][166][Configuration][org.kde.ksysguard.linechart][General]
+historyAmount=180
+
 [Containments][12][Applets][40]
 immutability=1
 plugin=org.kde.plasma.kickoff
@@ -292,16 +317,15 @@ PreloadWeight=0
 advanced=false
 alignment=10
 alignmentUpgraded=true
-appletOrder=40;98;162;79;164;77;95;129;80;83
+appletOrder=40;98;162;79;164;166;77;95;129;80;83
 appletShadowsEnabled=false
 backgroundOnlyOnMaximized=true
 disablePanelShadowForMaximized=true
 dragActiveWindowEnabled=true
-iconSize=16
+iconSize=36
 inConfigureAppletsMode=true
 panelSize=100
 plasmaBackgroundForPopups=true
-proportionIconSize=2.6
 screenEdgeMargin=-1
 shadowOpacity=60
 shadowSize=45
@@ -718,6 +742,22 @@ viewType=1
 visibility=0
 wallpaperplugin=org.kde.image
 
+[Containments][16][Applets][167]
+immutability=1
+plugin=org.kde.plasma.systemmonitor.memory
+
+[Containments][16][Applets][167][Configuration][Appearance]
+chartFace=org.kde.ksysguard.piechart
+title=Memory Usage
+
+[Containments][16][Applets][167][Configuration][SensorColors]
+memory/physical/used=197,14,210
+
+[Containments][16][Applets][167][Configuration][Sensors]
+highPrioritySensorIds=["memory/physical/used"]
+lowPrioritySensorIds=["memory/physical/total"]
+totalSensors=["memory/physical/usedPercent"]
+
 [Containments][16][Applets][56]
 immutability=1
 plugin=org.kde.netspeedWidget
@@ -817,11 +857,11 @@ immutability=1
 plugin=org.kde.plasma.kickoff
 
 [Containments][16][Applets][61][Configuration]
-PreloadWeight=92
+PreloadWeight=97
 
 [Containments][16][Applets][61][Configuration][ConfigDialog]
-DialogHeight=558
-DialogWidth=720
+DialogHeight=2035
+DialogWidth=3825
 
 [Containments][16][Applets][61][Configuration][General]
 alphaSort=true
@@ -912,16 +952,15 @@ PreloadWeight=0
 advanced=false
 alignment=10
 alignmentUpgraded=true
-appletOrder=61;60;64;58;63;59;56;65;57;62
+appletOrder=61;60;64;58;63;167;59;56;65;57;62
 appletShadowsEnabled=false
 backgroundOnlyOnMaximized=true
 disablePanelShadowForMaximized=true
 dragActiveWindowEnabled=true
-iconSize=16
+iconSize=36
 inConfigureAppletsMode=true
 panelSize=100
 plasmaBackgroundForPopups=true
-proportionIconSize=2.6
 screenEdgeMargin=-1
 shadowOpacity=60
 shadowSize=45
@@ -1080,6 +1119,22 @@ viewType=1
 visibility=0
 wallpaperplugin=org.kde.image
 
+[Containments][18][Applets][168]
+immutability=1
+plugin=org.kde.plasma.systemmonitor.memory
+
+[Containments][18][Applets][168][Configuration][Appearance]
+chartFace=org.kde.ksysguard.piechart
+title=Memory Usage
+
+[Containments][18][Applets][168][Configuration][SensorColors]
+memory/physical/used=197,14,210
+
+[Containments][18][Applets][168][Configuration][Sensors]
+highPrioritySensorIds=["memory/physical/used"]
+lowPrioritySensorIds=["memory/physical/total"]
+totalSensors=["memory/physical/usedPercent"]
+
 [Containments][18][Applets][82]
 immutability=1
 plugin=org.kde.netspeedWidget
@@ -1179,11 +1234,11 @@ immutability=1
 plugin=org.kde.plasma.kickoff
 
 [Containments][18][Applets][88][Configuration]
-PreloadWeight=92
+PreloadWeight=97
 
 [Containments][18][Applets][88][Configuration][ConfigDialog]
-DialogHeight=558
-DialogWidth=720
+DialogHeight=2035
+DialogWidth=3825
 
 [Containments][18][Applets][88][Configuration][General]
 alphaSort=true
@@ -1274,16 +1329,15 @@ PreloadWeight=0
 advanced=false
 alignment=10
 alignmentUpgraded=true
-appletOrder=88;87;91;85;90;86;82;92;84;89
+appletOrder=88;87;91;85;90;168;86;82;92;84;89
 appletShadowsEnabled=false
 backgroundOnlyOnMaximized=true
 disablePanelShadowForMaximized=true
 dragActiveWindowEnabled=true
-iconSize=16
+iconSize=36
 inConfigureAppletsMode=true
 panelSize=100
 plasmaBackgroundForPopups=true
-proportionIconSize=2.6
 screenEdgeMargin=-1
 shadowOpacity=60
 shadowSize=45
@@ -1315,7 +1369,7 @@ customBackground=
 customTextColor=
 disableBordersForMaximizedWindows=true
 icon=garudalinux
-lastUsedActivity=
+lastUsedActivity=bc3cdced-7201-4291-a43c-fe3ef12080c2
 launchers=
 popUpMargin=0
 preferredForShortcutsTouched=false
