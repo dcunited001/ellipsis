@@ -17,8 +17,23 @@ detailViewIconSize=16
 DisplayPort-2 DisplayPort-1 HDMI-A-0 Height 3840x2160=500
 DisplayPort-2 DisplayPort-1 HDMI-A-0 Width 3840x2160=498
 
+[LatteSettingsDialog]
+downloadWindowSize=980,600
+windowSize=1100,769
+
 [LatteSettingsDialog][DetailsDialog]
 windowSize=560,640
+
+[LatteSettingsDialog][TabLayouts]
+columnWidths=48,508,129,104
+sortColumn=3
+sortOrder=0
+
+[LatteSettingsDialog][ViewsDialog]
+columnWidths=59,256,142,135,131
+sortColumn=2
+sortOrder=0
+windowSize=980,630
 
 [PlasmaThemeExtended]
 outlineWidth=1

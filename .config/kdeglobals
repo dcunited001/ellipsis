@@ -140,7 +140,7 @@ DirSelectDialog Size=837,590
 History Items[$e]=file:$HOME/.dotfiles
 
 [General]
-ColorSchemeHash=bcce7c1c6181c5e14e633cd8301e7a9036b67ac6
+ColorSchemeHash=a054744e5da530142f039caa182148b170643d2e
 Name=Breeze Light
 UseSystemBell=true
 XftHintStyle=hintslight
