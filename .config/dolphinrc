@@ -1,0 +1,18 @@
+[General]
+AutoExpandFolders=true
+ShowToolTips=true
+ShowZoomSlider=false
+Version=201
+ViewPropsTimestamp=2022,7,12,7,23,45.809
+
+[KFileDialog Settings]
+Places Icons Auto-resize=false
+Places Icons Static Size=22
+
+[KPropertiesDialog]
+DisplayPort-2 DisplayPort-1 HDMI-A-0 Height 3840x2160=552
+DisplayPort-2 DisplayPort-1 HDMI-A-0 Width 3840x2160=498
+
+[MainWindow]
+MenuBar=Disabled
+ToolBarsMovable=Disabled

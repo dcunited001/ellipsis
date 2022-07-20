@@ -1,0 +1,11 @@
+[$Version]
+update_info=kwinrules.upd:replace-placement-string-to-enum,kwinrules.upd:use-virtual-desktop-ids
+
+[68bc69a2-c2e0-4b70-8736-695a53f91139]
+Description=Window settings for yubikey manager
+clientmachine=localhost
+title=YubiKey Manager
+types=1
+wmclass=ykman-gui yubikey manager
+wmclasscomplete=true
+wmclassmatch=1

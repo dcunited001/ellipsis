@@ -1,0 +1,36 @@
+[Desktop Entry]
+DefaultProfile=Garuda.profile
+
+[KonsoleWindow]
+RememberWindowSize=false
+ShowMenuBarByDefault=false
+
+[MainWindow]
+DisplayPort-2 DisplayPort-1 HDMI-A-0 Height 2560x1440=667
+DisplayPort-2 DisplayPort-1 HDMI-A-0 Height 3840x2160=562
+DisplayPort-2 DisplayPort-1 HDMI-A-0 Width 2560x1440=1272
+DisplayPort-2 DisplayPort-1 HDMI-A-0 Width 3840x2160=1119
+DisplayPort-2 DisplayPort-1 HDMI-A-0 XPosition 1920x1080=6680
+DisplayPort-2 DisplayPort-1 HDMI-A-0 XPosition 2560x1440=3844
+DisplayPort-2 DisplayPort-1 HDMI-A-0 XPosition 3840x2160=2226
+DisplayPort-2 DisplayPort-1 HDMI-A-0 YPosition 1920x1080=224
+DisplayPort-2 DisplayPort-1 HDMI-A-0 YPosition 2560x1440=769
+DisplayPort-2 DisplayPort-1 HDMI-A-0 YPosition 3840x2160=424
+MenuBar=Disabled
+State=AAAA/wAAAAD9AAAAAAAAA4EAAAIEAAAABAAAAAQAAAAIAAAACPwAAAABAAAAAwAAAAIAAAAWAG0AYQBpAG4AVABvAG8AbABCAGEAcgAAAAAA/////wAAAAAAAAAAAAAAHABzAGUAcwBzAGkAbwBuAFQAbwBvAGwAYgBhAHIAAAAAAAAAAfsAAAAAAAAAAA==
+StatusBar=Disabled
+
+[MainWindow][Toolbar mainToolBar]
+ToolButtonStyle=TextOnly
+
+[MainWindow][Toolbar sessionToolbar]
+IconSize=16
+
+[Toolbar mainToolBar]
+ToolButtonStyle=TextOnly
+
+[Toolbar sessionToolbar]
+IconSize=16
+
+[UiSettings]
+ColorScheme=

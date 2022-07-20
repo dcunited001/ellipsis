@@ -1,0 +1,11 @@
+[Actions]
+EnableMagicMimeActions=false
+StripWhiteSpace=false
+
+[General]
+ActionsInfoMessageShown=false
+KeepClipboardContents=false
+MaxClipItems=1
+PopupInfoMessageShown=false
+SelectionTextOnly=false
+Version=5.25.3
