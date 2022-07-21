@@ -1,5 +1,5 @@
 ;;* Module
-(define-module (ellipsis systems usb-gpg-tools)
+(define-module (ellipsis systems usb-gpg-tool)
   #:use-module (gnu)
   #:use-module (gnu system)
   #:use-module (gnu system nss)
@@ -18,10 +18,15 @@
   ;;** PGP Packages
   #:use-module (gnu packages gnupg)
   #:use-module (gnu packages security-token)
+  #:use-module (gnu packages tls)
 
   ;;** PGP Services
   #:use-module (gnu services authentication)
   #:use-module (gnu services security-token)
+
+  ;; certbot/letsencrypt packages
+  ;; #:use-module (gnu packages tls)
+  ;; #:use-module (gnu services certbot)
 
   #:export (usb-gpg-tools)
 
@@ -33,8 +38,8 @@
 ;; networking is [probably] needed for loopback
 (use-service-modules networking ssh security-token)
 (use-package-modules wget vim emacs emacs-xyz)
-(use-package-modules linux mtools file-systems version-control)
-(use-package-modules screen ssh gnupg cryptsetup security-token)
+(use-package-modules linux time mtools file-systems version-control)
+(use-package-modules screen ssh gnupg cryptsetup security-token certs)
 
 (define %my-user "dc")
 
@@ -90,10 +95,9 @@
                   ntfs-3g
                   exfat-utils
                   fuse-exfat
-                  openssh
 
+                  wget
                   git
-                  ;; curl
                   stow
                   vim
 
@@ -110,19 +114,27 @@
                   emacs-yasnippet
                   emacs-yasnippet-snippets
 
-                  pcsc-lite
                   screen
+                  openssh
+                  openssl
+
+                  pcsc-lite
                   gnupg
 
                   ccid
+                  yubico-piv-tool
                   yubikey-personalization
                   python-yubikey-manager
                   libu2f-host
 
                   pinentry-tty
                   paperkey
+                  datefudge
 
-                  wget
+                  le-certs
+                  nss-certs
+                  certdata2pem
+                  ;; desec-certbot-hook
                   )
             %base-packages-disk-utilities
             %base-packages))

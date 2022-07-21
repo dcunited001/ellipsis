@@ -5,10 +5,24 @@
 
 This is a guix parent module that helps with code reuse.
 
+* Guix
+
+** Writing Packages
+
++ OpenSSL has an example of a Spliced G-Expression
+
++ nothing happens if there's no (arguments...)?
+
+*** Questions
++ how to prevent guile from loading WIP code
+  - these packages should definitely not be in dotfiles..
++ arch & nix use =go build= here, but how are go-deps fetched?
+
+** Writing Services
+
 * Utils
 
 * Services
-
 
 * Home Services
 
@@ -16,7 +30,11 @@ This is a guix parent module that helps with code reuse.
 
 ** USB GPG Image
 
-This is mostly a reimplementation of the Nix image from [[github:drduh/YubiKey-Guide][drduh/YubiKey-Guide]] in Guix.
+This is mostly a reimplementation of the Nix image from [[github:drduh/YubiKey-Guide][drduh/YubiKey-Guide]] in Guix. The image is intended to be used for:
+
++ GPG key generation
++ SSL keygen
++ [[https://developers.yubico.com/PIV/Guides/Certificate_authority.html][Certificate Authority with a Yubikey]]
 
 **** Resources
 
@@ -26,13 +44,8 @@ This is mostly a reimplementation of the Nix image from [[github:drduh/YubiKey-G
 
 **** TODO resolve need to use nonguix when generating USB images for laptops requiring non-free firmware
 
-**** TODO add bootloader/disks
-
-**** TODO check essential-services
-**** TODO check services
-**** TODO check pam-services
-
 *** Notes
+
 **** Yubico
 
 ***** PIV

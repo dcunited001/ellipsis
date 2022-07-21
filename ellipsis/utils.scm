@@ -1,4 +1,4 @@
-(define-module (ellipsis services)
+(define-module (ellipsis utils)
   #:use-module (guix gexp)
 
   #:use-module (gnu packages)
