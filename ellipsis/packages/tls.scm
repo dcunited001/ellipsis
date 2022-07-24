@@ -77,7 +77,7 @@
 ;;     (native-inputs)
 ;;     (home-page "https://smallstep.com/certificates/")
 ;;     (synopsis "Open-Source Certificate Authority & PKI Toolkit")
-;;     (description " A private certificate authority (X.509 & SSH) & ACME server for secure automated certificate management, so you can use TLS everywhere & SSO for SSH.")
+;;     (description "A private certificate authority (X.509 & SSH) & ACME server for secure automated certificate management, so you can use TLS everywhere & SSO for SSH.")
 ;;     (license license:asl20)))
 
 
@@ -106,6 +106,9 @@
     (description "step is an easy-to-use CLI tool for building, operating, and automating Public Key Infrastructure (PKI) systems and workflows. It's the client counterpart to the step-ca online Certificate Authority (CA). You can use it for many common crypto and X.509 operations—either independently, or with an online CA.")
     (license license:asl2.0)))
 
+;; TODO: remove command/certificate/remote_test.go (connects to remote server)
+;; TODO: ld flags?
+
 (define-public step-cli-bin
   (package
     (name "step-cli-bin")
@@ -123,12 +126,29 @@
     ;;  )
     (inputs
      (list coreutils pcsc-lite))
-    (native-inputs
-     (list go))
     (home-page "https://smallstep.com/cli/")
-    (synopsis "A zero trust swiss army knife for working with X509, OAuth, JWT, OATH, OTP, etc")
+    (synopsis "(prebuilt) A zero trust swiss army knife for working with X509, OAuth, JWT, OATH, OTP, etc")
     (description "step is an easy-to-use CLI tool for building, operating, and automating Public Key Infrastructure (PKI) systems and workflows. It's the client counterpart to the step-ca online Certificate Authority (CA). You can use it for many common crypto and X.509 operations—either independently, or with an online CA.")
     (license license:asl2.0)))
 
-;; TODO: remove command/certificate/remote_test.go (connects to remote server)
-;; TODO: ld flags?
+(define-public step-ca-bin
+  (package
+    (name "step-ca-bin")
+    (version "0.21.0")
+    (source (origin
+              (method url-fetch)
+              (uri (string-append
+                    "https://github.com/smallstep/certificates/releases/download/"
+                    "v" version "/step-ca_linux_" version "_amd64.tar.gz"))
+              (sha256
+               (base32
+                "0grvqyjqs6x0lcj8ql4x8vi9kpkcydp6aip96a5r834hbwn0995a"))))
+    (build-system copy-build-system)
+    ;; (arguments
+    ;;  )
+    (inputs
+     (list coreutils pcsc-lite))
+    (home-page "https://smallstep.com/certificates/")
+    (synopsis "(prebuilt) Open-Source Certificate Authority & PKI Toolkit")
+    (description "A private certificate authority (X.509 & SSH) & ACME server for secure automated certificate management, so you can use TLS everywhere & SSO for SSH.")
+    (license license:asl2.0)))
