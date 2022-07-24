@@ -6,6 +6,7 @@
   #:use-module (guix git-download)
   #:use-module (guix packages)
   #:use-module (guix build-system gnu)
+  #:use-module (guix build-system copy)
 
   #:use-module (gnu packages base)
   #:use-module (gnu packages golang)
@@ -94,6 +95,30 @@
                (base32
                 "1b3wd07fismvpybqp15dvh5dw7bjkbdhnas0s2rpnya6p6scgl5y"))))
     (build-system gnu-build-system)
+    ;; (arguments
+    ;;  )
+    (inputs
+     (list coreutils pcsc-lite))
+    (native-inputs
+     (list go))
+    (home-page "https://smallstep.com/cli/")
+    (synopsis "A zero trust swiss army knife for working with X509, OAuth, JWT, OATH, OTP, etc")
+    (description "step is an easy-to-use CLI tool for building, operating, and automating Public Key Infrastructure (PKI) systems and workflows. It's the client counterpart to the step-ca online Certificate Authority (CA). You can use it for many common crypto and X.509 operations—either independently, or with an online CA.")
+    (license license:asl2.0)))
+
+(define-public step-cli-bin
+  (package
+    (name "step-cli-bin")
+    (version "0.21.0")
+    (source (origin
+              (method url-fetch)
+              (uri (string-append
+                    "https://github.com/smallstep/cli/releases/download/"
+                    "v" version "/step_linux_" version "_amd64.tar.gz"))
+              (sha256
+               (base32
+                "11w229qrv9yphbc11s62zn3aygfgv3i7r9m07xhm8fhrcymcbyhk"))))
+    (build-system copy-build-system)
     ;; (arguments
     ;;  )
     (inputs

@@ -17,6 +17,8 @@ This is a guix parent module that helps with code reuse.
 + how to prevent guile from loading WIP code
   - these packages should definitely not be in dotfiles..
 + arch & nix use =go build= here, but how are go-deps fetched?
++ =guix import go= can consume package metadata and produce guix packages, perhaps recursively
+  - [[github:ryanprior/emacs-guix-packaging][ryanprior/emacs-guix-packaging]] can help with this
 
 ** Writing Services
 
