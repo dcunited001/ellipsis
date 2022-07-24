@@ -1,0 +1,41 @@
+#+TITLE:     Pipewire
+#+AUTHOR:    David Conner
+#+EMAIL:     noreply@te.xel.io
+#+DESCRIPTION: notes
+
+
+*** TODO determine whether this should be taken care of by guix-home
+
+
+* Pipewire
+
+**** TODO determine how configs would differ, per system
+
+* Wireplumber
+
+**** TODO define scripts/shims
+
+* Polybar
+
+**** TODO define here or in desktop?
+**** TODO [[https://github.com/polybar/polybar-scripts/tree/master/polybar-scripts/pipewire-simple][pipewire-simple]] module
+
+* Misc
+
++ how to access =pw-top= and things like that
++ enabling/loading modular configs?
+  + audio effects
++ responding to changes/availability in audio graph?
+  + HDMI outputs?
+
+* Guix Profile
+
+#+begin_src scheme :tangle .config/guix/manifests/pipewire.scm :noweb yes
+(specifications->manifest
+ '(
+   "pipewire"
+   "wireplumber"
+   "qpwgraph"
+   "pavucontrol"
+   ))
+#+end_src
