@@ -120,6 +120,28 @@
             (eq? (service-kind service)  gdm-service-type))
           services-list))
 
+;;** %dc-i2c-packages
+;; the following should be made available to a root profile via a manifest
+;; - hw-probe (not yet tested)
+;; - i2c-tools (requires i2c-dev kernel module & group membership)
+;; - ddcci-driver-linux
+;; - ddcui (can be loaded in user-land)
+;;
+;; these packages can also be made available to a secondary login user
+;; with appropriate groups:
+;;
+;; modules should be loaded on-demand
+;;
+;; - https://gitlab.com/ddcci-driver-linux/ddcci-driver-linux
+;; - https://github.com/dcunited001/zettelkasten/blob/master/slips/arch-setup-ddcutil-for-remote-display-config.org
+(define-public %dc-i2c-packages
+  (list i2c-tools
+        hw-probe
+        ddcci-driver-linux
+        ddcutil
+        ;; ddcui
+        ))
+
 ;;** %dc-desktop-packages
 (define-public %dc-desktop-packages
   (append (list
@@ -130,6 +152,7 @@
            ntfs-3g
            exfat-utils
            fuse-exfat
+           hwinfo
            stow
            vim
 
@@ -145,6 +168,9 @@
            emacs-guix
            emacs-yasnippet
            emacs-yasnippet-snippets
+
+           emacs-with-editor
+           emacs-ac-geiser
 
            xterm
            bluez
