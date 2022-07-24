@@ -156,7 +156,8 @@
            stow
            vim
 
-           emacs
+           ;; TODO: consider moving these to /root/.config/guix/manifests/emacs-root.org
+           emacs-native-comp
            emacs-better-defaults
            emacs-auto-complete
            emacs-hydra
@@ -165,12 +166,11 @@
            emacs-lispy
            emacs-geiser
            emacs-geiser-guile
+           emacs-ac-geiser
            emacs-guix
            emacs-yasnippet
            emacs-yasnippet-snippets
-
            emacs-with-editor
-           emacs-ac-geiser
 
            xterm
            bluez

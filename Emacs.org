@@ -21,6 +21,7 @@ User-level emacs profile
    ;; TODO adjust if manifest should use emacs-pgtk-native-comp
    "emacs-native-comp"
    "emacs-better-defaults"
+   "emacs-with-editor"
    "emacs-auto-complete"
    "emacs-hydra"
    "emacs-modus-themes"
@@ -28,11 +29,11 @@ User-level emacs profile
    "emacs-lispy"
    "emacs-geiser"
    "emacs-geiser-guile"
+   "emacs-ac-geiser"
    "emacs-guix"
    "emacs-yasnippet"
    "emacs-yasnippet-snippets"
-
-   "emacs-with-editor"
-   "emacs-ac-geiser"
+   ;; "emacs-magit"
+   ;; "emacs-magit-popup"
    ))
 #+end_src

@@ -28,6 +28,27 @@ This is a guix parent module that helps with code reuse.
 
 * Home Services
 
+* Notes
+
+**** TODO fully disambiguate compose/extend/extension
+... silly french /agir/
+
+** Root Profile
+
+This profile is also created via =/etc/skel= which is defined in =./gnu/system/shadow.scm=
+
+=/etc/profile= should be extended with:
+
+  - special-file-service
+  - extra-special-file-service
+
+**** TODO it's not quite clear how this would be extended
++ ideally, i could just append to the files defined by the =/etc/skel= service
+
+** Boot Params
+
+Configure with =sysctl-service-type= and extend/override =%default-sysctl-settings=.
+
 * Systems
 
 ** USB GPG Image
