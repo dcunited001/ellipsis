@@ -16,3 +16,8 @@
 
 ;; https://github.com/jobbflykt/x509-mode
 ;; https://guix.gnu.org/manual/en/guix.html#emacs_002dbuild_002dsystem
+;;
+;; melpa recipe:
+;; (x509-mode :repo "jobbflykt/x509-mode"
+;;            :fetcher github
+;;            :files (:defaults "*.txt"))

@@ -45,10 +45,19 @@
 
 (define %my-services
   (modify-services
-   %base-services
-   (mingetty-service-type config => (mingetty-configuration
-                                     (inherit config)
-                                     (auto-login %my-user)))))
+      %base-services
+
+    (agetty-service-type
+     config => (agetty-configuration
+                (inherit config)
+                (login-pause? #t)
+                (timeout 30)))
+
+    (mingetty-service-type
+     config => (mingetty-configuration
+                (inherit config)
+                ;; (auto-login %my-user)
+                (login-pause? #t)))))
 
 ;;** Image
 (define usb-gpg-tools
@@ -103,6 +112,7 @@
 
                   emacs-no-x-toolkit
                   emacs-better-defaults
+                  emacs-with-profile
                   emacs-auto-complete
                   emacs-hydra
                   emacs-modus-themes
@@ -110,6 +120,7 @@
                   emacs-lispy
                   emacs-geiser
                   emacs-geiser-guile
+                  emacs-ac-geiser
                   emacs-guix
                   emacs-yasnippet
                   emacs-yasnippet-snippets
