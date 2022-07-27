@@ -30,6 +30,7 @@
   #:use-module (gnu packages gnome)
   #:use-module (gnu packages mtools)
   #:use-module (gnu packages linux)
+  #:use-module (gnu packages hardware)
   #:use-module (gnu packages libusb)
   #:use-module (gnu packages audio)
   #:use-module (gnu packages gnuzilla)
@@ -157,7 +158,8 @@
            vim
 
            ;; TODO: consider moving these to /root/.config/guix/manifests/emacs-root.org
-           emacs-native-comp
+           ;; emacs-native-comp
+           emacs
            emacs-better-defaults
            emacs-auto-complete
            emacs-hydra

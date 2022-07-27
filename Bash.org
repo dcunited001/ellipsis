@@ -1058,6 +1058,8 @@ if [ -f $HOME/.profile ]; then . $HOME/.profile; fi
       ;; "hddtemp"
       ;; "lmsensors"
 
+      "gparted"
+
       ;; i2c needs a guix service, which requires a kernel module
       ;; - see guix system OS declarations
       "i2c-tools"

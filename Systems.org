@@ -190,7 +190,7 @@ retrieve these settings appropriately. This is used throughout =Desktop.org=.
       (dunst/max-icon-size . 88)
 
       ;; TODO: refactor this
-      (dunst/icon-path . "/home/dc/.guix-extra-profiles/desktop/desktop/share/icons/gnome/32x32/status/:/home/dc/.guix-extra-profiles/desktop/desktop/share/icons/gnome/32x32/devices/:/home/dc/.guix-extra-profiles/desktop/desktop/share/icons/32x32/emblems/")
+      (dunst/icon-path . "/home/dc/.guix-extra-profiles/desktop/desktop/share/icons/gnome/32x32/status/:/home/dc/.guix-extra-profiles/desktop/desktop/share/icons/gnome/32x32/devices/:/home/dc/.guix-extra-profiles/desktop/desktop/share/icons/gnome/32x32/emblems/")
       (vimb/default-zoom . 180)
       (qutebrowser/default-zoom . 200)
       (xrandr/primary-display . "eDP"))
@@ -210,6 +210,13 @@ retrieve these settings appropriately. This is used throughout =Desktop.org=.
 
   (when (equal system-name "hersai")
     '((desktop/dpi . nil)
+      (desktop/background . (concat (or (getenv "$_WALLPAPERS") "/data/xdg/wallpapers/anime") "default.jpg"))
+      (rofi/theme . "gruvbox-dark")
+      (rofi/icons . "Papirus-Dark")
+      (rofi/drun-theme . "gruvbox-dark")
+      (rofi/drun-icons . "Papirus-Dark")
+      (rofi/file-theme . "sidebar")
+      (rofi/file-icons . "Papirus-Dark")
       ;(desktop/dpi . 221)
       (emacs/default-face-size . 190)
       (emacs/variable-face-size . 200)
@@ -219,8 +226,10 @@ retrieve these settings appropriately. This is used throughout =Desktop.org=.
       (polybar/font-1-size . 18)
       (polybar/font-2-size . 27)
       (polybar/font-3-size . 13)
+      (polybar/backlight-card . "intel_backlight")
       (dunst/font-size . 32)
       (dunst/max-icon-size . 88)
+      (dunst/icon-path . "/home/dc/.guix-extra-profiles/desktop/desktop/share/icons/gnome/32x32/status/:/home/dc/.guix-extra-profiles/desktop/desktop/share/icons/gnome/32x32/devices/:/home/dc/.guix-extra-profiles/desktop/desktop/share/icons/gnome/32x32/emblems/")
       ;(vimb/default-zoom . 160)
       ;(qutebrowser/default-zoom . 180)
       (xrandr/primary-display . "eDP-1")
@@ -236,6 +245,13 @@ retrieve these settings appropriately. This is used throughout =Desktop.org=.
 
   (when (equal system-name "tokos")
     '((desktop/dpi . 114)
+      (desktop/background . (concat (or (getenv "$_WALLPAPERS") "/data/xdg/wallpapers/anime") "default.jpg"))
+      (rofi/theme . "gruvbox-dark")
+      (rofi/icons . "Papirus-Dark")
+      (rofi/drun-theme . "gruvbox-dark")
+      (rofi/drun-icons . "Papirus-Dark")
+      (rofi/file-theme . "sidebar")
+      (rofi/file-icons . "Papirus-Dark")
       (emacs/default-face-size . 190)
       (emacs/variable-face-size . 200)
       (emacs/fixed-face-size . 190)
@@ -244,8 +260,10 @@ retrieve these settings appropriately. This is used throughout =Desktop.org=.
       (polybar/font-1-size . 12)
       (polybar/font-2-size . 18)
       (polybar/font-3-size . 11)
+      (polybar/backlight-card . "intel_backlight")
       (dunst/font-size . 20)
       (dunst/max-icon-size . 88)
+      (dunst/icon-path . "/home/dc/.guix-extra-profiles/desktop/desktop/share/icons/gnome/32x32/status/:/home/dc/.guix-extra-profiles/desktop/desktop/share/icons/gnome/32x32/devices/:/home/dc/.guix-extra-profiles/desktop/desktop/share/icons/gnome/32x32/emblems/")
       ;(vimb/default-zoom . 160)
       ;(qutebrowser/default-zoom . 180)
       (xrandr/primary-display . "LVDS-1")
@@ -385,30 +403,9 @@ This script makes it easy to update all channels to the latest commit based on a
 ** Syncing
 ** Updating
 
-Updating the dotfiles requires running a script in Emacs to loop over
-all of theliterate configuration =.org= files, running
-=org-babel-tangle-file= to make sure all of the config files are up to
-date.
-
-*.bin/update-dotfiles*
-
-#+begin_src sh :tangle .bin/update-dotfiles :shebang #!/bin/sh
-
-  # Navigate to the directory of this script (generally ~/.dotfiles/.bin)
-  cd $(dirname $(readlink -f $0))
-  cd ..
-
-  # The heavy lifting is done by an Emacs script
-  emacs -Q --script ./.emacs.d/tangle-dotfiles.el
-
-  # Make sure any running Emacs instance gets updated settings
-  emacsclient -e '(load-file "~/.emacs.d/per-system-settings.el")' -a "echo 'Emacs is not currently running'" 
-
-  # Update configuration symlinks
-  stow .
-
-#+end_src
-
+The script =update-dotfiles= requires running a script in Emacs
+to loop over all of theliterate configuration =.org= files, running
+=org-babel-tangle-file= to make sure all of the config files are up to date.
 
 *.emacs.d/tangle-dotfiles.el*
 

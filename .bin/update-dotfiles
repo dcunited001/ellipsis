@@ -11,3 +11,10 @@ emacsclient -e '(load-file "~/.emacs.d/per-system-settings.el")' -a "echo 'Emacs
 
 # Update configuration symlinks
 stow .
+
+status=$?
+if [ $status -eq 0 ]; then
+    notify-send -i emblem-default "Dotfiles" "Update Complete"
+else
+    notify-send -i emblem-important "Dotfiles" "Update failed"
+fi
