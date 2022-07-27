@@ -1,6 +1,15 @@
 [$Version]
 update_info=kwinrules.upd:replace-placement-string-to-enum,kwinrules.upd:use-virtual-desktop-ids
 
+[1]
+Description=Window settings for ykpersonalization
+clientmachine=localhost
+title=YubiKey Personalization Tool
+types=1
+wmclass=yubikey-personalization-gui ykpersonalization
+wmclasscomplete=true
+wmclassmatch=1
+
 [68bc69a2-c2e0-4b70-8736-695a53f91139]
 Description=Window settings for yubikey manager
 clientmachine=localhost
@@ -12,7 +21,7 @@ wmclassmatch=1
 
 [General]
 count=1
-rules=bb60cc91-70b1-4855-89ec-47ef035bf14a
+rules=1
 
 [bb60cc91-70b1-4855-89ec-47ef035bf14a]
 Description=Window settings for ykpersonalization
