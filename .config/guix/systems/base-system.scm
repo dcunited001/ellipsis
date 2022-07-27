@@ -178,8 +178,12 @@
            bluez
            bluez-alsa
            pipewire ;; TODO: pipewire?
-           tlp
            xf86-input-libinput
+
+           tlp
+           cpupower
+           turbostat
+           lm-sensors
 
            ccid
            yubikey-personalization

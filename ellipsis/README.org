@@ -28,10 +28,43 @@ This is a guix parent module that helps with code reuse.
 
 * Home Services
 
+* Packages
+
+** Performance
+
++ cpupower-gui ([[https://aur.archlinux.org/cgit/aur.git/tree/PKGBUILD?h=cpupower-gui][AUR]])
+  - [[https://wiki.archlinux.org/title/CPU_frequency_scaling#cpupower-gui][CPU Powerscaling]]
++ throttled ([[https://github.com/erpalma/throttled][github]])
+  - this may provide fixes for CPU throttling/scaling issues on my laptop, which seems not properly read the =tctl= sensor (it is set +20° from tdie, which i can't find)
+
+** Misc
+
++ libsixel
++ emacs-x509
+
 * Notes
 
 **** TODO fully disambiguate compose/extend/extension
 ... silly french /agir/
+
+** Performance
+
++ amd_pstate ([[https://www.kernel.org/doc/html/latest/admin-guide/pm/amd-pstate.html][linux docs]]) module is builtin to my kernel
+  - but apparently this is very new...
+  - cpu must be Zen 2 or higher (laptops? ... i donno?)
+  - [[https://www.reddit.com/r/linuxhardware/comments/vww97x/owner_report_hp_victus_16_laptop_with_amd_rx5500m/][enabling amd_pstate driver on a laptop]]
+  - and an article from [[https://www.phoronix.com/news/AMD-P-State-How-To][phoronix]]
+
+inspect current CPU state:
+
++ lscpu
++ =sudo cat /sys/devices/system/cpu/cpu*/cpufreq/cpuinfo_cur_freq=
++ =sudo cpupower frequency-info=
+
+inspect current TLP state:
+
++ =sudo tlp-stat=
+
 
 ** Root Profile
 

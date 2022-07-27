@@ -162,6 +162,11 @@
                        (tlp-configuration
                         (cpu-boost-on-ac? #t)
                         (tlp-default-mode "AC") ;; this is the default
+                        (sound-power-save-on-bat 0)
+                        (cpu-scaling-min-freq-on-bat 1700000)
+                        (cpu-scaling-max-freq-on-bat 2100000)
+                        (cpu-scaling-min-freq-on-ac 2100000)
+                        (cpu-scaling-max-freq-on-ac 2100000)
                         (wifi-pwr-on-bat? #t)))
 
               (extra-special-file "/usr/bin/env"

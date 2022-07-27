@@ -999,7 +999,7 @@ if [ -f $HOME/.profile ]; then . $HOME/.profile; fi
 
   "tree"
   "file"
-  "exiftool"
+  "perl-image-exiftool"
   "lsof"
   "lsofgraph"
 
@@ -1009,8 +1009,6 @@ if [ -f $HOME/.profile ]; then . $HOME/.profile; fi
   "graphviz"
 
   "sqlite"
-
-  "htop"
 
   "openssh"
 
