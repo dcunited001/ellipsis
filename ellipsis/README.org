@@ -82,6 +82,20 @@ This profile is also created via =/etc/skel= which is defined in =./gnu/system/s
 
 Configure with =sysctl-service-type= and extend/override =%default-sysctl-settings=.
 
+** ThermalD
+
+Fix thermald on kharis
+
+#+begin_quote
+Jul 24 19:50:37 localhost shepherd[1]: Service thermald has been started.
+Jul 24 19:50:37 localhost shepherd[1]: [thermald] [1658706637][MSG]Config file /gnu/store/n3ag66c5bgcfwffrzlz0qmib1ildv9pa-thermald-2.4.7/etc/thermald/thermal-conf.xml does not exist
+Jul 24 19:50:37 localhost shepherd[1]: [thermald] [1658706637][MSG]Unsupported cpu model, use thermal-conf.xml file or run with --ignore-cpuid-check
+Jul 24 19:50:37 localhost shepherd[1]: [thermald] [1658706637][MSG]THD engine start failed
+Jul 24 19:50:37 localhost shepherd[1]: Service thermald (PID 27678) exited with 2.
+Jul 24 19:50:37 localhost shepherd[1]: Service thermald has been disabled.
+Jul 24 19:50:37 localhost shepherd[1]:   (Respawning too fast.)
+#+end_quote
+
 * Systems
 
 ** USB GPG Image
@@ -103,6 +117,40 @@ This is mostly a reimplementation of the Nix image from [[github:drduh/YubiKey-G
 *** Notes
 
 **** Yubico
+
+***** Disk Utils
+
+****** BTRFS duplication
+
+Including BTRFS could help when writing to SD cards of questionable quality
+when they are intended as long-term backups.
+
+This will ensure that one copy of the disk's metadata and block-level data is
+duplicated within the partition. It results in <50% of the storage space.
+
+#+begin_src shell
+mkfs.btrfs -d dup -m dup --label "backup" /dev/sdXn
+#+end_src
+
+******* TODO ensure =noatime= is configured as udisks2 default
+
+in =/etc/udisks2/mount_options.conf=:
+
+#+begin_src conf
+[defaults]
+btrfs_defaults=noatime,space_cache=v2, ... etc
+#+end_src
+
+^^^ review the above
+
+One problem: =noatime= must be configured on each mount. Also, other metadata may be updated when the system is mounted, unknown to user. this is a shortcoming of simply duplicating LUKS volumes.
+
+****** Duplicate encrypted volumes
+
+However, storing these partitions within an encrypted volume would erase the
+benefits of BTRFS duplication. You can simply duplicate the encrypted volume with =dd=.
+
+Use =cryptsetup= to open/work on the volume is opened. then
 
 ***** PIV
 
