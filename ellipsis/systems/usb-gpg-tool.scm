@@ -24,6 +24,8 @@
   #:use-module (gnu services authentication)
   #:use-module (gnu services security-token)
 
+  #:use-module (ellipsis packages tls)
+
   ;; certbot/letsencrypt packages
   ;; #:use-module (gnu packages tls)
   ;; #:use-module (gnu services certbot)
@@ -112,7 +114,7 @@
 
                   emacs-no-x-toolkit
                   emacs-better-defaults
-                  emacs-with-profile
+                  ;; emacs-with-profile
                   emacs-auto-complete
                   emacs-hydra
                   emacs-modus-themes
@@ -145,8 +147,8 @@
                   le-certs
                   nss-certs
 
-                  step-ca
-                  step-cli
+                  step-ca-bin
+                  step-cli-bin
                   certdata2pem
                   ;; desec-certbot-hook
                   )
