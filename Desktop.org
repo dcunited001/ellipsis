@@ -703,7 +703,7 @@ for_window [class="Thunar"] floating enable
 
 # Productivity (Mail/Calendar)
 #for_window [class="Thunderbird"] floating enable
-assign [class=Thunderbird] $ws0
+assign [class="Thunderbird"] $ws10
 
 # Terminals (to encourage vterm/etc)
 for_window [class="Alacritty"] floating enable

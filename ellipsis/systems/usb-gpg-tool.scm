@@ -144,6 +144,9 @@
 
                   le-certs
                   nss-certs
+
+                  step-ca
+                  step-cli
                   certdata2pem
                   ;; desec-certbot-hook
                   )

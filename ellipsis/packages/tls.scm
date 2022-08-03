@@ -14,9 +14,7 @@
   #:use-module (gnu packages security-token)
   ;; #:use-module (gnu packages gcc)
 
-  #:use-module (srfi srfi-1)
-
-  )
+  #:use-module (srfi srfi-1))
 
 ;; gnu-build-system phases:
 ;; set-SOURCE-DATE-EPOCH set-paths install-locale unpack

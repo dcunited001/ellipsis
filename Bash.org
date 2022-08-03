@@ -986,6 +986,7 @@ if [ -f $HOME/.profile ]; then . $HOME/.profile; fi
 
   "fd"
   "ripgrep"
+  "the-silver-searcher"
 
   ;; TODO consider moving to a media profile
   "ffmpeg"
