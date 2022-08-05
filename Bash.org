@@ -1058,6 +1058,8 @@ if [ -f $HOME/.profile ]; then . $HOME/.profile; fi
       ;; "lmsensors"
 
       "gparted"
+      "mmc-utils"
+      "f3"
 
       ;; i2c needs a guix service, which requires a kernel module
       ;; - see guix system OS declarations
@@ -1080,6 +1082,7 @@ if [ -f $HOME/.profile ]; then . $HOME/.profile; fi
    ;; "yubico-pam"
    ;; "pam-u2f"
    "libu2f-host"
+   "pinentry-tty"
    )
  )
 #+end_src

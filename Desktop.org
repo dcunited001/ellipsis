@@ -1403,6 +1403,7 @@ fi
 #+begin_src scheme :noweb-ref packages :noweb-sep ""
 "dmenu"
 "rofi"
+"pinentry-rofi"
 #+end_src
 
 
