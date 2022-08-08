@@ -24,6 +24,7 @@
   #:use-module (gnu services security-token)
 
   #:use-module (ellipsis packages tls)
+  #:use-module (ellipsis packages password-utils)
 
   ;; certbot/letsencrypt packages
   ;; #:use-module (gnu packages tls)

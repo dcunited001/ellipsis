@@ -1012,6 +1012,7 @@ if [ -f $HOME/.profile ]; then . $HOME/.profile; fi
   "sqlite"
 
   "openssh"
+  "openssl"
 
   "zip"
   "unzip"
