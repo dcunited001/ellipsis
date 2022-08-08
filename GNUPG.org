@@ -429,8 +429,6 @@ See the environment variables in =init.sh=
 
 * Tangling
 
-
-
 ** File Ownership/Permissions
 
 I couldn't find options to specify file owner/group when tangling
@@ -439,6 +437,38 @@ will refuse to function if the permissions are not set correctly. When
 the permissions are not in =400,600,700=, then the group should
 probably be set to =wheel=.
 
+* Entropy
 
+I don't know what I'm doing, so you've been warned lol. It generates keys very fast though, so I guess it works?
 
+** Add an entropy source
 
+Use [[Entropy s][Yubikey as entropy source]]. GPG agent should already be running.
+
+Create a new cert in slot 9a (this will replace the existing 9a PIV cert!)
+
+#+begin_src shell :eval no
+ykman piv keys generate --algorithm ECCP256 9a pubkey.pem
+#+end_src
+
+Run =rngd= in background using Yubikey as =/dev/random= source:
+
+#+begin_src shell :eval no
+rngd -x hwrng -x tpm -x rdrand -x jitter -n pkcs11 -b -W 4096 -f
+#+end_src
+
+Options:
+
++ -x :: disables an existing rng source. =rngd -l= to list
++ -n pkcs11 :: specifiy the pkcs11 source
++ -b :: run =rngd= in the background
++ -W 4096 :: specify the intended entropy size
++ -f :: keep running even when full
+
+** Test with =rngtest=
+
+Compare lines with =FIPS 140-2 successes/failures=. It should be very close to 100%.
+
+#+begin_src shell :eval no
+cat /dev/random | rngtest -c 1000
+#+end_src

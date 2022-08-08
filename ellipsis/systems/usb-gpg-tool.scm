@@ -40,7 +40,7 @@
 ;; networking is [probably] needed for loopback
 (use-service-modules networking ssh security-token)
 (use-package-modules wget screen password-utils vim emacs emacs-xyz)
-(use-package-modules linux time mtools file-systems disk version-control)
+(use-package-modules linux time mtools lsof file-systems disk version-control)
 (use-package-modules ssh gnupg cryptsetup security-token tls certs)
 
 (define %my-user "dc")
@@ -116,6 +116,8 @@
                    fuse-exfat
                    f3
 
+                   lsof
+
                    wget
                    git
                    stow
@@ -135,6 +137,9 @@
                    emacs-guix
                    emacs-yasnippet
                    emacs-yasnippet-snippets
+
+                   ;; req. to seed /dev/random with entropy from yubikey
+                   rng-tools
 
                    screen
                    openssh
