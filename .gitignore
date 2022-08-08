@@ -113,3 +113,13 @@ fonts/**
 
 # zathura
 .config/zathura/zathurarc
+
+# gnupg
+.gnupg
+
+# ssh
+.ssh
+
+# shroud
+.shroud
+.config.shroud/*
