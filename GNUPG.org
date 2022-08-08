@@ -439,7 +439,8 @@ probably be set to =wheel=.
 
 * Entropy
 
-I don't know what I'm doing, so you've been warned lol. It generates keys very fast though, so I guess it works?
+I don't know what I'm doing, so you've been warned lol. It generates keys very
+fast though, so I guess it works?
 
 ** Add an entropy source
 
@@ -471,4 +472,114 @@ Compare lines with =FIPS 140-2 successes/failures=. It should be very close to 1
 
 #+begin_src shell :eval no
 cat /dev/random | rngtest -c 1000
+#+end_src
+
+* Backups
+
+You should never have an active/connected network device when working with these
+file systems. The system should have been booted offline and have remained
+offline the entire time. It should never connect to the network before being
+reset. Ideally, it should be a system that has no disks other than what is
+necessary.
+
+The goal is to get the keys onto the yubikey where they are safe. They can also be generated on the yubikey itself.
+
+** Digital
+
+Flash storaget is thought to become less reliable with time if its CMOS is not powered (i.e. if you don't plug it in for long periods of time)
+
+*** Test the flash storage with F3
+
+F3 isn't really a comprehensive test, but this will help you preempt problems with counterfeit flash storage. It will mainly tell you if there are bad sectors where =f3brew= wrote data, but could not read it.
+
+=f3brew= will destructively write to the entire disk!
+
+#+begin_src shell :eval no
+f3brew /dev/sdX
+#+end_src
+
+This will take a long time. It will prompt you to disconnect/reconnect the storage device. At the end, it will tell you, in hex, how much data was written.
+
+*** Provision the flash partitions for RAID -1
+
+Calculate the partition sizes. Check the number of sectors =n=.
+
+#+begin_src shell :eval no
+LC_ALL=C fdisk -l /dev/sdX
+#+end_src
+
+Take =m = (n/4) % 2048=, since =cfdisk= will round partition sizes down to the nearest multiple of =2048=
+
+Use =cfdisk= to test the partition sizes. You should end up with four. Ensure that the partition sizes, to the sector, are identical.
+
+#+begin_src shell :eval no
+cfdisk -z /dev/sdX
+#+end_src
+
+Just create the partitions. Use =mkfs.ext2= to format them later.
+
+*** Create a partition and backup the files
+
+Format the first partition with =mkfs.ext2=.
+
+#+begin_src shell :eval no
+mkfs.ext2 /dev/sdX1 -L gpg-$(date +%F)
+#+end_src
+
+For further data redundancy, you can use btrfs which can totally duplicate its data and metadata. This will reduce the total disk size by +50%.
+
+#+begin_src shell :eval no
+mkfs.btrfs -L gpg-$(date +%F) -d dup -m dup
+#+end_src
+
+When mounting, you should ensure =readonly= and =noatime= are consistently
+applied to prevent unintentional mutation of the data, which will keep the disk copies in sync unless they are intentionally modified.
+
+#+begin_src shell :eval no
+cryptsetup luksOpen /dev/sdXn backupn
+mount -r -o noatime /dev/mapper/backupn /mnt/backupn -o noatime
+#+end_src
+
+*** Duplicate the partitions
+
+View the partitions with =lsblk= and copy the images from =/dev/sdX1= to =/dev/sdX2= and =/dev/sdY1= and so forth.
+
+#+begin_src shell :eval no
+# i'm not sure whether bs=1M will affect the block structure of the disk
+dd if=/dev/sdX1 of=/dev/sdX2 status=progress
+#+end_src
+
+This will not affect the partition labels which exist inside the LUKS volumes.
+If you want to mount them with the labels, then change with with =e2label
+/dev/sdXn newLabel= while the LUKS volume is open.
+
+*** Close the luks device
+
+Since the partition is not inside an LVM2 volume, you can simply use =dmsetup info= to query the block device mappings to find the name and:
+
+#+begin_src shell :eval no
+umount /mnt/backupn
+cryptsetup luksClose backupn
+#+end_src
+
+Working with multiple identical partitions is a bit tricky, esp. when they do
+contain LVM2 volumes. At any point, you should not attempt to mount devices with
+the same LUKS block device ID's or PV/LV ID's. Ensure that they are completely
+unmounted with =dmsetup info= et alias.
+
+** Paperkey
+
+Paperkey is included on the image and will export the password-protected GPG
+keys to a txt file, which you can print. If unlike me you have more than a 5
+digit salary and you print them out, they can be placed in a safety deposit box.
+
+This gives you an option to generate new keys and issue/use revocation certs, in
+case the backup is lost.
+
+*** Backup
+
+Export an unarmored copy of the master secret to a secure disk.
+
+#+begin_src shell :eval no
+gpg --export-
 #+end_src
