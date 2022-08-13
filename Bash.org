@@ -71,12 +71,6 @@ this as much as possible, at least for myself, so the paths/etc work like
 
 + _DF :: path to dotfiles
 + _DATA :: path to data mount
-  - not final
-+ _XS :: path to "excess" mount
-  - stored outside of home/root partitions
-    * my hard disk is small and i has not enough disks to rice good
-  - will become modeled on XDG-style or posix style paths
-  - this will migrate to replace references to =$_DATA= (at least partially)
 
 #+begin_quote
 Note: getting this to tangle properly requires =C-c C-v C-t=.
@@ -87,7 +81,6 @@ Changing the variables above requires evaluating the block below.
 #+name: bash-env-bindings
 | _DF         | $HOME/.dotfiles            |
 | _DATA       | /data                      |
-| _XS         | /data                      |
 | _LANG       | /data/lang                 |
 | _ECTO       | /data/ecto                 |
 | _REPO       | /data/repo                 |
@@ -108,7 +101,6 @@ Changing the variables above requires evaluating the block below.
 #+begin_example
 export _DF=$HOME/.dotfiles
 export _DATA=/data
-export _XS=/data
 export _LANG=/data/lang
 export _ECTO=/data/ecto
 export _REPO=/data/repo
@@ -126,7 +118,6 @@ export DOOMDIR=$HOME/.doom.d
 #+begin_example
 export _DF=$HOME/.dotfiles
 export _DATA=/data
-export _XS=/data
 export _ECTO=/data/ecto
 export _REPO=/data/repo
 export _STEAM=/steam
@@ -583,6 +574,7 @@ export _JAVA_AWT_WM_NONREPARENTING=1
 
 #+begin_src sh :tangle .config/sh/profile.d/graphviz.sh :shebang #!/bin/sh
 export GRAPHVIZ_DOT=$HOME/.guix-extra-profiles/desktop/desktop/bin/dot
+[[ -e $GRAPHVIZ_DOT ]] || GRAPHVIZ_DOT=/usr/bin/dot
 #+end_src
 
 ** Python

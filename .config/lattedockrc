@@ -14,6 +14,8 @@ Number of Actions=0
 detailViewIconSize=16
 
 [KPropertiesDialog]
+DisplayPort-0 DisplayPort-2 DisplayPort-1 Height 2560x1440=464
+DisplayPort-0 DisplayPort-2 DisplayPort-1 Width 2560x1440=404
 DisplayPort-2 DisplayPort-1 HDMI-A-0 Height 3840x2160=500
 DisplayPort-2 DisplayPort-1 HDMI-A-0 Width 3840x2160=498
 
@@ -42,10 +44,10 @@ outlineWidth=1
 PreloadWeight=0
 
 [ScreenConnectors]
-10=DisplayPort-1:::4920,0 2560x1440
-11=DisplayPort-2:::0,0 3840x2160
+10=DisplayPort-1:::1080,0 3840x2160
+11=DisplayPort-2:::0,240 1080x1920
 12=HDMI-A-0:::0,0 1080x1920
-13=DisplayPort-0:::3840,0 1080x1920
+13=DisplayPort-0:::4920,0 2560x1440
 
 [UniversalSettings]
 badges3DStyle=false
