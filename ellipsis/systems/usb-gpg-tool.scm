@@ -111,6 +111,7 @@
     (packages
      (append (list lvm2
                    cryptsetup
+                   dosfstools
                    ntfs-3g
                    exfat-utils
                    fuse-exfat
@@ -153,6 +154,7 @@
                    yubikey-personalization
                    python-yubikey-manager
                    libu2f-host
+                   opensc
 
                    pinentry-tty
                    paperkey

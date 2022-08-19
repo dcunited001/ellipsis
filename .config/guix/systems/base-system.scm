@@ -146,7 +146,6 @@
 ;;** %dc-desktop-packages
 (define-public %dc-desktop-packages
   (append (list
-           openssh
            git
            lvm2
            cryptsetup
@@ -185,10 +184,19 @@
            turbostat
            lm-sensors
 
+           openssh
+           openssl
+
            ccid
            yubikey-personalization
            python-yubikey-manager
            libu2f-host
+           ;; libfido2 ;; included as dep
+           opensc ;; for pkcs#11 (ssh using smartcard PIV certs)
+           gnupg
+           pcsc-lite
+
+           rng-tools ;; req. to seed /dev/random with entropy from yubikey
 
            ;; required for wacom
            ;; - libwacom modifies udev rules & must be in system config

@@ -43,7 +43,7 @@ The profile will be in =./gnu/store/*profile=
 tar --list -zf pkg/$guixpkg | grep 'profile/bin'
 
 # or, more exactly, after unpacking with
-guixprofile=$(find gnu/store -name "*-profile" -type d)
+guixprofile=$(find pkg/gnu/store -name "*-profile" -type d)
 #guixprofile=$(find pkg/gnu/store -wholename "*profile/etc/profile")
 ln -s $guixprofile .guix-gnupg
 #+end_src
@@ -62,13 +62,22 @@ guix shell --profile=.guix-gnupg -- bash
 
 * Init Script
 
+#+begin_src emacs-lisp :tangle ./init.el :tangle-mode (identity #o400)
+;; for real, the default indentiation in org-babel scripts is annoying as hell
+(setq org-directory "~/org"
+      org-adapt-indentation nil
+      org-src-preserve-indentation t)
+#+end_src
+
 #+begin_src shell :tangle ./init.sh :shebang "#!/bin/sh" :tangle-mode (identity #o500)
 export GPG_TTY="$(tty)"
 export SECRETS_HOME="$(pwd)"
 export GNUPGHOME="$SECRETS_HOME/.gnupg"
 
+export PATH=$SECRETS_HOME/.bin:$PATH
+
 # load GnuPG profile
-GUIX_GNUPG=.guix-gnupg
+GUIX_GNUPG=$SECRETS_HOME/.guix-gnupg
 GUIX_EXTRA=$HOME/.guix-extra-profiles
 
 if [ -f $GUIX_GNUPG/etc/profile ]; then
@@ -84,6 +93,8 @@ else
     return 123
   fi
 fi
+
+export GPG_PINENTRY=$GUIX_PROFILE/bin/pinentry-curses
 
 # SSH
 unset SSH_AGENT_PID
@@ -268,7 +279,8 @@ default-cache-ttl 60
 max-cache-ttl 120
 
 # pinentry-program must be set or gpg-agent expects an X11 compatible one
-pinentry-program /usr/bin/pinentry-curses
+pinentry-program $GPG_PINENTRY
+#pinentry-program /usr/bin/pinentry-curses
 #pinentry-program /usr/bin/pinentry-tty
 #pinentry-program /usr/bin/pinentry-gtk-2
 #pinentry-program /usr/bin/pinentry-x11
@@ -581,5 +593,8 @@ case the backup is lost.
 Export an unarmored copy of the master secret to a secure disk.
 
 #+begin_src shell :eval no
-gpg --export-
+gpg --export-secret-keys $KEYID > $GNUPGHOME/mastersub.unarmored.key
+paperkey --secret-key .gnupg/mastersub.unarmored.key --output mastersub.paperkey.txt
 #+end_src
+
+Print it and then clear your printer's internal cache...
