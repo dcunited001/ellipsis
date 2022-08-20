@@ -46,6 +46,9 @@
 ;;** desktop-packages
 (define %kharis-desktop-packages
   (append (list
+           ;; Guix qemu builds in virglrenderer support
+           ;; virglrenderer
+
            xf86-video-amdgpu)
           %dc-desktop-packages))
 
@@ -178,6 +181,11 @@
                        (libvirt-configuration
                         (unix-sock-group "libvirt")
                         (tls-port "16555")))
+
+              (service virtlog-service-type
+                       (virtlog-configuration
+                        ;; (max-clients 1024) ;; default
+                        (max-size (* 32 (expt 1024 2)))))
 
               (service pcscd-service-type)
               (service openssh-service-type

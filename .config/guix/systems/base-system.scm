@@ -16,7 +16,6 @@
 
   #:use-module (gnu packages wm)
   #:use-module (gnu packages dns)
-  #:use-module (gnu packages ssh)
   #:use-module (gnu packages security-token)
   #:use-module (gnu packages cryptsetup)
   #:use-module (gnu packages cups)
@@ -52,7 +51,7 @@
 (use-service-modules desktop xorg) ;sway/wayland?
 
 ;;** use-package-modules
-(use-package-modules certs shells linux)
+(use-package-modules certs tls ssh gnupg shells linux)
 
 ;;** DEBUG
 ;; (use-modules (ice-9 pretty-print))
@@ -205,6 +204,7 @@
 
            ;; required for xdg-user-dirs-update
            xdg-user-dirs
+           libnotify
 
            ;; usbmuxd and ifuse for iphone-usb
            usbmuxd
@@ -390,23 +390,29 @@ EndSection
                         (unix-sock-group "libvirt")
                         (tls-port "16555")))
 
+              ;; req. to start VM's with virtmanager
+              (service virtlog-service-type
+                       (virtlog-configuration
+                        ;; (max-clients 1024) ;; default
+                        (max-size (* 32 (expt 1024 2)))))
+
               (service pcscd-service-type)
 
-              ;; (service cups-service-type
-              ;;          (cups-configuration
-              ;;           (web-interface? #t)
-              ;;           (extensions
-              ;;            (list cups-filters))))
+             ;; (service cups-service-type
+             ;;          (cups-configuration
+             ;;           (web-interface? #t)
+             ;;           (extensions
+             ;;            (list cups-filters))))
 
-              ;; (service nix-service-type)
+             ;; (service nix-service-type)
 
-              (udev-rules-service 'pipewire-add-udev-rules pipewire)
+             (udev-rules-service 'pipewire-add-udev-rules pipewire)
 
-              (bluetooth-service #:auto-enable? #t)
+             (bluetooth-service #:auto-enable? #t)
 
-              dc-desktop-services
-              ;; NOTE: see also desktop-services-for-system
-              ;;   in guix/gnu/services/desktop.scm
-              ))
+             dc-desktop-services
+             ;; NOTE: see also desktop-services-for-system
+             ;;   in guix/gnu/services/desktop.scm
+             ))
    ;; allow resolution of '.local' hostnames with mDNS
    (name-service-switch %mdns-host-lookup-nss)))
