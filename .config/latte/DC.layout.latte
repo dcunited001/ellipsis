@@ -9,7 +9,7 @@ enableKWinEdges=true
 formfactor=2
 immutability=1
 isPreferredForShortcuts=false
-lastScreen=13
+lastScreen=11
 layoutId=
 location=4
 maxLength=100
@@ -82,7 +82,7 @@ enableKWinEdges=true
 formfactor=2
 immutability=1
 isPreferredForShortcuts=false
-lastScreen=13
+lastScreen=11
 layoutId=
 location=3
 maxLength=100
@@ -103,7 +103,7 @@ immutability=1
 plugin=org.kde.plasma.systemtray
 
 [Containments][12][Applets][129][Configuration]
-PreloadWeight=76
+PreloadWeight=95
 SystrayContainmentId=130
 
 [Containments][12][Applets][162]
@@ -111,7 +111,7 @@ immutability=1
 plugin=org.kde.plasma.pager
 
 [Containments][12][Applets][162][Configuration]
-PreloadWeight=0
+PreloadWeight=5
 
 [Containments][12][Applets][164]
 immutability=1
@@ -152,7 +152,7 @@ immutability=1
 plugin=org.kde.plasma.systemmonitor.memory
 
 [Containments][12][Applets][166][Configuration]
-PreloadWeight=31
+PreloadWeight=15
 
 [Containments][12][Applets][166][Configuration][Appearance]
 chartFace=org.kde.ksysguard.piechart
@@ -180,7 +180,7 @@ immutability=1
 plugin=org.kde.windowappmenu
 
 [Containments][12][Applets][168][Configuration]
-PreloadWeight=26
+PreloadWeight=10
 
 [Containments][12][Applets][168][Configuration][General]
 containmentType=Latte
@@ -249,7 +249,7 @@ immutability=1
 plugin=org.kde.plasma.userswitcher
 
 [Containments][12][Applets][83][Configuration]
-PreloadWeight=0
+PreloadWeight=5
 
 [Containments][12][Applets][83][Configuration][ConfigDialog]
 DialogHeight=510
@@ -348,125 +348,85 @@ type=org.kde.latte.plasma
 clickedAnimationEnabled=true
 
 [Containments][13]
-PreloadWeight=0
 activityId=
+byPassWM=false
+dockWindowBehavior=true
+enableKWinEdges=true
 formfactor=2
 immutability=1
+isClonedFrom=1
+isPreferredForShortcuts=false
 lastScreen=13
 layoutId=
-location=3
-plugin=org.kde.plasma.private.systemtray
+location=4
+maxLength=100
+name=Clone of Main screen bottom
+onPrimary=false
+plugin=org.kde.latte.containment
+raiseOnActivityChange=false
+raiseOnDesktopChange=false
+screensGroup=0
+timerHide=200
+timerShow=200
+viewType=0
+visibility=1
 wallpaperplugin=org.kde.image
 
 [Containments][13][Applets][41]
 immutability=1
-plugin=org.kde.plasma.vault
+plugin=org.kde.latte.plasmoid
 
 [Containments][13][Applets][41][Configuration]
 PreloadWeight=0
 
-[Containments][13][Applets][42]
-immutability=1
-plugin=org.kde.kscreen
-
-[Containments][13][Applets][42][Configuration]
-PreloadWeight=5
-
-[Containments][13][Applets][43]
-immutability=1
-plugin=org.kde.plasma.networkmanagement
-
-[Containments][13][Applets][43][Configuration]
-PreloadWeight=0
-
-[Containments][13][Applets][44]
-immutability=1
-plugin=org.kde.plasma.volume
-
-[Containments][13][Applets][44][Configuration]
-PreloadWeight=76
-
-[Containments][13][Applets][44][Configuration][ConfigDialog]
-DialogHeight=429
-DialogWidth=1266
-
-[Containments][13][Applets][45]
-immutability=1
-plugin=org.kde.plasma.mediacontroller
-
-[Containments][13][Applets][45][Configuration]
-PreloadWeight=10
-
-[Containments][13][Applets][46]
-immutability=1
-plugin=org.kde.plasma.keyboardindicator
-
-[Containments][13][Applets][46][Configuration]
-PreloadWeight=0
-
-[Containments][13][Applets][47]
-immutability=1
-plugin=org.kde.plasma.battery
-
-[Containments][13][Applets][47][Configuration]
-PreloadWeight=0
-
-[Containments][13][Applets][48]
-immutability=1
-plugin=org.kde.plasma.keyboardlayout
-
-[Containments][13][Applets][48][Configuration]
-PreloadWeight=0
-
-[Containments][13][Applets][49]
-immutability=1
-plugin=org.kde.plasma.notifications
-
-[Containments][13][Applets][49][Configuration]
-PreloadWeight=0
-
-[Containments][13][Applets][50]
-immutability=1
-plugin=org.kde.plasma.manage-inputmethod
-
-[Containments][13][Applets][50][Configuration]
-PreloadWeight=0
-
-[Containments][13][Applets][51]
-immutability=1
-plugin=org.kde.plasma.devicenotifier
-
-[Containments][13][Applets][51][Configuration]
-PreloadWeight=0
-
-[Containments][13][Applets][52]
-immutability=1
-plugin=org.kde.plasma.clipboard
-
-[Containments][13][Applets][52][Configuration]
-PreloadWeight=0
-
-[Containments][13][Applets][53]
-immutability=1
-plugin=org.kde.kdeconnect
-
-[Containments][13][Applets][53][Configuration]
-PreloadWeight=0
+[Containments][13][Applets][41][Configuration][General]
+hoverAction=PreviewWindows
+infoBadgeProminentColorEnabled=true
+isInLatteDock=true
+launchers59=applications:garuda-welcome.desktop,applications:org.kde.konsole.desktop,applications:firedragon.desktop,applications:org.kde.dolphin.desktop,applications:org.kde.plasma-systemmonitor.desktop,applications:org.kde.partitionmanager.desktop,applications:systemsettings.desktop,applications:snapper-tools.desktop,applications:octopi.desktop,applications:emacs.desktop,applications:firefox.desktop,applications:org.gnome.dfeet.desktop
+previewWindowAsPopup=true
+showWindowActions=true
 
 [Containments][13][ConfigDialog]
-DialogHeight=510
-DialogWidth=680
+DialogHeight=600
+DialogWidth=586
+
+[Containments][13][Configuration]
+PreloadWeight=0
 
 [Containments][13][General]
-extraItems=org.kde.plasma.bluetooth,org.kde.kdeconnect,org.kde.plasma.battery,org.kde.plasma.clipboard,org.kde.plasma.devicenotifier,org.kde.plasma.manage-inputmethod,org.kde.plasma.mediacontroller,org.kde.plasma.notifications,org.kde.plasma.keyboardindicator,org.kde.plasma.keyboardlayout,org.kde.plasma.networkmanagement,org.kde.plasma.volume,org.kde.kscreen,org.kde.plasma.vault
-knownItems=org.kde.plasma.bluetooth,org.kde.kdeconnect,org.kde.plasma.battery,org.kde.plasma.clipboard,org.kde.plasma.devicenotifier,org.kde.plasma.manage-inputmethod,org.kde.plasma.mediacontroller,org.kde.plasma.notifications,org.kde.plasma.keyboardindicator,org.kde.plasma.nightcolorcontrol,org.kde.plasma.keyboardlayout,org.kde.plasma.networkmanagement,org.kde.plasma.volume,org.kde.plasma.vault
+advanced=false
+alignment=0
+alignmentUpgraded=true
+appletOrder=41
+backgroundOnlyOnMaximized=true
+disablePanelShadowForMaximized=true
+durationTime=x3
+iconSize=16
+panelSize=0
+proportionIconSize=2
+screenEdgeMargin=-1
+shadowOpacity=60
+shadowSize=45
+shadows=All
+shadowsUpgraded=true
+showGlow=false
+solidBackgroundForMaximized=true
+tasksUpgraded=true
+useThemePanel=false
+zoomLevel=7
+
+[Containments][13][Indicator]
+customType=org.kde.latte.win10
+enabled=true
+type=org.kde.latte.win10
 
 [Containments][130]
 PreloadWeight=0
 activityId=
 formfactor=2
 immutability=1
-lastScreen=13
+lastScreen=11
 layoutId=
 location=3
 plugin=org.kde.plasma.private.systemtray
@@ -526,7 +486,7 @@ immutability=1
 plugin=org.kde.plasma.volume
 
 [Containments][130][Applets][139][Configuration]
-PreloadWeight=76
+PreloadWeight=90
 
 [Containments][130][Applets][139][Configuration][ConfigDialog]
 DialogHeight=429
@@ -560,13 +520,6 @@ plugin=org.kde.plasma.vault
 [Containments][130][Applets][158][Configuration]
 PreloadWeight=0
 
-[Containments][130][Applets][171]
-immutability=1
-plugin=org.kde.plasma.mediacontroller
-
-[Containments][130][Applets][171][Configuration]
-PreloadWeight=10
-
 [Containments][130][ConfigDialog]
 DialogHeight=510
 DialogWidth=680
@@ -582,9 +535,190 @@ dockWindowBehavior=true
 enableKWinEdges=true
 formfactor=2
 immutability=1
+isClonedFrom=1
+isPreferredForShortcuts=false
+lastScreen=10
+layoutId=
+location=4
+maxLength=100
+name=Clone of Main screen bottom
+onPrimary=false
+plugin=org.kde.latte.containment
+raiseOnActivityChange=false
+raiseOnDesktopChange=false
+screensGroup=0
+timerHide=200
+timerShow=200
+viewType=0
+visibility=1
+wallpaperplugin=org.kde.image
+
+[Containments][14][Applets][42]
+immutability=1
+plugin=org.kde.latte.plasmoid
+
+[Containments][14][Applets][42][Configuration]
+PreloadWeight=0
+
+[Containments][14][Applets][42][Configuration][General]
+hoverAction=PreviewWindows
+infoBadgeProminentColorEnabled=true
+isInLatteDock=true
+launchers59=applications:garuda-welcome.desktop,applications:org.kde.konsole.desktop,applications:firedragon.desktop,applications:org.kde.dolphin.desktop,applications:org.kde.plasma-systemmonitor.desktop,applications:org.kde.partitionmanager.desktop,applications:systemsettings.desktop,applications:snapper-tools.desktop,applications:octopi.desktop,applications:emacs.desktop,applications:firefox.desktop,applications:org.gnome.dfeet.desktop
+previewWindowAsPopup=true
+showWindowActions=true
+
+[Containments][14][ConfigDialog]
+DialogHeight=600
+DialogWidth=586
+
+[Containments][14][Configuration]
+PreloadWeight=0
+
+[Containments][14][General]
+advanced=false
+alignment=0
+alignmentUpgraded=true
+appletOrder=42
+backgroundOnlyOnMaximized=true
+disablePanelShadowForMaximized=true
+durationTime=x3
+iconSize=16
+panelSize=0
+proportionIconSize=2
+screenEdgeMargin=-1
+shadowOpacity=60
+shadowSize=45
+shadows=All
+shadowsUpgraded=true
+showGlow=false
+solidBackgroundForMaximized=true
+tasksUpgraded=true
+useThemePanel=false
+zoomLevel=7
+
+[Containments][14][Indicator]
+customType=org.kde.latte.win10
+enabled=true
+type=org.kde.latte.win10
+
+[Containments][15]
+PreloadWeight=0
+activityId=
+formfactor=2
+immutability=1
+lastScreen=11
+layoutId=
+location=3
+plugin=org.kde.plasma.private.systemtray
+wallpaperplugin=org.kde.image
+
+[Containments][15][Applets][43]
+immutability=1
+plugin=org.kde.plasma.vault
+
+[Containments][15][Applets][43][Configuration]
+PreloadWeight=0
+
+[Containments][15][Applets][44]
+immutability=1
+plugin=org.kde.kscreen
+
+[Containments][15][Applets][44][Configuration]
+PreloadWeight=5
+
+[Containments][15][Applets][45]
+immutability=1
+plugin=org.kde.plasma.networkmanagement
+
+[Containments][15][Applets][45][Configuration]
+PreloadWeight=0
+
+[Containments][15][Applets][46]
+immutability=1
+plugin=org.kde.plasma.volume
+
+[Containments][15][Applets][46][Configuration]
+PreloadWeight=90
+
+[Containments][15][Applets][46][Configuration][ConfigDialog]
+DialogHeight=429
+DialogWidth=1266
+
+[Containments][15][Applets][47]
+immutability=1
+plugin=org.kde.plasma.keyboardindicator
+
+[Containments][15][Applets][47][Configuration]
+PreloadWeight=0
+
+[Containments][15][Applets][48]
+immutability=1
+plugin=org.kde.plasma.battery
+
+[Containments][15][Applets][48][Configuration]
+PreloadWeight=0
+
+[Containments][15][Applets][49]
+immutability=1
+plugin=org.kde.plasma.keyboardlayout
+
+[Containments][15][Applets][49][Configuration]
+PreloadWeight=0
+
+[Containments][15][Applets][50]
+immutability=1
+plugin=org.kde.plasma.notifications
+
+[Containments][15][Applets][50][Configuration]
+PreloadWeight=0
+
+[Containments][15][Applets][51]
+immutability=1
+plugin=org.kde.plasma.manage-inputmethod
+
+[Containments][15][Applets][51][Configuration]
+PreloadWeight=0
+
+[Containments][15][Applets][52]
+immutability=1
+plugin=org.kde.plasma.devicenotifier
+
+[Containments][15][Applets][52][Configuration]
+PreloadWeight=0
+
+[Containments][15][Applets][53]
+immutability=1
+plugin=org.kde.plasma.clipboard
+
+[Containments][15][Applets][53][Configuration]
+PreloadWeight=0
+
+[Containments][15][Applets][54]
+immutability=1
+plugin=org.kde.kdeconnect
+
+[Containments][15][Applets][54][Configuration]
+PreloadWeight=0
+
+[Containments][15][ConfigDialog]
+DialogHeight=510
+DialogWidth=680
+
+[Containments][15][General]
+extraItems=org.kde.plasma.bluetooth,org.kde.kdeconnect,org.kde.plasma.battery,org.kde.plasma.clipboard,org.kde.plasma.devicenotifier,org.kde.plasma.manage-inputmethod,org.kde.plasma.mediacontroller,org.kde.plasma.notifications,org.kde.plasma.keyboardindicator,org.kde.plasma.keyboardlayout,org.kde.plasma.networkmanagement,org.kde.plasma.volume,org.kde.kscreen,org.kde.plasma.vault
+knownItems=org.kde.plasma.bluetooth,org.kde.kdeconnect,org.kde.plasma.battery,org.kde.plasma.clipboard,org.kde.plasma.devicenotifier,org.kde.plasma.manage-inputmethod,org.kde.plasma.mediacontroller,org.kde.plasma.notifications,org.kde.plasma.keyboardindicator,org.kde.plasma.nightcolorcontrol,org.kde.plasma.keyboardlayout,org.kde.plasma.networkmanagement,org.kde.plasma.volume,org.kde.plasma.vault
+
+[Containments][16]
+activityId=
+byPassWM=false
+dockWindowBehavior=true
+enableKWinEdges=true
+formfactor=2
+immutability=1
 isClonedFrom=12
 isPreferredForShortcuts=false
-lastScreen=11
+lastScreen=13
 layoutId=
 location=3
 maxLength=100
@@ -600,49 +734,49 @@ viewType=1
 visibility=0
 wallpaperplugin=org.kde.image
 
-[Containments][14][Applets][54]
+[Containments][16][Applets][55]
 immutability=1
 plugin=org.kde.netspeedWidget
 
-[Containments][14][Applets][54][Configuration]
+[Containments][16][Applets][55][Configuration]
 PreloadWeight=0
 
-[Containments][14][Applets][54][Configuration][Advanced]
+[Containments][16][Applets][55][Configuration][Advanced]
 launchApplication=org.kde.plasma-systemmonitor.desktop
 launchApplicationEnabled=true
 
-[Containments][14][Applets][54][Configuration][ConfigDialog]
+[Containments][16][Applets][55][Configuration][ConfigDialog]
 DialogHeight=510
 DialogWidth=680
 
-[Containments][14][Applets][54][Configuration][General]
+[Containments][16][Applets][55][Configuration][General]
 shortUnits=true
 showIcons=false
 swapDownUp=true
 
-[Containments][14][Applets][55]
+[Containments][16][Applets][56]
 immutability=1
 plugin=org.kde.plasma.eventcalendar
 
-[Containments][14][Applets][55][Configuration]
+[Containments][16][Applets][56][Configuration]
 PreloadWeight=0
 
-[Containments][14][Applets][55][Configuration][General]
+[Containments][16][Applets][56][Configuration][General]
 v71Migration=true
 v72Migration=true
 
-[Containments][14][Applets][56]
+[Containments][16][Applets][57]
 immutability=1
 plugin=org.kde.windowtitle
 
-[Containments][14][Applets][56][Configuration]
+[Containments][16][Applets][57][Configuration]
 PreloadWeight=0
 
-[Containments][14][Applets][56][Configuration][ConfigDialog]
+[Containments][16][Applets][57][Configuration][ConfigDialog]
 DialogHeight=540
 DialogWidth=720
 
-[Containments][14][Applets][56][Configuration][General]
+[Containments][16][Applets][57][Configuration][General]
 appMenuIsPresent=true
 containmentType=Latte
 filterActivityInfo=false
@@ -653,18 +787,18 @@ maximumLength=410
 placeHolder=Garuda KDE Dr460nized 🐉
 showIcon=false
 
-[Containments][14][Applets][57]
+[Containments][16][Applets][58]
 immutability=1
 plugin=org.kde.windowbuttons
 
-[Containments][14][Applets][57][Configuration]
+[Containments][16][Applets][58][Configuration]
 PreloadWeight=0
 
-[Containments][14][Applets][57][Configuration][ConfigDialog]
+[Containments][16][Applets][58][Configuration][ConfigDialog]
 DialogHeight=558
 DialogWidth=720
 
-[Containments][14][Applets][57][Configuration][General]
+[Containments][16][Applets][58][Configuration][General]
 buttonSizePercentage=42
 containmentType=Latte
 inactiveStateEnabled=true
@@ -677,18 +811,18 @@ spacing=6
 useDecorationMetrics=false
 visibility=ActiveMaximizedWindow
 
-[Containments][14][Applets][58]
+[Containments][16][Applets][59]
 immutability=1
 plugin=org.kde.plasma.kickoff
 
-[Containments][14][Applets][58][Configuration]
+[Containments][16][Applets][59][Configuration]
 PreloadWeight=100
 
-[Containments][14][Applets][58][Configuration][ConfigDialog]
+[Containments][16][Applets][59][Configuration][ConfigDialog]
 DialogHeight=2035
 DialogWidth=3825
 
-[Containments][14][Applets][58][Configuration][General]
+[Containments][16][Applets][59][Configuration][General]
 alphaSort=true
 favoritesPortedToKAstats=true
 icon=garudalinux
@@ -698,65 +832,65 @@ switchTabsOnHover=false
 systemApplications=systemsettings.desktop,org.kde.kinfocenter.desktop
 systemFavorites=lock-screen\\,logout\\,save-session\\,switch-user\\,suspend\\,hibernate\\,reboot\\,shutdown
 
-[Containments][14][Applets][58][Shortcuts]
+[Containments][16][Applets][59][Shortcuts]
 global=
 
-[Containments][14][Applets][59]
+[Containments][16][Applets][60]
 immutability=1
 plugin=org.kde.plasma.systemmonitor.memory
 
-[Containments][14][Applets][59][Configuration]
-PreloadWeight=31
+[Containments][16][Applets][60][Configuration]
+PreloadWeight=15
 
-[Containments][14][Applets][59][Configuration][Appearance]
+[Containments][16][Applets][60][Configuration][Appearance]
 chartFace=org.kde.ksysguard.piechart
 title=Memory Usage
 updateRateLimit=2000
 
-[Containments][14][Applets][59][Configuration][ConfigDialog]
+[Containments][16][Applets][60][Configuration][ConfigDialog]
 DialogHeight=2059
 DialogWidth=1906
 
-[Containments][14][Applets][59][Configuration][SensorColors]
+[Containments][16][Applets][60][Configuration][SensorColors]
 memory/physical/used=197,14,210
 memory/physical/usedPercent=0,255,127
 
-[Containments][14][Applets][59][Configuration][Sensors]
+[Containments][16][Applets][60][Configuration][Sensors]
 highPrioritySensorIds=["memory/physical/used"]
 lowPrioritySensorIds=["memory/physical/total"]
 totalSensors=["memory/physical/usedPercent"]
 
-[Containments][14][Applets][59][Configuration][org.kde.ksysguard.linechart][General]
+[Containments][16][Applets][60][Configuration][org.kde.ksysguard.linechart][General]
 historyAmount=180
 
-[Containments][14][Applets][60]
+[Containments][16][Applets][61]
 immutability=1
 plugin=org.kde.plasma.userswitcher
 
-[Containments][14][Applets][60][Configuration]
-PreloadWeight=0
+[Containments][16][Applets][61][Configuration]
+PreloadWeight=5
 
-[Containments][14][Applets][60][Configuration][ConfigDialog]
+[Containments][16][Applets][61][Configuration][ConfigDialog]
 DialogHeight=510
 DialogWidth=680
 
-[Containments][14][Applets][60][Configuration][General]
+[Containments][16][Applets][61][Configuration][General]
 showFace=true
 showName=false
 showTechnicalInfo=true
 
-[Containments][14][Applets][61]
+[Containments][16][Applets][62]
 immutability=1
 plugin=org.kde.plasma.systemmonitor.cpucore
 
-[Containments][14][Applets][61][Configuration]
+[Containments][16][Applets][62][Configuration]
 PreloadWeight=0
 
-[Containments][14][Applets][61][Configuration][Appearance]
+[Containments][16][Applets][62][Configuration][Appearance]
 chartFace=org.kde.ksysguard.barchart
 title=Individual Core Usage
 
-[Containments][14][Applets][61][Configuration][SensorColors]
+[Containments][16][Applets][62][Configuration][SensorColors]
 cpu/cpu.*/usage=197,14,210
 cpu/cpu0/usage=197,14,210
 cpu/cpu1/usage=210,14,150
@@ -775,49 +909,49 @@ cpu/cpu7/usage=101,210,14
 cpu/cpu8/usage=27,210,14
 cpu/cpu9/usage=14,210,74
 
-[Containments][14][Applets][61][Configuration][Sensors]
+[Containments][16][Applets][62][Configuration][Sensors]
 highPrioritySensorIds=["cpu/cpu.*/usage"]
 totalSensors=["cpu/all/usage"]
 
-[Containments][14][Applets][62]
+[Containments][16][Applets][63]
 immutability=1
 plugin=org.kde.plasma.pager
 
-[Containments][14][Applets][62][Configuration]
-PreloadWeight=0
+[Containments][16][Applets][63][Configuration]
+PreloadWeight=5
 
-[Containments][14][Applets][63]
+[Containments][16][Applets][64]
 immutability=1
 plugin=org.kde.windowappmenu
 
-[Containments][14][Applets][63][Configuration]
-PreloadWeight=26
+[Containments][16][Applets][64][Configuration]
+PreloadWeight=10
 
-[Containments][14][Applets][63][Configuration][General]
+[Containments][16][Applets][64][Configuration][General]
 containmentType=Latte
 supportsActiveWindowSchemes=true
 windowTitleIsPresent=true
 
-[Containments][14][Applets][64]
+[Containments][16][Applets][65]
 immutability=1
 plugin=org.kde.plasma.systemtray
 
-[Containments][14][Applets][64][Configuration]
-PreloadWeight=76
-SystrayContainmentId=13
+[Containments][16][Applets][65][Configuration]
+PreloadWeight=95
+SystrayContainmentId=15
 
-[Containments][14][ConfigDialog]
+[Containments][16][ConfigDialog]
 DialogHeight=600
 DialogWidth=586
 
-[Containments][14][Configuration]
+[Containments][16][Configuration]
 PreloadWeight=0
 
-[Containments][14][General]
+[Containments][16][General]
 advanced=false
 alignment=10
 alignmentUpgraded=true
-appletOrder=58;57;62;63;56;61;59;54;64;55;60
+appletOrder=59;58;63;64;57;62;60;55;65;56;61
 appletShadowsEnabled=false
 backgroundOnlyOnMaximized=true
 disablePanelShadowForMaximized=true
@@ -837,133 +971,126 @@ splitterPosition=5
 splitterPosition2=7
 tasksUpgraded=true
 thickMargin=7
-userBlocksColorizingApplets=58;64;55;60
+userBlocksColorizingApplets=59;65;56;61
 windowColors=TouchingWindowColors
 zoomLevel=0
 
-[Containments][14][Indicator]
+[Containments][16][Indicator]
 customType=
 enabled=true
 type=org.kde.latte.plasma
 
-[Containments][14][Indicator][org.kde.latte.plasma][General]
+[Containments][16][Indicator][org.kde.latte.plasma][General]
 clickedAnimationEnabled=true
 
-[Containments][15]
+[Containments][17]
 PreloadWeight=0
 activityId=
 formfactor=2
 immutability=1
-lastScreen=13
+lastScreen=11
 layoutId=
 location=3
 plugin=org.kde.plasma.private.systemtray
 wallpaperplugin=org.kde.image
 
-[Containments][15][Applets][65]
+[Containments][17][Applets][66]
 immutability=1
 plugin=org.kde.plasma.vault
 
-[Containments][15][Applets][65][Configuration]
+[Containments][17][Applets][66][Configuration]
 PreloadWeight=0
 
-[Containments][15][Applets][66]
+[Containments][17][Applets][67]
 immutability=1
 plugin=org.kde.kscreen
 
-[Containments][15][Applets][66][Configuration]
+[Containments][17][Applets][67][Configuration]
 PreloadWeight=5
 
-[Containments][15][Applets][67]
+[Containments][17][Applets][68]
 immutability=1
 plugin=org.kde.plasma.networkmanagement
 
-[Containments][15][Applets][67][Configuration]
+[Containments][17][Applets][68][Configuration]
 PreloadWeight=0
 
-[Containments][15][Applets][68]
+[Containments][17][Applets][69]
 immutability=1
 plugin=org.kde.plasma.volume
 
-[Containments][15][Applets][68][Configuration]
-PreloadWeight=76
+[Containments][17][Applets][69][Configuration]
+PreloadWeight=90
 
-[Containments][15][Applets][68][Configuration][ConfigDialog]
+[Containments][17][Applets][69][Configuration][ConfigDialog]
 DialogHeight=429
 DialogWidth=1266
 
-[Containments][15][Applets][69]
-immutability=1
-plugin=org.kde.plasma.mediacontroller
-
-[Containments][15][Applets][69][Configuration]
-PreloadWeight=10
-
-[Containments][15][Applets][70]
+[Containments][17][Applets][70]
 immutability=1
 plugin=org.kde.plasma.keyboardindicator
 
-[Containments][15][Applets][70][Configuration]
+[Containments][17][Applets][70][Configuration]
 PreloadWeight=0
 
-[Containments][15][Applets][71]
+[Containments][17][Applets][71]
 immutability=1
 plugin=org.kde.plasma.battery
 
-[Containments][15][Applets][71][Configuration]
+[Containments][17][Applets][71][Configuration]
 PreloadWeight=0
 
-[Containments][15][Applets][72]
+[Containments][17][Applets][72]
 immutability=1
 plugin=org.kde.plasma.keyboardlayout
 
-[Containments][15][Applets][72][Configuration]
+[Containments][17][Applets][72][Configuration]
 PreloadWeight=0
 
-[Containments][15][Applets][73]
+[Containments][17][Applets][73]
 immutability=1
 plugin=org.kde.plasma.notifications
 
-[Containments][15][Applets][73][Configuration]
+[Containments][17][Applets][73][Configuration]
 PreloadWeight=0
 
-[Containments][15][Applets][74]
+[Containments][17][Applets][74]
 immutability=1
 plugin=org.kde.plasma.manage-inputmethod
 
-[Containments][15][Applets][74][Configuration]
+[Containments][17][Applets][74][Configuration]
 PreloadWeight=0
 
-[Containments][15][Applets][75]
+[Containments][17][Applets][75]
 immutability=1
 plugin=org.kde.plasma.devicenotifier
 
-[Containments][15][Applets][75][Configuration]
+[Containments][17][Applets][75][Configuration]
 PreloadWeight=0
 
-[Containments][15][Applets][76]
+[Containments][17][Applets][76]
 immutability=1
 plugin=org.kde.plasma.clipboard
 
-[Containments][15][Applets][76][Configuration]
+[Containments][17][Applets][76][Configuration]
 PreloadWeight=0
 
-[Containments][15][Applets][77]
+[Containments][17][Applets][77]
 immutability=1
 plugin=org.kde.kdeconnect
 
-[Containments][15][Applets][77][Configuration]
+[Containments][17][Applets][77][Configuration]
 PreloadWeight=0
 
-[Containments][15][ConfigDialog]
+[Containments][17][ConfigDialog]
 DialogHeight=510
 DialogWidth=680
 
-[Containments][15][General]
+[Containments][17][General]
 extraItems=org.kde.plasma.bluetooth,org.kde.kdeconnect,org.kde.plasma.battery,org.kde.plasma.clipboard,org.kde.plasma.devicenotifier,org.kde.plasma.manage-inputmethod,org.kde.plasma.mediacontroller,org.kde.plasma.notifications,org.kde.plasma.keyboardindicator,org.kde.plasma.keyboardlayout,org.kde.plasma.networkmanagement,org.kde.plasma.volume,org.kde.kscreen,org.kde.plasma.vault
 knownItems=org.kde.plasma.bluetooth,org.kde.kdeconnect,org.kde.plasma.battery,org.kde.plasma.clipboard,org.kde.plasma.devicenotifier,org.kde.plasma.manage-inputmethod,org.kde.plasma.mediacontroller,org.kde.plasma.notifications,org.kde.plasma.keyboardindicator,org.kde.plasma.nightcolorcontrol,org.kde.plasma.keyboardlayout,org.kde.plasma.networkmanagement,org.kde.plasma.volume,org.kde.plasma.vault
 
-[Containments][16]
+[Containments][18]
 activityId=
 byPassWM=false
 dockWindowBehavior=true
@@ -988,49 +1115,49 @@ viewType=1
 visibility=0
 wallpaperplugin=org.kde.image
 
-[Containments][16][Applets][78]
+[Containments][18][Applets][78]
 immutability=1
 plugin=org.kde.netspeedWidget
 
-[Containments][16][Applets][78][Configuration]
+[Containments][18][Applets][78][Configuration]
 PreloadWeight=0
 
-[Containments][16][Applets][78][Configuration][Advanced]
+[Containments][18][Applets][78][Configuration][Advanced]
 launchApplication=org.kde.plasma-systemmonitor.desktop
 launchApplicationEnabled=true
 
-[Containments][16][Applets][78][Configuration][ConfigDialog]
+[Containments][18][Applets][78][Configuration][ConfigDialog]
 DialogHeight=510
 DialogWidth=680
 
-[Containments][16][Applets][78][Configuration][General]
+[Containments][18][Applets][78][Configuration][General]
 shortUnits=true
 showIcons=false
 swapDownUp=true
 
-[Containments][16][Applets][81]
+[Containments][18][Applets][81]
 immutability=1
 plugin=org.kde.plasma.eventcalendar
 
-[Containments][16][Applets][81][Configuration]
+[Containments][18][Applets][81][Configuration]
 PreloadWeight=0
 
-[Containments][16][Applets][81][Configuration][General]
+[Containments][18][Applets][81][Configuration][General]
 v71Migration=true
 v72Migration=true
 
-[Containments][16][Applets][82]
+[Containments][18][Applets][82]
 immutability=1
 plugin=org.kde.windowtitle
 
-[Containments][16][Applets][82][Configuration]
+[Containments][18][Applets][82][Configuration]
 PreloadWeight=0
 
-[Containments][16][Applets][82][Configuration][ConfigDialog]
+[Containments][18][Applets][82][Configuration][ConfigDialog]
 DialogHeight=540
 DialogWidth=720
 
-[Containments][16][Applets][82][Configuration][General]
+[Containments][18][Applets][82][Configuration][General]
 appMenuIsPresent=true
 containmentType=Latte
 filterActivityInfo=false
@@ -1041,18 +1168,18 @@ maximumLength=410
 placeHolder=Garuda KDE Dr460nized 🐉
 showIcon=false
 
-[Containments][16][Applets][84]
+[Containments][18][Applets][84]
 immutability=1
 plugin=org.kde.windowbuttons
 
-[Containments][16][Applets][84][Configuration]
+[Containments][18][Applets][84][Configuration]
 PreloadWeight=0
 
-[Containments][16][Applets][84][Configuration][ConfigDialog]
+[Containments][18][Applets][84][Configuration][ConfigDialog]
 DialogHeight=558
 DialogWidth=720
 
-[Containments][16][Applets][84][Configuration][General]
+[Containments][18][Applets][84][Configuration][General]
 buttonSizePercentage=42
 containmentType=Latte
 inactiveStateEnabled=true
@@ -1065,18 +1192,18 @@ spacing=6
 useDecorationMetrics=false
 visibility=ActiveMaximizedWindow
 
-[Containments][16][Applets][85]
+[Containments][18][Applets][85]
 immutability=1
 plugin=org.kde.plasma.kickoff
 
-[Containments][16][Applets][85][Configuration]
+[Containments][18][Applets][85][Configuration]
 PreloadWeight=100
 
-[Containments][16][Applets][85][Configuration][ConfigDialog]
+[Containments][18][Applets][85][Configuration][ConfigDialog]
 DialogHeight=2035
 DialogWidth=3825
 
-[Containments][16][Applets][85][Configuration][General]
+[Containments][18][Applets][85][Configuration][General]
 alphaSort=true
 favoritesPortedToKAstats=true
 icon=garudalinux
@@ -1086,65 +1213,65 @@ switchTabsOnHover=false
 systemApplications=systemsettings.desktop,org.kde.kinfocenter.desktop
 systemFavorites=lock-screen\\,logout\\,save-session\\,switch-user\\,suspend\\,hibernate\\,reboot\\,shutdown
 
-[Containments][16][Applets][85][Shortcuts]
+[Containments][18][Applets][85][Shortcuts]
 global=
 
-[Containments][16][Applets][86]
+[Containments][18][Applets][86]
 immutability=1
 plugin=org.kde.plasma.systemmonitor.memory
 
-[Containments][16][Applets][86][Configuration]
-PreloadWeight=31
+[Containments][18][Applets][86][Configuration]
+PreloadWeight=15
 
-[Containments][16][Applets][86][Configuration][Appearance]
+[Containments][18][Applets][86][Configuration][Appearance]
 chartFace=org.kde.ksysguard.piechart
 title=Memory Usage
 updateRateLimit=2000
 
-[Containments][16][Applets][86][Configuration][ConfigDialog]
+[Containments][18][Applets][86][Configuration][ConfigDialog]
 DialogHeight=2059
 DialogWidth=1906
 
-[Containments][16][Applets][86][Configuration][SensorColors]
+[Containments][18][Applets][86][Configuration][SensorColors]
 memory/physical/used=197,14,210
 memory/physical/usedPercent=0,255,127
 
-[Containments][16][Applets][86][Configuration][Sensors]
+[Containments][18][Applets][86][Configuration][Sensors]
 highPrioritySensorIds=["memory/physical/used"]
 lowPrioritySensorIds=["memory/physical/total"]
 totalSensors=["memory/physical/usedPercent"]
 
-[Containments][16][Applets][86][Configuration][org.kde.ksysguard.linechart][General]
+[Containments][18][Applets][86][Configuration][org.kde.ksysguard.linechart][General]
 historyAmount=180
 
-[Containments][16][Applets][87]
+[Containments][18][Applets][87]
 immutability=1
 plugin=org.kde.plasma.userswitcher
 
-[Containments][16][Applets][87][Configuration]
-PreloadWeight=0
+[Containments][18][Applets][87][Configuration]
+PreloadWeight=5
 
-[Containments][16][Applets][87][Configuration][ConfigDialog]
+[Containments][18][Applets][87][Configuration][ConfigDialog]
 DialogHeight=510
 DialogWidth=680
 
-[Containments][16][Applets][87][Configuration][General]
+[Containments][18][Applets][87][Configuration][General]
 showFace=true
 showName=false
 showTechnicalInfo=true
 
-[Containments][16][Applets][88]
+[Containments][18][Applets][88]
 immutability=1
 plugin=org.kde.plasma.systemmonitor.cpucore
 
-[Containments][16][Applets][88][Configuration]
+[Containments][18][Applets][88][Configuration]
 PreloadWeight=0
 
-[Containments][16][Applets][88][Configuration][Appearance]
+[Containments][18][Applets][88][Configuration][Appearance]
 chartFace=org.kde.ksysguard.barchart
 title=Individual Core Usage
 
-[Containments][16][Applets][88][Configuration][SensorColors]
+[Containments][18][Applets][88][Configuration][SensorColors]
 cpu/cpu.*/usage=197,14,210
 cpu/cpu0/usage=197,14,210
 cpu/cpu1/usage=210,14,150
@@ -1163,45 +1290,45 @@ cpu/cpu7/usage=101,210,14
 cpu/cpu8/usage=27,210,14
 cpu/cpu9/usage=14,210,74
 
-[Containments][16][Applets][88][Configuration][Sensors]
+[Containments][18][Applets][88][Configuration][Sensors]
 highPrioritySensorIds=["cpu/cpu.*/usage"]
 totalSensors=["cpu/all/usage"]
 
-[Containments][16][Applets][89]
+[Containments][18][Applets][89]
 immutability=1
 plugin=org.kde.plasma.pager
 
-[Containments][16][Applets][89][Configuration]
-PreloadWeight=0
+[Containments][18][Applets][89][Configuration]
+PreloadWeight=5
 
-[Containments][16][Applets][90]
+[Containments][18][Applets][90]
 immutability=1
 plugin=org.kde.windowappmenu
 
-[Containments][16][Applets][90][Configuration]
-PreloadWeight=26
+[Containments][18][Applets][90][Configuration]
+PreloadWeight=10
 
-[Containments][16][Applets][90][Configuration][General]
+[Containments][18][Applets][90][Configuration][General]
 containmentType=Latte
 supportsActiveWindowSchemes=true
 windowTitleIsPresent=true
 
-[Containments][16][Applets][91]
+[Containments][18][Applets][91]
 immutability=1
 plugin=org.kde.plasma.systemtray
 
-[Containments][16][Applets][91][Configuration]
-PreloadWeight=76
-SystrayContainmentId=15
+[Containments][18][Applets][91][Configuration]
+PreloadWeight=95
+SystrayContainmentId=17
 
-[Containments][16][ConfigDialog]
+[Containments][18][ConfigDialog]
 DialogHeight=600
 DialogWidth=586
 
-[Containments][16][Configuration]
+[Containments][18][Configuration]
 PreloadWeight=0
 
-[Containments][16][General]
+[Containments][18][General]
 advanced=false
 alignment=10
 alignmentUpgraded=true
@@ -1229,161 +1356,13 @@ userBlocksColorizingApplets=85;91;81;87
 windowColors=TouchingWindowColors
 zoomLevel=0
 
-[Containments][16][Indicator]
+[Containments][18][Indicator]
 customType=
 enabled=true
 type=org.kde.latte.plasma
 
-[Containments][16][Indicator][org.kde.latte.plasma][General]
+[Containments][18][Indicator][org.kde.latte.plasma][General]
 clickedAnimationEnabled=true
-
-[Containments][17]
-activityId=
-byPassWM=false
-dockWindowBehavior=true
-enableKWinEdges=true
-formfactor=2
-immutability=1
-isClonedFrom=1
-isPreferredForShortcuts=false
-lastScreen=11
-layoutId=
-location=4
-maxLength=100
-name=Clone of Main screen bottom
-onPrimary=false
-plugin=org.kde.latte.containment
-raiseOnActivityChange=false
-raiseOnDesktopChange=false
-screensGroup=0
-timerHide=200
-timerShow=200
-viewType=0
-visibility=1
-wallpaperplugin=org.kde.image
-
-[Containments][17][Applets][92]
-immutability=1
-plugin=org.kde.latte.plasmoid
-
-[Containments][17][Applets][92][Configuration]
-PreloadWeight=0
-
-[Containments][17][Applets][92][Configuration][General]
-hoverAction=PreviewWindows
-infoBadgeProminentColorEnabled=true
-isInLatteDock=true
-launchers59=applications:garuda-welcome.desktop,applications:org.kde.konsole.desktop,applications:firedragon.desktop,applications:org.kde.dolphin.desktop,applications:org.kde.plasma-systemmonitor.desktop,applications:org.kde.partitionmanager.desktop,applications:systemsettings.desktop,applications:snapper-tools.desktop,applications:octopi.desktop,applications:emacs.desktop,applications:firefox.desktop,applications:org.gnome.dfeet.desktop
-previewWindowAsPopup=true
-showWindowActions=true
-
-[Containments][17][ConfigDialog]
-DialogHeight=600
-DialogWidth=586
-
-[Containments][17][Configuration]
-PreloadWeight=0
-
-[Containments][17][General]
-advanced=false
-alignment=0
-alignmentUpgraded=true
-appletOrder=92
-backgroundOnlyOnMaximized=true
-disablePanelShadowForMaximized=true
-durationTime=x3
-iconSize=16
-panelSize=0
-proportionIconSize=2
-screenEdgeMargin=-1
-shadowOpacity=60
-shadowSize=45
-shadows=All
-shadowsUpgraded=true
-showGlow=false
-solidBackgroundForMaximized=true
-tasksUpgraded=true
-useThemePanel=false
-zoomLevel=7
-
-[Containments][17][Indicator]
-customType=org.kde.latte.win10
-enabled=true
-type=org.kde.latte.win10
-
-[Containments][18]
-activityId=
-byPassWM=false
-dockWindowBehavior=true
-enableKWinEdges=true
-formfactor=2
-immutability=1
-isClonedFrom=1
-isPreferredForShortcuts=false
-lastScreen=10
-layoutId=
-location=4
-maxLength=100
-name=Clone of Main screen bottom
-onPrimary=false
-plugin=org.kde.latte.containment
-raiseOnActivityChange=false
-raiseOnDesktopChange=false
-screensGroup=0
-timerHide=200
-timerShow=200
-viewType=0
-visibility=1
-wallpaperplugin=org.kde.image
-
-[Containments][18][Applets][93]
-immutability=1
-plugin=org.kde.latte.plasmoid
-
-[Containments][18][Applets][93][Configuration]
-PreloadWeight=0
-
-[Containments][18][Applets][93][Configuration][General]
-hoverAction=PreviewWindows
-infoBadgeProminentColorEnabled=true
-isInLatteDock=true
-launchers59=applications:garuda-welcome.desktop,applications:org.kde.konsole.desktop,applications:firedragon.desktop,applications:org.kde.dolphin.desktop,applications:org.kde.plasma-systemmonitor.desktop,applications:org.kde.partitionmanager.desktop,applications:systemsettings.desktop,applications:snapper-tools.desktop,applications:octopi.desktop,applications:emacs.desktop,applications:firefox.desktop,applications:org.gnome.dfeet.desktop
-previewWindowAsPopup=true
-showWindowActions=true
-
-[Containments][18][ConfigDialog]
-DialogHeight=600
-DialogWidth=586
-
-[Containments][18][Configuration]
-PreloadWeight=0
-
-[Containments][18][General]
-advanced=false
-alignment=0
-alignmentUpgraded=true
-appletOrder=93
-backgroundOnlyOnMaximized=true
-disablePanelShadowForMaximized=true
-durationTime=x3
-iconSize=16
-panelSize=0
-proportionIconSize=2
-screenEdgeMargin=-1
-shadowOpacity=60
-shadowSize=45
-shadows=All
-shadowsUpgraded=true
-showGlow=false
-solidBackgroundForMaximized=true
-tasksUpgraded=true
-useThemePanel=false
-zoomLevel=7
-
-[Containments][18][Indicator]
-customType=org.kde.latte.win10
-enabled=true
-type=org.kde.latte.win10
 
 [LayoutSettings]
 activities=
