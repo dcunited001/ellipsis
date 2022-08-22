@@ -45,7 +45,7 @@ PreloadWeight=0
 
 [ScreenConnectors]
 10=DisplayPort-1:::1080,0 3840x2160
-11=DisplayPort-2:::4920,0 2560x1440
+11=DisplayPort-2:::3840,0 2560x1440
 12=HDMI-A-0:::0,0 1080x1920
 13=DisplayPort-0:::0,0 1080x1920
 

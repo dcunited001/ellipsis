@@ -1,0 +1,267 @@
+#+TITLE:     Certificates
+#+AUTHOR:    David Conner
+#+EMAIL:     noreply@te.xel.io
+#+DESCRIPTION: notes
+#+startup: content
+#+property: header-args        :tangle-mode (identity #o444) :mkdirp yes
+#+property: header-args:conf   :tangle-mode (identity #o400) :mkdirp yes
+#+property: header-args:sh     :tangle-mode (identity #o555) :mkdirp yes
+#+property: header-args:bash   :tangle-mode (identity #o555) :mkdirp yes
+#+property: header-args:scheme :tangle-mode (identity #o644) :mkdirp yes :comments link
+#+options: toc:nil
+
+No, not everything is in this file. These docs are meant to help me be more
+flexible, agile and quick with my processes. You can expect these GPG/SSH/CERT
+files to contain intentional omissions (hence the name dcunited001/ellipsis) ...
+but they should provide decent albeit naive documentation.
+
+However, I don't want to lean to heavily on "opsec" whatever that is.
+And I don't think that tradiational opsec helps very much when you're already
+under a microscope. See my amateur-philosopher notes on opsec at the end
+
+* Table Of Contents :TOC_2_gh:
+- [[#resources][Resources]]
+- [[#homelab-pki][Homelab PKI]]
+- [[#openssl][OpenSSL]]
+  - [[#commands][Commands]]
+  - [[#cipher-suites][Cipher Suites]]
+  - [[#config][Config]]
+  - [[#rsa][RSA]]
+  - [[#ec][EC]]
+- [[#certificate-revokation-crloscpaia][Certificate Revokation (CRL/OSCP/AIA)]]
+- [[#yubikey-piv][Yubikey PIV]]
+  - [[#notes][Notes]]
+  - [[#pkcs11][PKCS11]]
+  - [[#ssl][SSL]]
+- [[#opsec][Opsec]]
+
+* Resources
+
++ Step CA
+  - [[https://smallstep.com/docs/step-ca/configuration/#yubikey-piv][Configuring step-ca]] (yubikey-piv and pkcs#11 sections)
+  - [[https://smallstep.com/blog/build-a-tiny-ca-with-raspberry-pi-yubikey/][Build a Tiny Certificate Authority For Your Homelab]]
++ OpenSSL
+  - [[https://pki-tutorial.readthedocs.io/en/latest/index.html][PKI Tutorial]]
++ Feisty Duck
+  - [[https://www.feistyduck.com/books/openssl-cookbook/][OpenSSL Cookbook]]
+  - [[https://www.feistyduck.com/books/bulletproof-tls-and-pki/][Bulletproof TLS And PKI]]
++ wiki.openssl.org
+  - [[https://wiki.openssl.org/index.php/Command_Line_Elliptic_Curve_Operations][Command Line Elliptic Curve Operations]]
++ Yubikey
+  - [[https://developers.yubico.com/PIV/Introduction/Certificate_slots.html][PIV Certificate Slots]] slots on Yubikey v4, v4-Neo and v5
+  - [[https://docs.yubico.com/hardware/yubikey/yk-5/tech-manual/index.html][YubiKey 5 Series Tech Manual]]
++ Yubikey Configurations
+  - [[https://www.youtube.com/watch?v=ojyxDpiPAv0][PIV, Yubikeys and You]]
+    - recommends using the =9c= signing slot for RSA (SSH)
+      and configuring the remaining slots to ECDSA.
+    - this is the author of =piv-agent= a go tool that handles both GPG/SSH, but
+      IMO is a bit new.
+    - uses the =9d= slot to demo =piv-zfs=, encrypting a ZFS pool
++ PKCS#11
+  - Redhat Docs
+    - ch6: [[https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/8/html/security_hardening/configuring-applications-to-use-cryptographic-hardware-through-pkcs-11_security-hardening][pkcs#11]] info on tokens, smartcards with multiple keys HSM
+    - ch7: [[https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/8/html/security_hardening/assembly_controlling-access-to-smart-cards-using-polkit_security-hardening][polkit]] restricting access to =pcscd=
+
+**** TODO step-ca requires a custom CGO build to use =step-pkcs11-init=
++ step-ca doesn't support automated updates to CRL/OSCP
+
+* Homelab PKI
+
+* OpenSSL
+
+Yubikeys version 4 and earlier don't support EC very well (not across all
+applications). Of course, you can always buy a new one.
+
+Dealing with features/models has been the most complicated aspect of beginning
+to use these. So much so, that I often miss the obvious things. Like enrolling
+in =FIDO/2= a browser using =Webauthn= ... which I'm sure would be much easier
+to pick up on for people with contact to the outside world.
+
+Anyways, I need to make both and setup access on servers for both. As long as
+everything except necessary backups stays offline, then this is much easier than
+key-management infrastructure like =step-ca=, for now. Some changes will be
+needed for 2FA/etc, but I will be more flexible in this regard if I document.
+
+** Commands
+
++ ciphers :: openssl list -cipher-algorithms
++ verify cert chain :: openssl verify
+
+** Cipher Suites
+
++ Key Exchange :: Use ECDHE & DHE. Don't use RSA.
+  - Key exchange faciliates forward secrecy. Without it, if server keys were
+    compromised, previous communications can be decrypted.
++ Cert Hashing :: Use SHA256 or greater. Don't use SHA1.
++ Block Cipher :: the [[https://helpdesk.privateinternetaccess.com/kb/articles/what-s-the-difference-between-aes-cbc-and-aes-gcm][internet]] recommends =AES-GCM=, since it's faster and more
+  secure than =AES-CBC=. CBC can be weakened through padding oracles and is
+  serial. GCM is parallel.
+  - 3DES is being retired by NIST.
++ EC Curves :: I would prefer =secp256r1= or =secp384r1=, but idonno.
+  - Many are available but clients/servers negotiate their usage.
+
+The selection of options here depends on the user agents your application
+supports.
+
+** Config
+
++ [[https://github.com/openssl/openssl/blob/master/apps/openssl.cnf][Config Defaults]]
+
+#+begin_src conf :tangle ./ca/root-ca.conf
+[default]
+name                    = root-ca
+domain_suffix           = example.com
+aia_url                 = http://$name.$domain_suffix/$name.crt
+crl_url                 = http://$name.$domain_suffix/$name.crl
+ocsp_url                = http://ocsp.$name.$domain_suffix:9080
+default_ca              = ca_default
+name_opt                = utf8,esc_ctrl,multiline,lname,align
+
+[ca_dn]
+countryName             = "GB"
+organizationName        = "Example"
+commonName              = "Root CA"
+#+end_src
+
+** RSA
+
+*** Keys
+
+*** Certs
+
+** EC
+
+Use NIST curve =secp384r1= for relatively fast connection times.
+
+*** Commands
++ show curve parameters :: openssl ecparam -in $pem -noout -text
+
+*** Keys
+
+Generate params =-pkeyopt=, key and cert [[https://security.stackexchange.com/questions/58077/generating-ecdsa-certificate-and-private-key-in-one-step/190646#190646][in one step]]. This however makes
+
+#+begin_src shell :eval no
+openssl req -nodes -newkey ec -pkeyopt ec_paramgen_curve:secp384r1 -param_enc explicit -keyout ecc_cert.pem -x509 -days 3650 -out ecc384_cert.pem
+#+end_src
+
+Examine the key/cert:
+
+#+begin_src shell :eval no
+openssl ecparam -in private-key.pem -text -noout
+openssl x509 -in server.pem -text -noout
+#+end_src
+
+*** Certs
+
+* Certificate Revokation (CRL/OSCP/AIA)
++ Small Step doesn't currently implement
++ With a small number of certs, maintaining a CRL is as simple as updating a
+    static page ... in theory.
++ [[https://www.vkernel.ro/blog/how-to-publish-the-crl-and-aia-on-a-separate-web-server][Publish the CRL/AIA on a Separate Webserver]]
+
+
+
+* Yubikey PIV
+
+** Notes
+
++ When generating keys for yubikey slots, they can be encrypted with 3DES. Also
+  (and this is important), if your pin changes, the management key changes.
+  - and in an not-at-all confusing turn of events, [[https://docs.yubico.com/hardware/yubikey/yk-5/tech-manual/yk5-piv-tech-desc.html#piv-aes-management-key][yubikey 5.$$.2 can use AES]]
+    for this purpose, in case you don't appreciate the irony in being FIPS
+    compliant with a government that both writes the standards as it
+    systematically undermines them. it will probably cost you some protection
+    money, yet somewhat prevent you from going bald with stress.
+  - the not-at-all ambiguously named Device Setup page describes this
+    "Management Key", in detail, and totally distinguishes between other
+    similarly named concepts like "Key Management slot" and "Key Management
+    Keys" ... this doesn't seem to be in the [[https://docs.yubico.com/hardware/yubikey/yk-5/tech-manual/index.html][tech manual]].
++ If I'm reading this correctly, if you write a cert to the =f9 attestation=
+  slot, you overwrite the factory cert. Everything in this ecosystem is
+  confusing, without even getting to the math (i totally thought it was =9a=)
+
+** PKCS11
+
+** SSL
+
+* Opsec
+
+*** Some opsec, good. Untested opsec, bad. Documented opsec, meh.
+are you really going to know what threats don't know about your processes? have
+you thought about what to do when things go wrong? have you walked through those
+processes? if you haven't, it can be expensive.
+
+but think about it like this: would your lawyer ever tell you to talk to the
+cops? no. why? because, from their perspective, any information given
+whatsoever, even nonverbal, makes their job harder.
+
+*** Opsec that is inflexible, bad.
+you always, always, always want options. regardless of their value, having
+options makes you less predictable ... as long as they are less than arbitrary
+and somewhat consequential. in other words, to create flexibility, your choices
+need to meaningfully change the nature of the conditions, contexts and
+functional relationships between things.
+
+by themselves, regardless of the outcome of your chess moves, if they enact
+recalculation from your adversary, then the moves will give you time, space and
+insight. how the adversary reacts to your moves tells you more.
+
+bottom line: you don't want to find yourself playing tic-tac-toe. without
+options, you are predictable. the value gained by attacking something will
+determine the time/energy that adversaries invest. when the process of attacking
+has opportunity costs or a real price -- like a game of chess with real-life
+consequences for losing a piece -- this filters away most would-be attackers
+who'd rather not lose for playing.
+
+*** Opsec that is impenetrable or symbolic, bad.
+the most impenetrable walls will eventually fall, so tactics like these, while
+useful so long as they last, are risky. if you turn the game around and control
+the entry points, then you can identify/predict/route the enemy. the walls of
+constantinople were essential, but a better strategy would have been to
+harmonize with the local regional population. this kind of influence was
+attempted for centuries. ultimately it was a one-sided game that depended on
+pitting regional powers against each other. when the populations unified, no
+wall was going to stop them. the bigger the wall, the greater the measure of the
+adversaries' strength. thus, relying on these impenetrable barriers for their
+symbolic strength alone could be a mistake. it comes down to supply and demand:
+how badly do people want the walls to fall?
+
+*** Opsec that is predictable is ... interesting?
+oh noes he lost his key. going right for the backups/printouts, i see. yeh,
+that's exactly what happens. the next hit will be worse.
+
+when something that could be an accident is being nudged or influenced, then
+unlikely events will typically occur in series. what can go wrong, will. as long
+as the victim understands this possibility, then they can use it.
+
+*** Opsec that doesn't scale socially, bad.
+you need to be able to teach it. the most important aspects are related to the
+tech//crypto, but are really only adjacent to it. the oldest things never
+change, like the rubber hose attack.
+
+you need to be able to talk about some details and your users can't be afraid to
+ask. what can be discussed and where the potential exposure points are needs to
+be well understood. then it becomes more clear when people are fishing around
+for information/access. one problem here: that many threats are remote or
+unknown.
+
+*** Opsec that is unverifiable, bad.
+well know one knows, so how much confidence can they have?
+
+conditions like social isolation create informational paradoxes. absences of
+information flows will cause information that should be invalidated to remain
+untested. yet, people will continue to act on what they know. the more
+conscious/cognizant their thoughts are when forming beliefs, the less likely
+they are to change in the future. other conditions without adequate information
+exchange give rise to similar problems.
+
+how much trust should you impart if you cannot have confidence? confidence is
+related to statistical expectations. most people do not understand how their
+feelings are intangled with a kind of bayesian logic used to make decisions.
+this is often a primary psychological difference between those with college
+education and those without. people who learn calculus informally use it without
+realizing it. people who learn bayesian statistics can use it to structure/guide
+their reasoning ... without realizing it. higher level, more cognizant beliefs
+structure the domains of expectation distributions that their brain uses to aid
+in making decisions ... or to drive resistance to influences. this resistance is
+experienced as emotion.
