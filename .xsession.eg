@@ -33,5 +33,5 @@ xset -b
 setbg $_WALLPAPERS
 
 #exec dbus-launch --exit-with-session
-XDG_CURRENT_DESKTOp=i3
+XDG_CURRENT_DESKTOP=i3
 i3 -V -d all
