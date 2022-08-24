@@ -68,6 +68,22 @@
                   "ACTION==\"add\", SUBSYSTEM==\"backlight\", "
                   "RUN+=\"/run/current-system/profile/bin/chmod g+w /sys/class/backlight/%k/brightness\"")))
 
+;; lacking something to handle low-level FIDO ... stuff
+;; - either: https://github.com/amluto/u2f-hidraw-policy/blob/18fa0ce176540dfdef2b90a1a2f99f3ad95678b3/u2f_hidraw_id.c
+;;   - not sure if FIDO ... idonno
+;; - or, if this isn't totally systemd, specific:
+;;   - https://github.com/systemd/systemd/blob/main/src/udev/fido_id/fido_id.c
+;; - and no, it looks like there's no build target for non-systemd linux ... thanks
+(define %udev-fido-rule
+  (udev-rule
+   "60-fido-id.rules"
+   (string-append "ACTION==\"remove\", GOTO=\"fido_id_end\""
+                  "SUBSYSTEM==\"hidraw\", IMPORT{program}=\"fido_id\""
+                  "ENV{ID_SECURITY_TOKEN}==\"1\", TAG+=\"security-device\""
+                  "SUBSYSTEM==\"usb\", ENV{DEVTYPE}==\"usb_device\", ENV{ID_USB_INTERFACES}==\":0b????:*\", ENV{ID_SMARTCARD_READER}=\"1\""
+                  "ENV{ID_SMARTCARD_READER}==\"1\", TAG+=\"security-device\""
+                  "LABEL=\"fido_id_end\"")))
+
 ;;(pretty-print %base-groups)
 
 (define-public %dc-groups
@@ -194,6 +210,7 @@
            opensc ;; for pkcs#11 (ssh using smartcard PIV certs)
            gnupg
            pcsc-lite
+           hidapi ;; for HID devices to control FIDO/U2F
 
            rng-tools ;; req. to seed /dev/random with entropy from yubikey
 
@@ -235,8 +252,9 @@
      config =>
      (udev-configuration
       (inherit config)
-      (rules (cons %udev-backlight-rule
-                   (udev-configuration-rules config)))))
+      (rules (cons* %udev-backlight-rule
+                    ;; %udev-fido-rule
+                    (udev-configuration-rules config)))))
 
     (network-manager-service-type
      config =>

@@ -9,6 +9,7 @@
   #:use-module (guix build-system emacs)
 
   #:use-module (gnu packages base)
+  #:use-module (gnu packages tls)
 
   #:use-module (srfi srfi-1)
   )
@@ -26,6 +27,7 @@
                (base32
                 "1fcgcx01phazmk58ijlsnbshcr20wns6pnv66n25vwmdi1kp1chw"))))
     (build-system emacs-build-system)
+    (propagated-inputs `(("openssl" ,openssl)))
     (arguments
      `(#:include (cons* "^keywords.txt"
                         "^keyword\\+constant.txt"
@@ -33,7 +35,7 @@
                         "^long-name.txt"
                         %default-include)))
     (home-page "https://github.com/jobbflykt/x509-mode")
-    (synopsis "Major mode for viewing certificates, CRLs, and other PKI-related files.")
+    (synopsis "Major mode for viewing certificates, CRLs, and other PKI-related files")
     (description "Major mode for viewing certificates, CRLs, and other PKI-related files.
 
 Uses OpenSSL for viewing PEM and DER encoded PKI entities.")

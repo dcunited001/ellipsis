@@ -49,6 +49,7 @@
   - [[#devdebug][devdebug]]
   - [[#yubikey][Yubikey]]
   - [[#xdg-1][XDG]]
+  - [[#xkb][XKB]]
   - [[#languages-1][Languages]]
 - [[#tui][TUI]]
   - [[#env][Env]]
@@ -1092,11 +1093,6 @@ utils in the environment, but this is split out anyways...
       "xdg-utils"
       "xdg-user-dirs"
 
-      "xev"
-      "xkbcomp"
-      "xkeyboard-config"
-      "setxkbmap"
-
       "libinput"
       "xinput"
 
@@ -1153,6 +1149,26 @@ utils in the environment, but this is split out anyways...
 + gucharmap :: unicode character map (GTK)
 + fontmanager :: provides GTK tools to aid configuration of fonts
 + brightnessctl :: lightweight brightness control tool
+
+** XKB
+
+#+begin_src scheme :tangle .config/guix/manifests/xkb.scm
+(specifications->manifest
+ '(
+   "xkb"
+   "xkbcomp"
+   "xkeyboard-config"
+   "setxkbmap"
+
+   "xev"
+   "xkb-switch"
+   "xkblayout"
+   "xkbutils"
+   "xkbprint"
+
+   ;; "xkbevd"
+   ))
+#+end_src
 
 ** Languages
 

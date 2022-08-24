@@ -24,6 +24,7 @@
   #:use-module (gnu services security-token)
 
   #:use-module (ellipsis packages tls)
+  #:use-module (ellipsis packages emacs-xyz)
   #:use-module (ellipsis packages password-utils)
 
   ;; certbot/letsencrypt packages
@@ -41,7 +42,7 @@
 (use-service-modules networking ssh security-token)
 (use-package-modules wget screen password-utils vim emacs emacs-xyz)
 (use-package-modules linux time mtools lsof file-systems disk version-control)
-(use-package-modules ssh gnupg cryptsetup security-token tls certs)
+(use-package-modules ssh gnupg cryptsetup security-token tls certs libusb)
 
 (define %my-user "dc")
 
@@ -125,6 +126,7 @@
                    vim
 
                    emacs-no-x-toolkit
+                   emacs-x509-mode ;; very helpful for certs
                    emacs-better-defaults
                    ;; emacs-with-profile
                    emacs-auto-complete
@@ -155,6 +157,7 @@
                    python-yubikey-manager
                    libu2f-host
                    opensc
+                   hidapi ;; HID Devices for FIDO/OTP
 
                    pinentry-tty
                    paperkey

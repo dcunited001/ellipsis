@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 # /usr/bin/i3-scrot
 #
 # simple screenshot-script using scrot for manjaro-i3 by oberon@manjaro.org
