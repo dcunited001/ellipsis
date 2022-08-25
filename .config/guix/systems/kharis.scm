@@ -30,6 +30,7 @@
 
 (use-service-modules desktop xorg networking ssh admin)
 (use-package-modules certs shells linux)
+(use-package-modules security-token)
 
 ;;** system info
 ;; this will fail on guix deploy
@@ -222,7 +223,13 @@
                         (extensions
                          (list cups-filters epson-inkjet-printer-escpr hplip-minimal))))
 
+              ;; (udev-rules-service 'fido2 libfido2 #:groups '("plugdev"))
+              (udev-rules-service 'u2f libu2f-host #:groups '("plugdev"))
               (udev-rules-service 'pipewire-add-udev-rules pipewire)
+              (udev-rules-service 'backlight-rule %udev-backlight-rule)
+
+              ;; this only tags the yubikey device with security-token in udev
+              (udev-rules-service 'yubikey yubikey-personalization)
 
               (bluetooth-service #:auto-enable? #t)
 

@@ -59,7 +59,7 @@
 ;;** udev rules
 ;;*** backlight-udev-rule
 ;; Add udev rule that allows members of the "video" group to change brightness.
-(define %udev-backlight-rule
+(define-public %udev-backlight-rule
   (udev-rule
    "90-backlight.rules"
    (string-append "ACTION==\"add\", SUBSYSTEM==\"backlight\", "
@@ -68,21 +68,12 @@
                   "ACTION==\"add\", SUBSYSTEM==\"backlight\", "
                   "RUN+=\"/run/current-system/profile/bin/chmod g+w /sys/class/backlight/%k/brightness\"")))
 
-;; lacking something to handle low-level FIDO ... stuff
-;; - either: https://github.com/amluto/u2f-hidraw-policy/blob/18fa0ce176540dfdef2b90a1a2f99f3ad95678b3/u2f_hidraw_id.c
-;;   - not sure if FIDO ... idonno
-;; - or, if this isn't totally systemd, specific:
-;;   - https://github.com/systemd/systemd/blob/main/src/udev/fido_id/fido_id.c
-;; - and no, it looks like there's no build target for non-systemd linux ... thanks
+;; this rule is already defined in /run/current-system/profile/lib/udev/rules.d/70-u2f.rules
+;; - it is added by the
 (define %udev-fido-rule
   (udev-rule
    "60-fido-id.rules"
-   (string-append "ACTION==\"remove\", GOTO=\"fido_id_end\""
-                  "SUBSYSTEM==\"hidraw\", IMPORT{program}=\"fido_id\""
-                  "ENV{ID_SECURITY_TOKEN}==\"1\", TAG+=\"security-device\""
-                  "SUBSYSTEM==\"usb\", ENV{DEVTYPE}==\"usb_device\", ENV{ID_USB_INTERFACES}==\":0b????:*\", ENV{ID_SMARTCARD_READER}=\"1\""
-                  "ENV{ID_SMARTCARD_READER}==\"1\", TAG+=\"security-device\""
-                  "LABEL=\"fido_id_end\"")))
+   (string-join '("KERNEL==\"hidraw*\", SUBSYSTEM==\"hidraw\", MODE=\"0660\", GROUP=\"plugdev\", ATTRS{idVendor}==\"1050\"") "\n")))
 
 ;;(pretty-print %base-groups)
 
@@ -90,7 +81,7 @@
   (cons* (user-group (name "realtime") (system? #t))
          (user-group (name "docker") (system? #t))
          (user-group (name "yubikey") (system? #t))
-         (user-group (name "plugdev") (system? #t))
+         ;; (user-group (name "plugdev") (system? #t)) ;; created automatically by package/udev
          (user-group (name "fuse") (system? #t))
          (user-group (name "users") (id 1100))
          (user-group (name "dc") (id 1000))
@@ -206,7 +197,7 @@
            yubikey-personalization
            python-yubikey-manager
            libu2f-host
-           ;; libfido2 ;; included as dep
+           ;; libfido2 ;; included as dependency
            opensc ;; for pkcs#11 (ssh using smartcard PIV certs)
            gnupg
            pcsc-lite
@@ -247,14 +238,6 @@
      (elogind-configuration
       (inherit config)
       (handle-lid-switch-external-power 'suspend)))
-
-    (udev-service-type
-     config =>
-     (udev-configuration
-      (inherit config)
-      (rules (cons* %udev-backlight-rule
-                    ;; %udev-fido-rule
-                    (udev-configuration-rules config)))))
 
     (network-manager-service-type
      config =>
@@ -416,21 +399,28 @@ EndSection
 
               (service pcscd-service-type)
 
-             ;; (service cups-service-type
-             ;;          (cups-configuration
-             ;;           (web-interface? #t)
-             ;;           (extensions
-             ;;            (list cups-filters))))
+              ;; (service cups-service-type
+              ;;          (cups-configuration
+              ;;           (web-interface? #t)
+              ;;           (extensions
+              ;;            (list cups-filters))))
 
-             ;; (service nix-service-type)
+              ;; (service nix-service-type)
 
-             (udev-rules-service 'pipewire-add-udev-rules pipewire)
+              ;; this rule will automatically create the plugdev group on the system
+              ;; - but it needs to be added to each users supplementary-groups
+              (udev-rules-service 'u2f libu2f-host #:groups '("plugdev"))
+              (udev-rules-service 'pipewire-add-udev-rules pipewire)
+              (udev-rules-service 'backlight-rule %udev-backlight-rule)
 
-             (bluetooth-service #:auto-enable? #t)
+              ;; this only tags the yubikey device with security-token in udev
+              (udev-rules-service 'yubikey yubikey-personalization)
 
-             dc-desktop-services
-             ;; NOTE: see also desktop-services-for-system
-             ;;   in guix/gnu/services/desktop.scm
-             ))
+              (bluetooth-service #:auto-enable? #t)
+
+              dc-desktop-services
+              ;; NOTE: see also desktop-services-for-system
+              ;;   in guix/gnu/services/desktop.scm
+              ))
    ;; allow resolution of '.local' hostnames with mDNS
    (name-service-switch %mdns-host-lookup-nss)))
