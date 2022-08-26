@@ -407,7 +407,7 @@ alias guix-main="$HOME/.config/guix/current/bin/guix"
 # . "$GUIX_PROFILE/etc/profile"
 
 # GUIX_AUTOLOAD_PROFILES=(desktop i3)
-
+export GUIX_EXTRA=$HOME/.guix-extra-profiles
 for i in ${GUIX_AUTOLOAD_PROFILES[@]}; do
   echo $i
   profile=$HOME/.guix-extra-profiles/$i/$i
@@ -498,10 +498,12 @@ fi
 
 Add to =~/.config/sh/_load_profile.d.sh=:
 
-+ arch-guix-support.sh
-+ arch-guix.sh
++ guix-arch-support.sh
++ guix-arch.sh
 
 ** FCITX5
+
+According to =fcitx5-diagnose= these need to be set to =fcitx= NOT =fcitx5=.
 
 #+begin_src shell :tangle .config/sh/profile.d/fcitx5.sh :shebang #!/bin/sh
 export QT_IM_MODULE=fcitx
@@ -509,6 +511,37 @@ export GTK_IM_MODULE=fcitx
 export SDL_IM_MODULE=fcitx
 export XMODIFIERS="@im=fcitx"
 #+end_src
+
+*** FCITX5-specific vars (see [[https://github.com/fcitx/fcitx5/blob/master/src/lib/fcitx-utils/standardpath.cpp][./src/lib/fcitx-utils/standardpath.cpp]])
+
+- FCITX_ADDON_DIRS
+- FCITX_CONFIG_HOME
+- FCITX_DATA_DIRS
+- FCITX_DATA_HOME
+
+- the first overrides a default directory that fcitx5 finds
+- the other two are analagous to XDG_CONFIG_HOME & XDG_DATA_HOME
+the guix profile will set FCITX_ADDON_DIRS to contain:
+- GUIX_EXTRA/fcitx5/fcitx5/lib/fcitx5,
+- but it needs all the addon *.so files to be visible
+
+*** Fix fcitx5 paths for guix
+
+Some of this should either be handled by fcitx5 (which reads/resolves links,
+since addons path con) or the more likely guix packages, which don't export
+=XDG_DATA_DIRS= and =FCITX_ADDON_DIRS= for the =fcitx5-*= packages. I'm not sure
+what variables needs to be changed (i just want to use duolingo or chat with these keyboards)
+
+#+begin_src shell :tangle .config/sh/profile.d/fcitx5-guix.sh :shebang #!/bin/sh
+export FCITX_ADDON_DIRS=$GUIX_EXTRA/fcitx5/fcitx5/lib:$FCITX_ADDON_DIRS
+#export FCITX_CONFIG_HOME=
+#export FCITX_DATA_DIRS=
+export XDG_DATA_DIRS=$GUIX_EXTRA/fcitx5/fcitx5/share:$XDG_DATA_DIRS
+#+end_src
+
+second path may be unnecessary, but the shell script =fcitx5-diagnose= shows
+FCITX5 assumes the =/gnu/store/...-fcitx5/lib= path when looking for addons to
+load (for addon config files)
 
 ** GTK
 
