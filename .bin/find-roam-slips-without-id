@@ -1,0 +1,4 @@
+#!/bin/sh
+
+# something like this:
+grep -L -re ":PROPERTIES:" $ORG_DIRECTORY/roam/**/*.org

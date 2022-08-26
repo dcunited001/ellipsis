@@ -17,8 +17,6 @@
 - [[#themes][Themes]]
   - [[#xsettings][XSettings]]
   - [[#color-schemes][Color Schemes]]
-- [[#input][Input]]
-  - [[#fcitx5][FCITX5]]
 - [[#window-management][Window Management]]
   - [[#i3][i3]]
     - [[#setup-xidlehook-to-notify-send-when-idletime-is-about-to-lock-the-computer][setup =xidlehook= to notify-send when idletime is about to lock the computer]]
@@ -27,6 +25,8 @@
 - [[#notifications][Notifications]]
   - [[#dunst][Dunst]]
     - [[#dunst-notes][Dunst Notes]]
+- [[#input][Input]]
+  - [[#fcitx5][FCITX5]]
 - [[#launchers][Launchers]]
 - [[#display-management][Display Management]]
 - [[#xdg][XDG]]
@@ -212,28 +212,6 @@ Gtk/CursorThemeName "Sweet-cursors"
 
 ** Color Schemes
 
-* Input
-
-** FCITX5
-
-#+*Guix Packages"
-
-#+begin_src scheme :tangle .config/guix/manifests/fcitx5.scm
-(specifications->manifest
- '(
-   "fcitx5"
-   "anthy"
-   "fcitx5-anthy"
-   "fcitx5-configtool"
-   "fcitx5-chinese-addons"
-   "fcitx5-material-color-theme"
-   "fcitx5-gtk4"
-   "fcitx5-qt"
-   ))
-#+end_src
-
-#+RESULTS:
-
 * Window Management
 
 + example configs:
@@ -352,6 +330,8 @@ exec --no-startup-id /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
 exec --no-startup-id redshift
 exec --no-startup-id desktop-items
 
+# TODO exec_always --no-startup-id fcitx5 -d
+
 # # ===========
 # # TODO: move to a script for manjaro/nonguix systems
 # # ===========
@@ -424,6 +404,7 @@ bindsym $super+F4 exec $preferredTextEditor;focus
 # NetworkManager is the most popular way to manage wireless networks on Linux,
 # and nm-applet is a desktop environment-independent system tray GUI for it.
 exec --no-startup-id nm-applet
+exec_always --no-startup-id fcitx5 -d
 
 exec_always --no-startup-id syncthing-gtk
 
@@ -1391,6 +1372,31 @@ fi
 + example mappings
   - Close notification :: =close = ctrl+space=
   - Close all notifications :: =close_all = ctrl+shift+space=
+
+* Input
+
+
+** FCITX5
+
++ Both =fcitx5-gtk= and =fcitx5-gtk4= are needed
+
+#+begin_src scheme :tangle .config/guix/manifests/fcitx5.scm
+;;
+;; Note: Moved to the XDG profile
+;;
+(specifications->manifest
+ '(
+   "fcitx5"
+   "anthy"
+   "fcitx5-anthy"
+   "fcitx5-configtool"
+   "fcitx5-chinese-addons"
+   "fcitx5-material-color-theme"
+   "fcitx5-gtk"
+   "fcitx5-gtk4"
+   "fcitx5-qt"
+   ))
+#+end_src
 
 * Launchers
 

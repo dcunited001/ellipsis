@@ -1,0 +1,8 @@
+#!/bin/sh
+#ls  ~/.guix-extra-profiles/** | grep --invert-match -e "[-\.]" | \ xargs -I \{\} \
+#   guix pull --list-generations -p ~/.guix-extra-profiles/\{\}/\{\}
+
+# output $profileName $maxGen
+find ~/.guix-extra-profiles/ -type l ! -name "*-link" \
+  -exec readlink \{\} + | \
+  rev | cut -d- -f "2-" | sed -e "s/-/ /" | rev

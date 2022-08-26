@@ -512,6 +512,25 @@ export SDL_IM_MODULE=fcitx
 export XMODIFIERS="@im=fcitx"
 #+end_src
 
+*** Main Problems
+
+Still, nothing works because GTK/QT can't read from anything except the =xim=
+x11 input method. dbus plugin allows queries via =d-feet=, but almost no apps
+except alacritty/emacs will use/recognize an alternate input manager.
+
+The design of fcitx5 as a bridge between window managers intentionally designed
+to be modular and to coexist implies that most other "input method managers"
+will exhibit many of the exact same problems on Nix/Guix. (see [[https://github.com/fcitx/fcitx5/issues/108][issue 108]] and
+[[github:fcitx/flatpak-fcitx5][fcitx/flatpak-fcitx5]])
+
+I'm sure this is possible -- when everything is in a single nix/guix profile, but that is NOT what i want.
+
+In wayland, using an input manager may be easier with modular profiles and this
+may work. However, the shared libaries (*.so) used by both the input manager and
+applications calling it's interfaces apparently need to be pretty compatible ...
+which is kind of a weird bridging of keyboard signals and compiled libraries
+IMO. So many of the same problems will still exist.
+
 *** FCITX5-specific vars (see [[https://github.com/fcitx/fcitx5/blob/master/src/lib/fcitx-utils/standardpath.cpp][./src/lib/fcitx-utils/standardpath.cpp]])
 
 - FCITX_ADDON_DIRS
@@ -536,12 +555,38 @@ what variables needs to be changed (i just want to use duolingo or chat with the
 export FCITX_ADDON_DIRS=$GUIX_EXTRA/fcitx5/fcitx5/lib:$FCITX_ADDON_DIRS
 #export FCITX_CONFIG_HOME=
 #export FCITX_DATA_DIRS=
-export XDG_DATA_DIRS=$GUIX_EXTRA/fcitx5/fcitx5/share:$XDG_DATA_DIRS
+#export XDG_DATA_DIRS=$GUIX_EXTRA/fcitx5/fcitx5/share:$XDG_DATA_DIRS
 #+end_src
 
 second path may be unnecessary, but the shell script =fcitx5-diagnose= shows
 FCITX5 assumes the =/gnu/store/...-fcitx5/lib= path when looking for addons to
 load (for addon config files)
+
+**** TODO Determine whether any of this is necessary if =fcitx5= is simply included with the =xdg= profile.......
+
+*** GTK Issues (i.e. like everything)
+
++ fcitx5 attempts to use the =gtk-query-im-module= (version 3.0.... mind you) that is included with the =xdg profile= manifest.
+  - this is what =fcitx5-diagnose= shows ... but even that is fucked up.
+  - it can however find the =GTK_IM_MODULE_FILE= cache (and my, that must be confusing as hell for the poor =fcitx5=)
+  - the GTK inputs for the guix package are not propagated to the =fcitx
+    profile=. this is fine, since they probably shouldn't be.
+  - however, this basically means you can't split out the fcitx5 input method switcher to its own profile -- bc of it (and everything else's) GTK dependencies
+  - I could add GTK 2,3 and 4 to the =fcitx5 profile= and ensure that it's binaries are reached first in =$PATH= ... but yeh, i am pretty sure that just makes all my problems worse.
+  - basically, it's really hard to make this modular and there's no good answer.
+
+i like =anthy= mostly and the =fcitx= interface for selection ... other input
+methods are just as quirky, in my experience. one main problem with fcitx/5 is
+that the defaults are horrible. you don't need spellcheck OMG. you /do not want/
+most of the stuff that is turned on. and you can't save the config in git, so
+you have to /remember/ to redo this on every install...
+
+**** GTK IM Modules Cache (see issues [[https://github.com/fcitx/fcitx5/issues/158][158]] and [[https://github.com/fcitx/fcitx5/issues/535][535]] for nix installs)
+
++ =GTK_IM_MODULE_FILE= may need to be set, but it exists in the package build which is immutable
++ This should be updated with =gtk-query-immodules-3.0=, but =GTK_PATH= needs to be set properly for this to work
+  - this is an easy problem to run into when using applications/libs split into many profiles
+  - =gtk-query-immodules-3.0 --update-cache > .local/state/gtk-??-idonno/immodules.cache= should allow it to be loaded from =GTK_IM_MODULES_CACHE=
 
 ** GTK
 
@@ -1170,6 +1215,16 @@ utils in the environment, but this is split out anyways...
 
       ;; chat
       "weechat"
+
+      "fcitx5"
+      "anthy"
+      "fcitx5-anthy"
+      "fcitx5-configtool"
+      "fcitx5-chinese-addons"
+      "fcitx5-material-color-theme"
+      "fcitx5-gtk"
+      "fcitx5-gtk4"
+      "fcitx5-qt"
     ))
 
 #+end_src
