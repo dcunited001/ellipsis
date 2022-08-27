@@ -194,3 +194,28 @@ PermitUserEnvironment no
 #Match User proxy
 #       AllowTcpForwarding yes
 #+end_src
+
+* SSH Agent
+
+** PKCS #11
+
+*** Specifying a link to the PKCS#11 lib
+
+The =ssh-agent= expects libs to be one of two default locations, but both this and =ssh-add= will resolve links that are passed, so they must be exact.
+
+On Guix, this requires setting up =ssh-agent= to point to the exact =opensc-pkcs11.so= with =ssh-agent -P $(readlink $PKCS_LIB)=. When tracing problems, then run as foreground daemon with =-d=.
+
+Then card-keys should now add when running =ssh-add -s "$(readlink $PKCS_LIB)"=
+
+Because ssh will use a similar interface that resolves links,
+then adding =PCKS11Provider /run/current-system/profile/lib/opensc-pkcs11.so= to
+the =ssh_config= will reach the correct bin from a link. No need to update the config (phew!).
+
+For this specific link to work, the =opensc= package must be installed to the
+Guix /system/.
+
+*** TODO a manifest to install all dependencies on USB
+*** TODO an init script for SSH and an update script for the USB
+*** TODO passing args to the =opensc= shared lib
+
+I'm not sure how to prevent the card from trying all the PIV keys

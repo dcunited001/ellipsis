@@ -1083,11 +1083,12 @@ if [ -f $HOME/.profile ]; then . $HOME/.profile; fi
  '("yubikey-personalization"
    "python-yubikey-manager"
    ;; "libyubikey"
-   ;; "yubico-piv-tool"
+   "yubico-piv-tool"
    ;; "yubico-pam"
    ;; "pam-u2f"
    "libu2f-host"
    "pinentry-tty"
+   ;; "opensc" ;;?
    )
  )
 #+end_src

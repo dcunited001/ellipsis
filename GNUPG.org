@@ -13,6 +13,21 @@
 
 ** Pinentry
 
+** Guix Profile
+
+#+begin_src scheme :tangle (concat (or (getenv "SECRETS_HOME") ".") "/.config/guix/manifests/gpg-agent.scm")
+(specifications->manifest
+ '(
+   "gnupg"
+   "shroud-nox" ;; from ellipsis channel
+   ;; "pinentry" ;; req. gtk dependencies
+   "pinentry-tty"
+   ))
+#+end_src
+
+**** TODO include SSH/opensc in the profile?
+or use separate guix profiles? (on either USB or the system)
+
 ** Portable GPG
 
 Use =guix pack= to pack up the binaries.
@@ -28,24 +43,30 @@ Use =guix pack= to pack up the binaries.
 guixpkg=$(guix pack --relocatable --system=x86_64-linux --compression=gzip --save-provenance \
       -L $HOME/.dotfiles -m ./gnupg-agent.scm \
       -S .bin=bin)
-mkdir -p pkg
-cp $guixpkg pkg
+if [ ! -e $SECRETS_HOME/pkg ]; then
+    mkdir -p $SECRETS_HOME/pkg
+fi
+cp $guixpkg $SECRETS_HOME/pkg
 #+end_src
 
-Then unpack:
+The package is built to =/gnu/store= and is in =$guixpkg=. Now unpack:
+
 
 #+begin_src shell :eval no
-tar -C pkg -xzvf $guixpkg
+tar -C $SECRETS_HOME/pkg -xzvf $guixpkg
 #+end_src
 
-The profile will be in =./gnu/store/*profile=
+The profile will be in =./gnu/store/*profile=. If there are multiple profiles
+found in =$SECRETS_HOME=, then searching the =.tar= is a better way to find the
+profile.
 
 #+begin_src shell :eval no
-tar --list -zf pkg/$guixpkg | grep 'profile/bin'
+
+guixprofile=$(tar --list -zf $guixpkg | grep 'profile/bin' | cut -d/ -f4')
 
 # or, more exactly, after unpacking with
-guixprofile=$(find pkg/gnu/store -name "*-profile" -type d)
-#guixprofile=$(find pkg/gnu/store -wholename "*profile/etc/profile")
+guixprofile=$(find $SECRETS_HOME/pkg/gnu/store -name "*-profile" -type d)
+#guixprofile=$(find $SECRETS_HOME/pkg/gnu/store -wholename "*profile/etc/profile")
 ln -s $guixprofile .guix-gnupg
 #+end_src
 
@@ -63,7 +84,7 @@ guix shell --profile=.guix-gnupg -- bash
 
 * Init Script
 
-#+begin_src shell :tangle (concat (getenv "SECRETS_HOME") "/init.sh") :shebang "#!/bin/sh" :tangle-mode (identity #o500)
+#+begin_src shell :tangle (concat (or (getenv "SECRETS_HOME") ".") "/init.sh") :shebang "#!/bin/sh" :tangle-mode (identity #o500)
 export GPG_TTY="$(tty)"
 export SECRETS_HOME="$(pwd)"
 export GNUPGHOME="$SECRETS_HOME/.gnupg"
@@ -142,7 +163,7 @@ Match host * exec "gpg-connect-agent UPDATESTARTUPTTY /bye"
 
 **** With =gpg-connect-agent=
 
-#+begin_src shell :tangle (concat (getenv "SECRETS_HOME") "/.bin/start-gpg-connect") :shebang "#!/bin/sh" :tangle-mode (identity #o500)
+#+begin_src shell :tangle (concat (or (getenv "SECRETS_HOME") ".") "/.bin/start-gpg-connect") :shebang "#!/bin/sh" :tangle-mode (identity #o500)
 export GPG_TTY="$(tty)"
 unset SSH_AGENT_PID
 export SSH_AUTH_SOCK="/run/user/$UID/gnupg/S.gpg-agent.ssh"
@@ -151,7 +172,7 @@ gpg-connect-agent update-startuptty /bye > /dev/null
 
 **** With =gpgconf=
 
-#+begin_src shell :tangle (concat (getenv "SECRETS_HOME") "/.bin/start-gpg") :shebang "#!/bin/sh" :tangle-mode (identity #o500)
+#+begin_src shell :tangle (concat (or (getenv "SECRETS_HOME") ".") "/.bin/start-gpg") :shebang "#!/bin/sh" :tangle-mode (identity #o500)
 export GPG_TTY="$(tty)"
 unset SSH_AGENT_PID
 export SSH_AUTH_SOCK="$(gpgconf --list-dirs agent-ssh-socket)"
@@ -171,7 +192,7 @@ gpgconf --launch gpg-agent
 
 *** Defaults
 
-#+begin_src conf :tangle (concat (getenv "SECRETS_HOME") "/.gnupg/gpg.conf.defaults")
+#+begin_src conf :tangle (concat (or (getenv "SECRETS_HOME") ".") "/.gnupg/gpg.conf.defaults")
 # Use AES256, 192, or 128 as cipher
 personal-cipher-preferences AES256 AES192 AES
 
@@ -261,7 +282,7 @@ throw-keyids
 
 *** Defaults
 
-#+begin_src conf :tangle (concat (getenv "SECRETS_HOME") "/.gnupg/gpg-agent.conf.defaults")
+#+begin_src conf :tangle (concat (or (getenv "SECRETS_HOME") ".") "/.gnupg/gpg-agent.conf.defaults")
 # https://github.com/drduh/config/blob/master/gpg-agent.conf
 # https://www.gnupg.org/documentation/manuals/gnupg/Agent-Options.html
 enable-ssh-support
@@ -318,7 +339,7 @@ See the environment variables in =init.sh=
 
 *** Defaults
 
-#+begin_src scheme :tangle (concat (getenv "SECRETS_HOME") "/.shroud.defaults")
+#+begin_src scheme :tangle (concat (or (getenv "SECRETS_HOME") ".") "/.shroud.defaults")
 '((user-id . "myemail@fdsa.com"))
 #+end_src
 
@@ -342,7 +363,7 @@ Which will be of limited utility if: any bin tools or path deps don't work/inter
 
 The essentials
 
-#+begin_src emacs-lisp :tangle (concat (getenv "SECRETS_HOME") "/.emacs.d/init.el")
+#+begin_src emacs-lisp :tangle (concat (or (getenv "SECRETS_HOME") ".") "/.emacs.d/init.el")
 (setq org-directory "~/org"
       org-adapt-indentation nil
       org-src-preserve-indentation t)

@@ -1,0 +1,204 @@
+:PROPERTIES:
+:ID:       2b7dae76-003f-4714-b621-c046d855fe3e
+:END:
+#+TITLE: Ansible: setup a portable environment on Guix
+#+CATEGORY: slips
+#+property: header-args            :tangle-mode (identity #o400) :mkdirp yes
+#+property: header-args:conf       :tangle-mode (identity #o400) :mkdirp yes
+#+property: header-args:sh         :tangle-mode (identity #o500) :mkdirp yes
+#+property: header-args:bash       :tangle-mode (identity #o500) :mkdirp yes
+#+property: header-args:scheme     :tangle-mode (identity #o500) :mkdirp yes
+#+property: header-args:emacs-lisp :tangle-mode (identity #o600) :mkdirp yes
+#+TAGS:
+
+* Org Babel Config
+
+#+name: ansible-bindings
+| Var              | Value        |
+| ansible-home-var | ANSIBLE_HOME |
+| secrets-home-var | SECRETS_HOME |
+
+#+begin_src emacs-lisp :var bindings=ansible-bindings :colnames yes :results silent
+(let* ((ansible-home-var (cadr (or (assoc "ansible-home-var" bindings)
+                                   '(""))))
+       (secrets-home-var (cadr (or (assoc "secrets-home-var" bindings)
+                                   '("")))))
+  (setq secrets-home (or (getenv secrets-home-var) ".")
+        ansible-home (or (getenv ansible-home-var) secrets-home)))
+
+;; better just use the environment var
+;; (eval (car (read-from-string ansible-home-string)))
+#+end_src
+
+After evaluating the above, then the following blocks will eval =ansible-home=
+in their headers or bodies. =:results silent= should ensure that these paths
+don't end up in this file.
+
+#+begin_example org
+#+begin_src emacs-lisp
+ansible-home
+#+end_src
+#+end_example
+
+This file should be tangled with =C-c C-v C-t= to ensure that lisp blocks are run to populated these values. If emacs is already open, then running =M-: (setenv "VAR" "value")= will set the environment var for the whole process. This is also useful for setting:
+
++ =SSH_AUTH_SOCK=
++ =SSH_AGENT_PID=
++ =GPG_TTY=
+
+* Environment
+
+** Ansible 2.9 Notes
+
+The =guix= profile will set up =ansible 2.9=, which is the last version of
+ansible before the platform integrated [[https://galaxy.ansible.com][Ansible Galaxy]].
+
+#+begin_quote
+Ansible :: the device from Ender's game that communicated faster than light with zero infrastructure. It didn't require internet or subscriptions from Red Hat.
+#+end_quote
+
+This can be extremely confusing (e.g. if you used ansible once in 2014 and then again in like 2018). There is still a decent use case for =v2.9= and earlier.
+
+*** Version 2.9: for ad hoc stuff, airgapped networks or boostrapping
+
+These versions of ansible a set of devops tools requiring no internet access and a minimal set of dependencies
+
+- SSH on host/target systems
+- Minimal dependencies on extra pip packages (still not sure on this point)
+- No external web/network services -- i.e. ansible 2.9 and earlier is like
+  peer-to-peer in that any system can configure any other system without a
+  need to check in to anything else.
+
+*** Version 2.10: for more functionality, modularity or collaborative devops (with AWX)
+
+For a firewalled environment, you'll need to set up:
+
++ your own Ansible Galaxy
++ probably your own docker registry
++ a small kubernetes cluster for AWX and its workers. This can fit on one small
+  server
+** Guix Profile
+
+See "Ansible On Guix" for info on its dependencies
+
+#+begin_src scheme :tangle (concat secrets-home "/.config/guix/manifests/ansible-usb.scm")
+(specifications->manifest
+ '(
+   "ansible"
+   ))
+#+end_src
+
+Build the relocatable guix profile:
+
+#+begin_src shell :eval no
+guixpkg=$(guix pack --relocatable --system=x86_64-linux --compression=gzip --save-provenance \
+      -L $HOME/.dotfiles -m $SECRETS_HOME/.config/guix/manifests/ansible-usb.scm \
+      -S .bin=bin)
+if [ ! -e $SECRETS_HOME/pkg ]; then
+    mkdir -p $SECRETS_HOME/pkg
+fi
+cp $guixpkg $SECRETS_HOME/pkg
+#+end_src
+
+The package is built to =/gnu/store= and is in =$guixpkg=. Now unpack:
+
+#+begin_src shell :eval no
+tar -C $SECRETS_HOME/pkg -xzvf $guixpkg
+#+end_src
+
+The profile will be in =./gnu/store/*profile=. If there are multiple profiles
+found in =$SECRETS_HOME=, then searching the =.tar= is a better way to find the
+profile.
+
+#+begin_src shell :eval no
+guixprofile=$(tar --list -zf $guixpkg | grep 'profile/bin' | cut -d/ -f4)
+ln -s $SECRETS_HOME/pkg/gnu/store/$guixprofile $SECRETS_HOME/.guix-ansible
+#+end_src
+
+Test the profile's binaries in a clean shell with:
+
+#+begin_src shell :eval no
+guix shell --profile=.guix-ansible -- bash
+#+end_src
+
+** Init Script
+
+#+begin_src shell :tangle (concat secrets-home "/init-ansible.sh")
+export SECRETS_HOME=$(pwd)
+export ANSIBLE_HOME=$SECRETS_HOME/ansible-test
+
+# TODO: move this to an =init.sh= file
+export PATH=$SECRETS_HOME/.bin:$PATH
+
+export GUIX_ANSIBLE=$SECRETS_HOME/.guix-ansible
+export GUIX_EXTRA=$HOME/.guix-extra-profiles
+
+if [ -f $GUIX_ANSIBLE/etc/profile ]; then
+  GUIX_PROFILE=$GUIX_ANSIBLE
+  source $GUIX_ANSIBLE/etc/profile
+else
+  echo "$GUIX_ANSIBLE not found. Trying $GUIX_EXTRA"
+  if [ -d $GUIX_EXTRA ]; then
+    GUIX_PROFILE=$HOME/.guix-extra-profiles/gnupg/gnupg
+    source $HOME/.guix-extra-profiles/gnupg/gnupg/etc/profile
+  else
+    echo "$GUIX_PROFILE not found. access ansible* some other way"
+    return 123
+  fi
+fi
+#+end_src
+
+** Python/Pip
+
+The Guix =ansible= package brings its own python, where its deps are located. It needs to be specified in =ansible.cfg=.
+
+**** TODO how to handle need for additional pip dependencies?
+
+** Ansible Config
+
+Run =ansible-config init --disabled -t all > $ANSIBLE_HOME/ansible.cfg.defaults= to generate defaults.
+
+#+begin_src conf :tangle (concat ansible-home "/ansible.cfg.eg")
+
+#+end_src
+
+** Inventory Skel
+
+#+begin_src conf :tangle (concat ansible-home "/inventory.ini.eg")
+
+#+end_src
+
+** SSH
+
+**** TODO make tangled scripts portable (or move org file)
+
+* Playbooks
+
+* External Services
+
+** Galaxy
+
+** AWX
+
+* Ansible on Guix
+
+
+The =ansible-core= package includes:
+
++ native:
+  - openssl/openssh
+  - python inputs for mocking/testing
++ inputs:
+  - libselinux
+  - sshpass
+  - python
+    - paramiko
+    - passlib
+    - pexpect
++ propagated
+  - python
+    - cryptography
+    - jinja2
+    - pyyaml
+    - packaging
+    - resolvelib-0.5
