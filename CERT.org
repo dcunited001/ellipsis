@@ -31,6 +31,7 @@ under a microscope. See my amateur-philosopher notes on opsec at the end
 - [[#certificate-revokation-crloscpaia][Certificate Revokation (CRL/OSCP/AIA)]]
 - [[#yubikey-piv][Yubikey PIV]]
   - [[#notes][Notes]]
+  - [[#yubikey][Yubikey]]
   - [[#pkcs11][PKCS11]]
   - [[#ssl][SSL]]
 - [[#opsec][Opsec]]
@@ -42,6 +43,7 @@ under a microscope. See my amateur-philosopher notes on opsec at the end
   - [[https://smallstep.com/blog/build-a-tiny-ca-with-raspberry-pi-yubikey/][Build a Tiny Certificate Authority For Your Homelab]]
 + OpenSSL
   - [[https://pki-tutorial.readthedocs.io/en/latest/index.html][PKI Tutorial]]
+  - [[https://docs.doubleu.codes/lab/root-ca/][Double ω Root CA]]
 + Feisty Duck
   - [[https://www.feistyduck.com/books/openssl-cookbook/][OpenSSL Cookbook]]
   - [[https://www.feistyduck.com/books/bulletproof-tls-and-pki/][Bulletproof TLS And PKI]]
@@ -163,10 +165,15 @@ openssl x509 -in server.pem -text -noout
 
 * Yubikey PIV
 
+The OpenSC package is required for =~/.ssh/config= setup: =pacman -Syu opensc=
+
+
+
 ** Notes
 
 + When generating keys for yubikey slots, they can be encrypted with 3DES. Also
-  (and this is important), if your pin changes, the management key changes.
+  (and this is important), if your pin changes, the management key changes
+  (TODO: verify)
   - and in an not-at-all confusing turn of events, [[https://docs.yubico.com/hardware/yubikey/yk-5/tech-manual/yk5-piv-tech-desc.html#piv-aes-management-key][yubikey 5.$$.2 can use AES]]
     for this purpose, in case you don't appreciate the irony in being FIPS
     compliant with a government that both writes the standards as it
@@ -179,6 +186,25 @@ openssl x509 -in server.pem -text -noout
 + If I'm reading this correctly, if you write a cert to the =f9 attestation=
   slot, you overwrite the factory cert. Everything in this ecosystem is
   confusing, without even getting to the math (i totally thought it was =9a=)
+
+** Yubikey
+
++ [[https://developers.yubico.com/PIV/Guides/SSH_with_PIV_and_PKCS11.html][Using PIV for SSH via PKCS#11]] (yubikey docs)
+
+*** Using GUI
+
+This can be setup with GUI and signature signing can be completed later.
+
+**** TODO update notes here
+
+*** Management Key
+
+If the management key has been changed, add =--key $mgmtKey= below.
+
+#+begin_src shell :eval no
+read -p "Enter Management Key: " mgmtKey
+yubico-piv-tool -a import-certificate --key $mgmtKey
+#+end_src
 
 ** PKCS11
 
