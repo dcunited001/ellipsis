@@ -888,8 +888,6 @@ So maybe it's only useful for controlling access to =ssh-agent=, though there's
 probably a better way to set that up without problems (e.g. every
 console/program has SSH/GPG agent vars/access)
 
-**** TODO actually write the scripts
-
 * Shells
 :PROPERTIES:
 :header-args+: :comments link :mkdirp yes
