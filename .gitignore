@@ -123,3 +123,7 @@ fonts/**
 # shroud
 .shroud
 .config.shroud/*
+
+# screen
+.screen
+.screenrc

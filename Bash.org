@@ -802,15 +802,93 @@ Try to source =.bashrc=. If the shell is non-interactive, =.bashrc= will return
 :header-args+: :comments link :mkdirp yes
 :END:
 
+
 ** Screen
 
-*** TODO basic screenrc
-
 #+begin_src sh :tangle .screenrc
+startup_message off
 
+term screen-256color
+#term xterm-256color
+#term rxvt-unicode-256color
+
+# enable bold colors (shouldn't be req.)
+# attrcolor b ".I"
+
+# when available: use x-scrolling mechanism
+# termcapinfo xterm*|rxvt*|kterm*|Eterm* ti@:te@
+
+# remove window/proc number from name in windowlist (C-a ")
+windowlist string "%4n %h%=%f"
+# windowlist string "%4n %t%=%f" # default
+
+# index windows starting at 1
+bind c screen 1
+bind ^c screen 1
+bind 0 select 10
+screen 1
+
+# should fix issues where text editor's don't properly reset the window
+altscreen on
+
+hardstatus off
+hardstatus alwayslastline
+hardstatus string '%{= kG}[ %{G}%H %{g}][%= %{= kw}%?%-Lw%?%{r}(%{W}%n*%f%t%?(%u)%?%{r})%{w}%?%+Lw%?%?%= %{g}][%{B} %m-%d %{W} %c %{g}]'
+
+# TODO: dynamic titles for screen windows:
+# https://www.gnu.org/software/screen/manual/screen.html#Dynamic-Titles
 #+end_src
 
+#+RESULTS:
+
+*** Notes
+
++ Screen runs =C-a := commands in the context of the =env= that first started
+  screen.
++ The =.screenrc= details should be shared in common for most systems, then you
+  make changes and reload with =C-a :source ~/.screenrc= without spawning new
+  processes.
++ Window customizations (splitting and assignment) do not survive detaching from
+  a session, so window layout scripts ideally should avoid commands resulting in
+  side-effects, so they are simple to re-source.
+  - running =C-a :layout save $layout= will associate the current layout to the
+    screen session, restoring it on reattach.
++ Archlinux [[https://bbs.archlinux.org/viewtopic.php?id=55618][discussion with user screenrc's]]
+
 *** Scripts
+
++ These scripts can be included with =C-a :source /home/dc/.screen/layout.rc=.
++ Running =C-a :layout dump /home/dc/.screen/123.layout.screenrc= will save the
+  current layout to a file.
+
+**** Window arrangement for servers
+
+Start =ssh-agent= before launching the screen session.
+
+Then, source:
+
+#+begin_src shell :tangle .screen/remote.layout.screenrc
+split
+split -h
+#+end_src
+
+Also, it may be possible to add =source ~/.screenrc= at the top, include the =ssh-agent= startup in the =.screenrc= and start with =screen -c .screen/remotelayout.screenrc=.
+
+***** TODO complete after grokking GNU screen [[https://www.gnu.org/software/screen/manual/screen.html#Layout][regions/layouts]]
+
+**** Start processes for web development
+
+**** Setup SSH/GPG for a Yubikey
+
+Useful to have a common =GPG_TTY= with more control over sharing ... though this
+may cause problems with email clients or other programs. If it does, then some
+issues could lead to pin lockouts.
+
+So maybe it's only useful for controlling access to =ssh-agent=, though there's
+probably a better way to set that up without problems (e.g. every
+console/program has SSH/GPG agent vars/access)
+
+**** TODO actually write the scripts
 
 * Shells
 :PROPERTIES:
