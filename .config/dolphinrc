@@ -1,8 +1,11 @@
+[$Version]
+update_info=dolphin_detailsmodesettings.upd:rename-leading-padding
+
 [General]
 AutoExpandFolders=true
 ShowToolTips=true
 ShowZoomSlider=false
-Version=201
+Version=202
 ViewPropsTimestamp=2022,7,12,7,23,45.809
 
 [KFileDialog Settings]
