@@ -806,6 +806,8 @@ Try to source =.bashrc=. If the shell is non-interactive, =.bashrc= will return
 
 ** Screen
 
++ GNU [[https://www.gnu.org/software/screen/manual/screen.html#toc-Regions-1][manual]]
+
 #+begin_src sh :tangle .screenrc
 startup_message off
 
@@ -1017,6 +1019,8 @@ use_guixs_cached() {
 
 
 ** Bash
+
++ GNU [[https://www.gnu.org/software/bash/manual/bash.html][manual]]
 
 *** =.bash_profile=
 
