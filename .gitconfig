@@ -33,4 +33,9 @@
 #       trustExitCode = true
 
 [rerere]
-        enabled = true
+	enabled = true
+
+# via tecosaur & protesilaos (req. ~/.config/git/attributes)
+# show org headlines instead of line numbers in diff hunks
+[diff "org"]
+	xfuncname = "^(\\*+ +.*)$"
