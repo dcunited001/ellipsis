@@ -16,4 +16,13 @@
 
    ;; Additional fonts.
    "texlive-cm-super" "texlive-amsfonts"
-   "texlive-times" "texlive-helvetic" "texlive-courier"))
+   "texlive-times" "texlive-helvetic" "texlive-courier"
+
+   "texlive-fonts-ec"
+   "texlive-fonts-latex"
+
+   "texlive-latex-cmap"
+   "texlive-tex-gyre"
+   "texlive-unicode-math"
+   "font-tex-gyre"
+   ))

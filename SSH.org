@@ -28,6 +28,8 @@ references to subdirectories (that either exist ... or not).
   be modularly squirreled away for users like =root= while everything
   is kept in =$SECRETS_HOME=
 
+**** TODO generate the ssh-configs from ox-ssh-
+
 ** Process
 
 Forget =${SSH_CONFIG_HOME}=. Either prepend all =ssh/agent= commands

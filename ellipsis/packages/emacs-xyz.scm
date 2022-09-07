@@ -39,7 +39,9 @@
     (description "Major mode for viewing certificates, CRLs, and other PKI-related files.
 
 Uses OpenSSL for viewing PEM and DER encoded PKI entities.")
-    (license #f)))
+    (license license:mit)))
+
+;; TODO: maybe implement an ox-ssh package?
 
 ;; https://github.com/jobbflykt/x509-mode
 ;; https://guix.gnu.org/manual/en/guix.html#emacs_002dbuild_002dsystem
