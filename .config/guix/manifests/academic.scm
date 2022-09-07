@@ -25,4 +25,21 @@
    "texlive-tex-gyre"
    "texlive-unicode-math"
    "font-tex-gyre"
+
+   "texlive-units"   ;; unit formatting (alt: siunits)
+   "texlive-comment" ;; comment formatting
+   "texlive-caption" ;; caption
+   "texlive-capt-of" ;; \caption-of
+   "texlive-lm"      ;;
+
+   ;; table formatting: req. for tabu
+   "texlive-tabu"           ;; longtables?
+   "texlive-latex-colortbl" ;;
+   "texlive-xcolor"         ;; alternating colors in tables
+   "texlive-booktabs"       ;; table optimization
+
+   "texlive-grfext"                     ;; also texlive-grffile
+
+   ;; included as dependencies:
+   ;; "texlive-hyperref"
    ))
