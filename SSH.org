@@ -270,13 +270,20 @@ fi
 
 And clear the agent vars from an emacs server
 
+#+begin_src shell :tangle (concat secrets-home "/.bin/emacs-agent-clear") :shebang "#!/bin/sh"
+emacsclient -e "(setenv \"SSH_AGENT_PID\" \"\")" -a "Something somewhere still happen"
+emacsclient -e "(setenv \"SSH_AUTH_SOCK\" \"\")" -a "Something somewhere still happen"
+#+end_src
+
 ***** TODO udpate =emacsclient= scripts to run checks prior to commands
 + [ ] check that a server is running or exit
 
-***** TODO this script echos the return values of (setenv ...)
-+ and probably shouldn't do that
+***** TODO wrap the =emacsclient= calls in (progn ...)
 
-** PKCS #11
+this script echos the return values of (setenv ...) and probably shouldn't do
+that.
+
+** PKCS#11
 
 *** Specifying a link to the PKCS#11 lib
 
