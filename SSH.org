@@ -8,6 +8,33 @@
 #+property: header-args:scheme :tangle-mode (identity #o500) :mkdirp yes :comments link
 #+options: toc:nil
 
+* Org Babel Config
+
+** Var Setup
+
+#+name: ansible-bindings
+| Var              | Value        |
+| secrets-home-var | SECRETS_HOME |
+
+#+begin_src emacs-lisp :var bindings=ansible-bindings :colnames yes :results silent
+(let* ((secrets-home-var (cadr (or (assoc "secrets-home-var" bindings)
+                                   '("")))))
+  (setq secrets-home (or (getenv secrets-home-var) ".")))
+
+;; better just use the environment var
+;; (eval (car (read-from-string ansible-home-string)))
+#+end_src
+
+#+name: secrets-home_CALL
+#+begin_src emacs-lisp :results silent
+secrets-home
+#+end_src
+
+* Environment
+
+***** TODO describe the setup for portable Guix pkg
++ need to disentangle SSH config from GPG config
+
 * SSH Config
 
 + the env variable =${SSH_CONFIG_HOME}= can be used if exported
@@ -102,7 +129,7 @@ Host router
   ControlPersist 300
 #+end_example
 
-#+begin_src conf :tangle ./.ssh/config.defaults
+#+begin_src conf :tangle (concat secrets-home "/.ssh/config.defaults")
 
 # For now
 IdentitiesOnly Yes
@@ -116,11 +143,12 @@ Host github.com
   User git
   ControlMaster no
   IdentitiesOnly yes
-  IdentityFile github
+  #IdentityFile github
+  PKCS11Provider /run/current-system/profile/lib/opensc-pkcs11.so
   MACs hmac-sha2-512-etm@openssh.com,hmac-sha2-256-etm@openssh.com,umac-128-etm@openssh.com,hmac-sha2-512,hmac-sha2-256,umac-128@openssh.com
 #+end_src
 
-#+begin_src conf :tangle ./.ssh/config.any.defaults
+#+begin_src conf :tangle (concat secrets-home "/.ssh/config.any.defaults")
 Host *
   #ControlMaster auto
   #ControlPath ~/.ssh/master-%r@%h:%p
@@ -147,7 +175,7 @@ Host *
 
 * SSH Daemon
 
-#+begin_src conf :tangle .ssh/daemon.defaults
+#+begin_src conf :tangle :tangle (concat secrets-home "/.ssh/daemon.defaults")
 # https://github.com/drduh/config/blob/master/sshd_config
 # https://linux.die.net/man/5/sshd_config
 Port 22
@@ -197,7 +225,25 @@ PermitUserEnvironment no
 #       AllowTcpForwarding yes
 #+end_src
 
+
+* Screen
+
+***** TODO turn agent-initialization into a screen macro?
+
 * SSH Agent
+
+While it's nice to have a portable profile and all ... it would be really nice
+if setting this up were quick!
+
+#+begin_src shell :tangle :tangle (concat secrets-home "/.ssh/agent_rc") :shebang "#!/bin/sh"
+export PKCS_LIB=/run/current-system/profile/lib/opensc-pkcs11.so
+
+alias pkcs-agent='ssh-agent -s -P $(readlink $PKCS_LIB)'
+#+end_src
+
+** Emacs
+
+***** TODO write =emacsclient= scripts to set/clear the env
 
 ** PKCS #11
 
@@ -205,7 +251,8 @@ PermitUserEnvironment no
 
 The =ssh-agent= expects libs to be one of two default locations, but both this and =ssh-add= will resolve links that are passed, so they must be exact.
 
-On Guix, this requires setting up =ssh-agent= to point to the exact =opensc-pkcs11.so= with =ssh-agent -P $(readlink $PKCS_LIB)=. When tracing problems, then run as foreground daemon with =-d=.
+On Guix, this requires setting up =ssh-agent= to point to the exact
+=opensc-pkcs11.so= with =ssh-agent -s -P $(readlink $PKCS_LIB)=. When tracing problems, then run as foreground daemon with =-d=.
 
 Then card-keys should now add when running =ssh-add -s "$(readlink $PKCS_LIB)"=
 

@@ -47,6 +47,7 @@
   - [[#main][main]]
   - [[#devtools][devtools]]
   - [[#devdebug][devdebug]]
+  - [[#netdebug][netdebug]]
   - [[#yubikey][Yubikey]]
   - [[#xdg-1][XDG]]
   - [[#xkb][XKB]]
@@ -1045,6 +1046,7 @@ if [ -f $HOME/.profile ]; then . $HOME/.profile; fi
 
   "curl"
 
+  "autoconf"
   "glibc"
   "gcc-toolchain"
   "cmake"
@@ -1150,6 +1152,15 @@ if [ -f $HOME/.profile ]; then . $HOME/.profile; fi
 
       "tcpdump"
       ))
+#+end_src
+
+** netdebug
+
+#+begin_src scheme :tangle ".config/guix/manifests/netdebug.scm"
+(specifications->manifest
+ '(
+   "arp-scan"
+   ))
 #+end_src
 
 ** Yubikey
