@@ -239,7 +239,11 @@ if setting this up were quick!
 export PKCS_LIB=/run/current-system/profile/lib/opensc-pkcs11.so
 
 alias pkcs-agent='ssh-agent -s -P $(readlink $PKCS_LIB)'
+#alias pkcs-add='ssh-add -s $(readlink $PKCS_LIB)' #readlink not necessary
+alias pkcs-add='ssh-add -s $PKCS_LIB'
 #+end_src
+
+***** TODO move =PKCS_LIB= to an env var that can be set by org-babel
 
 ** Emacs
 
