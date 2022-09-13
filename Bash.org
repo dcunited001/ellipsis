@@ -306,8 +306,8 @@ alias flatsteam="flatpak --installation=steam"
 
 export XDG_DATA_DIRS="/flatpak/dc/.local/share/flatpak/exports/share:${XDG_DATA_DIRS}"
 # TODO move this to the guix package?
-export XDG_DATA_DIRS="/flatpak/steam/.local/share/flatpak/exports/share:${XDG_DATA_DIRS}"
-export XDG_DATA_DIRS="/flatpak/agenda/.local/share/flatpak/exports/share:${XDG_DATA_DIRS}"
+export XDG_DATA_DIRS="/flatpak/steam/.local/flatpak/exports/share:${XDG_DATA_DIRS}"
+export XDG_DATA_DIRS="/flatpak/agenda/.local/flatpak/exports/share:${XDG_DATA_DIRS}"
 
 export FLATPAK_USER_DIR=/flatpak/$(id -un)/.local/share/flatpak
 
