@@ -911,7 +911,7 @@ shopt -s histappend
 #+begin_src sh :tangle .bashrc :shebang #!/bin/sh
 # unless dumbterm
 
-if [ "$TERM" -ne "dumb" ]; then
+if [ "$TERM" != "dumb" ]; then
     # commandline color by default
     alias ls='ls --color=auto'
     alias dir='dir --color=auto'
@@ -949,7 +949,7 @@ alias rip="expac --timefmt='%Y-%m-%d %T' '%l\t%n %v' | sort | tail -200 | nl"
 
 alias emacs-debug-wayland='WAYLAND_DEBUG=1 emacs --fg-daemon > $HOME/.cache/log/emacs.wayland.`date +%Y-%m%d-%H%M`.log 2>&1'
 
-if [ "$TERM" == "dumb" ]
+if [ "$TERM" == "dumb" ]; then
     PS1='$ '
 else
     if [ -n "$GUIX_ENVIRONMENT" ]
