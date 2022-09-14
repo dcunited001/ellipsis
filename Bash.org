@@ -260,7 +260,6 @@ These scripts are intentionally left blank.
 #+begin_src sh :tangle .config/sh/profile.d/apps.sh :shebang #!/bin/sh
 export MAIL=geary
 export BROWSER=firefox
-export TERM=alacritty
 
 # TODO: update to use terminal emacsclient
 export VISUAL="emacsclient -c"
@@ -782,6 +781,8 @@ export NO_AT_BRIDGE=1
 
 Try to source =.bashrc=. If the shell is non-interactive, =.bashrc= will return
 
+**** TODO properly sort this out
+
 #+begin_src sh :tangle .profile :shebang #!/bin/sh
 [[ -f $HOME/.bashrc ]] && source $HOME/.bashrc
 #+end_src
@@ -903,16 +904,26 @@ If not running interactively, return
 #+begin_src sh :tangle .bashrc :shebang #!/bin/sh
 [[ $- != *i* ]] && return
 shopt -s histappend
+
+[[ "$TERM" == "dumb" ]] || export TERM="alacritty"
 #+end_src
 
 #+begin_src sh :tangle .bashrc :shebang #!/bin/sh
-# commandline color by default
-alias ls='ls --color=auto'
-alias dir='dir --color=auto'
-alias egrep='egrep --color=auto'
-alias fgrep='fgrep --color=auto'
-alias diff='diff --color=auto'
-alias grep='grep --color=auto'
+# unless dumbterm
+
+if [ "$TERM" -ne "dumb" ]; then
+    # commandline color by default
+    alias ls='ls --color=auto'
+    alias dir='dir --color=auto'
+    alias egrep='egrep --color=auto'
+    alias fgrep='fgrep --color=auto'
+    alias diff='diff --color=auto'
+    alias grep='grep --color=auto'
+    alias vdir='vdir --color=auto'
+# else
+    # no color
+fi
+
 alias grubup="sudo update-grub"
 alias hw='hwinfo --short'
 alias psmem10='ps auxf | sort -nr -k 4 | head -10'
@@ -920,7 +931,6 @@ alias psmem='ps auxf | sort -nr -k 4'
 alias tarnow='tar -acf '
 alias untar='tar -zxvf '
 alias upd='/usr/bin/update'
-alias vdir='vdir --color=auto'
 alias wget='wget -c '
 
 # systemd
@@ -939,11 +949,15 @@ alias rip="expac --timefmt='%Y-%m-%d %T' '%l\t%n %v' | sort | tail -200 | nl"
 
 alias emacs-debug-wayland='WAYLAND_DEBUG=1 emacs --fg-daemon > $HOME/.cache/log/emacs.wayland.`date +%Y-%m%d-%H%M`.log 2>&1'
 
-if [ -n "$GUIX_ENVIRONMENT" ]
-then
-    PS1='\[\033[1;33m\]\A'' \[\033[1;32m\]''\u''\[\033[31m\]''@''\[\033[1;36m\]''\h \[\033[31m\]::''\[\033[1;33m\] \w''\[\033[31m\] [''\[\033[1;00m\]env''\[\033[31m\]] :: \[\033[00m\]'
+if [ "$TERM" == "dumb" ]
+    PS1='$ '
 else
-    PS1='\[\033[1;33m\]\A'' \[\033[1;32m\]''\u''\[\033[31m\]''@''\[\033[1;36m\]''\h \[\033[31m\]::''\[\033[1;33m\] \w''\[\033[31m\] :: \[\033[00m\]'
+    if [ -n "$GUIX_ENVIRONMENT" ]
+    then
+        PS1='\[\033[1;33m\]\A'' \[\033[1;32m\]''\u''\[\033[31m\]''@''\[\033[1;36m\]''\h \[\033[31m\]::''\[\033[1;33m\] \w''\[\033[31m\] [''\[\033[1;00m\]env''\[\033[31m\]] :: \[\033[00m\]'
+    else
+        PS1='\[\033[1;33m\]\A'' \[\033[1;32m\]''\u''\[\033[31m\]''@''\[\033[1;36m\]''\h \[\033[31m\]::''\[\033[1;33m\] \w''\[\033[31m\] :: \[\033[00m\]'
+    fi
 fi
 
 #+end_src
