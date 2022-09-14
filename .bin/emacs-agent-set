@@ -1,0 +1,13 @@
+#!/bin/sh
+if [ ! -z "$SSH_AGENT_PID" ]; then
+    if [ ! -z "$SSH_AUTH_SOCK" ]; then
+        emacsclient -e "(setenv \"SSH_AGENT_PID\" \"$SSH_AGENT_PID\")" -a "Something somewhere happen"
+        emacsclient -e "(setenv \"SSH_AUTH_SOCK\" \"$SSH_AUTH_SOCK\")" -a "Something somewhere happen"
+    else
+        echo SSH_AUTH_SOCK is empty
+        return 13
+    fi
+else
+    echo SSH_AGENT_PID is empty
+    return 13
+fi
