@@ -19,10 +19,6 @@ wmclass=ykman-gui yubikey manager
 wmclasscomplete=true
 wmclassmatch=1
 
-[General]
-count=1
-rules=1
-
 [bb60cc91-70b1-4855-89ec-47ef035bf14a]
 Description=Window settings for ykpersonalization
 clientmachine=localhost

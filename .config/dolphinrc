@@ -1,12 +1,18 @@
 [$Version]
 update_info=dolphin_detailsmodesettings.upd:rename-leading-padding
 
+[DetailsMode]
+PreviewSize=16
+
 [General]
 AutoExpandFolders=true
 ShowToolTips=true
 ShowZoomSlider=false
 Version=202
 ViewPropsTimestamp=2022,7,12,7,23,45.809
+
+[IconsMode]
+PreviewSize=22
 
 [KFileDialog Settings]
 Places Icons Auto-resize=false

@@ -44,10 +44,10 @@ outlineWidth=1
 PreloadWeight=0
 
 [ScreenConnectors]
-10=DisplayPort-1:::1080,0 3840x2160
-11=DisplayPort-2:::4920,0 2560x1440
+10=DisplayPort-1:::2560,960 1080x1920
+11=DisplayPort-2:::3640,0 2160x3840
 12=HDMI-A-0:::0,0 1080x1920
-13=DisplayPort-0:::0,0 1080x1920
+13=DisplayPort-0:::0,960 2560x1440
 
 [UniversalSettings]
 badges3DStyle=false
