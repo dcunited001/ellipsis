@@ -19,7 +19,7 @@ SuccessExitStatus=15
 # The location of the SSH auth socket varies by distribution, and some
 # set it from PAM, so don't override by default.
 #Environment=SSH_AUTH_SOCK=%t/keyring/ssh
-Environment=DOOM_DIR=$HOME/.doom.d
+Environment=DOOMDIR=$HOME/.doom.d
 Environment=ORG_DIRECTORY=/data/org
 Environment=_LANG=/data/lang
 Environment=GRAPHVIZ_DOT=/usr/bin/dot

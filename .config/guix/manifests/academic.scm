@@ -26,6 +26,7 @@
    "texlive-unicode-math"
    "font-tex-gyre"
 
+   "texlive-latex-geometry" ;; document formatting
    "texlive-units"   ;; unit formatting (alt: siunits)
    "texlive-comment" ;; comment formatting
    "texlive-caption" ;; caption
