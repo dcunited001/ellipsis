@@ -1,10 +1,10 @@
 [Groups/0]
 # Group Name
-Name="Group 1"
+Name="Group 2"
 # Layout
 Default Layout=us-altgr-intl
 # Default Input Method
-DefaultIM=keyboard-gr
+DefaultIM=keyboard-us-altgr-intl
 
 [Groups/0/Items/0]
 # Name
@@ -12,23 +12,29 @@ Name=keyboard-us-altgr-intl
 # Layout
 Layout=
 
-[Groups/0/Items/1]
+[Groups/1]
+# Group Name
+Name="Group 1"
+# Layout
+Default Layout=us-altgr-intl
+# Default Input Method
+DefaultIM=mozc
+
+[Groups/1/Items/0]
+# Name
+Name=keyboard-us-altgr-intl
+# Layout
+Layout=
+
+[Groups/1/Items/1]
 # Name
 Name=keyboard-gr
 # Layout
 Layout=
 
-[Groups/1]
-# Group Name
-Name="Group 2"
-# Layout
-Default Layout=us-altgr-intl
-# Default Input Method
-DefaultIM=keyboard-us-altgr-intl
-
-[Groups/1/Items/0]
+[Groups/1/Items/2]
 # Name
-Name=keyboard-us-altgr-intl
+Name=mozc
 # Layout
 Layout=
 

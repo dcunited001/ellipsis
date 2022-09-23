@@ -11,7 +11,7 @@ ShowMenuBarByDefault=false
 [MainWindow]
 DisplayPort-0 DisplayPort-1 DisplayPort-2 Height 2560x1440=1361
 DisplayPort-0 DisplayPort-1 DisplayPort-2 Height 3840x2160=1022
-DisplayPort-0 DisplayPort-1 DisplayPort-2 Width 2560x1440=817
+DisplayPort-0 DisplayPort-1 DisplayPort-2 Width 2560x1440=2545
 DisplayPort-0 DisplayPort-1 DisplayPort-2 Width 3840x2160=1239
 DisplayPort-0 DisplayPort-1 DisplayPort-2 XPosition 2560x1440=7
 DisplayPort-0 DisplayPort-1 DisplayPort-2 XPosition 3840x2160=7
