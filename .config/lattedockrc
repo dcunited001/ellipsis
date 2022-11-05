@@ -14,6 +14,8 @@ Number of Actions=0
 detailViewIconSize=16
 
 [KPropertiesDialog]
+DisplayPort-0 DisplayPort-1 DisplayPort-2 Height 2560x1440=453
+DisplayPort-0 DisplayPort-1 DisplayPort-2 Width 2560x1440=470
 DisplayPort-0 DisplayPort-2 DisplayPort-1 Height 2560x1440=464
 DisplayPort-0 DisplayPort-2 DisplayPort-1 Width 2560x1440=404
 DisplayPort-2 DisplayPort-1 HDMI-A-0 Height 3840x2160=500
@@ -21,7 +23,7 @@ DisplayPort-2 DisplayPort-1 HDMI-A-0 Width 3840x2160=498
 
 [LatteSettingsDialog]
 downloadWindowSize=980,600
-windowSize=1100,769
+windowSize=1072,769
 
 [LatteSettingsDialog][DetailsDialog]
 windowSize=560,640
@@ -40,11 +42,14 @@ windowSize=980,630
 [PlasmaThemeExtended]
 outlineWidth=1
 
+[PlasmaTransientsConfig]
+PreloadWeight=0
+
 [ScreenConnectors]
-10=DisplayPort-1:::2560,960 1080x1920
+10=DisplayPort-1:::2560,808 1080x1920
 11=DisplayPort-2:::3640,0 2160x3840
 12=HDMI-A-0:::0,0 1080x1920
-13=DisplayPort-0:::0,960 2560x1440
+13=DisplayPort-0:::0,1288 2560x1440
 
 [UniversalSettings]
 badges3DStyle=false
