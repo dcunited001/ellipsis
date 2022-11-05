@@ -20,7 +20,7 @@ window:
     instance: Alacritty
     general: Alacritty
 
-  gtk_theme_variant: dark
+  decorations_theme_variant: dark
 
 mouse:
   hide_when_typing: true
