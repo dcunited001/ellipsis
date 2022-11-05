@@ -1,8 +1,11 @@
 #!/bin/sh
 if [ "${MATLAB_INTEL_OVERRIDE}" = "yes" ] ; then
+    # i965 is a thing i do not have ... maybe one day, it'll come up in trivia
     # exec env MESA_LOADER_DRIVER_OVERRIDE=i965 GTK_PATH=/usr/lib/gtk-2.0 matlab -desktop;
-    env MESA_LOADER_DRIVER_OVERRIDE=i965 GTK_PATH=/usr/lib/gtk-2.0 progl matlab -desktop "$@"
+    env MESA_LOADER_DRIVER_OVERRIDE=amdgpu-pro-libgl GTK_PATH=/usr/lib/gtk-2.0 progl matlab -desktop "$@"
 else
-    exec env GTK_PATH=/usr/lib/gtk-2.0 matlab -desktop "$@"
+    # just always use opengl because why not
+    progl env GTK_PATH=/usr/lib/gtk-2.0 matlab -desktop "$@"
+    # exec env GTK_PATH=/usr/lib/gtk-2.0 TMPDIR=$MATLAB_HOME/tmp matlab -desktop "$@"
     # env GTK_PATH=/usr/lib/gtk-2.0 progl matlab -desktop;
 fi
