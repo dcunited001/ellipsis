@@ -1,0 +1,8 @@
+#!/bin/sh
+if [ "${MATLAB_INTEL_OVERRIDE}" = "yes" ] ; then
+    # exec env MESA_LOADER_DRIVER_OVERRIDE=i965 GTK_PATH=/usr/lib/gtk-2.0 matlab -desktop;
+    env MESA_LOADER_DRIVER_OVERRIDE=i965 GTK_PATH=/usr/lib/gtk-2.0 progl matlab -desktop "$@"
+else
+    exec env GTK_PATH=/usr/lib/gtk-2.0 matlab -desktop "$@"
+    # env GTK_PATH=/usr/lib/gtk-2.0 progl matlab -desktop;
+fi
