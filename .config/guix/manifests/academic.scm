@@ -39,8 +39,10 @@
    "texlive-xcolor"         ;; alternating colors in tables
    "texlive-booktabs"       ;; table optimization
 
-   "texlive-grfext"                     ;; also texlive-grffile
+   "texlive-grfext" ;; also texlive-grffile
 
    ;; included as dependencies:
    ;; "texlive-hyperref"
+
+   "gnuplot"
    ))
