@@ -1,0 +1,26 @@
+#+TITLE:     CAD
+#+AUTHOR:    David Conner
+#+EMAIL:     noreply@te.xel.io
+#+DESCRIPTION: notes
+
+Config for CAD/Design programs like FreeCAD, Lightburn/Inkscape.
+
+* Guix
+
+#+begin_src scheme :tangle .config/guix/manifests/cad.scm
+(specifications->manifest
+ '(
+   "freecad"
+   "lightburn"
+   ))
+#+end_src
+
+* FreeCAD
+
+* Lightburn
+
+
+
+** Hardware
+
+*

@@ -51,6 +51,7 @@
   - [[#syncthing][Syncthing]]
   - [[#flatpak][Flatpak]]
     - [[#fontconfig-fix][Fontconfig fix]]
+    - [[#permissions-fix][Permissions fix]]
   - [[#printing][Printing]]
   - [[#system][System]]
 - [[#desktop-profiles][Desktop Profiles]]
@@ -1969,6 +1970,16 @@ flatpak --user override \
     --filesystem=~/.guix-extra-profiles/fonts/fonts/share/fonts:ro \
     --env=FONTCONFIG_PATH=$HOME/.dotfiles/.config/fontconfig/conf.d \
     --env=FONTCONFIG_FILE=$HOME/.dotfiles/.config/fontconfig/fonts.conf
+#+end_src
+
+*** Permissions fix
+
+#+begin_src bash :eval no
+CURA_APP=com.ultimaker.cura
+CURA_HOME="$(xdg-user-dir DOCUMENTS)/print3d"
+mkdir -p $CURA_HOME
+flatpak override --user $CURA_APP --filesystem=$CURA_HOME
+#flatpak permission-set # this is a dynamic permission
 #+end_src
 
 ** Printing
