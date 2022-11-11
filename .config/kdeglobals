@@ -151,6 +151,7 @@ widgetStyle=Breeze
 [KDE]
 ColorScheme=BreezeLight
 LookAndFeelPackage=Sweet
+SingleClick=false
 contrast=4
 widgetStyle=Breeze
 
