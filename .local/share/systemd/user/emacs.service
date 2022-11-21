@@ -6,8 +6,8 @@ StartLimitBurst=3
 
 [Service]
 Type=notify
-ExecStart=/usr/bin/emacs --fg-daemon
-ExecStop=/usr/bin/emacsclient --eval "(kill-emacs)"
+ExecStart=/home/dc/.guix-extra-profiles/emacs-native-comp/emacs-native-comp/bin/emacs --fg-daemon
+ExecStop=/home/dc/.guix-extra-profiles/emacs-native-comp/emacs-native-comp/bin/emacsclient --eval "(kill-emacs)"
 
 RestartSec=30
 Restart=on-failure

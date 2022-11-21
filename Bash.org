@@ -489,7 +489,7 @@ so no need to set =-c= in $GUIX_BUILD_OPTIONS
 # export GUIX_BUILD_OPTIONS="-c6"
 
 # never again, wxPython ... never again
-GUIX_AUTOLOAD_PROFILES=(arch-pwsafe academic)
+GUIX_AUTOLOAD_PROFILES=(arch-pwsafe academic emacs-native-comp)
 if [ -z "$GUIX_ARCH_LOADED" ]; then
     guix_arch_load ${GUIX_AUTOLOAD_PROFILES[@]}
     export GUIX_ARCH_LOADED=${GUIX_AUTOLOAD_PROFILES[@]}
@@ -612,9 +612,24 @@ Activate new environments with:
 Pass python to Julia Shells with:
 
 
-**** Resources
+*** Resources
 
 + [[https://medium.com/analytics-vidhya/install-tensorflow-2-for-amd-gpus-87e8d7aeb812][Setup Tensorflow for AMD GPU's]]
++ [[https://pipenv-fork.readthedocs.io/en/latest/advanced.html][Advanced Usage of Pipenv]]
+
+*** Issues
+
+**** Setup IPython for integration with Blender
+
+
+
+**** Setup Blender as python module
+
++ Ensure pipenv is installed.
+
+***** On Arch
+****** TODO package to build blender module (or guix package?)
+***** On Guix
 
 
 ** Julia
