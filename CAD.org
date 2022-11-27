@@ -3,24 +3,85 @@
 #+EMAIL:     noreply@te.xel.io
 #+DESCRIPTION: notes
 
-Config for CAD/Design programs like FreeCAD, Lightburn/Inkscape.
+Config for CAD/Design programs FreeCAD, Lightburn/Inkscape.
 
-* Guix
+These configs could easy be adapted so the applications run from USB on a
+thumbdrive. See =SSH.org= and =GPG.org= for examples of installing Guix profiles
+to isolated builds where /all/ dependencies are self-contained on the USB.
+
+* Freecad
+
++ Currently v0.20.1
++ Not loaded by default
++ available from guix official: =./gnu/packages/engineering.scm=
+
+
+#+begin_src sh :tangle .config/sh/profile.d/freecad.sh :shebang #!/bin/sh
+export FREECADPATH=$GUIX_EXTRA/freecad/freecad/bin
+#+end_src
+
+Guix profile
+
+#+begin_src scheme :tangle .config/guix/manifests/freecad.scm
+'(specifications->manifest
+  '(
+    "freecad"
+    ))
+#+end_src
+
+#+begin_src bash :tangle .bin/run-freecad :shebang #!/bin/sh
+
+# Custom Env
+export FREECAD_PROFILE=$GUIX_EXTRA/freecad/freecad
+
+# Load Guix Profile
+GUIX_PROFILE=$FREECAD_PROFILE
+source $FREECAD_PROFILE/etc/profile
+
+# Freecad Env
+export FREECADPATH=$FREECAD_PROFILE
+
+# Run App
+# freecad
+
+#+end_src
+
+* Lightburn
+
++ available from nonguix channel
 
 #+begin_src scheme :tangle .config/guix/manifests/cad.scm
 (specifications->manifest
  '(
-   "freecad"
    "lightburn"
    ))
 #+end_src
 
-* FreeCAD
-
-* Lightburn
-
-
-
 ** Hardware
 
-*
+* Raise3d
+
+Profile:
+
+#+begin_src scheme :tangle .config/guix/manifests/raise3d.scm
+(specifications->manifest
+  '("gcc"
+    ;; "libdl"
+    ;; "libpthreads" ;; incorporated into GNU glibc
+    "zlib"
+    "fuse"))
+#+end_src
+
+Environment:
+
+#+begin_src bash :tangle .config/sh/profile.d/raise3d.sh :shebang #!/bin/sh
+
+#+end_src
+
+Launch script:
+
+#+begin_src bash :tangle .bin/run-ideamaker :shebang !#/bin/sh
+
+#+end_src
+
+* Cura
