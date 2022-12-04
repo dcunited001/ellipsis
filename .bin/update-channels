@@ -6,6 +6,9 @@ while [ "$1" != "" ]; do
             __substitute_urls="$2"
             shift 2
             ;;
+        --)
+          break
+          ;;
         -*|--*=) # unsupported flags
         echo "Error: Unsupported flags $1" >&2
         exit 1
@@ -20,7 +23,7 @@ __substitute_urls=${__substitute_urls:-https://ci.guix.gnu.org https://bordeaux.
 
 notify-send -i important "GUIX (Channels)" "Updating Guix"
 
-guix pull --channels=$HOME/.config/guix/base-channels.scm --substitute-urls="$__substitute_urls"
+guix pull --channels=$HOME/.config/guix/base-channels.scm --substitute-urls="$__substitute_urls" $@
 guix describe --format=channels > ~/.config/guix/channels.scm
 
 status=$?

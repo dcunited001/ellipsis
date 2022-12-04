@@ -10,17 +10,20 @@ __substitute_urls=""
 while [ "$1" != "" ]; do
     case $1 in
         --substitute-urls)
-            __substitute_urls="$2"
-            shift 2
-            ;;
-        -*|--*=) # unsupported flags
-        echo "Error: Unsupported flags $1" >&2
-        exit 1
-        ;;
+          __substitute_urls="$2"
+          shift 2
+          ;;
+        --)
+          break
+          ;;
+        -*|--*=)
+          echo "Error: Unsupported flags $1" >&2
+          exit 1
+          ;;
         *)
-            __profiles="$__profiles $1"
-            shift
-            ;;
+          __profiles="$__profiles $1"
+          shift
+          ;;
     esac
 done
 
@@ -38,7 +41,7 @@ for profile in $__profiles; do
   echo -e "${GREEN}Updating profile:" $profilePath "${NC}"
   echo
 
-  guix package --profile="$profilePath/$profileName" --manifest="$HOME/.config/guix/manifests/$profileName.scm" --substitute-urls="$__substitute_urls"
+  guix package --profile="$profilePath/$profileName" --manifest="$HOME/.config/guix/manifests/$profileName.scm" --substitute-urls="$__substitute_urls" $@
 
   notify-send "GUIX (Update Profile)" "Complete: $profileName"
 done

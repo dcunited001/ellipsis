@@ -13,6 +13,9 @@ while [ "$1" != "" ]; do
             __substitute_urls="$2"
             shift 2
             ;;
+        --)
+          break
+          ;;
         -*|--*=) # unsupported flags
         echo "Error: Unsupported flags $1" >&2
         exit 1
@@ -43,7 +46,7 @@ for profile in $__profiles; do
     echo
 
     mkdir -p $profilePath
-    guix package --manifest=$manifestPath --profile="$profilePath/$profileName" --substitute-urls="$__substitute_urls"
+    guix package --manifest=$manifestPath --profile="$profilePath/$profileName" --substitute-urls="$__substitute_urls" $@
 
     notify-send "GUIX (Activate Profile)" "Complete: $profileName"
 

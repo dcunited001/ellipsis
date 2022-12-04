@@ -17,6 +17,9 @@ while [ "$1" != "" ]; do
             __substitute_urls="$2"
             shift 2
             ;;
+        --)
+            break
+            ;;
         -*|--*=) # unsupported flags
         echo "Error: Unsupported flags $1" >&2
         exit 1
@@ -27,4 +30,4 @@ done
 __substitute_urls=${__substitute_urls:-https://ci.guix.gnu.org https://bordeaux.guix.gnu.org https://substitutes.nonguix.org}
 
 # not sure on sudo -E, sudo -i or no option
-sudo -i guix system -L $HOME/.config/guix/systems reconfigure $HOME/.config/guix/systems/$(hostname).scm --substitute-urls="$__substitute_urls"
+sudo -i guix system -L $HOME/.config/guix/systems reconfigure $HOME/.config/guix/systems/$(hostname).scm --substitute-urls="$__substitute_urls" $@
