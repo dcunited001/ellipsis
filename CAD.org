@@ -9,28 +9,31 @@ These configs could easy be adapted so the applications run from USB on a
 thumbdrive. See =SSH.org= and =GPG.org= for examples of installing Guix profiles
 to isolated builds where /all/ dependencies are self-contained on the USB.
 
-* Freecad
+* CAD
+
+Guix profile
+
+#+begin_src scheme :tangle .config/guix/manifests/cad.scm
+(specifications->manifest
+ '(
+   "lightburn"
+   "freecad"
+   ))
+#+end_src
+
+** Freecad
 
 + Currently v0.20.1
 + Not loaded by default
 + available from guix official: =./gnu/packages/engineering.scm=
 
-
 #+begin_src sh :tangle .config/sh/profile.d/freecad.sh :shebang #!/bin/sh
 export FREECADPATH=$GUIX_EXTRA/freecad/freecad/bin
 #+end_src
 
-Guix profile
-
-#+begin_src scheme :tangle .config/guix/manifests/freecad.scm
-'(specifications->manifest
-  '(
-    "freecad"
-    ))
-#+end_src
+startup command
 
 #+begin_src bash :tangle .bin/run-freecad :shebang #!/bin/sh
-
 # Custom Env
 export FREECAD_PROFILE=$GUIX_EXTRA/freecad/freecad
 
@@ -43,19 +46,17 @@ export FREECADPATH=$FREECAD_PROFILE
 
 # Run App
 # freecad
-
 #+end_src
 
-* Lightburn
+***** TODO tweak/test startup freecad using guix & startup script
++ [ ] test portable/transactional configs (i.e. configs in git)
++ [ ] test portable lists of plugin definitions
+
+***** TODO ensure the config ports to archlinux well
+
+** Lightburn
 
 + available from nonguix channel
-
-#+begin_src scheme :tangle .config/guix/manifests/cad.scm
-(specifications->manifest
- '(
-   "lightburn"
-   ))
-#+end_src
 
 ** Hardware
 
@@ -64,12 +65,54 @@ export FREECADPATH=$FREECAD_PROFILE
 Profile:
 
 #+begin_src scheme :tangle .config/guix/manifests/raise3d.scm
-(specifications->manifest
-  '("gcc"
-    ;; "libdl"
-    ;; "libpthreads" ;; incorporated into GNU glibc
-    "zlib"
-    "fuse"))
+(use-modules
+ ;; coreutils
+ (gnu packages base)
+ ;; gcc:lib,
+ (gnu packages gcc)
+ ;; glib:bin
+ (gnu packages glib)
+ ;; nss, nss-certs
+ (gnu packages nss)
+ ;; libtasn1, p11-kit
+ (gnu packages tls)
+ ;; e2fsprogs
+ (gnu packages linux)
+ ;; libsm
+ (gnu packages xorg)
+ ;; sqlite
+ (gnu packages sqlite)
+ ;; libgpg-error
+ (gnu packages gnupg)
+ ;; gmp
+ (gnu packages multiprecision)
+ ;; krita: overkill, acts as a catchall for user-facing QT app dependencies
+ ;; (gnu packages kde)
+
+ ;; ungoogled-chromium: acts as a catchall for user-facing GTK app dependencies
+ (gnu packages chromium))
+
+(concatenate-manifests
+ (list (package->manifest
+        (list p11-kit
+              sqlite
+              libsm
+              libgpg-error))
+       (package->development-manifest
+        (list ungoogled-chromium
+              libtasn1
+              gmp
+              glu
+              glib #:bin
+              gcc #:lib
+              e2fsprogs))))
+
+       ;; debug tools
+;; (package->manifest (list strace ...))
+       ;; "glibc"
+       ;; "gdb"
+       ;; "strace"
+       ;; "patchelf"
 #+end_src
 
 Environment:
