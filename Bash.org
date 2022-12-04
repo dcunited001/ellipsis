@@ -619,6 +619,19 @@ export GRAPHVIZ_DOT=$HOME/.guix-extra-profiles/desktop/desktop/bin/dot
 
 ** Python
 
++ Pipenv should be installed to =--user=, at least on guix
+  - after =guix install python pip3=, then run =pip3 install --user pipenv=
+  - or use a manifest to manage the base python and load it into the environment
+  - pip3/pipenv will install its user packages to =~/.local/=
+  - otherwise, see [[https://github.com/pjotrp/guix-notes/blob/master/PYTHON.org#isolated-module-installation][pjotr's notes]] on isolated module installation
+    - should guix/python need the package's hashed path
++ With these environment variables, then pipenv should sync the packages in
+  =Pipfile= to =./.venv=
+  - this is easier than managing a dozen =virtualenv= instances like I did
+    before the pipenv era
+  - old projects should probably be cleaned up. small files eat many inodes. i'm
+    looking at you NodeJS.
+
 #+begin_src sh :tangle .config/sh/profile.d/python.sh :shebang #!/bin/sh
 # to manually specify where venv's are set up
 # export WORKON_HOME=~/.venvs
@@ -634,16 +647,11 @@ export PIPENV_VENV_IN_PROJECT=1
 # eval "$(_PIPENV_COMPLETE=bash_source pipenv)"
 #+end_src
 
-Activate new environments with:
-
-
-Pass python to Julia Shells with:
-
-
 *** Resources
 
 + [[https://medium.com/analytics-vidhya/install-tensorflow-2-for-amd-gpus-87e8d7aeb812][Setup Tensorflow for AMD GPU's]]
 + [[https://pipenv-fork.readthedocs.io/en/latest/advanced.html][Advanced Usage of Pipenv]]
+  - includes reference to environment variables
 
 *** Issues
 
