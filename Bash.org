@@ -428,6 +428,43 @@ export GUIX_DEVDEBUG=$HOME/.guix-extra-profiles/devdebug/devdebug
 #+end_src
 
 *** On Arch
+**** Load Guile for Emacs-Guix
+
+Emacs guix needs a consistent guile environment (See [[https://github.com/alezost/guix.el#important-note-for-non-guix-system-users][this note]]).
+
++ =GUILE_LOAD_PATH= should be defined properly and should include guix modules.
++ So, =guix package -i guix guile= to install guix and guile into the user
+  profile but reload the current profile afterwards.
++ And finally, =emacs-guix= should work as expected on a foreign distro
+  - also, running =doom purge= when moving emacs packages between guix and
+    doom's straight is essential. any shared dependencies will likely be brought
+    in from doom (not guix)
+  - in other words ... you kinda must pick a team (or micromanage your
+    =EMACSLOADPATH=)
+
+#+begin_src sh :tangle .config/sh/profile.d/guile-arch.sh :shebang #!/bin/bash
+source "$HOME/.guix-profile/etc/profile"
+source "$HOME/.config/guix/current/etc/profile"
+#+end_src
+
+***** Note on =/etc/profile.d/guix.sh= from AUR
+
+AUR guix-install sets this up in /etc/profile.d/guix.sh.
+
+#+begin_example sh :eval no
+if [ -z "$GUIX_LOCPATH" ]; then
+    GUIX_PROFILE=$HOME/.guix-profile
+    source "$GUIX_PROFILE/etc/profile"
+    export GUIX_LOCPATH=$HOME/.guix-profile/lib/locale
+fi
+#+end_example
+
++ It will load =_GUIX_PROFILE= first (the current profile), then load
+  =.guix-profile/etc/profile=, if it exists.
++ If you haven't installed anything that requires setting =PATH=, no path
+  modifications will be visible (confusing!)
+
+**** Load Guix Profiles
 
 #+begin_src sh :tangle .config/sh/profile.d/guix-arch-support.sh :shebang #!/bin/bash
 
@@ -472,16 +509,6 @@ export -f guix_arch_load
 
 #+end_src
 
-AUR guix-install sets this up in /etc/profile.d/guix.sh
-
-#+begin_example sh :eval no
-if [ -z "$GUIX_LOCPATH" ]; then
-    GUIX_PROFILE=$HOME/.guix-profile
-    source "$GUIX_PROFILE/etc/profile"
-    export GUIX_LOCPATH=$HOME/.guix-profile/lib/locale
-fi
-#+end_example
-
 The default is -c0, which uses as many cores as possible for each build agent,
 so no need to set =-c= in $GUIX_BUILD_OPTIONS
 
@@ -496,8 +523,9 @@ if [ -z "$GUIX_ARCH_LOADED" ]; then
 fi
 #+end_src
 
-Add to =~/.config/sh/_load_profile.d.sh=:
+Add to =~/.config/sh/_load_profile.d.sh= _in this order_
 
++ guile-arch.sh
 + guix-arch-support.sh
 + guix-arch.sh
 
