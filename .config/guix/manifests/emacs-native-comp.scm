@@ -10,7 +10,7 @@
    "emacs-geiser"
    "emacs-geiser-guile"
    "emacs-ac-geiser"
-   "emacs-guix"
+   ;; "emacs-guix"
    "emacs-yasnippet"
    "emacs-yasnippet-snippets"
    "emacs-with-editor"
