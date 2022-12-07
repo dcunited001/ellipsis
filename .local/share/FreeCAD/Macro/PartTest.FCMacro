@@ -1,0 +1,12 @@
+import FreeCAD as App
+import Part
+
+doc = App.newDocument()
+
+line = Part.LineSegment()
+line.StartPoint = (0.0, 0.0, 0.0)
+line.EndPoint = (1.0, 1.0, 1.0)
+obj = doc.addObject("Part::Feature", "Line")
+obj.Shape= line.toShape()
+
+doc.recompute()
