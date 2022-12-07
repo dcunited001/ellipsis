@@ -410,7 +410,7 @@ alias guix-main="$HOME/.config/guix/current/bin/guix"
 export GUIX_EXTRA=$HOME/.guix-extra-profiles
 for i in ${GUIX_AUTOLOAD_PROFILES[@]}; do
   echo $i
-  profile=$HOME/.guix-extra-profiles/$i/$i
+  profile=$GUIX_EXTRA/$i/$i
   if [ -f "$profile"/etc/profile ]; then
     GUIX_PROFILE="$profile"
     . "$GUIX_PROFILE"/etc/profile
@@ -423,8 +423,8 @@ export GUIX_LOCPATH=$HOME/.guix-profile/lib/locale
 # -c cores -m jobs
 export GUIX_BUILD_OPTIONS="-c6"
 
-export GUIX_DEVTOOLS=$HOME/.guix-extra-profiles/devtools/devtools
-export GUIX_DEVDEBUG=$HOME/.guix-extra-profiles/devdebug/devdebug
+export GUIX_DEVTOOLS=$GUIX_EXTRA/devtools/devtools
+export GUIX_DEVDEBUG=$GUIX_EXTRA/devdebug/devdebug
 #+end_src
 
 *** On Arch
@@ -443,8 +443,11 @@ Emacs guix needs a consistent guile environment (See [[https://github.com/alezos
     =EMACSLOADPATH=)
 
 #+begin_src sh :tangle .config/sh/profile.d/guile-arch.sh :shebang #!/bin/bash
+export GUIX_EXTRA=$HOME/.guix-extra-profiles
 source "$HOME/.guix-profile/etc/profile"
 source "$HOME/.config/guix/current/etc/profile"
+export GUILE_LOAD_PATH=$GUIX_EXTRA/emacs-native-comp/emacs-native-comp/share/guile/site/3.0:$GUILE_LOAD_PATH
+export GUILE_LOAD_COMPILED_PATH=$GUIX_EXTRA/emacs-native-comp/emacs-native-comp/lib/guile/3.0/site-ccache:$GUIX_EXTRA/emacs-native-comp/emacs-native-comp/share/guile/site/3.0:$GUILE_LOAD_COMPILED_PATH
 #+end_src
 
 ***** Note on =/etc/profile.d/guix.sh= from AUR
@@ -467,9 +470,7 @@ fi
 **** Load Guix Profiles
 
 #+begin_src sh :tangle .config/sh/profile.d/guix-arch-support.sh :shebang #!/bin/bash
-
 guix_arch_load() {
-    local extra_profiles=$HOME/.guix-extra-profiles
     local profiles=""
 
     while [ "$1" != "" ]; do
@@ -486,8 +487,8 @@ guix_arch_load() {
     done
 
     if [ -z "$profiles" ]; then
-        # NOTE: this glob behaves strangely when $extra_profiles is empty
-        # profiles="$extra_profiles/*";
+        # NOTE: this glob behaves strangely when $GUIX_EXTRA is empty
+        # profiles="$GUIX_EXTRA/*";
         echo "Error: no profiles specified"
     fi
 
@@ -495,7 +496,7 @@ guix_arch_load() {
     for p in $profiles; do
         profile=$(basename $p)
         echo $profile
-        profilePath=$extra_profiles/$profile
+        profilePath=$GUIX_EXTRA/$profile
         if [ -f "$profilePath/$profile/etc/profile" ]; then
             GUIX_PROFILE="$profilePath/$profile"
             source "$GUIX_PROFILE/etc/profile"
