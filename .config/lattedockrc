@@ -15,7 +15,9 @@ detailViewIconSize=16
 
 [KPropertiesDialog]
 DisplayPort-0 DisplayPort-1 DisplayPort-2 Height 2560x1440=453
+DisplayPort-0 DisplayPort-1 DisplayPort-2 Height 2560x1440 DisplayPort-0=491
 DisplayPort-0 DisplayPort-1 DisplayPort-2 Width 2560x1440=470
+DisplayPort-0 DisplayPort-1 DisplayPort-2 Width 2560x1440 DisplayPort-0=404
 DisplayPort-0 DisplayPort-2 DisplayPort-1 Height 2560x1440=464
 DisplayPort-0 DisplayPort-2 DisplayPort-1 Width 2560x1440=404
 DisplayPort-2 DisplayPort-1 HDMI-A-0 Height 3840x2160=500
@@ -42,14 +44,11 @@ windowSize=980,630
 [PlasmaThemeExtended]
 outlineWidth=1
 
-[PlasmaTransientsConfig]
-PreloadWeight=0
-
 [ScreenConnectors]
-10=DisplayPort-1:::2560,808 1080x1920
-11=DisplayPort-2:::3640,0 2160x3840
+10=DisplayPort-1:::1080,0 2160x3840
+11=DisplayPort-2:::3240,1200 2560x1440
 12=HDMI-A-0:::0,0 1080x1920
-13=DisplayPort-0:::0,1288 2560x1440
+13=DisplayPort-0:::0,960 1080x1920
 
 [UniversalSettings]
 badges3DStyle=false
