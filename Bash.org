@@ -444,10 +444,10 @@ Emacs guix needs a consistent guile environment (See [[https://github.com/alezos
 
 #+begin_src sh :tangle .config/sh/profile.d/guile-arch.sh :shebang #!/bin/bash
 export GUIX_EXTRA=$HOME/.guix-extra-profiles
-source "$HOME/.guix-profile/etc/profile"
+#source "$HOME/.guix-profile/etc/profile"
 source "$HOME/.config/guix/current/etc/profile"
-export GUILE_LOAD_PATH=$GUIX_EXTRA/emacs-native-comp/emacs-native-comp/share/guile/site/3.0:$GUILE_LOAD_PATH
-export GUILE_LOAD_COMPILED_PATH=$GUIX_EXTRA/emacs-native-comp/emacs-native-comp/lib/guile/3.0/site-ccache:$GUIX_EXTRA/emacs-native-comp/emacs-native-comp/share/guile/site/3.0:$GUILE_LOAD_COMPILED_PATH
+export GUILE_LOAD_PATH=$HOME/.guix-profile/share/guile/site/3.0:$GUILE_LOAD_PATH
+export GUILE_LOAD_COMPILED_PATH=$HOME/.guix-profile/lib/guile/3.0/site-ccache:$HOME/.guix-profile/share/guile/site/3.0:$GUILE_LOAD_COMPILED_PATH
 #+end_src
 
 ***** Note on =/etc/profile.d/guix.sh= from AUR
@@ -517,7 +517,7 @@ so no need to set =-c= in $GUIX_BUILD_OPTIONS
 # export GUIX_BUILD_OPTIONS="-c6"
 
 # never again, wxPython ... never again
-GUIX_AUTOLOAD_PROFILES=(arch-pwsafe academic emacs-native-comp)
+GUIX_AUTOLOAD_PROFILES=(arch-pwsafe academic)
 if [ -z "$GUIX_ARCH_LOADED" ]; then
     guix_arch_load ${GUIX_AUTOLOAD_PROFILES[@]}
     export GUIX_ARCH_LOADED=${GUIX_AUTOLOAD_PROFILES[@]}
