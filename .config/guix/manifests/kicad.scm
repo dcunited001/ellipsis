@@ -1,0 +1,9 @@
+(specifications->manifest
+ '(
+   "kicad"
+   "kicad-templates"
+   "kicad-symbols"
+   "kicad-packages3d"
+   "kicad-doc"
+   "translate2geda"
+   ))

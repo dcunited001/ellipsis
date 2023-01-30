@@ -1642,6 +1642,7 @@ dwdot https://github.com/daviwil/dotfiles
 #+begin_src scheme :noweb-ref packages :noweb-sep ""
 
 "thunar"
+"file-roller"
 
 #+end_src
 
