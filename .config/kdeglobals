@@ -168,16 +168,16 @@ Show Inline Previews=true
 Show Preview=false
 Show Speedbar=true
 Show hidden files=true
-Sort by=Date
+Sort by=Name
 Sort directories first=true
 Sort hidden files last=false
-Sort reversed=true
+Sort reversed=false
 Speedbar Width=138
 View Style=Detail
 
 [KScreen]
-ScaleFactor=1.25
-ScreenScaleFactors=DP-0=1.25;DP-1=1.25;HDMI-0=1.25;DP-2=1.25;DP-3=1.25;DP-4=1.25;
+ScaleFactor=1
+ScreenScaleFactors=DisplayPort-0=1;DisplayPort-1=1;DisplayPort-2=1;HDMI-A-0=1;
 
 [WM]
 activeBackground=47,52,63

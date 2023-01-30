@@ -65,3 +65,4 @@ LayoutName=present_windows
 
 [Windows]
 BorderlessMaximizedWindows=true
+FocusPolicy=FocusFollowsMouse

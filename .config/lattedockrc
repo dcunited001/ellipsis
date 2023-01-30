@@ -44,10 +44,13 @@ windowSize=980,630
 [PlasmaThemeExtended]
 outlineWidth=1
 
+[PlasmaTransientsConfig]
+PreloadWeight=0
+
 [ScreenConnectors]
 10=DisplayPort-1:::1080,0 2160x3840
-11=DisplayPort-2:::3240,1200 2560x1440
-12=HDMI-A-0:::0,0 1080x1920
+11=DisplayPort-2:::3240,960 2560x1440
+12=HDMI-A-0:::6400,0 1920x1080
 13=DisplayPort-0:::0,960 1080x1920
 
 [UniversalSettings]
