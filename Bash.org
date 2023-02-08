@@ -1127,7 +1127,15 @@ if [ -f $HOME/.profile ]; then . $HOME/.profile; fi
 
   "curl"
 
+  ;; for emacs pdf-tools
+  ;; "cairo"
+  ;; "libpng"
+  ;; "poppler"
+  ;; "zlib"
+
+  "pkg-config"
   "autoconf"
+  "automake"
   "glibc"
   "gcc-toolchain"
   "cmake"
