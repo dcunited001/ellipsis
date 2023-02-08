@@ -1,4 +1,5 @@
 (("default" . ((user-emacs-directory . "~/.emacs.doom")))
  ("doom" . ((user-emacs-directory . "~/.emacs.doom")))
+ ("guix" . ((user-emacs-directory . "~/.emacs.g")))
  ("vanilla" . ((user-emacs-directory . "~/.emacs.vanilla")))
  ("network" . ((user-emacs-directory . "~/.emacs.network"))))
