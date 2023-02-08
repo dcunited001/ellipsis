@@ -39,3 +39,5 @@
 # show org headlines instead of line numbers in diff hunks
 [diff "org"]
 	xfuncname = "^(\\*+ +.*)$"
+[protocol "file"]
+	allow = always

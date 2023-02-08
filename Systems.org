@@ -1,3 +1,4 @@
+
 :PROPERTIES:
 :ID:       83315604-b917-45e3-9366-afe6ba029a60
 :END:
@@ -159,6 +160,16 @@ sudo -E guix system -L ~/.dotfiles/.config/guix/systems reconfigure ~/.dotfiles/
 
 ** Machines
 
+*** Config
+
++ emacs/default-face-size :: this is in 1/10pt
+
+*** [[DPI/PPI Calculator][DPI/PPI Calculator]]
+
+[[This webapp][This webapp]] will recalculate the DPI for a monitor from generic data available
+to the browser. Moving the window to a new monitor will recalculate -- useful
+for determining an average DPI across a heterogenous multi-monitor setup.
+
 *** Per-System Settings
 
 DW has also defined a function called =dw/system-settings-get= which can
@@ -179,9 +190,10 @@ retrieve these settings appropriately. This is used throughout =Desktop.org=.
       (rofi/drun-icons . "Papirus-Dark")
       (rofi/file-theme . "sidebar")
       (rofi/file-icons . "Papirus-Dark")
-      (emacs/default-face-size . 220)
-      (emacs/variable-face-size . 245)
-      (emacs/fixed-face-size . 200)
+      (emacs/default-face-size . 100)
+      (emacs/variable-face-size . 110)
+      (emacs/fixed-face-size . 110)
+      (emacs/doom-modeline-height . 21)
       (i3/bar-type . "polybar.conf")
       (i3/shim . "guix.shim")
       (polybar/height . 35)
@@ -223,9 +235,10 @@ retrieve these settings appropriately. This is used throughout =Desktop.org=.
       (rofi/file-theme . "sidebar")
       (rofi/file-icons . "Papirus-Dark")
       ;(desktop/dpi . 221)
-      (emacs/default-face-size . 190)
-      (emacs/variable-face-size . 200)
-      (emacs/fixed-face-size . 190)
+      (emacs/default-face-size . 120)
+      (emacs/variable-face-size . 130)
+      (emacs/fixed-face-size . 120)
+      (emacs/doom-modeline-height . 17)
       (polybar/height . 48)
       (polybar/font-0-size . 24)
       (polybar/font-1-size . 18)
@@ -257,9 +270,10 @@ retrieve these settings appropriately. This is used throughout =Desktop.org=.
       (rofi/drun-icons . "Papirus-Dark")
       (rofi/file-theme . "sidebar")
       (rofi/file-icons . "Papirus-Dark")
-      (emacs/default-face-size . 190)
-      (emacs/variable-face-size . 200)
-      (emacs/fixed-face-size . 190)
+      (emacs/default-face-size . 120)
+      (emacs/variable-face-size . 130)
+      (emacs/fixed-face-size . 120)
+      (emacs/doom-modeline-height . 17)
       (polybar/height . 32)
       (polybar/font-0-size . 16)
       (polybar/font-1-size . 12)
@@ -285,9 +299,10 @@ retrieve these settings appropriately. This is used throughout =Desktop.org=.
   (when (equal system-name "kharis")
     '((desktop/dpi . nil)
  	;;(desktop/dpi . 157) ;; TODO verify DPI
-      (emacs/default-face-size . 190)
-      (emacs/variable-face-size . 200)
-      (emacs/fixed-face-size . 190)
+      (emacs/default-face-size . 100)
+      (emacs/variable-face-size . 110)
+      (emacs/fixed-face-size . 100)
+      (emacs/doom-modeline-height . 17)
       (polybar/height . 32)
       (polybar/font-0-size . 14)
       (polybar/font-1-size . 12)
@@ -310,10 +325,12 @@ retrieve these settings appropriately. This is used throughout =Desktop.org=.
 #+begin_src emacs-lisp :noweb-ref system-settings :noweb-sep ""
 
   (when (equal system-name "kratos")
-    '((desktop/dpi . nil) ;; TODO verify DPI
-      (emacs/default-face-size . 190)
-      (emacs/variable-face-size . 200)
-      (emacs/fixed-face-size . 190)
+    ;; when 4k monitor is running at 2560x1440
+    '((desktop/dpi . 128)
+      (emacs/default-face-size . 90)
+      (emacs/variable-face-size . 110)
+      (emacs/fixed-face-size . 90)
+      (emacs/doom-modeline-height . 21)
       (i3/bar-type . "i3bar.conf")
       (i3/shim . "garuda.shim")
       (polybar/height . 48)
@@ -340,9 +357,10 @@ retrieve these settings appropriately. This is used throughout =Desktop.org=.
 
   (when (equal system-name "kudos")
     '((desktop/dpi . 158) ;; TODO verify DPI
-      (emacs/default-face-size . 190)
-      (emacs/variable-face-size . 200)
-      (emacs/fixed-face-size . 190)
+      (emacs/default-face-size . 90)
+      (emacs/variable-face-size . 100)
+      (emacs/fixed-face-size . 90)
+      (emacs/doom-modeline-height . 21)
       (polybar/height . 48)
       (polybar/font-0-size . 24)
       (polybar/font-1-size . 18)
