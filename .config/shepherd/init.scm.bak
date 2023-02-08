@@ -1,0 +1,38 @@
+(use-modules (ice-9 ftw)
+             (shepherd support)
+             ;; (shepherd service)
+             )
+
+;; Send shepherd into the background
+;; - this must occur before any services are started
+(action 'shepherd 'daemonize)
+
+;; Load all the files in the directory 'init.d' with a suffix '.scm'.
+(for-each
+ (lambda (file)
+   (load (string-append "init.d/" file)))
+ (scandir (string-append (dirname (current-filename)) "/init.d")
+          (lambda (file)
+            (string-suffix? ".scm" file))))
+
+(define auto-start-defaults
+  '(mcron
+    xsettingsd
+    xdg-desktop-portal ;; req. for portal-gtk & fcitx5
+    syncthing
+    xdg-desktop-portal-gtk
+    fcitx5
+    doom-emacs
+    dunst
+    ;; polybar ;; start via i3
+    ))
+
+(define auto-start-services
+  (map string->symbol
+       (string-split (or (getenv "SHEPHERD_AUTO_START")
+                         (string-join (map symbol->string auto-start-defaults) " "))
+                     #\space)))
+
+;; Start user services
+(for-each start auto-start-services)
+

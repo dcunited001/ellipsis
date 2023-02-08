@@ -4,20 +4,16 @@
 
 (define doom-emacs
   (make <service>
-    #:provides '(doom-emacs)
-    #:docstring "Emacs server running the Doom chemacs profile"
+    #:provides '(emacs)
+    #:docstring "Emacs server running the default chemacs profile"
     #:respawn? #t
 
     #:start (make-forkexec-constructor
-             '("emacs" "--fg-daemon" "--with-profile" "doom")
+             '("emacs" "--fg-daemon")
              #:log-file (string-append
                          (mkdtemp "/tmp/emacs-XXXXXX")
-                         "/doom-emacs-"
+                         "/emacs-"
                          (strftime "%Y-%m-%d-" (gmtime (current-time)))
                          (gethostname) ".log"))
-    ;; #:handle-termination (exec-command
-    ;;                      '("notify-send"
-    ;;                        "Shepherd: Emacs"
-    ;;                       "Doom Emacs has terminated."))
     #:stop (make-kill-destructor)))
 (register-services doom-emacs)
