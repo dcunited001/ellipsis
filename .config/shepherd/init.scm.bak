@@ -21,8 +21,9 @@
     xdg-desktop-portal ;; req. for portal-gtk & fcitx5
     syncthing
     xdg-desktop-portal-gtk
-    fcitx5
-    doom-emacs
+    ;; fcitx5
+    ;; doom-emacs
+    emacs
     dunst
     ;; polybar ;; start via i3
     ))
