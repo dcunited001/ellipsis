@@ -1,3 +1,3 @@
-(specification->manifest
+(specifications->manifest
  '("kconfig-hardened-check"
    ))
