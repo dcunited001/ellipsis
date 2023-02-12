@@ -46,9 +46,9 @@ outlineWidth=1
 
 [ScreenConnectors]
 10=DisplayPort-1:::1080,0 1440x2560
-11=DisplayPort-2:::2520,640 2560x1440
+11=DisplayPort-2:::2520,320 2560x1440
 12=HDMI-A-0:::6400,0 1920x1080
-13=DisplayPort-0:::0,640 1080x1920
+13=DisplayPort-0:::0,320 1080x1920
 
 [UniversalSettings]
 badges3DStyle=false
