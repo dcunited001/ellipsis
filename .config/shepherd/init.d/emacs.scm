@@ -9,7 +9,7 @@
     #:respawn? #t
 
     #:start (make-forkexec-constructor
-             '("guix" "shell" "--manifest=$HOME/.config/guix/manifests/emacs-g.scm" "--"
+             '("guix" "shell" (concat "--manifest=" (getenv "HOME") "/.config/guix/manifests/emacs-g.scm") "--"
                "emacs" "--fg-daemon")
              #:log-file (string-append
                          (mkdtemp "/tmp/emacs-XXXXXX")

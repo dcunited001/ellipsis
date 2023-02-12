@@ -1,0 +1,1 @@
+guix shell -m $HOME/.dotfiles/.config/guix/manifests/emacs-g.scm -- emacsclient -c "$@"
