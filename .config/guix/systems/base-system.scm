@@ -245,6 +245,11 @@
       (inherit config)
       (vpn-plugins (list network-manager-openvpn))))))
 
+;;** %dc-nntp-config
+(define-public %dc-nntpserver
+  (plain-file "nntpserver.conf"
+              "news.gmane.io"))
+
 ;;** %xorg-libinput-config
 
 ;; Use the =libinput-driver= for all input device

@@ -7,6 +7,8 @@ misc/**
 .bin/emacs-network
 
 # generally exclude all
+.local/bin
+.local/lib
 .local/share
 .local/state
 .config/polybar
@@ -128,3 +130,4 @@ fonts/**
 # screen
 .screen
 .screenrc
+

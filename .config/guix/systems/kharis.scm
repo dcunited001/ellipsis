@@ -7,6 +7,7 @@
   #:use-module (gnu)
   #:use-module (gnu services)
   #:use-module (gnu services base)
+  #:use-module (gnu services linux)  
   #:use-module (gnu services pm)             ;; for thermald
   #:use-module (gnu services virtualization) ;; for libvirt
   #:use-module (gnu services audio)
@@ -232,6 +233,24 @@
               (udev-rules-service 'yubikey yubikey-personalization)
 
               (bluetooth-service #:auto-enable? #t)
+
+              (simple-service 'nntp-config etc-service-type
+                              (list `("nntpserver"
+                                      ,%dc-nntpserver)))
+                              
+              ;; TODO add these to the other systems
+              ;; 
+              ;; rasdaemon-service/type, rasdaemon-configuration
+              ;; - helps anticipate hardware failures by scanning events, analysis appended to syslog
+              ;; - with record? t, also structure logs as sqlite database: /var/lib/rasdaemon/ras-mc_event.db
+              (service rasdaemon-service-type
+                       (rasdaemon-configuration (record? #t)))
+
+              ;; TODO configure ZRAM (ensure swap/zwap are off, assess performance conseq, pick a compression alg)
+              ;; TODO reintegrate the swap-sapce back into root fs
+
+              ;; TODO (service early-oom-service-type
+              ;;               (earlyoom-configuration ...)
 
               %kharis-desktop-services))
 
