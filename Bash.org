@@ -866,6 +866,7 @@ Try to source =.bashrc=. If the shell is non-interactive, =.bashrc= will return
 
 #+begin_src sh :tangle .screenrc
 startup_message off
+defmousetrack on
 
 term screen-256color
 #term xterm-256color
@@ -975,6 +976,7 @@ if [ "$TERM" != "dumb" ]; then
     alias diff='diff --color=auto'
     alias grep='grep --color=auto'
     alias vdir='vdir --color=auto'
+    alias screen='screen -h 2000'
 # else
     # no color
 fi
