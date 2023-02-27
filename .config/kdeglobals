@@ -136,8 +136,8 @@ ForegroundPositive=113,247,159
 ForegroundVisited=179,13,191
 
 [DirSelect Dialog]
-DirSelectDialog Size=837,590
-History Items[$e]=file:$HOME/.dotfiles
+DirSelectDialog Size=844,598
+History Items[$e]=file:///data/xdg/Wallpapers/anime,file:///data/xdg/Wallpapers/,file:$HOME/.dotfiles
 
 [General]
 ColorSchemeHash=a054744e5da530142f039caa182148b170643d2e
@@ -178,6 +178,12 @@ View Style=Detail
 [KScreen]
 ScaleFactor=1
 ScreenScaleFactors=DisplayPort-0=1;DisplayPort-1=1;DisplayPort-2=1;HDMI-A-0=1;
+
+[KShortcutsDialog Settings]
+Dialog Size=600,480
+
+[Shortcuts]
+FullScreen=
 
 [WM]
 activeBackground=47,52,63

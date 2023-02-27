@@ -33,6 +33,3 @@ ToolBarsMovable=Disabled
 [Open-with settings]
 CompletionMode=1
 History=mesh,ema
-
-[Search]
-Location=Everywhere

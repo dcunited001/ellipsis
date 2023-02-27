@@ -1,13 +1,14 @@
 [$Version]
-update_info=kwin.upd:replace-scalein-with-scale,kwin.upd:port-minimizeanimation-effect-to-js,kwin.upd:port-scale-effect-to-js,kwin.upd:port-dimscreen-effect-to-js,kwin.upd:auto-bordersize,kwin.upd:animation-speed,kwin.upd:desktop-grid-click-behavior,kwin.upd:no-swap-encourage,kwin.upd:make-translucency-effect-disabled-by-default,kwin.upd:remove-flip-switch-effect,kwin.upd:remove-cover-switch-effect,kwin.upd:remove-cubeslide-effect,kwin.upd:remove-xrender-backend,kwin.upd:animation-speed-cleanup,bismuth_new_logger.upd:bismuth-new-logger
+update_info=kwin.upd:replace-scalein-with-scale,kwin.upd:port-minimizeanimation-effect-to-js,kwin.upd:port-scale-effect-to-js,kwin.upd:port-dimscreen-effect-to-js,kwin.upd:auto-bordersize,kwin.upd:animation-speed,kwin.upd:desktop-grid-click-behavior,kwin.upd:no-swap-encourage,kwin.upd:make-translucency-effect-disabled-by-default,kwin.upd:remove-flip-switch-effect,kwin.upd:remove-cover-switch-effect,kwin.upd:remove-cubeslide-effect,kwin.upd:remove-xrender-backend,kwin.upd:animation-speed-cleanup,bismuth_new_logger.upd:bismuth-new-logger,kwin.upd:replace-cascaded-zerocornered
 
 [Compositing]
 GLCore=true
+LatencyPolicy=Low
 OpenGLIsUnsafe=false
 
 [Desktops]
 Id_1=c9f005eb-df35-464c-a181-cde15a87a1cb
-Id_2=56aa8053-2c62-443c-b4f6-2812eb6a6a1d
+Id_2=84cef4cd-483d-492c-9789-ff66ff7b5858
 Number=2
 Rows=1
 
@@ -25,6 +26,7 @@ Meta=org.kde.lattedock,/Latte,org.kde.LatteDock,activateLauncherMenu
 bismuthEnabled=true
 blurEnabled=false
 contrastEnabled=false
+desktopchangeosdEnabled=true
 fallapartEnabled=true
 forceblurEnabled=false
 invertEnabled=true
@@ -45,6 +47,8 @@ floatingTitle=Preferences,Configure Krita,- Krita$,Remmina,Steam - News,Friends 
 ignoreClass=yakuake,spectacle,Conky,zoom,pwsafe,keepassxc,Clipgrab,fpakman,Galculator,Manjaro-hello,Garuda Settings Manager,garuda-welcome,mpv,Xfburn,Lxtask,Pavucontrol,Exo-helper*,Lxrandr,Arandr,Viewnior,feh,Audacious,File-roller,Lxappearance,Timeshift-gtk,Manjaro Settings Manager
 ignoreRole=quake,task_dialog,pop-up
 ignoreTitle=alsamixer,Event Tester
+keepFloatAbove=false
+newWindowAsMaster=true
 screenGapBottom=7
 screenGapLeft=3
 screenGapRight=4
@@ -63,6 +67,18 @@ LayoutName=present_windows
 [TabBoxAlternative]
 LayoutName=present_windows
 
+[Tiling]
+padding=4
+
+[Tiling][1de74c2c-7c31-57ed-b159-16fc6eee9612]
+tiles={"layoutDirection":"horizontal","tiles":[{"width":0.25},{"width":0.5},{"width":0.25}]}
+
+[Tiling][368b7d02-7626-5761-b3c7-502a4da21d49]
+tiles={"layoutDirection":"horizontal","tiles":[{"width":0.25},{"width":0.5},{"width":0.25}]}
+
+[Tiling][876df35c-0510-5807-b853-f88348083870]
+tiles={"layoutDirection":"horizontal","tiles":[{"width":0.25},{"width":0.5},{"width":0.25}]}
+
 [Windows]
+ActiveMouseScreen=false
 BorderlessMaximizedWindows=true
-FocusPolicy=FocusFollowsMouse

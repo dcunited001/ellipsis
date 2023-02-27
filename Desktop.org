@@ -895,6 +895,7 @@ backlight-card = "<<get-setting(name="polybar/backlight-card")>>"
 ;==========================================================
 
 include-file = ~/.config/polybar/custom.ini
+include-file = ~/.config/polybar/pomm.ini
 
 [settings]
 screenchange-reload = true
@@ -1189,6 +1190,25 @@ fi
 
 "polybar"
 
+#+end_src
+
+*** For pomm.el
+
+Shell script
+
+#+begin_src shell :tangle .bin/polybar/emacs-pomm
+if ps -e | grep emacs >> /dev/null; then
+    emacsclient --eval "(if (boundp 'pomm-current-mode-line-string) pomm-current-mode-line-string \"\") " | xargs echo -e
+fi
+#+end_src
+
+Polybar config
+
+#+begin_src conf :tangle .config/polybar/pomm.ini
+[module/pomm]
+type = custom/script
+exec = $HOME/.bin/polybar/emacs-pomm
+interval = 1
 #+end_src
 
 * Notifications
