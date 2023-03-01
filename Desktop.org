@@ -1506,23 +1506,23 @@ x-scheme-handler/mailto=org.mozilla.Thunderbird.desktop;
 message/rfc822=org.mozilla.Thunderbird.desktop;
 
 # browsing (nyxt)
-#text/html=nyxt.desktop;
-#x-scheme-handler/http=nyxt.desktop;
-#x-scheme-handler/https=nyxt.desktop;
-#x-scheme-handler/about=nyxt.desktop;
-#x-scheme-handler/unknown=nyxt.desktop;
+text/html=nyxt.desktop;
+x-scheme-handler/http=nyxt.desktop;
+x-scheme-handler/https=nyxt.desktop;
+x-scheme-handler/about=nyxt.desktop;
+x-scheme-handler/unknown=nyxt.desktop;
 
 # browsing (firefox)
-text/html=userapp-Nightly-FWHMN1.desktop;
-x-scheme-handler/http=userapp-Nightly-FWHMN1.desktop;
-x-scheme-handler/https=userapp-Nightly-FWHMN1.desktop;
-x-scheme-handler/chrome=userapp-Nightly-FWHMN1.desktop;
-application/x-extension-htm=userapp-Nightly-FWHMN1.desktop;
-application/x-extension-html=userapp-Nightly-FWHMN1.desktop;
-application/x-extension-shtml=userapp-Nightly-FWHMN1.desktop;
-application/xhtml+xml=userapp-Nightly-FWHMN1.desktop;
-application/x-extension-xhtml=userapp-Nightly-FWHMN1.desktop;
-application/x-extension-xht=userapp-Nightly-FWHMN1.desktop;
+#text/html=userapp-Nightly-FWHMN1.desktop;
+#x-scheme-handler/http=userapp-Nightly-FWHMN1.desktop;
+#x-scheme-handler/https=userapp-Nightly-FWHMN1.desktop;
+#x-scheme-handler/chrome=userapp-Nightly-FWHMN1.desktop;
+#application/x-extension-htm=userapp-Nightly-FWHMN1.desktop;
+#application/x-extension-html=userapp-Nightly-FWHMN1.desktop;
+#application/x-extension-shtml=userapp-Nightly-FWHMN1.desktop;
+#application/xhtml+xml=userapp-Nightly-FWHMN1.desktop;
+#application/x-extension-xhtml=userapp-Nightly-FWHMN1.desktop;
+#application/x-extension-xht=userapp-Nightly-FWHMN1.desktop;
 #+end_src
 
 *** Mime types [fn:tecosaur]
