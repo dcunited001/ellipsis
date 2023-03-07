@@ -18,17 +18,21 @@ if [ -z "$(pgrep -u dc shepherd)" ]; then
   shepherd
 fi
 
-# Run xsettingsd to progagate font and theme settings
-xsettingsd &
-
 # Enable screen compositing
 compton &
 
 # Turn off the system bell
 xset -b
 
-# Enable screen locking on suspend (instead, lock in guix system definition)
-# xss-lock --transfer-sleep-lock -- xscreensaver-command -lock &
+# to get xset s TIMEOUT CYCLE to work, i need a script to transfer lock
+#   which itself calls xlock. xss-lock-dim-screen would run at the same time
+#   i'm probably going to switch to sway anyway
+#xset s 600 420
+#xset s 60 20
+
+# Enable screen locking on suspend (or set lock in guix system definition)
+xss-lock --transfer-sleep-lock -- xlock &
+#xss-lock -n xss-lock-dim-screen --transfer-sleep-lock -- xlock &
 
 setbg $_WALLPAPERS
 
