@@ -10,6 +10,7 @@
   #:use-module (gnu services desktop)
   #:use-module (gnu services docker)
   #:use-module (gnu services networking)
+  #:use-module (gnu services sound)
   #:use-module (gnu services virtualization)
   #:use-module (gnu services authentication)
   #:use-module (gnu services security-token)
@@ -121,10 +122,14 @@
 ;;   %base-groups))
 ;;(pretty-print dc-groups)
 
-;; TODO remove pulseaudio from base-services
+(define-public (remove-pulseaudio-service services-list)
+  (remove (lambda (service)
+            (eq? (service-kind service) pulseaudio-service-type))
+          services-list))
+
 (define-public (remove-gdm-service services-list)
   (remove (lambda (service)
-            (eq? (service-kind service)  gdm-service-type))
+            (eq? (service-kind service) gdm-service-type))
           services-list))
 
 ;;** %dc-i2c-packages
@@ -423,9 +428,9 @@ EndSection
 
               (bluetooth-service #:auto-enable? #t)
 
-              dc-desktop-services
-              ;; NOTE: see also desktop-services-for-system
-              ;;   in guix/gnu/services/desktop.scm
-              ))
    ;; allow resolution of '.local' hostnames with mDNS
    (name-service-switch %mdns-host-lookup-nss)))
+               ;; NOTE: see also desktop-services-for-system
+               ;;   in guix/gnu/services/desktop.scm
+
+               (remove-pulseaudio-service dc-desktop-services)))

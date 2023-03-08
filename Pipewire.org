@@ -3,17 +3,17 @@
 #+EMAIL:     noreply@te.xel.io
 #+DESCRIPTION: notes
 
-
-*** TODO determine whether this should be taken care of by guix-home
-
-
 * Pipewire
 
-**** TODO determine how configs would differ, per system
+** per-system configs
+Configs are generated in guix-home. On arch, initially, they should be in dotfiles.
 
-* Wireplumber
+** Wireplumber
+*** TODO define scripts/shims
+*** TODO do wireplumber configs supercede pipewire configs?
 
-**** TODO define scripts/shims
+** pipewire-pulse
+on guix, started by shepherd
 
 * Polybar
 

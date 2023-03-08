@@ -1368,6 +1368,11 @@ interval = 1
 
     # Context menu.
     context = ctrl+mod1+c
+
+[notification_sound]
+    desktop_entry = *
+    script = $HOME/.bin/dunst/notification-sound
+
 #+end_src
 
 *Guix Packages*
@@ -1377,6 +1382,29 @@ interval = 1
 "dunst"
 
 #+end_src
+
+**** Notification Sounds
+
+Script
+
+#+begin_src shell :tangle .bin/dunst/notification-sound :shebang #!/bin/sh
+local sound_path="$GUIX_EXTRA/xdg/xdg/share/sounds/freedesktop/stereo/"
+local sound_file="message.oga"
+
+if [ -x "$(command -v pw-play)" ] then;
+   pw-play "$sound_path$sound_file"
+fi
+#+end_src
+
+Sounds Config
+
+**** TODO quick config file for overriding default sounds
+
+dispatch on:
+
++ DUNST_DESKTOP_ENTRY
++ DUNST_APP_NAME
++ DUNST_ICON
 
 *** Dunst Notes
 
@@ -1812,6 +1840,16 @@ colors:
 "pwsafe"
 
 #+end_src
+
+
+** Sound
+
+*** ALSA
+
+
+*** Pipewire
+
+*** Wireplumber
 
 ** Audio Device Control
 

@@ -68,8 +68,7 @@
                         (keyboard-layout %kharis-default-shell-keyboard)
                         (modules (append (list xf86-input-wacom)
                                          %default-xorg-modules))
-                        (extra-config (list %xorg-libinput-config)))
-                       )
+                        (extra-config (list %xorg-libinput-config))))
                       (default-user "dc")))
 
    (guix-service-type config =>
@@ -122,8 +121,7 @@
                                 %default-substitute-urls))
                        (authorized-keys
                         (append (list (local-file "/etc/guix/nonguix.pub"))
-                                %default-authorized-guix-keys))))
-   ))
+                                %default-authorized-guix-keys))))))
 
 ;;** operating-system
 (define system
@@ -252,7 +250,7 @@
               ;; TODO (service early-oom-service-type
               ;;               (earlyoom-configuration ...)
 
-              %kharis-desktop-services))
+              (remove-pulseaudio-service %kharis-desktop-services)))
 
    (groups (append (list (user-group (name "julia") (system? #t)))
                    %dc-groups))
