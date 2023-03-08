@@ -327,110 +327,111 @@ EndSection
 ;;** base-operating-system
 (define-public base-operating-system
   (operating-system
-   (host-name "eerse")
-   (timezone "America/New_York")
-   (locale "en_US.utf8")
+    (host-name "eerse")
+    (timezone "America/New_York")
+    (locale "en_US.utf8")
 
-   ;; FREE (specify kernel in system.scm
-   ;; (kernel linux-libre)                    ;use the non-free Linux kernel and firmware
+    ;; FREE (specify kernel in system.scm
+    ;; (kernel linux-libre)                    ;use the non-free Linux kernel and firmware
 
-   ;; NONFREE
-   (firmware (cons* linux-firmware
-                    %base-firmware))
+    ;; NONFREE
+    (firmware (cons* linux-firmware
+                     %base-firmware))
 
-   ;; NONFREE
-   (initrd microcode-initrd)
+    ;; NONFREE
+    (initrd microcode-initrd)
 
-   (keyboard-layout %dc-default-shell-keyboard)
+    (keyboard-layout %dc-default-shell-keyboard)
 
-   (bootloader (bootloader-configuration
-                (bootloader grub-efi-bootloader)
-                (targets (list "/boot/efi"))
-                (keyboard-layout keyboard-layout)))
+    (bootloader (bootloader-configuration
+                 (bootloader grub-efi-bootloader)
+                 (targets (list "/boot/efi"))
+                 (keyboard-layout keyboard-layout)))
 
-   ;; Guix doesn't like it when there isn't a file-systems
-   ;; entry, so add one that is meant to be overridden
-   (file-systems (cons*
-                  (file-system
-                   (mount-point "/tmp")
-                   (device "none")
-                   (type "tmpfs")
-                   (check? #f))
-                  %base-file-systems))
+    ;; Guix doesn't like it when there isn't a file-systems
+    ;; entry, so add one that is meant to be overridden
+    (file-systems (cons*
+                   (file-system
+                     (mount-point "/tmp")
+                     (device "none")
+                     (type "tmpfs")
+                     (check? #f))
+                   %base-file-systems))
 
-   (groups %dc-groups)
-   (users (append (list (dc-user %dc-my-groups))
-                  %dc-users
-                  %base-user-accounts))
+    (groups %dc-groups)
+    (users (append (list (dc-user %dc-my-groups))
+                   %dc-users
+                   %base-user-accounts))
 
-   ;; install bare-minimum system packages
-   (packages %dc-desktop-packages)
+    ;; install bare-minimum system packages
+    (packages %dc-desktop-packages)
 
-   ;; doesn't setup a guix service (and requires a pam service)
-   ;; (setuid-programs
-   ;;  (cons*
-   ;;   (setuid-program
-   ;;    (program (file-append xsecure-lock "/libexec/xsecurelock/authproto_pam")))
-   ;;   %setuid-programs))
+    ;; doesn't setup a guix service (and requires a pam service)
+    ;; (setuid-programs
+    ;;  (cons*
+    ;;   (setuid-program
+    ;;    (program (file-append xsecure-lock "/libexec/xsecurelock/authproto_pam")))
+    ;;   %setuid-programs))
 
-   ;; networking
-   (services (cons*
+    ;; networking
+    (services (cons*
 
-              ;; TODO: tweak TLP config
-              ;; - ensure cpu-scaling-governor-on-ac is not affecting performance              
-              (service tlp-service-type
-                       (tlp-configuration
-                        (cpu-boost-on-ac? #t)
-                        (tlp-default-mode "AC") ;; this is the default
-                        (wifi-pwr-on-bat? #t)))
+               ;; TODO: tweak TLP config
+               ;; - ensure cpu-scaling-governor-on-ac is not affecting performance
+               (service tlp-service-type
+                        (tlp-configuration
+                         (cpu-boost-on-ac? #t)
+                         (tlp-default-mode "AC") ;; this is the default
+                         (wifi-pwr-on-bat? #t)))
 
-              (pam-limits-service ;; This enables JACK to enter realtime mode
-               (list
-                (pam-limits-entry "@realtime" 'both 'rtprio 99)
-                (pam-limits-entry "@realtime" 'both 'memlock 'unlimited)))
+               (pam-limits-service ;; This enables JACK to enter realtime mode
+                (list
+                 (pam-limits-entry "@realtime" 'both 'rtprio 99)
+                 (pam-limits-entry "@realtime" 'both 'memlock 'unlimited)))
 
-              (extra-special-file "/usr/bin/env"
-                                  (file-append coreutils "/bin/env"))
+               (extra-special-file "/usr/bin/env"
+                                   (file-append coreutils "/bin/env"))
 
-              (service thermald-service-type)
+               (service thermald-service-type)
 
-              ;; (service docker-service-type)
+               ;; (service docker-service-type)
 
-              (service libvirt-service-type ;; TODO how is libvirt configured?
-                       (libvirt-configuration
-                        (unix-sock-group "libvirt")
-                        (tls-port "16555")))
+               (service libvirt-service-type ;; TODO how is libvirt configured?
+                        (libvirt-configuration
+                         (unix-sock-group "libvirt")
+                         (tls-port "16555")))
 
-              ;; req. to start VM's with virtmanager
-              (service virtlog-service-type
-                       (virtlog-configuration
-                        ;; (max-clients 1024) ;; default
-                        (max-size (* 32 (expt 1024 2)))))
+               ;; req. to start VM's with virtmanager
+               (service virtlog-service-type
+                        (virtlog-configuration
+                         ;; (max-clients 1024) ;; default
+                         (max-size (* 32 (expt 1024 2)))))
 
-              (service pcscd-service-type)
+               (service pcscd-service-type)
 
-              ;; (service cups-service-type
-              ;;          (cups-configuration
-              ;;           (web-interface? #t)
-              ;;           (extensions
-              ;;            (list cups-filters))))
+               ;; (service cups-service-type
+               ;;          (cups-configuration
+               ;;           (web-interface? #t)
+               ;;           (extensions
+               ;;            (list cups-filters))))
 
-              ;; (service nix-service-type)
+               ;; (service nix-service-type)
 
-              ;; this rule will automatically create the plugdev group on the system
-              ;; - but it needs to be added to each users supplementary-groups
-              (udev-rules-service 'u2f libu2f-host #:groups '("plugdev"))
-              (udev-rules-service 'pipewire-add-udev-rules pipewire)
-              (udev-rules-service 'backlight-rule %udev-backlight-rule)
+               ;; this rule will automatically create the plugdev group on the system
+               ;; - but it needs to be added to each users supplementary-groups
+               (udev-rules-service 'u2f libu2f-host #:groups '("plugdev"))
+               (udev-rules-service 'pipewire-add-udev-rules pipewire)
+               (udev-rules-service 'backlight-rule %udev-backlight-rule)
 
-              ;; this only tags the yubikey device with security-token in udev
-              (udev-rules-service 'yubikey yubikey-personalization)
+               ;; this only tags the yubikey device with security-token in udev
+               (udev-rules-service 'yubikey yubikey-personalization)
 
-              (bluetooth-service #:auto-enable? #t)
+               (bluetooth-service #:auto-enable? #t)
 
-   ;; allow resolution of '.local' hostnames with mDNS
-   (name-service-switch %mdns-host-lookup-nss)))
                ;; NOTE: see also desktop-services-for-system
                ;;   in guix/gnu/services/desktop.scm
 
                (remove-pulseaudio-service dc-desktop-services)))
+
+    ;; allow resolution of '.local' hostnames with mDNS
+    (name-service-switch %mdns-host-lookup-nss)))
