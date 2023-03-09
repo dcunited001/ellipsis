@@ -27,15 +27,3 @@ on guix, started by shepherd
   + audio effects
 + responding to changes/availability in audio graph?
   + HDMI outputs?
-
-* Guix Profile
-
-#+begin_src scheme :tangle .config/guix/manifests/pipewire.scm :noweb yes
-(specifications->manifest
- '(
-   "pipewire"
-   "wireplumber"
-   "qpwgraph"
-   "pavucontrol"
-   ))
-#+end_src
