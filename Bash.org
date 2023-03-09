@@ -1123,10 +1123,12 @@ if [ -f $HOME/.profile ]; then . $HOME/.profile; fi
 
 #+begin_src scheme :tangle ".config/guix/manifests/devtools.scm"
 (specifications->manifest
-'("git"
+;;** git
+ '("git"
   "git-lfs"
   "git-repo"
 
+;;** fetch
   "curl"
 
   ;; for emacs pdf-tools
@@ -1135,65 +1137,82 @@ if [ -f $HOME/.profile ]; then . $HOME/.profile; fi
   ;; "poppler"
   ;; "zlib"
 
+;;** pkg metadata
   "pkg-config"
+
+;;** build essential
   "autoconf"
   "automake"
   "glibc"
   "gcc-toolchain"
   "cmake"
   "make"
+  "perl"
+
+;;** lib
   "libtool"
+
+;;** tty
   "libvterm"
   "screen"
 
+;;** crypt/hash
   "libxcrypt"
 
-  "perl"
-  "cmake"
-  "make"
-  "libtool"
-  "perl"
-
+;;** environment
   "direnv"
   "stow"
 
+;;** log
+  "rsyslog"
+
+;;** search
   "fd"
   "ripgrep"
   "the-silver-searcher"
 
+;;** media
   ;; TODO consider moving to a media profile
   "ffmpeg"
 
+;;** compute
   ;; TODO move openblas to a data science profile?
   "openblas"
   "lapack"
 
+;;** data
   "jq"
-  "rsync"
+  "sqlite"
 
+;;** file
   "tree"
   "file"
   "perl-image-exiftool"
   "lsof"
   "lsofgraph"
 
+;;** disk
   "btrfs-progs"
 
+;;** data vis
   "plantuml"
   "graphviz"
 
-  "sqlite"
-
+;;** ssh
   "openssh"
   "openssl"
+  "rsync"
 
+;;** compression
   "zip"
   "unzip"
   "patool"
   "p7zip"
 
+;;** vm
   "virt-manager"
 
+;;** network
   "bind:utils"
 
   ;; matlab installer is broken if /bin/pwd doesn't exist
@@ -1202,6 +1221,8 @@ if [ -f $HOME/.profile ]; then . $HOME/.profile; fi
   ;; - ... and i think it checks for modifications
   ;; - i tried strace and gdb/disassembly ... nothing
   ;; - the zip file also doesn't unpack correctly
+
+;;** octave
   "octave"
   ))
 #+end_src
