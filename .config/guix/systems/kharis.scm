@@ -66,7 +66,7 @@
                       (xorg-configuration
                        (xorg-configuration
                         ;; seems to default to this
-                        ;; (driver '("amdgpu" "vesa"))
+                        ;; (drivers '("amdgpu" "vesa"))
                         (keyboard-layout %kharis-default-shell-keyboard)
                         (modules (append (list xf86-input-wacom)
                                          %default-xorg-modules))
@@ -110,7 +110,7 @@
                   (default-user "dc")
                   (xorg-configuration
                    (xorg-configuration
-                    (driver '("amdgpu" "vesa"))
+                    (drivers '("amdgpu" "vesa"))
                     (keyboard-layout %kharis-default-shell-keyboard)
                     (modules (append (list xf86-input-wacom)
                                      %default-xorg-modules))
@@ -214,6 +214,7 @@
                                       (url "https://gitlab.com/nonguix/nonguix")
                                       (branch "master"))
                                      %default-channels))
+                        ;; TODO is this running?
                         (system-expiration (* 6 7 24 3600))
                         (operating-system-file
                          (file-append
