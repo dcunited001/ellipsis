@@ -65,6 +65,8 @@
                       (inherit config)
                       (xorg-configuration
                        (xorg-configuration
+                        ;; seems to default to this
+                        ;; (driver '("amdgpu" "vesa"))
                         (keyboard-layout %kharis-default-shell-keyboard)
                         (modules (append (list xf86-input-wacom)
                                          %default-xorg-modules))
@@ -92,36 +94,40 @@
 
 ;; TODO %kharis-modprobe-blacklist
 
+;; TODO setup greetd/wlgreet for wayland/sway
+
 (define %kharis-desktop-services-slim
+
+  ;; guix is pretty stubborn about lazily adding GDM back in
   (modify-services
+      (remove-gdm-service
+       (cons*
+        (service slim-service-type
+                 ;; TODO: customize slim
+                 ;; - %default-slim-theme
+                 ;; - %default-slim-theme-name
+                 (slim-configuration
+                  (default-user "dc")
+                  (xorg-configuration
+                   (xorg-configuration
+                    (driver '("amdgpu" "vesa"))
+                    (keyboard-layout %kharis-default-shell-keyboard)
+                    (modules (append (list xf86-input-wacom)
+                                     %default-xorg-modules))
+                    (extra-config (list %xorg-libinput-config))))))
+        dc-desktop-services))
 
-   ;; guix is pretty stubborn about lazily adding GDM back in
-   (remove-gdm-service
-    (cons*
-     (service slim-service-type
-
-              ;; TODO: customize slim
-              ;; - %default-slim-theme
-              ;; - %default-slim-theme-name
-              (slim-configuration
-               (xorg-configuration
-                (xorg-configuration
-                 (keyboard-layout %kharis-default-shell-keyboard)
-                 (extra-config (list %xorg-libinput-config))))
-               (default-user "dc")))
-     dc-desktop-services))
-
-   ;; and here we modify some services
-   (guix-service-type config =>
-                      (guix-configuration
-                       (inherit config)
-                       (extra-options '("-c10"))
-                       (substitute-urls
-                        (append (list "https://substitutes.nonguix.org")
-                                %default-substitute-urls))
-                       (authorized-keys
-                        (append (list (local-file "/etc/guix/nonguix.pub"))
-                                %default-authorized-guix-keys))))))
+    ;; and here we modify some services
+    (guix-service-type config =>
+                       (guix-configuration
+                        (inherit config)
+                        (extra-options '("-c10"))
+                        (substitute-urls
+                         (append (list "https://substitutes.nonguix.org")
+                                 %default-substitute-urls))
+                        (authorized-keys
+                         (append (list (local-file "/etc/guix/nonguix.pub"))
+                                 %default-authorized-guix-keys))))))
 
 ;;** operating-system
 (define system
@@ -222,6 +228,12 @@
                         (extensions
                          (list cups-filters epson-inkjet-printer-escpr hplip-minimal))))
 
+              (service gpm-service-type
+                       (gpm-configuration
+                        ;; defaults, should work for IBM trackpoints
+                        (options '("-m" "/dev/input/mice" "-t" "ps2"))))
+
+              ;; TODO try to fix libfuse update
               ;; (udev-rules-service 'fido2 libfido2 #:groups '("plugdev"))
               (udev-rules-service 'u2f libu2f-host #:groups '("plugdev"))
               (udev-rules-service 'pipewire-add-udev-rules pipewire)
@@ -250,7 +262,7 @@
               ;; TODO (service early-oom-service-type
               ;;               (earlyoom-configuration ...)
 
-              (remove-pulseaudio-service %kharis-desktop-services)))
+              (remove-pulseaudio-service %kharis-desktop-services-slim)))
 
    (groups (append (list (user-group (name "julia") (system? #t)))
                    %dc-groups))
