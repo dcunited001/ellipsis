@@ -1,7 +1,5 @@
 [Bell]
 ArtsBellFile=fuzzy.mp3
-VisibleBell=true
-VisibleBellInvert=true
 
 [ScreenReader]
 Enabled=false
