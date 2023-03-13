@@ -131,3 +131,6 @@ fonts/**
 .screen
 .screenrc
 
+# KDE
+
+.config/spectaclerc

@@ -26,12 +26,8 @@ quitAfterSaveCopyExport=true
 window-position=106,1882
 
 [KFileDialog Settings]
-Recent Files[$e]=/pandora/in-the-crimson-shell.punchline
-Recent URLs[$e]=https://myanimelist.net/character/134750/BUER
 detailViewIconSize=16
 
 [Save]
 defaultSaveImageFormat=JPEG
-lastSaveAsLocation=file:///not/configuration/data
-lastSaveLocation=file:///smh
 saveFilenameFormat=Screenshot_%T_%Y_%M_%D_%H%m%S
