@@ -1,0 +1,24 @@
+#+TITLE:     ICC Profiles
+#+AUTHOR:    David Conner
+#+EMAIL:     noreply@te.xel.io
+#+DESCRIPTION: notes
+
+* References
++ [[https://tftcentral.co.uk/articles/icc_profiles][TFT Central: ICC Profiles]]
++ [[https://wiki.archlinux.org/title/ICC_profiles][ICC Profiles (archwiki)]]
+
+* Monitors
+
+To get monitor model numbers, run =colormgr get-devices=
+
+** Samsung UHD (U28D590)
+
++ ICC Profiles (TFT)
+  - https://tftcentral.co.uk/icc_profiles/samsung_u28d590d.icc
+
+** LG Ultragear (27GP83B)
+
++ [[https://www.lg.com/us/monitors/lg-27gp83b-b-gaming-monitor][Product]]
++ ICC Profiles (TFT)
+  - https://tftcentral.co.uk/icc_profiles/lg_27gl850_native.icc
+  - https://tftcentral.co.uk/icc_profiles/lg_27gl850_user.icm
