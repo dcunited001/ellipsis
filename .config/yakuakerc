@@ -1,0 +1,8 @@
+[Appearance]
+TerminalHighlightOnManualActivation=true
+
+[Dialogs]
+FirstRun=false
+
+[Window]
+DynamicTabTitles=true

@@ -21,6 +21,8 @@ MoveResize=100
 
 [ModifierOnlyShortcuts]
 Meta=org.kde.lattedock,/Latte,org.kde.LatteDock,activateLauncherMenu
+[Effect-trackmouse]
+Shift=true
 
 [Plugins]
 bismuthEnabled=true
@@ -38,6 +40,7 @@ kwin4_effect_zoomdesktopEnabled=false
 lattewindowcolorsEnabled=true
 minimizeallEnabled=false
 synchronizeskipswitcherEnabled=false
+trackmouseEnabled=true
 videowallEnabled=false
 zoomEnabled=false
 
