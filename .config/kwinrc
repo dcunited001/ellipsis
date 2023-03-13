@@ -19,8 +19,6 @@ ZoomFactor=0.9999999999999998
 IndividualMenuConfig=true
 MoveResize=100
 
-[ModifierOnlyShortcuts]
-Meta=org.kde.lattedock,/Latte,org.kde.LatteDock,activateLauncherMenu
 [Effect-trackmouse]
 Shift=true
 

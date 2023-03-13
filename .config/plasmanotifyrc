@@ -1,0 +1,11 @@
+[Applications][discord]
+Seen=true
+
+[Applications][firefox]
+Seen=true
+
+[Notifications]
+LowPriorityHistory=true
+NormalAlwaysOnTop=true
+PopupPosition=BottomCenter
+PopupTimeout=30000

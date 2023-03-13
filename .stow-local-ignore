@@ -9,7 +9,7 @@
 backgrounds
 mail
 fonts
-.*\.org
+^/.*(Doxygen.org(*SKIP)(*FAIL))\.org
 LICENSE
 \.local/share/applications
 \.local/share/bg

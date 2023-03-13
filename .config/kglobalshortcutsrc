@@ -64,7 +64,7 @@ Toggle Touchpad=Touchpad Toggle,Touchpad Toggle,Toggle Touchpad
 _k_friendly_name=Touchpad
 
 [kded5]
-Show System Activity=none,Ctrl+Esc,Show System Activity
+Show System Activity=Meta+Esc,Ctrl+Esc,Show System Activity
 _k_friendly_name=KDE Daemon
 display=Display\tMeta+P,Display\tMeta+P,Switch Display
 
@@ -353,6 +353,10 @@ RunClipboard=Alt+Shift+F2,Alt+Shift+F2,Run command on clipboard contents
 _k_friendly_name=KRunner
 _launch=Meta+Ctrl+Alt+Space,Alt+Space\tAlt+F2\tSearch,KRunner
 
+[org.kde.ksystemlog.desktop]
+_k_friendly_name=KSystemLog
+_launch=Meta+Ctrl+Shift+Esc,none,KSystemLog
+
 [org.kde.plasma.emojier.desktop]
 _k_friendly_name=Emoji Selector
 _launch=Meta+.,Meta+.,Emoji Selector
@@ -366,6 +370,10 @@ RectangularRegionScreenShot=Meta+Shift+Print,Meta+Shift+Print,Capture Rectangula
 WindowUnderCursorScreenShot=Meta+Ctrl+Print,Meta+Ctrl+Print,Capture Window Under Cursor
 _k_friendly_name=Spectacle
 _launch=Print,Print,Launch Spectacle
+
+[org.kde.systemdgenie.desktop]
+_k_friendly_name=SystemdGenie
+_launch=Meta+Shift+Esc,none,SystemdGenie
 
 [org_kde_powerdevil]
 Decrease Keyboard Brightness=Keyboard Brightness Down,Keyboard Brightness Down,Decrease Keyboard Brightness
