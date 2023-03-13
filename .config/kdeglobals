@@ -183,7 +183,10 @@ ScreenScaleFactors=DisplayPort-0=1;DisplayPort-1=1;DisplayPort-2=1;HDMI-A-0=1;
 Dialog Size=600,480
 
 [Shortcuts]
-FullScreen=
+Close=Ctrl+W
+FullScreen=Meta+Ctrl+Shift+F;\s
+KeyBindings=Meta+Ctrl+Shift+K
+Preferences=Meta+Ctrl+<
 
 [WM]
 activeBackground=47,52,63
