@@ -5,7 +5,7 @@ StripWhiteSpace=false
 [General]
 ActionsInfoMessageShown=false
 KeepClipboardContents=false
-MaxClipItems=1
+MaxClipItems=2
 PopupInfoMessageShown=false
 SelectionTextOnly=false
-Version=5.25.3
+Version=5.27.2
