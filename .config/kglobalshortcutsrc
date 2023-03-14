@@ -53,6 +53,10 @@ toggle_three_column_layout=none,,Toggle Three Column Layout
 toggle_tile_layout=Meta+T,Meta+T,Toggle Tile Layout
 toggle_window_floating=Meta+F,Meta+F,Toggle Active Window Floating
 
+[io.github.arunsivaramanneo.GPUViewer.desktop]
+_k_friendly_name=GPU-Viewer
+_launch=Meta+Ctrl+Alt+Esc,none,GPU-Viewer
+
 [kaccess]
 Toggle Screen Reader On and Off=Meta+Alt+S,Meta+Alt+S,Toggle Screen Reader On and Off
 _k_friendly_name=Accessibility
@@ -101,7 +105,7 @@ Increase Opacity=none,,Increase Opacity of Active Window by 5%
 Invert=Meta+Ctrl+I,Meta+Ctrl+I,Toggle Invert Effect
 Invert Screen Colors=none,none,Invert Screen Colors
 InvertWindow=Meta+Ctrl+U,Meta+Ctrl+U,Toggle Invert Effect on Window
-Kill Window=Ctrl+Alt+Esc,Meta+Ctrl+Esc,Kill Window
+Kill Window=none,Meta+Ctrl+Esc,Kill Window
 Krohnkite: Cycle Layout=none,none,
 Krohnkite: Decrease=none,none,
 Krohnkite: Down/Next=none,none,
@@ -329,6 +333,10 @@ show view settings=Meta+A,Meta+A,Cycle Through Dock/Panel Settings Windows
 show-barcode=none,,Show Barcode…
 show-on-mouse-pos=none,Meta+V,Show Items at Mouse Position
 
+[lstopo.desktop]
+_k_friendly_name=Hardware Locality (lstopo)
+_launch=Meta+Ctrl+Shift+Esc,none,Hardware Locality (lstopo)
+
 [mediacontrol]
 _k_friendly_name=Media Controller
 mediavolumedown=none,,Media volume down
@@ -355,7 +363,7 @@ _launch=Meta+Ctrl+Alt+Space,Alt+Space\tAlt+F2\tSearch,KRunner
 
 [org.kde.ksystemlog.desktop]
 _k_friendly_name=KSystemLog
-_launch=Meta+Ctrl+Shift+Esc,none,KSystemLog
+_launch=Meta+Alt+Shift+Esc,none,KSystemLog
 
 [org.kde.plasma.emojier.desktop]
 _k_friendly_name=Emoji Selector
@@ -373,7 +381,7 @@ _launch=Print,Print,Launch Spectacle
 
 [org.kde.systemdgenie.desktop]
 _k_friendly_name=SystemdGenie
-_launch=Meta+Shift+Esc,none,SystemdGenie
+_launch=Meta+Alt+Esc,none,SystemdGenie
 
 [org_kde_powerdevil]
 Decrease Keyboard Brightness=Keyboard Brightness Down,Keyboard Brightness Down,Decrease Keyboard Brightness
