@@ -7,7 +7,7 @@ LockGrace=60
 Timeout=30
 
 [Greeter]
-WallpaperPlugin=com.github.zren.inactiveblur
+WallpaperPlugin=org.kde.potd
 
 [Greeter][Wallpaper][com.github.zren.inactiveblur][General]
 FillMode=1
@@ -15,3 +15,6 @@ Image=file:///data/xdg/Wallpapers/anime/blood-blockade-wallpaper.jpg
 
 [Greeter][Wallpaper][org.kde.image][General]
 Image=file:///data/xdg/Wallpapers/anime/Guilty-Crown.jpg
+
+[Greeter][Wallpaper][org.kde.potd][General]
+Provider=wcpotd

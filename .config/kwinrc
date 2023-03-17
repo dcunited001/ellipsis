@@ -50,10 +50,11 @@ ignoreRole=quake,task_dialog,pop-up
 ignoreTitle=alsamixer,Event Tester
 keepFloatAbove=false
 newWindowAsMaster=true
-screenGapBottom=7
+screenGapBottom=2
 screenGapLeft=3
-screenGapRight=4
-tileLayoutGap=5
+screenGapRight=2
+screenGapTop=3
+tileLayoutGap=3
 untileByDragging=false
 
 [Script-krohnkite]
@@ -63,7 +64,7 @@ noTileBorder=true
 
 [TabBox]
 DesktopMode=0
-LayoutName=present_windows
+LayoutName=informative
 
 [TabBoxAlternative]
 LayoutName=present_windows

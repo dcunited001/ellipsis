@@ -27,13 +27,12 @@ memory/physical/used=0,255,255
 lowPrioritySensorIds=[]
 
 [Containments][138][ConfigDialog]
-DialogHeight=540
-DialogWidth=720
+DialogHeight=780
+DialogWidth=910
 
 [Containments][138][General]
 ToolBoxButtonState=topcenter
 ToolBoxButtonX=751
-ToolBoxButtonY=32
 
 [Containments][138][Wallpaper][org.kde.potd][General]
 FillMode=2
@@ -53,6 +52,10 @@ wallpaperplugin=org.kde.potd
 [Containments][139][ConfigDialog]
 DialogHeight=540
 DialogWidth=720
+
+[Containments][139][General]
+ToolBoxButtonState=topcenter
+ToolBoxButtonX=551
 
 [Containments][139][Wallpaper][org.kde.potd][General]
 FillMode=2
@@ -77,7 +80,7 @@ FillMode=1
 Provider=flickr
 
 [Containments][140][Wallpaper][org.kde.slideshow][General]
-Image=file:///data/xdg/Wallpapers/anime/blood-blockade-leonardo-2b.jpg
+Image=file:///data/xdg/Wallpapers/anime/blood-blockade-leonardo-2a.jpg
 SlidePaths=/data/xdg/Wallpapers/anime/
 
 [Containments][141]
@@ -85,7 +88,7 @@ activityId=
 formfactor=2
 immutability=1
 lastScreen=0
-location=3
+location=4
 plugin=org.kde.panel
 wallpaperplugin=org.kde.image
 
@@ -95,13 +98,23 @@ plugin=org.kde.plasma.kickoff
 
 [Containments][141][Applets][142][Configuration]
 PreloadWeight=100
-popupHeight=512
-popupWidth=663
+popupHeight=632
+popupWidth=843
+
+[Containments][141][Applets][142][Configuration][ConfigDialog]
+DialogHeight=780
+DialogWidth=1040
 
 [Containments][141][Applets][142][Configuration][General]
+alphaSort=true
+compactMode=true
+favoritesDisplay=1
 favoritesPortedToKAstats=true
-icon=distributor-logo-garuda
+icon=/usr/share/icons/octopi_red.png
 lengthFirstMargin=7
+primaryActions=3
+showActionButtonCaptions=false
+systemFavorites=lock-screen\\,logout\\,save-session\\,switch-user\\,suspend\\,hibernate\\,reboot\\,shutdown
 
 [Containments][141][Applets][142][Configuration][Shortcuts]
 global=Alt+F1
@@ -143,7 +156,7 @@ immutability=1
 plugin=org.kde.plasma.systemtray
 
 [Containments][141][Applets][146][Configuration]
-PreloadWeight=65
+PreloadWeight=75
 SystrayContainmentId=147
 
 [Containments][141][Applets][158]
@@ -152,8 +165,8 @@ plugin=org.kde.plasma.digitalclock
 
 [Containments][141][Applets][158][Configuration]
 PreloadWeight=100
-popupHeight=450
-popupWidth=810
+popupHeight=650
+popupWidth=1170
 
 [Containments][141][Applets][158][Configuration][Appearance]
 customDateFormat=yyyy-MM-dd
@@ -186,11 +199,12 @@ plugin=org.kde.plasma.systemmonitor.cpu
 
 [Containments][141][Applets][167][Configuration]
 CurrentPreset=org.kde.plasma.systemmonitor
+PreloadWeight=75
 
 [Containments][141][Applets][167][Configuration][Appearance]
 chartFace=org.kde.ksysguard.linechart
 title=Total CPU Use
-updateRateLimit=2000
+updateRateLimit=0
 
 [Containments][141][Applets][167][Configuration][ConfigDialog]
 DialogHeight=540
@@ -208,8 +222,6 @@ totalSensors=["cpu/all/usage"]
 historyAmount=300
 lineChartFillOpacity=25
 rangeAutoY=false
-showGridLines=false
-showYAxisLabels=false
 
 [Containments][141][Applets][168]
 immutability=1
@@ -217,10 +229,15 @@ plugin=org.kde.plasma.systemmonitor.cpucore
 
 [Containments][141][Applets][168][Configuration]
 CurrentPreset=org.kde.plasma.systemmonitor
+PreloadWeight=65
 
 [Containments][141][Applets][168][Configuration][Appearance]
 chartFace=org.kde.ksysguard.barchart
 title=Individual Core Usage
+
+[Containments][141][Applets][168][Configuration][ConfigDialog]
+DialogHeight=540
+DialogWidth=720
 
 [Containments][141][Applets][168][Configuration][SensorColors]
 cpu/cpu0/usage=197,14,210
@@ -265,7 +282,7 @@ immutability=1
 plugin=org.kde.plasma.notifications
 
 [Containments][141][Applets][169][Configuration]
-PreloadWeight=65
+PreloadWeight=70
 popupHeight=432
 popupWidth=324
 
@@ -279,12 +296,13 @@ plugin=org.kde.plasma.systemmonitor.memory
 
 [Containments][141][Applets][171][Configuration]
 CurrentPreset=org.kde.plasma.systemmonitor
+PreloadWeight=55
 
 [Containments][141][Applets][171][Configuration][Appearance]
 chartFace=org.kde.ksysguard.linechart
 showTitle=true
 title=Memory Usage
-updateRateLimit=2000
+updateRateLimit=0
 
 [Containments][141][Applets][171][Configuration][ConfigDialog]
 DialogHeight=540
@@ -305,8 +323,6 @@ rangeAutoY=false
 rangeToY=32
 rangeToYMultiplier=1073741824
 rangeToYUnit=103
-showGridLines=false
-showYAxisLabels=false
 
 [Containments][141][Applets][172]
 immutability=1
@@ -314,6 +330,7 @@ plugin=org.kde.plasma.systemmonitor.cpu
 
 [Containments][141][Applets][172][Configuration]
 CurrentPreset=org.kde.plasma.systemmonitor
+PreloadWeight=55
 
 [Containments][141][Applets][172][Configuration][Appearance]
 chartFace=org.kde.ksysguard.piechart
@@ -337,6 +354,7 @@ plugin=org.kde.plasma.systemmonitor.memory
 
 [Containments][141][Applets][173][Configuration]
 CurrentPreset=org.kde.plasma.systemmonitor
+PreloadWeight=60
 
 [Containments][141][Applets][173][Configuration][Appearance]
 chartFace=org.kde.ksysguard.piechart
@@ -364,15 +382,16 @@ plugin=org.kde.plasma.systemmonitor.diskactivity
 
 [Containments][141][Applets][176][Configuration]
 CurrentPreset=org.kde.plasma.systemmonitor
+PreloadWeight=80
 
 [Containments][141][Applets][176][Configuration][Appearance]
 chartFace=org.kde.ksysguard.linechart
 title=Hard Disk Activity
-updateRateLimit=2000
+updateRateLimit=0
 
 [Containments][141][Applets][176][Configuration][ConfigDialog]
-DialogHeight=540
-DialogWidth=720
+DialogHeight=546
+DialogWidth=780
 
 [Containments][141][Applets][176][Configuration][SensorColors]
 disk/all/read=255,0,0
@@ -380,17 +399,16 @@ disk/all/write=0,0,255
 
 [Containments][141][Applets][176][Configuration][Sensors]
 highPrioritySensorIds=["disk/all/write","disk/all/read"]
+lowPrioritySensorIds=["disk/all/write","disk/all/read"]
 
 [Containments][141][Applets][176][Configuration][org.kde.ksysguard.linechart][General]
 historyAmount=300
 rangeAutoY=false
-rangeFromYMultiplier=1073741824
-rangeFromYUnit=203
-rangeToY=250
+rangeFromYMultiplier=1048576
+rangeFromYUnit=202
+rangeToY=50
 rangeToYMultiplier=1048576
 rangeToYUnit=202
-showGridLines=false
-showYAxisLabels=false
 
 [Containments][141][Applets][179]
 immutability=1
@@ -400,19 +418,55 @@ plugin=org.kde.plasma.appmenu
 DialogHeight=540
 DialogWidth=720
 
+[Containments][141][Applets][181]
+immutability=1
+plugin=org.kde.plasma.systemmonitor.net
+
+[Containments][141][Applets][181][Configuration]
+CurrentPreset=org.kde.plasma.systemmonitor
+PreloadWeight=85
+
+[Containments][141][Applets][181][Configuration][Appearance]
+chartFace=org.kde.ksysguard.linechart
+title=Network speed
+
+[Containments][141][Applets][181][Configuration][ConfigDialog]
+DialogHeight=540
+DialogWidth=720
+
+[Containments][141][Applets][181][Configuration][SensorColors]
+network/all/download=0,85,255
+network/all/upload=255,255,127
+
+[Containments][141][Applets][181][Configuration][Sensors]
+highPrioritySensorIds=["network/all/upload","network/all/download"]
+
+[Containments][141][Applets][181][Configuration][org.kde.ksysguard.linechart][General]
+historyAmount=300
+rangeAutoY=false
+rangeFromYMultiplier=1024
+rangeFromYUnit=201
+rangeToY=2100
+rangeToYMultiplier=1048576
+rangeToYUnit=202
+
+[Containments][141][Applets][182]
+immutability=1
+plugin=org.kde.netspeedWidget
+
 [Containments][141][ConfigDialog]
-DialogHeight=84
+DialogHeight=102
 DialogWidth=2560
 
 [Containments][141][General]
-AppletOrder=142;165;143;144;179;174;176;168;172;167;158;171;173;175;169;170;146;159
+AppletOrder=142;165;143;144;179;174;176;168;172;167;158;171;173;181;182;175;169;170;146;159
 
 [Containments][147]
 activityId=
 formfactor=2
 immutability=1
 lastScreen=0
-location=3
+location=4
 plugin=org.kde.plasma.private.systemtray
 popupHeight=432
 popupWidth=432
@@ -461,6 +515,9 @@ plugin=org.kde.plasma.vault
 immutability=1
 plugin=org.kde.plasma.volume
 
+[Containments][147][Applets][157][Configuration]
+PreloadWeight=55
+
 [Containments][147][Applets][157][Configuration][General]
 migrated=true
 
@@ -491,7 +548,7 @@ knownItems=org.kde.kdeconnect,org.kde.kscreen,org.kde.plasma.battery,org.kde.pla
 activityId=
 formfactor=2
 immutability=1
-lastScreen=0
+lastScreen=1
 location=4
 plugin=org.kde.panel
 wallpaperplugin=org.kde.image
@@ -500,10 +557,14 @@ wallpaperplugin=org.kde.image
 immutability=1
 plugin=org.kde.plasma.icontasks
 
+[Containments][160][Applets][161][Configuration][ConfigDialog]
+DialogHeight=540
+DialogWidth=720
+
 [Containments][160][Applets][161][Configuration][General]
 fill=false
 iconSpacing=2
-launchers=applications:garuda-welcome.desktop,applications:org.kde.konsole.desktop,preferred://browser,preferred://filemanager,applications:org.kde.plasma-systemmonitor.desktop,applications:snapper-tools.desktop,applications:systemsettings.desktop,applications:octopi.desktop
+launchers=applications:garuda-welcome.desktop,applications:org.kde.konsole.desktop,preferred://browser,preferred://filemanager,applications:org.kde.plasma-systemmonitor.desktop,applications:snapper-tools.desktop,applications:systemsettings.desktop,applications:octopi.desktop,applications:org.gnome.Firmware.desktop,applications:org.corectrl.corectrl.desktop,file:///home/dc/.guix-extra-profiles/arch-pwsafe/arch-pwsafe/bin/pwsafe?iconData=iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAYAAABXAvmHAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAC4ElEQVRogdWaT28SQRjG3z35BWbm2N29qTDMrVcxhviXs5emLLttEQquJaQNhoR-DfkaxJNHTv0CcjIm1lZTEqVNU9otdT1AqxRYZmdIZ3kSjvPk-SUv77w7M6Drer9arT6CBZZvGIa3vb39WHUQUfkwgOiVy-UnqsOIyId_EGeu66ZUBworH0YhTovF4lPFmULJv_0zTfOkUCg8UxuLX2MAMIA4zufzz5Um49REABhAdHO53AuV4Xg0FQAGEL83NjZeKsw3U4EAMIRYX19_pS5isGYCwADiV1QhuAAgwhDcABBRiFAAEEGI0AAQse4kBABDiHQ6baoIfS1N1_X-0tLS61ar9VnQ4wsAePMMFVY-pfRwd3f3ocoQMvIBwI_H4wsLcVPTlNKDRYQY-WMuIsRYd1m0cprYIimlh7Va7YHSZJya2ucppT_q9fp9leF4FLhZJRKJn9VqNdLlNHPHZYwd7uzsxNRFDBbX2MAYO6hUKnFlKQPEPfswxr5vbW1RVUGnKdQAxxjbd103oSjrRIWeQhlj30qlElMTd1xCo3RUILRhICExxvY9z1tpt9sdUY90On3ebDa_iq7XNE3zl5eXP-3t7X0QMYjFYrGjo6P3nU7nnsh60zS7qVRqpdFofBRZDwDgY4wvbdt-I2pgWdY7jPE5SHzZyXxj-0MIz7KsggwEQuhCAkL4oODGhBBykclkNiUgXBUQIyaEkHMZiGw2-xYh5N0lxJgJIaS3urpaFIWwbbuEEOrfFcREE1kIx3GKCKErCQjuc6epJrIQa2trmwihPzIQPPcTgSZzKKdNhJAQwBCiO-umaKbJHMqpgDGWgTgOurPjMiGE9CS6k2ZZlizEybTbU24TyRarZbPZvAyEYRink-6xQ5kQQi4kdux5QJzdflEQ2gRj7EnMTtLlZBhG7_-3HUImGONLx3FyohCO4xRkupNhGN71KxthE4zxVTKZFD43km2xuq73_wKYeSJsoXcBCAAAAABJRU5ErkJggg%3D%3D,applications:Alacritty.desktop
 maxStripes=1
 showOnlyCurrentDesktop=false
 showOnlyCurrentScreen=false
@@ -511,6 +572,226 @@ showOnlyCurrentScreen=false
 [Containments][160][General]
 AppletOrder=161
 
+[Containments][192]
+activityId=
+formfactor=2
+immutability=1
+lastScreen=1
+location=3
+plugin=org.kde.plasma.private.systemtray
+wallpaperplugin=org.kde.image
+
+[Containments][192][Applets][193]
+immutability=1
+plugin=org.kde.kdeconnect
+
+[Containments][192][Applets][193][Configuration]
+PreloadWeight=42
+
+[Containments][192][Applets][194]
+immutability=1
+plugin=org.kde.kscreen
+
+[Containments][192][Applets][194][Configuration]
+PreloadWeight=42
+
+[Containments][192][Applets][195]
+immutability=1
+plugin=org.kde.plasma.clipboard
+
+[Containments][192][Applets][195][Configuration]
+PreloadWeight=42
+
+[Containments][192][Applets][196]
+immutability=1
+plugin=org.kde.plasma.devicenotifier
+
+[Containments][192][Applets][196][Configuration]
+PreloadWeight=42
+
+[Containments][192][Applets][197]
+immutability=1
+plugin=org.kde.plasma.keyboardindicator
+
+[Containments][192][Applets][197][Configuration]
+PreloadWeight=42
+
+[Containments][192][Applets][198]
+immutability=1
+plugin=org.kde.plasma.keyboardlayout
+
+[Containments][192][Applets][198][Configuration]
+PreloadWeight=42
+
+[Containments][192][Applets][199]
+immutability=1
+plugin=org.kde.plasma.manage-inputmethod
+
+[Containments][192][Applets][199][Configuration]
+PreloadWeight=42
+
+[Containments][192][Applets][200]
+immutability=1
+plugin=org.kde.plasma.notifications
+
+[Containments][192][Applets][200][Configuration]
+PreloadWeight=42
+
+[Containments][192][Applets][201]
+immutability=1
+plugin=org.kde.plasma.vault
+
+[Containments][192][Applets][201][Configuration]
+PreloadWeight=42
+
+[Containments][192][Applets][202]
+immutability=1
+plugin=org.kde.plasma.volume
+
+[Containments][192][Applets][202][Configuration]
+PreloadWeight=42
+
+[Containments][192][Applets][202][Configuration][General]
+migrated=true
+
+[Containments][192][Applets][205]
+immutability=1
+plugin=org.kde.plasma.nightcolorcontrol
+
+[Containments][192][Applets][205][Configuration]
+PreloadWeight=42
+
+[Containments][192][Applets][206]
+immutability=1
+plugin=org.kde.plasma.battery
+
+[Containments][192][Applets][206][Configuration]
+PreloadWeight=42
+
+[Containments][192][Applets][207]
+immutability=1
+plugin=org.kde.plasma.networkmanagement
+
+[Containments][192][Applets][207][Configuration]
+PreloadWeight=42
+
+[Containments][192][Configuration]
+PreloadWeight=42
+
+[Containments][192][General]
+extraItems=org.kde.kdeconnect,org.kde.kscreen,org.kde.plasma.battery,org.kde.plasma.bluetooth,org.kde.plasma.clipboard,org.kde.plasma.devicenotifier,org.kde.plasma.keyboardindicator,org.kde.plasma.keyboardlayout,org.kde.plasma.manage-inputmethod,org.kde.plasma.mediacontroller,org.kde.plasma.networkmanagement,org.kde.plasma.nightcolorcontrol,org.kde.plasma.notifications,org.kde.plasma.vault,org.kde.plasma.volume
+knownItems=org.kde.kdeconnect,org.kde.kscreen,org.kde.plasma.battery,org.kde.plasma.bluetooth,org.kde.plasma.clipboard,org.kde.plasma.devicenotifier,org.kde.plasma.keyboardindicator,org.kde.plasma.keyboardlayout,org.kde.plasma.manage-inputmethod,org.kde.plasma.mediacontroller,org.kde.plasma.networkmanagement,org.kde.plasma.nightcolorcontrol,org.kde.plasma.notifications,org.kde.plasma.vault,org.kde.plasma.volume
+
+[Containments][214]
+activityId=
+formfactor=2
+immutability=1
+lastScreen=1
+location=3
+plugin=org.kde.plasma.private.systemtray
+wallpaperplugin=org.kde.image
+
+[Containments][214][Applets][215]
+immutability=1
+plugin=org.kde.kdeconnect
+
+[Containments][214][Applets][215][Configuration]
+PreloadWeight=42
+
+[Containments][214][Applets][216]
+immutability=1
+plugin=org.kde.kscreen
+
+[Containments][214][Applets][216][Configuration]
+PreloadWeight=42
+
+[Containments][214][Applets][217]
+immutability=1
+plugin=org.kde.plasma.clipboard
+
+[Containments][214][Applets][217][Configuration]
+PreloadWeight=42
+
+[Containments][214][Applets][218]
+immutability=1
+plugin=org.kde.plasma.devicenotifier
+
+[Containments][214][Applets][218][Configuration]
+PreloadWeight=42
+
+[Containments][214][Applets][219]
+immutability=1
+plugin=org.kde.plasma.keyboardindicator
+
+[Containments][214][Applets][219][Configuration]
+PreloadWeight=42
+
+[Containments][214][Applets][220]
+immutability=1
+plugin=org.kde.plasma.keyboardlayout
+
+[Containments][214][Applets][220][Configuration]
+PreloadWeight=42
+
+[Containments][214][Applets][221]
+immutability=1
+plugin=org.kde.plasma.manage-inputmethod
+
+[Containments][214][Applets][221][Configuration]
+PreloadWeight=42
+
+[Containments][214][Applets][222]
+immutability=1
+plugin=org.kde.plasma.notifications
+
+[Containments][214][Applets][222][Configuration]
+PreloadWeight=42
+
+[Containments][214][Applets][223]
+immutability=1
+plugin=org.kde.plasma.vault
+
+[Containments][214][Applets][223][Configuration]
+PreloadWeight=42
+
+[Containments][214][Applets][224]
+immutability=1
+plugin=org.kde.plasma.volume
+
+[Containments][214][Applets][224][Configuration]
+PreloadWeight=42
+
+[Containments][214][Applets][224][Configuration][General]
+migrated=true
+
+[Containments][214][Applets][227]
+immutability=1
+plugin=org.kde.plasma.nightcolorcontrol
+
+[Containments][214][Applets][227][Configuration]
+PreloadWeight=42
+
+[Containments][214][Applets][228]
+immutability=1
+plugin=org.kde.plasma.battery
+
+[Containments][214][Applets][228][Configuration]
+PreloadWeight=42
+
+[Containments][214][Applets][229]
+immutability=1
+plugin=org.kde.plasma.networkmanagement
+
+[Containments][214][Applets][229][Configuration]
+PreloadWeight=42
+
+[Containments][214][Configuration]
+PreloadWeight=42
+
+[Containments][214][General]
+extraItems=org.kde.kdeconnect,org.kde.kscreen,org.kde.plasma.battery,org.kde.plasma.bluetooth,org.kde.plasma.clipboard,org.kde.plasma.devicenotifier,org.kde.plasma.keyboardindicator,org.kde.plasma.keyboardlayout,org.kde.plasma.manage-inputmethod,org.kde.plasma.mediacontroller,org.kde.plasma.networkmanagement,org.kde.plasma.nightcolorcontrol,org.kde.plasma.notifications,org.kde.plasma.vault,org.kde.plasma.volume
+knownItems=org.kde.kdeconnect,org.kde.kscreen,org.kde.plasma.battery,org.kde.plasma.bluetooth,org.kde.plasma.clipboard,org.kde.plasma.devicenotifier,org.kde.plasma.keyboardindicator,org.kde.plasma.keyboardlayout,org.kde.plasma.manage-inputmethod,org.kde.plasma.mediacontroller,org.kde.plasma.networkmanagement,org.kde.plasma.nightcolorcontrol,org.kde.plasma.notifications,org.kde.plasma.vault,org.kde.plasma.volume
+
 [ScreenMapping]
 itemsOnDisabledScreens=
-screenMapping=file:///data/xdg/Wallpapers/anime/blood-blockade-leo-123.jpg,1,bc3cdced-7201-4291-a43c-fe3ef12080c2,file:///data/xdg/Wallpapers/anime/default.jpg,1,bc3cdced-7201-4291-a43c-fe3ef12080c2,file:///data/xdg/Wallpapers/anime/blood-blockade-leonardo-2a.jpg,1,bc3cdced-7201-4291-a43c-fe3ef12080c2,file:///data/xdg/Wallpapers/anime/blood-blockade-leonardo.png,1,bc3cdced-7201-4291-a43c-fe3ef12080c2,file:///data/xdg/Wallpapers/anime/ergo-proxy.jpg,1,bc3cdced-7201-4291-a43c-fe3ef12080c2,file:///data/xdg/Wallpapers/anime/ergo_proxy_desktop.jpg,1,bc3cdced-7201-4291-a43c-fe3ef12080c2,file:///data/xdg/Wallpapers/anime/blood-blockade-leonardo-2b.jpg,1,bc3cdced-7201-4291-a43c-fe3ef12080c2,desktop:/steam.desktop,0,bc3cdced-7201-4291-a43c-fe3ef12080c2,file:///data/xdg/Wallpapers/anime/kakegurui.png,1,bc3cdced-7201-4291-a43c-fe3ef12080c2,file:///data/xdg/Wallpapers/anime/blood-blockade-wallpaper.jpg,1,bc3cdced-7201-4291-a43c-fe3ef12080c2,file:///data/xdg/Wallpapers/anime/yin-yang-fractal.jpg,1,bc3cdced-7201-4291-a43c-fe3ef12080c2,file:///data/xdg/Wallpapers/anime/Guilty-Crown.jpg,1,bc3cdced-7201-4291-a43c-fe3ef12080c2
+screenMapping=file:///data/xdg/Wallpapers/anime/default.jpg,1,bc3cdced-7201-4291-a43c-fe3ef12080c2,file:///data/xdg/Wallpapers/anime/blood-blockade-leo-123.jpg,1,bc3cdced-7201-4291-a43c-fe3ef12080c2,file:///data/xdg/Wallpapers/anime/blood-blockade-leonardo.png,1,bc3cdced-7201-4291-a43c-fe3ef12080c2,file:///data/xdg/Wallpapers/anime/blood-blockade-leonardo-2b.jpg,1,bc3cdced-7201-4291-a43c-fe3ef12080c2,file:///data/xdg/Wallpapers/anime/kakegurui.png,1,bc3cdced-7201-4291-a43c-fe3ef12080c2,file:///data/xdg/Wallpapers/anime/blood-blockade-wallpaper.jpg,1,bc3cdced-7201-4291-a43c-fe3ef12080c2,file:///data/xdg/Wallpapers/anime/Guilty-Crown.jpg,1,bc3cdced-7201-4291-a43c-fe3ef12080c2,desktop:/steam.desktop,0,bc3cdced-7201-4291-a43c-fe3ef12080c2,file:///data/xdg/Wallpapers/anime/ergo-proxy.jpg,1,bc3cdced-7201-4291-a43c-fe3ef12080c2,file:///data/xdg/Wallpapers/anime/ergo_proxy_desktop.jpg,1,bc3cdced-7201-4291-a43c-fe3ef12080c2,file:///data/xdg/Wallpapers/anime/blood-blockade-leonardo-2a.jpg,1,bc3cdced-7201-4291-a43c-fe3ef12080c2,file:///data/xdg/Wallpapers/anime/yin-yang-fractal.jpg,1,bc3cdced-7201-4291-a43c-fe3ef12080c2

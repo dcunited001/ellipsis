@@ -11,13 +11,15 @@ EnumerateSkipFirst=False
 EnumerateGroupForwardKeys=
 # Enumerate Input Method Group Backward
 EnumerateGroupBackwardKeys=
+# Toggle embedded preedit
+TogglePreedit=
 
 [Hotkey/TriggerKeys]
 0=Zenkaku_Hankaku
 1=Hangul
 
 [Hotkey/EnumerateForwardKeys]
-0=Control+Alt+Shift+F12
+0=Alt+Shift+Super+space
 
 [Hotkey/ActivateKeys]
 0=Hangul_Hanja
@@ -36,9 +38,6 @@ EnumerateGroupBackwardKeys=
 
 [Hotkey/NextCandidate]
 0=Tab
-
-[Hotkey/TogglePreedit]
-0=Control+Alt+P
 
 [Behavior]
 # Active By Default

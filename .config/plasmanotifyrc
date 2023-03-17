@@ -4,6 +4,9 @@ Seen=true
 [Applications][firefox]
 Seen=true
 
+[Applications][org.telegram.desktop]
+ShowPopups=false
+
 [Notifications]
 LowPriorityHistory=true
 NormalAlwaysOnTop=true
