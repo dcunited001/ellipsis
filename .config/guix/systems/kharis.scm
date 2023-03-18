@@ -41,7 +41,10 @@
 (define-public %kharis-default-shell-keyboard
   (keyboard-layout "us" "altgr-intl"
                    #:model "pc105"
-                   #:options '("caps:hyper"
+		   ;; see gitlab.freedesktop.org/xkeyboard-config/xkeyboard-config/-/issue/344
+                   #:options '("caps:ctrl_modifier"
+                               ;; "ctrl:swapcaps_hyper" ; in 1.3.0 (hyper as Mod3)
+                               ;; "ctrl:hyper_capscontrol" ; in 1.5.0 (hyper as Mod4)
                                "lv3:ralt_alt"
                                "lv3:menu_switch")))
 
@@ -110,7 +113,7 @@
                   (default-user "dc")
                   (xorg-configuration
                    (xorg-configuration
-                    (drivers '("amdgpu" "vesa"))
+                    ;; (drivers '("amdgpu" "vesa"))
                     (keyboard-layout %kharis-default-shell-keyboard)
                     (modules (append (list xf86-input-wacom)
                                      %default-xorg-modules))
@@ -144,6 +147,8 @@
                     %base-firmware))
 
    ;; (kernel-loadable-modules (wacom))
+
+   (keyboard-layout %kharis-default-shell-keyboard)
 
    (mapped-devices
     (list (mapped-device
@@ -263,7 +268,9 @@
               ;; TODO (service early-oom-service-type
               ;;               (earlyoom-configuration ...)
 
-              (remove-pulseaudio-service %kharis-desktop-services-slim)))
+              ;; (remove-pulseaudio-service %kharis-desktop-services-slim)
+              (remove-pulseaudio-service %kharis-desktop-services)
+              ))
 
    (groups (append (list (user-group (name "julia") (system? #t)))
                    %dc-groups))

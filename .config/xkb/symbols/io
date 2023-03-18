@@ -23,28 +23,42 @@ xkb_symbols "basic" {
     key <AE12> {[     equal,       plus,      multiply,         division ]};
 };
 
-hidden partial modifier_keys
-xkb_symbols "swaphyper" { 
+
+partial modifier_keys
+xkb_symbols "swap_capsesc_hyper_mod3" {
+    key <ESC> {[ Hyper_L ]};
+    key <CAPS> {[ Escape ]};
+    modifier_map Mod3 { <ESC> };
+};
+
+partial modifier_keys
+xkb_symbols "swap_capsesc_hyper_mod4" {
     key <ESC> {[ Hyper_L ]};
     key <CAPS> {[ Escape ]};
     modifier_map Mod4 { <ESC> };
 };
 
-hidden partial
-xkb_symbols "swapcaps" {
-    replace key <ESC> {[ MENU ]};
-    replace key <MENU> {[ LVL3 ]};
-    replace key <CAPS> {[ Escape ]};
+partial modifier_keys
+xkb_symbols "swap_capslctl_hyper_mod3" {
+  key <LCTL> {[ Hyper_L ]};
+  key <CAPS> {[ Control_L ]}
+  modifier_map Mod3 { <LCTL> };
+  modifier_map Control { <CAPS> };
 };
 
+partial modifier_keys
+xkb_symbols "swap_capslctl_hyper_mod4" {
+  key <LCTL> {[ Hyper_L ]};
+  key <CAPS> {[ Control_L ]}
+  modifier_map Mod4 { <LCTL> };
+  modifier_map Control { <CAPS> };
+};
 
 // TODO: create intl-style Digimon layout based on the us(symbolic) layout
 
 xkb_symbols "io-dead" {
 
     include "us(intl)"
-    include "io(swapcaps)"
-    include "level5(lsgt_switch)"
 
     name[Group1] = "IO (Deadkeys)";
 
@@ -70,8 +84,6 @@ xkb_symbols "io-dead" {
 xkb_symbols "io-dead-altgr" {
 
     include "us(altgr-intl)"
-    include "io(swapcaps)"
-    include "level5(lsgt_switch)"
 
     name[Group1] = "IO (AltGr Deadkeys)";
 

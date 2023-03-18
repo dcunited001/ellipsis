@@ -1141,6 +1141,7 @@ if [ -f $HOME/.profile ]; then . $HOME/.profile; fi
   "pkg-config"
 
 ;;** build essential
+  "gettext"
   "autoconf"
   "automake"
   "glibc"
