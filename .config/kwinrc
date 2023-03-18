@@ -9,7 +9,8 @@ OpenGLIsUnsafe=false
 [Desktops]
 Id_1=c9f005eb-df35-464c-a181-cde15a87a1cb
 Id_2=84cef4cd-483d-492c-9789-ff66ff7b5858
-Number=2
+Id_3=f4336a66-e35e-44d7-8651-13274ea9a76c
+Number=3
 Rows=1
 
 [Effect-Zoom]
@@ -45,7 +46,7 @@ zoomEnabled=false
 [Script-bismuth]
 floatingClass=(?i)virtualbox,GParted,Lxappearance,Nitrogen,Oblogout,octopi,Skype,Xfburn,qt5ct,Gnuplot,Timeset-gui,Lightdm-settings,Qtconfig-qt4,Simple-scan,Pamac-updater,Pamac-manager,azote,GParted,Thunar,alacritty,Anki,yubikey manager,syncthing gtk,dolphin,freecad
 floatingTitle=Preferences,Configure Krita,- Krita$,Remmina,Steam - News,Friends List,Steam Guard.*,Steam Login,Blender Preferences,Btrfs Assistant,Timer,PipeControl
-ignoreClass=yakuake,spectacle,Conky,zoom,pwsafe,keepassxc,Clipgrab,fpakman,Galculator,Manjaro-hello,Garuda Settings Manager,garuda-welcome,mpv,Xfburn,Lxtask,Pavucontrol,Exo-helper*,Lxrandr,Arandr,Viewnior,feh,Audacious,File-roller,Lxappearance,Timeshift-gtk,Manjaro Settings Manager
+ignoreClass=systemsettings,yakuake,spectacle,Conky,zoom,pwsafe,keepassxc,Clipgrab,fpakman,Galculator,Manjaro-hello,Garuda Settings Manager,garuda-welcome,mpv,Xfburn,Lxtask,Pavucontrol,Exo-helper*,Lxrandr,Arandr,Viewnior,feh,Audacious,File-roller,Lxappearance,Timeshift-gtk,Manjaro Settings Manager
 ignoreRole=quake,task_dialog,pop-up
 ignoreTitle=alsamixer,Event Tester
 keepFloatAbove=false

@@ -80,7 +80,7 @@ FillMode=1
 Provider=flickr
 
 [Containments][140][Wallpaper][org.kde.slideshow][General]
-Image=file:///data/xdg/Wallpapers/anime/blood-blockade-leonardo-2a.jpg
+Image=file:///data/xdg/Wallpapers/anime/blood-blockade-leonardo-2b.jpg
 SlidePaths=/data/xdg/Wallpapers/anime/
 
 [Containments][141]
@@ -564,7 +564,7 @@ DialogWidth=720
 [Containments][160][Applets][161][Configuration][General]
 fill=false
 iconSpacing=2
-launchers=applications:garuda-welcome.desktop,applications:org.kde.konsole.desktop,preferred://browser,preferred://filemanager,applications:org.kde.plasma-systemmonitor.desktop,applications:snapper-tools.desktop,applications:systemsettings.desktop,applications:octopi.desktop,applications:org.gnome.Firmware.desktop,applications:org.corectrl.corectrl.desktop,file:///home/dc/.guix-extra-profiles/arch-pwsafe/arch-pwsafe/bin/pwsafe?iconData=iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAYAAABXAvmHAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAC4ElEQVRogdWaT28SQRjG3z35BWbm2N29qTDMrVcxhviXs5emLLttEQquJaQNhoR-DfkaxJNHTv0CcjIm1lZTEqVNU9otdT1AqxRYZmdIZ3kSjvPk-SUv77w7M6Drer9arT6CBZZvGIa3vb39WHUQUfkwgOiVy-UnqsOIyId_EGeu66ZUBworH0YhTovF4lPFmULJv_0zTfOkUCg8UxuLX2MAMIA4zufzz5Um49REABhAdHO53AuV4Xg0FQAGEL83NjZeKsw3U4EAMIRYX19_pS5isGYCwADiV1QhuAAgwhDcABBRiFAAEEGI0AAQse4kBABDiHQ6baoIfS1N1_X-0tLS61ar9VnQ4wsAePMMFVY-pfRwd3f3ocoQMvIBwI_H4wsLcVPTlNKDRYQY-WMuIsRYd1m0cprYIimlh7Va7YHSZJya2ucppT_q9fp9leF4FLhZJRKJn9VqNdLlNHPHZYwd7uzsxNRFDBbX2MAYO6hUKnFlKQPEPfswxr5vbW1RVUGnKdQAxxjbd103oSjrRIWeQhlj30qlElMTd1xCo3RUILRhICExxvY9z1tpt9sdUY90On3ebDa_iq7XNE3zl5eXP-3t7X0QMYjFYrGjo6P3nU7nnsh60zS7qVRqpdFofBRZDwDgY4wvbdt-I2pgWdY7jPE5SHzZyXxj-0MIz7KsggwEQuhCAkL4oODGhBBykclkNiUgXBUQIyaEkHMZiGw2-xYh5N0lxJgJIaS3urpaFIWwbbuEEOrfFcREE1kIx3GKCKErCQjuc6epJrIQa2trmwihPzIQPPcTgSZzKKdNhJAQwBCiO-umaKbJHMqpgDGWgTgOurPjMiGE9CS6k2ZZlizEybTbU24TyRarZbPZvAyEYRink-6xQ5kQQi4kdux5QJzdflEQ2gRj7EnMTtLlZBhG7_-3HUImGONLx3FyohCO4xRkupNhGN71KxthE4zxVTKZFD43km2xuq73_wKYeSJsoXcBCAAAAABJRU5ErkJggg%3D%3D,applications:Alacritty.desktop
+launchers=file:///home/dc/.guix-extra-profiles/arch-pwsafe/arch-pwsafe/bin/pwsafe?iconData=iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAYAAABXAvmHAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAC4ElEQVRogdWaT28SQRjG3z35BWbm2N29qTDMrVcxhviXs5emLLttEQquJaQNhoR-DfkaxJNHTv0CcjIm1lZTEqVNU9otdT1AqxRYZmdIZ3kSjvPk-SUv77w7M6Drer9arT6CBZZvGIa3vb39WHUQUfkwgOiVy-UnqsOIyId_EGeu66ZUBworH0YhTovF4lPFmULJv_0zTfOkUCg8UxuLX2MAMIA4zufzz5Um49REABhAdHO53AuV4Xg0FQAGEL83NjZeKsw3U4EAMIRYX19_pS5isGYCwADiV1QhuAAgwhDcABBRiFAAEEGI0AAQse4kBABDiHQ6baoIfS1N1_X-0tLS61ar9VnQ4wsAePMMFVY-pfRwd3f3ocoQMvIBwI_H4wsLcVPTlNKDRYQY-WMuIsRYd1m0cprYIimlh7Va7YHSZJya2ucppT_q9fp9leF4FLhZJRKJn9VqNdLlNHPHZYwd7uzsxNRFDBbX2MAYO6hUKnFlKQPEPfswxr5vbW1RVUGnKdQAxxjbd103oSjrRIWeQhlj30qlElMTd1xCo3RUILRhICExxvY9z1tpt9sdUY90On3ebDa_iq7XNE3zl5eXP-3t7X0QMYjFYrGjo6P3nU7nnsh60zS7qVRqpdFofBRZDwDgY4wvbdt-I2pgWdY7jPE5SHzZyXxj-0MIz7KsggwEQuhCAkL4oODGhBBykclkNiUgXBUQIyaEkHMZiGw2-xYh5N0lxJgJIaS3urpaFIWwbbuEEOrfFcREE1kIx3GKCKErCQjuc6epJrIQa2trmwihPzIQPPcTgSZzKKdNhJAQwBCiO-umaKbJHMqpgDGWgTgOurPjMiGE9CS6k2ZZlizEybTbU24TyRarZbPZvAyEYRink-6xQ5kQQi4kdux5QJzdflEQ2gRj7EnMTtLlZBhG7_-3HUImGONLx3FyohCO4xRkupNhGN71KxthE4zxVTKZFD43km2xuq73_wKYeSJsoXcBCAAAAABJRU5ErkJggg%3D%3D,applications:emacs.desktop,applications:Alacritty.desktop,preferred://browser,preferred://filemanager,applications:org.kde.plasma-systemmonitor.desktop,applications:snapper-tools.desktop,applications:systemsettings.desktop,applications:garuda-welcome.desktop,applications:octopi.desktop,applications:org.gnome.Firmware.desktop,applications:org.corectrl.corectrl.desktop
 maxStripes=1
 showOnlyCurrentDesktop=false
 showOnlyCurrentScreen=false
@@ -675,6 +675,13 @@ plugin=org.kde.plasma.networkmanagement
 [Containments][192][Applets][207][Configuration]
 PreloadWeight=42
 
+[Containments][192][Applets][231]
+immutability=1
+plugin=org.kde.plasma.mediacontroller
+
+[Containments][192][Applets][231][Configuration]
+PreloadWeight=26
+
 [Containments][192][Configuration]
 PreloadWeight=42
 
@@ -784,6 +791,13 @@ plugin=org.kde.plasma.networkmanagement
 
 [Containments][214][Applets][229][Configuration]
 PreloadWeight=42
+
+[Containments][214][Applets][230]
+immutability=1
+plugin=org.kde.plasma.mediacontroller
+
+[Containments][214][Applets][230][Configuration]
+PreloadWeight=26
 
 [Containments][214][Configuration]
 PreloadWeight=42

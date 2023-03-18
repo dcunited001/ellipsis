@@ -9,6 +9,10 @@ RememberWindowSize=false
 ShowMenuBarByDefault=false
 
 [MainWindow]
+3 screens: Height=1884
+3 screens: Width=1068
+3 screens: XPosition=1087
+3 screens: YPosition=31
 DisplayPort-0 DisplayPort-1 DisplayPort-2=DisplayPort-1
 DisplayPort-0 DisplayPort-1 DisplayPort-2 Height 1080x1920 DisplayPort-0=562
 DisplayPort-0 DisplayPort-1 DisplayPort-2 Height 1080x1920 DisplayPort-1=1853

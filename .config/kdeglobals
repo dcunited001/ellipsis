@@ -185,7 +185,7 @@ Dialog Size=600,480
 [Shortcuts]
 Close=Ctrl+W
 FullScreen=Meta+Ctrl+Shift+F;\s
-KeyBindings=Meta+Ctrl+Shift+K
+KeyBindings=Meta+Alt+,
 Preferences=Meta+Ctrl+<
 
 [WM]
