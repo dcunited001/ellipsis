@@ -283,6 +283,23 @@ emacsclient -e "(setenv \"SSH_AUTH_SOCK\" \"\")" -a "Something somewhere still h
 this script echos the return values of (setenv ...) and probably shouldn't do
 that.
 
+
+*** Problems with the =emacsclient -e= scripts
+
+Note: this script has some issues with local state getting out of sync. After
+the ssh-agent is killed, an older set of ssh variables sticks around.
+
++ It's neither project-local nor buffer-local, as far as I can tell, since it
+  involves the =getenv/setenv= variables.
++ There may be some way to globally reset the state of emacs-lisp variables, but
+  since I'm unsure of which
++ There may be issues with how the emacs server inherits the shell environment
+  from the initial server process. The =emacsclient -e= script is at least good
+  enough to reset the state once, but running =(getenv ...)= in various buffers
+  in emacs results in different results.
+- This is even after running =C-u C-u M-x magit-mode-bury-buffer= and killing
+  all file/dired buffers for all subdirectories of the project at hand..
+
 ** PKCS#11
 
 *** Specifying a link to the PKCS#11 lib
