@@ -41,3 +41,5 @@
 	xfuncname = "^(\\*+ +.*)$"
 [protocol "file"]
 	allow = always
+[github]
+	user = dcunited001
