@@ -41,7 +41,7 @@
 (define-public %kharis-default-shell-keyboard
   (keyboard-layout "us" "altgr-intl"
                    #:model "pc105"
-		   ;; see gitlab.freedesktop.org/xkeyboard-config/xkeyboard-config/-/issue/344
+		               ;; see gitlab.freedesktop.org/xkeyboard-config/xkeyboard-config/-/issue/344
                    #:options '("caps:ctrl_modifier"
                                ;; "ctrl:swapcaps_hyper" ; in 1.3.0 (hyper as Mod3)
                                ;; "ctrl:hyper_capscontrol" ; in 1.5.0 (hyper as Mod4)
@@ -177,6 +177,7 @@
                         (cpu-boost-on-ac? #t)
                         (tlp-default-mode "AC") ;; this is the default
                         (sound-power-save-on-bat 0)
+                        (nmi-watchdog? #t)
                         (cpu-scaling-min-freq-on-bat 1700000)
                         (cpu-scaling-max-freq-on-bat 2100000)
                         (cpu-scaling-min-freq-on-ac 2100000)

@@ -380,6 +380,7 @@ EndSection
                ;; - ensure cpu-scaling-governor-on-ac is not affecting performance
                (service tlp-service-type
                         (tlp-configuration
+                         (nmi-watchdog #t)
                          (cpu-boost-on-ac? #t)
                          (tlp-default-mode "AC") ;; this is the default
                          (wifi-pwr-on-bat? #t)))

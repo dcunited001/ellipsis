@@ -11,21 +11,20 @@
   #:use-module (gnu packages base)
   #:use-module (gnu packages tls)
 
-  #:use-module (srfi srfi-1)
-  )
+  #:use-module (srfi srfi-1))
 
 ;; open /etc/ssl/certs to test
 (define-public emacs-x509-mode
   (package
     (name "emacs-x509-mode")
-    (version "20220819.541")
+    (version "20230119.838")
     (source (origin
               (method url-fetch)
               (uri (string-append "https://melpa.org/packages/x509-mode-" version ".tar"))
 
               (sha256
                (base32
-                "1fcgcx01phazmk58ijlsnbshcr20wns6pnv66n25vwmdi1kp1chw"))))
+                "13l6arxg1igwsv8d2f9ihpcys7wm8vl4vqbllf3fqd1zyvfanx9l"))))
     (build-system emacs-build-system)
     (propagated-inputs `(("openssl" ,openssl)))
     (arguments
@@ -39,7 +38,7 @@
     (description "Major mode for viewing certificates, CRLs, and other PKI-related files.
 
 Uses OpenSSL for viewing PEM and DER encoded PKI entities.")
-    (license license:mit)))
+    (license license:expat)))
 
 ;; TODO: maybe implement an ox-ssh package?
 

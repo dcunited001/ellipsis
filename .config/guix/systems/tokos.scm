@@ -92,6 +92,7 @@
 
 	          (service tlp-service-type
                        (tlp-configuration
+                        (nmi-watchdog #t)
                         (cpu-boost-on-ac? #t)
                         (tlp-default-mode "AC") ;; this is the default
                         (wifi-pwr-on-bat? #t)))
