@@ -173,21 +173,14 @@
                    certdata2pem
                    ;; desec-certbot-hook
                    )
-             %base-packages-disk-utilities
              %base-packages))
 
     (services
      (append (list
               ;; (dhcp-client-service-type)
-              (service pcscd-service-type)
-              ;; NOTE: udev rules should automatically be in place
-              ;; (udev-rules-service
-              ;;  (udev-rule "90-libu2f.rules"
-              ;;             (string-append "")))
+              (service pcscd-service-type))
 
-              )
+             %my-services))))
 
-             %my-services
-             ))))
 
 usb-gpg-tools
