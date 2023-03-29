@@ -81,7 +81,7 @@ for a colorful Guile experience.\n\n"))))
 (list
       (channel
        (name 'ellipsis)
-       (url "file:///home/dc/.dotfiles"))
+       (url "https://github.com/dcunited001/ellipsis"))
       (channel
        (name 'hephaestus)
        (url "file:///home/dc/hephaestus"))
