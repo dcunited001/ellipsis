@@ -14,31 +14,6 @@
   #:use-module (nongnu packages linux)
   #:use-module (nongnu system linux-initrd))
 
-;; networking is [probably] needed for loopback
-;; (use-service-modules networking ssh security-token)
-;; (use-package-modules wget screen password-utils vim emacs emacs-xyz)
-;; (use-package-modules linux time mtools lsof file-systems disk version-control)
-;; (use-package-modules ssh gnupg cryptsetup security-token tls certs libusb)
-
-;; (define %my-user "dc")
-
- ;; (define %my-services
- ;;  (modify-services
- ;;      %base-services
-
- ;;    (agetty-service-type
- ;;     config => (agetty-configuration
- ;;                (inherit config)
- ;;                (login-pause? #t)
- ;;                (timeout 30)))
-
- ;;    (mingetty-service-type
- ;;     config => (mingetty-configuration
- ;;                (inherit config)
- ;;                ;; (auto-login %my-user)
- ;;                (login-pause? #t)))))
-
-
 ;;** Image
 (define usb-gpg-tools-amd
   (operating-system
