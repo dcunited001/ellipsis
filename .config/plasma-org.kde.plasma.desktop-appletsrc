@@ -455,7 +455,7 @@ immutability=1
 plugin=org.kde.netspeedWidget
 
 [Containments][141][ConfigDialog]
-DialogHeight=102
+DialogHeight=84
 DialogWidth=2560
 
 [Containments][141][General]
