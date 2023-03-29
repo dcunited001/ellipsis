@@ -103,57 +103,16 @@ or use separate guix profiles? (on either USB or the system)
 
 ** Portable GPG
 
-Use =guix pack= to pack up the binaries.
+Honestly, using =guix pack= to create a portable guix profile wasn't beneficial
+enough to offset the complexity.  A portible profile is arguably more useful for
+Ansible -- especially for hackers operating behind enemy lines, lol -- so I
+moved any notes to [[file:ANSIBLE.org::*Guix Profile][ANSIBLE.org.]]
 
-+ --system aarch64-linux :: makes the manifest portable to arm64
-+ --relocatable :: twice enables binaries requiring user
-  namespaces to function with a fallback execution engine
-  - you may want the -RR relocatable option
-+ -S :: creates links from the profile within the tar to the
-  dependences in the guix packages
-  
-#+begin_src shell :eval no
-guixpkg=$(guix pack --relocatable --system=x86_64-linux --compression=gzip --save-provenance \
-      -L $HOME/.dotfiles -m ./gnupg-agent.scm \
-      -S .bin=bin)
-if [ ! -e $SECRETS_HOME/pkg ]; then
-    mkdir -p $SECRETS_HOME/pkg
-fi
-cp $guixpkg $SECRETS_HOME/pkg
-#+end_src
+#+begin_quote
+Firewalling SSH? oh noes: on what port?
 
-The package is built to =/gnu/store= and is in =$guixpkg=. Now unpack:
-
-
-#+begin_src shell :eval no
-tar -C $SECRETS_HOME/pkg -xzvf $guixpkg
-#+end_src
-
-The profile will be in =./gnu/store/*profile=. If there are multiple profiles
-found in =$SECRETS_HOME=, then searching the =.tar= is a better way to find the
-profile.
-
-#+begin_src shell :eval no
-
-guixprofile=$(tar --list -zf $guixpkg | grep 'profile/bin' | cut -d/ -f4')
-
-# or, more exactly, after unpacking with
-guixprofile=$(find $SECRETS_HOME/pkg/gnu/store -name "*-profile" -type d)
-#guixprofile=$(find $SECRETS_HOME/pkg/gnu/store -wholename "*profile/etc/profile")
-ln -s $guixprofile .guix-gnupg
-#+end_src
-
-Then source the $guixprofile/etc/profile from a script
-
-+ Some dependencies may require symlinking =-S lib=lib= or =-S libexec/libexec=.
-
-Test the profile's binaries in a clean shell with:
-
-#+begin_src shell :eval no
-guix shell --profile=.guix-gnupg -- bash
-#+end_src
-
-***** TODO export a guix profile to the disk
+lol i hope you have deep-packet inspection.
+#+end_quote
 
 * Init Scripte
 
@@ -162,28 +121,28 @@ guix shell --profile=.guix-gnupg -- bash
 #+end_src
 
 #+begin_src shell :tangle (concat (or (getenv "SECRETS_HOME") ".") "/.gnupg/init.sh") :tangle-mode (identity #o500)
-export GPG_TTY="$(tty)"
-export SECRETS_HOME="$(pwd)"
-export GNUPGHOME="$SECRETS_HOME/.gnupg"
+if [ -z $GPG_TTY ];then
+     export GPG_TTY="$(tty)"
+     echo "GPG_TTY=$GPG_TTY"
+fi
+if [ -z $SECRETS_HOME ];then
+    export SECRETS_HOME="$(pwd)"
+    echo "SECRETS_HOME=$SECRETS_HOME"
+fi
 
+export GNUPGHOME="$SECRETS_HOME/.gnupg"
 export PATH=$SECRETS_HOME/.bin:$PATH
 
-# load GnuPG profile
-GUIX_GNUPG=$SECRETS_HOME/.guix-gnupg
-GUIX_EXTRA=$HOME/.guix-extra-profiles
-
-if [ -f $GUIX_GNUPG/etc/profile ]; then
-  GUIX_PROFILE=$GUIX_GNUPG
-  source $GUIX_GNUPG/etc/profile
-else
-  echo "$GUIX_GNUPG not found. Trying $GUIX_EXTRA"
-  if [ -d $GUIX_EXTRA ]; then
-    GUIX_PROFILE=$HOME/.guix-extra-profiles/gnupg/gnupg
-    source $HOME/.guix-extra-profiles/gnupg/gnupg/etc/profile
-  else
-    echo "$GUIX_PROFILE not found. access gpg* some other way"
-    return 123
-  fi
+# unless there is a specific $GNUPG_PATH
+if [ -z $GNUPG_PATH ];then
+    # then load GnuPG profile
+    GUIX_EXTRA=$HOME/.guix-extra-profiles
+    GUIX_PROFILE=$GUIX_GNUPG_PROFILE
+    if [ -z $GUIX_PROFILE ];then
+        GUIX_PROFILE=$GUIX_EXTRA/gnupg/gnupg
+    fi
+    source $GUIX_PROFILE/etc/profile
+    GNUPG_PATH=$GUIX_PROFILE/bin
 fi
 
 # SSH
@@ -369,7 +328,7 @@ default-cache-ttl 60
 max-cache-ttl 120
 
 # pinentry-program must be set or gpg-agent expects an X11 compatible one
-pinentry-program $GPG_PINENTRY
+pinentry-program $GNUPG_PATH/$PINENTRY
 #pinentry-program /usr/bin/pinentry-curses
 #pinentry-program /usr/bin/pinentry-tty
 #pinentry-program /usr/bin/pinentry-gtk-2

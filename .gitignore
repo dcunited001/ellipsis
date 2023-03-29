@@ -119,6 +119,7 @@ fonts/**
 
 # gnupg
 .gnupg
+.gnupg.test
 
 # ssh
 .ssh
