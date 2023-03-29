@@ -5,7 +5,7 @@
 #+property: header-args:conf       :tangle-mode (identity #o400) :mkdirp yes
 #+property: header-args:sh         :tangle-mode (identity #o500) :mkdirp yes
 #+property: header-args:bash       :tangle-mode (identity #o500) :mkdirp yes
-#+property: header-args:scheme     :tangle-mode (identity #o500) :mkdirp yes
+#+property: header-args:scheme     :tangle-mode (identity #o700) :mkdirp yes
 #+property: header-args:emacs-lisp :tangle-mode (identity #o600) :mkdirp yes
 #+options: toc:nil
 
@@ -92,14 +92,27 @@ The Guix profile will need to be installed. Unless =GNUPG_PATH= is set when
 =init-gpg.sh= is sourced, then the profile is expected to be installed to
 =$GUIX_EXTRA/gpgagent/gpgagent=
 
+It makes more sense to do this in a manifest than to add a custom package to a
+guix channel. Thankfully the guix transformations are very flexible. See =guix
+shell --help-transform= for more information.
+
 #+begin_src scheme :tangle (concat (or (getenv "SECRETS_HOME") ".") "/.config/guix/manifests/gpgagent.scm")
-(specifications->manifest
- '(
-   "gnupg"
-   "shroud-nox" ;; from ellipsis channel
-   ;; "pinentry" ;; req. gtk dependencies
-   "pinentry-tty"
-   ))
+(use-modules (guix packages)
+             (gnu packages base)
+             (gnu packages guile)
+             (gnu packages gnupg)
+             (gnu packages password-utils))
+
+;; The project only builds in xclip behavior if it find the dependencies. it's
+;; much smaller without them.
+(define-public shroud-nox
+  (package
+    (inherit shroud)
+    (inputs
+     (list guile-2.2 gnupg))))
+
+(packages->manifest
+ (list gnupg pinentry-tty shroud-nox))
 #+end_src
 
 **** TODO include SSH/opensc in the profile?
