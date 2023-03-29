@@ -88,7 +88,11 @@ export GPGAUTH=<<gpgauth>>
 
 ** Guix Profile
 
-#+begin_src scheme :tangle (concat (or (getenv "SECRETS_HOME") ".") "/.config/guix/manifests/gpg-agent.scm")
+The Guix profile will need to be installed. Unless =GNUPG_PATH= is set when
+=init-gpg.sh= is sourced, then the profile is expected to be installed to
+=$GUIX_EXTRA/gpgagent/gpgagent=
+
+#+begin_src scheme :tangle (concat (or (getenv "SECRETS_HOME") ".") "/.config/guix/manifests/gpgagent.scm")
 (specifications->manifest
  '(
    "gnupg"
@@ -130,7 +134,12 @@ if [ -z $SECRETS_HOME ];then
     echo "SECRETS_HOME=$SECRETS_HOME"
 fi
 
-export GNUPGHOME="$SECRETS_HOME/.gnupg"
+# if not using on a system where $GNUPGHOME == $SECRETS_HOME/.gnupg
+# then make it so before sourcing the script
+if [ -z $GNUPGHOME ];then
+    export GNUPGHOME=$HOME/.gnupg
+    echo "GNUPGHOME=$GNUPGHOME"
+fi
 export PATH=$SECRETS_HOME/.bin:$PATH
 
 # unless there is a specific $GNUPG_PATH
@@ -139,7 +148,7 @@ if [ -z $GNUPG_PATH ];then
     GUIX_EXTRA=$HOME/.guix-extra-profiles
     GUIX_PROFILE=$GUIX_GNUPG_PROFILE
     if [ -z $GUIX_PROFILE ];then
-        GUIX_PROFILE=$GUIX_EXTRA/gnupg/gnupg
+        GUIX_PROFILE=$GUIX_EXTRA/gpgagent/gpgagent
     fi
     source $GUIX_PROFILE/etc/profile
     GNUPG_PATH=$GUIX_PROFILE/bin
@@ -154,8 +163,6 @@ fi
 # Shroud Database
 export SHROUD_CONFIG_FILE=$SECRETS_HOME/.shroud
 export SHROUD_DATABASE_FILE=$SECRETS_HOME/.config/shroud/db.gpg
-
-export PATH=$SECRETS_HOME/.bin:$PATH
 #+end_src
 
 ** SSH Agent (via GPG)
