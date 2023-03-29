@@ -50,7 +50,7 @@ dependency for everything.
 Change these to the fingerprints of your personal keys
 
 #+name: gkmaster
-#+begin_src emacs-lisp
+#+begin_src shell
 "9FCE9B3064CED760"
 #+end_src
 
@@ -58,7 +58,7 @@ Change these to the fingerprints of your personal keys
 : 9FCE9B3064CED760
 
 #+name: gksign
-#+begin_src emacs-lisp
+#+begin_src shell
 "B5E0535B23DD6A7A"
 #+end_src
 
@@ -66,7 +66,7 @@ Change these to the fingerprints of your personal keys
 : B5E0535B23DD6A7A
 
 #+name: gkcrypt
-#+begin_src emacs-lisp
+#+begin_src shell
 "5AA3269777368E0F"
 #+end_src
 
@@ -74,18 +74,18 @@ Change these to the fingerprints of your personal keys
 : 5AA3269777368E0F
 
 #+name: gkauth
-#+begin_src emacs-lisp
+#+begin_src shell
 "FC275EE2A3547885"
 #+end_src
 
 #+RESULTS: gkauth
 : FC275EE2A3547885
 
-#+begin_src shell :var gpgmaster=gkmaster gpgsign=gksign gpgcrypt=gkcrypt gpgauth=gkauth :noweb-ref gkring :noweb-sep ""
-export GKMASTER=$gpgmaster
-export GKSIGN=$gpgsign
-export GKCRYPT=$gpgcrypt
-export GKAUTH=$gpgauth
+#+begin_src shell :noweb-ref gkring :noweb yes :noweb-sep ""
+export GKMASTER=<<gkmaster>>
+export GKSIGN=<<gksign>>
+export GKCRYPT=<<gkcrypt>>
+export GKAUTH=<<gkauth>>
 #+end_src
 
 #+RESULTS:
