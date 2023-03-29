@@ -40,52 +40,48 @@ dependency for everything.
 #+RESULTS: gpgpinentry
 : pinentry-curses
 
-#+name: gpgpinentrypath
-#+begin_src emacs-lisp :tangle no
-
-#+end_src
-
 ** Personal Keys
 
 Change these to the fingerprints of your personal keys
 
-#+name: gkmaster
+#+name: gpgmaster
 #+begin_src shell
-"9FCE9B3064CED760"
+"0x9FCE9B3064CED760"
 #+end_src
 
-#+RESULTS: gkmaster
+#+RESULTS: gpgmaster
 : 9FCE9B3064CED760
 
-#+name: gksign
+#+name: gpgsign
 #+begin_src shell
-"B5E0535B23DD6A7A"
+"0xB5E0535B23DD6A7A"
 #+end_src
 
-#+RESULTS: gksign
+#+RESULTS: gpgsign
 : B5E0535B23DD6A7A
 
-#+name: gkcrypt
+#+name: gpgcrypt
 #+begin_src shell
-"5AA3269777368E0F"
+"0x5AA3269777368E0F"
 #+end_src
 
-#+RESULTS: gkcrypt
+#+RESULTS: gpgcrypt
 : 5AA3269777368E0F
 
-#+name: gkauth
+#+name: gpgauth
 #+begin_src shell
-"FC275EE2A3547885"
+"0xFC275EE2A3547885"
 #+end_src
 
-#+RESULTS: gkauth
+#+RESULTS: gpgauth
 : FC275EE2A3547885
 
-#+begin_src shell :noweb-ref gkring :noweb yes :noweb-sep ""
-export GKMASTER=<<gkmaster>>
-export GKSIGN=<<gksign>>
-export GKCRYPT=<<gkcrypt>>
-export GKAUTH=<<gkauth>>
+#+begin_src shell :noweb-ref gpgring :noweb yes :noweb-sep ""
+export PINENTRY=<<gpgpinentry>>
+export GPGMASTER=<<gpgmaster>>
+export GPGSIGN=<<gpgsign>>
+export GPGCRYPT=<<gpgcrypt>>
+export GPGAUTH=<<gpgauth>>
 #+end_src
 
 #+RESULTS:
@@ -162,7 +158,7 @@ guix shell --profile=.guix-gnupg -- bash
 * Init Scripte
 
 #+begin_src shell :tangle (concat (or (getenv "SECRETS_HOME") ".") "/.gnupg/init.sh") :shebang "#!/bin/sh" :tangle-mode (identity #o500) :noweb yes
-<<gkring>>
+<<gpgring>>
 #+end_src
 
 #+begin_src shell :tangle (concat (or (getenv "SECRETS_HOME") ".") "/.gnupg/init.sh") :tangle-mode (identity #o500)
@@ -189,8 +185,6 @@ else
     return 123
   fi
 fi
-
-export GPG_PINENTRY=$GUIX_PROFILE/bin/pinentry-curses
 
 # SSH
 unset SSH_AGENT_PID
