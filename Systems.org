@@ -78,7 +78,11 @@ for a colorful Guile experience.\n\n"))))
 #+begin_src scheme :tangle .config/guix/base-channels.scm
  ;; NOTE: This file is generated from ~/.dotfiles/System.org.  Please see commentary there.
 
-(list (channel
+(list
+      (channel
+       (name 'ellipsis)
+       (url "file:///home/dc/.dotfiles"))
+      (channel
        (name 'hephaestus)
        (url "file:///home/dc/hephaestus"))
       (channel

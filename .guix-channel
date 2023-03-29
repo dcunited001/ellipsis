@@ -1,0 +1,5 @@
+;; This channel is temporary. I would recommend installing packages
+;; or system images using the --load-path option
+(channel
+ (version 0)
+ (directory "ellipsis"))
