@@ -19,7 +19,7 @@ more direct. It involves less metaprogramming.
 #+end_src
 
 #+name: secretshome
-#+begin_src emacs-lisp :tangle no
+#+begin_src emacs-lisp
 (or (getenv "SECRETS_HOME") ".")
 #+end_src
 
@@ -155,7 +155,7 @@ if [ -z $GNUPGHOME ];then
 fi
 export PATH=$SECRETS_HOME/.bin:$PATH
 
-# unless there is a specific $GNUPG_PATH
+# unless there is a specific $GNUPG_PATH, use a guix profile
 if [ -z $GNUPG_PATH ];then
     # then load GnuPG profile
     GUIX_EXTRA=$HOME/.guix-extra-profiles
@@ -249,6 +249,42 @@ For flatpak apps:
 
 #+begin_src shell :tangle (concat (or (getenv "SECRETS_HOME") ".") "/.bin/flatpak-gpg-overrides") :shebang "#!/bin/sh" :tangle-mode (identity #o500)
 flatpak --user override --env=GPG_TTY=$(tty) org.mozilla.Thunderbird
+#+end_src
+
+** Shell Examples
+
+Cut the keys out of the =gpg -k= output.
+
+#+begin_example shell
+gpg -k | grep -e "^sub" | cut -b 16-33
+#+end_example
+
+Get the environment variables that =gpg= passes to =gpg-agent=. These are the
+only variables permitted in =gpg-agent.conf=.
+
+#+begin_src shell :tangle (concat (or (getenv "SECRETS_HOME") ".") "/.bin/gpg-agent-env") :shebang "#!/bin/sh" :tangle-mode (identity #o500)
+gpg-connect-agent 'getinfo std_env_names' /bye | awk '$1=="D" {print $2}'
+#+end_src
+
+Troubleshoot =gpg-agent=
+
+#+begin_src shell :tangle (concat (or (getenv "SECRETS_HOME") ".") "/.bin/start-gpg-debug") :shebang "#!/bin/sh" :tangle-mode (identity #o500)
+export GPG_TTY="$(tty)"
+unset SSH_AGENT_PID
+export SSH_AUTH_SOCK="$(gpgconf --list-dirs agent-ssh-socket)"
+gpg-agent --daemon --no-detach -v -v --debug-level advanced
+#+end_src
+
+Troubleshoot =gpg-agent= with:
+
++ =--debug-pinentry=
++ =--debug 1024= which is required
+
+#+begin_src shell :tangle (concat (or (getenv "SECRETS_HOME") ".") "/.bin/start-gpg-debug-pinentry") :shebang "#!/bin/sh" :tangle-mode (identity #o500)
+export GPG_TTY="$(tty)"
+unset SSH_AGENT_PID
+export SSH_AUTH_SOCK="$(gpgconf --list-dirs agent-ssh-socket)"
+gpg-agent --daemon --no-detach -v -v --debug-pinentry --debug 1024
 #+end_src
 
 * GPG
@@ -365,7 +401,7 @@ default-cache-ttl 60
 max-cache-ttl 120
 
 # pinentry-program must be set or gpg-agent expects an X11 compatible one
-pinentry-program $GNUPG_PATH/$PINENTRY
+#pinentry-program /usr/bin/pinentry-tty
 #pinentry-program /usr/bin/pinentry-curses
 #pinentry-program /usr/bin/pinentry-tty
 #pinentry-program /usr/bin/pinentry-gtk-2
@@ -376,12 +412,18 @@ pinentry-program $GNUPG_PATH/$PINENTRY
 #pinentry-program /opt/homebrew/bin/pinentry-mac
 #+end_src
 
-** Useful Shell Examples
+** SCDaemon Config
 
-#+begin_example shell
+The daemon is failing when =pcscd= and =scdaemon= already have a connection to
+the Yubikey for the PIV/SSH application. (TODO: verify that this is the problem)
 
-gpg -k | grep -e "^sub" | cut -b 16-33
-#+end_example
+The =shared-access= option is dangerous according to the =scdaemon= manpages,
+since the process caches information from the card.
+
+#+begin_src conf :tangle (concat (or (getenv "SECRETS_HOME") ".") "/.gnupg/scdaemon.conf.defaults")
+reader-port Yubico Yubi
+# shared-access
+#+end_src
 
 
 * Shroud
