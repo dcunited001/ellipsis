@@ -114,17 +114,17 @@ Firewalling SSH? oh noes: on what port?
 lol i hope you have deep-packet inspection.
 #+end_quote
 
-* Init Scripte
+* Init Script
 
-#+begin_src shell :tangle (concat (or (getenv "SECRETS_HOME") ".") "/.gnupg/init.sh") :shebang "#!/bin/sh" :tangle-mode (identity #o500) :noweb yes
+#+begin_src shell :tangle (concat (or (getenv "SECRETS_HOME") ".") "/.gnupg/init-gpg.sh") :shebang "#!/bin/sh" :tangle-mode (identity #o500) :noweb yes
 <<gpgring>>
 #+end_src
 
-#+begin_src shell :tangle (concat (or (getenv "SECRETS_HOME") ".") "/.gnupg/init.sh") :tangle-mode (identity #o500)
-if [ -z $GPG_TTY ];then
-     export GPG_TTY="$(tty)"
-     echo "GPG_TTY=$GPG_TTY"
-fi
+If =SECRETS_HOME= is not set, it's set to =$(pwd)=. Do this before sourcing
+=init-gpg.sh=. Another option is to link =$HOME/.gnupg= to
+=$SECRETS_HOME/.gnupg= and then you can source the script in a fresh shell.
+
+#+begin_src shell :tangle (concat (or (getenv "SECRETS_HOME") ".") "/.gnupg/init-gpg.sh") :tangle-mode (identity #o500)
 if [ -z $SECRETS_HOME ];then
     export SECRETS_HOME="$(pwd)"
     echo "SECRETS_HOME=$SECRETS_HOME"
@@ -145,11 +145,6 @@ if [ -z $GNUPG_PATH ];then
     GNUPG_PATH=$GUIX_PROFILE/bin
 fi
 
-# SSH
-unset SSH_AGENT_PID
-export SSH_CONFIG_HOME="$SECRETS_HOME/.ssh"
-export SSH_AUTH_SOCK="$(gpgconf --list-dirs agent-ssh-socket)"
-
 # GPG Agent
 # see below for startup scripts
 
@@ -160,6 +155,7 @@ export SSH_AUTH_SOCK="$(gpgconf --list-dirs agent-ssh-socket)"
 export SHROUD_CONFIG_FILE=$SECRETS_HOME/.shroud
 export SHROUD_DATABASE_FILE=$SECRETS_HOME/.config/shroud/db.gpg
 
+export PATH=$SECRETS_HOME/.bin:$PATH
 #+end_src
 
 ** SSH Agent (via GPG)
@@ -186,14 +182,12 @@ Match host * exec "gpg-connect-agent UPDATESTARTUPTTY /bye"
 
 ** GPG Agent
 
-*** Notes
-
-+ Prefer to start with =gpgconf=
-+ Yubikey: The =GPG_TTY= variable is how =pinentry= knows where to retrieve input
-
-***** How to update this environment variable from another TTY? (broadcast?)
-
 *** Start
+
+
+To start GPG Agent, source the above =init-gpg.sh= script, then run =start-gpg=
+or =start-gpg-connect=. My notes say to prefer starting =gpg-agent= via
+=gpg-conf= but I honestly can't remember why.
 
 **** With =gpg-connect-agent=
 
@@ -206,6 +200,8 @@ gpg-connect-agent update-startuptty /bye > /dev/null
 
 **** With =gpgconf=
 
+Prefer to start with =gpgconf=
+
 #+begin_src shell :tangle (concat (or (getenv "SECRETS_HOME") ".") "/.bin/start-gpg") :shebang "#!/bin/sh" :tangle-mode (identity #o500)
 export GPG_TTY="$(tty)"
 unset SSH_AGENT_PID
@@ -213,6 +209,27 @@ export SSH_AUTH_SOCK="$(gpgconf --list-dirs agent-ssh-socket)"
 gpgconf --launch gpg-agent
 #+end_src
 
+**** Without =ssh=
+
+***** TODO init script without ssh
+
+*** Application Integration
+
+For any given appliation, either its launch scripts or the window manager's
+shell should have =GPG_TTY= set. Obviously, the whole point of doing things this
+way is so applciations in X11 have minimal awareness of GPG -- this is me being
+paranoid, but honestly, it's crazy to think that it's done that way. Of course,
+smartcards improve the potential for X11 keylogging.
+
+For flatpak apps:
+
++ Link =$HOME/.gnupg= to =$SECRETS_HOME/.gnupg=
++ Run =flatpak --env=GPG_TTY=/dev/ttyX org.mozilla.Thunderbird=. This can also
+  be included in a script, called after =gpg-agent= is initialized.
+
+#+begin_src shell :tangle (concat (or (getenv "SECRETS_HOME") ".") "/.bin/flatpak-gpg-overrides") :shebang "#!/bin/sh" :tangle-mode (identity #o500)
+flatpak --user override --env=GPG_TTY=$(tty) org.mozilla.Thunderbird
+#+end_src
 
 * GPG
 
