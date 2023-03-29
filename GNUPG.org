@@ -11,7 +11,84 @@
 
 * GPG Environment
 
+The table approach in [[file:ANSIBLE.org][ANSIBLE.org]] is a bit confusing. This is more verbose, yet
+more direct. It involves less metaprogramming.
+
+#+begin_src emacs-lisp :eval no :tangle no
+(setenv "SECRETS_HOME" ".gnupg.test")
+#+end_src
+
+#+name: secretshome
+#+begin_src emacs-lisp :tangle no
+(or (getenv "SECRETS_HOME") ".")
+#+end_src
+
+** GPG TTY
+
+For the programs that need to have GPG access, I will configure things like
+=GPG_TTY= in the startup script or in the flatpak overrides. I really just don't
+trust X11, not that Wayland is much better since it invites an XWayland
+dependency for everything.
+
 ** Pinentry
+
+#+name: gpgpinentry
+#+begin_src emacs-lisp :tangle no
+"pinentry-curses"
+#+end_src
+
+#+RESULTS: gpgpinentry
+: pinentry-curses
+
+#+name: gpgpinentrypath
+#+begin_src emacs-lisp :tangle no
+
+#+end_src
+
+** Personal Keys
+
+Change these to the fingerprints of your personal keys
+
+#+name: gkmaster
+#+begin_src emacs-lisp
+"9FCE9B3064CED760"
+#+end_src
+
+#+RESULTS: gkmaster
+: 9FCE9B3064CED760
+
+#+name: gksign
+#+begin_src emacs-lisp
+"B5E0535B23DD6A7A"
+#+end_src
+
+#+RESULTS: gksign
+: B5E0535B23DD6A7A
+
+#+name: gkcrypt
+#+begin_src emacs-lisp
+"5AA3269777368E0F"
+#+end_src
+
+#+RESULTS: gkcrypt
+: 5AA3269777368E0F
+
+#+name: gkauth
+#+begin_src emacs-lisp
+"FC275EE2A3547885"
+#+end_src
+
+#+RESULTS: gkauth
+: FC275EE2A3547885
+
+#+begin_src shell :var gpgmaster=gkmaster gpgsign=gksign gpgcrypt=gkcrypt gpgauth=gkauth :noweb-ref gkring :noweb-sep ""
+export GKMASTER=$gpgmaster
+export GKSIGN=$gpgsign
+export GKCRYPT=$gpgcrypt
+export GKAUTH=$gpgauth
+#+end_src
+
+#+RESULTS:
 
 ** Guix Profile
 
@@ -82,9 +159,13 @@ guix shell --profile=.guix-gnupg -- bash
 
 ***** TODO export a guix profile to the disk
 
-* Init Script
+* Init Scripte
 
-#+begin_src shell :tangle (concat (or (getenv "SECRETS_HOME") ".") "/init.sh") :shebang "#!/bin/sh" :tangle-mode (identity #o500)
+#+begin_src shell :tangle (concat (or (getenv "SECRETS_HOME") ".") "/.gnupg/init.sh") :shebang "#!/bin/sh" :tangle-mode (identity #o500) :noweb yes
+<<gkring>>
+#+end_src
+
+#+begin_src shell :tangle (concat (or (getenv "SECRETS_HOME") ".") "/.gnupg/init.sh") :tangle-mode (identity #o500)
 export GPG_TTY="$(tty)"
 export SECRETS_HOME="$(pwd)"
 export GNUPGHOME="$SECRETS_HOME/.gnupg"
@@ -302,8 +383,15 @@ pinentry-program $GPG_PINENTRY
 #pinentry-program /usr/bin/pinentry-qt
 #pinentry-program /usr/local/bin/pinentry-curses
 #pinentry-program /usr/local/bin/pinentry-mac
-#pinentry-program /opt/homebrew/bin/pinentry-mac                 
+#pinentry-program /opt/homebrew/bin/pinentry-mac
 #+end_src
+
+** Useful Shell Examples
+
+#+begin_example shell
+
+gpg -k | grep -e "^sub" | cut -b 16-33
+#+end_example
 
 
 * Shroud
@@ -367,8 +455,28 @@ The essentials
 (setq org-directory "~/org"
       org-adapt-indentation nil
       org-src-preserve-indentation t)
+
+(defun read-only-when-pgp ()
+  (when (and (fboundp #'buffer-file-name)
+             (buffer-file-name)
+             (string-match "\\.key$" (buffer-file-name)))
+    (read-only-mode)))
+
+(add-to-list 'after-change-major-mode-hook #'read-only-when-pgp t)
 #+end_src
 
+And if you want lispy to be configured:
+
+#+begin_example emacs-lisp
+(when (bound-and-true-p lispy-mode)
+  (cl-dolist (hook '(scheme-mode-hook
+                     emacs-lisp-mode-hook
+                     lisp-data-mode-hook
+                     ielm-add))
+    (add-hook hook #'lispy-mode)))
+
+(advice-add 'lispy-goto-symbol-elisp :override #'xref-find-definitions '(name "dc/nanon"))
+#+end_example
 
 ** Tangling
 
@@ -408,6 +516,8 @@ Options:
 + -b :: run =rngd= in the background
 + -W 4096 :: specify the intended entropy size
 + -f :: keep running even when full
+
+**** TODO verify whether =-o /tmp/yubirng= as output is required
 
 ** Test with =rngtest=
 
