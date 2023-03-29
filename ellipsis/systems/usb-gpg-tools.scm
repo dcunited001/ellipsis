@@ -1,5 +1,5 @@
 ;;* Module
-(define-module (ellipsis systems usb-gpg-tool)
+(define-module (ellipsis systems usb-gpg-tools)
   #:use-module (gnu)
   #:use-module (gnu system)
   #:use-module (gnu system nss)
@@ -182,5 +182,11 @@
 
              %my-services))))
 
+;; NOTE: udev rules should automatically be in place
+;; (udev-rules-service
+;;  (udev-rule "90-libu2f.rules"
+;;             (string-append "")))
+
+;; TODO: add gnupg service if configuration file is in place
 
 usb-gpg-tools
