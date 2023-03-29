@@ -17,4 +17,5 @@ Image=file:///data/xdg/Wallpapers/anime/blood-blockade-wallpaper.jpg
 Image=file:///data/xdg/Wallpapers/anime/Guilty-Crown.jpg
 
 [Greeter][Wallpaper][org.kde.potd][General]
+FillMode=1
 Provider=wcpotd

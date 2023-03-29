@@ -14,6 +14,8 @@ iconViewIconSize=64
 listViewIconSize=64
 
 [KPropertiesDialog]
+3 screens: Height=529
+3 screens: Width=410
 DisplayPort-2 DisplayPort-0 DisplayPort-1 Height 2560x1440=552
 DisplayPort-2 DisplayPort-0 DisplayPort-1 Width 2560x1440=498
 
