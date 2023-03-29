@@ -1,6 +1,6 @@
 #!/bin/sh
 # Source .profile for common environment vars
-GUIX_AUTOLOAD_PROFILES=(i3 desktop fonts browsers xkb xdg mon devtools academic office cad kicad)
+GUIX_AUTOLOAD_PROFILES=(i3 desktop fonts browsers xkb pipewire xdg mon devtools academic office cad kicad)
 source ~/.profile
 
 # prevent automatic suspend
@@ -38,4 +38,4 @@ setbg $_WALLPAPERS
 
 #exec dbus-launch --exit-with-session
 XDG_CURRENT_DESKTOP=i3
-i3 -V all
+i3 -V all > /home/dc/i3log-$(date +'%F-%k-%M-%S') 2>&1
