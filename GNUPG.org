@@ -245,11 +245,17 @@ For flatpak apps:
 
 + Link =$HOME/.gnupg= to =$SECRETS_HOME/.gnupg=
 + Run =flatpak --env=GPG_TTY=/dev/ttyX org.mozilla.Thunderbird=. This can also
-  be included in a script, called after =gpg-agent= is initialized.
+  be included in a script, called after =GPG_TTY= has been established for the
+  =gpg-agent=.
 
 #+begin_src shell :tangle (concat (or (getenv "SECRETS_HOME") ".") "/.bin/flatpak-gpg-overrides") :shebang "#!/bin/sh" :tangle-mode (identity #o500)
 flatpak --user override --env=GPG_TTY=$(tty) org.mozilla.Thunderbird
 #+end_src
+
+This apparently works alright, though I needed to paste in the public key to
+circumvent the flatpak restrictions on file access.
+
+[[./img/thunderbird-signed.jpg]]
 
 ** Shell Examples
 
