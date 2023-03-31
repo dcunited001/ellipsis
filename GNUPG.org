@@ -9,6 +9,49 @@
 #+property: header-args:emacs-lisp :tangle-mode (identity #o600) :mkdirp yes
 #+options: toc:nil
 
+* Resources
+
+** GPG Configuration
+
++ [[https://github.com/drduh/config/blob/master/gpg.conf][drduh/config]] gpg.conf
++ [[https://www.gnupg.org/documentation/manuals/gnupg/GPG-Configuration-Options.html][GPG Config Options]] (docs)
++ [[https://www.gnupg.org/documentation/manuals/gnupg/GPG-Esoteric-Options.html][GPG Esoteric Options]] (docs)
+
+** GnuPG [[https://git.gnupg.org/cgi-bin/gitweb.cgi][git.gnupg.org]]
+
++ [[https://git.gnupg.org/cgi-bin/gitweb.cgi?p=gnupg.git;a=blob;f=agent/keyformat.txt;hb=HEAD][keyformat.txt]] the format of S-expressions in private keys
+
+** Crypto
++ [[https://developers.redhat.com/blog/2017/10/05/entropy-rhel-based-cloud-instances#][Entropy in RHEL-based cloud instances]]
++ [[https://www.random.org/randomness/][Introduction to Randomness and Random Numbers]]
+
+** GPG Integration
+
++ [[https://alexschroeder.ch/cgit/ugg/about/][The Using GPG Guide]]
++ [[https://git.vdm.dev/knowledge/YubiKey-Guide][VDM Yubikey-Guide]]
++ [[https://github.com/drduh/YubiKey-Guide][drduh/YubiKey-Guide]]
+
+*** Emacs
++ [[https://www.gnu.org/software/emacs/manual/html_mono/auth.html][auth-source]]
+
+Emacs Wiki ([[https://www.emacswiki.org/emacs/Using_GPG][GPG topic]])
+
++ [[https://www.emacswiki.org/emacs/Gmail%2c_Gnus_and_GPG][Gmail, Gnus and GPG]]
++ [[https://www.emacswiki.org/emacs/GnuPG][Gnu PG]]
++ [[https://www.emacswiki.org/emacs/AutoEncryption][Auto Encryption]]
+
+Mastering Emacs
+
++ [[https://www.masteringemacs.org/article/keeping-secrets-in-emacs-gnupg-auth-sources][Keeping Secrets in Emacs with GnuPG and Auth Sources]]
+
+*** Thunderbird
++ [[https://support.mozilla.org/en-US/kb/openpgp-thunderbird-howto-and-faq][OpenPGP in Thunderbird: How To and FAQ]]
++ [[https://wiki.mozilla.org/Thunderbird:OpenPGP:Smartcards][Thunderbird, OpenPGP and Smartcards]]
+
+*** KDE
+
++ [[https://ebzzry.com/en/gsk/][Setting up GPG and SSH in KDE]]
+
 * GPG Environment
 
 The table approach in [[file:ANSIBLE.org][ANSIBLE.org]] is a bit confusing. This is more verbose, yet
@@ -296,12 +339,6 @@ gpg-agent --daemon --no-detach -v -v --debug-pinentry --debug 1024
 * GPG
 
 ** GPG Config
-
-*** Refs
-
-- [[https://github.com/drduh/config/blob/master/gpg.conf][drduh/config]] gpg.conf
-- [[https://www.gnupg.org/documentation/manuals/gnupg/GPG-Configuration-Options.html][GPG Config Options]] (docs)
-- [[https://www.gnupg.org/documentation/manuals/gnupg/GPG-Esoteric-Options.html][GPG Esoteric Options]] (docs)
 
 *** Defaults
 
