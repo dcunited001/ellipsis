@@ -533,6 +533,56 @@ Add to =~/.config/sh/_load_profile.d.sh= _in this order_
 + guix-arch-support.sh
 + guix-arch.sh
 
+** Nix
+
+It seems I'm more likely to encounter this on programming projects/teams.
+
+#+begin_src shell :tangle .config/sh/profile.d/nix-arch.sh :shebang #!/bin/bash
+# add your main nix-profile to paths
+export PATH=$HOME/.nix-profile/bin:$PATH
+export XDG_DATA_DIRS=$HOME/.nix-profile/share:$XDG_DATA_DIRS
+
+# TODO add potential for other Nix profiles
+#+end_src
+
+Then add =nix-arch.sh= to =~/.config/sh/profile.d= preferably before =guix-arch.sh=.
+
+After setup, happily build the free [[https://github.com/hmemcpy/milewski-ctfp-pdf][Category Theory For Programmers PDF]]. This
+requires adding the following.
+
+#+begin_src nix :tangle .config/nix/nix.conf :mkdirp yes
+extra-experimental-features = nix-command flakes
+#+end_src
+
+*** On Arch
+
+Install Nix and setup the groups. Configure =~/.config/nix/nix.conf= if necessary.
+
+#+begin_example shell
+yay -Syu nix
+
+# to allow user access to the nix build daemon
+sudo usermod -G nix-build
+
+echo "max-jobs = auto" | sudo tee -a /etc/nix/nix.conf
+#+end_example
+
+Ensure that the =nix-ademon= service is running or just enable it.
+
+#+begin_example shell
+# to make fedora a tolerable daily driver. run with sudo to add channel to root
+nix-channel --add https://nixos.org/channels/nixpkgs-unstable
+
+# requires sudo to create /nix/store
+nix-channel --update
+#+end_example
+
+Now nix should build and =direnv allow= should run flakes right.
+
+*** On Guix
+
+*** On RPM
+
 ** FCITX5
 
 According to =fcitx5-diagnose= these need to be set to =fcitx= NOT =fcitx5=.
@@ -1050,7 +1100,7 @@ export LESS_TERMCAP_us=$'\E[01;32m'
 Load at end of =.bashrc=
 
 #+begin_src sh :tangle .bashrc :shebang #!/bin/sh
-[[ -e "$(command -v direnv)" ]]&& eval "$(direnv hook bash)"
+[[ -e "$(command -v direnv)" ]] && eval "$(direnv hook bash)"
 #+end_src
 
 Reload =direnvrc= with =direnv reload=

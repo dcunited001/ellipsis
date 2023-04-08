@@ -68,7 +68,11 @@ DesktopMode=0
 LayoutName=informative
 
 [TabBoxAlternative]
+ActivitiesMode=0
+DesktopMode=0
+HighlightWindows=false
 LayoutName=present_windows
+ShowTabBox=false
 
 [Tiling]
 padding=4

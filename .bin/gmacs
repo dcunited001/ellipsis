@@ -1,1 +1,2 @@
+#!/bin/sh
 guix shell -p $GUIX_EXTRA/emacs-g/emacs-g -- emacs "$@"

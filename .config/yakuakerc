@@ -7,3 +7,4 @@ FirstRun=false
 [Window]
 DynamicTabTitles=true
 Screen=1
+ShowOnAllDesktops=false

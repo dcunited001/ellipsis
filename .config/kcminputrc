@@ -8,7 +8,7 @@ RepeatDelay=600
 RepeatRate=25
 
 [Mouse]
-X11LibInputXAccelProfileFlat=false
+X11LibInputXAccelProfileFlat=true
 
 [Tmp]
 update_info=delete_cursor_old_default_size.upd:DeleteCursorOldDefaultSize

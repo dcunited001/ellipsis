@@ -1,1 +1,2 @@
-guix shell -m $HOME/.dotfiles/.config/guix/manifests/emacs-g.scm -- emacsclient -c "$@"
+#!/bin/sh
+guix shell -p $GUIX_EXTRA/emacs-g/emacs-g -- emacsclient -c "$@"
