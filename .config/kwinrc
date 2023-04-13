@@ -35,6 +35,7 @@ krohnkiteEnabled=true
 kwin4_effect_dimscreenEnabled=true
 kwin4_effect_loginEnabled=false
 kwin4_effect_logoutEnabled=false
+kwin4_effect_translucencyEnabled=true
 kwin4_effect_zoomdesktopEnabled=false
 lattewindowcolorsEnabled=true
 minimizeallEnabled=false

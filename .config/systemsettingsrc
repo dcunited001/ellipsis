@@ -24,9 +24,9 @@ DisplayPort-2 DisplayPort-0 DisplayPort-1 Width 2560x1440=498
 [MainWindow]
 3 screens: Height=854
 3 screens: Width=1068
-3 screens: XPosition=2094
-3 screens: YPosition=1703
-DisplayPort-0 DisplayPort-1 DisplayPort-2=DisplayPort-1
+3 screens: XPosition=3580
+3 screens: YPosition=1543
+DisplayPort-0 DisplayPort-1 DisplayPort-2=DisplayPort-2
 DisplayPort-0 DisplayPort-1 DisplayPort-2 Height 1080x1920=881
 DisplayPort-0 DisplayPort-1 DisplayPort-2 Height 1080x1920 DisplayPort-0=1892
 DisplayPort-0 DisplayPort-1 DisplayPort-2 Height 1080x1920 DisplayPort-1=1853

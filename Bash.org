@@ -631,6 +631,7 @@ alias anki='QTWEBENGINE_CHROMIUM_FLAGS=\"--disable-seccomp-filter-sandbox\" anki
 
 ** Emacs
 
+
 #+begin_src sh :tangle .config/sh/profile.d/emacs.sh :shebang #!/bin/sh
 
 export ORG_DIRECTORY=/data/org
@@ -638,6 +639,42 @@ export ORG_DIRECTORY=/data/org
 #export ORG_ROAM_ROOT
 
 #+end_src
+
+** AMD ROCm
+
+
+Ensure user is added to =video= and =render= groups. Probably just use the ROCm
+docker images.
+
+** Podman
+
+Ensure that Podman stores images on the correct mount.
+
+#+begin_example conf :tangle .config/containers/storage.conf
+[storage]
+
+driver = "overlay"
+rootless_storage_path = "/storage/location"
+#+end_example
+
+Rootful images must be stored in a root-owned folder directory with correct
+permissions AFAIK.
+
+** Docker
+
+Ensure that Docker is configured to store images on the correct mount.
+
+#+begin_example json :tangle /etc/docker/daemon.json
+{
+  "data-root": "/storage/location"
+}
+#+end_example
+
+The docker systemd services must have been run at least once for many of its
+paths to exist.
+
+Test with =docker pull docker.io/netbootxyz/netbootxyz=
+
 
 * Languages
 :PROPERTIES:

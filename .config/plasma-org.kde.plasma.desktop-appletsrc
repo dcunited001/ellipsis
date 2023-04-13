@@ -40,6 +40,7 @@ Provider=wcpotd
 
 [Containments][139]
 ItemGeometries-2160x3840=
+ItemGeometries-3840x2160=
 ItemGeometriesVertical=
 activityId=bc3cdced-7201-4291-a43c-fe3ef12080c2
 formfactor=0
@@ -454,12 +455,36 @@ rangeToYUnit=202
 immutability=1
 plugin=org.kde.netspeedWidget
 
+[Containments][141][Applets][232]
+immutability=1
+plugin=org.kde.plasma.systemmonitor.cpu
+
+[Containments][141][Applets][232][Configuration]
+CurrentPreset=org.kde.plasma.systemmonitor
+
+[Containments][141][Applets][232][Configuration][Appearance]
+chartFace=org.kde.ksysguard.piechart
+title=GPU Use
+
+[Containments][141][Applets][232][Configuration][ConfigDialog]
+DialogHeight=540
+DialogWidth=720
+
+[Containments][141][Applets][232][Configuration][SensorColors]
+cpu/all/usage=197,14,210
+gpu/gpu0/usage=14,49,210
+
+[Containments][141][Applets][232][Configuration][Sensors]
+highPrioritySensorIds=["gpu/gpu0/usage"]
+lowPrioritySensorIds=[]
+totalSensors=["gpu/gpu0/usage"]
+
 [Containments][141][ConfigDialog]
 DialogHeight=84
 DialogWidth=2560
 
 [Containments][141][General]
-AppletOrder=142;165;143;144;179;174;176;168;172;167;158;171;173;181;182;175;169;170;146;159
+AppletOrder=142;165;143;144;179;174;232;176;168;172;167;158;171;173;181;182;175;169;170;146;159
 
 [Containments][147]
 activityId=
@@ -535,7 +560,7 @@ immutability=1
 plugin=org.kde.plasma.networkmanagement
 
 [Containments][147][Applets][164][Configuration]
-PreloadWeight=65
+PreloadWeight=70
 
 [Containments][147][Applets][177]
 immutability=1
