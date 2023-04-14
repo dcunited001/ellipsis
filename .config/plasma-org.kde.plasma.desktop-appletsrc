@@ -32,16 +32,13 @@ DialogWidth=910
 
 [Containments][138][General]
 ToolBoxButtonState=topcenter
-ToolBoxButtonX=751
+ToolBoxButtonX=752
 
 [Containments][138][Wallpaper][org.kde.potd][General]
 FillMode=2
 Provider=wcpotd
 
 [Containments][139]
-ItemGeometries-2160x3840=
-ItemGeometries-3840x2160=
-ItemGeometriesVertical=
 activityId=bc3cdced-7201-4291-a43c-fe3ef12080c2
 formfactor=0
 immutability=1
@@ -56,7 +53,7 @@ DialogWidth=720
 
 [Containments][139][General]
 ToolBoxButtonState=topcenter
-ToolBoxButtonX=551
+ToolBoxButtonX=552
 
 [Containments][139][Wallpaper][org.kde.potd][General]
 FillMode=2
@@ -76,12 +73,16 @@ wallpaperplugin=org.kde.slideshow
 DialogHeight=540
 DialogWidth=720
 
+[Containments][140][General]
+ToolBoxButtonState=topcenter
+ToolBoxButtonX=194
+
 [Containments][140][Wallpaper][org.kde.potd][General]
 FillMode=1
 Provider=flickr
 
 [Containments][140][Wallpaper][org.kde.slideshow][General]
-Image=file:///data/xdg/Wallpapers/anime/blood-blockade-leonardo-2b.jpg
+Image=file:///data/xdg/Wallpapers/anime/blood-blockade-wallpaper.jpg
 SlidePaths=/data/xdg/Wallpapers/anime/
 
 [Containments][141]
@@ -230,7 +231,7 @@ plugin=org.kde.plasma.systemmonitor.cpucore
 
 [Containments][141][Applets][168][Configuration]
 CurrentPreset=org.kde.plasma.systemmonitor
-PreloadWeight=65
+PreloadWeight=70
 
 [Containments][141][Applets][168][Configuration][Appearance]
 chartFace=org.kde.ksysguard.barchart
@@ -455,36 +456,137 @@ rangeToYUnit=202
 immutability=1
 plugin=org.kde.netspeedWidget
 
-[Containments][141][Applets][232]
+[Containments][141][Applets][234]
 immutability=1
-plugin=org.kde.plasma.systemmonitor.cpu
+plugin=org.kde.plasma.systemmonitor.memory
 
-[Containments][141][Applets][232][Configuration]
+[Containments][141][Applets][234][Configuration]
 CurrentPreset=org.kde.plasma.systemmonitor
+PreloadWeight=55
 
-[Containments][141][Applets][232][Configuration][Appearance]
-chartFace=org.kde.ksysguard.piechart
-title=GPU Use
+[Containments][141][Applets][234][Configuration][Appearance]
+chartFace=org.kde.ksysguard.linechart
+title=GPU VRAM
 
-[Containments][141][Applets][232][Configuration][ConfigDialog]
+[Containments][141][Applets][234][Configuration][ConfigDialog]
 DialogHeight=540
 DialogWidth=720
 
-[Containments][141][Applets][232][Configuration][SensorColors]
-cpu/all/usage=197,14,210
-gpu/gpu0/usage=14,49,210
+[Containments][141][Applets][234][Configuration][FaceGrid][Appearance]
+chartFace=org.kde.ksysguard.linechart
+showTitle=false
 
-[Containments][141][Applets][232][Configuration][Sensors]
+[Containments][141][Applets][234][Configuration][FaceGrid][SensorColors]
+gpu/gpu0/usage=210,100,14
+gpu/gpu0/usedVram=77,14,210
+memory/physical/used=197,14,210
+
+[Containments][141][Applets][234][Configuration][FaceGrid][Sensors]
 highPrioritySensorIds=["gpu/gpu0/usage"]
-lowPrioritySensorIds=[]
-totalSensors=["gpu/gpu0/usage"]
+
+[Containments][141][Applets][234][Configuration][SensorColors]
+gpu/gpu0/usage=210,100,14
+gpu/gpu0/usedVram=77,14,210
+memory/physical/used=197,14,210
+
+[Containments][141][Applets][234][Configuration][Sensors]
+highPrioritySensorIds=["gpu/gpu0/usedVram"]
+lowPrioritySensorIds=["gpu/gpu0/usage","gpu/gpu0/usedVram","gpu/gpu0/totalVram","gpu/gpu0/coreFrequency","gpu/gpu0/memoryFrequency","gpu/gpu0/temp2","gpu/gpu0/temp3","gpu/gpu0/temperature","gpu/gpu0/power","gpu/gpu0/fan1"]
+totalSensors=["memory/physical/usedPercent"]
+
+[Containments][141][Applets][234][Configuration][org.kde.ksysguard.linechart][General]
+lineChartFillOpacity=50
+rangeAutoY=false
+rangeToY=12
+rangeToYMultiplier=1073741824
+rangeToYUnit=103
+
+[Containments][141][Applets][235]
+immutability=1
+plugin=org.kde.plasma.systemmonitor
+
+[Containments][141][Applets][235][Configuration]
+CurrentPreset=org.kde.plasma.systemmonitor
+
+[Containments][141][Applets][235][Configuration][Appearance]
+chartFace=org.kde.ksysguard.linechart
+title=GPU Compute
+
+[Containments][141][Applets][235][Configuration][ConfigDialog]
+DialogHeight=540
+DialogWidth=720
+
+[Containments][141][Applets][235][Configuration][SensorColors]
+gpu/gpu0/usage=70,14,210
+
+[Containments][141][Applets][235][Configuration][Sensors]
+highPrioritySensorIds=["gpu/gpu0/usage"]
+lowPrioritySensorIds=["gpu/gpu0/usage","gpu/gpu0/usedVram","gpu/gpu0/totalVram","gpu/gpu0/coreFrequency","gpu/gpu0/memoryFrequency","gpu/gpu0/temp2","gpu/gpu0/temp3","gpu/gpu0/temperature","gpu/gpu0/power","gpu/gpu0/fan1"]
+
+[Containments][141][Applets][236]
+immutability=1
+plugin=org.kde.plasma.systemmonitor
+
+[Containments][141][Applets][236][Configuration]
+CurrentPreset=org.kde.plasma.systemmonitor
+
+[Containments][141][Applets][236][Configuration][Appearance]
+chartFace=org.kde.ksysguard.linechart
+title=GPU Temp
+
+[Containments][141][Applets][236][Configuration][ConfigDialog]
+DialogHeight=540
+DialogWidth=720
+
+[Containments][141][Applets][236][Configuration][SensorColors]
+gpu/gpu0/temp2=14,74,210
+gpu/gpu0/temp3=37,210,14
+gpu/gpu0/temperature=130,14,210
+
+[Containments][141][Applets][236][Configuration][Sensors]
+highPrioritySensorIds=["gpu/gpu0/temperature","gpu/gpu0/temp2","gpu/gpu0/temp3"]
+
+[Containments][141][Applets][236][Configuration][org.kde.ksysguard.linechart][General]
+historyAmount=300
+lineChartFillOpacity=25
+rangeAutoY=false
+rangeFromY=50
+rangeToY=95
+
+[Containments][141][Applets][237]
+immutability=1
+plugin=org.kde.plasma.marginsseparator
+
+[Containments][141][Applets][237][Configuration][ConfigDialog]
+DialogHeight=540
+DialogWidth=720
+
+[Containments][141][Applets][238]
+immutability=1
+plugin=org.kde.plasma.marginsseparator
+
+[Containments][141][Applets][239]
+immutability=1
+plugin=org.kde.plasma.marginsseparator
+
+[Containments][141][Applets][240]
+immutability=1
+plugin=org.kde.plasma.marginsseparator
+
+[Containments][141][Applets][241]
+immutability=1
+plugin=org.kde.plasma.marginsseparator
+
+[Containments][141][Applets][242]
+immutability=1
+plugin=org.kde.plasma.marginsseparator
 
 [Containments][141][ConfigDialog]
 DialogHeight=84
 DialogWidth=2560
 
 [Containments][141][General]
-AppletOrder=142;165;143;144;179;174;232;176;168;172;167;158;171;173;181;182;175;169;170;146;159
+AppletOrder=142;165;143;144;179;174;236;235;234;237;176;238;168;239;158;240;172;167;241;171;173;242;181;182;175;169;170;146;159
 
 [Containments][147]
 activityId=
@@ -602,8 +704,20 @@ maxStripes=1
 showOnlyCurrentDesktop=false
 showOnlyCurrentScreen=false
 
+[Containments][160][Applets][243]
+immutability=1
+plugin=org.kde.plasma.panelspacer
+
+[Containments][160][Applets][246]
+immutability=1
+plugin=org.kde.plasma.panelspacer
+
+[Containments][160][ConfigDialog]
+DialogHeight=84
+DialogWidth=2160
+
 [Containments][160][General]
-AppletOrder=161
+AppletOrder=246;161;243
 
 [Containments][192]
 activityId=
