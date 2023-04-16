@@ -7,8 +7,10 @@ wheel:Vertical;NoModifier=org.kde.switchdesktop
 RightButton;NoModifier=org.kde.contextmenu
 
 [Containments][138]
+ItemGeometries-2160x3840=
 ItemGeometries-2560x1440=
 ItemGeometriesHorizontal=
+ItemGeometriesVertical=
 activityId=bc3cdced-7201-4291-a43c-fe3ef12080c2
 formfactor=0
 immutability=1
@@ -39,6 +41,10 @@ FillMode=2
 Provider=wcpotd
 
 [Containments][139]
+ItemGeometries-2160x3840=Applet-244:1998,3839,935,54,0;
+ItemGeometries-2560x1440=Applet-244:2398,1439,935,54,0;
+ItemGeometriesHorizontal=Applet-244:2398,1439,935,54,0;
+ItemGeometriesVertical=Applet-244:1998,3839,935,54,0;
 activityId=bc3cdced-7201-4291-a43c-fe3ef12080c2
 formfactor=0
 immutability=1
@@ -53,7 +59,7 @@ DialogWidth=720
 
 [Containments][139][General]
 ToolBoxButtonState=topcenter
-ToolBoxButtonX=552
+ToolBoxButtonX=385
 
 [Containments][139][Wallpaper][org.kde.potd][General]
 FillMode=2
@@ -284,7 +290,7 @@ immutability=1
 plugin=org.kde.plasma.notifications
 
 [Containments][141][Applets][169][Configuration]
-PreloadWeight=70
+PreloadWeight=80
 popupHeight=432
 popupWidth=324
 
@@ -298,7 +304,7 @@ plugin=org.kde.plasma.systemmonitor.memory
 
 [Containments][141][Applets][171][Configuration]
 CurrentPreset=org.kde.plasma.systemmonitor
-PreloadWeight=55
+PreloadWeight=60
 
 [Containments][141][Applets][171][Configuration][Appearance]
 chartFace=org.kde.ksysguard.linechart
@@ -384,7 +390,7 @@ plugin=org.kde.plasma.systemmonitor.diskactivity
 
 [Containments][141][Applets][176][Configuration]
 CurrentPreset=org.kde.plasma.systemmonitor
-PreloadWeight=80
+PreloadWeight=85
 
 [Containments][141][Applets][176][Configuration][Appearance]
 chartFace=org.kde.ksysguard.linechart
@@ -445,7 +451,6 @@ highPrioritySensorIds=["network/all/upload","network/all/download"]
 
 [Containments][141][Applets][181][Configuration][org.kde.ksysguard.linechart][General]
 historyAmount=300
-rangeAutoY=false
 rangeFromYMultiplier=1024
 rangeFromYUnit=201
 rangeToY=2100
@@ -462,7 +467,7 @@ plugin=org.kde.plasma.systemmonitor.memory
 
 [Containments][141][Applets][234][Configuration]
 CurrentPreset=org.kde.plasma.systemmonitor
-PreloadWeight=55
+PreloadWeight=100
 
 [Containments][141][Applets][234][Configuration][Appearance]
 chartFace=org.kde.ksysguard.linechart
@@ -495,6 +500,7 @@ lowPrioritySensorIds=["gpu/gpu0/usage","gpu/gpu0/usedVram","gpu/gpu0/totalVram",
 totalSensors=["memory/physical/usedPercent"]
 
 [Containments][141][Applets][234][Configuration][org.kde.ksysguard.linechart][General]
+historyAmount=300
 lineChartFillOpacity=50
 rangeAutoY=false
 rangeToY=12
@@ -522,6 +528,9 @@ gpu/gpu0/usage=70,14,210
 [Containments][141][Applets][235][Configuration][Sensors]
 highPrioritySensorIds=["gpu/gpu0/usage"]
 lowPrioritySensorIds=["gpu/gpu0/usage","gpu/gpu0/usedVram","gpu/gpu0/totalVram","gpu/gpu0/coreFrequency","gpu/gpu0/memoryFrequency","gpu/gpu0/temp2","gpu/gpu0/temp3","gpu/gpu0/temperature","gpu/gpu0/power","gpu/gpu0/fan1"]
+
+[Containments][141][Applets][235][Configuration][org.kde.ksysguard.linechart][General]
+historyAmount=300
 
 [Containments][141][Applets][236]
 immutability=1
@@ -683,7 +692,7 @@ knownItems=org.kde.kdeconnect,org.kde.kscreen,org.kde.plasma.battery,org.kde.pla
 activityId=
 formfactor=2
 immutability=1
-lastScreen=1
+lastScreen=2
 location=4
 plugin=org.kde.panel
 wallpaperplugin=org.kde.image
@@ -714,7 +723,7 @@ plugin=org.kde.plasma.panelspacer
 
 [Containments][160][ConfigDialog]
 DialogHeight=84
-DialogWidth=2160
+DialogWidth=1080
 
 [Containments][160][General]
 AppletOrder=246;161;243
@@ -952,6 +961,17 @@ PreloadWeight=42
 [Containments][214][General]
 extraItems=org.kde.kdeconnect,org.kde.kscreen,org.kde.plasma.battery,org.kde.plasma.bluetooth,org.kde.plasma.clipboard,org.kde.plasma.devicenotifier,org.kde.plasma.keyboardindicator,org.kde.plasma.keyboardlayout,org.kde.plasma.manage-inputmethod,org.kde.plasma.mediacontroller,org.kde.plasma.networkmanagement,org.kde.plasma.nightcolorcontrol,org.kde.plasma.notifications,org.kde.plasma.vault,org.kde.plasma.volume
 knownItems=org.kde.kdeconnect,org.kde.kscreen,org.kde.plasma.battery,org.kde.plasma.bluetooth,org.kde.plasma.clipboard,org.kde.plasma.devicenotifier,org.kde.plasma.keyboardindicator,org.kde.plasma.keyboardlayout,org.kde.plasma.manage-inputmethod,org.kde.plasma.mediacontroller,org.kde.plasma.networkmanagement,org.kde.plasma.nightcolorcontrol,org.kde.plasma.notifications,org.kde.plasma.vault,org.kde.plasma.volume
+
+[Containments][247]
+ItemGeometries-1080x1920=
+ItemGeometriesVertical=
+activityId=bc3cdced-7201-4291-a43c-fe3ef12080c2
+formfactor=0
+immutability=1
+lastScreen=3
+location=0
+plugin=org.kde.plasma.folder
+wallpaperplugin=org.kde.image
 
 [ScreenMapping]
 itemsOnDisabledScreens=
