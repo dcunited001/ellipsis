@@ -710,6 +710,30 @@ export GRAPHVIZ_DOT=$HOME/.guix-extra-profiles/desktop/desktop/bin/dot
 
 ** Python
 
+I have a lot of concerns when configuring my systems: two main workstations, but
+one with Garuda Arch and the other with Guix Systems, where some packages are
+older. This has led to friction like:
+
+- I've worked on a project on one or both laptops and now I can't get the
+  runtime to load.
+- I have to worry about what files/folders need to be added to =.gitignore=,
+  =.stow-local-ignore= AND =.stignore= so syncthing don't fuck things up or
+  transfer 40,000 files from a python install.
+
+Examining all this stuff leads me to understand it more, yet it's one hell of a
+"paradox of choice" problem.
+
++ VM's would be great: but they don't work for GPU/CUDA projects ... unless I
+  have money for a external enclosure that supports multiple GPUs, I really
+  cannot justify $500 for a deskweight.
++ Network storage would be great ... but doesn't work so well for IDE's (I
+  think?)
++ The homelab (with or without kubernetes) would be great: but I'm not rich
+  enough to afford manageable storage. That's a hard requirement for K3S for me,
+  but working via Tramp may be possible.
++ The cloud would be great... but have I told you /exactly/ how poor I am?
+
+*** Old Setup
 + Pipenv should be installed to =--user=, at least on guix
   - after =guix install python pip3=, then run =pip3 install --user pipenv=
   - or use a manifest to manage the base python and load it into the environment
@@ -723,7 +747,7 @@ export GRAPHVIZ_DOT=$HOME/.guix-extra-profiles/desktop/desktop/bin/dot
   - old projects should probably be cleaned up. small files eat many inodes. i'm
     looking at you NodeJS.
 
-#+begin_src sh :tangle .config/sh/profile.d/python.sh :shebang #!/bin/sh
+#+begin_src sh :tangle .config/sh/profile.d/python-old.sh :shebang #!/bin/sh
 # to manually specify where venv's are set up
 # export WORKON_HOME=~/.venvs
 export PIPENV_VENV_IN_PROJECT=1
@@ -738,25 +762,104 @@ export PIPENV_VENV_IN_PROJECT=1
 # eval "$(_PIPENV_COMPLETE=bash_source pipenv)"
 #+end_src
 
-*** Resources
+**** Resources
 
 + [[https://medium.com/analytics-vidhya/install-tensorflow-2-for-amd-gpus-87e8d7aeb812][Setup Tensorflow for AMD GPU's]]
 + [[https://pipenv-fork.readthedocs.io/en/latest/advanced.html][Advanced Usage of Pipenv]]
   - includes reference to environment variables
 
-*** Issues
+**** Issues
 
-**** Setup IPython for integration with Blender
+***** Setup IPython for integration with Blender
+
+***** TKinter errors with =pyenv=
+
+Ensure tkinter is installed or run =pacman -Syu tk= and restart xorg to refresh
+path. New pythons being installed will need it.
+
+I swear TCL is like the "other Perl" -- a virtually unused language without
+which most of our technology & internets would cease functioning.
+
+What's amusing to me is that any program would really need an interface to TCL,
+itself being the universal interface to any program ... but i guess it makes
+sense. Why reinvent the wheel if some languages are just superior?
+
+***** OpenSSL errors with =pyenv=
+
+Ensure the python is building in OpenSSL support.
+
+Ben Mezger installs python versions like so [[https://github.com/benmezger/dotfiles/blob/main/Makefile#L162-L177][in this Makefile]]
+
+#+begin_example shell
+PATH="$(HOME)/.pyenv/bin:${PATH}"; \
+CFLAGS=-I/usr/include/openssl LDFLAGS=-L/usr/lib pyenv install -s 3.10.2; \
+CFLAGS=-I/usr/include/openssl LDFLAGS=-L/usr/lib pyenv install -s 3.8.12; \
+CFLAGS=-I/usr/include/openssl LDFLAGS=-L/usr/lib pyenv install -s 3.9.9; \
+CFLAGS=-I/usr/include/openssl LDFLAGS=-L/usr/lib pyenv install -s 3.11.0; \
+
+eval $(pyenv init -)
+pip install --upgrade -r scripts/requirements.txt
+#+end_example
+
+From [[https://stackoverflow.com/questions/37055420/python-how-can-i-tell-if-my-python-has-ssl][s/o How can I tell if my python has SSL?]]
+
+Test for openssl with =openssl rand -hex 20= and the installed python with:
+
+#+begin_src shell
+pyenv shell 3.11.3
+python -c "import ssl; print(ssl.OPENSSL_VERSION)"
+#+end_src
+
+#+RESULTS:
+: OpenSSL 3.0.8 7 Feb 2023
 
 
-
-**** Setup Blender as python module
+***** Setup Blender as python module
 
 + Ensure pipenv is installed.
 
-***** On Arch
-****** TODO package to build blender module (or guix package?)
-***** On Guix
+****** On Arch
+******* TODO package to build blender module (or guix package?)
+****** On Guix
+
+*** Python on Arch
+
+Ensure pyenv is installed with =yay -Syu pyenv= and add this to
+=.config/sh/_load_profile.sh=
+
+#+begin_src sh :tangle .config/sh/profile.d/python-pyenv.sh :shebang #!/bin/sh
+# Define =PYENV_ROOT= or pyenv will install to =$HOME/.pyenv=
+export PYENV_ROOT="$HOME/.pyenv"
+command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
+eval "$(pyenv init -)"
+#+end_src
+
++ Install new pythons with =pyenv install 3.11.3=.
++ List versions with =pyenv install -l=
++ Switch with =pyenv (shell|local|global) $python_version=. This is currently
+  not working, since I only have =eval $(pyenv init -)= sourced in =.profile=,
+  which forgets the =pyenv()= function. To get the shell integration to work, it
+  needs to be added to =.bashrc=.
+
+See direnv integration below.
+
+***** TODO evaluate whether I should add =pyenv= to both =.profile= and =.bashrc=
+
+*** Python on Guix
+
+Pyenv needs to be cloned:
+
+#+begin_example shell
+git clone https://github.com/pyenv/pyenv $HOME/pyenv
+#+end_example
+
+And then [[github:pyenv/pyenv-virtualenv][pyenv/pyenv-virtualenv]] needs to be cloned into the plugins dir:
+
+#+begin_example
+git clone https://github.com/pyenv/pyenv-virtualenv.git $(pyenv root)/plugins/pyenv-virtualenv
+#+end_example
+
+Ensure the above =python-pyenv.sh= has been added to =.config/sh/_load_profile.sh=
 
 
 ** Julia
@@ -1142,7 +1245,130 @@ Load at end of =.bashrc=
 
 Reload =direnvrc= with =direnv reload=
 
+**** Python Direnv
+
+This method is compatible with the others, so a project on one laptop with
+=pyenv= and lacking the =pyenv-virtualenv= plugin will simply need to change
+=.envrc=. Both should be able to use =layout python=.
+
+***** Using [[https://github.com/direnv/direnv/wiki/Python#venv-stdlib-module][layout python3]] (uses venv stdlib module)
+
+Specify with =layout python3=
+
+This directive causes a virtualenv to be created at
+=$PWD/.direnv/python-$python_version=.
+
+***** Using [[https://github.com/direnv/direnv/wiki/Python#poetry][layout pyenv]]
+
+Requires [[github:pyenv/pyenv][pyenv/pyenv]]
+
+Specify with =layout pyenv $python_version=
+
+This directive still installs python packages in the virtualenv at
+=$PWD/.direnv/python-$python_version=.
+
+***** Using =layout pyenv $python_version=
+
+Requires [[github:pyenv/pyenv-virtualenv][pyenv-virtualenv]]
+
+Specify with =layout virtualenv= and =layout activate= in a project's =.envrc=
+
+#+begin_src shell
+# -*- mode: sh; -*-
+# (rootdir)/.envrc : direnv configuration file
+# see https://direnv.net/
+# pyversion=$(head .python-version)
+# pvenv=$(head     .python-virtualenv)
+pyversion=2.7.14
+pvenv=myproject
+
+use python ${pyversion}
+# Create the virtualenv if not yet done
+layout virtualenv ${pyversion} ${pvenv}
+# activate it
+layout activate ${pvenv}-${pyversion}
+#+end_src
+
+This method requires adding the following to =.config/direnv/direnvrc=
+
+#+begin_src sh :tangle .config/direnv/direnvrc :shebang #!/bin/sh
+# use a certain pyenv version
+use_python() {
+    if [ -n "$(which pyenv)" ]; then
+        local pyversion=$1
+        pyenv local ${pyversion}
+    fi
+}
+
+layout_virtualenv() {
+    local pyversion=$1
+    local pvenv=$2
+    if [ -n "$(which pyenv virtualenv)" ]; then
+        pyenv virtualenv --force --quiet ${pyversion} ${pvenv}-${pyversion}
+    fi
+    pyenv local --unset
+}
+
+layout_activate() {
+    if [ -n "$(which pyenv)" ]; then
+        source $(pyenv root)/versions/$1/bin/activate
+    fi
+}
+#+end_src
+
+Adding this to =.direnvrc= will cause new environments to be created in:
+
+=$(pyenv root)/versions/$python_version/$virtualenv_name=.
+
+These environments can be shared ... potentially leaded to some isolated
+dependency/build concerns (e.g. tensorflow with/out GPU or installing a set of
+dependencies not satisfied by what's already installed). It doesn't share
+installation roots.
+
+However, since =direnv= use of functions named =use_.*= is special, I'm not
+quite sure how well these methods mix.
+
+***** Using [[https://github.com/direnv/direnv/wiki/Python#poetry][layout poetry]]
+
+Requires [[github:python-poetry/poetry][python-poetry/poetry]] to be [[https://python-poetry.org/docs/#installing-with-the-official-installer][installed]]. This method is helpful when
+working on a python lib, since it isolates the installation into.
+
+Specify with =layout poetry=
+
+#+begin_src sh :tangle .config/direnv/direnvrc :shebang #!/bin/sh
+layout_poetry() {
+    PYPROJECT_TOML="${PYPROJECT_TOML:-pyproject.toml}"
+    if [[ ! -f "$PYPROJECT_TOML" ]]; then
+        log_status "No pyproject.toml found. Executing \`poetry init\` to create a \`$PYPROJECT_TOML\` first."
+        poetry init
+    fi
+
+    if [[ -d ".venv" ]]; then
+        VIRTUAL_ENV="$(pwd)/.venv"
+    else
+        VIRTUAL_ENV=$(poetry env info --path 2>/dev/null ; true)
+    fi
+
+    if [[ -z $VIRTUAL_ENV || ! -d $VIRTUAL_ENV ]]; then
+        log_status "No virtual environment exists. Executing \`poetry install\` to create one."
+        poetry install
+        VIRTUAL_ENV=$(poetry env info --path)
+    fi
+
+    PATH_add "$VIRTUAL_ENV/bin"
+    export POETRY_ACTIVE=1
+    export VIRTUAL_ENV
+}
+#+end_src
+
+*Compatibility with pyenv:* Poetry will use the python it encounters first in
+your path if =virtualenvs.prefer-active-python= is set, so it should use the one
+that =pyenv= hands it via its shims.
+
+See [[https://python-poetry.org/docs/configuration#configuration][Configuration]] and [[https://python-poetry.org/docs/managing-environments/][Managing Environments]].
+
 **** Guix Direnv
+
 
 Add =use guixs= to direnv capabilities in =.envrc=. Thanks [[https://sr.ht/~abcdw/rde/][abcdw/RDE]].
 
@@ -1526,5 +1752,3 @@ in a terminal-only interface.
 #+begin_src sh :results output :exports none
 lnav -i extra
 #+end_src
-
-** Guix
