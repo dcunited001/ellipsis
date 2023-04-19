@@ -56,8 +56,6 @@ references to subdirectories (that either exist ... or not).
   be modularly squirreled away for users like =root= while everything
   is kept in =$SECRETS_HOME=
 
-**** TODO generate the ssh-configs from ox-ssh-
-
 ** Process
 
 Forget =${SSH_CONFIG_HOME}=. Either prepend all =ssh/agent= commands
@@ -131,7 +129,6 @@ Host router
 #+end_example
 
 #+begin_src conf :tangle (concat secrets-home "/.ssh/config.defaults")
-
 # For now
 IdentitiesOnly Yes
 
@@ -245,6 +242,13 @@ export PKCS_LIB=/run/current-system/profile/lib/opensc-pkcs11.so
 alias pkcs-agent='ssh-agent -s -P $(readlink $PKCS_LIB)'
 #alias pkcs-add='ssh-add -s $(readlink $PKCS_LIB)' #readlink not necessary
 alias pkcs-add='ssh-add -s $PKCS_LIB'
+alias pkcs-ssh='ssh -I $PKCS_LIB'
+#+end_src
+
+When using GPG
+
+#+begin_src shell :tangle (concat secrets-home "/.ssh/gpgrc") :shebang "#!/bin/bash"
+export SSH_AUTH_SOCK=$(gpgconf --list-dirs agent-ssh-socket)
 #+end_src
 
 ***** TODO move =PKCS_LIB= to an env var that can be set by org-babel
@@ -283,7 +287,6 @@ emacsclient -e "(setenv \"SSH_AUTH_SOCK\" \"\")" -a "Something somewhere still h
 this script echos the return values of (setenv ...) and probably shouldn't do
 that.
 
-
 *** Problems with the =emacsclient -e= scripts
 
 Note: this script has some issues with local state getting out of sync. After
@@ -311,9 +314,10 @@ On Guix, this requires setting up =ssh-agent= to point to the exact
 
 Then card-keys should now add when running =ssh-add -s "$(readlink $PKCS_LIB)"=
 
-Because ssh will use a similar interface that resolves links,
-then adding =PCKS11Provider /run/current-system/profile/lib/opensc-pkcs11.so= to
-the =ssh_config= will reach the correct bin from a link. No need to update the config (phew!).
+Because ssh will use a similar interface that resolves links, then adding
+=PCKS11Provider /run/current-system/profile/lib/opensc-pkcs11.so= to the
+=ssh_config= will reach the correct bin from a link. No need to update the
+config (phew!).
 
 For this specific link to work, the =opensc= package must be installed to the
 Guix /system/.
