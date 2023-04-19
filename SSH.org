@@ -141,9 +141,11 @@ Host github.com
   User git
   ControlMaster no
   IdentitiesOnly yes
-  #IdentityFile github
-  PKCS11Provider /run/current-system/profile/lib/opensc-pkcs11.so
+  IdentityFile github
   MACs hmac-sha2-512-etm@openssh.com,hmac-sha2-256-etm@openssh.com,umac-128-etm@openssh.com,hmac-sha2-512,hmac-sha2-256,umac-128@openssh.com
+
+Match all
+Include config.any
 #+end_src
 
 #+begin_src conf :tangle (concat secrets-home "/.ssh/config.any.defaults")
