@@ -237,7 +237,7 @@ plugin=org.kde.plasma.systemmonitor.cpucore
 
 [Containments][141][Applets][168][Configuration]
 CurrentPreset=org.kde.plasma.systemmonitor
-PreloadWeight=70
+PreloadWeight=75
 
 [Containments][141][Applets][168][Configuration][Appearance]
 chartFace=org.kde.ksysguard.barchart
@@ -304,7 +304,7 @@ plugin=org.kde.plasma.systemmonitor.memory
 
 [Containments][141][Applets][171][Configuration]
 CurrentPreset=org.kde.plasma.systemmonitor
-PreloadWeight=60
+PreloadWeight=70
 
 [Containments][141][Applets][171][Configuration][Appearance]
 chartFace=org.kde.ksysguard.linechart
@@ -623,6 +623,9 @@ plugin=org.kde.plasma.clipboard
 [Containments][147][Applets][151]
 immutability=1
 plugin=org.kde.plasma.devicenotifier
+
+[Containments][147][Applets][151][Configuration]
+PreloadWeight=55
 
 [Containments][147][Applets][152]
 immutability=1

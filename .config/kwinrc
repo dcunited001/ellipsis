@@ -45,7 +45,7 @@ videowallEnabled=false
 zoomEnabled=false
 
 [Script-bismuth]
-floatingClass=(?i)virtualbox,GParted,Lxappearance,Nitrogen,Oblogout,octopi,Skype,Xfburn,qt5ct,Gnuplot,Timeset-gui,Lightdm-settings,Qtconfig-qt4,Simple-scan,Pamac-updater,Pamac-manager,azote,GParted,Thunar,alacritty,Anki,yubikey manager,syncthing gtk,dolphin,freecad,tk,toplevel
+floatingClass=(?i)virtualbox,GParted,Lxappearance,Nitrogen,Oblogout,octopi,Skype,Xfburn,qt5ct,Gnuplot,Timeset-gui,Lightdm-settings,Qtconfig-qt4,Simple-scan,Pamac-updater,Pamac-manager,azote,GParted,Thunar,alacritty,Anki,yubikey manager,syncthing gtk,dolphin,freecad,tk,toplevel,kcalc
 floatingTitle=Preferences,Configure Krita,- Krita$,Remmina,Steam - News,Friends List,Steam Guard.*,Steam Login,Blender Preferences,Btrfs Assistant,Timer,PipeControl,AXON,+X+Z,+Y+Z,+X+Y,-2D-,-Y+Z,PERS
 ignoreClass=systemsettings,yakuake,spectacle,Conky,zoom,pwsafe,keepassxc,Clipgrab,fpakman,Galculator,Manjaro-hello,Garuda Settings Manager,garuda-welcome,mpv,Xfburn,Lxtask,Pavucontrol,Exo-helper*,Lxrandr,Arandr,Viewnior,feh,Audacious,File-roller,Lxappearance,Timeshift-gtk,Manjaro Settings Manager
 ignoreRole=quake,task_dialog,pop-up
