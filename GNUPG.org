@@ -11,22 +11,45 @@
 
 * Resources
 
-** GPG Configuration
+** GPG
+
+*** Configuration
 
 + [[https://github.com/drduh/config/blob/master/gpg.conf][drduh/config]] gpg.conf
 + [[https://www.gnupg.org/documentation/manuals/gnupg/GPG-Configuration-Options.html][GPG Config Options]] (docs)
 + [[https://www.gnupg.org/documentation/manuals/gnupg/GPG-Esoteric-Options.html][GPG Esoteric Options]] (docs)
 
-** GnuPG [[https://git.gnupg.org/cgi-bin/gitweb.cgi][git.gnupg.org]]
+*** Source [[https://git.gnupg.org/cgi-bin/gitweb.cgi][git.gnupg.org]]
 
 + [[https://git.gnupg.org/cgi-bin/gitweb.cgi?p=gnupg.git;a=blob;f=agent/keyformat.txt;hb=HEAD][keyformat.txt]] the format of S-expressions in private keys
+
+** GPG Agent
+
+See [[https://www.gnupg.org/documentation/manuals/gnupg/Agent-Protocol.html][Agent ASSUAN protocol]] for other things like:
+
+#+begin_example shell
+gpg-connect-agent updatestartuptty /bye > /dev/null
+#+end_example
+
+Commands need to be enclosed in quotes:
+
+#+begin_example shell
+gpg-connect-agent "help getinfo"
+#+end_example
+
+Getting a REPL with =gpg-connect-agent= allows =help [cmd]=
+
+And, =/if= you want GPG problems at scale, =/then= you can write scripts. I'm
+just curious about questions that are hard to see, like SSH =ControlMaster=.
+
+Getting leads on the above was actually pretty difficult ([[https://git.gnupg.org/cgi-bin/gitweb.cgi?p=gnupg.git;a=blob;f=agent/command.c;h=9481f47c3ec0b19af47a4db96b866e1928292caf;hb=HEAD#l3760][./agent/commands.c]]) I
+guess since no one customizes anything and the GUI does most of it for them.
 
 ** Crypto
 + [[https://developers.redhat.com/blog/2017/10/05/entropy-rhel-based-cloud-instances#][Entropy in RHEL-based cloud instances]]
 + [[https://www.random.org/randomness/][Introduction to Randomness and Random Numbers]]
 
 ** GPG Integration
-
 + [[https://alexschroeder.ch/cgit/ugg/about/][The Using GPG Guide]]
 + [[https://git.vdm.dev/knowledge/YubiKey-Guide][VDM Yubikey-Guide]]
 + [[https://github.com/drduh/YubiKey-Guide][drduh/YubiKey-Guide]]
@@ -43,6 +66,9 @@ Emacs Wiki ([[https://www.emacswiki.org/emacs/Using_GPG][GPG topic]])
 Mastering Emacs
 
 + [[https://www.masteringemacs.org/article/keeping-secrets-in-emacs-gnupg-auth-sources][Keeping Secrets in Emacs with GnuPG and Auth Sources]]
+
+*** Forwarding
++ [[https://rabbithole.wwwdotorg.org/2021/03/03/gpg-agent-fwding-over-ssh.html][GPG Agent Forwarding via SSH]]
 
 *** Thunderbird
 + [[https://support.mozilla.org/en-US/kb/openpgp-thunderbird-howto-and-faq][OpenPGP in Thunderbird: How To and FAQ]]
