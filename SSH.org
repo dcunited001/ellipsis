@@ -281,6 +281,17 @@ emacsclient -e "(setenv \"SSH_AGENT_PID\" \"\")" -a "Something somewhere still h
 emacsclient -e "(setenv \"SSH_AUTH_SOCK\" \"\")" -a "Something somewhere still happen"
 #+end_src
 
+When using GPG
+
+#+begin_src shell :tangle (concat secrets-home "/.bin/emacs-agent-gpg") :shebang "#!/bin/sh"
+if [ ! -z "$SSH_AUTH_SOCK" ]; then
+    emacsclient -e "(setenv \"SSH_AUTH_SOCK\" \"$SSH_AUTH_SOCK\")" -a "Something somewhere happen"
+else
+    echo SSH_AUTH_SOCK is empty
+    return 1
+fi
+#+end_src
+
 ***** TODO udpate =emacsclient= scripts to run checks prior to commands
 + [ ] check that a server is running or exit
 
