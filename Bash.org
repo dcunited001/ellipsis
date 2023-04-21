@@ -227,7 +227,9 @@ it is assumed that the sequence is structured.
 # This is the default _load_profile.d.sh script
 
 __scripts=(
-"guix.sh"   
+"guix.sh"
+"mail.sh"
+"email.sh"
 "apps.sh"
 "xdg.sh"
 "gtk.sh"
