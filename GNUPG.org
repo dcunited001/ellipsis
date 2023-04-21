@@ -21,7 +21,14 @@
 
 *** Source [[https://git.gnupg.org/cgi-bin/gitweb.cgi][git.gnupg.org]]
 
-+ [[https://git.gnupg.org/cgi-bin/gitweb.cgi?p=gnupg.git;a=blob;f=agent/keyformat.txt;hb=HEAD][keyformat.txt]] the format of S-expressions in private keys
+[[https://git.gnupg.org/cgi-bin/gitweb.cgi?p=gnupg.git;a=blob;f=agent/keyformat.txt;hb=HEAD][keyformat.txt]] the format of S-expressions in private keys. It answers all your
+questions about life, about the eternal mysteries and about what should be
+frequently mentioned by developers online ... but is not.
+
+You all may think you have imposter syndrome ... but you don't. You really
+don't. It takes me forever to learn anything bc of isolation, but you can tell a
+lot about how people use software by how difficult it is to find answers to
+questions that people should be asking.
 
 ** GPG Agent
 
@@ -523,6 +530,67 @@ reader-port Yubico Yubi
 # shared-access
 #+end_src
 
+** SSH Control
+
+Running =ssh-add= while GPG is running as an =ssh-agent= will:
+
+- Prompt for the ssh key passphrase, decrypt it, and test for vaildity.
+- Ask for a new passphrase. You could simply use the same passphrase ... but you
+  do need one.
+- The SSH key's keygrip is added into the =$GNUPGHOME/sshcontrol= file.
+- It then stores the SSH key into the GPG private key format into
+  =$GNUPGHOME=.
+
+Without a passphrase, it's essentially unprotected as a string of octal
+characters. It was pretty difficult to find a definitive answer on this.  People
+will tell you to enter one, but I was kinda hoping it would be encrypted by the
+GPG auth or encryption subkey.
+
+The  [[https://git.gnupg.org/cgi-bin/gitweb.cgi?p=gnupg.git;a=blob;f=agent/keyformat.txt;hb=HEAD][keyformat]] is described here.
+
+Also, the =sshcontrol= file can be edited to add a priority to SSH keys, so when
+SSH's post-modern interpretation of your =ssh_config= ignores things like
+=IdentitiesOnly=, you may not be able to prevent it from doing that, but you can
+make it try your keys in a specific order ...
+
+*** TL;DR;
+
+I could have really, reallllly used some feedback on my SSH/GPG workflow
+& configs ... and actually, simply hearing that "your gpg authenticaion key will
+sign the public key and send the result to prove identity, dumbass" would have
+been enough. That was my first impression (2+ years ago), but I didn't realize
+=SSH_AUTH_SOCK= wasn't defined in an environment (or my key didn't end with
+=*.pub= something), so I just assumed that I had assumed wrong and GPG wouldn't
+use any keys that hadn't been added with =ssh-add=. It would have really helped
+to hear "yeh, that _is_ possible, it doesn't work for you?"
+
+It really cost me an unbelievable amount of time. Trying to go about a homelab
+while you constantly need to rework SSH and you can't consistently use
+=ssh_copy_id= is a major pain in the ass. Hopefully, you're not too worried
+about your own ego or narratives about "career assassination" because you'd
+probably look incompetent.
+
+No, I'm not actually stupid. I'm alienated. You may think you have superpowers,
+living in SF or some tech hub, but what you have is /social access/. You benefit
+from network effects to which you are blissfully ignorant. When your dumbass
+social justice bullshit programs people through gaslighting, poison pen and
+defamation:
+
+/it _ruins_ peoples lives, it _sows enmity_, it _creates rifts_ and it _curses
+society_ with decades of _problems at scale_/ ... you're ironically the root of
+all problems, many of which you'll eventually complain about and protest
+over. Go read a sutra or learn to love your enemies. You suck at everything you
+want to do.
+
+Oh, and there /IS/ a way to get GPG's =ssh-agent= emulation to interact with the
+Yubikey =PIV= application ... so maybe learning all about that wasn't a complete
+waste of time?
+
+*** Testing SSH Keys
+
+#+begin_src
+
+#+end_src
 
 * Shroud
 
