@@ -82,8 +82,12 @@ Mastering Emacs
 + [[https://wiki.mozilla.org/Thunderbird:OpenPGP:Smartcards][Thunderbird, OpenPGP and Smartcards]]
 
 *** KDE
-
 + [[https://ebzzry.com/en/gsk/][Setting up GPG and SSH in KDE]]
+
+*** Scripting
++ The s/o answers for [[https://unix.stackexchange.com/questions/60213/gpg-asks-for-password-even-with-passphrase][gpg asks for password even with --passphrase]] describe
+  using =--batch --passphrase-fd= to get a passphrase from a file descriptor
+  =<(pass --command)=
 
 * GPG Environment
 
@@ -553,38 +557,17 @@ SSH's post-modern interpretation of your =ssh_config= ignores things like
 =IdentitiesOnly=, you may not be able to prevent it from doing that, but you can
 make it try your keys in a specific order ...
 
-*** TL;DR;
+** Managing SSH Key Passphrases
 
-I could have really, reallllly used some feedback on my SSH/GPG workflow
-& configs ... and actually, simply hearing that "your gpg authenticaion key will
-sign the public key and send the result to prove identity, dumbass" would have
-been enough. That was my first impression (2+ years ago), but I didn't realize
-=SSH_AUTH_SOCK= wasn't defined in an environment (or my key didn't end with
-=*.pub= something), so I just assumed that I had assumed wrong and GPG wouldn't
-use any keys that hadn't been added with =ssh-add=. It would have really helped
-to hear "yeh, that _is_ possible, it doesn't work for you?"
+Anything that can send =stdout= to some command's =stdin= can be used to
+retrieve passphrases without creating shell history, which is about as
+sufficient as I can imagine at this level...
 
-It really cost me an unbelievable amount of time. Trying to go about a homelab
-while you constantly need to rework SSH and you can't consistently use
-=ssh_copy_id= is a major pain in the ass. Hopefully, you're not too worried
-about your own ego or narratives about "career assassination" because you'd
-probably look incompetent.
+#+begin_src shell
 
-No, I'm not actually stupid. I'm alienated. You may think you have superpowers,
-living in SF or some tech hub, but what you have is /social access/. You benefit
-from network effects to which you are blissfully ignorant. When your dumbass
-social justice bullshit programs people through gaslighting, poison pen and
-defamation:
+#+end_src
 
-/it _ruins_ peoples lives, it _sows enmity_, it _creates rifts_ and it _curses
-society_ with decades of _problems at scale_/ ... you're ironically the root of
-all problems, many of which you'll eventually complain about and protest
-over. Go read a sutra or learn to love your enemies. You suck at everything you
-want to do.
-
-Oh, and there /IS/ a way to get GPG's =ssh-agent= emulation to interact with the
-Yubikey =PIV= application ... so maybe learning all about that wasn't a complete
-waste of time?
+Shroud is configured below for this purpose.
 
 *** Testing SSH Keys
 
@@ -592,14 +575,22 @@ waste of time?
 
 #+end_src
 
+** Interacting with Yubikey PIV module from =gpg-agent=
+
+Oh, and there /IS/ a way to get GPG's =ssh-agent= emulation to interact with the
+Yubikey =PIV= application ... so maybe learning all about that wasn't a complete
+waste of time?
+
+The =keyformat.txt= file indicates that the =Scute= module will handle this, but
+I still need to look into it.
+
 * Shroud
 
 This is a password/secrets management tool. In the =gnupg-agent.scm=
 profile, =shroud-nox= references a package in [[https://github.com/dcunited001/ellipsis/blob/master/ellipsis/packages/password-utils.scm][dcunited001/ellipsis]],
 which is not [yet?] a channel.
 
-For this kind of secrets management, shroud is a good
-choice:
+For this kind of secrets management, shroud is a good choice:
 
 + Minimal dependencies: guile scheme, gpg
 + GPG integration: and this means smartcard integration.
@@ -621,13 +612,121 @@ Alternatives considered:
 
 ** Config
 
-See the environment variables in =init.sh=
+The environment variables configured in =init-gpg.sh= require the master branch
+of shroud. The defaults are below:
 
-*** Defaults
++ SHROUD_CONFIG_FILE :: ~/.shroud
++ SHROUD_DB_HOME :: ~/.config/shroud/db.gpg
+
+ Write the list of identities to =.shroud=
 
 #+begin_src scheme :tangle (concat (or (getenv "SECRETS_HOME") ".") "/.shroud.defaults")
 '((user-id . "myemail@fdsa.com"))
 #+end_src
+
+The keys are stored in a fairly plain scheme dictionary. It can be opened in
+vanilla emacs and edited as plain text, so long as emacs knows out to reach its
+=gpg-agent= socket.
+
+Password files cannot easily be diffed. Since this is a plain dictionary and you
+have a reasonable programming language, then it's significantly easier to merge
+changes from multiple copies of password files on various hosts ... without the
+cloud.
+
+#+begin_example scheme
+(((id . "id3nt") (contents ("asdf" . "asdf")
+                           ("abcd" . "asdf")
+                           ("fdsa" . "jhkl"))))
+#+end_example
+
+You can add keys and values from the command line:
+
+#+begin_example shell
+shroud hide $identity $key=$value
+#+end_example
+
+And you can retrieve multiple keys from the dictionary. If they don't exist,
+nothing is returned.
+
+#+begin_src shell
+shroud show $identity # to show them all
+shroud show $identity | cut -f1 # to cut all the
+shroud show $identity "ssh123" # to select the passphrase
+#+end_src
+
+To pipe them into SSH or GPG operations, you may need to use file descriptors
+depending on how the commands handle =stdout= or =stdin=
+
+#+begin_src
+shroud show $identity "ssh123" | gpg
+#+end_src
+
+References to these file descriptors can be stored in Bash, but if they are more
+than ephemeral ... something somewhere may also have permissions to read from
+them, so prefer anonymous FD's.
+
+** Storing passphrases
+
+Get the fingerprint with
+
+#+begin_src shell :eval no
+pubkey=~/.ssh/key.pub
+pubkey_fpr="$(ssh-keygen -lf $pubkey -E sha256 | cut -f2 -d' ')"
+identity=me@me.com
+#+end_src
+
+Store the passphrase with =read -r=
+
+#+begin_src shell :eval no
+read -r passphrase
+shroud hide $identity $pubkey_fpr=$passphrase
+#+end_src
+
+Or store a random passphrase:
+
+#+begin_src shell :eval no
+pplength=12
+shroud hide $identity $pubkey_fpr=$(gpg --gen-random --armor 0 16 | cut -b$pplength)
+#+end_src
+
+It's also totally possible to just edit the file in emacs using =C-u C-M-!= to
+insert the output off commands.
+
+Add to GPG with:
+
+#+begin_src shell :eval no
+# ok ssh-add only accepts passwords from the program set as the SSH_ASKPASS variable
+#+end_src
+
+Unlock in GPG with:
+
+#+begin_src
+
+#+end_src
+
+*** Preset Passphrase in GPG
+
+Here's what =preset_passphrase= does:
+
+#+begin_src shell :output verbatim
+gpg-connect-agent "help preset_passphrase" /bye | head -n-1
+#+end_src
+
+#+RESULTS:
+: # PRESET_PASSPHRASE [--inquire] <string_or_keygrip> <timeout> [<hexstring>]
+: #
+: # Set the cached passphrase/PIN for the key identified by the keygrip
+: # to passwd for the given time, where -1 means infinite and 0 means
+: # the default (currently only a timeout of -1 is allowed, which means
+: # to never expire it).  If passwd is not provided, ask for it via the
+: # pinentry module unless --inquire is passed in which case the passphrase
+: # is retrieved from the client via a server inquire.
+
+
+**** TODO maybe experiment with setting =SSH_ASKPASS= to add/unlock ssh keys
+
+This would allow one to be blissfully unaware of the passphrase:
+
 
 * Emacs
 
@@ -837,3 +936,194 @@ paperkey --secret-key .gnupg/mastersub.unarmored.key --output mastersub.paperkey
 #+end_src
 
 Print it and then clear your printer's internal cache...
+
+* Scripting
+
+#+begin_src emacs-lisp
+
+#+end_src
+
+** Utility Functions
+
+hmmmm ... =almost-surely-most-positive-fixnum=?
+
+#+begin_src emacs-lisp
+(format "%X" (* 1 most-positive-fixnum))         ;"1FFFFFFFFFFFFFFF"
+(format "%X" (* 2 most-positive-fixnum))         ;"3FFFFFFFFFFFFFFE"
+(format "%X" (* 4 most-positive-fixnum))         ;"7FFFFFFFFFFFFFFC"
+(format "%X" (* 8 most-positive-fixnum))         ;"FFFFFFFFFFFFFFF8"
+(format "%X" (* 16 most-positive-fixnum))       ;"1FFFFFFFFFFFFFFF0"
+(format "%X" (+ 1 (* 16 most-positive-fixnum))) ;"1FFFFFFFFFFFFFFF1"
+#+end_src
+
+Well =integer-width= is set to =65536=. That's interesting.
+
+Generate octal or other formats
+
+#+begin_src emacs-lisp
+(defun rand-formatted (format &optional nchars)
+  (if-let* ((nbits (or (and (equal format "o") 3)
+                       (and (equal format "X") 4)))
+            (nmax (or (and nchars
+                           (expt 2 (* nbits nchars)))
+                      (* 2 most-positive-fixnum)))
+            (nrand (random nmax)))
+      (progn
+        (message "%s %s %s" nbits nmax nrand)
+        ;; nrand
+        (format (concat "%" format) nrand))
+    (user-error "something not right")))
+#+end_src
+
+Generate MD5 Hex
+
+#+begin_src emacs-lisp
+(let* ((hash-str (reverse "fdab123ce"))
+       (nchars (length hash-string)))
+  (cl-loop for i from 1 to (- (length hash-str) 1)
+           iter-by 2
+           thereis (< (- nchars i) 2)
+           collect))
+#+end_src
+
+#+RESULTS:
+
+ ... or not
+
+#+begin_quote
+i could write this in clojure in like 5 seconds ... does cl-reduce give you the
+index? well it doesn't allow you to really accumulate.
+#+end_quote
+
+So =hexdump= it is ... i forgot about that and didn't realize it has plenty of
+[[https://stackoverflow.com/questions/34328759/how-to-get-a-random-string-of-32-hexadecimal-digits-through-command-line][formatting options]]. Thanks command line.
+
+#+begin_src shell :results verbatim
+bytes=32
+chunk_bytes=2
+chunks="$(($bytes/$chunk_bytes))"
+
+# for hex, luckily octal doesn't need to be interpolated
+hd_hex_formatter="%0$((2 * chunk_bytes))X"
+hd_expr="$((chunks - 1))/$chunk_bytes \"$hd_hex_formatter:\""
+hd_expr="$hd_expr 1/$chunk_bytes \"$hd_hex_formatter \n\""
+
+echo $hd_expr
+hexdump -vn"$bytes" -e "$hd_expr" /dev/urandom
+#+end_src
+
+#+RESULTS:
+: 15/2 "%04X:" 1/2 "%04X \n"
+: 693A:02C4:757A:2E97:6D02:0DA2:BCBD:0332:0D32:681A:5677:19B8:173B:4F1E:27F9:2D53
+
+** Join Across Command Output
+
+Unfortunately the =join= command only allows one input to be piped in. So
+=mktemp -d= can be used to get around that, but this probably shouldn't be
+used. Still I haven't gotten much practice with these commands or file
+descriptors, so I'd like to document using them for my own purposes...
+
+The =gpg-connect-agent= command =KEYINFO=  outputs in this format:
+
+=KEYINFO <keygrip> <type> <serialno> <idstr> <cached> <protection> <fpr>=
+
+The =ssh-add -l -E MD5= command outputs in this format
+
+=<algorithm> MD5:<ssh-frg> <key comment>= or =ssh-add -l= outputs with =SHA256=
+
+So we can guarantee spacing of fields and join against them, the goal being to
+guarantee the uniqueness of a key's fingerprint.
+
+#+begin_src shell
+
+gpg-connect-agent "KEYINFO --ssh-list --ssh-fpr" /bye | \
+    head -n-1 | \
+
+#+end_src
+
+
+
+
+** To Delete SSH Keys from GPG
+
+Find the SSH key:
+
+#+begin_src shell :eval no
+ssh-add -l -E md5
+#+end_src
+
+#+RESULTS:
+
+#+begin_src shell :eval no
+regexMD5='MD5:([[:xdigit:]:]+)'
+
+gpg-connect-agent "KEYINFO --ssh-list --ssh-fpr" /bye | \
+    head -n-1 | \
+    sed -E "s/^.*$regexMD5.*$/\1/g" \
+
+# either named or nested captures don't seem to work...
+#    sed -e 's/^.*MD5\(?<fgr>\(:[0-9a-f]\{2\}\)\)/\k<fgr>/'
+#    sed -e 's/^.*MD5\(\(:[0-9a-f]\{2\}\)\)/\1/'
+#+end_src
+
+#+RESULTS:
+
+*** Help on KEYINFO commands
+
+#+begin_src shell :results verbatim :exports both
+gpg-connect-agent "help KEYINFO" /bye
+#+end_src
+
+#+RESULTS:
+#+begin_example
+# KEYINFO [--[ssh-]list] [--data] [--ssh-fpr[=algo]] [--with-ssh] <keygrip>
+#
+# Return information about the key specified by the KEYGRIP.  If the
+# key is not available GPG_ERR_NOT_FOUND is returned.  If the option
+# --list is given the keygrip is ignored and information about all
+# available keys are returned.  If --ssh-list is given information
+# about all keys listed in the sshcontrol are returned.  With --with-ssh
+# information from sshcontrol is always added to the info. Unless --data
+# is given, the information is returned as a status line using the format:
+#
+#   KEYINFO <keygrip> <type> <serialno> <idstr> <cached> <protection> <fpr>
+#
+# KEYGRIP is the keygrip.
+#
+# TYPE is describes the type of the key:
+#     'D' - Regular key stored on disk,
+#     'T' - Key is stored on a smartcard (token),
+#     'X' - Unknown type,
+#     '-' - Key is missing.
+#
+# SERIALNO is an ASCII string with the serial number of the
+#          smartcard.  If the serial number is not known a single
+#          dash '-' is used instead.
+#
+# IDSTR is the IDSTR used to distinguish keys on a smartcard.  If it
+#       is not known a dash is used instead.
+#
+# CACHED is 1 if the passphrase for the key was found in the key cache.
+#        If not, a '-' is used instead.
+#
+# PROTECTION describes the key protection type:
+#     'P' - The key is protected with a passphrase,
+#     'C' - The key is not protected,
+#     '-' - Unknown protection.
+#
+# FPR returns the formatted ssh-style fingerprint of the key.  It is only
+#     printed if the option --ssh-fpr has been used.  If ALGO is not given
+#     to that option the default ssh fingerprint algo is used.  Without the
+#     option a '-' is printed.
+#
+# TTL is the TTL in seconds for that key or '-' if n/a.
+#
+# FLAGS is a word consisting of one-letter flags:
+#       'D' - The key has been disabled,
+#       'S' - The key is listed in sshcontrol (requires --with-ssh),
+#       'c' - Use of the key needs to be confirmed,
+#       '-' - No flags given.
+#
+# More information may be added in the future.
+OK
+#+end_example
