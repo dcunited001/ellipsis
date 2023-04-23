@@ -503,6 +503,7 @@ throw-keyids
 # https://www.gnupg.org/documentation/manuals/gnupg/Agent-Options.html
 enable-ssh-support
 ttyname $GPG_TTY
+allow-preset-passphrase
 
 # Yubikey PIN is cached by the yubikey itself
 # - these options don't affect it. you must unplug the key.
@@ -563,9 +564,8 @@ Anything that can send =stdout= to some command's =stdin= can be used to
 retrieve passphrases without creating shell history, which is about as
 sufficient as I can imagine at this level...
 
-#+begin_src shell
-
-#+end_src
+... nevermind, you need to use =<<<= or =<<HEREDOC= to avoid echoing the
+passphrase in the process list, according to [[https://unix.stackexchange.com/questions/317298/what-are-the-steps-needed-to-cache-passphrases-entered-via-pinentry-using-gpg-pr][this s/o]]
 
 Shroud is configured below for this purpose.
 
@@ -696,12 +696,23 @@ Add to GPG with:
 
 #+begin_src shell :eval no
 # ok ssh-add only accepts passwords from the program set as the SSH_ASKPASS variable
+# but this does not work when managed by gpg-agent
 #+end_src
 
 Unlock in GPG with:
 
 #+begin_src
 
+#+end_src
+
+*** Select keygrip from GPG
+
+#+begin_src shell
+keyfile=~/.ssh/key
+pubfile=$keyfile.pub
+keysha=$(ssh-keygen -E sha256 -lf $pubfile | cut -f2 -d' ')
+keygrip=$(gpg-connect-agent "KEYINFO --ssh-list --ssh-fpr=sha256" /bye | \
+              head -n-1 | grep $keysha | cut -f3 -d' ')
 #+end_src
 
 *** Preset Passphrase in GPG
@@ -722,11 +733,31 @@ gpg-connect-agent "help preset_passphrase" /bye | head -n-1
 : # pinentry module unless --inquire is passed in which case the passphrase
 : # is retrieved from the client via a server inquire.
 
+I think the =gpg-preset-passphrase= tool is required for this to work, but the
+executable is missing for me on both arch & guix.
 
-**** TODO maybe experiment with setting =SSH_ASKPASS= to add/unlock ssh keys
+#+begin_src shell :eval no
 
-This would allow one to be blissfully unaware of the passphrase:
+#+end_src
 
+Otherwise, this should work, but is still returning =Err 67108933 not implemented <GPG Agent>=:
+
+#+begin_src shell :eval no
+# get $keygrip
+shroudpass=$(shroud show $identity $keysha)
+gpg-connect-agent "preset_passphrase $keygrip 0 $shroudpass" /bye
+#+end_src
+
+*** To Delete SSH Keys from GPG
+
+Find the SSH key:
+
+#+begin_src shell :eval no
+# get $keygrip
+gpg-connect-agent "DELETE_KEY $keygrip" /bye
+
+# or rm ~/.gnupg/private-keys-v1.d/$keygrip.key
+#+end_src
 
 * Emacs
 
@@ -1041,18 +1072,11 @@ gpg-connect-agent "KEYINFO --ssh-list --ssh-fpr" /bye | \
 
 #+end_src
 
+**** TODO complete join example
 
+** Select with md5 instead
 
-
-** To Delete SSH Keys from GPG
-
-Find the SSH key:
-
-#+begin_src shell :eval no
-ssh-add -l -E md5
-#+end_src
-
-#+RESULTS:
+(incomplete)
 
 #+begin_src shell :eval no
 regexMD5='MD5:([[:xdigit:]:]+)'
