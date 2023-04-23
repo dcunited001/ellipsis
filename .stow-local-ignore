@@ -18,3 +18,5 @@ misc
 ellipsis
 .*\.bak
 .*\.log
+.gitconfig.yk4
+.gitconfig.yk5

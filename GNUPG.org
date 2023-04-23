@@ -30,6 +30,20 @@ don't. It takes me forever to learn anything bc of isolation, but you can tell a
 lot about how people use software by how difficult it is to find answers to
 questions that people should be asking.
 
+*** Using multiple yubikeys
+
+GnuPG will default to using the most recent key for keysigning operations.
+
+#+begin_quote
+So just because the filesize doubles when you update your keyring with the
+=rsa4096= subkeys that you forgot doesnt mean that it's signing with both
+keys. The filesize is actually larger because GPG defaults to the newest public
+subkeys and RSA sucks so the files are larger.
+#+end_quote
+
+[[https://blogs.gentoo.org/mgorny/2018/05/12/on-openpgp-gnupg-key-management/][Leave it to the Gentoo guys]] to answer your questions. You can use multiple
+yubikeys, but only use one set of subkeys.
+
 ** GPG Agent
 
 See [[https://www.gnupg.org/documentation/manuals/gnupg/Agent-Protocol.html][Agent ASSUAN protocol]] for other things like:

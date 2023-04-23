@@ -1,6 +1,8 @@
+# -*- mode: gitconfig -*-
 [user]
 	email = dconner.pro@gmail.com
 	name = David Conner
+	signingkey = 0xB5E0535B23DD6A7A
 [alias]
 	co = checkout
 [color]
@@ -16,21 +18,14 @@
 	whitespace = nowarn
 [format]
 	pretty = %C(yellow)%h%Creset %s %C(red)(%an, %cr)%Creset
-        enabled = true
+	enabled = true
 [pull]
 	rebase = true
 [init]
 	defaultBranch = master
-
+[commit]
+# gpgSign = true # in git repository
 # TODO: [difftool "emacsclient"] with smerge
-#[difftool "sourcetree"]
-#	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
-#	path =
-
-# TODO: [mergetool "emacsclient"] with smerge
-#[mergetool "sourcetree"]
-#       cmd = /Applications/SourceTree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
-#       trustExitCode = true
 
 [rerere]
 	enabled = true
