@@ -27,7 +27,9 @@
   #:use-module (gnu packages cups)
 
   ;;NONFREE
-  #:use-module (nongnu packages linux))
+  #:use-module (nongnu packages linux)
+
+  #:use-module (guix transformations))
 
 (use-service-modules desktop xorg networking ssh admin)
 (use-package-modules certs shells linux)
@@ -41,7 +43,7 @@
 (define-public %kharis-default-shell-keyboard
   (keyboard-layout "us" "altgr-intl"
                    #:model "pc105"
-		               ;; see gitlab.freedesktop.org/xkeyboard-config/xkeyboard-config/-/issue/344
+		   ;; see gitlab.freedesktop.org/xkeyboard-config/xkeyboard-config/-/issue/344
                    #:options '("caps:ctrl_modifier"
                                ;; "ctrl:swapcaps_hyper" ; in 1.3.0 (hyper as Mod3)
                                ;; "ctrl:hyper_capscontrol" ; in 1.5.0 (hyper as Mod4)
