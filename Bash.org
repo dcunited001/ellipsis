@@ -677,6 +677,24 @@ paths to exist.
 
 Test with =docker pull docker.io/netbootxyz/netbootxyz=
 
+** Kaggle
+
+#+begin_src sh :tangle .config/sh/kaggle.sh
+kacomp() {
+    if [ $# = 0 ]; then
+        echo Requires search parameter
+        return 1
+    else
+        kaggle c list | grep $1 | cut -f1 -d' ' | rev | cut -f-1 -d'/' | rev
+    fi
+}
+
+kacomp_set() {
+    kaggle_comp="$(kacomp $1)"
+    [[ -z $kaggle_comp ]] && return 1
+    kaggle config set -n competition -v $kaggle_comp
+}
+#+end_src
 
 * Languages
 :PROPERTIES:
@@ -829,7 +847,7 @@ command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
 eval "$(pyenv init -)"
 #+end_src
 
-+ Install new pythons with =pyenv install 3.11.3=.
++ Install new pythons with =pyenv install 3.11.3= and see below for optimizations.
 + List versions with =pyenv install -l=
 + Switch with =pyenv (shell|local|global) $python_version=. This is currently
   not working, since I only have =eval $(pyenv init -)= sourced in =.profile=,
@@ -855,8 +873,26 @@ See pyenv's =python-build= plugin to customize the build
 
 **** Optimizations
 
+To build with optimizations:
+
 #+begin_src
-env PYTHON_CONFIGURE_OPTS='--enable-optimizations --with-lto' PYTHON_CFLAGS='-march=native -mtune=native'
+PYTHON_CONFIGURE_OPTS='--enable-optimizations --with-lto' PYTHON_CFLAGS='-march=native -mtune=native'
+#+end_src
+
+To build in parallel (doesn't seem to help)
+
+#+begin_src
+MAKE_OPTS="-j14" PYTHON_MAKE_OPTS="-j14"
+#+end_src
+
+Full command
+
+#+begin_src sh
+env PYTHON_CONFIGURE_OPTS='--enable-optimizations --with-lto' \
+    PYTHON_CFLAGS='-march=native -mtune=native' \
+    PYTHON_MAKE_OPTS="-j14" \
+    MAKE_OPTS="-j14" \
+    pyenv install 3.11.3 2>&1 > ~/src/log/python-build-3.11.3.log
 #+end_src
 
 *** Python on Guix
