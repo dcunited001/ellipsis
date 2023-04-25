@@ -25,10 +25,7 @@
 questions about life, about the eternal mysteries and about what should be
 frequently mentioned by developers online ... but is not.
 
-You all may think you have imposter syndrome ... but you don't. You really
-don't. It takes me forever to learn anything bc of isolation, but you can tell a
-lot about how people use software by how difficult it is to find answers to
-questions that people should be asking.
+**** Issues [[https://dev.gnupg.org][dev.gnupg.org]]
 
 *** Using multiple yubikeys
 
