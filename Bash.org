@@ -689,6 +689,12 @@ kacomp() {
     fi
 }
 
+# doesn't work at the moment, but the discussion tabs sure take up 150 MB of RAM
+# google owns kaggle and wants you to use TF Lite, but can't quite seem to
+# return the favor
+#
+# (no offense, Kaggle, but i fucking hate javascript for the same reason that
+#  google might want you to use TF Lite ... it's funny how that works)
 kacomp_set() {
     kaggle_comp="$(kacomp $1)"
     [[ -z $kaggle_comp ]] && return 1
