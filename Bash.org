@@ -1493,7 +1493,22 @@ if [ -f $HOME/.profile ]; then . $HOME/.profile; fi
   ;; "cairo"
   ;; "libpng"
   ;; "poppler"
-  ;; "zlib"
+
+;;** for pyenv builds
+
+;; I thought some of these were already brought in
+  "zlib"
+  "libffi"
+  "xz"
+  "expat"
+  "libxml2"
+  "bzip2"
+  "gdbm"
+
+;; I want to learn TCL anyways, but maybe this should be in
+;; another profile
+  "tk"
+  "ncurses"
 
 ;;** pkg metadata
   "pkg-config"
