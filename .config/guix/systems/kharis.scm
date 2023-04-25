@@ -20,6 +20,7 @@
   #:use-module (gnu system file-systems)
   #:use-module (gnu system mapped-devices)
 
+  #:use-module (gnu packages base)
   #:use-module (gnu packages firmware)
   #:use-module (gnu packages xorg)
   #:use-module (gnu packages admin)
@@ -188,6 +189,8 @@
 
               (extra-special-file "/usr/bin/env"
                                   (file-append coreutils "/bin/env"))
+              (extra-special-file "/lib64/ld-linux-x86-64.so.2"
+                                  (file-append glibc "/lib/ld-linux-x86-64.so.2"))
 
               (service thermald-service-type)
 
