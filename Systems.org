@@ -198,6 +198,7 @@ retrieve these settings appropriately. This is used throughout =Desktop.org=.
       (emacs/variable-face-size . 110)
       (emacs/fixed-face-size . 110)
       (emacs/doom-modeline-height . 21)
+      (alacrity/shell-program . "bin/bash")
       (i3/bar-type . "polybar.conf")
       (i3/shim . "guix.shim")
       (polybar/height . 35)
@@ -243,6 +244,8 @@ retrieve these settings appropriately. This is used throughout =Desktop.org=.
       (emacs/variable-face-size . 130)
       (emacs/fixed-face-size . 120)
       (emacs/doom-modeline-height . 17)
+      (alacrity/shell-program .
+       (expand-file-name "desktop/desktop/bin/bash" (getenv "GUIX_EXTRA")))
       (polybar/height . 48)
       (polybar/font-0-size . 24)
       (polybar/font-1-size . 18)
@@ -278,6 +281,8 @@ retrieve these settings appropriately. This is used throughout =Desktop.org=.
       (emacs/variable-face-size . 130)
       (emacs/fixed-face-size . 120)
       (emacs/doom-modeline-height . 17)
+      (alacrity/shell-program .
+       (expand-file-name "desktop/desktop/bin/bash" (getenv "GUIX_EXTRA")))
       (polybar/height . 32)
       (polybar/font-0-size . 16)
       (polybar/font-1-size . 12)
@@ -307,6 +312,8 @@ retrieve these settings appropriately. This is used throughout =Desktop.org=.
       (emacs/variable-face-size . 110)
       (emacs/fixed-face-size . 100)
       (emacs/doom-modeline-height . 17)
+      (alacrity/shell-program .
+       (expand-file-name "desktop/desktop/bin/bash" (getenv "GUIX_EXTRA")))
       (polybar/height . 32)
       (polybar/font-0-size . 14)
       (polybar/font-1-size . 12)
@@ -317,8 +324,7 @@ retrieve these settings appropriately. This is used throughout =Desktop.org=.
       (dunst/max-icon-size . 88)
       ;(vimb/default-zoom . 160)
       ;(qutebrowser/default-zoom . 180)
-      (xrandr/primary-display . "eDP")
-      ))
+      (xrandr/primary-display . "eDP")))
 
 #+end_src
 

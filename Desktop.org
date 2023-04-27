@@ -1706,14 +1706,41 @@ dwdot https://github.com/daviwil/dotfiles
 
 #+end_src
 
-#+begin_src yaml :tangle .config/alacritty/alacritty.yml
+Alacritty Features:
+
+|----------------------+---------------------------------------------------+--------+---------------|
+| Feature              | Function                                          | Source | alacritty.yml |
+|----------------------+---------------------------------------------------+--------+---------------|
+| import               | modularly load configs (for iTerm2 profiles/etc)  |        |               |
+|----------------------+---------------------------------------------------+--------+---------------|
+| window.dynamic_title | defaults true. can be locked for i3 scriptability |        |               |
+| window.title/class   |                                                   |        |               |
+|----------------------+---------------------------------------------------+--------+---------------|
+| bell.command         | can be set to notify-send...                      |        |               |
+|----------------------+---------------------------------------------------+--------+---------------|
+
+Alacritty Keys ([[https://github.com/alacritty/alacritty/wiki/Keyboard-mappings][wiki]], [[https://github.com/alacritty/alacritty/blob/master/alacritty.yml#L771-L881][alacritty.yml]])
+
+|-------+------------------------------------------+--------------+---------------|
+| Key   | Function                                 | Source       | alacritty.yml |
+|-------+------------------------------------------+--------------+---------------|
+| C-S-U | Avvy-style "Open URL" with regex hinting | [[https://github.com/alacritty/alacritty/blob/master/alacritty/src/config/ui_config.rs][ui_config.rs]] | [[https://github.com/alacritty/alacritty/blob/master/alacritty.yml#L483-L527][config]]        |
+|       |                                          |              |               |
+|-------+------------------------------------------+--------------+---------------|
+
+Alacritty config:
+
+#+begin_src yaml :tangle .config/alacritty/alacritty.yml :noweb yes
 env:
   TERM: xterm-256color
 
 shell:
-  program:  /bin/sh
-  args:
-    - --login
+  program: <<get-setting(name="alacritty/shell-program")>>
+
+#shell
+#  program: /bin/sh
+#  args:
+#    - --login
 
 window:
   dimensions:
@@ -1743,9 +1770,11 @@ key_bindings:
   - { key: Insert,   mods: Shift,         action: PasteSelection   }
   - { key: Key0,     mods: Control,       action: ResetFontSize    }
   - { key: Equals,   mods: Control,       action: IncreaseFontSize }
-  - { key: Plus,     mods: Control,       action: IncreaseFontSize }
   - { key: Minus,    mods: Control,       action: DecreaseFontSize }
-  - { key: Minus,    mods: Control,       action: DecreaseFontSize }
+
+# doesn't work
+#  - { key: Plus,     mods: Control,       action: IncreaseFontSize }
+#  - { key: Underline,    mods: Control,   action: DecreaseFontSize }
 
 cursor:
   style: Block

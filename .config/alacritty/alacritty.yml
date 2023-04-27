@@ -2,9 +2,12 @@ env:
   TERM: xterm-256color
 
 shell:
-  program:  /bin/sh
-  args:
-    - --login
+  program: nil
+
+#shell
+#  program: /bin/sh
+#  args:
+#    - --login
 
 window:
   dimensions:
@@ -34,9 +37,11 @@ key_bindings:
   - { key: Insert,   mods: Shift,         action: PasteSelection   }
   - { key: Key0,     mods: Control,       action: ResetFontSize    }
   - { key: Equals,   mods: Control,       action: IncreaseFontSize }
-  - { key: Plus,     mods: Control,       action: IncreaseFontSize }
   - { key: Minus,    mods: Control,       action: DecreaseFontSize }
-  - { key: Minus,    mods: Control,       action: DecreaseFontSize }
+
+# doesn't work
+#  - { key: Plus,     mods: Control,       action: IncreaseFontSize }
+#  - { key: Underline,    mods: Control,   action: DecreaseFontSize }
 
 cursor:
   style: Block
