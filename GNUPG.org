@@ -63,6 +63,8 @@ just curious about questions that are hard to see, like SSH =ControlMaster=.
 Getting leads on the above was actually pretty difficult ([[https://git.gnupg.org/cgi-bin/gitweb.cgi?p=gnupg.git;a=blob;f=agent/command.c;h=9481f47c3ec0b19af47a4db96b866e1928292caf;hb=HEAD#l3760][./agent/commands.c]]) I
 guess since no one customizes anything and the GUI does most of it for them.
 
+*See /Notes on Configuration/ below* in the section on =gpg-agent.conf=.
+
 ** Crypto
 + [[https://developers.redhat.com/blog/2017/10/05/entropy-rhel-based-cloud-instances#][Entropy in RHEL-based cloud instances]]
 + [[https://www.random.org/randomness/][Introduction to Randomness and Random Numbers]]
@@ -71,6 +73,9 @@ guess since no one customizes anything and the GUI does most of it for them.
 + [[https://alexschroeder.ch/cgit/ugg/about/][The Using GPG Guide]]
 + [[https://git.vdm.dev/knowledge/YubiKey-Guide][VDM Yubikey-Guide]]
 + [[https://github.com/drduh/YubiKey-Guide][drduh/YubiKey-Guide]]
+
+*** Scute: PCKS#11 with =gpg-agent=
++ [[https://www.gnupg.org/documentation/manuals/scute.pdf][Scute manual]]
 
 *** Emacs
 + [[https://www.gnu.org/software/emacs/manual/html_mono/auth.html][auth-source]]
@@ -516,6 +521,19 @@ enable-ssh-support
 ttyname $GPG_TTY
 allow-preset-passphrase
 
+# force the agent to keep its tty/display while running
+keep-display
+keep-tty
+
+# do NOT use any external passphrase cache
+no-allow-external-cache
+
+# do not mark allow clients Root-CA keys as trusted
+# (manually change this when accepting new keys; doesn't affect pacman)
+no-allow-mark-trusted
+
+# grab/nograb (used on X-servers to avoid X-sniffing attacks)
+
 # Yubikey PIN is cached by the yubikey itself
 # - these options don't affect it. you must unplug the key.
 default-cache-ttl 60
@@ -532,6 +550,50 @@ pinentry-program /usr/bin/pinentry-tty
 #pinentry-program /usr/local/bin/pinentry-mac
 #pinentry-program /opt/homebrew/bin/pinentry-mac
 #+end_src
+
+*** Notes on Configuration
+
+**** Notifications
+
+***** log-file
+
+This can be used for =notify-send=
+
+****** TODO configure notify-send to show interesting events
+
+e.g. failed pinentry attempts
+
+After all, my dotfiles are online. I'm practically asking for it. I'm putting a
+lot of trust into this tool and it solves a lot of problems for me. Between GPG
+Agent for SSH and the Yubikey, it's aspirin for my paranoia -- which can
+otherwise be useful if I don't waste my time/energy.
+
+**** Pinentry
+
+***** allow-pinentry-notify
+
+Configuring =gpg-agent= with =allow-pinentry-notify= will include requests to
+authenticate in the output, if it is logged.
+
+I'm not sure whether it's a good idea, but something like [[https://github.com/ryran/tail2notify/blob/master/tail2notify][ryran/tail2notify]] can
+monitor the =gpg-agent= output for requests to auth (and potentially
+failures). Naturally, this would require that the GPG agent is aware of the
+=DISPLAY=.
+
+Commits:
+
++ GnuPG: [[https://git.gnupg.org/cgi-bin/gitweb.cgi?p=gnupg.git;a=commitdiff;h=7052a0d77cf8f3a445b252a809d29be445788625][gpg: More diagnostics for a launched pinentry]]
++ Pinentry: [[https://git.gnupg.org/cgi-bin/gitweb.cgi?p=pinentry.git;a=commitdiff;h=02a4f2fa0d8c8a63e72b9b9924b2817bfacce09a][core: Allow to query info about the emacn integration]]
+
+Resources
+
++ [[https://superuser.com/questions/1744237/gpg-notify-before-password-prompt-in-terminal][GPG Notify before password prompt in terminal]]
+
+***** keep-tty and keep-display
+
+Use =keep-display= and =keep-tty= to prevent the agent from being accessed from
+another shell/display.
+
 
 ** SCDaemon Config
 

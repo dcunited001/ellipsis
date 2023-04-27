@@ -1260,6 +1260,8 @@ shopt -s histappend
 [[ "$TERM" == "dumb" ]] || export TERM="alacritty"
 #+end_src
 
+Aliases
+
 #+begin_src sh :tangle .bashrc :shebang #!/bin/sh
 # unless dumbterm
 
@@ -1316,7 +1318,11 @@ alias gpgk='gpg-connect-agent killagent /bye'
 # source /usr/share/doc/find-the-command/ftc.bash
 
 alias emacs-debug-wayland='WAYLAND_DEBUG=1 emacs --fg-daemon > $HOME/.cache/log/emacs.wayland.`date +%Y-%m%d-%H%M`.log 2>&1'
+#+end_src
 
+*** Shell Prompt
+
+#+begin_src sh :tangle .bashrc :shebang #!/bin/sh
 if [ "$TERM" == "dumb" ]; then
     PS1='$ '
 else
@@ -1329,8 +1335,6 @@ else
 fi
 
 #+end_src
-
-#+RESULTS:
 
 *** Color
 
@@ -1346,6 +1350,15 @@ export LESS_TERMCAP_se=$'\E[0m'
 export LESS_TERMCAP_so=$'\E[00;44;37m'
 export LESS_TERMCAP_ue=$'\E[0m'
 export LESS_TERMCAP_us=$'\E[01;32m'
+#+end_src
+
+*** GPG/SSH
+
+#+begin_src sh :tangle .bashrc :shebang #!/bin/bash
+unset SSH_AGENT_PID
+if [ "${gnupg_SSH_AUTH_SOCK_by:-0}" -ne $$ ]; then
+  export SSH_AUTH_SOCK="$(gpgconf --list-dirs agent-ssh-socket)"
+fi
 #+end_src
 
 *** Direnv
