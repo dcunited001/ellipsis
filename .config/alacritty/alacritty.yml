@@ -2,9 +2,9 @@ env:
   TERM: xterm-256color
 
 shell:
-  program: nil
+  program: /bin/bash
 
-#shell
+#shell:
 #  program: /bin/sh
 #  args:
 #    - --login

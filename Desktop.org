@@ -1737,7 +1737,7 @@ env:
 shell:
   program: <<get-setting(name="alacritty/shell-program")>>
 
-#shell
+#shell:
 #  program: /bin/sh
 #  args:
 #    - --login
@@ -1858,6 +1858,30 @@ colors:
     magenta: '0x6e4962'
     cyan:    '0x5c8482'
     white:   '0x828282'
+#+end_src
+
+Clean alacritty config (no profiles):
+
+#+begin_src sh :tangle .bin/alaclean :shebang #!/bin/sh
+exec $GUIX_EXTRA/desktop/desktop/bin/alacritty --config-file $XDG_CONFIG_HOME/alacritty/alacritty.clean.yml
+#+end_src
+
+#+begin_src yaml :tangle .config/alacritty/alacritty.clean.yml
+import:
+  - .config/alacritty/alacritty.yml
+
+shell:
+  program: /bin/sh
+  args:
+    - --login
+
+window:
+  opacity: 0.9
+
+colors:
+  cursor:
+    cursor: '0x59c959'
+    text: '0x912191'
 #+end_src
 
 ** Password Management
