@@ -48,8 +48,6 @@ skel-images/**/*
 
 # alacritty
 .config/alacritty/*
-.alacritty_bashrc
-!.config/alacritty/alacritty.yml
 
 # fontconfig
 .config/fontconfig/**

@@ -1132,23 +1132,9 @@ export NO_AT_BRIDGE=1
 
 Try to source =.bashrc=. If the shell is non-interactive, =.bashrc= will return
 
-**** TODO properly sort this out
-
 #+begin_src sh :tangle .profile :shebang #!/bin/sh
 [[ -f $HOME/.bashrc ]] && source $HOME/.bashrc
 #+end_src
-
-* Alacritty
-
-**** TODO remove (doesn't work when alacritty calls /bin/sh)
-
-#+begin_src sh :tangle .alacritty_bashrc :shebang #!/bin/sh
-#GUIX_AUTOLOAD_PROFILES=(i3 desktop xdg devtools)
-
-#[[ -f $HOME/.bashrc ]] && source $HOME/.bashrc
-#+end_src
-
-
 
 * Tools
 :PROPERTIES:

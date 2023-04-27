@@ -1,4 +1,3 @@
-
 :PROPERTIES:
 :ID:       83315604-b917-45e3-9366-afe6ba029a60
 :END:
@@ -186,8 +185,8 @@ retrieve these settings appropriately. This is used throughout =Desktop.org=.
 (setq dw/system-settings
   (map-merge
     'list
-    '((desktop/dpi . 180)
-      (desktop/background . (concat (or (getenv "$_WALLPAPERS") "/data/xdg/wallpapers/anime") "default.jpg"))
+    `((desktop/dpi . 180)
+      (desktop/background . ,(concat (or (getenv "$_WALLPAPERS") "/data/xdg/wallpapers/anime") "default.jpg"))
       (rofi/theme . "gruvbox-dark")
       (rofi/icons . "Papirus-Dark")
       (rofi/drun-theme . "gruvbox-dark")
@@ -231,8 +230,8 @@ retrieve these settings appropriately. This is used throughout =Desktop.org=.
 #+begin_src emacs-lisp :noweb-ref system-settings :noweb-sep ""
 
   (when (equal system-name "hersai")
-    '((desktop/dpi . nil)
-      (desktop/background . (concat (or (getenv "$_WALLPAPERS") "/data/xdg/wallpapers/anime") "default.jpg"))
+    `((desktop/dpi . nil)
+      (desktop/background . ,(concat (or (getenv "$_WALLPAPERS") "/data/xdg/wallpapers/anime") "default.jpg"))
       (rofi/theme . "gruvbox-dark")
       (rofi/icons . "Papirus-Dark")
       (rofi/drun-theme . "gruvbox-dark")
@@ -244,8 +243,7 @@ retrieve these settings appropriately. This is used throughout =Desktop.org=.
       (emacs/variable-face-size . 130)
       (emacs/fixed-face-size . 120)
       (emacs/doom-modeline-height . 17)
-      (alacritty/shell-program .
-       (expand-file-name "desktop/desktop/bin/bash" (getenv "GUIX_EXTRA")))
+      (alacritty/shell-program . "/run/current-system/profile/bin/bash")
       (polybar/height . 48)
       (polybar/font-0-size . 24)
       (polybar/font-1-size . 18)
@@ -269,8 +267,8 @@ retrieve these settings appropriately. This is used throughout =Desktop.org=.
 #+begin_src emacs-lisp :noweb-ref system-settings :noweb-sep ""
 
   (when (equal system-name "tokos")
-    '((desktop/dpi . 114)
-      (desktop/background . (concat (or (getenv "$_WALLPAPERS") "/data/xdg/wallpapers/anime") "default.jpg"))
+    `((desktop/dpi . 114)
+      (desktop/background . ,(concat (or (getenv "$_WALLPAPERS") "/data/xdg/wallpapers/anime") "default.jpg"))
       (rofi/theme . "gruvbox-dark")
       (rofi/icons . "Papirus-Dark")
       (rofi/drun-theme . "gruvbox-dark")
@@ -281,8 +279,7 @@ retrieve these settings appropriately. This is used throughout =Desktop.org=.
       (emacs/variable-face-size . 130)
       (emacs/fixed-face-size . 120)
       (emacs/doom-modeline-height . 17)
-      (alacritty/shell-program .
-       (expand-file-name "desktop/desktop/bin/bash" (getenv "GUIX_EXTRA")))
+      (alacritty/shell-program . "/run/current-system/profile/bin/bash")
       (polybar/height . 32)
       (polybar/font-0-size . 16)
       (polybar/font-1-size . 12)
@@ -306,14 +303,13 @@ retrieve these settings appropriately. This is used throughout =Desktop.org=.
 #+begin_src emacs-lisp :noweb-ref system-settings :noweb-sep ""
 
   (when (equal system-name "kharis")
-    '((desktop/dpi . nil)
+    `((desktop/dpi . nil)
  	;;(desktop/dpi . 157) ;; TODO verify DPI
       (emacs/default-face-size . 100)
       (emacs/variable-face-size . 110)
       (emacs/fixed-face-size . 100)
       (emacs/doom-modeline-height . 17)
-      (alacritty/shell-program .
-       (expand-file-name "desktop/desktop/bin/bash" (getenv "GUIX_EXTRA")))
+      (alacritty/shell-program . "/run/current-system/profile/bin/bash")
       (polybar/height . 32)
       (polybar/font-0-size . 14)
       (polybar/font-1-size . 12)
