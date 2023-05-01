@@ -200,7 +200,8 @@
 
            ccid
            yubikey-personalization
-           python-yubikey-manager
+           ;; breaking python crypto version
+           ;; python-yubikey-manager
            libu2f-host
            ;; libfido2 ;; included as dependency
            opensc ;; for pkcs#11 (ssh using smartcard PIV certs)
@@ -380,7 +381,7 @@ EndSection
                ;; - ensure cpu-scaling-governor-on-ac is not affecting performance
                (service tlp-service-type
                         (tlp-configuration
-                         (nmi-watchdog #t)
+                         (nmi-watchdog? #t)
                          (cpu-boost-on-ac? #t)
                          (tlp-default-mode "AC") ;; this is the default
                          (wifi-pwr-on-bat? #t)))

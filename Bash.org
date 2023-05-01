@@ -1831,7 +1831,7 @@ utils in the environment, but this is split out anyways...
       "libcanberra"
       "sound-theme-freedesktop"
 
-      "flatpak-custom"     ;; flatpak with custom installations
+      "flatpak"
       "xdg-desktop-portal"
       "xdg-desktop-portal-gtk"
 

@@ -192,6 +192,11 @@
               (extra-special-file "/lib64/ld-linux-x86-64.so.2"
                                   (file-append glibc "/lib/ld-linux-x86-64.so.2"))
 
+              (extra-special-file "/etc/flatpak/installations.d/steam.conf"
+                                  (local-file "flatpak/steam.conf"))
+              (extra-special-file "/etc/flatpak/installations.d/agenda.conf"
+                                  (local-file "flatpak/agenda.conf"))
+
               (service thermald-service-type)
 
               (service libvirt-service-type ;; TODO how is libvirt configured?
