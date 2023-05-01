@@ -754,13 +754,10 @@ Other tools include:
 
 *** GraphQL Direnv
 
-
-
-#+begin_src sh tangle .envrc
-use_guixs -m $XDG_CONFIG_HOME/guix/manifests/nodejs.scm
-
+#+begin_src sh
+#or use_guix_manifest -m $XDG_CONFIG_HOME/guix/manifests/nodejs.scm
+use_guix_profile -m $GUIX_EXTRA/nodejs/nodejs
 #+end_src
-
 
 ***** TODO finalize on =use_guixs=
 ***** TODO how to designate the default graphql schema file for the above?
@@ -1542,13 +1539,22 @@ use_guixs() {
   eval "$(guix shell \"$@\" --search-paths)"
 }
 
+use_guix_profile() {
+  [[ $# -lt 1 ]] && echo "use_guix_profile requires argument" && return 1;
+  local profile_path=$1
+  shift 1
+  [[ ! -e $profile_path ]] && echo "use_guix_profile requires extant profile path" && return 1;
+
+  eval "$(guix shell -p "$profile_path" --search-paths)"
+}
+
 use_guix_manifest() {
   [[ $# -lt 1 ]] && echo "use_guix_manifest requires argument" && return 1;
 
   local manifest_file=$1
   shift 1
 
-  [[ -z $manifest_file ]] && echo "use_guix_manifest requires extant manifest file" && return 1;
+  [[ ! -e $manifest_file ]] && echo "use_guix_manifest requires extant manifest file" && return 1;
 
   eval "$(guix shell -m "$manifest_file" --search-paths)"
 }
