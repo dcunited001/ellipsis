@@ -192,10 +192,19 @@
               (extra-special-file "/lib64/ld-linux-x86-64.so.2"
                                   (file-append glibc "/lib/ld-linux-x86-64.so.2"))
 
-              (extra-special-file "/etc/flatpak/installations.d/steam.conf"
-                                  (local-file "flatpak/steam.conf"))
-              (extra-special-file "/etc/flatpak/installations.d/agenda.conf"
-                                  (local-file "flatpak/agenda.conf"))
+              ;; if using (local-file "." "subdir" ...)
+              ;; this would pull the entire "." into the store
+
+              ;; (extra-special-file "/etc/flatpak/installations.d/steam.conf"
+              ;;                     (local-file "flatpak/steam.conf"))
+              ;; (extra-special-file "/etc/flatpak/installations.d/agenda.conf"
+              ;;                     (local-file "flatpak/agenda.conf"))
+
+              (extra-special-file
+               "/etc/flatpak/installations.d"
+               (file-union "installations.d"
+                           `(("steam.conf" ,(local-file "flatpak/steam.conf"))
+                             ("agenda.conf" ,(local-file "flatpak/agenda.conf")))))
 
               (service thermald-service-type)
 

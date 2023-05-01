@@ -738,11 +738,25 @@ Install =nodejs= profile.
 
 *** NVM
 
+This is an old config
+
 #+begin_src sh :tangle .config/sh/profile.d/node-arch.sh :shebang #!/bin/sh
 [[ -f /usr/share/nvm/init-nvm.sh ]] && source /usr/share/nvm/init-nvm.sh
 #+end_src
 
+*** On Arch
 
+#+begin_src sh :tangle .config/sh/profile.d/node-arch.sh :shebang #!/bin/sh
+export NPM_CONFIG_PREFIX=$HOME/.npm-global
+export PATH=$NPM_CONFIG_PREFIX/bin:$PATH
+#+end_src
+
+*** On Guix
+
+#+begin_src sh :tangle .config/sh/profile.d/node-guix.sh :shebang #!/bin/sh
+export NPM_CONFIG_PREFIX=$HOME/.npm-global
+export PATH=$NPM_CONFIG_PREFIX/bin:$PATH
+#+end_src
 
 ** GraphQL
 
@@ -763,7 +777,12 @@ Other tools include:
 + codemirror-graphql
 + graphiql
 
-*** GraphQL Direnv
+*** GraphQL Project Setup
+
+On Guix Systems, add the =nodejs= profile to the project or ensure that it's in
+=$PATH=. Most actual projects will have their own =manifest.scm= anyways. This
+will be a separate node build, but its =npm install -g= binaries will still go
+in =.node_modules=
 
 #+begin_src sh
 #or use_guix_manifest -m $XDG_CONFIG_HOME/guix/manifests/nodejs.scm
@@ -1767,6 +1786,10 @@ if [ -f $HOME/.profile ]; then . $HOME/.profile; fi
       "ddcui"
 
       "tcpdump"
+
+      "inotify-tools"
+      "netcat"
+      "socat"
       ))
 #+end_src
 
