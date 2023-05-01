@@ -231,7 +231,6 @@ retrieve these settings appropriately. This is used throughout =Desktop.org=.
 
   (when (equal system-name "hersai")
     `((desktop/dpi . nil)
-      (desktop/background . ,(concat (or (getenv "$_WALLPAPERS") "/data/xdg/wallpapers/anime") "default.jpg"))
       (rofi/theme . "gruvbox-dark")
       (rofi/icons . "Papirus-Dark")
       (rofi/drun-theme . "gruvbox-dark")
@@ -268,7 +267,6 @@ retrieve these settings appropriately. This is used throughout =Desktop.org=.
 
   (when (equal system-name "tokos")
     `((desktop/dpi . 114)
-      (desktop/background . ,(concat (or (getenv "$_WALLPAPERS") "/data/xdg/wallpapers/anime") "default.jpg"))
       (rofi/theme . "gruvbox-dark")
       (rofi/icons . "Papirus-Dark")
       (rofi/drun-theme . "gruvbox-dark")
