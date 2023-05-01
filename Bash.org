@@ -723,9 +723,47 @@ export _JAVA_AWT_WM_NONREPARENTING=1
 
 ** Node
 
-#+begin_src sh :tangle .config/sh/profile.d/node.sh :shebang #!/bin/sh
+Install =nodejs= profile.
+
+*** NVM
+
+#+begin_src sh :tangle .config/sh/profile.d/node-arch.sh :shebang #!/bin/sh
 [[ -f /usr/share/nvm/init-nvm.sh ]] && source /usr/share/nvm/init-nvm.sh
 #+end_src
+
+
+
+** GraphQL
+
+On Guix, ensure =nodejs= profile is installed.
+
+#+begin_src :eval no
+npm install -g graphql-language-service-cli
+#+end_src
+
+Graphql-language-service-cli depends on:
+
++ graphql-language-service
++ graphql-language-service-server
+
+Other tools include:
+
++ graphiql
++ codemirror-graphql
++ graphiql
+
+*** GraphQL Direnv
+
+
+
+#+begin_src sh tangle .envrc
+use_guixs -m $XDG_CONFIG_HOME/guix/manifests/nodejs.scm
+
+#+end_src
+
+
+***** TODO finalize on =use_guixs=
+***** TODO how to designate the default graphql schema file for the above?
 
 ** Graphviz
 
@@ -1500,9 +1538,19 @@ use_guix() {
   fi
 }
 
-# guix environment is being deprecated
 use_guixs() {
-  eval \"$(guix shell \"$@\" --search-paths)\"
+  eval "$(guix shell \"$@\" --search-paths)"
+}
+
+use_guix_manifest() {
+  [[ $# -lt 1 ]] && echo "use_guix_manifest requires argument" && return 1;
+
+  local manifest_file=$1
+  shift 1
+
+  [[ -z $manifest_file ]] && echo "use_guix_manifest requires extant manifest file" && return 1;
+
+  eval "$(guix shell -m "$manifest_file" --search-paths)"
 }
 
 # NOTE need to install the profile with `guix environment --root`
@@ -1519,8 +1567,6 @@ use_guixs_cached() {
   fi
 }
 #+end_src
-
-
 
 ** Bash
 
