@@ -19,6 +19,8 @@ Places Icons Auto-resize=false
 Places Icons Static Size=22
 
 [KPropertiesDialog]
+3 screens: Height=616
+3 screens: Width=479
 DisplayPort-0 DisplayPort-1 DisplayPort-2 Height 1080x1920 DisplayPort-1=458
 DisplayPort-0 DisplayPort-1 DisplayPort-2 Height 2160x3840 DisplayPort-2=616
 DisplayPort-0 DisplayPort-1 DisplayPort-2 Width 1080x1920 DisplayPort-1=397
@@ -35,6 +37,3 @@ ToolBarsMovable=Disabled
 [Open-with settings]
 CompletionMode=1
 History=mesh,ema
-
-[Search]
-Location=Everywhere

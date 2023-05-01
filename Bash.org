@@ -640,6 +640,17 @@ export ORG_DIRECTORY=/data/org
 #export ORG_AGENDA_ROOT=
 #export ORG_ROAM_ROOT
 
+gmacsupdate() {
+  local gmacsprofile=$(emacsclient -e '(expand-file-name "emacs-g.scm" dc/emacs-d)' -a "Couldn't fetch 'user-emacs-directory from emacs server")
+  local status=$?
+  [[ $status -ne 0 ]] || [[ -e $gmacsprofile ]] && return 1;
+  cp $gmacsprofile $XDG_CONFIG_HOME/guix/manifests/
+  echo updating emacs-g profile
+  update-profiles emacs-g
+
+  return 0
+}
+
 #+end_src
 
 ** AMD ROCm

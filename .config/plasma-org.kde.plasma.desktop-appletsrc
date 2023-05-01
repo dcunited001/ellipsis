@@ -390,7 +390,7 @@ plugin=org.kde.plasma.systemmonitor.diskactivity
 
 [Containments][141][Applets][176][Configuration]
 CurrentPreset=org.kde.plasma.systemmonitor
-PreloadWeight=85
+PreloadWeight=95
 
 [Containments][141][Applets][176][Configuration][Appearance]
 chartFace=org.kde.ksysguard.linechart
@@ -432,7 +432,7 @@ plugin=org.kde.plasma.systemmonitor.net
 
 [Containments][141][Applets][181][Configuration]
 CurrentPreset=org.kde.plasma.systemmonitor
-PreloadWeight=85
+PreloadWeight=90
 
 [Containments][141][Applets][181][Configuration][Appearance]
 chartFace=org.kde.ksysguard.linechart
@@ -513,6 +513,7 @@ plugin=org.kde.plasma.systemmonitor
 
 [Containments][141][Applets][235][Configuration]
 CurrentPreset=org.kde.plasma.systemmonitor
+PreloadWeight=55
 
 [Containments][141][Applets][235][Configuration][Appearance]
 chartFace=org.kde.ksysguard.linechart
@@ -538,6 +539,7 @@ plugin=org.kde.plasma.systemmonitor
 
 [Containments][141][Applets][236][Configuration]
 CurrentPreset=org.kde.plasma.systemmonitor
+PreloadWeight=55
 
 [Containments][141][Applets][236][Configuration][Appearance]
 chartFace=org.kde.ksysguard.linechart
@@ -625,7 +627,7 @@ immutability=1
 plugin=org.kde.plasma.devicenotifier
 
 [Containments][147][Applets][151][Configuration]
-PreloadWeight=55
+PreloadWeight=90
 
 [Containments][147][Applets][152]
 immutability=1
