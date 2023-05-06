@@ -1834,6 +1834,9 @@ utils in the environment, but this is split out anyways...
       "libinput"
       "xinput"
 
+      ;; tools for themes/icons: yad, yad-settings, yad-tools yad-icon-browser
+      "yad"
+
       "xset"
       "xrdb"
       "xhost"
