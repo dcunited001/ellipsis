@@ -21,13 +21,27 @@ Find X11 keyboard configs with: =find /gnu/store/ -wholename "*xkb/symbols" -typ
 
 * Customize
 
-+ =xkbcomp -I$HOME/.xkb $HOME/io.altgr-intl.xkb $DISPLAY=
+Run =~/.bin/xkbio= or =~/.bin/xkbus= or:
+
+#+begin_src sh
+xkbcomp -I$HOME/.xkb $HOME/.xkb/io.altgr-intl.xkb $DISPLAY
+#+end_src
 
 Can roll this into a single step with:
 
-=setxkbmap -print -layout io -variant altgr-intl | xkbcomp -I~/.xkb/ $DISPLAY=
+#+begin_src sh
+setxkbmap -print -layout io -variant altgr-intl | xkbcomp -I$HOME/.xkb/ $DISPLAY
+#+end_src
 
-(but it still doesn't load)
+The output from =xkbcomp= cannot be redirected using normal redirection
+... hmmmm. But if you are keen to loading this in your =.bashrc= you can tell it
+to =shuttf= up with =-w0=.
+
+** Using with FCITX5
+
+FCITX5 will not like this. When it becomes active (or is restarted), it's main
+keyboard overrides yours. It must be aware of the =-I$HOME/.xkb= include and I
+believe needs to have =evdev.xml= and such compiled.
 
 ** IO
 
@@ -38,7 +52,9 @@ xkb_keymap {
   xkb_keycodes  { include "evdev+aliases(qwerty)" };
   xkb_types     { include "complete" };
   xkb_compat    { include "complete" };
-  xkb_symbols   { include "pc+io(altgr-intl)+inet(evdev)+level3(ralt_alt)+level3(menu_switch)+io(hypermod5)" };
+  xkb_symbols   { include "pc+io(altgr-intl)+inet(evdev)+io(snakeplus)+level3(menu_switch)+ctrl(hyper_capscontrol)+level3(ralt_alt)" };
+  //xkb_symbols   { include "pc+io(altgr-intl)+inet(evdev)+level3(menu_switch)+ctrl(hyper_capscontrol)+level3(ralt_alt)" };
+  //xkb_symbols   { include "pc+io(altgr-intl)+inet(evdev)+level3(ralt_alt)+level3(menu_switch)+io(hypermod5)" };
   //xkb_geometry  { include "pc(pc105)" };
 };
 #+end_src
@@ -63,7 +79,9 @@ xkb_keymap {
   xkb_keycodes  { include "evdev+aliases(qwerty)" };
   xkb_types     { include "complete" };
   xkb_compat    { include "complete" };
-  xkb_symbols   { include "pc+us(altgr-intl)+inet(evdev)+level3(ralt_alt)+level3(menu_switch)+capslock(hyper)" };
+  xkb_symbols   { include "pc+us(altgr-intl)+inet(evdev)+io(snakeplus)+level3(menu_switch)+ctrl(hyper_capscontrol)+level3(ralt_alt)" };
+  //xkb_symbols   { include "pc+us(altgr-intl)+inet(evdev)+level3(menu_switch)+ctrl(hyper_capscontrol)+level3(ralt_alt)" };
+  //xkb_symbols   { include "pc+us(altgr-intl)+inet(evdev)+io(snakeplus)+level3(ralt_alt)+level3(menu_switch)+capslock(hyper)" };
   //xkb_geometry  { include "pc(pc105)" };
 };
 #+end_src

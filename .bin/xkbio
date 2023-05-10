@@ -1,0 +1,3 @@
+#!/bin/sh
+xkblog="$HOME/.cache/$(date +%F)-xkbio.log"
+xkbcomp -w0 -I$HOME/.xkb $HOME/.xkb/io.altgr-intl.xkb $DISPLAY
