@@ -855,12 +855,17 @@ MAKE_OPTS="-j14" PYTHON_MAKE_OPTS="-j14"
 
 Full command
 
-#+begin_src sh
+#+begin_src sh :tangle .bin/pynv-install-py
+[[ -z "$1" ]] && echo "Requires semantic version" && exit 1;
+
+version=$1
+ncpu=14
+
 env PYTHON_CONFIGURE_OPTS='--enable-optimizations --with-lto' \
     PYTHON_CFLAGS='-march=native -mtune=native' \
-    PYTHON_MAKE_OPTS="-j14" \
-    MAKE_OPTS="-j14" \
-    pyenv install 3.11.3 2>&1 > ~/src/log/python-build-3.11.3.log
+    PYTHON_MAKE_OPTS="-j$ncpu" \
+    MAKE_OPTS="-j$ncpu" \
+    pyenv install $version 2>&1 > ~/src/log/python-build-$version.log
 #+end_src
 
 **** Poetry
