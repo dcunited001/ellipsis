@@ -801,119 +801,16 @@ export GRAPHVIZ_DOT=$HOME/.guix-extra-profiles/desktop/desktop/bin/dot
 
 ** Python
 
-I have a lot of concerns when configuring my systems: two main workstations, but
-one with Garuda Arch and the other with Guix Systems, where some packages are
-older. This has led to friction like:
-
-- I've worked on a project on one or both laptops and now I can't get the
-  runtime to load.
-- I have to worry about what files/folders need to be added to =.gitignore=,
-  =.stow-local-ignore= AND =.stignore= so syncthing don't fuck things up or
-  transfer 40,000 files from a python install.
-
-Examining all this stuff leads me to understand it more, yet it's one hell of a
-"paradox of choice" problem.
-
-+ VM's would be great: but they don't work for GPU/CUDA projects ... unless I
-  have money for a external enclosure that supports multiple GPUs, I really
-  cannot justify $500 for a deskweight.
-+ Network storage would be great ... but doesn't work so well for IDE's (I
-  think?)
-+ The homelab (with or without kubernetes) would be great: but I'm not rich
-  enough to afford manageable storage. That's a hard requirement for K3S for me,
-  but working via Tramp may be possible.
-+ The cloud would be great... but have I told you /exactly/ how poor I am?
-
-*** Old Setup
-+ Pipenv should be installed to =--user=, at least on guix
-  - after =guix install python pip3=, then run =pip3 install --user pipenv=
-  - or use a manifest to manage the base python and load it into the environment
-  - pip3/pipenv will install its user packages to =~/.local/=
-  - otherwise, see [[https://github.com/pjotrp/guix-notes/blob/master/PYTHON.org#isolated-module-installation][pjotr's notes]] on isolated module installation
-    - should guix/python need the package's hashed path
-+ With these environment variables, then pipenv should sync the packages in
-  =Pipfile= to =./.venv=
-  - this is easier than managing a dozen =virtualenv= instances like I did
-    before the pipenv era
-  - old projects should probably be cleaned up. small files eat many inodes. i'm
-    looking at you NodeJS.
-
-#+begin_src sh :tangle .config/sh/profile.d/python-old.sh :shebang #!/bin/sh
-# to manually specify where venv's are set up
-# export WORKON_HOME=~/.venvs
-export PIPENV_VENV_IN_PROJECT=1
-
-# to load an alternate .env file
-#PIPENV_DOTENV_LOCATION=/path/to/.env pipenv shell
-
-# to prevent loading of .env files (containing config secrets)
-# PIPENV_DONT_LOAD_ENV=1
-
-# to setup shell completion in bash
-# eval "$(_PIPENV_COMPLETE=bash_source pipenv)"
-#+end_src
-
-**** Resources
-
-+ [[https://medium.com/analytics-vidhya/install-tensorflow-2-for-amd-gpus-87e8d7aeb812][Setup Tensorflow for AMD GPU's]]
-+ [[https://pipenv-fork.readthedocs.io/en/latest/advanced.html][Advanced Usage of Pipenv]]
-  - includes reference to environment variables
-
-**** Issues
-
-***** Setup IPython for integration with Blender
-
-***** TKinter errors with =pyenv=
-
-Ensure tkinter is installed or run =pacman -Syu tk= and restart xorg to refresh
-path. New pythons being installed will need it.
-
-I swear TCL is like the "other Perl" -- a virtually unused language without
-which most of our technology & internets would cease functioning.
-
-What's amusing to me is that any program would really need an interface to TCL,
-itself being the universal interface to any program ... but i guess it makes
-sense. Why reinvent the wheel if some languages are just superior?
-
-***** OpenSSL errors with =pyenv=
-
-Ensure the python is building in OpenSSL support.
-
-Ben Mezger installs python versions like so [[https://github.com/benmezger/dotfiles/blob/main/Makefile#L162-L177][in this Makefile]]
-
-#+begin_example shell
-PATH="$(HOME)/.pyenv/bin:${PATH}"; \
-CFLAGS=-I/usr/include/openssl LDFLAGS=-L/usr/lib pyenv install -s 3.10.2; \
-CFLAGS=-I/usr/include/openssl LDFLAGS=-L/usr/lib pyenv install -s 3.8.12; \
-CFLAGS=-I/usr/include/openssl LDFLAGS=-L/usr/lib pyenv install -s 3.9.9; \
-CFLAGS=-I/usr/include/openssl LDFLAGS=-L/usr/lib pyenv install -s 3.11.0; \
-
-eval $(pyenv init -)
-pip install --upgrade -r scripts/requirements.txt
-#+end_example
-
-From [[https://stackoverflow.com/questions/37055420/python-how-can-i-tell-if-my-python-has-ssl][s/o How can I tell if my python has SSL?]]
-
-Test for openssl with =openssl rand -hex 20= and the installed python with:
-
-#+begin_src shell
-pyenv shell 3.11.3
-python -c "import ssl; print(ssl.OPENSSL_VERSION)"
-#+end_src
-
-#+RESULTS:
-: OpenSSL 3.0.8 7 Feb 2023
-
-
 *** Python on Arch
+
+**** Pyenv
 
 Ensure pyenv is installed with =yay -Syu pyenv= and add this to
 =.config/sh/_load_profile.sh=. This should be loaded after all the guix
 profiles, in case one contains a python.
 
 #+begin_src sh :tangle .config/sh/profile.d/python-pyenv.sh :shebang #!/bin/sh
-# Define =PYENV_ROOT= or pyenv will install to =$HOME/.pyenv=
-export PYENV_ROOT="$HOME/.pyenv"
+export PYENV_ROOT="$_LANG/.pyenv"
 command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
 eval "$(pyenv init -)"
 #+end_src
@@ -927,9 +824,9 @@ eval "$(pyenv init -)"
 
 See direnv integration below.
 
-***** TODO evaluate whether I ls -ashould add =pyenv= to both =.profile= and =.bashrc=
+****** TODO evaluate whether I should add =pyenv= to both =.profile= and =.bashrc=
 
-*** Custom Pyenv builds
+***** Custom Pyenv builds
 
 See pyenv's =python-build= plugin to customize the build
 
@@ -942,7 +839,7 @@ See pyenv's =python-build= plugin to customize the build
   broken. I guess OpenSSL3 is [[https://peps.python.org/pep-0644/][taking its sweet time]], but convenience comes at a
   cost -- mostly, you'll run into issues with the [[https://cryptography.io/en/latest/installation/#building-cryptography-on-macos][cryptography package]].
 
-**** Optimizations
+****** Optimizations
 
 To build with optimizations:
 

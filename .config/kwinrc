@@ -84,10 +84,10 @@ padding=4
 tiles={"layoutDirection":"horizontal","tiles":[{"width":0.25},{"width":0.5},{"width":0.25}]}
 
 [Tiling][368b7d02-7626-5761-b3c7-502a4da21d49]
-tiles={"layoutDirection":"horizontal","tiles":[{"width":0.25},{"width":0.5},{"width":0.25}]}
+tiles={"layoutDirection":"vertical","tiles":[{"height":0.44375000000000125,"layoutDirection":"horizontal","tiles":[{"width":0.5},{"width":0.5}]},{"height":0.5562499999999979}]}
 
 [Tiling][876df35c-0510-5807-b853-f88348083870]
-tiles={"layoutDirection":"horizontal","tiles":[{"layoutDirection":"vertical","tiles":[{"height":0.3520833333333333,"layoutDirection":"horizontal","tiles":[{"width":0.5},{"width":0.5}]},{"height":0.6479166666666643}],"width":1}]}
+tiles={"layoutDirection":"horizontal","tiles":[{"layoutDirection":"vertical","tiles":[{"height":0.425390625,"layoutDirection":"horizontal","tiles":[{"width":0.5},{"width":0.5}]},{"height":0.5746093749999973}],"width":1}]}
 
 [Tiling][c0c32115-6c0c-5e98-bf49-7e6b63b3835d]
 tiles={"layoutDirection":"horizontal","tiles":[{"width":0.25},{"width":0.5},{"width":0.25}]}
