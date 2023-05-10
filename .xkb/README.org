@@ -5,9 +5,26 @@
 
 * Setup
 
-+ This directory should be linked from =$HOME/.xkb=
-+ Compile the layout with =xkbcomp -I$HOME/.xkb $HOME/.xkb/io.altgr-intl.xkb=
-+ Then, in =.xsession=, run =$HOME/.bin/set_xkbcomp=
+This directory should be linked from =$HOME/.xkb=
+
+Compile the layout with =xkbcomp -I$HOME/.xkb $HOME/.xkb/io.altgr-intl.xkb=
+
+Then, in =.xsession=, run =$HOME/.bin/set_xkbcomp=
+
+** Don't Learn Linux Wrong
+
+Note that =~= shell expansion doesn't work here. When something deviates from
+expected behavior, figuring this out is obvious despite being ignorant of "first
+principles"... but when as of yet you have no expections, it's quite a bit
+harder to form any at all. This also makes it difficult to form memories with
+any consistency, thus impacting the total "statistical confidence" your brain
+experiences when it does "brain things" in the future. If other things are
+confusing you, that will definitely add another dimension to convolute your
+perpexity.
+
+It's important to be corrected earlier on. Otherwise, you don't learn too good
+and bad habits/assumptions become more deeply engrained. Being corrected doesn't
+happen much in isolation. Find an expert/usergroup.
 
 * Resources
 
