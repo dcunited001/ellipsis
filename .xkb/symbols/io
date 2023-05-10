@@ -30,6 +30,7 @@ default partial alphanumeric_keys modifier_keys xkb_symbols "basic" {
 // messes with simple Emacs/OS keybindings
 // gives you accessible snake_case
 partial xkb_symbols "snakeyay" {
+  // TODO: shit1 emacs demands a sacrifice: fix snakeyay/snakeplus at levels 5-8
   key<SPCE>{[space, underscore, space, underscore]};
 };
 
@@ -67,9 +68,9 @@ hidden partial modifier_keys xkb_symbols "hypermod5" {
 
 xkb_symbols "intl" {
   // i said no semicolons </my-stapler>
-  include "us(intl)"          // include "io(swapcaps)"
-      include "io(snakeplus)" // autoformatting is problematic!!!
-      // include "level5(lsgt_switch)"
+  include "us(intl)" // include "io(swapcaps)"
+                     // autoformatting is problematic!!!
+                     // include "level5(lsgt_switch)"
       name[Group1] = "Digimon - US (With Dead Keys)";
 
   // key <TLDE> {[dead_grave,         dead_tilde,      grave,       asciitilde ]
@@ -94,7 +95,6 @@ xkb_symbols "intl" {
 xkb_symbols "altgr-intl" {
   include "us(altgr-intl)"          // include "io(swapcaps)"
       include "level5(lsgt_switch)" //
-      include "io(snakeplus)"
 
       name[Group1] = "Digimon - US (With Dead Keys)";
 
