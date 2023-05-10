@@ -863,6 +863,147 @@ env PYTHON_CONFIGURE_OPTS='--enable-optimizations --with-lto' \
     pyenv install 3.11.3 2>&1 > ~/src/log/python-build-3.11.3.log
 #+end_src
 
+**** Poetry
+
+Basically poetry projects (& their venv's) will need to be handled
+separately. From what I understand, each python that is installed will need to
+have its own =poetry= installed. The =virtualenvs.prefer-active-python= will
+accomplish that, as long as poetry runs after =direnv= sets the =pyenv= and as
+long as there isn't an active =venv= for that =pyenv= in the shell -- these have
+a separate =pip=.
+
+
+**** Python Direnv
+
+This method is compatible with the others, so a project on one laptop with
+=pyenv= and lacking the =pyenv-virtualenv= plugin will simply need to change
+=.envrc=. Both should be able to use =layout python=.
+
+***** Direnv: [[https://github.com/direnv/direnv/wiki/Python#venv-stdlib-module][layout python3]]
+
+Specify with =layout python3=, which uses venv stdlib module
+
+This directive causes a virtualenv to be created at
+=$PWD/.direnv/python-$python_version=.
+
+#+begin_quote
+Commenting out the =layout= will cause this directory to appear.
+#+end_quote
+
+***** Direnv: [[https://github.com/direnv/direnv/wiki/Python#poetry][layout pyenv]]
+
+Requires [[github:pyenv/pyenv][pyenv/pyenv]]
+
+Specify with =layout pyenv $python_version=
+
+This directive still installs python packages in the virtualenv at
+=$PWD/.direnv/python-$python_version=.
+
+#+begin_quote
+Commenting out the =${pyenv}= will cause this directory to appear.
+#+end_quote
+
+***** Direnv: =layout pyenv $python_version=
+
+Requires [[github:pyenv/pyenv-virtualenv][pyenv-virtualenv]]
+
+Specify with =layout virtualenv= and =layout activate= in a project's =.envrc=
+
+#+begin_src shell
+# -*- mode: sh; -*-
+# (rootdir)/.envrc : direnv configuration file
+# see https://direnv.net/
+# pyversion=$(head .python-version)
+# pvenv=$(head     .python-virtualenv)
+pyversion=2.7.14
+pvenv=myproject
+
+use python ${pyversion}
+# Create the virtualenv if not yet done
+layout virtualenv ${pyversion} ${pvenv}
+# activate it
+layout activate ${pvenv}-${pyversion}
+#+end_src
+
+This method requires adding the following to =.config/direnv/direnvrc=
+
+#+begin_src sh :tangle .config/direnv/direnvrc :shebang #!/bin/sh
+# use a certain pyenv version
+use_python() {
+    if [ -n "$(which pyenv)" ]; then
+        local pyversion=$1
+        pyenv local ${pyversion}
+    fi
+}
+
+layout_virtualenv() {
+    local pyversion=$1
+    local pvenv=$2
+    if [ -n "$(which pyenv virtualenv)" ]; then
+        pyenv virtualenv --force --quiet ${pyversion} ${pvenv}-${pyversion}
+    fi
+    pyenv local --unset
+}
+
+layout_activate() {
+    if [ -n "$(which pyenv)" ]; then
+        source $(pyenv root)/versions/$1/bin/activate
+    fi
+}
+#+end_src
+
+Adding this to =.direnvrc= will cause new environments to be created in:
+
+=$(pyenv root)/versions/$python_version/$virtualenv_name=.
+
+These environments can be shared ... potentially leaded to some isolated
+dependency/build concerns (e.g. tensorflow with/out GPU or installing a set of
+dependencies not satisfied by what's already installed). It doesn't share
+installation roots.
+
+However, since =direnv= use of functions named =use_.*= is special, I'm not
+quite sure how well these methods mix.
+
+***** Direnv: [[https://github.com/direnv/direnv/wiki/Python#poetry][layout poetry]]
+
+Requires [[github:python-poetry/poetry][python-poetry/poetry]] to be [[https://python-poetry.org/docs/#installing-with-the-official-installer][installed]]. This method is helpful when
+working on a python lib, since it isolates the installation into.
+
+Specify with =layout poetry=
+
+#+begin_src sh :tangle .config/direnv/direnvrc :shebang #!/bin/sh
+layout_poetry() {
+    PYPROJECT_TOML="${PYPROJECT_TOML:-pyproject.toml}"
+    if [[ ! -f "$PYPROJECT_TOML" ]]; then
+        log_status "No pyproject.toml found. Executing \`poetry init\` to create a \`$PYPROJECT_TOML\` first."
+        poetry init
+    fi
+
+    if [[ -d ".venv" ]]; then
+        VIRTUAL_ENV="$(pwd)/.venv"
+    else
+        VIRTUAL_ENV=$(poetry env info --path 2>/dev/null ; true)
+    fi
+
+    if [[ -z $VIRTUAL_ENV || ! -d $VIRTUAL_ENV ]]; then
+        log_status "No virtual environment exists. Executing \`poetry install\` to create one."
+        poetry install
+        VIRTUAL_ENV=$(poetry env info --path)
+    fi
+
+    PATH_add "$VIRTUAL_ENV/bin"
+    export POETRY_ACTIVE=1
+    export VIRTUAL_ENV
+}
+#+end_src
+
+*Compatibility with pyenv:* Poetry will use the python it encounters first in
+your path if =virtualenvs.prefer-active-python= is set, so it should use the one
+that =pyenv= hands it via its shims.
+
+See [[https://python-poetry.org/docs/configuration#configuration][Configuration]] and [[https://python-poetry.org/docs/managing-environments/][Managing Environments]].
+
+
 *** Python on Guix
 
 I'm just going to use the Guix python packages and setup pip to support
@@ -885,50 +1026,7 @@ export VIRTUALENV=~/.my-persistent-venvs/jupyter-with-tensorflow-venv
 layout python
 #+end_example
 
-**** Installing Pythons on Guix with Pyenv
-
-#+begin_quote
-Note: =pyenv= doesn't work well on Guix, so a different =direnv= workflow is
-needed. I knew it was likely to be this way, but once I start running into
-=LD_LIBRARY_PATH= issues, that's it. That will end up being brittle at best.
-
-My channel is still too new to support essential custom packages. This is
-another reason I was mad to discover I /could/ actually use GPG/SSH the way it
-was initially described.
-#+end_quote
-
-Pyenv needs to be cloned:
-
-#+begin_example shell
-git clone https://github.com/pyenv/pyenv $HOME/.pyenv
-#+end_example
-
-And then [[github:pyenv/pyenv-virtualenv][pyenv/pyenv-virtualenv]] needs to be cloned into the plugins dir:
-
-#+begin_example
-git clone https://github.com/pyenv/pyenv-virtualenv.git "$(pyenv root)/plugins/pyenv-virtualenv"
-#+end_example
-
-Ensure the above =python-pyenv.sh= has been added to =.config/sh/_load_profile.sh=
-
-These dependencies (and [[https://github.com/pyenv/pyenv/wiki#suggested-build-environment][probably more]]) need to be accessible on path.
-
-|-----------------+--------------------------------------------------------------------|
-| Role            | Guix Packages                                                      |
-|-----------------+--------------------------------------------------------------------|
-| C Interop       | libffi (or sad python)                                             |
-| GUI/TUI         | tk, ncurses                                                 |
-| Compression     | bzip2 (on system profile), zlib, zip, unzip and xz (includes lzma) |
-| XML             | expat and libxml2 (python doesn't build in xmlsec)                 |
-| Data            | sqlite                                                             |
-| CA Certs        | nss-certs (should probably be [[https://docs.python.org/3/using/unix.html#custom-openssl][on your system]])                      |
-| Hashing Library | gdbm (so python go vroom)                                          |
-|-----------------+--------------------------------------------------------------------|
-
-Since multiple profiles can source the same lib, for consistency, run =pyenv
-install $version= within =guix shell -m ~/.config/guix/manifests/devtools.scm=.
-Since these are shared libs, then the profile needs to be loaded wherever
-pythons are run.
+**** Just going to use docker when I need to
 
 ** Julia
 
@@ -1268,37 +1366,138 @@ alias gpgk='gpg-connect-agent killagent /bye'
 alias emacs-debug-wayland='WAYLAND_DEBUG=1 emacs --fg-daemon > $HOME/.cache/log/emacs.wayland.`date +%Y-%m%d-%H%M`.log 2>&1'
 #+end_src
 
-*** Shell Prompt
-
-#+begin_src sh :tangle .bashrc :shebang #!/bin/sh
-if [ "$TERM" == "dumb" ]; then
-    PS1='$ '
-else
-    if [ -n "$GUIX_ENVIRONMENT" ]
-    then
-        PS1='\[\033[1;33m\]\A'' \[\033[1;32m\]''\u''\[\033[31m\]''@''\[\033[1;36m\]''\h \[\033[31m\]::''\[\033[1;33m\] \w''\[\033[31m\] [''\[\033[1;00m\]env''\[\033[31m\]] :: \[\033[00m\]'
-    else
-        PS1='\[\033[1;33m\]\A'' \[\033[1;32m\]''\u''\[\033[31m\]''@''\[\033[1;36m\]''\h \[\033[31m\]::''\[\033[1;33m\] \w''\[\033[31m\] :: \[\033[00m\]'
-    fi
-fi
-
-#+end_src
-
 *** Color
+
+Shell colors (stackoverflow)
+
+#+begin_src sh :tangle .config/sh/colors.sh :shebang #!/bin/sh
+RESTORE=$(echo -en '\001\033[0m\002')
+RED=$(echo -en '\001\033[00;31m\002')
+GREEN=$(echo -en '\001\033[00;32m\002')
+YELLOW=$(echo -en '\001\033[00;33m\002')
+BLUE=$(echo -en '\001\033[00;34m\002')
+MAGENTA=$(echo -en '\001\033[00;35m\002')
+PURPLE=$(echo -en '\001\033[00;35m\002')
+CYAN=$(echo -en '\001\033[00;36m\002')
+LIGHTGRAY=$(echo -en '\001\033[00;37m\002')
+LRED=$(echo -en '\001\033[01;31m\002')
+LGREEN=$(echo -en '\001\033[01;32m\002')
+LYELLOW=$(echo -en '\001\033[01;33m\002')
+LBLUE=$(echo -en '\001\033[01;34m\002')
+LMAGENTA=$(echo -en '\001\033[01;35m\002')
+LPURPLE=$(echo -en '\001\033[01;35m\002')
+LCYAN=$(echo -en '\001\033[01;36m\002')
+WHITE=$(echo -en '\001\033[01;37m\002')
+#+end_src
 
 + Protesilaos: [[file:/data/ecto/x.files/protesilaos/dotfiles/shell/.bashrc::Colourise man pages][font & color config for man]]
 + =man termcap= for an explanation of codes
 + example dircolors output: [[file:/data/ecto/x.files/benmezger/dotfiles/dot_dircolors][benmezger dircolors]]
 
-#+begin_src sh :tangle .bashrc :shebang #!/bin/sh
-export LESS_TERMCAP_mb=$'\E[01;31m'
-export LESS_TERMCAP_md=$'\E[01;31m'
-export LESS_TERMCAP_me=$'\E[0m'
-export LESS_TERMCAP_se=$'\E[0m'
+#+begin_src sh :tangle .config/sh/colors.sh :shebang #!/bin/sh
+export LESS_TERMCAP_mb="${LRED}"
+export LESS_TERMCAP_md="${LRED}"
+export LESS_TERMCAP_me="${RESTORE}"
+export LESS_TERMCAP_se="${RESTORE}"
 export LESS_TERMCAP_so=$'\E[00;44;37m'
-export LESS_TERMCAP_ue=$'\E[0m'
-export LESS_TERMCAP_us=$'\E[01;32m'
+export LESS_TERMCAP_ue="${RESTORE}"
+export LESS_TERMCAP_us="${LGREEN}"
 #+end_src
+
+And source
+
+#+begin_src sh :tangle .bashrc :shebang #!/bin/sh
+source "$DOTS_CFG_SHELL/colors.sh"
+#+end_src
+
+**** Less Termcaps
+
+Source: [[https://unix.stackexchange.com/questions/108699/documentation-on-less-termcap-variables][stackoverflow]]
+
+|---------+----------+------------------------------------|
+| termcap | terminfo | desc                               |
+|---------+----------+------------------------------------|
+| ks      | smkx     | make the keypad send commands      |
+| ke      | rmkx     | make the keypad send digits        |
+| vb      | flash    | emit visual bell                   |
+| mb      | blink    | start blink                        |
+| md      | bold     | start bold                         |
+| me      | sgr0     | turn off bold, blink and underline |
+| so      | smso     | start standout (reverse video)     |
+| se      | rmso     | stop standout                      |
+| us      | smul     | start underline                    |
+| ue      | rmul     | stop underline                     |
+|---------+----------+------------------------------------|
+
+*** Shell Prompt
+
+To check capabilities, see =man terminfo= and =infocmp=
+
+#+begin_src sh :tangle .config/sh/prompt.sh :shebang #!/bin/sh
+export PS_INFO=""
+export PS_PROMPT=""
+
+PS_PROMPT="${LYELLOW}\A ${LGREEN}\u${RED}@${LCYAN}\h ${RED}:: ${YELLOW}\w"
+if [ -n "$GUIX_ENVIRONMENT" ]; then
+    PS_INFO="${LMAGENTA}g${RESTORE}"
+fi
+
+if [ "$TERM" = "dumb" ]; then
+    PS1='$ '
+else
+    PS1="$PS_PROMPT"
+    if [ -n "$PS_INFO" ]; then
+        PS1="$PS_INFO\n$PS1"
+    fi
+    PS1="$PS1${RED}$ ${RESTORE}"
+fi
+
+#+end_src
+
+And source
+
+#+begin_src sh :tangle .bashrc :shebang #!/bin/sh
+source "$DOTS_CFG_SHELL/prompt.sh"
+#+end_src
+
+**** Ok, nevermind then
+
+TFW trying to avoid side effects in function (... but then realizing you in bash)
+
+#+begin_src sh :tangle .config/sh/prompt.sh :shebang #!/bin/sh
+
+ps_update() {
+    # $1: PS_PROMPT $2: PS_INFO (optional)
+    if [ "$TERM" = "dumb" ]; then
+        # || [ $# -ge 1 ]
+        # || [ -z "${RESTORE}" ] # well that's unfortunate
+        return # fail silently
+    fi
+
+    if [ -z "$PS_PROMPT" ]; then
+       PS_PROMPT="<=> ${RESTORE}"
+    fi
+
+    local ps_new="$PS_PROMPT"
+    if [ -n "$PS_INFO" ]; then
+        psnew="$PS_INFO\n$psnew$"
+    fi
+    psnew="$psnew ${RED}$ ${RESTORE}"
+    echo $psnew
+
+    # using in .envrc makes and it becomes specific to my system.
+}
+
+# PS1="$(ps_update \"$PS_INFO\")"
+# TERM=dumb
+#+end_src
+
+To use in direnv (untested....)
+
+#+begin_example sh
+PS_INFO="${PS_INFO}${LGREEN}[ foo ]${RESTORE} "
+[[ -n "$(declare -F ps_update)" ]] && psnew="$(ps_update $PS_INFO)"
+#+end_example
 
 *** GPG/SSH
 
@@ -1318,128 +1517,6 @@ Load at end of =.bashrc=
 #+end_src
 
 Reload =direnvrc= with =direnv reload=
-
-**** Python Direnv
-
-This method is compatible with the others, so a project on one laptop with
-=pyenv= and lacking the =pyenv-virtualenv= plugin will simply need to change
-=.envrc=. Both should be able to use =layout python=.
-
-***** Using [[https://github.com/direnv/direnv/wiki/Python#venv-stdlib-module][layout python3]] (uses venv stdlib module)
-
-Specify with =layout python3=
-
-This directive causes a virtualenv to be created at
-=$PWD/.direnv/python-$python_version=.
-
-***** Using [[https://github.com/direnv/direnv/wiki/Python#poetry][layout pyenv]]
-
-Requires [[github:pyenv/pyenv][pyenv/pyenv]]
-
-Specify with =layout pyenv $python_version=
-
-This directive still installs python packages in the virtualenv at
-=$PWD/.direnv/python-$python_version=.
-
-***** Using =layout pyenv $python_version=
-
-Requires [[github:pyenv/pyenv-virtualenv][pyenv-virtualenv]]
-
-Specify with =layout virtualenv= and =layout activate= in a project's =.envrc=
-
-#+begin_src shell
-# -*- mode: sh; -*-
-# (rootdir)/.envrc : direnv configuration file
-# see https://direnv.net/
-# pyversion=$(head .python-version)
-# pvenv=$(head     .python-virtualenv)
-pyversion=2.7.14
-pvenv=myproject
-
-use python ${pyversion}
-# Create the virtualenv if not yet done
-layout virtualenv ${pyversion} ${pvenv}
-# activate it
-layout activate ${pvenv}-${pyversion}
-#+end_src
-
-This method requires adding the following to =.config/direnv/direnvrc=
-
-#+begin_src sh :tangle .config/direnv/direnvrc :shebang #!/bin/sh
-# use a certain pyenv version
-use_python() {
-    if [ -n "$(which pyenv)" ]; then
-        local pyversion=$1
-        pyenv local ${pyversion}
-    fi
-}
-
-layout_virtualenv() {
-    local pyversion=$1
-    local pvenv=$2
-    if [ -n "$(which pyenv virtualenv)" ]; then
-        pyenv virtualenv --force --quiet ${pyversion} ${pvenv}-${pyversion}
-    fi
-    pyenv local --unset
-}
-
-layout_activate() {
-    if [ -n "$(which pyenv)" ]; then
-        source $(pyenv root)/versions/$1/bin/activate
-    fi
-}
-#+end_src
-
-Adding this to =.direnvrc= will cause new environments to be created in:
-
-=$(pyenv root)/versions/$python_version/$virtualenv_name=.
-
-These environments can be shared ... potentially leaded to some isolated
-dependency/build concerns (e.g. tensorflow with/out GPU or installing a set of
-dependencies not satisfied by what's already installed). It doesn't share
-installation roots.
-
-However, since =direnv= use of functions named =use_.*= is special, I'm not
-quite sure how well these methods mix.
-
-***** Using [[https://github.com/direnv/direnv/wiki/Python#poetry][layout poetry]]
-
-Requires [[github:python-poetry/poetry][python-poetry/poetry]] to be [[https://python-poetry.org/docs/#installing-with-the-official-installer][installed]]. This method is helpful when
-working on a python lib, since it isolates the installation into.
-
-Specify with =layout poetry=
-
-#+begin_src sh :tangle .config/direnv/direnvrc :shebang #!/bin/sh
-layout_poetry() {
-    PYPROJECT_TOML="${PYPROJECT_TOML:-pyproject.toml}"
-    if [[ ! -f "$PYPROJECT_TOML" ]]; then
-        log_status "No pyproject.toml found. Executing \`poetry init\` to create a \`$PYPROJECT_TOML\` first."
-        poetry init
-    fi
-
-    if [[ -d ".venv" ]]; then
-        VIRTUAL_ENV="$(pwd)/.venv"
-    else
-        VIRTUAL_ENV=$(poetry env info --path 2>/dev/null ; true)
-    fi
-
-    if [[ -z $VIRTUAL_ENV || ! -d $VIRTUAL_ENV ]]; then
-        log_status "No virtual environment exists. Executing \`poetry install\` to create one."
-        poetry install
-        VIRTUAL_ENV=$(poetry env info --path)
-    fi
-
-    PATH_add "$VIRTUAL_ENV/bin"
-    export POETRY_ACTIVE=1
-    export VIRTUAL_ENV
-}
-#+end_src
-
-*Compatibility with pyenv:* Poetry will use the python it encounters first in
-your path if =virtualenvs.prefer-active-python= is set, so it should use the one
-that =pyenv= hands it via its shims.
-
-See [[https://python-poetry.org/docs/configuration#configuration][Configuration]] and [[https://python-poetry.org/docs/managing-environments/][Managing Environments]].
 
 **** Guix Direnv
 
