@@ -61,7 +61,7 @@ references to subdirectories (that either exist ... or not).
 Forget =${SSH_CONFIG_HOME}=. Either prepend all =ssh/agent= commands
 with =HOME=$SECRETS_HOME= or swap the existing =~/.ssh= with a link.
 
-#+begin_src shell :eval no
+#+begin_src sh :eval no
 ln -s $SECRETS_HOME ~/.ssh
 #+end_src
 
@@ -227,7 +227,7 @@ PermitUserEnvironment no
 
 * Screen
 
-#+begin_src shell (concat secrets-home "/.ssh/.screenrc")
+#+begin_src sh (concat secrets-home "/.ssh/.screenrc")
 # .SCREENRC
 #+end_src
 
@@ -238,7 +238,7 @@ PermitUserEnvironment no
 While it's nice to have a portable profile and all ... it would be really nice
 if setting this up were quick!
 
-#+begin_src shell :tangle (concat secrets-home "/.ssh/agent_rc") :shebang "#!/bin/bash"
+#+begin_src sh :tangle (concat secrets-home "/.ssh/agent_rc") :shebang "#!/bin/bash"
 export PKCS_LIB=/run/current-system/profile/lib/opensc-pkcs11.so
 
 alias pkcs-agent='ssh-agent -s -P $(readlink $PKCS_LIB)'
@@ -249,7 +249,7 @@ alias pkcs-ssh='ssh -I $PKCS_LIB'
 
 When using GPG
 
-#+begin_src shell :tangle (concat secrets-home "/.ssh/gpgrc") :shebang "#!/bin/bash"
+#+begin_src sh :tangle (concat secrets-home "/.ssh/gpgrc") :shebang "#!/bin/bash"
 export SSH_AUTH_SOCK=$(gpgconf --list-dirs agent-ssh-socket)
 #+end_src
 
@@ -259,7 +259,7 @@ export SSH_AUTH_SOCK=$(gpgconf --list-dirs agent-ssh-socket)
 
 This is output to =$SECRETS_HOME/.bin=, but needs to be in path or copied to =~/.bin=.
 
-#+begin_src shell :tangle (concat secrets-home "/.bin/emacs-agent-set") :shebang "#!/bin/sh"
+#+begin_src sh :tangle (concat secrets-home "/.bin/emacs-agent-set") :shebang "#!/bin/sh"
 if [ ! -z "$SSH_AGENT_PID" ]; then
     if [ ! -z "$SSH_AUTH_SOCK" ]; then
         emacsclient -e "(setenv \"SSH_AGENT_PID\" \"$SSH_AGENT_PID\")" -a "Something somewhere happen"
@@ -276,14 +276,14 @@ fi
 
 And clear the agent vars from an emacs server
 
-#+begin_src shell :tangle (concat secrets-home "/.bin/emacs-agent-clear") :shebang "#!/bin/sh"
+#+begin_src sh :tangle (concat secrets-home "/.bin/emacs-agent-clear") :shebang "#!/bin/sh"
 emacsclient -e "(setenv \"SSH_AGENT_PID\" \"\")" -a "Something somewhere still happen"
 emacsclient -e "(setenv \"SSH_AUTH_SOCK\" \"\")" -a "Something somewhere still happen"
 #+end_src
 
 When using GPG
 
-#+begin_src shell :tangle (concat secrets-home "/.bin/emacs-agent-gpg") :shebang "#!/bin/sh"
+#+begin_src sh :tangle (concat secrets-home "/.bin/emacs-agent-gpg") :shebang "#!/bin/sh"
 if [ ! -z "$SSH_AUTH_SOCK" ]; then
     emacsclient -e "(setenv \"SSH_AUTH_SOCK\" \"$SSH_AUTH_SOCK\")" -a "Something somewhere happen"
 else

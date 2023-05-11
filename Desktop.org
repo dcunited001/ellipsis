@@ -1196,7 +1196,7 @@ fi
 
 Shell script
 
-#+begin_src shell :tangle .bin/polybar/emacs-pomm
+#+begin_src sh :tangle .bin/polybar/emacs-pomm
 if ps -e | grep emacs >> /dev/null; then
     emacsclient --eval "(if (boundp 'pomm-current-mode-line-string) pomm-current-mode-line-string \"\") " | xargs echo -e
 fi
@@ -1387,7 +1387,7 @@ interval = 1
 
 Script
 
-#+begin_src shell :tangle .bin/dunst/notification-sound :shebang #!/bin/sh
+#+begin_src sh :tangle .bin/dunst/notification-sound :shebang #!/bin/sh
 local sound_path="$GUIX_EXTRA/xdg/xdg/share/sounds/freedesktop/stereo/"
 local sound_file="message.oga"
 
@@ -1571,13 +1571,13 @@ be changed with the following file. For system-wide changes try
 What's nice is that Papirus [[https://github.com/PapirusDevelopmentTeam/papirus-icon-theme/commit/a10fb7f2423d5e30b9c4477416ccdc93c4f3849d][now]] has an icon for =text/org=.
 One simply needs to refresh their mime database
 
-#+begin_src shell :tangle (if (string= (shell-command-to-string "xdg-mime query default text/org") "") "setup.sh" "no")
+#+begin_src sh :tangle (if (string= (shell-command-to-string "xdg-mime query default text/org") "") "setup.sh" "no")
 update-mime-database ~/.local/share/mime
 #+end_src
 
 Then set Emacs as the default editor
 
-#+begin_src shell :tangle (if (string= (shell-command-to-string "xdg-mime query default text/org") "emacs-client.desktop\n") "no" "setup.sh")
+#+begin_src sh :tangle (if (string= (shell-command-to-string "xdg-mime query default text/org") "emacs-client.desktop\n") "no" "setup.sh")
 xdg-mime default emacs.desktop text/org
 #+end_src
 
@@ -2161,7 +2161,7 @@ If you need to manually connect to Bluetooth audio devices using =bluetoothctl=,
 as DW currently does in Guix, you'll need to enter these commands at the
 =bluetoothctl= prompt:
 
-#+begin_src shell :eval no
+#+begin_src sh :eval no
 
   system-alias "my-hostname" # To configure your laptop's device name
   default-agent

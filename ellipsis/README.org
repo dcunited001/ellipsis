@@ -128,7 +128,7 @@ when they are intended as long-term backups.
 This will ensure that one copy of the disk's metadata and block-level data is
 duplicated within the partition. It results in <50% of the storage space.
 
-#+begin_src shell
+#+begin_src sh
 mkfs.btrfs -d dup -m dup --label "backup" /dev/sdXn
 #+end_src
 

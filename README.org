@@ -152,7 +152,7 @@ information.
 Thus, Guix is like x-ray vision for GNU/Linux. Here are the packages for
 bootstrapping GCC. Search the Guix Manual for =guix graph=.
 
-#+begin_src shell
+#+begin_src sh
 guix graph -t derivation \
     -e '(@@ (gnu packages bootstrap) %bootsrap-gcc)' \
     | dot -Tpng > bootstrap-gcc.png

@@ -87,7 +87,7 @@ Build the relocatable guix profile:
 + -S :: creates links from the profile within the tar to the
   dependences in the guix packages
 
-#+begin_src shell :eval no
+#+begin_src sh :eval no
 guixpkg=$(guix pack --relocatable --system=x86_64-linux --compression=gzip --save-provenance \
       -L $HOME/.dotfiles -m $SECRETS_HOME/.config/guix/manifests/ansible-usb.scm \
       -S .bin=bin)
@@ -99,7 +99,7 @@ cp $guixpkg $SECRETS_HOME/pkg
 
 The package is built to =/gnu/store= and is in =$guixpkg=. Now unpack:
 
-#+begin_src shell :eval no
+#+begin_src sh :eval no
 tar -C $SECRETS_HOME/pkg -xzvf $guixpkg
 #+end_src
 
@@ -107,14 +107,14 @@ The profile will be in =./gnu/store/*profile=. If there are multiple profiles
 found in =$SECRETS_HOME=, then searching the =.tar= is a better way to find the
 profile.
 
-#+begin_src shell :eval no
+#+begin_src sh :eval no
 guixprofile=$(tar --list -zf $guixpkg | grep 'profile/bin' | cut -d/ -f4)
 ln -s $SECRETS_HOME/pkg/gnu/store/$guixprofile $SECRETS_HOME/.guix-ansible
 #+end_src
 
 After unpacking, the guix profile can be found more exactly with:
 
-#+begin_src shell :eval no :tangle no
+#+begin_src sh :eval no :tangle no
 guixprofile=$(find $SECRETS_HOME/pkg/gnu/store -name "*-profile" -type d)
 #+end_src
 
@@ -123,13 +123,13 @@ require symlinking =-S lib=lib= or =-S libexec/libexec=.
 
 Test the profile's binaries in a clean shell with:
 
-#+begin_src shell :eval no
+#+begin_src sh :eval no
 guix shell --profile=.guix-ansible -- bash
 #+end_src
 
 ** Init Script
 
-#+begin_src shell :tangle (concat secrets-home "/init-ansible.sh") :noweb yes
+#+begin_src sh :tangle (concat secrets-home "/init-ansible.sh") :noweb yes
 export SECRETS_HOME=$(pwd)
 #export SECRETS_HOME="<<secrets-home_CALL()>>"
 export ANSIBLE_HOME="<<ansible-home_CALL()>>"

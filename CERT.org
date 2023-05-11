@@ -142,13 +142,13 @@ Use NIST curve =secp384r1= for relatively fast connection times.
 
 Generate params =-pkeyopt=, key and cert [[https://security.stackexchange.com/questions/58077/generating-ecdsa-certificate-and-private-key-in-one-step/190646#190646][in one step]]. This however makes
 
-#+begin_src shell :eval no
+#+begin_src sh :eval no
 openssl req -nodes -newkey ec -pkeyopt ec_paramgen_curve:secp384r1 -param_enc explicit -keyout ecc_cert.pem -x509 -days 3650 -out ecc384_cert.pem
 #+end_src
 
 Examine the key/cert:
 
-#+begin_src shell :eval no
+#+begin_src sh :eval no
 openssl ecparam -in private-key.pem -text -noout
 openssl x509 -in server.pem -text -noout
 #+end_src
@@ -201,7 +201,7 @@ This can be setup with GUI and signature signing can be completed later.
 
 If the management key has been changed, add =--key $mgmtKey= below.
 
-#+begin_src shell :eval no
+#+begin_src sh :eval no
 read -p "Enter Management Key: " mgmtKey
 yubico-piv-tool -a import-certificate --key $mgmtKey
 #+end_src

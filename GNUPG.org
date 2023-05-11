@@ -141,7 +141,7 @@ dependency for everything.
 Change these to the fingerprints of your personal keys
 
 #+name: gpgmaster
-#+begin_src shell
+#+begin_src sh
 "0x9FCE9B3064CED760"
 #+end_src
 
@@ -149,7 +149,7 @@ Change these to the fingerprints of your personal keys
 : 9FCE9B3064CED760
 
 #+name: gpgsign
-#+begin_src shell
+#+begin_src sh
 "0xB5E0535B23DD6A7A"
 #+end_src
 
@@ -157,7 +157,7 @@ Change these to the fingerprints of your personal keys
 : B5E0535B23DD6A7A
 
 #+name: gpgcrypt
-#+begin_src shell
+#+begin_src sh
 "0x5AA3269777368E0F"
 #+end_src
 
@@ -165,14 +165,14 @@ Change these to the fingerprints of your personal keys
 : 5AA3269777368E0F
 
 #+name: gpgauth
-#+begin_src shell
+#+begin_src sh
 "0xFC275EE2A3547885"
 #+end_src
 
 #+RESULTS: gpgauth
 : FC275EE2A3547885
 
-#+begin_src shell :noweb-ref gpgring :noweb yes :noweb-sep ""
+#+begin_src sh :noweb-ref gpgring :noweb yes :noweb-sep ""
 export PINENTRY=<<gpgpinentry>>
 export GPGMASTER=<<gpgmaster>>
 export GPGSIGN=<<gpgsign>>
@@ -258,7 +258,7 @@ lol i hope you have deep-packet inspection.
 
 * Init Script
 
-#+begin_src shell :tangle (concat (or (getenv "SECRETS_HOME") ".") "/.gnupg/init-gpg.sh") :shebang "#!/bin/sh" :tangle-mode (identity #o500) :noweb yes
+#+begin_src sh :tangle (concat (or (getenv "SECRETS_HOME") ".") "/.gnupg/init-gpg.sh") :shebang "#!/bin/sh" :tangle-mode (identity #o500) :noweb yes
 <<gpgring>>
 #+end_src
 
@@ -266,7 +266,7 @@ If =SECRETS_HOME= is not set, it's set to =$(pwd)=. Do this before sourcing
 =init-gpg.sh=. Another option is to link =$HOME/.gnupg= to
 =$SECRETS_HOME/.gnupg= and then you can source the script in a fresh shell.
 
-#+begin_src shell :tangle (concat (or (getenv "SECRETS_HOME") ".") "/.gnupg/init-gpg.sh") :tangle-mode (identity #o500)
+#+begin_src sh :tangle (concat (or (getenv "SECRETS_HOME") ".") "/.gnupg/init-gpg.sh") :tangle-mode (identity #o500)
 if [ -z $SECRETS_HOME ];then
     export SECRETS_HOME="$(pwd)"
     echo "SECRETS_HOME=$SECRETS_HOME"
@@ -336,7 +336,7 @@ or =start-gpg-connect=. My notes say to prefer starting =gpg-agent= via
 
 **** With =gpg-connect-agent=
 
-#+begin_src shell :tangle (concat (or (getenv "SECRETS_HOME") ".") "/.bin/start-gpg-connect") :shebang "#!/bin/sh" :tangle-mode (identity #o500)
+#+begin_src sh :tangle (concat (or (getenv "SECRETS_HOME") ".") "/.bin/start-gpg-connect") :shebang "#!/bin/sh" :tangle-mode (identity #o500)
 export GPG_TTY="$(tty)"
 unset SSH_AGENT_PID
 export SSH_AUTH_SOCK="/run/user/$UID/gnupg/S.gpg-agent.ssh"
@@ -347,7 +347,7 @@ gpg-connect-agent update-startuptty /bye > /dev/null
 
 Prefer to start with =gpgconf=
 
-#+begin_src shell :tangle (concat (or (getenv "SECRETS_HOME") ".") "/.bin/start-gpg") :shebang "#!/bin/sh" :tangle-mode (identity #o500)
+#+begin_src sh :tangle (concat (or (getenv "SECRETS_HOME") ".") "/.bin/start-gpg") :shebang "#!/bin/sh" :tangle-mode (identity #o500)
 export GPG_TTY="$(tty)"
 unset SSH_AGENT_PID
 export SSH_AUTH_SOCK="$(gpgconf --list-dirs agent-ssh-socket)"
@@ -373,7 +373,7 @@ For flatpak apps:
   be included in a script, called after =GPG_TTY= has been established for the
   =gpg-agent=.
 
-#+begin_src shell :tangle (concat (or (getenv "SECRETS_HOME") ".") "/.bin/flatpak-gpg-overrides") :shebang "#!/bin/sh" :tangle-mode (identity #o500)
+#+begin_src sh :tangle (concat (or (getenv "SECRETS_HOME") ".") "/.bin/flatpak-gpg-overrides") :shebang "#!/bin/sh" :tangle-mode (identity #o500)
 flatpak --user override --env=GPG_TTY=$(tty) org.mozilla.Thunderbird
 #+end_src
 
@@ -393,13 +393,13 @@ gpg -k | grep -e "^sub" | cut -b 16-33
 Get the environment variables that =gpg= passes to =gpg-agent=. These are the
 only variables permitted in =gpg-agent.conf=.
 
-#+begin_src shell :tangle (concat (or (getenv "SECRETS_HOME") ".") "/.bin/gpg-agent-env") :shebang "#!/bin/sh" :tangle-mode (identity #o500)
+#+begin_src sh :tangle (concat (or (getenv "SECRETS_HOME") ".") "/.bin/gpg-agent-env") :shebang "#!/bin/sh" :tangle-mode (identity #o500)
 gpg-connect-agent 'getinfo std_env_names' /bye | awk '$1=="D" {print $2}'
 #+end_src
 
 Troubleshoot =gpg-agent=
 
-#+begin_src shell :tangle (concat (or (getenv "SECRETS_HOME") ".") "/.bin/start-gpg-debug") :shebang "#!/bin/sh" :tangle-mode (identity #o500)
+#+begin_src sh :tangle (concat (or (getenv "SECRETS_HOME") ".") "/.bin/start-gpg-debug") :shebang "#!/bin/sh" :tangle-mode (identity #o500)
 export GPG_TTY="$(tty)"
 unset SSH_AGENT_PID
 export SSH_AUTH_SOCK="$(gpgconf --list-dirs agent-ssh-socket)"
@@ -411,7 +411,7 @@ Troubleshoot =gpg-agent= with:
 + =--debug-pinentry=
 + =--debug 1024= which is required
 
-#+begin_src shell :tangle (concat (or (getenv "SECRETS_HOME") ".") "/.bin/start-gpg-debug-pinentry") :shebang "#!/bin/sh" :tangle-mode (identity #o500)
+#+begin_src sh :tangle (concat (or (getenv "SECRETS_HOME") ".") "/.bin/start-gpg-debug-pinentry") :shebang "#!/bin/sh" :tangle-mode (identity #o500)
 export GPG_TTY="$(tty)"
 unset SSH_AGENT_PID
 export SSH_AUTH_SOCK="$(gpgconf --list-dirs agent-ssh-socket)"
@@ -721,7 +721,7 @@ shroud hide $identity $key=$value
 And you can retrieve multiple keys from the dictionary. If they don't exist,
 nothing is returned.
 
-#+begin_src shell
+#+begin_src sh
 shroud show $identity # to show them all
 shroud show $identity | cut -f1 # to cut all the
 shroud show $identity "ssh123" # to select the passphrase
@@ -742,7 +742,7 @@ them, so prefer anonymous FD's.
 
 Get the fingerprint with
 
-#+begin_src shell :eval no
+#+begin_src sh :eval no
 pubkey=~/.ssh/key.pub
 pubkey_fpr="$(ssh-keygen -lf $pubkey -E sha256 | cut -f2 -d' ')"
 identity=me@me.com
@@ -750,14 +750,14 @@ identity=me@me.com
 
 Store the passphrase with =read -r=
 
-#+begin_src shell :eval no
+#+begin_src sh :eval no
 read -r passphrase
 shroud hide $identity $pubkey_fpr=$passphrase
 #+end_src
 
 Or store a random passphrase:
 
-#+begin_src shell :eval no
+#+begin_src sh :eval no
 pplength=12
 shroud hide $identity $pubkey_fpr=$(gpg --gen-random --armor 0 16 | cut -b$pplength)
 #+end_src
@@ -767,7 +767,7 @@ insert the output off commands.
 
 Add to GPG with:
 
-#+begin_src shell :eval no
+#+begin_src sh :eval no
 # ok ssh-add only accepts passwords from the program set as the SSH_ASKPASS variable
 # but this does not work when managed by gpg-agent
 #+end_src
@@ -780,7 +780,7 @@ Unlock in GPG with:
 
 *** Select keygrip from GPG
 
-#+begin_src shell
+#+begin_src sh
 keyfile=~/.ssh/key
 pubfile=$keyfile.pub
 keysha=$(ssh-keygen -E sha256 -lf $pubfile | cut -f2 -d' ')
@@ -792,7 +792,7 @@ keygrip=$(gpg-connect-agent "KEYINFO --ssh-list --ssh-fpr=sha256" /bye | \
 
 Here's what =preset_passphrase= does:
 
-#+begin_src shell :output verbatim
+#+begin_src sh :output verbatim
 gpg-connect-agent "help preset_passphrase" /bye | head -n-1
 #+end_src
 
@@ -809,13 +809,13 @@ gpg-connect-agent "help preset_passphrase" /bye | head -n-1
 I think the =gpg-preset-passphrase= tool is required for this to work, but the
 executable is missing for me on both arch & guix.
 
-#+begin_src shell :eval no
+#+begin_src sh :eval no
 
 #+end_src
 
 Otherwise, this should work, but is still returning =Err 67108933 not implemented <GPG Agent>=:
 
-#+begin_src shell :eval no
+#+begin_src sh :eval no
 # get $keygrip
 shroudpass=$(shroud show $identity $keysha)
 gpg-connect-agent "preset_passphrase $keygrip 0 $shroudpass" /bye
@@ -825,7 +825,7 @@ gpg-connect-agent "preset_passphrase $keygrip 0 $shroudpass" /bye
 
 Find the SSH key:
 
-#+begin_src shell :eval no
+#+begin_src sh :eval no
 # get $keygrip
 gpg-connect-agent "DELETE_KEY $keygrip" /bye
 
@@ -838,7 +838,7 @@ gpg-connect-agent "DELETE_KEY $keygrip" /bye
 
 Either Link =~/.emacs.d= to =$SECRETS_HOME= or, using chemacs, run:
 
-#+begin_src shell :eval no
+#+begin_src sh :eval no
 emacs --with-profile '((user-emacs-directory . (getenv "SECRETS_HOME")))'
 #+end_src
 
@@ -900,13 +900,13 @@ Use [[Entropy s][Yubikey as entropy source]]. GPG agent should already be runnin
 
 Create a new cert in slot 9a (this will replace the existing 9a PIV cert!)
 
-#+begin_src shell :eval no
+#+begin_src sh :eval no
 ykman piv keys generate --algorithm ECCP256 9a pubkey.pem
 #+end_src
 
 Run =rngd= in background using Yubikey as =/dev/random= source:
 
-#+begin_src shell :eval no
+#+begin_src sh :eval no
 rngd -x hwrng -x tpm -x rdrand -x jitter -n pkcs11 -b -W 4096 -f
 #+end_src
 
@@ -924,7 +924,7 @@ Options:
 
 Compare lines with =FIPS 140-2 successes/failures=. It should be very close to 100%.
 
-#+begin_src shell :eval no
+#+begin_src sh :eval no
 cat /dev/random | rngtest -c 1000
 #+end_src
 
@@ -948,7 +948,7 @@ F3 isn't really a comprehensive test, but this will help you preempt problems wi
 
 =f3brew= will destructively write to the entire disk!
 
-#+begin_src shell :eval no
+#+begin_src sh :eval no
 f3brew /dev/sdX
 #+end_src
 
@@ -958,7 +958,7 @@ This will take a long time. It will prompt you to disconnect/reconnect the stora
 
 Calculate the partition sizes. Check the number of sectors =n=.
 
-#+begin_src shell :eval no
+#+begin_src sh :eval no
 LC_ALL=C fdisk -l /dev/sdX
 #+end_src
 
@@ -966,7 +966,7 @@ Take =m = (n/4) % 2048=, since =cfdisk= will round partition sizes down to the n
 
 Use =cfdisk= to test the partition sizes. You should end up with four. Ensure that the partition sizes, to the sector, are identical.
 
-#+begin_src shell :eval no
+#+begin_src sh :eval no
 cfdisk -z /dev/sdX
 #+end_src
 
@@ -976,20 +976,20 @@ Just create the partitions. Use =mkfs.ext2= to format them later.
 
 Format the first partition with =mkfs.ext2=.
 
-#+begin_src shell :eval no
+#+begin_src sh :eval no
 mkfs.ext2 /dev/sdX1 -L gpg-$(date +%F)
 #+end_src
 
 For further data redundancy, you can use btrfs which can totally duplicate its data and metadata. This will reduce the total disk size by +50%.
 
-#+begin_src shell :eval no
+#+begin_src sh :eval no
 mkfs.btrfs -L gpg-$(date +%F) -d dup -m dup
 #+end_src
 
 When mounting, you should ensure =readonly= and =noatime= are consistently
 applied to prevent unintentional mutation of the data, which will keep the disk copies in sync unless they are intentionally modified.
 
-#+begin_src shell :eval no
+#+begin_src sh :eval no
 cryptsetup luksOpen /dev/sdXn backupn
 mount -r -o noatime /dev/mapper/backupn /mnt/backupn -o noatime
 #+end_src
@@ -998,7 +998,7 @@ mount -r -o noatime /dev/mapper/backupn /mnt/backupn -o noatime
 
 View the partitions with =lsblk= and copy the images from =/dev/sdX1= to =/dev/sdX2= and =/dev/sdY1= and so forth.
 
-#+begin_src shell :eval no
+#+begin_src sh :eval no
 # i'm not sure whether bs=1M will affect the block structure of the disk
 dd if=/dev/sdX1 of=/dev/sdX2 status=progress
 #+end_src
@@ -1011,7 +1011,7 @@ If you want to mount them with the labels, then change with with =e2label
 
 Since the partition is not inside an LVM2 volume, you can simply use =dmsetup info= to query the block device mappings to find the name and:
 
-#+begin_src shell :eval no
+#+begin_src sh :eval no
 umount /mnt/backupn
 cryptsetup luksClose backupn
 #+end_src
@@ -1034,7 +1034,7 @@ case the backup is lost.
 
 Export an unarmored copy of the master secret to a secure disk.
 
-#+begin_src shell :eval no
+#+begin_src sh :eval no
 gpg --export-secret-keys $KEYID > $GNUPGHOME/mastersub.unarmored.key
 paperkey --secret-key .gnupg/mastersub.unarmored.key --output mastersub.paperkey.txt
 #+end_src
@@ -1102,7 +1102,7 @@ index? well it doesn't allow you to really accumulate.
 So =hexdump= it is ... i forgot about that and didn't realize it has plenty of
 [[https://stackoverflow.com/questions/34328759/how-to-get-a-random-string-of-32-hexadecimal-digits-through-command-line][formatting options]]. Thanks command line.
 
-#+begin_src shell :results verbatim
+#+begin_src sh :results verbatim
 bytes=32
 chunk_bytes=2
 chunks="$(($bytes/$chunk_bytes))"
@@ -1138,7 +1138,7 @@ The =ssh-add -l -E MD5= command outputs in this format
 So we can guarantee spacing of fields and join against them, the goal being to
 guarantee the uniqueness of a key's fingerprint.
 
-#+begin_src shell
+#+begin_src sh
 
 gpg-connect-agent "KEYINFO --ssh-list --ssh-fpr" /bye | \
     head -n-1 | \
@@ -1151,7 +1151,7 @@ gpg-connect-agent "KEYINFO --ssh-list --ssh-fpr" /bye | \
 
 (incomplete)
 
-#+begin_src shell :eval no
+#+begin_src sh :eval no
 regexMD5='MD5:([[:xdigit:]:]+)'
 
 gpg-connect-agent "KEYINFO --ssh-list --ssh-fpr" /bye | \
@@ -1167,7 +1167,7 @@ gpg-connect-agent "KEYINFO --ssh-list --ssh-fpr" /bye | \
 
 *** Help on KEYINFO commands
 
-#+begin_src shell :results verbatim :exports both
+#+begin_src sh :results verbatim :exports both
 gpg-connect-agent "help KEYINFO" /bye
 #+end_src
 
