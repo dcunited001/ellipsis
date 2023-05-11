@@ -365,7 +365,7 @@ Or simply =flatpak --installation=steam run com.valvesoftware.Steam=
 
 + Add =steam.sh= to =~/.config/sh/_load_profile.sh=
 
-#+begin_src shell :tangle no :eval no
+#+begin_src sh :tangle no :eval no
 mkdir -p $_STEAM $FLATPAK_STEAM_VAR/com.valvesoftware.Steam
 
 # because flatpak steam will try to symlink /flatpak/dc/.var/com.valvesoftware.Steam/.var to ~/.var (which is very confusing)
@@ -539,7 +539,7 @@ Add to =~/.config/sh/_load_profile.d.sh= _in this order_
 
 It seems I'm more likely to encounter this on programming projects/teams.
 
-#+begin_src shell :tangle .config/sh/profile.d/nix-arch.sh :shebang #!/bin/bash
+#+begin_src sh :tangle .config/sh/profile.d/nix-arch.sh :shebang #!/bin/bash
 # add your main nix-profile to paths
 export PATH=$HOME/.nix-profile/bin:$PATH
 export XDG_DATA_DIRS=$HOME/.nix-profile/share:$XDG_DATA_DIRS
@@ -589,7 +589,7 @@ Now nix should build and =direnv allow= should run flakes right.
 
 According to =fcitx5-diagnose= these need to be set to =fcitx= NOT =fcitx5=.
 
-#+begin_src shell :tangle .config/sh/profile.d/fcitx5.sh :shebang #!/bin/sh
+#+begin_src sh :tangle .config/sh/profile.d/fcitx5.sh :shebang #!/bin/sh
 export QT_IM_MODULE=fcitx
 export GTK_IM_MODULE=fcitx
 export SDL_IM_MODULE=fcitx
@@ -598,7 +598,7 @@ export XMODIFIERS="@im=fcitx"
 
 If fcitx5 is being loaded by a guix profile that doesn't update =XDG_DATA_DIRS=, then that variable needs to be updated as well
 
-#+begin_src shell :tangle .config/sh/profile.d/fcitx5-guix.sh :shebang #!/bin/sh
+#+begin_src sh :tangle .config/sh/profile.d/fcitx5-guix.sh :shebang #!/bin/sh
 export FCITX_ADDON_DIRS=$GUIX_EXTRA/fcitx5/fcitx5/lib:$FCITX_ADDON_DIRS
 #export FCITX_CONFIG_HOME=
 #export FCITX_DATA_DIRS=
@@ -1023,7 +1023,7 @@ Specify with =layout virtualenv= and =layout activate= in a project's
 =.envrc=. This template can easily be changed/managed locally for more granular
 specification, but allows for some defaults
 
-#+begin_src shell
+#+begin_src sh :tangle .config/direnv/eg/pyenv
 # -*- mode: sh; -*-
 [[ -f ".python-version" ]] && pyversion=$(head .python-version) || pyversion="3.10.11"
 [[ -f ".python-virtualenv" ]] && pvenv=$(head .python-virtualenv) || pyenv=$(basename $PWD)
@@ -1384,7 +1384,7 @@ Start =ssh-agent= before launching the screen session.
 
 Then, source:
 
-#+begin_src shell :tangle .screen/remote.layout.screenrc
+#+begin_src sh :tangle .screen/remote.layout.screenrc
 split
 split -h
 #+end_src
@@ -1711,7 +1711,7 @@ if [ -f $HOME/.profile ]; then . $HOME/.profile; fi
 
 ** main
 
-#+begin_src shell
+#+begin_src sh
 
 #+end_src
 
