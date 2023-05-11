@@ -938,6 +938,42 @@ virtualenvs.prefer-active-python = false
 virtualenvs.prompt = "{project_name}-py{python_version}"
 #+end_src
 
+***** TODO Poetry in Jupyter Notebooks
+
+#+begin_quote
+NOTE: this seems to conflict with jupyterlab v8.x
+
+What TF is it that people do when they _don't_ have fatass wallets for google
+cloud or amazon. "HERE TAKE ALL MY FUCKING MONEY." -- the inept
+
+I'm not actually sure how, but I had blender-notebook in my environment and I
+haven't touched that for almost a year.
+#+end_quote
+
+[[https://morioh.com/p/b01442d52365][Poetry Kernel]]
+
+Ensure that you're installing to base =pyenv version-name= set, not a pyenv
+venv. At the base of your notebooks directory, set a global python verson. You
+could override this in the individual notebook subdirectories ... but it could
+get dicey.
+
+The python version could be set like this, but it's simpler with =.python-version=
+
+#+begin_src sh
+# -*- mode: sh; -*-
+[[ -f ".python-version" ]] && pyversion=$(head .python-version) || pyversion="3.10.11"
+
+use python ${pyversion}
+#+end_src
+
+Then install =poetry-kernel=
+
+#+begin_src sh
+pip install poetry-kernel jupyterlab
+#+end_src
+
+Then, in the notebook's directory, run =poetry init -n= and =poetry add ipykernel=.
+
 ***** Old poetry shell initialization
 
 Keeping this around to document what happens. In order for the =layout poetry=
@@ -1096,6 +1132,95 @@ installation roots.
 
 However, since =direnv= use of functions named =use_.*= is special, I'm not
 quite sure how well these methods mix.
+
+****** pyenv virtualenv for jupyter
+
+[[https://www.alexanderjunge.net/blog/pyenv-virtualenv-poetry-jupyter/][This post]] describes a workflow using =pyenv virtualenv= to manage ipykernel
+extensions for a global jupyterlab installation (installed under a =pyenv
+version=), where =layout poetry= would not be used while poetry is still used to
+manage dependencies.
+
+Without =direnv= the workflow would go a little something like:
+
+#+begin_src sh
+mkdir my-project  # create a project directory
+cd my-project
+
+pyenv virtualenv my-project  # layout virtualenv ${pyversion} ${pvenv}
+pyenv activate my-project  # layout activate ${pvenv}-${pyversion}
+
+poetry init  # initialize the poetry project
+poetry add spacy  # install dependencies
+poetry add --dev black ipykernel # install dev dependencies
+
+python -m ipykernel install --user --name my-project  # register project kernel
+
+git init  # initialize version control
+git add pyproject.toml poetry.lock  # add files produced by poetry
+# commit, track more files, push to a remote repo
+#+end_src
+
+This means (i hope) that I can use the =.envrc= and =.python-virtualenv= files
+and that =poetry= will transparently install its dependencies in there.
+
+I ran the following commands in =$_LANG/python/nb= to set up the environment
+
+#+begin_src sh
+cd $_LANG/python/nb
+
+echo "3.10.11" > .python-version
+
+pip install -U pip setuptools
+pip install poetry
+pip install jupyterlab
+
+mkdir poet
+
+echo "3.10.11" > poet/.python-version
+echo "poet-ipykernel" > poet/.python-virtualenv
+
+cp $XDG_CONFIG_HOME/direnv/eg/pyenv > poet/.envrc
+
+cd poet
+
+direnv allow
+
+poetry config --local virtualenvs.create false
+
+poetry init
+poetry add numpy
+poetry add --dev ipykernel #black
+python --ipykernel install --user --name $(head -n1 .python-virtualenv)
+#+end_src
+
+Running =jupyter-lab= from the =$_LANG/python/nb= directory brings up jupyter in
+the browser with a =poet-ipykernel= kernel, though this is installed in
+=$HOME/.local/share/jupyter/kernels/poet-ipykernel= and may be listed but
+dysfunctional when the kernel is ran with anything except the =pyenv version=
+that it was built with.
+
+Running =import numpy as np= within a notebook with that ipykernel gives me a
+environment with LOCKED DEPENDENCIES that has autocomplete.
+
+#+begin_quote
+YAY INDOOR PLUMBING AND DIRENV.
+
+YAY PROJECTS THAT I CAN RETURN TO IN A MONTH.
+
+YAY FOR =POLYMATHS= GET TO BE [and necessarily must be] =POLYGLOTS=.
+#+end_quote
+
+Awww it's =Not that bad=. Yes it is. If this happens to you, you'll either
+you'll dread returning to python or you'll stick with python forever bc you
+dread what it must be like elsewhere. It's not like this in other languages. To
+some degree, this is because python is used for so many tools/apps in Linux and
+because of how jupyterlab is exteneded with kernels.
+
+And for the cloud providers, it's awfully convenient that the smartest people in
+the room can't manage to also create an ecosystem that isn't so complicated --
+and that you can just pay them so you don't end up with every other old project
+breaking. if you want to be a polymath, /you have a lot of old projects./ If you
+have a lot of projects, then focusing on tooling is important.
 
 ***** Direnv: [[https://github.com/direnv/direnv/wiki/Python#poetry][layout poetry]]
 

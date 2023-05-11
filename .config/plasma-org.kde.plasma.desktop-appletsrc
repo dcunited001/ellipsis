@@ -7,6 +7,7 @@ wheel:Vertical;NoModifier=org.kde.switchdesktop
 RightButton;NoModifier=org.kde.contextmenu
 
 [Containments][138]
+ItemGeometries-1440x2560=
 ItemGeometries-2160x3840=
 ItemGeometries-2560x1440=
 ItemGeometriesHorizontal=
@@ -34,13 +35,14 @@ DialogWidth=910
 
 [Containments][138][General]
 ToolBoxButtonState=topcenter
-ToolBoxButtonX=752
+ToolBoxButtonX=265
 
 [Containments][138][Wallpaper][org.kde.potd][General]
 FillMode=2
 Provider=wcpotd
 
 [Containments][139]
+ItemGeometries-1440x2560=
 ItemGeometries-2160x3840=
 ItemGeometries-2560x1440=Applet-244:2398,1439,935,54,0;
 ItemGeometriesHorizontal=Applet-244:2398,1439,935,54,0;
@@ -88,7 +90,7 @@ FillMode=1
 Provider=flickr
 
 [Containments][140][Wallpaper][org.kde.slideshow][General]
-Image=file:///data/xdg/Wallpapers/anime/default.jpg
+Image=file:///data/xdg/Wallpapers/anime/blood-blockade-leo-123.jpg
 SlidePaths=/data/xdg/Wallpapers/anime/
 
 [Containments][141]
@@ -141,23 +143,6 @@ lengthMarginsLock=false
 spacing=6
 useDecorationMetrics=false
 visibility=2
-
-[Containments][141][Applets][144]
-immutability=1
-plugin=org.kde.windowtitle
-
-[Containments][141][Applets][144][Configuration][ConfigDialog]
-DialogHeight=540
-DialogWidth=720
-
-[Containments][141][Applets][144][Configuration][General]
-containmentType=Plasma
-filterActivityInfo=false
-filterByScreen=true
-lengthFirstMargin=7
-lengthMarginsLock=false
-placeHolder=Dr460nized KDE 🔥
-showIcon=false
 
 [Containments][141][Applets][146]
 immutability=1
@@ -244,8 +229,8 @@ chartFace=org.kde.ksysguard.barchart
 title=Individual Core Usage
 
 [Containments][141][Applets][168][Configuration][ConfigDialog]
-DialogHeight=540
-DialogWidth=720
+DialogHeight=546
+DialogWidth=780
 
 [Containments][141][Applets][168][Configuration][SensorColors]
 cpu/cpu0/usage=197,14,210
@@ -564,26 +549,6 @@ rangeAutoY=false
 rangeFromY=50
 rangeToY=95
 
-[Containments][141][Applets][237]
-immutability=1
-plugin=org.kde.plasma.marginsseparator
-
-[Containments][141][Applets][237][Configuration][ConfigDialog]
-DialogHeight=540
-DialogWidth=720
-
-[Containments][141][Applets][238]
-immutability=1
-plugin=org.kde.plasma.marginsseparator
-
-[Containments][141][Applets][239]
-immutability=1
-plugin=org.kde.plasma.marginsseparator
-
-[Containments][141][Applets][240]
-immutability=1
-plugin=org.kde.plasma.marginsseparator
-
 [Containments][141][Applets][241]
 immutability=1
 plugin=org.kde.plasma.marginsseparator
@@ -593,11 +558,11 @@ immutability=1
 plugin=org.kde.plasma.marginsseparator
 
 [Containments][141][ConfigDialog]
-DialogHeight=84
-DialogWidth=2560
+DialogHeight=102
+DialogWidth=1440
 
 [Containments][141][General]
-AppletOrder=142;165;143;144;179;174;236;235;234;237;176;238;168;239;158;240;172;167;241;171;173;242;181;182;175;169;170;146;159
+AppletOrder=142;165;143;179;174;236;235;234;176;168;158;172;167;241;171;173;242;181;182;175;169;170;146;159
 
 [Containments][147]
 activityId=
@@ -967,17 +932,6 @@ PreloadWeight=42
 extraItems=org.kde.kdeconnect,org.kde.kscreen,org.kde.plasma.battery,org.kde.plasma.bluetooth,org.kde.plasma.clipboard,org.kde.plasma.devicenotifier,org.kde.plasma.keyboardindicator,org.kde.plasma.keyboardlayout,org.kde.plasma.manage-inputmethod,org.kde.plasma.mediacontroller,org.kde.plasma.networkmanagement,org.kde.plasma.nightcolorcontrol,org.kde.plasma.notifications,org.kde.plasma.vault,org.kde.plasma.volume
 knownItems=org.kde.kdeconnect,org.kde.kscreen,org.kde.plasma.battery,org.kde.plasma.bluetooth,org.kde.plasma.clipboard,org.kde.plasma.devicenotifier,org.kde.plasma.keyboardindicator,org.kde.plasma.keyboardlayout,org.kde.plasma.manage-inputmethod,org.kde.plasma.mediacontroller,org.kde.plasma.networkmanagement,org.kde.plasma.nightcolorcontrol,org.kde.plasma.notifications,org.kde.plasma.vault,org.kde.plasma.volume
 
-[Containments][247]
-ItemGeometries-1080x1920=
-ItemGeometriesVertical=
-activityId=bc3cdced-7201-4291-a43c-fe3ef12080c2
-formfactor=0
-immutability=1
-lastScreen=3
-location=0
-plugin=org.kde.plasma.folder
-wallpaperplugin=org.kde.image
-
 [ScreenMapping]
 itemsOnDisabledScreens=
-screenMapping=file:///data/xdg/Wallpapers/anime/default.jpg,1,bc3cdced-7201-4291-a43c-fe3ef12080c2,file:///data/xdg/Wallpapers/anime/blood-blockade-leo-123.jpg,1,bc3cdced-7201-4291-a43c-fe3ef12080c2,file:///data/xdg/Wallpapers/anime/blood-blockade-leonardo.png,1,bc3cdced-7201-4291-a43c-fe3ef12080c2,file:///data/xdg/Wallpapers/anime/blood-blockade-leonardo-2b.jpg,1,bc3cdced-7201-4291-a43c-fe3ef12080c2,file:///data/xdg/Wallpapers/anime/kakegurui.png,1,bc3cdced-7201-4291-a43c-fe3ef12080c2,file:///data/xdg/Wallpapers/anime/blood-blockade-wallpaper.jpg,1,bc3cdced-7201-4291-a43c-fe3ef12080c2,file:///data/xdg/Wallpapers/anime/Guilty-Crown.jpg,1,bc3cdced-7201-4291-a43c-fe3ef12080c2,desktop:/steam.desktop,0,bc3cdced-7201-4291-a43c-fe3ef12080c2,file:///data/xdg/Wallpapers/anime/ergo-proxy.jpg,1,bc3cdced-7201-4291-a43c-fe3ef12080c2,file:///data/xdg/Wallpapers/anime/ergo_proxy_desktop.jpg,1,bc3cdced-7201-4291-a43c-fe3ef12080c2,file:///data/xdg/Wallpapers/anime/blood-blockade-leonardo-2a.jpg,1,bc3cdced-7201-4291-a43c-fe3ef12080c2,file:///data/xdg/Wallpapers/anime/yin-yang-fractal.jpg,1,bc3cdced-7201-4291-a43c-fe3ef12080c2
+screenMapping=desktop:/steam.desktop,0,bc3cdced-7201-4291-a43c-fe3ef12080c2,file:///data/xdg/Wallpapers/anime/ergo_proxy_desktop.jpg,1,bc3cdced-7201-4291-a43c-fe3ef12080c2,file:///data/xdg/Wallpapers/anime/blood-blockade-leonardo-2b.jpg,1,bc3cdced-7201-4291-a43c-fe3ef12080c2,file:///data/xdg/Wallpapers/anime/blood-blockade-leo-123.jpg,1,bc3cdced-7201-4291-a43c-fe3ef12080c2,file:///data/xdg/Wallpapers/anime/blood-blockade-leonardo-2a.jpg,1,bc3cdced-7201-4291-a43c-fe3ef12080c2,file:///data/xdg/Wallpapers/anime/yin-yang-fractal.jpg,1,bc3cdced-7201-4291-a43c-fe3ef12080c2,file:///data/xdg/Wallpapers/anime/blood-blockade-wallpaper.jpg,1,bc3cdced-7201-4291-a43c-fe3ef12080c2,file:///data/xdg/Wallpapers/anime/blood-blockade-leonardo.png,1,bc3cdced-7201-4291-a43c-fe3ef12080c2,file:///data/xdg/Wallpapers/anime/ergo-proxy.jpg,1,bc3cdced-7201-4291-a43c-fe3ef12080c2,file:///data/xdg/Wallpapers/anime/Guilty-Crown.jpg,1,bc3cdced-7201-4291-a43c-fe3ef12080c2,file:///data/xdg/Wallpapers/anime/default.jpg,1,bc3cdced-7201-4291-a43c-fe3ef12080c2,file:///data/xdg/Wallpapers/anime/kakegurui.png,1,bc3cdced-7201-4291-a43c-fe3ef12080c2
