@@ -23,6 +23,7 @@ misc/**
 .config/sh/profile.d/*.sh
 
 # direnv
+.config/direnv/eg
 .config/guix/shell-authorized-directories
 
 # /etc/skel to diff from various distros
@@ -118,6 +119,10 @@ fonts/**
 # gnupg
 .gnupg
 .gnupg.test
+.bin/gpg-agent-env
+.bin/emacs-agent-gpg
+.bin/start-gpg
+.bin/start-gpg-*
 
 # ssh
 .ssh
@@ -131,5 +136,20 @@ fonts/**
 .screenrc
 
 # KDE
-
 .config/spectaclerc
+
+# python
+.bin/pynv-install-py
+.bin/pynv-install-poetry
+
+## pyenv
+.python-version
+
+## poetry
+.config/pypoetry
+
+# xrandr
+## screenlayout scripts (exported via arandr)
+
+.screenlayout/kharis.sh
+.screenlayout/kratos.sh
