@@ -713,6 +713,20 @@ kacomp_set() {
 }
 #+end_src
 
+
+* Hardware
+
+#+begin_src sh :tangle .profile :shebang #!/bin/sh
+ncpu-x86-threads() {
+    ls -al /sys/class/cpuid/cpu8 | wc -l
+}
+
+ncpu-x86() {
+    nthreads=$(ncpu-x86-threads)
+    echo $(($nthreads / 2))
+}
+#+end_src
+
 * Languages
 :PROPERTIES:
 :header-args+: :comments link :mkdirp yes
@@ -801,6 +815,10 @@ export GRAPHVIZ_DOT=$HOME/.guix-extra-profiles/desktop/desktop/bin/dot
 
 ** Python
 
+#+begin_src sh :tangle .python-version
+3.10.11
+#+end_src
+
 *** Python on Arch
 
 **** Pyenv
@@ -810,9 +828,30 @@ Ensure pyenv is installed with =yay -Syu pyenv= and add this to
 profiles, in case one contains a python.
 
 #+begin_src sh :tangle .config/sh/profile.d/python-pyenv.sh :shebang #!/bin/sh
+export PYENV_PEOTRY_VENV=poetry
 export PYENV_ROOT="$_LANG/.pyenv"
 command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
 eval "$(pyenv init -)"
+
+ptry() {
+    local pyversion=$(pyenv version-name)
+    [[ "$pyversion" = "system" ]] && \
+        echo "${RED}Running with pyversion=system!${RESTORE}" && \
+        return 1
+
+    local venvname=$PYENV_POETRY_VENV-$pyversion
+    local venvpath="$(pyenv prefix)/envs/$venvname"
+
+    [[ ! -e "$venvpath/bin/poetry" ]] && \
+        echo "${RED}Couldn't find $venvpath/bin/poetry${RESTORE}" && \
+        return 1
+
+    local poetry_bin="$venvpath/bin/poetry"
+
+    $poetry_bin "$@"
+}
+
+alias poetry=ptry
 #+end_src
 
 + Install new pythons with =pyenv install 3.11.3= and see below for optimizations.
@@ -825,6 +864,11 @@ eval "$(pyenv init -)"
 See direnv integration below.
 
 ****** TODO evaluate whether I should add =pyenv= to both =.profile= and =.bashrc=
+
+***** Switching
+
+Caveat scriptor: running =pyenv local $pyversion= will create a
+=$PWD/.python-version= file. Use =pyenv shell $pyversion= instead.
 
 ***** Custom Pyenv builds
 
@@ -843,13 +887,13 @@ See pyenv's =python-build= plugin to customize the build
 
 To build with optimizations:
 
-#+begin_src
+#+begin_src sh
 PYTHON_CONFIGURE_OPTS='--enable-optimizations --with-lto' PYTHON_CFLAGS='-march=native -mtune=native'
 #+end_src
 
 To build in parallel (doesn't seem to help)
 
-#+begin_src
+#+begin_src sh
 MAKE_OPTS="-j14" PYTHON_MAKE_OPTS="-j14"
 #+end_src
 
@@ -859,12 +903,14 @@ Full command
 [[ -z "$1" ]] && echo "Requires semantic version" && exit 1;
 
 version=$1
-ncpu=14
+ncpu=$(ncpu-x86)
+
+[[ ncpu -le 3 ]] && mjobs=3 || mjobs=$(($ncpu - 2))
 
 env PYTHON_CONFIGURE_OPTS='--enable-optimizations --with-lto' \
     PYTHON_CFLAGS='-march=native -mtune=native' \
-    PYTHON_MAKE_OPTS="-j$ncpu" \
-    MAKE_OPTS="-j$ncpu" \
+    PYTHON_MAKE_OPTS="-j$mjobs" \
+    MAKE_OPTS="-j$mjobs" \
     pyenv install $version 2>&1 > ~/src/log/python-build-$version.log
 #+end_src
 
@@ -877,6 +923,67 @@ accomplish that, as long as poetry runs after =direnv= sets the =pyenv= and as
 long as there isn't an active =venv= for that =pyenv= in the shell -- these have
 a separate =pip=.
 
+#+begin_src sh :tangle .bin/pynv-install-poetry
+[[ -z "$PYENV_POETRY_VENV" ]] && export PYENV_POETRY_VENV=poetry
+
+pyversion=$(pyenv version-name)
+echo "${YELLOW}Checking whether ${pyversion} already has a venv for poetry${RESTORE}"
+venvname=$PYENV_POETRY_VENV-$pyversion
+venvpath="$(pyenv prefix)/envs/$venvname"
+
+# this is perhaps brittle
+#venvpath=$(pyenv virtualenv-prefix "$PYENV_POETRY_VENV-$pyversion")
+#success=$?
+#if [ $success -ne 0 ]; then
+
+if [ ! -e "$venvpath" ]; then
+    echo "${RED}The venv $PYENV_POETRY_VENV does not exist...${RESTORE} creating..."
+    pyenv virtualenv $venvname
+
+    [[ $? -ne 0 ]] && echo "${RED}Couldn't create the $PYENV_POETRY_VENV venv${RESTORE}"# && exit 1
+fi
+
+echo "${GREEN}Setting up $PYENV_POETRY_VENV venv"
+venvpip=$venvpath/bin/pip
+
+$venvpip install -U pip setuptools
+$venvpip install poetry
+#+end_src
+
+There is also [[https://github.com/tjquillan/poetry-plugin-pyenv][tjquillan/poetry-plugin-pyenv]].
+
+***** Poetry Config
+
+See [[id:][configuration]] docs.
+
+#+begin_src toml :tangle .config/pypoetry/config.toml
+[virtualenvs]
+prefer-active-python = true
+#+end_src
+
+****** Defaults
+
+Without any other config, once =poetry= is installed for =$pyversion=, then with
+the above function/alias, =ptry config --list= should show:
+
+#+begin_src conf
+cache-dir = "/home/dc/.cache/pypoetry"
+experimental.new-installer = true
+experimental.system-git-client = false
+installer.max-workers = null
+installer.modern-installation = true
+installer.no-binary = null
+installer.parallel = true
+virtualenvs.create = true
+virtualenvs.in-project = null
+virtualenvs.options.always-copy = false
+virtualenvs.options.no-pip = false
+virtualenvs.options.no-setuptools = false
+virtualenvs.options.system-site-packages = false
+virtualenvs.path = "{cache-dir}/virtualenvs"  # /home/dc/.cache/pypoetry/virtualenvs
+virtualenvs.prefer-active-python = false
+virtualenvs.prompt = "{project_name}-py{python_version}"
+#+end_src
 
 **** Python Direnv
 
@@ -912,21 +1019,19 @@ Commenting out the =${pyenv}= will cause this directory to appear.
 
 Requires [[github:pyenv/pyenv-virtualenv][pyenv-virtualenv]]
 
-Specify with =layout virtualenv= and =layout activate= in a project's =.envrc=
+Specify with =layout virtualenv= and =layout activate= in a project's
+=.envrc=. This template can easily be changed/managed locally for more granular
+specification, but allows for some defaults
 
 #+begin_src shell
 # -*- mode: sh; -*-
-# (rootdir)/.envrc : direnv configuration file
-# see https://direnv.net/
-# pyversion=$(head .python-version)
-# pvenv=$(head     .python-virtualenv)
-pyversion=2.7.14
-pvenv=myproject
+[[ -f ".python-version" ]] && pyversion=$(head .python-version) || pyversion="3.10.11"
+[[ -f ".python-virtualenv" ]] && pvenv=$(head .python-virtualenv) || pyenv=$(basename $PWD)
 
 use python ${pyversion}
+
 # Create the virtualenv if not yet done
 layout virtualenv ${pyversion} ${pvenv}
-# activate it
 layout activate ${pvenv}-${pyversion}
 #+end_src
 
@@ -974,6 +1079,10 @@ quite sure how well these methods mix.
 Requires [[github:python-poetry/poetry][python-poetry/poetry]] to be [[https://python-poetry.org/docs/#installing-with-the-official-installer][installed]]. This method is helpful when
 working on a python lib, since it isolates the installation into.
 
+#+begin_src sh :tangle .config/direnv/eg/poetry
+
+#+end_src
+
 Specify with =layout poetry=
 
 #+begin_src sh :tangle .config/direnv/direnvrc :shebang #!/bin/sh
@@ -1007,6 +1116,7 @@ your path if =virtualenvs.prefer-active-python= is set, so it should use the one
 that =pyenv= hands it via its shims.
 
 See [[https://python-poetry.org/docs/configuration#configuration][Configuration]] and [[https://python-poetry.org/docs/managing-environments/][Managing Environments]].
+
 
 
 *** Python on Guix
