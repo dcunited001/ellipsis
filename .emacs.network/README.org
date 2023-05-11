@@ -159,7 +159,7 @@ You must clone quelpa into =~/.quelpa=, where it will be loaded by
 
 Then link the manifest (and run =~/.bin/update-dotfiles=)
 
-#+begin_src shell :results none
+#+begin_src sh :results none
 [[ -L $_DF/.config/guix/manifests/emacs-network.scm ]] || ln -s $PWD/emacs-network.scm $_DF/.config/guix/manifests/emacs-network.scm
 #+end_src
 
@@ -168,7 +168,7 @@ Then link the manifest (and run =~/.bin/update-dotfiles=)
 If everything has been specified properly, then running the following
 will download the dependencies into an isolated profile.
 
-#+begin_src shell
+#+begin_src sh
 activate-profiles emacs-network.scm
 #+end_src
 
@@ -230,7 +230,7 @@ only the guix profiles that you want to load.
 To do this, create an executable bin to run the emacs with isolated
 dependencies:
 
-#+begin_src shell :tangle (concat (getenv "HOME") "/.bin/emacs-network") :results none :shebang #!/bin/sh
+#+begin_src sh :tangle (concat (getenv "HOME") "/.bin/emacs-network") :results none :shebang #!/bin/sh
 guix environment -p ~/.guix-extra-profiles/emacs-network/emacs-network -- emacs --with-profile=network
 #+end_src
 
