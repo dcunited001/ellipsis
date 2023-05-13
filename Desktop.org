@@ -1496,10 +1496,12 @@ esac
 * XDG
 
 ** Desktop Entries
+
+These need to be copied in and can't be stowed.
+
 ** Restrict Autostart entries
 
 ** MIME Handlers
-
 
 #+begin_src xml :tangle .local/share/mime/packages/org.xml :mkdirp yes :comments no
 <mime-info xmlns='http://www.freedesktop.org/standards/shared-mime-info'>
@@ -1523,8 +1525,17 @@ x-scheme-handler/ircs=org.kde.konversation.desktop;
 x-scheme-handler/zoommtg=us.zoom.Zoom.desktop;
 
 # Emacs and text files
+text/english=gmacsclient.desktop;
+text/plain=gmacsclient.desktop;
 text/org=gmacsclient.desktop;
 x-scheme-handler/file=gmacsclient.desktop;
+application/x-shellscript=gmacsclient.desktop;
+application/log=gmacsclient.desktop;
+text/x-makefile=gmacsclient.desktop;
+text/x-c++hdr=gmacsclient.desktop;
+text/x-c++src=gmacsclient.desktop;
+text/x-chdr=gmacsclient.desktop;
+text/x-csrc=gmacsclient.desktop;
 
 # Email & Calendar
 application/rss+xml=org.mozilla.Thunderbird.desktop;
@@ -1554,7 +1565,31 @@ x-scheme-handler/unknown=nyxt.desktop;
 #application/x-extension-xht=userapp-Nightly-FWHMN1.desktop;
 #+end_src
 
-*** Mime types [fn:tecosaur]
+*** Emacs MIME Types
+
+MIME types declared in the =gmacsclient.desktop= file:
+
+#+begin_example
+text/org;
+text/english;
+text/plain;
+text/x-makefile;
+text/x-c++hdr;
+text/x-c++src;
+text/x-chdr;
+text/x-csrc;
+text/x-java;
+text/x-moc;
+text/x-pascal;
+text/x-tcl;
+text/x-tex;
+application/x-shellscript;
+text/x-c;
+text/x-c++
+#+end_example
+
+
+*** MIME Types [fn:tecosaur]
 Org mode isn't recognised as it's own mime type by default, but that can easily
 be changed with the following file. For system-wide changes try
 =/usr/share/mime/packages/org.xml=.
