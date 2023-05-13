@@ -1523,7 +1523,8 @@ x-scheme-handler/ircs=org.kde.konversation.desktop;
 x-scheme-handler/zoommtg=us.zoom.Zoom.desktop;
 
 # Emacs and text files
-text/org=emacs.desktop;
+text/org=gmacsclient.desktop;
+x-scheme-handler/file=gmacsclient.desktop;
 
 # Email & Calendar
 application/rss+xml=org.mozilla.Thunderbird.desktop;

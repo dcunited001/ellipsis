@@ -1190,7 +1190,7 @@ poetry config --local virtualenvs.create false
 poetry init
 poetry add numpy
 poetry add --dev ipykernel #black
-python --ipykernel install --user --name $(head -n1 .python-virtualenv)
+python -m ipykernel install --user --name $(head -n1 .python-virtualenv)
 #+end_src
 
 Running =jupyter-lab= from the =$_LANG/python/nb= directory brings up jupyter in

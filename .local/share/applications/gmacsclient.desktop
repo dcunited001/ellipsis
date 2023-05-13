@@ -1,0 +1,31 @@
+[Desktop Entry]
+Name=Gmacs (Client)
+GenericName=Text Editor
+Comment=Edit text
+MimeType=text/org;text/english;text/plain;text/x-makefile;text/x-c++hdr;text/x-c++src;text/x-chdr;text/x-csrc;text/x-java;text/x-moc;text/x-pascal;text/x-tcl;text/x-tex;application/x-shellscript;text/x-c;text/x-c++;
+Icon=emacs
+Type=Application
+Terminal=false
+Categories=Development;TextEditor;
+StartupNotify=true
+StartupWMClass=Emacs
+Keywords=emacsclient;gmacsclient;
+Actions=new-window;new-instance;
+
+Exec=sh -c "guix shell -p \\"\\$GUIX_EXTRA/emacs-g/emacs-g\\" -E \\"DISPLAY\\" -E \\"^EMAIL\\$\\" -- gmacsclient -c %F"
+
+#-c "if [ -n \\"\\$*\\" ]; then exec gmacsclient -c --alternate-editor=\\"alacritty -e vim\\"; else exec gmacsclient -c --alternate-editor=\\"alacritty -e vim\\" \\"\\$@\\"; fi"
+
+# guix shell (in this instance) needs to preserve $DISPLAY
+# --display=\\"\\$DISPLAY\\" \\"\\$@\\";
+
+# ??? placeholder? %F is args
+# placeholder %F
+
+[Desktop Action new-window]
+Name=New Window
+Exec=/usr/bin/emacsclient --alternate-editor=\"alacritty -e vim\" -c %F
+
+[Desktop Action new-instance]
+Name=New Instance
+Exec=emacs %F
