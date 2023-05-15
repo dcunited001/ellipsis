@@ -39,6 +39,7 @@
   #:use-module (gnu packages version-control)
   #:use-module (gnu packages package-management)
   #:use-module (gnu packages freedesktop)
+  #:use-module (gnu packages guile)
 
   ;;NONFREE
   ;;#:use-module (nongnu packages linux)
@@ -176,6 +177,8 @@
            ;; usbmuxd and ifuse for iphone-usb
            usbmuxd
            ifuse
+
+           guile-fibers
 
            gvfs
            nss-certs)
