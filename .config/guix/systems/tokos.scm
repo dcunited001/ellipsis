@@ -90,31 +90,32 @@
    
    (services (cons*
 
-	          (service tlp-service-type
+	            (service tlp-service-type
                        (tlp-configuration
                         (nmi-watchdog #t)
                         (cpu-boost-on-ac? #t)
                         (tlp-default-mode "AC") ;; this is the default
                         (wifi-pwr-on-bat? #t)))
 
-	          ;; (pam-limits-service ;; This enables JACK to enter realtime mode
+              ;; TODO: hmmmmmmm
+	            ;; (pam-limits-service-type ;; This enables JACK to enter realtime mode
               ;;  (list
               ;;   (pam-limits-entry "@realtime" 'both 'rtprio 99)
               ;;   (pam-limits-entry "@realtime" 'both 'memlock 'unlimited)))
 
-	          (extra-special-file "/usr/bin/env"
-				                  (file-append coreutils "/bin/env"))
+	            (extra-special-file "/usr/bin/env"
+				                          (file-append coreutils "/bin/env"))
 
-	          (service thermald-service-type)
+	            (service thermald-service-type)
               
-	          ;; (service docker-service-type)
+	            ;; (service docker-service-type)
 
               ;; (service libvirt-service-type ;; TODO how is libvirt configured?
               ;;          (libvirt-configuration
               ;;           (unix-sock-group "libvirt")
               ;;           (tls-port "16555")))
 
-	          (service pcscd-service-type)
+	            (service pcscd-service-type)
 
               (service unattended-upgrade-service-type
                        (unattended-upgrade-configuration
@@ -132,7 +133,7 @@
                           (string-append
                            "/root/.config/guix/systems/" %host-name ".scm")))))
 
-	          (udev-rules-service 'pipewire-add-udev-rules pipewire)
+	            (udev-rules-service 'pipewire-add-udev-rules pipewire)
               (udev-rules-service 'yubikey yubikey-personalization)
               ;; (bluetooth-service #:auto-enable? #t)
 

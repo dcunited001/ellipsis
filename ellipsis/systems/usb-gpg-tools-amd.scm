@@ -20,7 +20,7 @@
     (inherit usb-gpg-tools)
     (host-name "usbgpgtoolamd")
     (timezone "America/New_York")
-    (locale "en_US.utf8")
+    (locale "en_US.UTF-8")
 
     ;; NONFREE
     (kernel linux)

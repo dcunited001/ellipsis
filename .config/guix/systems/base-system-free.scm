@@ -3,25 +3,35 @@
   #:use-module (gnu)
   #:use-module (srfi srfi-1)
   #:use-module (gnu system nss)
+  #:use-module (gnu system pam)
+
   #:use-module (gnu services pm)
   #:use-module (gnu services cups)
   #:use-module (gnu services desktop)
   #:use-module (gnu services docker)
   #:use-module (gnu services networking)
+  #:use-module (gnu services sound)
   #:use-module (gnu services virtualization)
+  #:use-module (gnu services authentication)
+  #:use-module (gnu services security-token)
+
   #:use-module (gnu packages wm)
   #:use-module (gnu packages dns)
   #:use-module (gnu packages ssh)
+  #:use-module (gnu packages security-token)
+  #:use-module (gnu packages cryptsetup)
   #:use-module (gnu packages cups)
   #:use-module (gnu packages vim)
   #:use-module (gnu packages gtk)
   #:use-module (gnu packages xorg)
   #:use-module (gnu packages xdisorg)
   #:use-module (gnu packages emacs)
+  #:use-module (gnu packages emacs-xyz)
   #:use-module (gnu packages file-systems)
   #:use-module (gnu packages gnome)
   #:use-module (gnu packages mtools)
   #:use-module (gnu packages linux)
+  #:use-module (gnu packages hardware)
   #:use-module (gnu packages libusb)
   #:use-module (gnu packages audio)
   #:use-module (gnu packages gnuzilla)
@@ -40,15 +50,12 @@
 (use-service-modules desktop xorg) ;sway/wayland?
 
 ;;** use-package-modules
-(use-package-modules certs shells linux)
-
-;;** DEBUG
-;;(use-modules (ice-9 pretty-print))
+(use-package-modules certs tls ssh gnupg shells linux)
 
 ;;** udev rules
 ;;*** backlight-udev-rule
 ;; Add udev rule that allows members of the "video" group to change brightness.
-(define %udev-backlight-rule
+(define-public %udev-backlight-rule
   (udev-rule
    "90-backlight.rules"
    (string-append "ACTION==\"add\", SUBSYSTEM==\"backlight\", "
@@ -62,6 +69,7 @@
 (define-public %dc-groups
   (cons* (user-group (name "realtime") (system? #t))
          (user-group (name "docker") (system? #t))
+         (user-group (name "yubikey") (system? #t))
          (user-group (name "fuse") (system? #t))
          (user-group (name "users") (id 1100))
          (user-group (name "dc") (id 1000))
@@ -78,9 +86,11 @@
     "input"
     "docker"
     "realtime" ;; Enable RT scheduling
-    "lp"       ;; control bluetooth
+    "lp"       ;; control bluetooth and cups
     "audio"    ;; control audio
     "video"    ;; control video
+    "yubikey"
+    "plugdev"
     "users"
     "fuse"))
 
@@ -100,7 +110,7 @@
 
 (define-public (remove-gdm-service services-list)
   (remove (lambda (service)
-            (eq? (service-kind service)  gdm-service-type))
+            (eq? (service-kind service) gdm-service-type))
           services-list))
 
 ;;** %dc-desktop-packages
@@ -108,18 +118,51 @@
   (append (list
            openssh
            git
+           lvm2
+           cryptsetup
            ntfs-3g
            exfat-utils
            fuse-exfat
+           hwinfo
            stow
            vim
+
            emacs
+           emacs-better-defaults
+           emacs-auto-complete
+           emacs-hydra
+           emacs-modus-themes
+           emacs-dash
+           emacs-lispy
+           emacs-geiser
+           emacs-geiser-guile
+           emacs-ac-geiser
+           emacs-guix
+           emacs-yasnippet
+           emacs-yasnippet-snippets
+           emacs-with-editor
+
            xterm
            bluez
            bluez-alsa
-           ;; pipewire ;; TODO: pipewire?
-           tlp
+
+           ;; TODO remove pulseaudio
+           pipewire
            xf86-input-libinput
+
+           tlp
+           cpupower
+           turbostat
+           lm-sensors
+
+           ccid
+           yubikey-personalization
+           libu2f-host
+           opensc
+           gnupg
+           pcsc-lite
+           hidapi
+           rng-tools
 
            ;; required for wacom
            ;; - libwacom modifies udev rules & must be in system config
@@ -128,14 +171,12 @@
 
            ;; required for xdg-user-dirs-update
            xdg-user-dirs
+           libnotify
 
            ;; usbmuxd and ifuse for iphone-usb
            usbmuxd
            ifuse
 
-	   ;; doesn't allow you to specify outputs?
-	   ;; `(,bind "utils")
-	   
            gvfs
            nss-certs)
           %base-packages))
@@ -154,18 +195,16 @@
       (inherit config)
       (handle-lid-switch-external-power 'suspend)))
 
-    (udev-service-type
-     config =>
-     (udev-configuration
-      (inherit config)
-      (rules (cons %udev-backlight-rule
-                   (udev-configuration-rules config)))))
-
     (network-manager-service-type
      config =>
      (network-manager-configuration
       (inherit config)
       (vpn-plugins (list network-manager-openvpn))))))
+
+;;** %dc-nntp-config
+(define-public %dc-nntpserver
+  (plain-file "nntpserver.conf"
+              "news.gmane.io"))
 
 ;;** %xorg-libinput-config
 
@@ -176,8 +215,7 @@
 ;; TODO: update this for wacom device
 
 (define-public %xorg-libinput-config
-  "
-Section \"InputClass\"
+  "Section \"InputClass\"
   Identifier \"Touchpads\"
   Driver \"libinput\"
   MatchDevicePath \"/dev/input/event*\"
@@ -250,41 +288,56 @@ EndSection
               ;; - ensure cpu-scaling-governor-on-ac is not affecting performance              
               (service tlp-service-type
                        (tlp-configuration
+                        (nmi-watchdog? #t)
                         (cpu-boost-on-ac? #t)
                         (tlp-default-mode "AC") ;; this is the default
                         (wifi-pwr-on-bat? #t)))
 
-	      (pam-limits-service ;; This enables JACK to enter realtime mode
+              ;; This enables JACK to enter realtime mode
+	            (pam-limits-service-type
                (list
                 (pam-limits-entry "@realtime" 'both 'rtprio 99)
                 (pam-limits-entry "@realtime" 'both 'memlock 'unlimited)))
 
-	      (extra-special-file "/usr/bin/env"
+	            (extra-special-file "/usr/bin/env"
                                   (file-append coreutils "/bin/env"))
 
-	      (service thermald-service-type)
+	            (service thermald-service-type)
 
-	      ;; (service docker-service-type)
+	            ;; (service docker-service-type)
 
-	      (service libvirt-service-type ;; TODO how is libvirt configured?
+	            (service libvirt-service-type ;; TODO how is libvirt configured?
                        (libvirt-configuration
                         (unix-sock-group "libvirt")
                         (tls-port "16555")))
 
-	      ;; (service cups-service-type
+              ;; req. to start VM's with virtmanager
+              (service virtlog-service-type
+                       (virtlog-configuration
+                        ;; (max-clients 1024) ;; default
+                        (max-size (* 32 (expt 1024 2)))))
+
+              (service pcscd-service-type)
+
+
+	            ;; (service cups-service-type
               ;;          (cups-configuration
               ;;           (web-interface? #t)
               ;;           (extensions
               ;;            (list cups-filters))))
 
-	      ;; (service nix-service-type)
+	            ;; (service nix-service-type)
 
-	      (udev-rules-service 'pipewire-add-udev-rules pipewire)
+
+              (udev-rules-service 'u2f libu2f-host #:groups '("plugdev"))
+              (udev-rules-service 'pipewire-add-udev-rules pipewire)
+              (udev-rules-service 'backlight-rule %udev-backlight-rule)
+              (udev-rules-service 'yubikey yubikey-personalization)
 	      
-	      (bluetooth-service #:auto-enable? #t)
+	            (bluetooth-service #:auto-enable? #t)
 
               dc-desktop-services
-	      ))
+	            ))
    
    ;; allow resolution of '.local' hostnames with mDNS
    (name-service-switch %mdns-host-lookup-nss)))

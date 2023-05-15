@@ -12,6 +12,7 @@
   #:use-module (gnu services virtualization) ;; for libvirt
   #:use-module (gnu services audio)
   #:use-module (gnu services cups)
+  #:use-module (gnu services docker)
   ;;#:use-module (gnu services authentication)
   #:use-module (gnu services security-token)
 
@@ -208,6 +209,16 @@
 
               (service thermald-service-type)
 
+              ;; TODO validate that disabling user-proxy doesn't cause issues
+              ;; TODO inherit from service and add --data-root
+              ;;
+              ;; see %docker-activation in service definition
+              ;; can't package as service and an alternate image storage here
+              ;; but could
+              (service docker-service-type
+                       (docker-configuration
+                        (enable-proxy? #f)))
+
               (service libvirt-service-type ;; TODO how is libvirt configured?
                        (libvirt-configuration
                         (unix-sock-group "libvirt")
@@ -292,11 +303,13 @@
               (remove-pulseaudio-service %kharis-desktop-services)
               ))
 
-   (groups (append (list (user-group (name "julia") (system? #t)))
+   (groups (append (list (user-group (name "julia") (system? #t))
+                         (user-group (name "docker") (system? #t)))
                    %dc-groups))
 
     
    (users (append (list (dc-user (cons* "libvirt"
+                                        "docker"
                                         %dc-my-groups))
                         (user-account
                          (name "julia")

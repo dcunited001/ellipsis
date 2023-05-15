@@ -17,6 +17,7 @@
 
   #:use-module (gnu packages wm)
   #:use-module (gnu packages dns)
+  #:use-module (gnu packages ssh)
   #:use-module (gnu packages security-token)
   #:use-module (gnu packages cryptsetup)
   #:use-module (gnu packages cups)
@@ -54,9 +55,6 @@
 ;;** use-package-modules
 (use-package-modules certs tls ssh gnupg shells linux)
 
-;;** DEBUG
-;; (use-modules (ice-9 pretty-print))
-
 ;;** udev rules
 ;;*** backlight-udev-rule
 ;; Add udev rule that allows members of the "video" group to change brightness.
@@ -80,9 +78,7 @@
 
 (define-public %dc-groups
   (cons* (user-group (name "realtime") (system? #t))
-         (user-group (name "docker") (system? #t))
          (user-group (name "yubikey") (system? #t))
-         ;; (user-group (name "plugdev") (system? #t)) ;; created automatically by package/udev
          (user-group (name "fuse") (system? #t))
          (user-group (name "users") (id 1100))
          (user-group (name "dc") (id 1000))
@@ -97,7 +93,6 @@
     "kvm"
     "tty"
     "input"
-    "docker"
     "realtime" ;; Enable RT scheduling
     "lp"       ;; control bluetooth and cups
     "audio"    ;; control audio
@@ -224,9 +219,6 @@
            usbmuxd
            ifuse
 
-           ;; doesn't allow you to specify outputs?
-           ;; `(,bind "utils")
-
            gvfs
            nss-certs)
           %base-packages))
@@ -330,7 +322,7 @@ EndSection
   (operating-system
     (host-name "eerse")
     (timezone "America/New_York")
-    (locale "en_US.utf8")
+    (locale "en_US.UTF-8")
 
     ;; FREE (specify kernel in system.scm
     ;; (kernel linux-libre)                    ;use the non-free Linux kernel and firmware
@@ -386,7 +378,8 @@ EndSection
                          (tlp-default-mode "AC") ;; this is the default
                          (wifi-pwr-on-bat? #t)))
 
-               (pam-limits-service ;; This enables JACK to enter realtime mode
+                ;; This enables JACK to enter realtime mode
+               (pam-limits-service-type
                 (list
                  (pam-limits-entry "@realtime" 'both 'rtprio 99)
                  (pam-limits-entry "@realtime" 'both 'memlock 'unlimited)))

@@ -114,7 +114,7 @@
                         (tlp-default-mode "AC") ;; this is the default
                         (wifi-pwr-on-bat? #t)))
 
-	      ;; (pam-limits-service ;; This enables JACK to enter realtime mode
+	      ;; (pam-limits-service-type ;; This enables JACK to enter realtime mode
               ;;  (list
               ;;   (pam-limits-entry "@realtime" 'both 'rtprio 99)
               ;;   (pam-limits-entry "@realtime" 'both 'memlock 'unlimited)))
