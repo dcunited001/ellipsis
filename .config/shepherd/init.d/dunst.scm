@@ -1,20 +1,18 @@
-(use-modules (shepherd support))
+(use-modules (shepherd service))
 
 (define dunst
-  (make <service>
-    #:provides '(dunst)
-    #:respawn? #f
-    #:start (make-forkexec-constructor
-             '("/home/dc/.guix-extra-profiles/desktop/desktop/bin/dunst")
-             #:log-file (string-append
-                         (mkdtemp "/tmp/dunst-XXXXXX")
-                         "/dunst-"
-                         (strftime "%Y-%m-%d-" (gmtime (current-time)))
-                         (gethostname) ".log"))
-    ;; TODO: setsid error when using handle-termination
-    ;; #:handle-termination (exec-command '("notify-send" "-i error" "Shepherd: Dunst" "Dunst stopped"))
-    #:stop  (make-kill-destructor)))
-(register-services dunst)
+  (let* ((service-cmd
+         (list "/home/dc/.guix-extra-profiles/desktop/desktop/bin/dunst"))
+        (log-time (strftime "%Y-%m-%d-" (gmtime (current-time))))
+        (log-file (string-append (mkdtemp "/tmp/dunst-XXXXXX")
+                                 "/dunst-"
+                                 log-time
+                                 (gethostname)
+                                 ".log")))
 
-;; shepherd should handle both stdout/stderr
-;; dunst 2>&1 > /tmp/dunst.1.log
+    (service '(dunst)
+             #:start (make-forkexec-constructor service-cmd #:log-file log-file)
+             #:stop  (make-kill-destructor)
+             #:respawn? #f)))
+
+(register-services (list dunst))

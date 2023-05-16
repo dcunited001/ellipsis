@@ -1,9 +1,9 @@
-(use-modules (shepherd support))
+(use-modules (shepherd service))
 
 (define mcron
-  (make <service>
-    #:provides '(mcron)
-    #:respawn? #t
+  (service '(mcron)
     #:start (make-forkexec-constructor '("mcron"))
-    #:stop  (make-kill-destructor)))
-(register-services mcron)
+    #:stop  (make-kill-destructor)
+    #:respawn? #t))
+
+(register-services (list mcron))

@@ -1,9 +1,9 @@
-(use-modules (shepherd support))
+(use-modules (shepherd service))
 
 (define xdg-user-dirs
-  (make <service>
-    #:provides '(xdg-user-dirs)
-    #:one-shot? #t
-    #:start (make-forkexec-constructor '("xdg-user-dirs-update"))
-    #:stop (make-kill-destructor)))
-(register-services xdg-user-dirs)
+  (service '(xdg-user-dirs)
+           #:start (make-forkexec-constructor '("xdg-user-dirs-update"))
+           #:stop (make-kill-destructor)
+           #:one-shot? #t))
+
+(register-services (list xdg-user-dirs))

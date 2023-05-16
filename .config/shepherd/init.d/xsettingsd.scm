@@ -1,17 +1,17 @@
-(use-modules (shepherd support))
+(use-modules (shepherd service))
 
 (define xsettingsd
-  (make <service>
-    #:provides '(xsettingsd)
-    #:respawn? #f
-    #:start (make-forkexec-constructor
-             '("/home/dc/.guix-extra-profiles/desktop/desktop/bin/xsettingsd")
-             #:log-file (string-append
-                         (mkdtemp "/tmp/xsettings-XXXXXX")
-                         "/xsettingsd-"
-                         (strftime "%Y-%m-%d-" (gmtime (current-time)))
-                         (gethostname) ".log"))
-    ;; TODO: setsid error when using handle-termination
-    ;; #:handle-termination (exec-command '("notify-send" "-i error" "Shepherd: XSettingsD" "XSettingsD stopped"))
-    #:stop  (make-kill-destructor)))
-(register-services xsettingsd)
+  (let* ((service-cmd
+         (list "/home/dc/.guix-extra-profiles/desktop/desktop/bin/xsettingsd"))
+        (log-time (strftime "%Y-%m-%d-" (gmtime (current-time))))
+        (log-file (string-append (mkdtemp "/tmp/xsettingsd-XXXXXX")
+                                 "/xsettingsd-"
+                                 log-time
+                                 (gethostname)
+                                 ".log")))
+    (service '(xsettingsd)
+             #:start (make-forkexec-constructor service-cmd #:log-file log-file)
+             #:stop  (make-kill-destructor)
+             #:respawn? #f)))
+
+(register-services (list xsettingsd))

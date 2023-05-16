@@ -1,10 +1,11 @@
-(use-modules (shepherd support))
+(use-modules (shepherd service))
+
 (define syncthing
-  (make <service>
-    #:provides '(syncthing)
-    #:docstring "Run `syncthing' without calling the browser"
-    #:respawn? #f
-    #:start (make-forkexec-constructor
-             '("syncthing" "-no-browser"))
-    #:stop (make-kill-destructor)))
+  (let* ((service-cmd '("syncthing" "-no-browser")))
+    (service '(syncthing)
+             #:documentation "Run `syncthing' without calling the browser"
+             #:start (make-forkexec-constructor service-cmd)
+             #:stop (make-kill-destructor)
+             #:respawn? #f)))
+
 (register-services syncthing)

@@ -1,17 +1,18 @@
-(use-modules (shepherd support))
+(use-modules (shepherd service))
 
 (define xdg-desktop-portal-gtk
-  (make <service>
-    #:provides '(xdg-desktop-portal-gtk)
-    #:respawn? #f
-    #:start (make-forkexec-constructor
-             '("/home/dc/.guix-extra-profiles/xdg/xdg/libexec/xdg-desktop-portal-gtk")
-             #:log-file (string-append
-                         (mkdtemp "/tmp/xdg-XXXXXX")
-                         "/xdg-desktop-portal-gtk-"
-                         (strftime "%Y-%m-%d-" (gmtime (current-time)))
-                         (gethostname) ".log"))
-    ;; TODO: setsid error when using handle-termination
-    ;; #:handle-termination (exec-command '("notify-send" "Shepherd: XDG" "XDG Desktop Portal GTK stopped"))
-    #:stop  (make-kill-destructor)))
-(register-services xdg-desktop-portal-gtk)
+  (let* ((service-cmd
+         (list "/home/dc/.guix-extra-profiles/xdg/xdg/libexec/xdg-desktop-portal-gtk" "-r"))
+        (log-time (strftime "%Y-%m-%d-" (gmtime (current-time))))
+        (log-file (string-append (mkdtemp "/tmp/xdg-desktop-portal-XXXXXX")
+                                 "/portal-gtk-"
+                                 log-time
+                                 (gethostname)
+                                 ".log")))
+
+    (service '(xdg-desktop-portal-gtk)
+             #:start (make-forkexec-constructor service-cmd #:log-file log-file)
+             #:stop  (make-kill-destructor)
+             #:respawn? #f)))
+
+(register-services (list xdg-desktop-portal-gtk))

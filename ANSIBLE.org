@@ -126,8 +126,9 @@ export ANSIBLE_HOME
 echo "Set ANSIBLE_CONFIG or change ANSIBLE_HOME=\"$ANSIBLE_HOME\""
 #+end_src
 
-* Ansible
 
+
+* Ansible
 
 ** Config
 
@@ -172,7 +173,7 @@ stdout_callback=yaml
 # collections_paths=./collections
 roles_path=./roles # :/etc/ansible/roles
 inventory=./inventory.yml
-log_path=$SECRETS_HOME/.ansible/tmp/ansible.log
+log_path=./tmp/ansible.log
 
 [persistent_connection]
 command_timeout=45
@@ -221,14 +222,66 @@ ansible-config dump -f $config --only-changes -t --format=$format
 #+end_src
 
 
-* Playbooks
+* Setup
+
+Ensure =ANSIBLE_HOME= is set. Almost everything will be relative to that. If
+it's not set in the environment, metadata will likely be created in:
+
++ =$HOME/.ansible/tmp= and
++ =$XDG_CONFIG_HOME/ansible=
+
+** External Services
+
++ [[https://docs.ansible.com/ansible/latest/collections/ansible/buildin/index.html][Builtin Docs]]
+
+*** Galaxy
+
+The Ansible Galaxy url's are nice and mnemonic: =galaxy.ansible.com/$namespace/$collection=
+
+#+begin_src sh
+ansible-galaxy collection install \
+               community.general \
+               ansible.posix \
+               ansble.netcommon \
+               ansible.utils
+#+end_src
+
+****
+
+#+begin_src sh
+ansible-galaxy collection install \
+               kubernetes.core \
+               containers.podman \
+               community.grafana
+#+end_src
+
+****
+
+#+begin_src sh
+ansible-galaxy collection install \
+               community.vault \
+               community.hashi_vault \
+               community.crypto \
+               devsec.hardening
+
+#+end_src
 
 
-* External Services
+**** Other collections:
 
-** Galaxy
++ community.libvirt
++ awx.awx
++ openvswitch.openvswitch
++ lvrfrc87.git_acp
 
-** AWX
+
+*** Ansible Vault
+
+*** AWX
+
+** Playbooks
+
+
 
 * Ansible on Guix
 

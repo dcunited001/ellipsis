@@ -40,6 +40,7 @@
   #:use-module (gnu packages package-management)
   #:use-module (gnu packages freedesktop)
   #:use-module (gnu packages guile)
+  #:use-module (gnu packages guile-xyz)
 
   ;;NONFREE
   #:use-module (nongnu packages linux)

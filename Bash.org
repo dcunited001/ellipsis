@@ -395,6 +395,38 @@ flatpak --installation=steam install flathub com.valvesoftware.Steam.Compatibili
 
 ***** TODO simplyfy config
 
+
+
+** Shepherd
+
+**** TODO finish Misc shepherd utils
+
+#+begin_src sh :tangle .config/sh/profile.d/guix.sh :shebang #!/bin/sh
+sherpid() {
+    #local log=
+    #local cfg=
+    local pidfile=
+    local sock=
+    #local rflag=
+
+    #--long-options pidfile::,sock::,logfile:,config:,r:
+    echo "parsing"
+    while getopts "p::s::l:c:r:" opt; do
+        case "$opt" in
+            p) pidfile=$opt;;
+            s) sock=$opt;;
+            l) log=$opt;;
+            c) cfg=$opt;;
+            r) rflag=$opt;;
+            ?) usage;;
+        esac
+
+        echo $pidfile $sock $log $cfg $rflag
+    done
+
+}
+#+end_src
+
 ** Guix
 
 =GUIX_AUTOLOAD_PROFILES=(desktop i3)= should be set in the script run
@@ -427,6 +459,12 @@ export GUIX_BUILD_OPTIONS="-c6"
 
 export GUIX_DEVTOOLS=$GUIX_EXTRA/devtools/devtools
 export GUIX_DEVDEBUG=$GUIX_EXTRA/devdebug/devdebug
+#+end_src
+
+Misc guix utils
+
+#+begin_src sh :tangle .config/sh/profile.d/guix-utils :shebang #!/bin/sh
+
 #+end_src
 
 *** On Arch
@@ -1621,6 +1659,13 @@ if [ "$TERM" != "dumb" ]; then
     # no color
 fi
 
+# pgrep -u $UID
+pskill() {
+    [[ -z "$1" ]] && echo "Requires command name" && return 1
+    pkill -u $UID -x "$1"
+}
+alias psid='ps -opid,uid,command h'
+
 # updates
 alias grubup="sudo update-grub"
 alias upd='/usr/bin/update'
@@ -1928,6 +1973,8 @@ if [ -f $HOME/.profile ]; then . $HOME/.profile; fi
 ;; another profile
   "tk"
   "ncurses"
+
+;;  "poetry"
 
 ;;** pkg metadata
   "pkg-config"

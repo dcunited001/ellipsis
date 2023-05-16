@@ -1,20 +1,19 @@
-(use-modules (shepherd support))
+(use-modules (shepherd service))
 
 (define polybar
-  (make <service>
-    #:provides '(polybar)
-    #:respawn? #f
-    #:start (make-forkexec-constructor
-             '("/home/dc/.guix-extra-profiles/desktop/desktop/bin/polybar")
-             #:log-file (string-append
-                         (mkdtemp "/tmp/polybar-XXXXXX")
-                         "/polybar-"
-                         (strftime "%Y-%m-%d-" (gmtime (current-time)))
-                         (gethostname) ".log"))
-    ;; TODO: setsid error when using handle-termination
-    ;; #:handle-termination (exec-command '("notify-send" "-i error" "Shepherd: Polybar" "Polybar stopped"))
-    #:stop  (make-kill-destructor)))
-(register-services polybar)
+  (let* ((service-cmd (list "/home/dc/.guix-extra-profiles/desktop/desktop/bin/polybar"))
+         (log-time (strftime "%Y-%m-%d-" (gmtime (current-time))))
+         (log-file (string-append (mkdtemp "/tmp/polybar-XXXXXX")
+                                  "/polybar-"
+                                  log-time
+                                  (gethostname) ".log")))
+
+    (service '(polybar)
+             #:start (make-forkexec-constructor service-command #:log-file log-file)
+             #:stop  (make-kill-destructor)
+             #:respawn? #f)))
+
+(register-services (list polybar))
 
 ;; shepherd should handle both stdout/stderr
 ;; polybar panel 2>&1 > /tmp/polybar.1.log
