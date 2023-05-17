@@ -399,9 +399,13 @@ flatpak --installation=steam install flathub com.valvesoftware.Steam.Compatibili
 
 ** Shepherd
 
+Guix Home is definitely the way to manage services for your desktop. However, if
+you simply use Guix Home, it's very likely you'll never use multiple shepherd
+processes, which is yes complicated but also one of the advantages IMO.
+
 **** TODO finish Misc shepherd utils
 
-#+begin_src sh :tangle .config/sh/profile.d/guix.sh :shebang #!/bin/sh
+#+begin_src sh :tangle .config/sh/profile.d/shepherd-util.sh :shebang #!/bin/sh
 sherpid() {
     #local log=
     #local cfg=
