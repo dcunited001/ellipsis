@@ -5,8 +5,8 @@
 #+CATEGORY: slips
 #+property: header-args            :tangle-mode (identity #o400) :mkdirp yes
 #+property: header-args:conf       :tangle-mode (identity #o600) :mkdirp yes
+#+property: header-args:sh         :tangle-mode (identity #o500) :mkdirp yes
 #+property: header-args:shell      :tangle-mode (identity #o500) :mkdirp yes
-#+property: header-args:bash       :tangle-mode (identity #o500) :mkdirp yes
 #+property: header-args:scheme     :tangle-mode (identity #o500) :mkdirp yes
 #+property: header-args:emacs-lisp :tangle-mode (identity #o600) :mkdirp yes
 #+TAGS:
@@ -134,49 +134,9 @@ echo "Set ANSIBLE_CONFIG or change ANSIBLE_HOME=\"$ANSIBLE_HOME\""
 
 Some naïve example settings:
 
-#+begin_src conf :tangle (expand-file-name ".config/ansible/ansible.cfg.eg" ansible-prefix)
-[defaults]
-# forks=15
-timeout=240
-nocows=1
-
-# will support faster network operations
-# pipelining=True
-# become=True
-
-transport=ssh
-# host_key_checking=False
-# host_key_auto_add=True
-# pkcs11_provider =
-# ssh_args
-# ssh_common_args
-# ssh_executable
-# ssh_extra_args
-# ssh_transfer_method
-
-# remote_tmp = $HOME/.ansible/tmp
-# local_tmp = $SECRETS_HOME/.ansible/tmp
-
-retry_files_enabled=False
-ansible_debug=True
-# deprecation_warnings=False
-
-hash_behavior=merge
-gathering=smart
-fact_caching=jsonfile
-# fact_caching_connection=$SECRETS_HOME/.ansible/tmp
-stdout_callback=yaml
-# callback_whitelist=profile_tasks,jsnapy,slack,logstash
-# callback_whitelist=profile_tasks
-
-# library=./files/ansible/library
-# collections_paths=./collections
-roles_path=./roles # :/etc/ansible/roles
-inventory=./inventory.yml
-log_path=./tmp/ansible.log
-
-[persistent_connection]
-command_timeout=45
+#+header: :file (expand-file-name ".config/ansible/ansible.cfg.eg" ansible-prefix)
+#+begin_src sh :results output
+cat $XDG_CONFIG_HOME/ansible/ansible.cfg.eg
 #+end_src
 
 *** Comparing against defaults
@@ -191,13 +151,11 @@ The =--format env= option can be evaluated or appended to a =.envrc=.
 
 *** Dumping configs
 
-Here the formats are json, yaml, or ini and are incompatible with the above.
+Here the formats are json, yaml, or ini and are incompatible with the above, though
 
 #+begin_src sh
-ansible-config dump -f $config --only-changes -t --format=$format
+ansible-config dump -c $config --only-changes -t --format=$format
 #+end_src
-
-**** TODO determine whether configs can be converted between formats
 
 ** Plugins
 
@@ -217,36 +175,49 @@ ansible-config dump -f $config --only-changes -t --format=$format
 
 ** Inventory Skel
 
-#+begin_src conf :tangle (expand-file-name ".config/ansible/inventory.ini.eg" ansible-prefix)
+#+begin_src conf :tangle (expand-file-name ".config/ansible/inventory.yml.eg" ansible-prefix)
 
 #+end_src
 
 
 * Setup
 
-Ensure =ANSIBLE_HOME= is set. Almost everything will be relative to that. If
-it's not set in the environment, metadata will likely be created in:
+Ensure =ANSIBLE_HOME= is set. Almost everything will be relative to that.
 
-+ =$HOME/.ansible/tmp= and
-+ =$XDG_CONFIG_HOME/ansible=
+Depending on its value and whether a config file is read, then files will likely
+be created in =$HOME/.ansible/tmp= and =$XDG_CONFIG_HOME/ansible=.
+
+Using direnv can help jump between various ansible projects. If you set
+=ANSIBLE_CONFIG=, it's very likely that you'll want multiple configs like
+=ansible.debug.cfg= so use =-c $config= to do that.
+
+#+begin_src sh :tangle (expand-file-name ".envrc.eg" ansible-prefix)
+export ANSIBLE_HOME=$PWD
+export ANSIBLE_CONFIG=$ANSIBLE_HOME/ansible.cfg
+PATH_add .bin
+#+end_src
 
 ** External Services
 
-+ [[https://docs.ansible.com/ansible/latest/collections/ansible/buildin/index.html][Builtin Docs]]
-
 *** Galaxy
+
+Getting access to Galaxy from behind a firewall is kind of a mess. It works
+occasionally, but there's quite a bit of CDN magic that happens. You'll need a
+mirror. However ... and I don't know why I didn't just switch gears earlier
+... you can just pop the controller off the subnet. A protected Ansible AWX
+would be a bit different. See the =pulp/pulp_
 
 The Ansible Galaxy url's are nice and mnemonic: =galaxy.ansible.com/$namespace/$collection=
 
-#+begin_src sh
+#+begin_src sh :tangle (expand-file-name ".bin/init-galaxy" ansible-prefix)
 ansible-galaxy collection install \
                community.general \
                ansible.posix \
-               ansble.netcommon \
+               ansible.netcommon \
                ansible.utils
 #+end_src
 
-****
+**** Containers
 
 #+begin_src sh
 ansible-galaxy collection install \
@@ -255,11 +226,10 @@ ansible-galaxy collection install \
                community.grafana
 #+end_src
 
-****
+**** Security
 
 #+begin_src sh
 ansible-galaxy collection install \
-               community.vault \
                community.hashi_vault \
                community.crypto \
                devsec.hardening

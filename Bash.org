@@ -1713,41 +1713,71 @@ alias emacs-debug-wayland='WAYLAND_DEBUG=1 emacs --fg-daemon > $HOME/.cache/log/
 
 *** Color
 
+#+begin_quote
+hmmmmm colors in man are gone except for the standout effect on the status
+line. /Some of it/ is still there in vty's. but =!echo $PAGER $MANPAGER and $(which less)=
+from within man/less show the expected output AFAIK.
+#+end_quote
+
+
 Shell colors (stackoverflow)
 
 #+begin_src sh :tangle .config/sh/colors.sh :shebang #!/bin/sh
-RESTORE=$(echo -en '\001\033[0m\002')
-RED=$(echo -en '\001\033[00;31m\002')
-GREEN=$(echo -en '\001\033[00;32m\002')
-YELLOW=$(echo -en '\001\033[00;33m\002')
-BLUE=$(echo -en '\001\033[00;34m\002')
-MAGENTA=$(echo -en '\001\033[00;35m\002')
-PURPLE=$(echo -en '\001\033[00;35m\002')
-CYAN=$(echo -en '\001\033[00;36m\002')
-LIGHTGRAY=$(echo -en '\001\033[00;37m\002')
-LRED=$(echo -en '\001\033[01;31m\002')
-LGREEN=$(echo -en '\001\033[01;32m\002')
-LYELLOW=$(echo -en '\001\033[01;33m\002')
-LBLUE=$(echo -en '\001\033[01;34m\002')
-LMAGENTA=$(echo -en '\001\033[01;35m\002')
-LPURPLE=$(echo -en '\001\033[01;35m\002')
-LCYAN=$(echo -en '\001\033[01;36m\002')
-WHITE=$(echo -en '\001\033[01;37m\002')
-#+end_src
+if [ "$TERM" != "dumb" ]; then
+    export RESTORE=$(echo -en '\001\033[0m\002')
+    export STANDOUT=$(echo -en '\001\033[00;44;37m\002')
+    export RED=$(echo -en '\001\033[00;31m\002')
+    export GREEN=$(echo -en '\001\033[00;32m\002')
+    export YELLOW=$(echo -en '\001\033[00;33m\002')
+    export BLUE=$(echo -en '\001\033[00;34m\002')
+    export MAGENTA=$(echo -en '\001\033[00;35m\002')
+    export PURPLE=$(echo -en '\001\033[00;35m\002')
+    export CYAN=$(echo -en '\001\033[00;36m\002')
+    export LIGHTGRAY=$(echo -en '\001\033[00;37m\002')
+    export LRED=$(echo -en '\001\033[01;31m\002')
+    export LGREEN=$(echo -en '\001\033[01;32m\002')
+    export LYELLOW=$(echo -en '\001\033[01;33m\002')
+    export LBLUE=$(echo -en '\001\033[01;34m\002')
+    export LMAGENTA=$(echo -en '\001\033[01;35m\002')
+    export LPURPLE=$(echo -en '\001\033[01;35m\002')
+    export LCYAN=$(echo -en '\001\033[01;36m\002')
+    export WHITE=$(echo -en '\001\033[01;37m\002')
+else
+    export RESTORE=""
+    export STANDOUT=""
+    export RED=""
+    export GREEN=""
+    export YELLOW=""
+    export BLUE=""
+    export MAGENTA=""
+    export PURPLE=""
+    export CYAN=""
+    export LIGHTGRAY=""
+    export LRED=""
+    export LGREEN=""
+    export LYELLOW=""
+    export LBLUE=""
+    export LMAGENTA=""
+    export LPURPLE=""
+    export LCYAN=""
+    export WHITE=""
+fi
 
-+ Protesilaos: [[file:/data/ecto/x.files/protesilaos/dotfiles/shell/.bashrc::Colourise man pages][font & color config for man]]
-+ =man termcap= for an explanation of codes
-+ example dircolors output: [[file:/data/ecto/x.files/benmezger/dotfiles/dot_dircolors][benmezger dircolors]]
-
-#+begin_src sh :tangle .config/sh/colors.sh :shebang #!/bin/sh
 export LESS_TERMCAP_mb="${LRED}"
 export LESS_TERMCAP_md="${LRED}"
 export LESS_TERMCAP_me="${RESTORE}"
 export LESS_TERMCAP_se="${RESTORE}"
-export LESS_TERMCAP_so=$'\E[00;44;37m'
+export LESS_TERMCAP_so="${STANDOUT}"
+#export LESS_TERMCAP_so=$'\E[00;44;37m'
 export LESS_TERMCAP_ue="${RESTORE}"
 export LESS_TERMCAP_us="${LGREEN}"
 #+end_src
+
+And when no colors
+
++ Protesilaos: [[file:/data/ecto/x.files/protesilaos/dotfiles/shell/.bashrc::Colourise man pages][font & color config for man]]
++ =man termcap= for an explanation of codes
++ example dircolors output: [[file:/data/ecto/x.files/benmezger/dotfiles/dot_dircolors][benmezger dircolors]]
 
 And source
 
