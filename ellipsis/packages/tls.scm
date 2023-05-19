@@ -80,6 +80,7 @@
 
 
 ;; go depends on gccgo
+;; TODO: maybe finish trying to package this. it doesn't build
 (define-public step-cli
   (package
     (name "step-cli")
