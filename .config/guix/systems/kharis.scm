@@ -271,7 +271,7 @@
                         (options '("-m" "/dev/input/mice" "-t" "ps2"))))
 
               ;; TODO try to fix libfuse update
-              ;; (udev-rules-service 'fido2 libfido2 #:groups '("plugdev"))
+              (udev-rules-service 'fido2 libfido2 #:groups '("plugdev"))
               (udev-rules-service 'u2f libu2f-host #:groups '("plugdev"))
               (udev-rules-service 'pipewire-add-udev-rules pipewire)
               (udev-rules-service 'backlight-rule %udev-backlight-rule)

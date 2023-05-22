@@ -1724,6 +1724,8 @@ Shell colors (stackoverflow)
 
 #+begin_src sh :tangle .config/sh/colors.sh :shebang #!/bin/sh
 if [ "$TERM" != "dumb" ]; then
+    #export CURSOR_BOX=$(echo -e '\001\033[\017
+
     export RESTORE=$(echo -en '\001\033[0m\002')
     export STANDOUT=$(echo -en '\001\033[00;44;37m\002')
     export RED=$(echo -en '\001\033[00;31m\002')

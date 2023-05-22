@@ -182,11 +182,6 @@
 
              %my-services))))
 
-;; NOTE: udev rules should automatically be in place
-;; (udev-rules-service
-;;  (udev-rule "90-libu2f.rules"
-;;             (string-append "")))
-
 ;; TODO: add gnupg service if configuration file is in place
 
 usb-gpg-tools

@@ -167,11 +167,22 @@ This needs to be copied after deploy. It needs to be modified if not running on 
 
 ** XSettings
 
+These are documented on
+[https://codeberg.org/derat/xsettingsd][codeberg.org/derat/xsettingsd]
+and also in [[https://docs.gtk.org/gtk4/class.Settings][GTK 4+ Docs]]
+
++ Search for fonts using =fc-list=
++ Force refresh with =killall -HUP xsettingsd=
+
 *.config/xsettingsd/xsettingsd.conf:*
 
 #+begin_src conf :tangle .config/xsettingsd/xsettingsd.conf :noweb yes :comments none
 Net/ThemeName "Matcha-dark-azul"
 Net/IconThemeName "Papirus-Dark"
+# Net/SoundThemeName
+# Net/EnableEventSounds
+# Net/EnableInputFeedbackSounds
+
 Gtk/ToolbarStyle 3
 Gtk/EnableAnimations 1
 Gtk/DecorationLayout "menu:minimize,maximize,close"
@@ -183,20 +194,29 @@ Gtk/CursorThemeName "Adwaita"
 Gtk/PrimaryButtonWarpsSlider 0
 Gtk/MenuImages 1
 Gtk/ButtonImages 1
+
+# Gtk/TitlebarMiddleClick (menu, minimize, toggle-maximize, lower, none)
+#+end_src
+
+*Antialiasing* (see [[https://lagom.nl/lcd-test/subpixel][Subpixel Rendering For LCD Test]])
+
+#+begin_src conf :tangle .config/xsettingsd/xsettingsd.conf :noweb yes :comments none
 Xft/Antialias 1
 Xft/Hinting 0
+
+# TODO: hinting on laptop
+# Xft/Rgba
+            
 Xft/HintStyle "hintnone"
 <<dpi()>> # 1024 * DPI
 #+end_src
 
-Misc settings from Garuda's KDE theme
-
-#+begin_example conf
-Net/IconThemeName "BeautyLine"
-Gtk/FontName "Fira Sans,  10"
-Gtk/CursorThemeSize 24
-Gtk/CursorThemeName "Sweet-cursors"
-#+end_example
+Antialiased fonts are similar to a screen door effect solution in 3D
+stereoscopic displays. You need a fast compute for tensor calculations
+needed to address it in 3D. It's supposedly a big deal ... In 3D,
+there are quite a few tricks which can be combined. I didn't know
+about the screen door effect until I had considered 3D antialiased
+font encoding... that assumes tensors are practical outside of ML.
 
 *DPI*
 
@@ -207,6 +227,17 @@ Gtk/CursorThemeName "Sweet-cursors"
              (number-to-string (* 1024 (alist-get 'desktop/dpi dw/system-settings)))))
     "")
 #+end_src
+
+*** Importing Config
+
+Run =xsettingsd=. Misc settings from Garuda's KDE theme.
+
+#+begin_example conf
+Net/IconThemeName "BeautyLine"
+Gtk/FontName "Fira Sans,  10"
+Gtk/CursorThemeSize 24
+Gtk/CursorThemeName "Sweet-cursors"
+#+end_example
 
 ** Color Schemes
 

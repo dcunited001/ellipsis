@@ -121,8 +121,6 @@
                (base32
                 "12amxqcln1h20hfibvkawzsx44im552365djvwhd19f3sr1hbqfi"))))
     (build-system copy-build-system)
-    ;; (arguments
-    ;;  )
     (inputs
      (list coreutils pcsc-lite))
     (home-page "https://smallstep.com/cli/")
@@ -143,8 +141,6 @@
                (base32
                 "08d4803795kl78qnscysimr875afsvcj578zqhmy0dfwid9rg58h"))))
     (build-system copy-build-system)
-    ;; (arguments
-    ;;  )
     (inputs
      (list coreutils pcsc-lite))
     (home-page "https://smallstep.com/certificates/")

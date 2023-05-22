@@ -200,7 +200,7 @@
            ;; breaking python crypto version
            ;; python-yubikey-manager
            libu2f-host
-           ;; libfido2 ;; included as dependency
+           libfido2 ;; included as dependency
            opensc ;; for pkcs#11 (ssh using smartcard PIV certs)
            gnupg
            pcsc-lite
@@ -418,6 +418,7 @@ EndSection
 
                ;; this rule will automatically create the plugdev group on the system
                ;; - but it needs to be added to each users supplementary-groups
+               (udev-rules-service 'fido2 libfido2 #:groups '("plugdev"))
                (udev-rules-service 'u2f libu2f-host #:groups '("plugdev"))
                (udev-rules-service 'pipewire-add-udev-rules pipewire)
                (udev-rules-service 'backlight-rule %udev-backlight-rule)
