@@ -1,8 +1,12 @@
 [$Version]
 update_info=dolphin_detailsmodesettings.upd:rename-leading-padding
 
-[DetailsMode]
-PreviewSize=16
+[CompactMode]
+PreviewSize=22
+
+[FileDialogSize]
+3 screens: Height=1340
+3 screens: Width=884
 
 [General]
 AutoExpandFolders=true
@@ -17,10 +21,11 @@ PreviewSize=128
 [KFileDialog Settings]
 Places Icons Auto-resize=false
 Places Icons Static Size=22
+detailViewIconSize=16
 
 [KPropertiesDialog]
-3 screens: Height=616
-3 screens: Width=479
+3 screens: Height=464
+3 screens: Width=381
 DisplayPort-0 DisplayPort-1 DisplayPort-2 Height 1080x1920 DisplayPort-1=458
 DisplayPort-0 DisplayPort-1 DisplayPort-2 Height 2160x3840 DisplayPort-2=616
 DisplayPort-0 DisplayPort-1 DisplayPort-2 Width 1080x1920 DisplayPort-1=397

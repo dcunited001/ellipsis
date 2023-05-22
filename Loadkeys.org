@@ -1,0 +1,23 @@
+#+TITLE:     Loadkeys
+#+AUTHOR:    David Conner
+#+EMAIL:     aionfork@gmail.com
+#+DESCRIPTION: notes
+
+* Sources
+
+** Includes
+
+There are includes and they're necessary. If you simply remap keycodes, strange
+things may happen. For example, using the following without the include may
+cause your control key to "lock" and never unlock. Then alphanumeric keys will
+start causing their "control" action.
+
+#+begin_src conf :tangle .local/share/kbd/caps-as-control.inc
+include "linux-with-alt-and-altgr.inc"
+
+keycode 58 = Control
+#+end_src
+
+** Kharis
+
+Just link to the appropriate include

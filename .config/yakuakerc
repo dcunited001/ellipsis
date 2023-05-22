@@ -1,8 +1,20 @@
 [Appearance]
 TerminalHighlightOnManualActivation=true
 
+[Desktop Entry]
+DefaultProfile=Eagle.profile
+
 [Dialogs]
 FirstRun=false
+
+[FileDialogSize]
+3 screens: Height=1340
+3 screens: Width=884
+
+[KFileDialog Settings]
+detailViewIconSize=16
+iconViewIconSize=64
+listViewIconSize=64
 
 [Shortcuts]
 switch-to-session-1=Alt+1; Alt+!
