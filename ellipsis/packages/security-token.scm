@@ -5,6 +5,7 @@
   #:use-module ((guix licenses) #:prefix license:)
 
   ;; #:use-module (guix build-system python)
+  #:use-module (guix build-system python)
   #:use-module (guix build-system pyproject)
   #:use-module (guix download)
   #:use-module (guix licenses)
@@ -23,6 +24,25 @@
   #:use-module (gnu packages security-token)
 
   #:use-module (srfi srfi-1))
+
+;; does build with emacs-guix (using poetry 1.1.12
+
+;; ==================
+;; doesn't build with:
+;;
+;; guix shell -L . -e '(@@ (ellipsis packages security-token) python-yubikey-manager)'
+
+;; .... since it wants to build poetry
+
+;; ==================
+
+;; also doesn't build with:
+
+;; guix shell -L . -e '(list (@ (ellipsis packages security-token) python-yubikey-manager) (@ (ellipsis packages security-token) python-pyscard) (@ (ellipsis packages security-token) python-fido2))'
+
+;; since again, it wants to build poetry 1.4.2
+
+;; ==================
 
 ;; well i don't always roll my own crypto, but when i do...
 
