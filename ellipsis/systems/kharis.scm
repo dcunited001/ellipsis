@@ -49,6 +49,11 @@
 
     (keyboard-layout %kharis-default-shell-keyboard)
 
+    (bootloader (bootloader-configuration
+                 (bootloader grub-efi-bootloader)
+                 (targets '("/boot/efi"))
+                 (keyboard-layout keyboard-layout)))
+
     ;; TODO: check whether I need to add my own user
     ;; - not showing up in /etc/group on kharis
     (groups %dc-base-groups)
