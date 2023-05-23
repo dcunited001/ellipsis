@@ -759,12 +759,12 @@ kacomp_set() {
 * Hardware
 
 #+begin_src sh :tangle .profile :shebang #!/bin/sh
-ncpu-x86-threads() {
+ncpu_x86_threads() {
     ls -al /sys/class/cpuid/cpu8 | wc -l
 }
 
-ncpu-x86() {
-    nthreads=$(ncpu-x86-threads)
+ncpu_x86() {
+    nthreads=$(ncpu_x86_threads)
     echo $(($nthreads / 2))
 }
 #+end_src
@@ -925,7 +925,7 @@ Full command
 [[ -z "$1" ]] && echo "Requires semantic version" && exit 1;
 
 version=$1
-ncpu=$(ncpu-x86)
+ncpu=$(ncpu_x86)
 
 [[ ncpu -le 3 ]] && mjobs=3 || mjobs=$(($ncpu - 2))
 
