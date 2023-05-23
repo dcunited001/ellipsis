@@ -105,6 +105,22 @@ Mastering Emacs
   using =--batch --passphrase-fd= to get a passphrase from a file descriptor
   =<(pass --command)=
 
+** Smartcard Integration
+
+*** [[https://pcsclite.apdu.fr/][PCSCD]]
+
++ Arch: [[https://gitlab.archlinux.org/archlinux/packaging/packages/pcsclite/-/blob/main/PKGBUILD][pcsclite-1.9.9]]
+
+**** Debugging
+
++ pcsc-tools includes =pcsc-spy=, but requires configuring IPC to redirect sockets.
++ [[https://ccid.apdu.fr/#CCID_compliant][Check Reader's Compliance to CCID speciication]] (linked from [[https://github.com/LudovicRousseau/PCSC/issues/157][pcscd-lite#157]],
+  which is similar to the issue I'm having on Guix)
+
+*** Yubikey Manager
+
++ Depends on and [[https://pyscard.sourceforge.io/user-guide.html#pyscard-user-guide][pyscard]] (and pscsd). ykman 5..0.0 requires pyscard >= 2.0.
+
 * GPG Environment
 
 The table approach in [[file:ANSIBLE.org][ANSIBLE.org]] is a bit confusing. This is more verbose, yet
