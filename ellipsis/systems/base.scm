@@ -39,7 +39,6 @@
   (cons* (user-group (name "realtime") (system? #t))
          ;; created by service
          ;; (user-group (system? #t) (name "docker"))
-         (user-group (name "realtime") (system? #t))
          (user-group (name "plugdev") (system? #t))
          (user-group (name "yubikey") (system? #t))
          (user-group (name "fuse") (system? #t))
@@ -55,6 +54,7 @@
     "kvm"
     "tty"
     "input"
+    "fuse"
     "realtime" ;; Enable RT scheduling
     "lp"       ;; control bluetooth and cups
     "audio"    ;; control audio
@@ -63,6 +63,15 @@
     "yubikey" ;; yubikey (udev)
     "plugdev" ;; libu2f-host (udev)
     "users"))
+
+(define-public (dc-user my-groups)
+  (user-account
+   (uid 1000)
+   (name "dc")
+   (comment "David Conner")
+   (group "dc")
+   (home-directory "/home/dc")
+   (supplementary-groups my-groups)))
 
 ;; use with (udev-rules-service %udev-backlight-rule)
 (define-public %dc-backlight-udev
