@@ -68,7 +68,8 @@
     ;; kharis would only need xf86-video-amdgpu for xorg
     ;; - otherwise the driver is included in the kernel
     ;; https://www.reddit.com/r/linux_gaming/comments/105sy93/comment/j3z2oct/?utm_source=share&utm_medium=web2x&context=3
-    (packages %dc-desktop-packages)
+    (packages (append %dc-desktop-packages
+                      %base-packages))
 
     (services
      (append
