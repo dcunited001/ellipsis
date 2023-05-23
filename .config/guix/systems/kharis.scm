@@ -101,41 +101,6 @@
 
 ;; TODO %kharis-modprobe-blacklist
 
-;; TODO setup greetd/wlgreet for wayland/sway
-
-(define %kharis-desktop-services-slim
-
-  ;; guix is pretty stubborn about lazily adding GDM back in
-  (modify-services
-      (remove-gdm-service
-       (cons*
-        (service slim-service-type
-                 ;; TODO: customize slim
-                 ;; - %default-slim-theme
-                 ;; - %default-slim-theme-name
-                 (slim-configuration
-                  (default-user "dc")
-                  (xorg-configuration
-                   (xorg-configuration
-                    ;; (drivers '("amdgpu" "vesa"))
-                    (keyboard-layout %kharis-default-shell-keyboard)
-                    (modules (append (list xf86-input-wacom)
-                                     %default-xorg-modules))
-                    (extra-config (list %xorg-libinput-config))))))
-        dc-desktop-services))
-
-    ;; and here we modify some services
-    (guix-service-type config =>
-                       (guix-configuration
-                        (inherit config)
-                        (extra-options '("-c10"))
-                        (substitute-urls
-                         (append (list "https://substitutes.nonguix.org")
-                                 %default-substitute-urls))
-                        (authorized-keys
-                         (append (list (local-file "/etc/guix/nonguix.pub"))
-                                 %default-authorized-guix-keys))))))
-
 ;;** operating-system
 (define system
   (operating-system

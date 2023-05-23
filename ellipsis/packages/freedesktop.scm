@@ -25,6 +25,7 @@
 
 ;; NOTE: the hyprland packages aren't building.
 ;; undefined reference to `drmGetDeviceFromDevId'
+;; adding egl-wayland doesn't fix this (shot in the dark)
 
 ;; lib,
 ;; stdenv,

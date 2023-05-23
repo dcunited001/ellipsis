@@ -1,0 +1,156 @@
+#+TITLE:     Ellipsis: Systems
+#+AUTHOR:    David Conner
+#+DESCRIPTION: notes
+
+
+* Base System
+
+** Groups
+
+Base Groups for guix. Found in =./gnu/system/shadow.scm=
+
+|---------+--------------------------|
+| Group   | Description              |
+|---------+--------------------------|
+| root    |                          |
+| wheel   | root-like users          |
+| users   | normal users             |
+| nogroup | for daemons              |
+| tty     | %tty-gid                 |
+| dialout | serial devices           |
+| kmem    |                          |
+| input   | input devices, from udev |
+| video   |                          |
+| audio   |                          |
+| netdev  | used in avahi-dbus.conf  |
+| lp      |                          |
+| disk    |                          |
+| floppy  |                          |
+| cdrom   |                          |
+| tape    |                          |
+| kvm     |                          |
+|---------+--------------------------|
+
+** Packages
+
+=%base-packages=
+
+| bash@5.1.8                  | gnu/packages/bash.scm               |
+| bash-completion@2.8         | gnu/packages/bash.scm               |
+| bzip2@1.0.8                 | gnu/packages/compression.scm        |
+| coreutils@8.32              | gnu/packages/base.scm               |
+| diffutils@3.8               | gnu/packages/base.scm               |
+| e2fsprogs@1.46.4            | gnu/packages/linux.scm              |
+| eudev@3.2.11                | gnu/packages/linux.scm              |
+| findutils@4.8.0             | gnu/packages/base.scm               |
+| gawk@5.1.0                  | gnu/packages/gawk.scm               |
+| grep@3.6                    | gnu/packages/base.scm               |
+| guile@3.0.8                 | gnu/packages/guile.scm              |
+| guile-colorized@0.1         | gnu/packages/guile-xyz.scm          |
+| guile-readline@3.0.7        | gnu/packages/guile.scm              |
+| guix-icons@0.1              | gnu/packages/package-management.scm |
+| gzip@1.10                   | gnu/packages/compression.scm        |
+| inetutils@2.0               | gnu/packages/admin.scm              |
+| info-reader@6.7             | gnu/packages/texinfo.scm            |
+| iproute2@5.15.0             | gnu/packages/linux.scm              |
+| isc-dhcp@4.4.3-P1           | gnu/packages/admin.scm              |
+| iw@5.19                     | gnu/packages/linux.scm              |
+| kbd@2.5.1                   | gnu/packages/linux.scm              |
+| kmod@29                     | gnu/packages/linux.scm              |
+| less@590                    | gnu/packages/less.scm               |
+| lzip@1.22                   | gnu/packages/compression.scm        |
+| man-db@2.10.2               | gnu/packages/man.scm                |
+| mg@20221112                 | gnu/packages/text-editors.scm       |
+| nano@7.1                    | gnu/packages/nano.scm               |
+| nvi@1.81.6                  | gnu/packages/nvi.scm                |
+| patch@2.7.6                 | gnu/packages/base.scm               |
+| pciutils@3.7.0              | gnu/packages/pciutils.scm           |
+| procps@3.3.16               | gnu/packages/linux.scm              |
+| psmisc@23.5                 | gnu/packages/linux.scm              |
+| sed@4.8                     | gnu/packages/base.scm               |
+| shadow@4.9                  | gnu/packages/admin.scm              |
+| sudo@1.9.12p2               | gnu/packages/admin.scm              |
+| tar@1.34                    | gnu/packages/base.scm               |
+| usbutils@014                | gnu/packages/linux.scm              |
+| util-linux-with-udev@2.37.2 | gnu/packages/linux.scm              |
+| wget@1.21.3                 | gnu/packages/wget.scm               |
+| which@2.21                  | gnu/packages/base.scm               |
+| wireless-tools@30.pre9      | gnu/packages/linux.scm              |
+| xz@5.2.5                    | gnu/packages/compression.scm        |
+
+* Misc
+
+** PAM Limits Entries
+
+Entries require: domain, type, item, value
+
+Items:
+
+| core     | data      | fsize        |
+| memlock  | nofile    | rss          |
+| stack    | cpu       | nproc        |
+| as       | maxlogins | maxsyslogins |
+| priority | locks     | sigpending   |
+| msgqueue | nice      | rtprio       |
+
+From =gnu/services/pam.scm=
+
+#+begin_src scheme
+
+(define-record-type* <pam-service> pam-service
+  make-pam-service
+  pam-service?
+  (name       pam-service-name)                   ; string
+
+  ;; The four "management groups".
+  (account    pam-service-account                 ; list of <pam-entry>
+              (default '()))
+  (auth       pam-service-auth
+              (default '()))
+  (password   pam-service-password
+              (default '()))
+  (session    pam-service-session
+              (default '())))
+
+(define-record-type* <pam-entry> pam-entry
+  make-pam-entry
+  pam-entry?
+  (control    pam-entry-control)         ; string
+  (module     pam-entry-module)          ; file name
+  (arguments  pam-entry-arguments        ; list of string-valued g-expressions
+              (default '())))
+
+(define-record-type <pam-limits-entry>
+  (make-pam-limits-entry domain type item value)
+  pam-limits-entry?
+  (domain     pam-limits-entry-domain)   ; string
+  (type       pam-limits-entry-type)     ; symbol
+  (item       pam-limits-entry-item)     ; symbol
+  (value      pam-limits-entry-value))
+
+(define (pam-limits-entry domain type item value)
+  "Construct a pam-limits-entry ensuring that the provided values are valid."
+  (define (valid? value)
+    (case item
+      ((priority) (number? value))
+      ((nice)     (and (number? value)
+                       (>= value -20)
+                       (<= value 19)))
+      (else       (or (and (number? value)
+                           (>= value -1))
+                      (member value '(unlimited infinity))))))
+  (define items
+    (list 'core      'data       'fsize
+          'memlock   'nofile     'rss
+          'stack     'cpu        'nproc
+          'as        'maxlogins  'maxsyslogins
+          'priority  'locks      'sigpending
+          'msgqueue  'nice       'rtprio))
+  (when (not (member type '(hard soft both)))
+    (error "invalid limit type" type))
+  (when (not (member item items))
+    (error "invalid limit item" item))
+  (when (not (valid? value))
+    (error "invalid limit value" value))
+  (make-pam-limits-entry domain type item value))
+#+end_src
