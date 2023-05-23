@@ -10,7 +10,7 @@
   #:use-module (nongnu system linux-initrd))
 
 (use-service-modules guix admin sysctl pm nix
-                     avahi dbus cups desktop
+                     avahi dbus cups desktop linux
                      mcron networking xorg ssh
                      docker audio virtualization)
 
