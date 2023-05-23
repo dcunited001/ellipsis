@@ -341,3 +341,5 @@
     (swap-devices (list (swap-space
                          (target (file-system-label "kharisSwap"))
                          (dependencies mapped-devices))))))
+
+system
