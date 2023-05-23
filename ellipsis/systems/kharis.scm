@@ -126,21 +126,21 @@
                     (specification->package "swaylock")
                     "/bin/swaylock"))))
 
-       (ntp-service-type
-        (ntp-configuration
-         (servers
-          (list (ntp-server
-                 (type 'pool)
-                 (address "1.us.pool.ntp.org")
-                 (options '("iburst")))
-                (ntp-server
-                 (type 'pool)
-                 (address "2.us.pool.ntp.org")
-                 (options '("iburst")))
-                (ntp-server
-                 (type 'pool)
-                 (address "3.us.pool.ntp.org")
-                 (options '("iburst")))))))
+       (service ntp-service-type
+                (ntp-configuration
+                 (servers
+                  (list (ntp-server
+                         (type 'pool)
+                         (address "1.us.pool.ntp.org")
+                         (options '("iburst")))
+                        (ntp-server
+                         (type 'pool)
+                         (address "2.us.pool.ntp.org")
+                         (options '("iburst")))
+                        (ntp-server
+                         (type 'pool)
+                         (address "3.us.pool.ntp.org")
+                         (options '("iburst")))))))
 
        (service network-manager-service-type
                 (network-manager-configuration
