@@ -22,6 +22,9 @@
 
 (define %host-name "kharis")
 
+;; system-specific users should go here
+(define-public %dc-users '())
+
 (define-public %kharis-default-shell-keyboard
   (keyboard-layout "us" "altgr-intl"
                    #:model "pc105"
