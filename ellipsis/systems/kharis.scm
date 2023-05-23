@@ -9,10 +9,9 @@
   #:use-module (nongnu packages linux)
   #:use-module (nongnu system linux-initrd))
 
-(use-service-modules guix admin sysctl pm nix
-                     avahi dbus cups desktop linux
-                     mcron networking xorg ssh
-                     docker audio virtualization)
+(use-service-modules guix admin sysctl pm nix avahi dbus cups
+                     desktop linux mcron networking xorg ssh
+                     security-token docker audio virtualization)
 
 (use-package-modules nfs certs shells ssh tls gnupg security-token
                      bash emacs emacs-xyz gnome networking libusb
