@@ -416,10 +416,11 @@ gpg-connect-agent 'getinfo std_env_names' /bye | awk '$1=="D" {print $2}'
 Troubleshoot =gpg-agent=
 
 #+begin_src sh :tangle (concat (or (getenv "SECRETS_HOME") ".") "/.bin/start-gpg-debug") :shebang "#!/bin/sh" :tangle-mode (identity #o500)
+# run with --log-file to log
 export GPG_TTY="$(tty)"
 unset SSH_AGENT_PID
 export SSH_AUTH_SOCK="$(gpgconf --list-dirs agent-ssh-socket)"
-gpg-agent --daemon --no-detach -v -v --debug-level advanced
+gpg-agent --daemon --no-detach -v -v --debug-level advanced $@
 #+end_src
 
 Troubleshoot =gpg-agent= with:
@@ -428,10 +429,11 @@ Troubleshoot =gpg-agent= with:
 + =--debug 1024= which is required
 
 #+begin_src sh :tangle (concat (or (getenv "SECRETS_HOME") ".") "/.bin/start-gpg-debug-pinentry") :shebang "#!/bin/sh" :tangle-mode (identity #o500)
+# run with --log-file to log
 export GPG_TTY="$(tty)"
 unset SSH_AGENT_PID
 export SSH_AUTH_SOCK="$(gpgconf --list-dirs agent-ssh-socket)"
-gpg-agent --daemon --no-detach -v -v --debug-pinentry --debug 1024
+gpg-agent --daemon --no-detach -v -v --debug-pinentry --debug 1024 $@
 #+end_src
 
 * GPG
