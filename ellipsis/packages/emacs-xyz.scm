@@ -13,20 +13,18 @@
 
   #:use-module (srfi srfi-1))
 
-;; open /etc/ssl/certs to test
 (define-public emacs-x509-mode
   (package
     (name "emacs-x509-mode")
-    (version "20230119.838")
+    (version "20230430.1518")
     (source (origin
               (method url-fetch)
               (uri (string-append "https://melpa.org/packages/x509-mode-" version ".tar"))
-
               (sha256
                (base32
-                "13l6arxg1igwsv8d2f9ihpcys7wm8vl4vqbllf3fqd1zyvfanx9l"))))
+                "195gn14qn22aqclwz2i9w2qq9bxabwcasfkna1fj41jwv2bpbykc"))))
     (build-system emacs-build-system)
-    (propagated-inputs `(("openssl" ,openssl)))
+    ;; (propagated-inputs `(("openssl" ,openssl)))
     (arguments
      `(#:include (cons* "^keywords.txt"
                         "^keyword\\+constant.txt"
@@ -36,7 +34,6 @@
     (home-page "https://github.com/jobbflykt/x509-mode")
     (synopsis "Major mode for viewing certificates, CRLs, and other PKI-related files")
     (description "Major mode for viewing certificates, CRLs, and other PKI-related files.
-
 Uses OpenSSL for viewing PEM and DER encoded PKI entities.")
     (license license:expat)))
 
