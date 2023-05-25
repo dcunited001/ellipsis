@@ -1,38 +1,18 @@
 [Groups/0]
 # Group Name
-Name="Group 2"
-# Layout
-Default Layout=us-altgr-intl
-# Default Input Method
-DefaultIM=keyboard-us-altgr-intl
-
-[Groups/0/Items/0]
-# Name
-Name=keyboard-us-altgr-intl
-# Layout
-Layout=
-
-[Groups/1]
-# Group Name
 Name="Group 1"
 # Layout
-Default Layout=io-io-dead
+Default Layout=io-io-dead-altgr
 # Default Input Method
 DefaultIM=mozc
 
-[Groups/1/Items/0]
+[Groups/0/Items/0]
 # Name
-Name=keyboard-us-altgr-intl
+Name=keyboard-io-io-dead-altgr
 # Layout
 Layout=
 
-[Groups/1/Items/1]
-# Name
-Name=keyboard-gr
-# Layout
-Layout=
-
-[Groups/1/Items/2]
+[Groups/0/Items/1]
 # Name
 Name=mozc
 # Layout
@@ -40,5 +20,4 @@ Layout=
 
 [GroupOrder]
 0="Group 1"
-1="Group 2"
 

@@ -7,6 +7,10 @@
             el-cfg?
             make-el-cfg))
 
+
+;; gitlab:NalaGinrut/guile-lua-rebirth (glua): transpile guile <=> lua
+;; Jimx-/zem: emacsy (guile emacs) with tree-sitter
+
 ;; TODO extend records with dynamic accessors
 ;; TODO refactor config from dotfiles into records
 

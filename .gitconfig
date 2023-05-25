@@ -1,6 +1,6 @@
 # -*- mode: gitconfig -*-
 [user]
-	email = dconner.pro@gmail.com
+	email = aionfork@gmail.com
 	name = David Conner
 	signingkey = 0x4FFBCBA193874066
 [alias]

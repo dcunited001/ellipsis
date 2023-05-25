@@ -7,7 +7,11 @@
   #:use-module (gnu home services shells)
   #:use-module (guix gexp))
 
-(define-public shell-bash-configuration
+
+
+;; TODO: will color aliases affect tramp connectivity?
+
+(define-public systemd-bash-configuration
   (home-bash-configuration
    (aliases '(("jctl" . "journalctl -p 3 -xb")
               ("jctlu" . "journalctl --user -u")

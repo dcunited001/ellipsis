@@ -26,6 +26,8 @@ detailViewIconSize=16
 [KPropertiesDialog]
 3 screens: Height=464
 3 screens: Width=381
+4 screens: Height=678
+4 screens: Width=487
 DisplayPort-0 DisplayPort-1 DisplayPort-2 Height 1080x1920 DisplayPort-1=458
 DisplayPort-0 DisplayPort-1 DisplayPort-2 Height 2160x3840 DisplayPort-2=616
 DisplayPort-0 DisplayPort-1 DisplayPort-2 Width 1080x1920 DisplayPort-1=397
