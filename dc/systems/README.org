@@ -3,6 +3,12 @@
 #+DESCRIPTION: notes
 
 
+* Wayland
+
+** Keyboard
+
++ [[https://github.com/kmonad/kmonad][kmonad/kmonad]]
+
 * Base System
 
 ** Groups

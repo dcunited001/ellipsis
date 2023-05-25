@@ -1,4 +1,4 @@
-(define-module (ellipsis systems base)
+(define-module (dc systems base)
   #:use-module (srfi srfi-1)
   #:use-module (gnu)
   #:use-module (gnu system)
