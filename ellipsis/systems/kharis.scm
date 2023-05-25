@@ -96,11 +96,28 @@
                                                "output * bg /data/xdg/Wallpapers/" %host-name "-greetd.jpg fill\n"))))))
 
            ;; Set up remaining TTYs for terminal use
-           (greetd-terminal-configuration (terminal-vt "2"))
+           (greetd-terminal-configuration
+            (terminal-vt "2")
+            (default-session-command
+              (greetd-agreety-session
+               (command (file-append bash "/bin/bash"))
+               (command-args '("-l")))))
            (greetd-terminal-configuration (terminal-vt "3"))
            (greetd-terminal-configuration (terminal-vt "4"))
            (greetd-terminal-configuration (terminal-vt "5"))
-           (greetd-terminal-configuration (terminal-vt "6"))))))
+           ;; (greetd-terminal-configuration
+           ;;  (terminal-vt "5")
+           ;;  (default-session-command
+           ;;    (greetd-wlgreet-session
+           ;;     (command (file-append bash "/bin/bash"))
+           ;;     (command-args '("-l")))))
+           (greetd-terminal-configuration (terminal-vt "6"))
+	   (greetd-terminal-configuration (terminal-vt "7"))
+           (greetd-terminal-configuration (terminal-vt "8"))
+           ;; (greetd-terminal-configuration
+	   ;;   (terminal-vt "9")
+	   ;;   (default-session-command (file-append bash "/bin/bash")))
+	   ))))
 
        (simple-service
         'add-nonguix-substitutes
@@ -206,7 +223,9 @@
 
        ;; for yubikey
        (service pcscd-service-type)
-       (udev-rules-service 'fido2 libfido2 #:groups '("plugdev"))
+
+       ;; testing removing the fido2 functionality to restore yubikey
+       ;; (udev-rules-service 'fido2 libfido2 #:groups '("plugdev"))
        (udev-rules-service 'u2f libu2f-host #:groups '("plugdev"))
        (udev-rules-service 'yubikey yubikey-personalization)
 
@@ -271,9 +290,7 @@
           (file-append
            (local-file "." "systems-dir" #:recursive? #t)
            (string-append
-            "/root/.config/guix/systems/" %host-name ".scm")))))
-
-       )))
+            "/root/.config/guix/systems/" %host-name ".scm"))))))))
 
     (mapped-devices
      (list (mapped-device
