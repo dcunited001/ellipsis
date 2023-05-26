@@ -1,5 +1,5 @@
-;;* Module: kharis
-(define-module (dc systems kharis)
+;;* Module: kharis-x11
+(define-module (dc systems kharis-vm)
   #:use-module (srfi srfi-1)
   #:use-module (ice-9 format)
 
@@ -12,7 +12,9 @@
   #:use-module (nongnu system linux-initrd)
 
   #:use-module (dc systems base)
+  #:use-module (dc systems kharis)
   #:use-module (ellipsis home config))
+
 
 (use-service-modules guix admin sysctl pm nix avahi dbus cups
                      desktop linux mcron networking xorg ssh
@@ -22,94 +24,19 @@
                      bash emacs emacs-xyz gnome networking libusb
                      fonts cups audio xorg xdisorg linux file-systems
                      version-control package-management freedesktop
-                     cryptsetup hardware guile vim)
-
-;; not sure what and=> is, but accepts (value procedure)
-;; and seems to return a default for the maybe? or Some<T> pattern
-(define-public %home
-  (and=> (getenv "HOME")
-         (lambda (home)
-           home)))
-
-(define-public %_df
-  (or (getenv "_df")
-      (dc-default-path %home ".dotfiles")))
-
-(define-public %_data
-  (or (getenv "_data") "/data"))
-(define-public %_lang
-  (or (getenv "_lang")
-      (dc-default-path %_data "lang")))
-(define-public %_ecto
-  (or (getenv "_ecto")
-      (dc-default-path %_data "ecto")))
-(define-public %_repo
-  (or (getenv "_repo")
-      (dc-default-path %_data "repo")))
-
-(define-public %_flatpak
-  (or (getenv "_flatpak") "/flatpak"))
-(define-public %_steam
-  (or (getenv "_steam")
-      (dc-default-path %_flatpak "steam")))
-(define-public %_agenda
-  (or (getenv "_agenda")
-      (dc-default-path %_flatpak  "agenda")))
-(define-public %_wallpapers
-  (or (getenv "_wallpapers")
-      (dc-default-path %_data "xdg/Wallpapers/anime")))
-
-(define-public %DOOMDIR
-  (or (getenv "DOOMDIR")
-      (dc-default-path ".doom.d")))
+                     cryptsetup hardware guile vim suckless)
 
 (define %host-name "kharis")
 
 ;; system-specific users should go here
 (define %dc-users '())
 
-(define-public %kharis-shell-keyboard
-  (keyboard-layout
-   "us" "altgr-intl"
-   #:model "pc105"
-	 ;; see gitlab.freedesktop.org/xkeyboard-config/xkeyboard-config/-/issue/344
-   #:options '("caps:ctrl_modifier"
-               ;; "ctrl:swapcaps_hyper" ; in 1.3.0 (hyper as Mod3)
-               ;; "ctrl:hyper_capscontrol" ; in 1.5.0 (hyper as Mod4)
-               "lv3:ralt_alt"
-               "lv3:menu_switch")))
-
-(define-public %kharis-tlp-service
-  (service tlp-service-type
-           (tlp-configuration
-            (cpu-boost-on-ac? #t)
-            (tlp-default-mode "AC") ;; this is the default
-            (sound-power-save-on-bat 0)
-            (nmi-watchdog? #t)
-            (cpu-scaling-min-freq-on-bat 1700000)
-            (cpu-scaling-max-freq-on-bat 2100000)
-            (cpu-scaling-min-freq-on-ac 2100000)
-            (cpu-scaling-max-freq-on-ac 2100000)
-            (wifi-pwr-on-bat? #t))))
-
-(define-public %kharis-openssh-service
-  (service openssh-service-type
-           (openssh-configuration
-            (openssh openssh-sans-x)
-            (port-number (string->number
-                          (or (getenv "_OPENSSH_PORT") "22")))
-            (password-authentication? #f)
-            (allow-agent-forwarding? #f)
-            (allow-tcp-forwarding? #t)
-            (accepted-environment '("COLORTERM"))
-            (authorized-keys
-             `(("dc" ,(local-file ".ssh/dc.authorized_keys")))))))
-
-(define-public %kharis-gpm-service
-  (service gpm-service-type
-           (gpm-configuration
-            ;; defaults, should work for IBM trackpoints
-            (options '("-m" "/dev/input/mice" "-t" "ps2")))))
+(define %kharis-users
+  (append
+   (list (dc-user
+          (cons* "libvirt" "docker" %dc-my-groups)))
+   %dc-users
+   %base-user-accounts))
 
 (define system
   (operating-system
@@ -383,71 +310,71 @@
            (string-append
             "/root/.config/guix/systems/" %host-name ".scm"))))))))
 
-    (mapped-devices
-     (list (mapped-device
-            (source (uuid "c6684f7e-a5e2-4096-a7d0-a0970221c971"))
-            (targets (list "pde"))
-            (type luks-device-mapping))
+    ;; (mapped-devices
+    ;;  (list (mapped-device
+    ;;         (source (uuid "c6684f7e-a5e2-4096-a7d0-a0970221c971"))
+    ;;         (targets (list "pde"))
+    ;;         (type luks-device-mapping))
 
-           ;; TODO: change these label names (to work across systems)
-           (mapped-device
-            (source "matrix")
-            (targets (list "matrix-root"
-                           "matrix-swapvol"
-                           "matrix-home"
-                           "matrix-flatpak"
-                           "matrix-data"))
-            (type lvm-device-mapping))))
+    ;;        ;; TODO: change these label names (to work across systems)
+    ;;        (mapped-device
+    ;;         (source "matrix")
+    ;;         (targets (list "matrix-root"
+    ;;                        "matrix-swapvol"
+    ;;                        "matrix-home"
+    ;;                        "matrix-flatpak"
+    ;;                        "matrix-data"))
+    ;;         (type lvm-device-mapping))))
 
-    (file-systems (cons*
-                   (file-system
-                     (device (file-system-label "kharisRoot"))
-                     (mount-point "/")
-                     (type "btrfs")
-                     (flags '(no-atime))
-                     (options "space_cache=v2")
-                     (needed-for-boot? #t)
-                     (dependencies mapped-devices))
+    ;; (file-systems (cons*
+    ;;                (file-system
+    ;;                  (device (file-system-label "kharisRoot"))
+    ;;                  (mount-point "/")
+    ;;                  (type "btrfs")
+    ;;                  (flags '(no-atime))
+    ;;                  (options "space_cache=v2")
+    ;;                  (needed-for-boot? #t)
+    ;;                  (dependencies mapped-devices))
 
-                   (file-system
-                     (device (file-system-label "Home"))
-                     (mount-point "/home")
-                     (type "ext4")
-                     (needed-for-boot? #f)
-                     (dependencies mapped-devices))
+    ;;                (file-system
+    ;;                  (device (file-system-label "Home"))
+    ;;                  (mount-point "/home")
+    ;;                  (type "ext4")
+    ;;                  (needed-for-boot? #f)
+    ;;                  (dependencies mapped-devices))
 
-                   (file-system
-                     (device (file-system-label "Data"))
-                     (mount-point "/data")
-                     (type "ext4")
-                     (needed-for-boot? #f)
-                     (dependencies mapped-devices))
+    ;;                (file-system
+    ;;                  (device (file-system-label "Data"))
+    ;;                  (mount-point "/data")
+    ;;                  (type "ext4")
+    ;;                  (needed-for-boot? #f)
+    ;;                  (dependencies mapped-devices))
 
-                   (file-system
-                     (device (file-system-label "Flatpak"))
-                     (mount-point "/flatpak")
-                     (type "ext4")
-                     (needed-for-boot? #f)
-                     (dependencies mapped-devices))
+    ;;                (file-system
+    ;;                  (device (file-system-label "Flatpak"))
+    ;;                  (mount-point "/flatpak")
+    ;;                  (type "ext4")
+    ;;                  (needed-for-boot? #f)
+    ;;                  (dependencies mapped-devices))
 
-                   (file-system
-                     (device (file-system-label "Steam"))
-                     (mount-point "/flatpak/steam")
-                     (type "ext4")
-                     (needed-for-boot? #f))
+    ;;                (file-system
+    ;;                  (device (file-system-label "Steam"))
+    ;;                  (mount-point "/flatpak/steam")
+    ;;                  (type "ext4")
+    ;;                  (needed-for-boot? #f))
 
-                   ;; /boot/efi needs to be enumerated here
-                   ;;   in addition to the (bootloader...) declaration
-                   (file-system
-                     ;; (device (uuid "B184-6A00" 'fat))
-                     ;; or: (device (file-system-label "KHARISEFI"))
-                     (device "/dev/nvme0n1p1")
-                     (mount-point "/boot/efi")
-                     (type "vfat"))
-                   %base-file-systems))
+    ;;                ;; /boot/efi needs to be enumerated here
+    ;;                ;;   in addition to the (bootloader...) declaration
+    ;;                (file-system
+    ;;                  ;; (device (uuid "B184-6A00" 'fat))
+    ;;                  ;; or: (device (file-system-label "KHARISEFI"))
+    ;;                  (device "/dev/nvme0n1p1")
+    ;;                  (mount-point "/boot/efi")
+    ;;                  (type "vfat"))
+    ;;                %base-file-systems))
 
-    (swap-devices (list (swap-space
-                         (target (file-system-label "kharisSwap"))
-                         (dependencies mapped-devices))))))
+    ;; (swap-devices (list (swap-space
+    ;;                      (target (file-system-label "kharisSwap"))
+    ;;                      (dependencies mapped-devices))))
 
-system
+    ))
