@@ -13,7 +13,7 @@
                                   ".log")))
     ;; (pretty-print log-file)
     (service '(xsettingsd)
-             #:start (make-forkexec-constructor service-cmd)  ;; #:log-file log-file
+             #:start (make-forkexec-constructor service-cmd #:log-file log-file)
              #:stop  (make-kill-destructor)
              #:respawn? #f)))
 
