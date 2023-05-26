@@ -67,9 +67,9 @@
 (define %host-name "kharis")
 
 ;; system-specific users should go here
-(define-public %dc-users '())
+(define %dc-users '())
 
-(define-public %kharis-default-shell-keyboard
+(define-public %kharis-shell-keyboard
   (keyboard-layout
    "us" "altgr-intl"
    #:model "pc105"
@@ -79,6 +79,38 @@
                ;; "ctrl:hyper_capscontrol" ; in 1.5.0 (hyper as Mod4)
                "lv3:ralt_alt"
                "lv3:menu_switch")))
+
+(define-public %kharis-tlp-service
+  (service tlp-service-type
+           (tlp-configuration
+            (cpu-boost-on-ac? #t)
+            (tlp-default-mode "AC") ;; this is the default
+            (sound-power-save-on-bat 0)
+            (nmi-watchdog? #t)
+            (cpu-scaling-min-freq-on-bat 1700000)
+            (cpu-scaling-max-freq-on-bat 2100000)
+            (cpu-scaling-min-freq-on-ac 2100000)
+            (cpu-scaling-max-freq-on-ac 2100000)
+            (wifi-pwr-on-bat? #t))))
+
+(define-public %kharis-openssh-service
+  (service openssh-service-type
+           (openssh-configuration
+            (openssh openssh-sans-x)
+            (port-number (string->number
+                          (or (getenv "_OPENSSH_PORT") "22")))
+            (password-authentication? #f)
+            (allow-agent-forwarding? #f)
+            (allow-tcp-forwarding? #t)
+            (accepted-environment '("COLORTERM"))
+            (authorized-keys
+             `(("dc" ,(local-file ".ssh/dc.authorized_keys")))))))
+
+(define-public %kharis-gpm-service
+  (service gpm-service-type
+           (gpm-configuration
+            ;; defaults, should work for IBM trackpoints
+            (options '("-m" "/dev/input/mice" "-t" "ps2")))))
 
 (define system
   (operating-system
@@ -95,7 +127,7 @@
     ;; (kernel-loadable-modules (wacom))
     (kernel-loadable-modules (list v4l2loopback-linux-module))
 
-    (keyboard-layout %kharis-default-shell-keyboard)
+    (keyboard-layout %kharis-shell-keyboard)
 
     (bootloader (bootloader-configuration
                  (bootloader grub-efi-bootloader)
@@ -124,6 +156,17 @@
         (delete login-service-type)
         (delete mingetty-service-type))
       (list
+
+       (service colord-service-type)
+       %dc-extra-file-env
+       %dc-extra-file-ld-linux
+
+       (extra-special-file
+        "/etc/flatpak/installations.d"
+        (file-union "installations.d"
+                    `(("steam.conf" ,(local-file "flatpak/steam.conf"))
+                      ("agenda.conf" ,(local-file "flatpak/agenda.conf")))))
+
        (service
         greetd-service-type
         (greetd-configuration
@@ -158,12 +201,12 @@
            ;;     (command (file-append bash "/bin/bash"))
            ;;     (command-args '("-l")))))
            (greetd-terminal-configuration (terminal-vt "6"))
-	   (greetd-terminal-configuration (terminal-vt "7"))
+	         (greetd-terminal-configuration (terminal-vt "7"))
            (greetd-terminal-configuration (terminal-vt "8"))
            ;; (greetd-terminal-configuration
-	   ;;   (terminal-vt "9")
-	   ;;   (default-session-command (file-append bash "/bin/bash")))
-	   ))))
+	         ;;   (terminal-vt "9")
+	         ;;   (default-session-command (file-append bash "/bin/bash")))
+	         ))))
 
        (simple-service
         'add-nonguix-substitutes
@@ -225,9 +268,12 @@
        (service elogind-service-type
                 (elogind-configuration
                  (handle-lid-switch-external-power 'suspend)))
-       (service dbus-root-service-type)
 
-       ;; Manage the fontconfig cache)
+       ;; TODO: equivalent?
+       (dbus-service)
+       ;; (service dbus-root-service-type)
+
+       ;; Manage the fontconfig cache
        fontconfig-file-system-service
 
        (service thermald-service-type)
@@ -271,7 +317,7 @@
        (service pcscd-service-type)
 
        ;; testing removing the fido2 functionality to restore yubikey
-       ;; (udev-rules-service 'fido2 libfido2 #:groups '("plugdev"))
+       (udev-rules-service 'fido2 libfido2 #:groups '("plugdev"))
        (udev-rules-service 'u2f libu2f-host #:groups '("plugdev"))
        (udev-rules-service 'yubikey yubikey-personalization)
 

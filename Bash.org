@@ -682,6 +682,8 @@ export ORG_DIRECTORY=/data/org
 #export ORG_AGENDA_ROOT=
 #export ORG_ROAM_ROOT
 
+# TODO this error handling is not working
+# cp: cannot stat '"/home/dc/.emacs.g/emacs-g.scm"': No such file or directory
 gmacsupdate() {
   local gmacsprofile=$(emacsclient -e '(expand-file-name "emacs-g.scm" dc/emacs-d)' -a "Couldn't fetch 'user-emacs-directory from emacs server")
   local status=$?
