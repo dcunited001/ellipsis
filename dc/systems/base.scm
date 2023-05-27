@@ -127,12 +127,14 @@
   (extra-special-file "/lib64/ld-linux-x86-64.so.2"
                       (file-append glibc "/lib/ld-linux-x86-64.so.2")))
 
-;; (define-public %dc-extra-file-flatpak
-;;   (extra-special-file
-;;    "/etc/flatpak/installations.d"
-;;    (file-union "installations.d"
-;;                `(("steam.conf" ,(local-file "flatpak/steam.conf"))
-;;                  ("agenda.conf" ,(local-file "flatpak/agenda.conf"))))))
+;; these files are not in the repo and will need to be added if the function is
+;; added to a system
+(define-public (dc-extra-file-flatpak)
+  (extra-special-file
+   "/etc/flatpak/installations.d"
+   (file-union "installations.d"
+               `(("steam.conf" ,(local-file "flatpak/steam.conf"))
+                 ("agenda.conf" ,(local-file "flatpak/agenda.conf"))))))
 
 ;; add libvirt & docker to the users who need it
 (define-public %dc-my-groups
@@ -195,9 +197,16 @@
             (vpn-plugins
              (list network-manager-openvpn)))))
 
+;; rasdaemon-service/type, rasdaemon-configuration
+;;
+;; - helps anticipate hardware failures by scanning events, analysis appended to
+;; syslog
+;;
+;; - with record? t, also structure logs as sqlite database:
+;; /var/lib/rasdaemon/ras-mc_event.db
 (define-public %dc-ras-daemon-service
   (service rasdaemon-service-type
-                (rasdaemon-configuration (record? #t))))
+           (rasdaemon-configuration (record? #t))))
 
 (define-public %dc-i2c-packages
   (list i2c-tools

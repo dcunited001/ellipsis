@@ -213,6 +213,7 @@ EndSection
 
        %dc-extra-file-env
        %dc-extra-file-ld-linux
+       (dc-extra-file-flatpak)
 
        polkit-wheel-service
 

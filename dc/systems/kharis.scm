@@ -105,6 +105,7 @@
             (authorized-keys
              `(("dc" ,(local-file ".ssh/dc.authorized_keys")))))))
 
+;; to have mouse at console (more annoying than anything tbh)
 (define-public %kharis-gpm-service
   (service gpm-service-type
            (gpm-configuration
@@ -159,12 +160,7 @@
        (service colord-service-type)
        %dc-extra-file-env
        %dc-extra-file-ld-linux
-
-       (extra-special-file
-        "/etc/flatpak/installations.d"
-        (file-union "installations.d"
-                    `(("steam.conf" ,(local-file "flatpak/steam.conf"))
-                      ("agenda.conf" ,(local-file "flatpak/agenda.conf")))))
+       (dc-extra-file-flatpak)
 
        (service
         greetd-service-type
@@ -207,16 +203,7 @@
 	         ;;   (default-session-command (file-append bash "/bin/bash")))
 	         ))))
 
-       (simple-service
-        'add-nonguix-substitutes
-        guix-service-type
-        (guix-extension
-         (substitute-urls
-          (append (list "https://substitutes.nonguix.org")
-                  %default-substitute-urls))
-         (authorized-keys
-          (append (list (plain-file "nonguix.pub" "(public-key (ecc (curve Ed25519) (q #C1FD53E5D4CE971933EC50C9F307AE2171A2D3B52C804642A7A35F84F3A4EA98#)))"))
-                  %default-authorized-guix-keys))))
+       %dc-nonguix-substitutes-service
 
        polkit-wheel-service
        (simple-service
@@ -231,26 +218,8 @@
                     (specification->package "swaylock")
                     "/bin/swaylock"))))
 
-       (service ntp-service-type
-                (ntp-configuration
-                 (servers
-                  (list (ntp-server
-                         (type 'pool)
-                         (address "1.us.pool.ntp.org")
-                         (options '("iburst")))
-                        (ntp-server
-                         (type 'pool)
-                         (address "2.us.pool.ntp.org")
-                         (options '("iburst")))
-                        (ntp-server
-                         (type 'pool)
-                         (address "3.us.pool.ntp.org")
-                         (options '("iburst")))))))
-
-       (service network-manager-service-type
-                (network-manager-configuration
-                 (vpn-plugins
-                  (list network-manager-openvpn))))
+       %dc-ntp-service
+       %dc-network-manager-service
 
        (service wpa-supplicant-service-type)
        (service modem-manager-service-type)
@@ -276,41 +245,12 @@
        fontconfig-file-system-service
 
        (service thermald-service-type)
-       (service tlp-service-type
-                (tlp-configuration
-                 (cpu-boost-on-ac? #t)
-                 (tlp-default-mode "AC") ;; this is the default
-                 (sound-power-save-on-bat 0)
-                 (nmi-watchdog? #t)
-                 (cpu-scaling-min-freq-on-bat 1700000)
-                 (cpu-scaling-max-freq-on-bat 2100000)
-                 (cpu-scaling-min-freq-on-ac 2100000)
-                 (cpu-scaling-max-freq-on-ac 2100000)
-                 (wifi-pwr-on-bat? #t)))
+       %kharis-tlp-service
+       %dc-ras-daemon-service
+       %kharis-gpm-service
 
-       ;; rasdaemon-service/type, rasdaemon-configuration
-       ;; - helps anticipate hardware failures by scanning events, analysis appended to syslog
-       ;; - with record? t, also structure logs as sqlite database: /var/lib/rasdaemon/ras-mc_event.db
-       (service rasdaemon-service-type
-                (rasdaemon-configuration (record? #t)))
-
-       ;; for GNUS
-       (simple-service 'nntp-config etc-service-type
-                       (list `("nntpserver"
-                               ,%dc-nntpserver)))
-
-       (service
-        openssh-service-type
-        (openssh-configuration
-         (openssh openssh-sans-x)
-         (port-number (string->number
-                       (or (getenv "_OPENSSH_PORT") "22")))
-         (password-authentication? #f)
-         (allow-agent-forwarding? #f)
-         (allow-tcp-forwarding? #t)
-         (accepted-environment '("COLORTERM"))
-         (authorized-keys
-          `(("dc" ,(local-file ".ssh/dc.pub"))))))
+       %dc-nntp-service
+       %kharis-openssh-service
 
        ;; for yubikey
        (service pcscd-service-type)
@@ -320,68 +260,24 @@
        (udev-rules-service 'u2f libu2f-host #:groups '("plugdev"))
        (udev-rules-service 'yubikey yubikey-personalization)
 
-       ;; to have mouse at console (more annoying than anything tbh)
-       (service gpm-service-type
-                (gpm-configuration
-                 ;; defaults, should work for IBM trackpoints
-                 (options '("-m" "/dev/input/mice" "-t" "ps2"))))
-
-       (service docker-service-type
-                (docker-configuration
-                 (enable-proxy? #f)))
-
-       (service libvirt-service-type
-                (libvirt-configuration
-                 (unix-sock-group "libvirt")
-                 (tls-port "16555")))
-
-       (service virtlog-service-type
-                (virtlog-configuration
-                 ;; (max-clients 1024) ;; default
-                 (max-size (* 32 (expt 1024 2)))))
+       %dc-docker-service
+       %dc-libvirt-service
+       %dc-virtlog-service
 
        ;; scanning
        (service sane-service-type)
 
        ;; printing
        (service cups-pk-helper-service-type)
-       (service cups-service-type
-                (cups-configuration
-                 (web-interface? #t)
-                 ;; TODO ssl-options? TLS 1.0+
-                 (extensions
-                  (list cups-filters
-                        epson-inkjet-printer-escpr
-                        hplip-minimal))))
+       %dc-cups-service
 
-       ;; to enable JACK to enter realtime mode
-       (pam-limits-service
-        (list
-         (pam-limits-entry "@realtime" 'both 'rtprio 99)
-         (pam-limits-entry "@realtime" 'both 'nice -19)
-         (pam-limits-entry "@realtime" 'both 'memlock 'unlimited)))
+       %dc-pam-limits-service
 
        ;; Add udev rules for a few packages
        (udev-rules-service 'pipewire-add-udev-rules pipewire)
        (udev-rules-service 'brightnessctl-udev-rules brightnessctl)
 
-       (service
-        unattended-upgrade-service-type
-        (unattended-upgrade-configuration
-         (schedule "30 2 * * 0")
-         (channels #~(list
-                      (channel
-                       (name 'nonguix)
-                       (url "https://gitlab.com/nonguix/nonguix")
-                       (branch "master"))
-                      %default-channels))
-         ;; TODO is this running?
-         (system-expiration (* 6 7 24 3600))
-         (operating-system-file
-          (file-append
-           (local-file "." "systems-dir" #:recursive? #t)
-           (string-append
-            "/root/.config/guix/systems/" %host-name ".scm"))))))))
+       %dc-unattended-upgrade-service-type)))
 
     (mapped-devices
      (list (mapped-device
