@@ -1,5 +1,5 @@
 ;; from https://github.com/daviwil/dotfiles
-(define-module (ellipsis home-services udiskie)
+(define-module (ellipsis home services udiskie)
   #:use-module (gnu services)
   #:use-module (gnu home services)
   #:use-module (gnu home services shepherd)

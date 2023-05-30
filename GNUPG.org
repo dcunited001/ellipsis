@@ -220,30 +220,7 @@ shell --help-transform= for more information.
              (gnu packages autotools)
              (gnu packages pkg-config)
 
-             (gnu packages password-utils))
-
-;; The project only builds in xclip behavior
-;; if it finds the dependencies. it's
-;; much smaller without them.
-(define-public shroud-nox
-  (package
-    (inherit shroud)
-    (name "shroud-nox")
-    (version "0f5a58da63cacce3bb839427fd1d87c9230800ad")
-    (source (origin
-              (method git-fetch)
-              (uri (git-reference
-                    (url "https://git.dthompson.us/shroud.git")
-                    (commit version)))
-              (sha256
-               (base32
-                "0xn916i8ma9xinavq9avfi4rg9770c0hzimbwglqq1slfwa8c3nq"))
-              (file-name (git-file-name name version))))
-    (inputs
-     (list guile-2.2 gnupg))
-
-    (native-inputs
-     (list pkg-config autoconf automake))))
+             (ellipsis packages password-utils))
 
 ;; needs to build from master to set alternate config/db
 (define shroud-master

@@ -5,14 +5,23 @@
   #:use-module (gnu services)
   #:use-module (gnu services configuration)
 
+  #:use-module (json)
+
   #:use-module (ice-9 pretty-print)
   #:use-module (srfi srfi-1)
 
-  #:export (util))
+  #:export (util
+            read-json-config))
 
 ;; TODO: look into #:replace
 
 (define util "util")
+
+
+
+(define (read-json-config file)
+  (call-with-input-file file
+    json->scm))
 
 ;; (define-public (remove-pulseaudio-service services-list)
 ;;   (remove (lambda (service)

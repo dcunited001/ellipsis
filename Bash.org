@@ -393,9 +393,6 @@ flatpak --installation=steam install flathub com.valvesoftware.Steam.Compatibili
 
 ***** TODO consider creating ./flatpak/installations.d/steam.conf
 
-***** TODO simplyfy config
-
-
 
 ** Shepherd
 
@@ -674,7 +671,6 @@ alias anki='QTWEBENGINE_CHROMIUM_FLAGS=\"--disable-seccomp-filter-sandbox\" anki
 **** TODO remove aliases aboves after fix for [[https://issues.guix.gnu.org/52993][Guix #52993]] is fixed
 
 ** Emacs
-
 
 #+begin_src sh :tangle .config/sh/profile.d/emacs.sh :shebang #!/bin/sh
 
@@ -1478,7 +1474,6 @@ export PATH=$HOME/.local/bin:$HOME/.bin:$PATH
 If there is no =.xdg_shim.sh=, none of the =$GUIX_AUTOLOAD_PROFILES= will be
 loaded into =$PATH= and =.xsession= will fail. Several scripts are dependent on
 =$XDG_CONFIG_HOME= at least.
-
 
 *** Before Profile.d
 

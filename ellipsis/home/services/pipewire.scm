@@ -1,5 +1,5 @@
 ;; from https://github.com/daviwil/dotfiles
-(define-module (ellipsis home-services pipewire)
+(define-module (ellipsis home services pipewire)
   #:use-module (gnu packages)
   #:use-module (gnu packages linux)
   #:use-module (gnu services)
