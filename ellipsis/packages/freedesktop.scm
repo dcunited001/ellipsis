@@ -7,7 +7,7 @@
   #:use-module (guix packages)
   #:use-module (guix build-system meson)
 
-  #:use-module (gnu packages base)
+  #:use-module (gnu packages)
   #:use-module (gnu packages wm)
   #:use-module (gnu packages linux)
   #:use-module (gnu packages freedesktop)
@@ -103,7 +103,7 @@
     (native-inputs (list pkg-config
                          cmake
                          ninja
-                         wayland-protocols-next
+                         ;; TODO undefined wayland-protocols-next
                          hyprland-protocols
                          mesa))
 

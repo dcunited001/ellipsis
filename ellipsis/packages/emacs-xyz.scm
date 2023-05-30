@@ -8,7 +8,7 @@
   #:use-module (guix packages)
   #:use-module (guix build-system emacs)
 
-  #:use-module (gnu packages base)
+  #:use-module (gnu packages)
   #:use-module (gnu packages tls)
 
   #:use-module (srfi srfi-1))

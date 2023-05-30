@@ -11,7 +11,7 @@
   #:use-module (gnu packages)
   #:use-module (gnu packages rust))
 
-(define shroud-nox
+(define-public shroud-nox
   (package
     (inherit shroud)
     (name "shroud-nox")
