@@ -31,6 +31,8 @@
          (lambda (home)
            home)))
 
+;; TODO: in (ellipsis home utils), read these from (string-append %host-name ".json")
+
 (define-public %_df
   (or (getenv "_df")
       (dc-default-path %home ".dotfiles")))

@@ -1,17 +1,12 @@
 (define-module (dc home common)
   #:use-module (srfi srfi-1)
   #:use-module (ice-9 format)
-
   #:use-module (guix gexp)
-
   #:use-module (gnu packages)
-
   #:use-module (gnu services)
   #:use-module (gnu home services)
   #:use-module (gnu home services guix)
-  #:use-module (gnu home services fontutils)
-
-  )
+  #:use-module (gnu home services fontutils))
 
 ;; TODO: home-files-service-type
 ;; files to copy into /gnu/store
@@ -67,15 +62,12 @@
   `( ;; necessary for wayland
     ("XDG_SESSION_TYPE" . "wayland")
     ("QT_QPA_PLATFORM" . "wayland-egl")
-
     ;; potential necessary for styling/theming
     ("QT_QPA_PLATFORMTHEME" . "qt5ct")
     ("QT_WAYLAND_FORCE_DPI" . "physical")
     ("QT_WAYLAND_DISABLE_WINDOWDECORATION" . "1")
-
     ;; firefox in wayland
     ("MOZ_ENABLE_WAYLAND" . "1")
-
     ;; fix for firefox (already running but not responding)
     ;; ("MOZ_DBUS_REMOTE" . "1")
 
@@ -85,9 +77,7 @@
 
     ;; this can prevent programs from starting (e.g. chromium and electron
     ;; apps).  therefore, this should be set per app instead of globally.
-
     ("GDK_BACKEND" . "wayland")
-
     ;; this can prevent programs from starting old sdl games. therefore, this
     ;; should be set per app instead of globally.
 
