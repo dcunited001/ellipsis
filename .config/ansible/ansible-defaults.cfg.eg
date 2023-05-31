@@ -1,0 +1,278 @@
+[tags]
+;run=
+;skip=
+
+# tags to run or skip. the list to skip has precedence
+
+[defaults]
+
+# default cmd & args for ad hoc `ansible' invocations
+;module_args= # unless -a is specified
+;module_name=command
+
+# * inventory
+;inventory=/etc/ansible/hosts
+;strategy=linear
+
+# * playbooks
+;playbook_vars_root=top # set root playbooks (affects vars for host/group)
+;playbook_dir= # for non-playbook CLIs have a ``--playbook-dir`` argument
+;retry_files_enabled=False
+;retry_files_save_path= # where retry files will be saved
+;task_timeout=0
+
+# * facts
+;fact_caching=memory
+;fact_caching_connection=
+;fact_caching_prefix=ansible_facts
+;fact_caching_timeout=86400
+# fact_path (below)
+
+# * logs
+;no_log=False
+;log_path=
+;log_filter=
+;local_tmp={{ ANSIBLE_HOME ~ "/tmp" }} # controller logging
+;syslog_facility=LOG_USER # remote logging
+
+# ** logs: options
+;debug=False # apparently quite a bit of text
+;verbosity=0
+;deprecation_warnings=True
+;devel_warning=True
+;system_warnings=True # warning about the ansible controller' system
+;verbose_to_stderr=False
+# display_args_to_stdout (below)
+# error_on_undefined_vars (below)
+
+# ** logs: ansible validation
+
+;error_on_missing_handler=True
+
+;invalid_task_attribute_failed=True
+;collections_on_ansible_version_mismatch=warning
+
+# ansible can warn when no inventory is found (defaults to localhost?)
+;localhost_warning=True
+;display_skipped_hosts=True
+
+# ** logs: yaml validation
+
+# for yaml <T> -> str conversions.
+# >=2.12, def. to error
+;string_conversion_action=error
+;duplicate_dict_key=warn
+
+# ** logs: jinja2 validation
+
+# warn when bad jinja2 version
+;jinja2_native_warning=True
+
+# * auth
+;su=False
+;become_password_file= # --become-password-file
+;private_key_file= #  --private-key: certificate/key file
+
+# ** vault
+;ask_vault_pass=False
+;vault_encrypt_identity= # --encrypt-vault-id
+;vault_identity=default
+;vault_identity_list= # multiple --vault-id args (tried in order.)
+;vault_id_match=False # TODO set to true?
+;vault_password_file= # --vault-password-file or --vault-id
+
+;ask_pass=False
+
+# ** connection
+;transport=ssh # or paramiko
+;timeout=10
+;use_persistent_connections=False
+
+# --connection-password-file.
+;connection_password_file=
+
+# when blank, configured by the connection plugin
+;remote_port=
+;remote_user=
+
+# * roles & collections
+;collections_path={{ ANSIBLE_HOME ~ "/collections:/usr/share/ansible/collections" }}
+;roles_path={{ ANSIBLE_HOME ~ "/roles:/usr/share/ansible/roles:/etc/ansible/roles" }}
+
+# * modules & module_utils
+;library={{ ANSIBLE_HOME ~ "/plugins/modules:/usr/share/ansible/plugins/modules" }}
+;module_utils={{ ANSIBLE_HOME ~ "/plugins/module_utils:/usr/share/ansible/plugins/module_utils" }}
+;module_ignore_exts={{(REJECT_EXTS + ('.yaml', '.yml', '.ini'))}}
+
+# affects vars_files, include_vars, inventory and vars plugins among others.
+;yaml_valid_extensions=.yml, .yaml, .json 
+
+# * plugins
+
+# prevents jinja templates from accession 'some-var-not-marked-safe
+;allow_unsafe_lookups=False
+
+# ** filters
+;plugin_filters_cfg= # /etc/ansible/plugin_filters.yml
+
+# ** group vars:
+# merge order
+;precedence=all_inventory, groups_inventory, all_plugins_inventory, all_plugins_play, groups_plugins_inventory, groups_plugins_play
+
+# ** plugin paths
+;become_plugins={{ ANSIBLE_HOME ~ "/plugins/become:/usr/share/ansible/plugins/become" }}
+;cache_plugins={{ ANSIBLE_HOME ~ "/plugins/cache:/usr/share/ansible/plugins/cache" }}
+;callback_plugins={{ ANSIBLE_HOME ~ "/plugins/callback:/usr/share/ansible/plugins/callback" }}
+;cliconf_plugins={{ ANSIBLE_HOME ~ "/plugins/cliconf:/usr/share/ansible/plugins/cliconf" }}
+;connection_plugins={{ ANSIBLE_HOME ~ "/plugins/connection:/usr/share/ansible/plugins/connection" }}
+;filter_plugins={{ ANSIBLE_HOME ~ "/plugins/filter:/usr/share/ansible/plugins/filter" }}
+;httpapi_plugins={{ ANSIBLE_HOME ~ "/plugins/httpapi:/usr/share/ansible/plugins/httpapi" }}
+;inventory_plugins={{ ANSIBLE_HOME ~ "/plugins/inventory:/usr/share/ansible/plugins/inventory" }}
+;lookup_plugins={{ ANSIBLE_HOME ~ "/plugins/lookup:/usr/share/ansible/plugins/lookup" }}
+;netconf_plugins={{ ANSIBLE_HOME ~ "/plugins/netconf:/usr/share/ansible/plugins/netconf" }}
+;strategy_plugins={{ ANSIBLE_HOME ~ "/plugins/strategy:/usr/share/ansible/plugins/strategy" }}
+;terminal_plugins={{ ANSIBLE_HOME ~ "/plugins/terminal:/usr/share/ansible/plugins/terminal" }}
+;test_plugins={{ ANSIBLE_HOME ~ "/plugins/test:/usr/share/ansible/plugins/test" }}
+;vars_plugins={{ ANSIBLE_HOME ~ "/plugins/vars:/usr/share/ansible/plugins/vars" }}
+;doc_fragment_plugins={{ ANSIBLE_HOME ~ "/plugins/doc_fragments:/usr/share/ansible/plugins/doc_fragments" }}
+
+# * [defaults]
+;action_warnings=True
+;force_color=False
+;home=~/.ansible
+;nocolor=False
+;any_errors_fatal=False
+;callbacks_enabled=
+;debug=False
+;executable=/bin/sh
+;fact_path=
+;force_handlers=False
+;forks=5
+;gathering=implicit
+;gather_subset=
+;gather_timeout=
+;hash_behaviour=replace
+;internal_poll_interval=0.001
+;jinja2_extensions=[]
+;jinja2_native=False
+;keep_remote_files=False
+;bin_ansible_callbacks=False
+;ansible_managed=Ansible managed
+;module_compression=ZIP_DEFLATED
+;no_target_syslog=False
+;null_representation=
+;poll_interval=15
+;private_role_vars=False
+;stdout_callback=default # Only one can write to stdout. See :ref:`callback_plugins`
+;error_on_undefined_vars=True
+;display_args_to_stdout=False
+;docsite_root_url=https://docs.ansible.com/ansible-core/
+;enable_task_debugger=False
+;facts_modules=smart
+;host_key_checking=True
+;inject_facts_as_vars=True
+;interpreter_python=auto
+;max_diff_size=104448
+;network_group_modules=eos, nxos, ios, iosxr, junos, enos, ce, vyos, sros, dellos9, dellos10, dellos6, asa, aruba, aireos, bigip, ironware, onyx, netconf, exos, voss, slxos
+;old_plugin_cache_clear=False
+;python_module_rlimit_nofile=0
+;run_vars_plugins=demand
+;show_custom_stats=False
+;task_debugger_ignore_errors=True
+;force_valid_group_names=never
+;validate_action_group_metadata=True
+;vars_plugins_enabled=host_group_vars
+;win_async_startup_timeout=5
+
+[privilege_escalation]
+
+;agnostic_become_prompt=True
+;become_allow_same_user=False
+;become=False
+;become_ask_pass=False
+;become_exe=
+;become_flags=
+;become_method=sudo
+;become_user=root # most systems will set this to root if not specified
+
+[persistent_connection]
+
+;ansible_connection_path=
+;command_timeout=30
+;connect_retry_timeout=15
+;connect_timeout=30
+;control_path_dir={{ ANSIBLE_HOME ~ "/pc" }} # TODO change
+
+[connection]
+
+;pipelining=False
+
+[colors]
+
+;changed=yellow
+;console_prompt=white
+;debug=dark gra
+;deprecate=purple
+;diff_add=gree
+;diff_lines=cyan
+;diff_remove=red
+;error=red
+;highlight=white
+;ok=green
+;skip=cyan
+;unreachable=bright red
+;verbose=blue
+;warn=bright purple
+
+[selinux]
+
+;libvirt_lxc_noseclabel=False
+;special_context_filesystems=fuse, nfs, vboxsf, ramfs, 9p, vfat
+
+[diff]
+;always=False # show change in stat. equivalent to ``--diff``.
+;context=3
+
+[galaxy]
+
+;cache_dir={{ ANSIBLE_HOME ~ "/galaxy_cache" }}
+;collection_skeleton=
+;collection_skeleton_ignore=^.git$, ^.*/.git_keep$
+;disable_gpg_verify=False
+
+display_progress=True
+
+;gpg_keyring=
+;ignore_certs=
+;ignore_signature_status_codes=
+;required_valid_signature_count=1
+;role_skeleton=
+;role_skeleton_ignore=^.git$, ^.*/.git_keep$
+;server=https://galaxy.ansible.com
+;server_list=
+;token_path={{ ANSIBLE_HOME ~ "/galaxy_token" }}
+
+[inventory]
+
+any_unparsed_is_failed=True
+
+;host_pattern_mismatch=warning
+;enable_plugins=host_list, script, auto, yaml, ini, toml
+;export=False
+;ignore_extensions={{(REJECT_EXTS + ('.orig', '.ini', '.cfg', '.retry'))}}
+;ignore_patterns=
+;unparsed_is_failed=False
+;inventory_unparsed_warning=True
+
+[netconf_connection]
+
+;ssh_config=
+
+[paramiko_connection]
+
+;host_key_auto_add=False
+;look_for_keys=True
+
+[jinja2]
+
+;dont_type_filters=string, to_json, to_nice_json, to_yaml, to_nice_yaml, ppretty, json

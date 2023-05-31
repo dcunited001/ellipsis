@@ -95,38 +95,6 @@ See "Ansible On Guix" for info on its dependencies
    ))
 #+end_src
 
-** Init Script
-
-#+header: :tangle-mode (identity #o400)
-#+begin_src sh :tangle (expand-file-name ".local/lib/ansible/init" ansible-prefix) :noweb yes
-# /bin/false "source the script after setting ANSIBLE_PROFILE"
-export GUIX_EXTRA=$HOME/.guix-extra-profiles
-
-# set $ANSIBLE_PROFILE before sourcing
-if [ -f $ANSIBLE_PROFILE/etc/profile ]; then
-  GUIX_PROFILE=$ANSIBLE_PROFILE
-  source $ANSIBLE_PROFILE/etc/profile
-  echo "Using $ANSIBLE_PROFILE"
-else
-  if [ -d $GUIX_EXTRA ]; then
-    GUIX_PROFILE=$GUIX_EXTRA/ansible/ansible
-    source $GUIX_EXTRA/ansible/ansible/etc/profile
-    echo "Using $GUIX_EXTRA/ansible/ansible"
-  else
-    if [ -x "$(which ansible)" ]; then
-        echo "Using $(which ansible)"
-    else
-        echo "$GUIX_PROFILE not found. access ansible* some other way"
-    fi
-  fi
-fi
-
-#[ -d "$ANSIBLE_HOME" ] || ANSIBLE_HOME="<<ansible-prefix>>"
-export ANSIBLE_HOME
-echo "Set ANSIBLE_CONFIG or change ANSIBLE_HOME=\"$ANSIBLE_HOME\""
-#+end_src
-
-
 
 * Ansible
 
@@ -134,9 +102,83 @@ echo "Set ANSIBLE_CONFIG or change ANSIBLE_HOME=\"$ANSIBLE_HOME\""
 
 Some naïve example settings:
 
-#+header: :file (expand-file-name ".config/ansible/ansible.cfg.eg" ansible-prefix)
-#+begin_src sh :results output
-cat $XDG_CONFIG_HOME/ansible/ansible.cfg.eg
+#+begin_example conf :tangle (expand-file-name ".config/ansible/ansible.cfg.eg" ansible-prefix)
+
+[tags]
+
+[defaults]
+
+# * inventory
+
+# * playbooks
+
+# * facts
+
+# * logs
+
+# ** logs: options
+
+# ** logs: ansible validation
+
+# ** logs: yaml validation
+
+# ** logs: jinja2 validation
+
+# * auth
+
+# ** vault
+
+# ** connection
+
+# * roles & collections
+
+# * modules & module_utils
+
+# * plugins
+
+# ** filters
+
+# ** group vars:
+
+# ** plugin paths
+
+# * [defaults]
+
+[privilege_escalation]
+
+
+[persistent_connection]
+
+
+[connection]
+
+
+[colors]
+
+
+[selinux]
+
+
+[diff]
+
+
+[galaxy]
+
+display_progress=True
+
+
+[inventory]
+
+any_unparsed_is_failed=True
+
+[netconf_connection]
+
+
+[paramiko_connection]
+
+
+[jinja2]
+
 #+end_src
 
 *** Comparing against defaults
@@ -217,13 +259,14 @@ ansible-galaxy collection install \
                ansible.utils
 #+end_src
 
-**** Containers
+**** Containers & VM's
 
 #+begin_src sh
 ansible-galaxy collection install \
                kubernetes.core \
                containers.podman \
-               community.grafana
+               community.grafana \
+               community.libvirt
 #+end_src
 
 **** Security
@@ -233,17 +276,14 @@ ansible-galaxy collection install \
                community.hashi_vault \
                community.crypto \
                devsec.hardening
-
 #+end_src
 
 
 **** Other collections:
 
-+ community.libvirt
 + awx.awx
 + openvswitch.openvswitch
 + lvrfrc87.git_acp
-
 
 *** Ansible Vault
 
