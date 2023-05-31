@@ -1,0 +1,8 @@
+#!/bin/sh
+guix_extra=$(basename $GUIX_EXTRA)
+find ~/.guix-extra-profiles/ -type l -name "*-link" | \
+	sed -e "s/.*$guix_extra//g" | \
+	sed -e 's/\// /g' | \
+	sort | \
+	awk '{arr[$1]+=1} END {for (i in arr) {print i,arr[i]}}' | \
+	sort
