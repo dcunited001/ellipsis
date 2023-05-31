@@ -13,11 +13,12 @@ convenient interactive line editing and input history.\n\n")))
 ;; pretty-print objects (not colorlized, per se)
 (use-modules (ice-9 pretty-print))
 
+;; (use-modules (ice-9 colorized))
+
 ;; NOTE: colorized may cause problems
 ;; (setq geiser-debug-treat-ansi-colors 'colors)
 
-(if (getenv "INSIDE_EMACS")
-    (use-modules (ice-9 colorized))
+(unless (getenv "INSIDE_EMACS")
     ;; (activate-colorized) ;; geiser never finishes connecting
     (cond ((false-if-exception (resolve-interface '(ice-9 colorized)))
            =>
