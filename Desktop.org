@@ -1419,7 +1419,8 @@ interval = 1
 Script
 
 #+begin_src sh :tangle .bin/dunst/notification-sound :shebang #!/bin/sh
-local sound_path="$GUIX_EXTRA/xdg/xdg/share/sounds/freedesktop/stereo/"
+#local sound_path="$GUIX_EXTRA/xdg/xdg/share/sounds/freedesktop/stereo/"
+local sound_path="$GUIX_EXTRA/desktop/desktop/share/sounds/freedesktop/stereo/"
 local sound_file="message.oga"
 
 if [ -x "$(command -v pw-play)" ] then;

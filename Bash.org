@@ -2015,10 +2015,20 @@ if [ -f $HOME/.profile ]; then . $HOME/.profile; fi
 ;;** compression
   "zip"
   "unzip"
-  "patool"
   "p7zip"
 
+  ;; MIME problems when building. TLDR: i should've migrated to guix home earlier
+  ;;
+  ;; E   AssertionError: 'application/gzip' != 'application/x-tar'
+  ;; E   - application/gzip
+  ;; E   + application/x-tar
+  ;; E    : MIME type for archive `t.tar.gz.foo' should be application/x-tar, but
+  ;; "patool"
+
 ;;** vm
+
+  ;; should fix a gdx-pixbuf issue for virt-manager
+  "gdk-pixbuf"
   "virt-manager"
 
 ;;** network

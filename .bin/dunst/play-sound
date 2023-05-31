@@ -1,6 +1,7 @@
 #!/bin/bash
 
-local sound_path="$GUIX_EXTRA/xdg/xdg/share/sounds/freedesktop/stereo/"
+#local sound_path="$GUIX_EXTRA/xdg/xdg/share/sounds/freedesktop/stereo/"
+local sound_path="$GUIX_EXTRA/desktop/desktop/share/sounds/freedesktop/stereo/"
 local sound_file="message.oga"
 
 [[ -x "$(command -v pw-play)" ]] && pw-play "$sound_path$sound_file"
