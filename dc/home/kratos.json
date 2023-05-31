@@ -1,0 +1,15 @@
+{
+  "paths": {
+    "df": "$HOME/.dotfiles",
+    "data": "/data",
+    "lang": "$DF_DATA/lang",
+    "ecto": "$DF_DATA/ecto",
+    "repo": "$DF_DATA/repo",
+    "flatpak": "/flatpak",
+    "steam": "$DF_FLATPAK/steam",
+    "agenda": "$DF_FLATPAK/agenda",
+    "xdg": "$DF_DATA/xdg",
+    "wallpapers": "$DF_XDG/Wallpapers/anime",
+    "doom": "$HOME/.doom.d"
+  }
+}
