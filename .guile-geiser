@@ -1,0 +1,29 @@
+;; readline for completion and input history at the REPL.
+(cond ((false-if-exception (resolve-interface '(ice-9 readline)))
+       =>
+       (lambda (module)
+         ((module-ref module 'activate-readline))))
+      (else
+       (display "Consider installing the 'guile-readline' package for
+convenient interactive line editing and input history.\n\n")))
+
+;; format to enable string interpolation
+(use-modules (ice-9 format))
+
+;; pretty-print objects (not colorlized, per se)
+(use-modules (ice-9 pretty-print))
+
+;; NOTE: colorized may cause problems
+;; (setq geiser-debug-treat-ansi-colors 'colors)
+
+(if (getenv "INSIDE_EMACS")
+    (use-modules (ice-9 colorized))
+    ;; (activate-colorized) ;; geiser never finishes connecting
+    (cond ((false-if-exception (resolve-interface '(ice-9 colorized)))
+           =>
+           (lambda (module)
+             ;; Enable completion and input history at the REPL.
+             ((module-ref module 'activate-colorized))))
+          (else
+           (display "Consider installing the 'guile-colorized' package
+for a colorful Guile experience.\n\n"))))
