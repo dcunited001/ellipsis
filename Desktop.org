@@ -2174,7 +2174,7 @@ flatpak override --user $CURA_APP --filesystem=$CURA_HOME
 ** System
 
 #+begin_src scheme :noweb-ref packages :noweb-sep ""
-;; "d-feet"
+"d-feet"
 ;; "systemdgenie"
 #+end_src
 
