@@ -300,9 +300,6 @@ export SHROUD_DATABASE_FILE=$SECRETS_HOME/.config/shroud/db.gpg
 
 *** Notes
 
-+ Using SSH via GnuPG
-  - =/bye= redirects SSH calls to its socket to the GnuPG embedded SSH agent
-
 + The list of approved keys is stored in =~/.gnupg/sshcontrol=
 
 + If you use a PGP key for SSH auth (requires =Authentication= capability)
