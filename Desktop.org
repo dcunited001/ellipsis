@@ -591,6 +591,9 @@ bindsym $super+Shift+0 move container to workspace $ws10
 
 for_window [urgent=latest] focus
 
+bindsym $super+Shift+minus move scratchpad
+bindsym $super+minus scratchpad show
+
 ###########################################
 ### LOCKING
 ###########################################

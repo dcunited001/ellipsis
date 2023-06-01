@@ -102,13 +102,15 @@ See "Ansible On Guix" for info on its dependencies
 
 Some naïve example settings:
 
-#+begin_example conf :tangle (expand-file-name ".config/ansible/ansible.cfg.eg" ansible-prefix)
+#+begin_src conf :tangle (expand-file-name ".config/ansible/ansible.cfg.eg" ansible-prefix)
 
 [tags]
 
 [defaults]
+nocows=1
 
 # * inventory
+inventory=inventory.yml
 
 # * playbooks
 
@@ -129,6 +131,7 @@ Some naïve example settings:
 # ** vault
 
 # ** connection
+transport=ssh
 
 # * roles & collections
 
@@ -215,11 +218,75 @@ ansible-config dump -c $config --only-changes -t --format=$format
 
 *** TODO include other collections/roles paths?
 
-** Inventory Skel
+** Inventory
+
+An example of inventory
 
 #+begin_src conf :tangle (expand-file-name ".config/ansible/inventory.yml.eg" ansible-prefix)
+all:
+  ansible_port: 2020
+  # ansible_user: ansible
+  # ansible_host: 123.123.123.123
+  hosts:
+    host1.local:
+      ansible_user: root
+    host2.local:
+      ansible_user: ansible
+    vm1.vm.local:
+      ansible_user: ansible
+    guix1.vm.local:
+      ansible_user: ansible
+    router1.net.local:
+      ansible_user: admin
+    router1.net.local:
+      ansible_user: admin
+    host1.k3s.local:
+      ansible_user: ansible
+    vm1.cloud.com:
+      ansible_user: ansible
+
+  children:
+    cisco:
+      # TODO: shell-only
+      hosts:
+        router1.net.local:
+          ansible_user: ansible
+
+    ddwrt:
+      # TODO: ash only (not bash)
+      hosts:
+        router2.net.local:
+          ansible_user: admin
+
+    guix:
+      ansible_python_interpreter: /run/current-system/profile/bin/python3
+      hosts:
+        host2.local:
+
+    centos:
+      hosts:
+        host1.local:
+
+    vm:
+      hosts:
+        vm1.vm.local:
+        vm2.vm.local:
+          ansible_python_interpreter: /run/current-system/profile/bin/python3
+
+    # kubernetes example at https://github.com/techno-tim/k3s-ansible
+    k3s:
+      hosts:
+        host1.local:
+#+end_src
+
+And then =group_vars/*.yml=
+
+#+begin_src yaml :tangle (expand-file-name ".config/ansible/group_vars/all.yml" ansible-prefix)
+---
+system_timezone: "America/New_York"
 
 #+end_src
+
 
 
 * Setup
@@ -251,39 +318,40 @@ would be a bit different. See the =pulp/pulp_
 
 The Ansible Galaxy url's are nice and mnemonic: =galaxy.ansible.com/$namespace/$collection=
 
-#+begin_src sh :tangle (expand-file-name ".bin/init-galaxy" ansible-prefix)
-ansible-galaxy collection install \
-               community.general \
-               ansible.posix \
-               ansible.netcommon \
-               ansible.utils
+#+begin_src yaml :tangle (expand-file-name ".config/ansible/requirements.yml.eg" ansible-prefix)
+---
+collections:
+
+  # basic
+  - name: community.general
+  - name: ansible.posix
+  - name: ansible.netcommon
+  - name: ansible.utils
+
+  # container/vm
+  - name: kubernetes.core
+  - name: containers.podman
+  - name: community.grafana
+  - name: community.libvirt
+
+  - name: pfsensible.core
+
+  # security
+  - name: community.hashi_vault
+  - name: community.crypto
+  - name: devsec.hardening
+
+#roles:
+
 #+end_src
 
-**** Containers & VM's
-
-#+begin_src sh
-ansible-galaxy collection install \
-               kubernetes.core \
-               containers.podman \
-               community.grafana \
-               community.libvirt
-#+end_src
-
-**** Security
-
-#+begin_src sh
-ansible-galaxy collection install \
-               community.hashi_vault \
-               community.crypto \
-               devsec.hardening
-#+end_src
-
-
-**** Other collections:
+Other collections
 
 + awx.awx
 + openvswitch.openvswitch
 + lvrfrc87.git_acp
+
+**** TODO potentially refactor to meta/requirements.yml and meta
 
 *** Ansible Vault
 
@@ -291,7 +359,50 @@ ansible-galaxy collection install \
 
 ** Playbooks
 
+Hmmmm... thanks [[https://bruxy.regnet.cz/web/linux/EN/bash-cheat-sheet/][Bash Cheatsheet]]. Noam Chomsky gently weeps colorlessly for
+Tarzan-child of wilderness (reference to alienation)
 
+#+begin_src sh :var prefix=ansible-prefix
+unset $dryrun
+#prefix=
+#dryrun=echo
+#dryrun=
+centos=$prefix/roles/centos
+gcloud=$prefix/roles/gcloud
+virt=$prefix/roles/virt
+qemu=$prefix/roles/qemu
+
+role_dirs="tasks,handlers,templates,files,vars,defaults"
+dircmd=${dryrun-"mkdir -p"}
+filecmd=${dryrun-"touch"}
+
+if [ -e $prefix ]; then
+    echo "creating template at $prefix"
+    $filecmd $prefix/{homelab,cloud,virt,qemu}
+
+    # make root directory
+    $dircmd $prefix/{group_vars,host_vars}
+    $dircmd $prefix/{library,module_utils,filter_plugins,tasks}
+
+    # make role directories
+    $dircmd {$centos/,$gcloud/,$virt/,$qemu/}{tasks,handlers}
+    $dircmd {$centos/,$gcloud/,$virt/,$qemu/}{templates,files,vars,defaults}
+    $dircmd {$centos/,$gcloud/,$virt/,$qemu/}{meta,library,module_utils,lookup_plugins}
+
+    # this also works
+    # $filecmd {$centos/,$gcloud/,$virt/,$qemu/}{tasks,handlers}/main.yml
+else
+    echo "set prefix"
+fi
+
+#+end_src
+
+#+RESULTS:
+: creating template at /mnt/secrets/test
+
+I'm sure there's a better way to do this, but i've looked. In the various
+attempts at learning ansible, I've way too much time looking for templating
+tools that were not ad-hoc github collections
 
 * Ansible on Guix
 
