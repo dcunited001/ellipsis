@@ -9,7 +9,8 @@ OpenGLIsUnsafe=false
 [Desktops]
 Id_1=c9f005eb-df35-464c-a181-cde15a87a1cb
 Id_2=84cef4cd-483d-492c-9789-ff66ff7b5858
-Number=2
+Id_3=fcf4de1d-e83e-4dab-8210-5096ebad9249
+Number=3
 Rows=1
 
 [Effect-Zoom]
@@ -84,7 +85,7 @@ padding=4
 tiles={"layoutDirection":"horizontal","tiles":[{"width":0.25},{"width":0.5},{"width":0.25}]}
 
 [Tiling][368b7d02-7626-5761-b3c7-502a4da21d49]
-tiles={"layoutDirection":"vertical","tiles":[{"height":0.48515624999999996},{"height":0.51484375,"layoutDirection":"horizontal","tiles":[{"width":0.5222222222222223},{"width":0.47777777777777775}]}]}
+tiles={"layoutDirection":"vertical","tiles":[{"height":0.30781249999999805,"layoutDirection":"horizontal","tiles":[{"width":0.5},{"width":0.5}]},{"height":0.3222656249999938},{"height":0.36992187500000817,"layoutDirection":"horizontal","tiles":[{"width":0.49583333333333335},{"width":0.5041666666666667}]}]}
 
 [Tiling][876df35c-0510-5807-b853-f88348083870]
 tiles={"layoutDirection":"horizontal","tiles":[{"layoutDirection":"vertical","tiles":[{"height":0.40130208333333534},{"height":0.5986979166666626}],"width":1}]}
