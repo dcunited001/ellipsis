@@ -68,3 +68,7 @@ tramp
 .cask/
 
 .emacs.desktop
+
+# log/trace
+.strace/
+.log/
