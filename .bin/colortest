@@ -1,0 +1,104 @@
+#!/bin/bash
+# ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ###
+# colortest (tests the colors of your terminal using ANSI codes)
+# 
+# written by: Josh D. Dotson, Oct 9th, 2011
+# License as follows:
+#    Copyright (c) 2011 Josh D. Dotson
+# 
+# YOU ARE HEREBY GRANTED PERMISSION TO USE THIS HOW YOU SEE FIT, AS PUBLIC DOMAIN.
+# IF YOUR COUNTRY, STATE OR TOWNSHIP DOES NOT PERMIT SUCH, IT IS LICENSED SIMILAR TO 
+# THE BERKLEY COPYRIGHT (SUBSTITUTE ALL REFERENCES TO BERKLEY UNIVERSITY WITH "AUTHOR").
+# THE DISCLAIMER IS APPLICABLE EITHER WAY, USING THE ABOVE SENTENCE
+# REGARDING SUBSTITUTION OF TEXT.
+#
+# BERKLEY COPYRIGHT:
+# * Copyright (c) 1982, 1986, 1990, 1991, 1993
+# *    The Regents of the University of California.  All rights reserved.
+# *
+# * Redistribution and use in source and binary forms, with or without
+# * modification, are permitted provided that the following conditions
+# * are met:
+# * 1. Redistributions of source code must retain the above copyright
+# *    notice, this list of conditions and the following disclaimer.
+# * 2. Redistributions in binary form must reproduce the above copyright
+# *    notice, this list of conditions and the following disclaimer in the
+# *    documentation and/or other materials provided with the distribution.
+# * 3. All advertising materials mentioning features or use of this software
+# *    must display the following acknowledgement:
+# *   This product includes software developed by the University of
+# *   California, Berkeley and its contributors.
+# * 4. Neither the name of the University nor the names of its contributors
+# *    may be used to endorse or promote products derived from this software
+# *    without specific prior written permission.
+# *
+# * DISCLAIMER:
+# * THIS SOFTWARE IS PROVIDED BY THE REGENTS AND CONTRIBUTORS ``AS IS'' AND
+# * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+# * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+# * ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS OR CONTRIBUTORS BE LIABLE
+# * FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+# * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS
+# * OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
+# * HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
+# * LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY
+# * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
+# * SUCH DAMAGE.
+# ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ###
+#
+# HOW TO USE:
+#   ./colortest (optional character to use instead of "O")
+#
+# Purpose:
+#   To show you if colors are available on your terminal, and what they look like.
+#   
+# ANSI code format:
+#   echo -ne "\033[00;38;5;007m"
+#
+#  the "n" in "-ne" tells bash not to put a newline at the end of the echo
+#  the "e" in "-ne" tells bash interpret the escape sequences
+#  the "\033" in the code is the escape character
+#  the fourth group (007) is the color index for the palate
+#
+#  Maybe someone with a higher understanding of the code could correct this?
+#  The values seem to be added together somehow, but I am too lazy to find it...
+
+m="m"
+br_a=8
+br_b=$(($br_a + 8))
+br_c=$(($br_b + 36)); br_d=$(($br_c + 36)); br_e=$(($br_d + 36))
+br_f=$(($br_e + 36)); br_g=$(($br_f + 36)); br_h=$(($br_g + 36))
+c_dim=2; c_norm=0; c_bold=1; c_inverse=7; c_undl=4; c_strk=9; norm='\033[0m'
+y=8; x=5
+
+function alpha(){
+      for t in 0 1 2; do
+         for u in 0 1 2 3 4 5 6 7 8 9; do
+            for v in 0 1 2 3 4 5 6 7 8 9; do
+               if [ $t$u$v -eq $br_a ];then echo ""; fi  # These if's break the line
+               if [ $t$u$v -eq $br_b ];then echo ""; fi  # in a desired place to show
+#               if [ $t$u$v -eq $br_c ];then echo ""; fi  # the association of the colors.
+#               if [ $t$u$v -eq $br_d ];then echo ""; fi  # Feel free to uncomment
+               if [ $t$u$v -eq $br_e ];then echo ""; fi  # more if's to slim display.
+#               if [ $t$u$v -eq $br_f ];then echo ""; fi
+#               if [ $t$u$v -eq $br_g ];then echo ""; fi
+               if [ $t$u$v -eq $br_h ];then echo ""; fi
+               if [ $t$u$v -lt 256 ];then
+                     echo -ne "\033[0$z;3$y;$x;$t$u$v$m$char$norm"
+               fi
+            done
+         done
+      done
+echo ""
+}
+
+echo -e "line 1=regular (8) [+0]\nline 2=bright (8) [+8]\nline 3/4=colorscale (216) [+16]\nlast line=grayscale (24) [+232]\n"
+if [ "x$1" == "x" ];then char="O"; else char="$1"; fi
+
+#set the attribute; echo the selected char using attribute; display code used; then print table using attribute
+z=$c_dim; echo -ne "\033[0$z;3$y;$x;007$m$char$norm "; echo "Attribute: Dim;      \033[0$z;3$y;$x;007$m"; alpha; echo ""
+z=$c_norm; echo -ne "\033[0$z;3$y;$x;007$m$char$norm "; echo "Attribute: Normal;      \033[0$z;3$y;$x;007$m"; alpha; echo ""
+z=$c_bold; echo -ne "\033[0$z;3$y;$x;007$m$char$norm "; echo "Attribute: Bold;      \033[0$z;3$y;$x;007$m"; alpha; echo ""
+z=$c_inverse; echo -ne "\033[0$z;3$y;$x;007$m$char$norm "; echo "Attribute: Inverse;      \033[0$z;3$y;$x;007$m"; alpha; echo ""
+z=$c_undl; echo -ne "\033[0$z;3$y;$x;007$m$char$norm "; echo "Attribute: Underline;      \033[0$z;3$y;$x;007$m"; alpha; echo ""
+z=$c_strk; echo -ne "\033[0$z;3$y;$x;007$m$char$norm "; echo "Attribute: Strike-through;   \033[0$z;3$y;$x;007$m"; alpha; echo ""

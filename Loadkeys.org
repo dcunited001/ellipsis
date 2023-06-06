@@ -5,6 +5,8 @@
 
 * Sources
 
+The output from =dumpkeys [options]= varies between keyboards.
+
 ** Includes
 
 There are includes and they're necessary. If you simply remap keycodes, strange
@@ -12,12 +14,21 @@ things may happen. For example, using the following without the include may
 cause your control key to "lock" and never unlock. Then alphanumeric keys will
 start causing their "control" action.
 
+** Caps to Control
+
+Just link to the appropriate include
+
 #+begin_src conf :tangle .local/share/kbd/caps-as-control.inc
 include "linux-with-alt-and-altgr.inc"
 
 keycode 58 = Control
 #+end_src
 
-** Kharis
+On my HP laptop, remapping caps to control in console will occasionally get
+stuck in emacs & maybe elsewhere. This doesn't reset until you switch vty's. It
+may be a key combination that causes the kernel interpretation of keybindings to
+get stuck with bad modkey bits. It is limited to the caps key. If the control
+key glitched, then it would be difficult to switch terminals.
 
-Just link to the appropriate include
+There's probably something I'm not configuring, but ascertaining the state is
+cumbersome without scripts. Hopefully =kmscon= becomes more accessible.
