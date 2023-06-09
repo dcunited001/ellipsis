@@ -11,6 +11,12 @@
  ((default-modes
    (pushnew 'nyxt/mode/emacs:emacs-mode %slot-value%))))
 
+
+(define-configuration buffer
+                      ((override-map
+                        (let ((map (make-keymap "override-map")))
+                          (define-key map "f1 f5" 'execute-command "C-space" 'nothing)))))
+
 ;;** Search
 (defvar *dc/search-engines*
   (list
