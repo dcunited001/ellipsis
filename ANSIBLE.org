@@ -609,8 +609,8 @@ example. Here's the key for the protocol names:
           - { name: t_ldap, type: port, address: 389, state: present }
           - { name: t_ldaps, type: port, address: 636, state: present }
           - { name: t_smtp, type: port, address: 25, state: present }
-          - { name: t_snmps, type: port, address: 465, state: present }
-          - { name: t_snmps_sub, type: port, address: 587, state: present }
+          - { name: t_smtps, type: port, address: 465, state: present }
+          - { name: t_smtps_sub, type: port, address: 587, state: present }
           - { name: t_nntp, type: port, address: 119, state: present }
           - { name: t_nntps, type: port, address: 563, state: present }
           - { name: u_openvpn, type: port, address: 1194, state: present }
