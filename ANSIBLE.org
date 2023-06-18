@@ -22,6 +22,31 @@ It is quite a relief to trust GPG on a smartcard though.
 
 **** TODO finish refactoring this (and hopefully use it for once)
 
+* Goals For Ansible
+
+The goal here is to have some scripts for facilitating the creation of new
+Ansible projects, although I'm beginning to realize you probably don't have too
+many of them, unless the networks are for some completely separate work context.
+
+My guix channel should eventually contain things like custom kernal configs,
+single-purpose Raspberry Pi systems, This is all a bit tough to maintain if
+tests aren't automated. While there are CI/CD tools for testing Guix stuff, it's
+all very specific to Scheme, which IMO is great, but it's not yet agnostic to
+cloud/network/os.
+
+I would like to test my Guix System & Home dotfiles using =ansible= and
+=libvirt=. "Ansible does automation" you say? ... but it also connects to any
+shell, which should not exclude I2C given enough ingenuity. And further to the
+point: to facilitate idempotence, Ansible asserts state with no host
+dependencies for connection. Though it would seem to lack the ability to
+guarantee complete teardown/setup, this is an interesting problem.
+
+My spidey senses tell me people might pay for that =libvirt= automation stuff --
+not for dotfiles, but for automated testing of virtualized ARM/Embedded systems
+--
+
+So I may actually end up with many ansible projects.
+
 * Org Babel Config
 
 Ensure the values below are set. They're required for the =:tangle= output
@@ -33,6 +58,13 @@ the whole process. This is also useful for setting:
 (setq-local ansible-prefix (or (getenv "ANSIBLE_PREFIX") "build/ansible")
             org-confirm-babel-evaluate nil)
 #+end_src
+
+I am building to another directory for now (not in my dotfiles), but I may
+switch to =./build/ansible= later.  I like maintaining a layer of separation
+here because it's much less likely that I'll commit something I don't intend to,
+which for better or worse happens less frequently than it may seem. I'm not sure
+there are any secrets in my repos unless in the git index somehow, but I've
+always staged by line/hunk ... so.
 
 ** Var Setup
 
@@ -50,11 +82,15 @@ secrets-home
 
 ** Build
 
-The intent here is to build a portable ansible config at =ansible-prefix=.
-Everything sticks to =FHS= and =XDG= for clarity.
+The intent here is to build a portable ansible config at =ansible-prefix=.  When
+tangling to paths other than =ansible-prefix= and =.config/ansible=, everything
+sticks to =FHS= and =XDG= for clarity.
 
-+ ./.local/lib :: scripts to source
-+  ::
++ .local/bin :: scripts that exec
++ .local/lib/ansible :: scripts that source
+
+Generally, most ansible project files will be generated in =.config/ansible= and
+can then be copied into =ANSIBLE_HOME= when needed.
 
 The build can be dumped into a folder or stowed:
 
@@ -63,11 +99,12 @@ ANSIBLE_HOME=$HOME/.ansible
 stow --dir $ANSIBLE_PREFIX --target $ANSIBLE_HOME
 #+end_src
 
-Stow ignore list:
+Anything that ends in =*.eg= or contains =*.eg.*= is added to the stow ignore list:
 
 #+begin_src gitignore :tangle (expand-file-name ".stow-local-ignore" ansible-prefix)
 # perl regex
-
+*.eg
+*.eg.*
 #+end_src
 
 Stowing into the =$ANSIBLE_HOME= might not work out, since it contains
@@ -83,9 +120,50 @@ directories like:
 
 * Environment
 
+Ensure =ANSIBLE_HOME= is set. Almost everything will be relative to that.
+
+Depending on its value and whether a config file is read, then files will likely
+be created in =$HOME/.ansible/tmp= and =$XDG_CONFIG_HOME/ansible=.
+
+Using direnv can help jump between various ansible projects. If you set
+=ANSIBLE_CONFIG=, it's very likely that you'll want multiple configs like
+=ansible.debug.cfg= so use =-c $config= to do that.
+
+#+begin_src sh :tangle (expand-file-name ".envrc.eg" ansible-prefix)
+export ANSIBLE_HOME=$PWD
+export ANSIBLE_CONFIG=$ANSIBLE_HOME/ansible.cfg
+PATH_add .bin
+use_guix_profile $GUIX_EXTRA/ansible/ansible
+#+end_src
+
+** Python
+
+On guix system (load after ansible profile)
+
+#+begin_src sh :tangle (expand-file-name ".envrc.eg" ansible-prefix)
+export VIRTUAL_ENV=.genv
+layout python3
+#+end_src
+
+An additional =.venv= profile could be set up for other environments like VS
+Code. After the =.genv= profile is created, run the following
+
+#+begin_example shell
+pip install --upgrade pip
+pip install -r requirements.txt
+#+end_example
+
+The requirements file has been generated from:
+
+#+begin_src shell
+pip install ansible-core ansible-navigator ansible-lint yamllint dnspython
+#+end_src
+
 ** Guix Profile
 
-See "Ansible On Guix" for info on its dependencies
+See "Ansible On Guix" for info on its dependencies. The =venv= above is required
+to get =ansible= and other tools like =ansible-navigator=, so I'm not really
+using this.
 
 #+begin_src scheme :tangle (expand-file-name ".config/guix/manifests/ansible.scm" ansible-prefix)
 (specifications->manifest
@@ -95,6 +173,44 @@ See "Ansible On Guix" for info on its dependencies
    ))
 #+end_src
 
+** Emacs
+
+
+
+#+begin_src emacs-lisp :tangle .dir-locals.eg
+((yaml-mode . ((flycheck-checker . 'yaml-yamllint))))
+#+end_src
+
+** Ansible LSP
+
+This is instantiated via =docker compose=
+
+*** Docker Compose
+
+#+begin_src yaml :tangle (expand-file-name ".config/ansible/docker-compose.yml" ansible-prefix)
+
+#+end_src
+
+
+** Ansible Navigator
+
+[[github:ansible/ansible-navigator][ansible/ansible-navigator]] is a TUI for exploring the local ansible
+environment. It launches automations via a docker container by default.
+
+#+begin_src yaml :tangle (expand-file-name ".config/ansible/ansible-navigator.eg.yml" ansible-prefix)
+---
+ansible-navigator:
+  editor:
+    command: gmacsclient -nw {filename} +{line_number}
+    console: true
+#+end_src
+
+Judging by the source, opening a file in =$EDITOR= doesn't allow you to save
+changes, meaning you'll have to save over the file in its path. The app is for
+quick exploration of a project or environment, which it does well.
+
+To run any ansible commands, by default, it uses the
+=ghcr:io/ansible/creator-ee:v0.17.0= image.
 
 * Ansible
 
@@ -218,9 +334,48 @@ ansible-config dump -c $config --only-changes -t --format=$format
 
 *** TODO include other collections/roles paths?
 
+
+*** PFSense Lookup Plugin
+
+To show docs on the =pfsensible.core.pfsense= lookup plugin, run =ansible-doc -t
+lookup pfsensible.core.pfsense=
+
+The =pf.yml= file describes network topology/state and is required to use the
+lookup plugin. An example is available in the docstrings at the =pfsense.py=
+link. Four sections are required in =pf.yml=:
+
++ pfsenses
++ rules
++ hosts_aliases
++ ports_aliases
+
+Since the plugin source contains a =main()= and whatnot, then once the plugin is
+set up, you can run command's like what's below. This allows you to quickly dump
+the state.
+
+#+begin_src shell
+pfpath=collections/ansible_collections/pfsensible/core/plugins/lookup
+$pfpath/pfsense.py pf.yml pf1
+#+end_src
+
+
+**** TODO fix description:
++ [ ] copy to lookup_plugins
++ [ ] install dnspython
+
+To make the [[https://github.com/pfsensible/core/blob/master/plugins/lookup/pfsense.py][pfsense.py]] lookup plugin available to run as a script, either:
+
++ copy the lookup plugin =$pfpath/pfsense.py= to =./lookup_plugins=
++ or append the plugin's path within your =collections= directory to the
+  =lookup_plugins= path in your =ansible.cfg=.
++ use =ansible-runner run -m pfsense= but you'll need to fix the module path. i
+  couldn't get this to work and needed to move on. there aren't many examples of
+  using =ansible-runner= where a script is run with =main()=
+
+
 ** Inventory
 
-An example of inventory
+An example of inventory.
 
 #+begin_src conf :tangle (expand-file-name ".config/ansible/inventory.yml.eg" ansible-prefix)
 all:
@@ -279,7 +434,8 @@ all:
         host1.local:
 #+end_src
 
-And then =group_vars/*.yml=
+And then =group_vars/*.yml=, though =system_timezone= should be fetched
+dynamically and stored as a fact.
 
 #+begin_src yaml :tangle (expand-file-name ".config/ansible/group_vars/all.yml" ansible-prefix)
 ---
@@ -287,24 +443,20 @@ system_timezone: "America/New_York"
 
 #+end_src
 
+To see the hostvars applied to a group, use the =debug= module
+
+#+begin_src shell
+group=all
+
+# for all vars
+ansible $group -m debug -a "var=hostvars"
+
+# for a specific var inherited from a group
+ansible $group -m debug -a "var=system_timezone"
+#+end_src
 
 
 * Setup
-
-Ensure =ANSIBLE_HOME= is set. Almost everything will be relative to that.
-
-Depending on its value and whether a config file is read, then files will likely
-be created in =$HOME/.ansible/tmp= and =$XDG_CONFIG_HOME/ansible=.
-
-Using direnv can help jump between various ansible projects. If you set
-=ANSIBLE_CONFIG=, it's very likely that you'll want multiple configs like
-=ansible.debug.cfg= so use =-c $config= to do that.
-
-#+begin_src sh :tangle (expand-file-name ".envrc.eg" ansible-prefix)
-export ANSIBLE_HOME=$PWD
-export ANSIBLE_CONFIG=$ANSIBLE_HOME/ansible.cfg
-PATH_add .bin
-#+end_src
 
 ** External Services
 
@@ -403,6 +555,85 @@ fi
 I'm sure there's a better way to do this, but i've looked. In the various
 attempts at learning ansible, I've way too much time looking for templating
 tools that were not ad-hoc github collections
+
+**** PFSensible Ports Playbook
+
+I couldn't really get the =pfsensible= lookup plugin to work -- too many parsing
+issues. So I gave up. However, the aggregate tasks still work.
+
+This is a fairly standalone playbook, which is difficult to come by for PFSense,
+though it would need to be run before other pfsense plugins. This is really the
+difficulty in managing PFSense XML: there are logical dependencies between the
+names used in firewall rules.
+
+Some of the protocols lack IP protocol number specifications -- for GRE, for
+example. Here's the key for the protocol names:
+
++ p_ :: tcp/udp (or non-specified)
++ t_ :: tcp
++ u_ :: udp
+
+#+begin_src yaml
+---
+- hosts: pfsense
+  gather_facts: true
+  connection: ssh
+
+  tasks:
+    - name: "setup port aliases"
+      pfsensible.core.pfsense_aggregate:
+        aggregated_aliases:
+          - { name: p_dns, type: port, address: 53, state: present }
+          - { name: t_ssh, type: port, address: 22, state: present }
+          - { name: u_ntp, type: port, address: 123, state: present }
+          - { name: u_ipsec, type: port, address: 500 4500, state: present }
+          - { name: p_awx, type: port, address: 9191, state: present }
+          - { name: p_cockpit, type: port, address: 9090, state: present }
+          - { name: p_prox_coro, type: port, address: 5404-5405, state: present }
+          - { name: p_prox_web, type: port, address: 8006, state: present }
+
+          - { name: p_synct_gui, type: port, address: 8384, state: present }
+
+          - { name: t_synct, type: port, address: 22000, state: present }
+          - { name: u_synct, type: port, address: 21027, state: present }
+          - { name: u_dchpv6, type: port, address: 546-547, state: present, descr: "DHCPv6 546-547 (UDP)" }
+          - { name: p_gnunet, type: port, address: 2086 1080, state: present, descr: "GNUnet" }
+          - { name: p_https, type: port, address: 443, state: present }
+          - { name: p_http, type: port, address: 80, state: present }
+          - { name: t_hkps, type: port, address: 11371, state: present }
+          - { name: t_imap, type: port, address: 143, state: present }
+          - { name: t_imaps, type: port, address: 993, state: present }
+          - { name: t_irc, type: port, address: 6667, state: present }
+          - { name: t_irc_all, type: port, address: 6660-6669 7000, state: present }
+          - { name: u_mdns, type: port, address: 5353, state: present }
+          - { name: t_ldap, type: port, address: 389, state: present }
+          - { name: t_ldaps, type: port, address: 636, state: present }
+          - { name: t_smtp, type: port, address: 25, state: present }
+          - { name: t_snmps, type: port, address: 465, state: present }
+          - { name: t_snmps_sub, type: port, address: 587, state: present }
+          - { name: t_nntp, type: port, address: 119, state: present }
+          - { name: t_nntps, type: port, address: 563, state: present }
+          - { name: u_openvpn, type: port, address: 1194, state: present }
+          - { name: t_pop3, type: port, address: 110, state: present }
+          - { name: t_pop3s, type: port, address: 993, state: present }
+          - { name: t_postgres, type: port, address: 5432, state: present }
+          # PPTP also uses IP protocol 47 (GRE)
+          - { name: t_pptp, type: port, address: 1723, state: present }
+          - { name: t_rdp, type: port, address: 3389, state: present }
+          - { name: t_rsync, type: port, address: 873, state: present }
+          - { name: u_snmp, type: port, address: 161-162, state: present }
+          - { name: t_snmp, type: port, address: 161, state: present }
+          - { name: t_squid, type: port, address: 3128, state: present }
+          - { name: p_syslog, type: port, address: 514, state: present }
+          - { name: u_tftp, type: port, address: 69, state: present }
+          - { name: u_traceroute, type: port, address: 33434-33524, state: present }
+          - { name: t_vnc, type: port, address: 5900-5999, state: present }
+          - { name: t_vncl, type: port, address: 5500, state: present }
+          - { name: t_bgp, type: port, address: 179, state: present }
+          - { name: t_ceph, type: port, address: 6789 3300 6800-7300, state: present }
+          - { name: t_ceph_extra, type: port, address: 6800-7300, state: present }
+#+end_src
+
 
 * Ansible on Guix
 
