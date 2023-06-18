@@ -632,8 +632,57 @@ example. Here's the key for the protocol names:
           - { name: t_bgp, type: port, address: 179, state: present }
           - { name: t_ceph, type: port, address: 6789 3300 6800-7300, state: present }
           - { name: t_ceph_extra, type: port, address: 6800-7300, state: present }
-#+end_src
 
+
+    - name: "setup mirrors aliases"
+      pfsensible.core.pfsense_aggregate:
+        aggregated_aliases:
+          - name: mirrors_debian
+            state: present
+            type: host
+            address: ftp.us.debian.org security.debian.org enterprise.proxmox.com downloads.proxmox.com mirror.cogentco.com debian.uchicago.edu mirror.keystealth.org mirror-new.csail.mit.edu debian.gtisc.gatech.edu mirror.us.oneandone.net
+          - name: mirrors_fedora
+            state: present
+            type: host
+            address: fedoraproject.org centos.org mirrors.centos.org mirror.centos.org mirror.stream.centos.org download.cf.centos.org dl.fedoraproject.org registry.fedoraproject.org
+          - name: mirrors_guix
+            state: present
+            type: host
+            address: ci.guix.gnu.org git.savannah.gnu.org bordeaux.guix.gnu.org
+          - name: mirrors_nonguix
+            state: present
+            type: host
+            address: substitutes.nonguix.org
+          - name: mirrors_proxmox
+            state: present
+            type: host
+            address: download.proxmox.com
+          - name: hkps_keyservers
+            state: present
+            type: host
+            address: keys.openpgp.org hpks.pool.sks-keyservers.net pgp.ocf.berkely.net
+          - name: reg_fedora
+            state: present
+            type: host
+            address: registry.fedoraproject.org registry.centos.org
+          - name: reg_docker
+            state: present
+            type: host
+            address: docker.io auth.docker.io registry-1.docker.io index.docker.io production.cloudflare.docker.io
+          # #!$#@!%@!B %!@#$%
+          - name: git_github
+            state: present
+            type: host
+            address: github.com
+          - name: dns_adguard
+            state: present
+            type: host
+            address: 94.140.14.14 94.140.15.15 2a10:50c0::bad1:ff 2a10:50c0::bad2:ff
+          - name: ca_verisign
+            state: present
+            type: host
+            address: nstld.verisign-grs.com a.root-servers.net
+#+end_src
 
 * Ansible on Guix
 
