@@ -248,7 +248,6 @@ Gtk/CursorThemeName "Sweet-cursors"
 
 ** i3
 
-
 *Guix Packages*
 
 #+begin_src scheme :noweb-ref i3packages :noweb-sep ""
@@ -257,6 +256,13 @@ Gtk/CursorThemeName "Sweet-cursors"
 "i3status"
 "i3lock"
 "j4-dmenu-desktop"
+#+end_src
+
+I will probably move this to shepherd, but for now it is where it is.
+
+#+begin_src scheme :noweb-ref i3packages :noweb-sep ""
+;; TODO: move this to shepherd?
+"gnome-keyring"
 
 #+end_src
 
@@ -292,6 +298,10 @@ mode "$supere_system" {
     bindsym Return mode "default"
     bindsym Escape mode "default"
 }
+
+# TODO: potentially extract from i3/config (just secrets here)
+# - i feel better about publickizing my dotfiles every day that goes by
+exec --nostartup-id /usr/bin/gnome-keyring-daemon --start --components=secrets
 
 #+end_src
 
