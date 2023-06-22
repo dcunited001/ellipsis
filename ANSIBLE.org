@@ -591,9 +591,7 @@ example. Here's the key for the protocol names:
           - { name: p_cockpit, type: port, address: 9090, state: present }
           - { name: p_prox_coro, type: port, address: 5404-5405, state: present }
           - { name: p_prox_web, type: port, address: 8006, state: present }
-
           - { name: p_synct_gui, type: port, address: 8384, state: present }
-
           - { name: t_synct, type: port, address: 22000, state: present }
           - { name: u_synct, type: port, address: 21027, state: present }
           - { name: u_dchpv6, type: port, address: 546-547, state: present, descr: "DHCPv6 546-547 (UDP)" }
@@ -683,6 +681,48 @@ example. Here's the key for the protocol names:
             type: host
             address: nstld.verisign-grs.com a.root-servers.net
 #+end_src
+
+** Facts
+
+*** Printing Available Facts
+
+This allows you to print out facts, but there's usually too many to be useful
+
+#+begin_src yaml
+---
+- hosts: hostgroup
+  tasks:
+    - name: print firewall facts
+      ansible.builtin.debug:
+        var: ansible_facts
+#+end_src
+
+You could instead invoke the setup module directly and filter what's returned
+([[https://www.educba.com/ansible-facts][source]])
+
+#+begin_src sh
+ansible hostpattern -e@myvault.yml --ask-vault-password -m setup -a "filter=ansible_mounts"
+#+end_src
+
+You can also invoke =.*_info= modules directly to extract existing configuration.
+
+#+begin_src src
+ansible centos --ask-vault-password -e@vault.yml -b -m ansible.posix.firewalld_info
+#+end_src
+
+*** Transforming Facts to YAML
+
+
+
+
+*** TODO ansible facts metadata
+
+This can easily contain sensitive data, so you should be aware of where these
+files/logs get generated on your system. If you do not fully understand the
+=ansible.cfg=, then the default settings will leave these laying around AFAIK.
+
+When using =ansible -m $module= directly, particularly with info modules or when
+gathering facts, the =--tree= option outputs to a specific directory.
 
 * Ansible on Guix
 
