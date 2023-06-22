@@ -2129,6 +2129,9 @@ flatpak --user install flathub net.ankiweb.Anki
 # needed for fonts
 flatpak install --user flathub org.gustavoperedo.FontDownloader
 
+# editors
+flatpak install --user com.vscodium.codium
+
 #+end_example
 
 *** Fontconfig fix

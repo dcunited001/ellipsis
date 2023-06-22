@@ -1472,6 +1472,27 @@ Try to source =.bashrc=. If the shell is non-interactive, =.bashrc= will return
 :header-args+: :comments link :mkdirp yes
 :END:
 
+** VS Codium
+
+Note the flatpak configuration instructions in [[github:flathub/com.vscodium.codium][flathub/com.vscodium.codium]]
+
+The =vscodium= flatpak comes with a standard development environment and has a
+python bundled inside.
+
+*** Configuration
+
++ Config will be in =$FLATPAK_USER_VAR/app/vscodium.codium/config/VSCodium=
+  which has the structure of the standard Chrome-based electron app.
++ User config is in =./User/settings.json=. You could symlink or sync online.
++ Workspace configurations are in =./User/workspacestorage=
+
+**** On Guix
+
+VSCodium spawns from the environment, so when it runs the =/bin/bash= from
+inside it's flatpak, it still has the parent environment that =flatpak run=
+didn't override.
+
+If =~/.pyenv= exists, VSCode will think you have =pyenv=.
 
 ** Screen
 
@@ -1574,7 +1595,7 @@ If not running interactively, return
 [[ $- != *i* ]] && return
 shopt -s histappend
 
-[[ "$TERM" == "dumb" ]] || export TERM="alacritty"
+[[ "$TERM" == "dumb" ]] || export TERM="xterm-256color"
 #+end_src
 
 Aliases
