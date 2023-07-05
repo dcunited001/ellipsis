@@ -1,0 +1,4 @@
+#!/bin/sh
+# https://stackoverflow.com/a/5227429
+# to delete before rev $2 | sed-del-after <(rev $1) | rev
+sed -ne "/$1/q;p" $2

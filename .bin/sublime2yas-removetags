@@ -1,0 +1,9 @@
+#!/bin/sh
+# pass array as glob
+if [ 0 -eq $# ]; then exit 1; else
+  for f in $@; do
+    # this implicitly silences the output
+    # sed -ne '/^  tags:$/q;p' $f
+    sed -i -e '/^  tags:$/,$d' $f
+  done
+fi
