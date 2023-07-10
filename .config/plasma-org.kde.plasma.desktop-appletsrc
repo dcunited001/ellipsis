@@ -225,7 +225,7 @@ CurrentPreset=org.kde.plasma.systemmonitor
 PreloadWeight=80
 
 [Containments][141][Applets][168][Configuration][Appearance]
-chartFace=org.kde.ksysguard.barchart
+chartFace=org.kde.ksysguard.linechart
 title=Individual Core Usage
 
 [Containments][141][Applets][168][Configuration][ConfigDialog]
@@ -628,7 +628,6 @@ plugin=org.kde.plasma.volume
 PreloadWeight=85
 
 [Containments][147][Applets][157][Configuration][General]
-currentTab=streams
 migrated=true
 
 [Containments][147][Applets][162]
@@ -663,7 +662,6 @@ DialogWidth=720
 [Containments][147][General]
 extraItems=org.kde.kdeconnect,org.kde.kscreen,org.kde.plasma.battery,org.kde.plasma.bluetooth,org.kde.plasma.clipboard,org.kde.plasma.devicenotifier,org.kde.plasma.keyboardindicator,org.kde.plasma.keyboardlayout,org.kde.plasma.manage-inputmethod,org.kde.plasma.mediacontroller,org.kde.plasma.networkmanagement,org.kde.plasma.nightcolorcontrol,org.kde.plasma.notifications,org.kde.plasma.vault,org.kde.plasma.volume
 knownItems=org.kde.kdeconnect,org.kde.kscreen,org.kde.plasma.battery,org.kde.plasma.bluetooth,org.kde.plasma.clipboard,org.kde.plasma.devicenotifier,org.kde.plasma.keyboardindicator,org.kde.plasma.keyboardlayout,org.kde.plasma.manage-inputmethod,org.kde.plasma.mediacontroller,org.kde.plasma.networkmanagement,org.kde.plasma.nightcolorcontrol,org.kde.plasma.notifications,org.kde.plasma.vault,org.kde.plasma.volume
-pin=true
 
 [Containments][160]
 activityId=
