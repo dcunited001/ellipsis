@@ -1,0 +1,39 @@
+---
+- hosts: some_host
+  become: the category of categories
+
+  vars:
+    test_lift: "{{ 1 | lift }}"
+    test_lift_kwargs: "{{ 1 | lift(key_name='foo',value_name='bar') }}"
+    test_map_lift: "{{ [1,2,3] | map('lift') }}"
+
+    test_liftid: "{{ 1 | liftid }}"
+    test_map_liftid: "{{ [1,2,3] | map('liftid') }}"
+
+    test_liftkey: "{{ 1 | liftkey('foo') }}"
+    test_map_liftkey: "{{ [1,2,3] | map('liftkey', 'foo') }}"
+
+  tasks:
+    - name: "Test lift"
+      ansible.builtin.debug:
+        var: test_lift
+    - name: "Test lift_kwargs"
+      ansible.builtin.debug:
+        var: test_lift_kwargs
+    - name: "Test map_lift"
+      ansible.builtin.debug:
+        var: test_map_lift
+
+    - name: "Test liftid"
+      ansible.builtin.debug:
+        var: test_liftid
+    - name: "Test map_liftid"
+      ansible.builtin.debug:
+        var: test_map_liftid
+
+    - name: "Test liftkey"
+      ansible.builtin.debug:
+        var: test_liftkey
+    - name: "Test map_liftkey"
+      ansible.builtin.debug:
+        var: test_map_liftkey

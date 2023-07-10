@@ -301,7 +301,7 @@ mode "$supere_system" {
 
 # TODO: potentially extract from i3/config (just secrets here)
 # - i feel better about publickizing my dotfiles every day that goes by
-exec --nostartup-id /usr/bin/gnome-keyring-daemon --start --components=secrets
+exec --nostartup-id gnome-keyring-daemon --start --components=secrets
 
 #+end_src
 

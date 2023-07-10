@@ -272,6 +272,13 @@ transport=ssh
 [connection]
 
 
+[ssh_connection]
+
+# for multiplexed SSH connections (ssh can reconnect for 5 minutes)
+ssh_args=-o ControlMaster=auto -o ControlPersist=300
+control_path=%(directory)s/ansible-ssh-%%r@%%h:%%p
+control_path_dir=.ssh/sockets
+
 [colors]
 
 
@@ -486,6 +493,8 @@ collections:
   - name: community.grafana
   - name: community.libvirt
 
+  # networking
+  - name: cisco.ios
   - name: pfsensible.core
 
   # security
@@ -712,6 +721,54 @@ ansible centos --ask-vault-password -e@vault.yml -b -m ansible.posix.firewalld_i
 
 *** Transforming Facts to YAML
 
+Fortunately, ansible provides a few ways to do this, though there doesn't appear
+to be a command-line option for it. You can use =register= in your playbook
+config for extracting info into playbooks generally, which is indeed more useful
+than =jq= and =yq= in most situations.
+
+**** TODO fix this playbook
+
+This doesn't really work, though it's unclear why.
+
+#+begin_src yaml
+---
+- hosts: centos
+  become: yes
+  tasks:
+    - name: Extract firewalld info
+      register: fwresult
+      ansible.posix.firewalld_info:
+        # how do i specify no arguments to this module?
+        # ansible centos --ask-vault-password -b \
+        #  -e@vault.yml -m ansible.posix.firewalld_info
+        zones:
+          - public
+    - name: I've tried defining the local_action in multiple scopes
+      local_action:
+        copy:
+        content: "{{ fwresult | to_yaml }}"x
+        dest: /tmp/firewalld_info.yml
+#+end_src
+
+**** Using =yq= to transform output
+
+To transform =firewalld_info= results into yaml, you could also use =jq= and
+=yq=. Both are straight python libraries, which is much better than having node
+dependencies... which unfortunately, my system makes a bit difficult to work
+with, since tools like =nvm= and =pyenv= expect =lib64= to link right on the
+system (I still haven't had enough time to figure this out).
+
+#+begin_src sh
+ansible centos --ask-vault-password -e@vault.yml -b -m ansible.posix.firewalld_info > /tmp/firewalld_info.json
+#+end_src
+
+Yes, I need to get in there and clean up the YAML. The command =yq . -y= is how
+you get =jq= to do absolutely nothing with the output.
+
+#+begin_src sh
+# this feels wrong
+cat /tmp/firewalld_info.json | yq -y . > /tmp/firewalld.yml
+#+end_src
 
 
 
