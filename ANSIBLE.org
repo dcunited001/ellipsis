@@ -487,6 +487,9 @@ collections:
   - name: ansible.netcommon
   - name: ansible.utils
 
+  # you really don't want to overlook this one...
+  - name: fedora.linux_system_roles
+
   # container/vm
   - name: kubernetes.core
   - name: containers.podman
