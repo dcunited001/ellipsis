@@ -11,7 +11,6 @@
 #+property: header-args:emacs-lisp :tangle-mode (identity #o600) :mkdirp yes
 #+TAGS:
 
-
 Don't put your secrets on a LUKS drive. Either vault, ansible-vault, pass or
 some other means is much better.
 
@@ -192,6 +191,48 @@ This is instantiated via =docker compose=
 #+end_src
 
 
+** Vault
+
+*** Using Your Host OS Keyring
+
+See vault-keyring-client.py in [[github:ansible-community/contrib-scripts][ansible-community/contrib-scripts]]
+
+*** GPG-Protected Vault Password
+
+If you're using a Yubikey for GPG, you can also use it to encrypt your Ansible
+Vault password.
+
+**** Using File Descriptors
+
+Invoke the playbook command like this:
+
+#+begin_src sh
+ansible-playbook -i inventory.yml --vault-pass-file <(gpg -d mypass.gpg) tasks/foobar.yml
+#+end_src
+
+I'm not super confident in using file descriptors to protect the password, so
+there's another way you can use
+
+**** Using A Script
+
+From [[https://gitlab.com/tomaskadlec/ansible-vault-gpg][gitlab.com/tomaskadlec/ansible-vault-gpg]].
+
+Set this in your =ansible.cfg=
+
+#+begin_example conf
+vault_password_file=.bin/vaultgpgpass
+#+end_example
+
+Create a script, ensure it has the =#!/bin/sh= directive and chmod it.
+
+#+begin_src
+#!/bin/sh
+gpg --batch --use-agent --decrypt mypass.gpg
+#+end_src
+
+It will follow whatever policies your agent sets. This could be script that
+makes a call to unix =pass= as well.
+
 ** Ansible Navigator
 
 [[github:ansible/ansible-navigator][ansible/ansible-navigator]] is a TUI for exploring the local ansible
@@ -211,6 +252,45 @@ quick exploration of a project or environment, which it does well.
 
 To run any ansible commands, by default, it uses the
 =ghcr:io/ansible/creator-ee:v0.17.0= image.
+
+*** Using the GPG Vault Script
+
+Passing the password to the Navigator environment requires running with =mode:
+stdout=, which makes it less of a TUI. You can get around this with aliases and
+multiple Navigator configurations, but that's a hassle.
+
+Using the GPG Vault Script above requires disabling the EE Container, as it has
+a separate GPG agent. The only way to address that is by creating a custom
+container or a volume with the GPG agent config, then making your local GPG
+agent socket accessible from within the EE container. I wouldn't recommend
+that...
+
+Add the following to your =ansible-navigator.yml=
+
+#+begin_example yaml
+---
+ansible-navigator:
+  execution-environment:
+    enabled: False
+  ansible:
+    cmdline: --vault-password-file .bin/vaultgpgpass
+#+end_example
+
+If you set a conflicting value for =vault_password_file= in =ansible.cfg=, you
+can override it here or pass =ANSIBLE_VAULT_PASSWORD_FILE== to empty it out.
+
+#+begin_example yaml
+ansible-navigator:
+  mode: stdout
+  enable-prompts:
+  execution-environment:
+    enabled: True
+  ansible:
+    cmdline: --vault-ask-pass
+#+end_example
+
+You could override it as an ENV var to pass it to the EE container. This has
+potential problems, though you should already trust your EE container.
 
 * Ansible
 

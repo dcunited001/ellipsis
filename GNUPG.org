@@ -383,8 +383,16 @@ gpg -k | grep -e "^sub" | cut -b 16-33
 Get the environment variables that =gpg= passes to =gpg-agent=. These are the
 only variables permitted in =gpg-agent.conf=.
 
-#+begin_src sh :tangle (concat (or (getenv "SECRETS_HOME") ".") "/.bin/gpg-agent-env") :shebang "#!/bin/sh" :tangle-mode (identity #o500)
+#+begin_src sh :tangle (concat (or (getenv "SECRETS_HOME") ".") "/.bin/gpg-agent-env-vars") :shebang "#!/bin/sh" :tangle-mode (identity #o500)
 gpg-connect-agent 'getinfo std_env_names' /bye | awk '$1=="D" {print $2}'
+#+end_src
+
+Dump the =gpg-agent= environment (throws errors when env vars have no value):
+
+#+begin_src sh :tangle (concat (or (getenv "SECRETS_HOME") ".") "/.bin/gpg-agent-env") :shebang "#!/bin/sh" :tangle-mode (identity #o500)
+gpg-agent-env-vars |\
+    tr -dc '[:alnum:]\n' |\
+    xargs -I '___' gpg-connect-agent "getinfo getenv ___" /bye
 #+end_src
 
 Troubleshoot =gpg-agent=
