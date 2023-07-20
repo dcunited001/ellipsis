@@ -585,8 +585,12 @@ collections:
   - name: community.crypto
   - name: devsec.hardening
 
-#roles:
-
+roles:
+  # manage subuid/subgid for users
+  - name: rwxd.subuid_subgid
+    version: v1.0.4
+    src: git@github.com:rwxd/ansible-role-subuid_subgid.git
+    scm: git
 #+end_src
 
 Other collections
@@ -800,6 +804,22 @@ You can also invoke =.*_info= modules directly to extract existing configuration
 
 #+begin_src src
 ansible centos --ask-vault-password -e@vault.yml -b -m ansible.posix.firewalld_info
+#+end_src
+
+*** Facts for Linux System Roles
+
+There are two facts modules for =fedora.linux_system_roles=, below =$lsr_module=
+
++ fedora.linux_system_roles.firewall_lib_facts
++ fedora.linux_system_roles.selinux_modules_facts
+
+The command below will output them.
+
++ Use =-bK= if you need to supply the become password.
++ You can't pass =-a "firewall: { detailed: yes }"= or any module arguments
+
+#+begin_src sh
+ansible -i $inventory_file -m $lsr_module -b $host
 #+end_src
 
 *** Transforming Facts to YAML
