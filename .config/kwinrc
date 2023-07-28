@@ -10,7 +10,8 @@ OpenGLIsUnsafe=false
 Id_1=c9f005eb-df35-464c-a181-cde15a87a1cb
 Id_2=84cef4cd-483d-492c-9789-ff66ff7b5858
 Id_3=fcf4de1d-e83e-4dab-8210-5096ebad9249
-Number=3
+Id_4=84686b00-d1bd-4343-8bc7-94a6ee0efaf9
+Number=4
 Rows=1
 
 [Effect-Zoom]
@@ -23,8 +24,11 @@ MoveResize=100
 [Effect-trackmouse]
 Shift=true
 
+[MouseBindings]
+CommandAllWheel=Previous/Next Desktop
+CommandTitlebarWheel=Previous/Next Desktop
+
 [Plugins]
-bismuthEnabled=true
 blurEnabled=false
 contrastEnabled=false
 desktopchangeosdEnabled=false
@@ -40,6 +44,7 @@ kwin4_effect_morphingpopupsEnabled=false
 kwin4_effect_zoomdesktopEnabled=false
 lattewindowcolorsEnabled=true
 minimizeallEnabled=false
+showpaintEnabled=true
 synchronizeskipswitcherEnabled=false
 trackmouseEnabled=true
 videowallEnabled=false
@@ -69,7 +74,7 @@ noTileBorder=true
 [TabBox]
 DesktopMode=0
 HighlightWindows=false
-LayoutName=informative
+LayoutName=flipswitch
 
 [TabBoxAlternative]
 ActivitiesMode=0
@@ -85,10 +90,10 @@ padding=4
 tiles={"layoutDirection":"horizontal","tiles":[{"width":0.25},{"width":0.5},{"width":0.25}]}
 
 [Tiling][368b7d02-7626-5761-b3c7-502a4da21d49]
-tiles={"layoutDirection":"vertical","tiles":[{"height":0.30781249999999805,"layoutDirection":"horizontal","tiles":[{"width":0.5},{"width":0.5}]},{"height":0.3222656249999938},{"height":0.36992187500000817,"layoutDirection":"horizontal","tiles":[{"width":0.49583333333333335},{"width":0.5041666666666667}]}]}
+tiles={"layoutDirection":"vertical","tiles":[{"height":0.337890625,"layoutDirection":"horizontal","tiles":[{"width":0.5},{"width":0.5}]},{"height":0.28242187500000004},{"height":0.37968749999999996,"layoutDirection":"horizontal","tiles":[{"width":0.49583333333333335},{"width":0.5041666666666667}]}]}
 
 [Tiling][876df35c-0510-5807-b853-f88348083870]
-tiles={"layoutDirection":"horizontal","tiles":[{"layoutDirection":"vertical","tiles":[{"height":0.40130208333333534},{"height":0.5986979166666626}],"width":1}]}
+tiles={"layoutDirection":"horizontal","tiles":[{"layoutDirection":"vertical","tiles":[{"height":0.3671875},{"height":0.6328124999999978}],"width":1}]}
 
 [Tiling][c0c32115-6c0c-5e98-bf49-7e6b63b3835d]
 tiles={"layoutDirection":"horizontal","tiles":[{"width":0.25},{"width":0.5},{"width":0.25}]}
@@ -97,8 +102,9 @@ tiles={"layoutDirection":"horizontal","tiles":[{"width":0.25},{"width":0.5},{"wi
 tiles={"layoutDirection":"horizontal","tiles":[{"width":0.5203125},{"width":0.47968750000000004}]}
 
 [Tiling][ff2699f4-391b-5bbb-85ec-8649845b5b4b]
-tiles={"layoutDirection":"horizontal","tiles":[{"width":0.25},{"width":0.5},{"width":0.25}]}
+tiles={"layoutDirection":"horizontal","tiles":[{"width":0.5125},{"width":0.48750000000000004}]}
 
 [Windows]
 ActiveMouseScreen=false
 BorderlessMaximizedWindows=true
+TitlebarDoubleClickCommand=OnAllDesktops

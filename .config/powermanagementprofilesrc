@@ -2,7 +2,7 @@
 icon=battery-charging
 
 [AC][DimDisplay]
-idleTime=300000
+idleTime=1800000
 
 [Battery]
 icon=battery-060

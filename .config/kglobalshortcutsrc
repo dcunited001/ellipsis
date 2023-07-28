@@ -2,9 +2,9 @@
 update_info=bismuth_shortcuts_category.upd:bismuth-shortcuts-category,bismuth_shortcuts_from_kwin.upd:bismuth-shortcuts-from-kwin
 
 [ActivityManager]
-_k_friendly_name=Activity Manager
+_k_friendly_name=System Settings
 switch-to-activity-22b52e63-da72-4604-84ca-ccbc26e5c289=none,none,Switch to activity "Default"
-switch-to-activity-bc3cdced-7201-4291-a43c-fe3ef12080c2=none,none,Switch to activity "Default"
+switch-to-activity-bc3cdced-7201-4291-a43c-fe3ef12080c2=,none,Switch to activity "Default"
 
 [KDE Keyboard Layout Switcher]
 Switch keyboard layout to English (intl., with AltGr dead keys)=none,none,Switch keyboard layout to English (intl.\\, with AltGr dead keys)
@@ -100,7 +100,7 @@ Edit Tiles=Meta+Alt+Shift+Tab,Meta+T,Toggle Tiles Editor
 Expose=Meta+F9,Ctrl+F9,Toggle Present Windows (Current desktop)
 ExposeAll=Meta+F10\tLaunch (C),Ctrl+F10\tLaunch (C),Toggle Present Windows (All desktops)
 ExposeClass=Meta+F7,Ctrl+F7,Toggle Present Windows (Window class)
-ExposeClassCurrentDesktop=none,none,Toggle Present Windows (Window class on current desktop)
+ExposeClassCurrentDesktop=Ctrl+Shift+F7,none,Toggle Present Windows (Window class on current desktop)
 Increase Opacity=none,,Increase Opacity of Active Window by 5%
 Invert=Meta+Ctrl+I,Meta+Ctrl+I,Toggle Invert Effect
 Invert Screen Colors=none,none,Invert Screen Colors
@@ -188,6 +188,7 @@ Switch to Screen Above=none,,Switch to Screen Above
 Switch to Screen Below=none,,Switch to Screen Below
 Switch to Screen to the Left=none,,Switch to Screen to the Left
 Switch to Screen to the Right=none,,Switch to Screen to the Right
+Toggle=Meta+Ctrl+Shift+F9,none,Toggle Show Paint
 Toggle Night Color=none,none,Toggle Night Color
 Toggle Window Raise/Lower=none,,Toggle Window Raise/Lower
 TrackMouse=Meta+Ctrl+F10,none,Track mouse
@@ -197,12 +198,12 @@ Walk Through Desktops=none,,Walk Through Desktops
 Walk Through Desktops (Reverse)=none,,Walk Through Desktops (Reverse)
 Walk Through Windows=Meta+Tab,Alt+Tab,Walk Through Windows
 Walk Through Windows (Reverse)=Meta+Shift+Tab,Alt+Shift+Backtab,Walk Through Windows (Reverse)
-Walk Through Windows Alternative=none,,Walk Through Windows Alternative
-Walk Through Windows Alternative (Reverse)=none,,Walk Through Windows Alternative (Reverse)
+Walk Through Windows Alternative=,,Walk Through Windows Alternative
+Walk Through Windows Alternative (Reverse)=,,Walk Through Windows Alternative (Reverse)
 Walk Through Windows of Current Application=Meta+`,Alt+`,Walk Through Windows of Current Application
 Walk Through Windows of Current Application (Reverse)=Meta+~,Alt+~,Walk Through Windows of Current Application (Reverse)
-Walk Through Windows of Current Application Alternative=none,,Walk Through Windows of Current Application Alternative
-Walk Through Windows of Current Application Alternative (Reverse)=none,,Walk Through Windows of Current Application Alternative (Reverse)
+Walk Through Windows of Current Application Alternative=,,Walk Through Windows of Current Application Alternative
+Walk Through Windows of Current Application Alternative (Reverse)=,,Walk Through Windows of Current Application Alternative (Reverse)
 Window Above Other Windows=none,,Keep Window Above Others
 Window Below Other Windows=none,,Keep Window Below Others
 Window Close=Alt+F4,Alt+F4,Close Window
@@ -359,7 +360,7 @@ Turn Off Screen=none,none,Turn Off Screen
 _k_friendly_name=Power Management
 
 [plasmashell]
-_k_friendly_name=Plasma
+_k_friendly_name=Activity switching
 activate task manager entry 1=none,Meta+1,Activate Task Manager Entry 1
 activate task manager entry 10=none,Meta+0,Activate Task Manager Entry 10
 activate task manager entry 2=none,Meta+2,Activate Task Manager Entry 2

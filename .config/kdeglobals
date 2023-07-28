@@ -149,6 +149,7 @@ shadeSortColumn=true
 widgetStyle=Breeze
 
 [KDE]
+AnimationDurationFactor=0.35355339059327373
 ColorScheme=BreezeLight
 LookAndFeelPackage=Dr460nized
 SingleClick=false

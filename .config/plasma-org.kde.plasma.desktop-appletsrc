@@ -68,6 +68,8 @@ FillMode=2
 
 [Containments][140]
 ItemGeometries-1080x1920=
+ItemGeometries-1920x1080=
+ItemGeometriesHorizontal=
 ItemGeometriesVertical=
 activityId=bc3cdced-7201-4291-a43c-fe3ef12080c2
 formfactor=0
@@ -222,7 +224,7 @@ plugin=org.kde.plasma.systemmonitor.cpucore
 
 [Containments][141][Applets][168][Configuration]
 CurrentPreset=org.kde.plasma.systemmonitor
-PreloadWeight=80
+PreloadWeight=100
 
 [Containments][141][Applets][168][Configuration][Appearance]
 chartFace=org.kde.ksysguard.linechart
@@ -289,7 +291,7 @@ plugin=org.kde.plasma.systemmonitor.memory
 
 [Containments][141][Applets][171][Configuration]
 CurrentPreset=org.kde.plasma.systemmonitor
-PreloadWeight=90
+PreloadWeight=100
 
 [Containments][141][Applets][171][Configuration][Appearance]
 chartFace=org.kde.ksysguard.linechart
@@ -635,7 +637,7 @@ immutability=1
 plugin=org.kde.plasma.nightcolorcontrol
 
 [Containments][147][Applets][162][Configuration]
-PreloadWeight=34
+PreloadWeight=10
 
 [Containments][147][Applets][163]
 immutability=1
@@ -646,7 +648,7 @@ immutability=1
 plugin=org.kde.plasma.networkmanagement
 
 [Containments][147][Applets][164][Configuration]
-PreloadWeight=75
+PreloadWeight=100
 
 [Containments][147][Applets][177]
 immutability=1
@@ -662,6 +664,7 @@ DialogWidth=720
 [Containments][147][General]
 extraItems=org.kde.kdeconnect,org.kde.kscreen,org.kde.plasma.battery,org.kde.plasma.bluetooth,org.kde.plasma.clipboard,org.kde.plasma.devicenotifier,org.kde.plasma.keyboardindicator,org.kde.plasma.keyboardlayout,org.kde.plasma.manage-inputmethod,org.kde.plasma.mediacontroller,org.kde.plasma.networkmanagement,org.kde.plasma.nightcolorcontrol,org.kde.plasma.notifications,org.kde.plasma.vault,org.kde.plasma.volume
 knownItems=org.kde.kdeconnect,org.kde.kscreen,org.kde.plasma.battery,org.kde.plasma.bluetooth,org.kde.plasma.clipboard,org.kde.plasma.devicenotifier,org.kde.plasma.keyboardindicator,org.kde.plasma.keyboardlayout,org.kde.plasma.manage-inputmethod,org.kde.plasma.mediacontroller,org.kde.plasma.networkmanagement,org.kde.plasma.nightcolorcontrol,org.kde.plasma.notifications,org.kde.plasma.vault,org.kde.plasma.volume
+pin=true
 
 [Containments][160]
 activityId=
@@ -683,7 +686,7 @@ DialogWidth=720
 [Containments][160][Applets][161][Configuration][General]
 fill=false
 iconSpacing=2
-launchers=file:///home/dc/.guix-extra-profiles/arch-pwsafe/arch-pwsafe/bin/pwsafe?iconData=iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAYAAABXAvmHAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAC4ElEQVRogdWaT28SQRjG3z35BWbm2N29qTDMrVcxhviXs5emLLttEQquJaQNhoR-DfkaxJNHTv0CcjIm1lZTEqVNU9otdT1AqxRYZmdIZ3kSjvPk-SUv77w7M6Drer9arT6CBZZvGIa3vb39WHUQUfkwgOiVy-UnqsOIyId_EGeu66ZUBworH0YhTovF4lPFmULJv_0zTfOkUCg8UxuLX2MAMIA4zufzz5Um49REABhAdHO53AuV4Xg0FQAGEL83NjZeKsw3U4EAMIRYX19_pS5isGYCwADiV1QhuAAgwhDcABBRiFAAEEGI0AAQse4kBABDiHQ6baoIfS1N1_X-0tLS61ar9VnQ4wsAePMMFVY-pfRwd3f3ocoQMvIBwI_H4wsLcVPTlNKDRYQY-WMuIsRYd1m0cprYIimlh7Va7YHSZJya2ucppT_q9fp9leF4FLhZJRKJn9VqNdLlNHPHZYwd7uzsxNRFDBbX2MAYO6hUKnFlKQPEPfswxr5vbW1RVUGnKdQAxxjbd103oSjrRIWeQhlj30qlElMTd1xCo3RUILRhICExxvY9z1tpt9sdUY90On3ebDa_iq7XNE3zl5eXP-3t7X0QMYjFYrGjo6P3nU7nnsh60zS7qVRqpdFofBRZDwDgY4wvbdt-I2pgWdY7jPE5SHzZyXxj-0MIz7KsggwEQuhCAkL4oODGhBBykclkNiUgXBUQIyaEkHMZiGw2-xYh5N0lxJgJIaS3urpaFIWwbbuEEOrfFcREE1kIx3GKCKErCQjuc6epJrIQa2trmwihPzIQPPcTgSZzKKdNhJAQwBCiO-umaKbJHMqpgDGWgTgOurPjMiGE9CS6k2ZZlizEybTbU24TyRarZbPZvAyEYRink-6xQ5kQQi4kdux5QJzdflEQ2gRj7EnMTtLlZBhG7_-3HUImGONLx3FyohCO4xRkupNhGN71KxthE4zxVTKZFD43km2xuq73_wKYeSJsoXcBCAAAAABJRU5ErkJggg%3D%3D,applications:emacs.desktop,applications:Alacritty.desktop,preferred://browser,preferred://filemanager,applications:org.kde.plasma-systemmonitor.desktop,applications:snapper-tools.desktop,applications:systemsettings.desktop,applications:garuda-welcome.desktop,applications:octopi.desktop,applications:org.gnome.Firmware.desktop,applications:org.corectrl.corectrl.desktop
+launchers=file:///home/dc/.guix-extra-profiles/arch-pwsafe/arch-pwsafe/bin/pwsafe?iconData=iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAYAAABXAvmHAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAC4ElEQVRogdWaT28SQRjG3z35BWbm2N29qTDMrVcxhviXs5emLLttEQquJaQNhoR-DfkaxJNHTv0CcjIm1lZTEqVNU9otdT1AqxRYZmdIZ3kSjvPk-SUv77w7M6Drer9arT6CBZZvGIa3vb39WHUQUfkwgOiVy-UnqsOIyId_EGeu66ZUBworH0YhTovF4lPFmULJv_0zTfOkUCg8UxuLX2MAMIA4zufzz5Um49REABhAdHO53AuV4Xg0FQAGEL83NjZeKsw3U4EAMIRYX19_pS5isGYCwADiV1QhuAAgwhDcABBRiFAAEEGI0AAQse4kBABDiHQ6baoIfS1N1_X-0tLS61ar9VnQ4wsAePMMFVY-pfRwd3f3ocoQMvIBwI_H4wsLcVPTlNKDRYQY-WMuIsRYd1m0cprYIimlh7Va7YHSZJya2ucppT_q9fp9leF4FLhZJRKJn9VqNdLlNHPHZYwd7uzsxNRFDBbX2MAYO6hUKnFlKQPEPfswxr5vbW1RVUGnKdQAxxjbd103oSjrRIWeQhlj30qlElMTd1xCo3RUILRhICExxvY9z1tpt9sdUY90On3ebDa_iq7XNE3zl5eXP-3t7X0QMYjFYrGjo6P3nU7nnsh60zS7qVRqpdFofBRZDwDgY4wvbdt-I2pgWdY7jPE5SHzZyXxj-0MIz7KsggwEQuhCAkL4oODGhBBykclkNiUgXBUQIyaEkHMZiGw2-xYh5N0lxJgJIaS3urpaFIWwbbuEEOrfFcREE1kIx3GKCKErCQjuc6epJrIQa2trmwihPzIQPPcTgSZzKKdNhJAQwBCiO-umaKbJHMqpgDGWgTgOurPjMiGE9CS6k2ZZlizEybTbU24TyRarZbPZvAyEYRink-6xQ5kQQi4kdux5QJzdflEQ2gRj7EnMTtLlZBhG7_-3HUImGONLx3FyohCO4xRkupNhGN71KxthE4zxVTKZFD43km2xuq73_wKYeSJsoXcBCAAAAABJRU5ErkJggg%3D%3D,applications:Alacritty.desktop,applications:emacs.desktop,preferred://browser,preferred://filemanager,applications:org.kde.plasma-systemmonitor.desktop,applications:snapper-tools.desktop,applications:systemsettings.desktop,applications:garuda-welcome.desktop,applications:octopi.desktop,applications:org.gnome.Firmware.desktop,applications:org.corectrl.corectrl.desktop
 maxStripes=1
 showOnlyCurrentDesktop=false
 showOnlyCurrentScreen=false
@@ -698,7 +701,7 @@ plugin=org.kde.plasma.panelspacer
 
 [Containments][160][ConfigDialog]
 DialogHeight=84
-DialogWidth=1080
+DialogWidth=1920
 
 [Containments][160][General]
 AppletOrder=246;161;243
@@ -790,7 +793,7 @@ immutability=1
 plugin=org.kde.plasma.nightcolorcontrol
 
 [Containments][192][Applets][205][Configuration]
-PreloadWeight=26
+PreloadWeight=2
 
 [Containments][192][Applets][206]
 immutability=1
@@ -907,7 +910,7 @@ immutability=1
 plugin=org.kde.plasma.nightcolorcontrol
 
 [Containments][214][Applets][227][Configuration]
-PreloadWeight=26
+PreloadWeight=2
 
 [Containments][214][Applets][228]
 immutability=1

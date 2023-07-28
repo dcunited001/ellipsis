@@ -24,8 +24,8 @@ DisplayPort-2 DisplayPort-0 DisplayPort-1 Width 2560x1440=498
 [MainWindow]
 3 screens: Height=854
 3 screens: Width=1068
-3 screens: XPosition=4266
-3 screens: YPosition=845
+3 screens: XPosition=3465
+3 screens: YPosition=821
 4 screens: Window-Maximized=true
 4 screens: XPosition=1650
 4 screens: YPosition=1562
@@ -196,5 +196,6 @@ DisplayPort-2 YPosition 2560x1440=236
 HDMI-A-0 Height 1080x1920=1832
 HDMI-A-0 Width 1080x1920=532
 MenuBar=Disabled
+RestorePositionForNextInstance=false
 State=AAAA/wAAAAD9AAAAAAAABCwAAANWAAAABAAAAAQAAAAIAAAACPwAAAABAAAAAgAAAAEAAAAWAG0AYQBpAG4AVABvAG8AbABCAGEAcgAAAAAA/////wAAAAAAAAAA
 ToolBarsMovable=Disabled

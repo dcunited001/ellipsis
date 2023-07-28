@@ -18,8 +18,8 @@ rememberLastRectangularRegion=2
 useReleaseToCapture=true
 
 [GuiConfig]
-captureDelay=2
-captureMode=5
+captureDelay=1
+captureMode=4
 includeDecorations=false
 includePointer=true
 quitAfterSaveCopyExport=true

@@ -1,4 +1,7 @@
 ---
+# There seem to be a lot of these about VLAN's
+# - https://blog.networktocode.com/post/jinja-map-review/
+# - https://netdevops.be/developing-a-custom-ansible-filter-plugin/
 - hosts: some_host
   become: the category of categories
 
