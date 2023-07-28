@@ -194,6 +194,127 @@ This is instantiated via =docker compose=
 
 #+end_src
 
+*** Execution Environment
+
+A custom EE is needed for Kubernetes & Helm dependencies when running from Guix
+
+Docs:
+
++ Ansible Controller [[https://docs.ansible.com/automation-controller/latest/html/userguide/execution_environments.html][Execution Environments]]
++ [[Ansible execution environment images for ][Ansible EE Images for Airgapped Environments]]: unnecessary here, but airgapped
+  guides are generally great resources for mapping out everything "you don't
+  need to know about [yet]"
+
+**** Helm EE
+
+When building Helm charts, at least some network state will probably need to be
+passed or fetched. I'll probably thin it out later.
+
+#+begin_src yaml :tangle (expand-file-name "ee/helm-env.yml.eg" ansible-prefix)
+version: 3
+
+images:
+  base_image:
+    # centos stream doesn't have helm (repology says no one does)
+    name: quay.io/fedora/fedora:39
+
+dependencies:
+
+  python: ../requirements.txt
+  python_interpreter:
+    package_system: python39
+    python_path: /usr/bin/python3.9
+
+  # yamllint dnspython passlib
+  # [ansible-]pylibssh
+  # python-kubernetes
+
+  # this has a github dependency, so a separate req.yml is needed
+  # galaxy: ../requirements.yml
+  galaxy:
+    collections:
+      # basic
+      - name: community.general
+      - name: ansible.posix
+      - name: ansible.netcommon
+      - name: ansible.utils
+      - name: fedora.linux_system_roles
+
+      # container/vm
+      - name: kubernetes.core
+      - name: containers.podman
+      - name: community.grafana
+      - name: community.libvirt
+
+      # networking
+      - name: cisco.ios
+      - name: pfsensible.core
+
+      # security
+      - name: community.hashi_vault
+      - name: community.crypto
+      - name: devsec.hardening
+
+  system:
+    - helm # [platform:rpm]
+
+  ansible_core:
+    package_pip: ansible-core==2.15.0
+  ansible_runner:
+    package_pip: ansible-runner==2.3.3
+
+  # ansible==8.0.0
+  # ansible-compat==4.1.2
+  # ansible-core==2.15.0
+  # ansible-pylibssh==1.1.0
+
+# options:
+#   skip_ansible_check: False # default
+#   tags: # throws an error
+#    - ansible-helm-env:latest
+
+additional_build_files:
+  - src: ./ansible.cfg
+    dest: configs
+
+additional_build_steps:
+  prepend_base:
+    - RUN echo This is a prepend base command!
+    # potentially enable package repos, update CA or modify system state here.
+
+  prepend_galaxy:
+    - ADD _build/configs/ansible.cfg /etc/ansible/ansible.cfg
+
+  prepend_final:
+    - RUN whoami
+    - RUN cat /etc/os-release
+
+  append_final:
+    - RUN echo This is a post-install command!
+#+end_src
+
+***** EE Ansible.cfg
+
+This could drift (like everything else)
+
+#+begin_src conf :tangle (expand-file-name "ee/helm-env.yml.eg" ansible-prefix)
+[defaults]
+nocows=1
+# inventory=inventory.yml
+transport=ssh
+filter_plugins=plugins/filter
+
+[inventory]
+any_unparsed_is_failed=True
+
+#+end_src
+
+**** Testing Helm Image
+
+#+begin_src sh
+ansible-navigator exec --ee true --eei ansible-helm-env:latest "helm --help"
+#+end_src
+
 **** Sharing Sockets
 
 Depending on how badly you'd like to expose secrets on disk, then you may want
