@@ -109,7 +109,13 @@ Mastering Emacs
 
 *** [[https://pcsclite.apdu.fr/][PCSCD]]
 
-+ Arch: [[https://gitlab.archlinux.org/archlinux/packaging/packages/pcsclite/-/blob/main/PKGBUILD][pcsclite-1.9.9]]
+Arch: [[https://gitlab.archlinux.org/archlinux/packaging/packages/pcsclite/-/blob/main/PKGBUILD][pcsclite-1.9.9]]
+
++ now 2.0.0, which has significant changes
+
+Guix: pcsclite (1.9.8)
+
++ Related updates have been delivered, so 2.0.0 may be available soon
 
 **** Debugging
 
@@ -512,17 +518,30 @@ throw-keyids
 
 ** Agent Config
 
+I would strongly recommend avoiding =pinentry-tty= or =pinentry-curses= where
+possible. That such friction would occur was obvious, but I thought I understood
+more about how things interacted, like =ttyname= and =$(tty)=, such that it
+would work as expected.
+
+AFAIK (now), the input redirection (and "grabbing") is sufficient on
+pinentry to hopefully avoid keyloggers. This might be the point of the
+=pinentry= program entirely... and perhaps uses the assuan protocol for IPC in
+additon to a few other pieces to accomplish such.
+
 *** Defaults
 
 #+begin_src conf :tangle (concat (or (getenv "SECRETS_HOME") ".") "/.gnupg/gpg-agent.conf.defaults")
 # https://github.com/drduh/config/blob/master/gpg-agent.conf
 # https://www.gnupg.org/documentation/manuals/gnupg/Agent-Options.html
 enable-ssh-support
-ttyname $GPG_TTY
 allow-preset-passphrase
 
 # force the agent to keep its tty/display while running
+# this should be used if pinentry is running in a window manager.
 keep-display
+
+# The latter option is more restrictive
+ttyname $GPG_TTY
 keep-tty
 
 # do NOT use any external passphrase cache
@@ -540,9 +559,11 @@ default-cache-ttl 60
 max-cache-ttl 120
 
 # pinentry-program must be set or gpg-agent expects an X11 compatible one
-pinentry-program /usr/bin/pinentry-tty
-#pinentry-program /usr/bin/pinentry-curses
+
 #pinentry-program /usr/bin/pinentry-tty
+#pinentry-program /usr/bin/pinentry-curses
+
+pinentry-program /usr/bin/pinentry
 #pinentry-program /usr/bin/pinentry-gtk-2
 #pinentry-program /usr/bin/pinentry-x11
 #pinentry-program /usr/bin/pinentry-qt
@@ -550,6 +571,20 @@ pinentry-program /usr/bin/pinentry-tty
 #pinentry-program /usr/local/bin/pinentry-mac
 #pinentry-program /opt/homebrew/bin/pinentry-mac
 #+end_src
+
+**** On Arch
+
+The systemd user service =gpg-agent.service= has associated =*.socket=
+objects. When a user requests a gpg operation, everything should start up as
+expected.
+
++ If this is the intended behavior, the =init-gpg.sh= script should not be
+  sourced, as modifies the path to launch Guix gpg.
++ There are potentially compatibility issues between Guix gpg and arch bins/libs
+  for =pcscd=, =scdaemon= or =ccid=. The binaries for these should be used as a
+  set, esp. given that some package managers will bundle custom or upstream
+  patches for =gnupg= packages. I didn't encounter a confirmation of such, but I
+  would rather not figure that out months down the road.
 
 *** Notes on Configuration
 
@@ -605,8 +640,24 @@ since the process caches information from the card.
 
 #+begin_src conf :tangle (concat (or (getenv "SECRETS_HOME") ".") "/.gnupg/scdaemon.conf.defaults")
 reader-port Yubico Yubi
-# shared-access
 #+end_src
+
+*** Shared Access with PCSCD
+
+#+begin_example conf
+reader-port Yubico Yubi
+disable-ccid
+
+# not libpcsc D lite.so.1 ... results in "error in libcrypto"
+pcsc-driver /usr/lib/libpcsclite.so.1
+
+# the gnupg manual seems to warn against this. it's not working for me though
+# this could be from how scdaemon starts/stops, though it definite stops when i
+# kill gpg-agent
+# pcsc-shared
+
+# shared-access # this is an older option for scdaemon, not in 2.2.41
+#+end_example
 
 ** SSH Control
 

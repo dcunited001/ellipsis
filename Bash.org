@@ -523,7 +523,7 @@ so no need to set =-c= in $GUIX_BUILD_OPTIONS
 # export GUIX_BUILD_OPTIONS="-c6"
 
 # never again, wxPython ... never again
-GUIX_AUTOLOAD_PROFILES=(arch-pwsafe academic gpgagent)
+GUIX_AUTOLOAD_PROFILES=(arch-pwsafe academic)
 if [ -z "$GUIX_ARCH_LOADED" ]; then
     guix_arch_load ${GUIX_AUTOLOAD_PROFILES[@]}
     export GUIX_ARCH_LOADED=${GUIX_AUTOLOAD_PROFILES[@]}
