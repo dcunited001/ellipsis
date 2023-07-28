@@ -154,55 +154,82 @@ pip install -r requirements.txt
 
 The requirements file has been generated from:
 
-#+begin_src shell
-pip install ansible-core ansible-navigator ansible-lint yamllint dnspython
+#+begin_src sh
+pip install ansible-core ansible-builder ansible-navigator ansible-lint ansible-pylibssh yamllint dnspython passlib
+# pip install kubernetes # installs kubectl for kubernetes.core.*
 #+end_src
 
 ** Guix Profile
 
 See "Ansible On Guix" for info on its dependencies. The =venv= above is required
-to get =ansible= and other tools like =ansible-navigator=, so I'm not really
-using this.
+to get =ansible= and other tools like =ansible-navigator=
 
-#+begin_src scheme :tangle (expand-file-name ".config/guix/manifests/ansible.scm" ansible-prefix)
+I'm only using this for =packer=.
+
+#+begin_src scheme :tangle (expand-file-name "manifest.scm" ansible-prefix)
+;; note, I have a custom package definition
+
 (specifications->manifest
  '(
-   "ansible"
-   "man-db"
+   "packer-bin"
    ))
 #+end_src
 
 ** Emacs
 
-
-
 #+begin_src emacs-lisp :tangle .dir-locals.eg
 ((yaml-mode . ((flycheck-checker . 'yaml-yamllint))))
 #+end_src
 
-** Ansible LSP
+
+** Ansible
+
+*** TODO Ansible LSP
 
 This is instantiated via =docker compose=
 
-*** Docker Compose
+**** Docker Compose
 
 #+begin_src yaml :tangle (expand-file-name ".config/ansible/docker-compose.yml" ansible-prefix)
 
 #+end_src
 
+**** Sharing Sockets
 
-** Vault
+Depending on how badly you'd like to expose secrets on disk, then you may want
+to share GPG sockets with the container:
 
-*** Using Your Host OS Keyring
++ You probably don't though, do you?
++ Because that's a pretty bad idea isn't it?
++ You'd just rather have vault in a cluster, wouldn't you?
++ ... yeh, you probably would.
+
+How to do this? It's not worth it, but I try explaining [[https://github.com/dcunited001/zettelkasten/blob/master/slips/20230726211109-containers_sharing_unix_sockets.org][here]] anyways.
+
+**** Verifying Signatures
+
+I was going to just pass a keyring with the main sigs to the =ansible-builder=
+to refer to later. However signing really is just employed for closed settings &
+networks. See [[https://www.ansible.com/blog/digitally-signing-ansible-content-collections-using-private-automation-hub][Digitally Signing Ansible Content Collections]], which is some quick
+scripts to build the keyring.
+
+#+begin_example shell
+# signatures: []
+cat ./collections/ansible_collections/*info/GALAXY.yml | grep signatures
+#+end_example
+
+*** Vault
+
+**** Using Your Host OS Keyring
 
 See vault-keyring-client.py in [[github:ansible-community/contrib-scripts][ansible-community/contrib-scripts]]
 
-*** GPG-Protected Vault Password
+**** GPG-Protected Vault Password
 
 If you're using a Yubikey for GPG, you can also use it to encrypt your Ansible
 Vault password.
 
-**** Using File Descriptors
+***** Using File Descriptors
 
 Invoke the playbook command like this:
 
@@ -213,7 +240,7 @@ ansible-playbook -i inventory.yml --vault-pass-file <(gpg -d mypass.gpg) tasks/f
 I'm not super confident in using file descriptors to protect the password, so
 there's another way you can use
 
-**** Using A Script
+***** Using A Script
 
 From [[https://gitlab.com/tomaskadlec/ansible-vault-gpg][gitlab.com/tomaskadlec/ansible-vault-gpg]].
 
@@ -233,7 +260,7 @@ gpg --batch --use-agent --decrypt mypass.gpg
 It will follow whatever policies your agent sets. This could be script that
 makes a call to unix =pass= as well.
 
-** Ansible Navigator
+*** Ansible Navigator
 
 [[github:ansible/ansible-navigator][ansible/ansible-navigator]] is a TUI for exploring the local ansible
 environment. It launches automations via a docker container by default.
@@ -253,7 +280,7 @@ quick exploration of a project or environment, which it does well.
 To run any ansible commands, by default, it uses the
 =ghcr:io/ansible/creator-ee:v0.17.0= image.
 
-*** Using the GPG Vault Script
+**** Using the GPG Vault Script
 
 Passing the password to the Navigator environment requires running with =mode:
 stdout=, which makes it less of a TUI. You can get around this with aliases and
@@ -291,6 +318,50 @@ ansible-navigator:
 
 You could override it as an ENV var to pass it to the EE container. This has
 potential problems, though you should already trust your EE container.
+
++ AFAIK you can only pass the gpg protected password by forwarding a socket
++ you can set =ANSIBLE_VAULT_PASSWORD_FILE= in the environment passed to EE, but
+  you have to set ={ enable-prompts: true, mode: stdout }=
+
+*** Ansible support script
+
+These aliases provide some useful reminders of important CLI options.
+
+#+begin_src sh :tangle (expand-file-name ".local/lib/ansible/init_ansible.sh" ansible-prefix)
+# TODO perhaps avoid <(anon)
+# I'm still looking into security issues with anonymous file descriptors.
+
+alias ansplay="ansible-playbook -i inventory.yml --vault-pass-file <(gpg -d vault.gpg)"
+alias ans="ansible -i inventory.yml --vault-pass-file <(gpg -d vault.gpg)"
+
+# ansbuild -f ee-helm.yml
+# alias ansbuild="ansible-builder -t 'ans-ee:latest' --prune-images"
+alias ansbuild="ansible-builder build --prune-images --context ee/build -t ansible-helm-env:latest"
+
+#alias ansnav="ansible-navigator -i inventory.yml --vault-pass-file <(gpg -d pass.gpg)"
+
+ansnav() {
+  local command=${1:-welcome}
+  local inventory=${2:-inventory.yml}
+  local vault_file=${3:-vault.gpg}
+  ansible-navigator $command -i $inventory --vault-pass-file <(gpg -d $vault_file)
+}
+#+end_src
+
++ I'm not too worried about posting the GPG usage, since I'm not so sure that
+  relying on GPG/Yubikey to protect secrets is viable.
++ It probably won't work when you're on a team, but for me, I don't need network
+  services at the moment to
++ However secrets are provided, the method needs to work for =ansible=,
+  =terraform=, =packer= and other tools, but many of these require
+  containers/VM's in their workflow.
++ If you're not relying on the network -- firewall, services, authentication,
+  etc. -- you're probably doing it wrong. It's basically impossible to secure
+  workstations without shifting the burden to the network.
+
+** Packer
+
+
 
 * Ansible
 
@@ -440,7 +511,7 @@ Since the plugin source contains a =main()= and whatnot, then once the plugin is
 set up, you can run command's like what's below. This allows you to quickly dump
 the state.
 
-#+begin_src shell
+#+begin_src sh
 pfpath=collections/ansible_collections/pfsensible/core/plugins/lookup
 $pfpath/pfsense.py pf.yml pf1
 #+end_src
@@ -532,7 +603,7 @@ system_timezone: "America/New_York"
 
 To see the hostvars applied to a group, use the =debug= module
 
-#+begin_src shell
+#+begin_src sh
 group=all
 
 # for all vars
@@ -821,6 +892,33 @@ The command below will output them.
 #+begin_src sh
 ansible -i $inventory_file -m $lsr_module -b $host
 #+end_src
+
+*** Transform STDOUT to YAML
+
+Add =community.general= to your =requirements.yml= and download it from Ansible
+Galaxy. Then specify it in your =ansible.cfg=.
+
+#+begin_src conf
+[defaults]
+# either yaml or community.general.yaml should work
+stdout_callback=yaml
+
+# for ad-hoc commands using the `ansible` command
+bin_ansible_callbacks=True
+#+end_src
+
+The following environment variables accomplish the same.
+
++ ANSIBLE_STDOUT_CALLBACK :: yaml
++ ANSIBLE_LOAD_CALLBACK_PLUGINS :: True
+
+This is supposed to work, but doesn't produce any output for me using =ansible=
+
+#+begin_src
+ansible-command ... | sed -e 's/.*SUCCESS.*/}/g' | yq -y
+#+end_src
+
+Of course, that only works for a single host at a time.
 
 *** Transforming Facts to YAML
 
