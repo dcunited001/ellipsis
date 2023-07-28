@@ -2,7 +2,9 @@
   #:use-module (srfi srfi-1)
   #:use-module (ice-9 format)
   #:use-module (guix gexp)
+  #:use-module (guix channels)
   #:use-module (gnu packages)
+  #:use-module (gnu packages bash)
   #:use-module (gnu services)
   #:use-module (gnu home services)
   #:use-module (gnu home services guix)
@@ -21,7 +23,7 @@
 ;; TODO: services that extend home-mcron-service-type?
 
 (define-public %dc-env-universal
-  `(("SHELL" . ,(file-append zsh "/bin/bash"))
+  `(("SHELL" . ,(file-append bash "/bin/bash"))
     ("LESSHISTFILE" . "$XDG_CACHE_HOME/.lesshst")
     ("_JAVA_AWT_WM_NONREPARENTING" . #t)
     ;; ("LITERAL_VALUE" . ,(literal-string "${abc}"))

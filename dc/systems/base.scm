@@ -1,5 +1,7 @@
 (define-module (dc systems base)
   #:use-module (srfi srfi-1)
+  #:use-module (guix gexp)
+  #:use-module (guix channels)
   #:use-module (gnu)
   #:use-module (gnu system)
   #:use-module (gnu system nss)
@@ -133,8 +135,8 @@
   (extra-special-file
    "/etc/flatpak/installations.d"
    (file-union "installations.d"
-               `(("steam.conf" ,(local-file "flatpak/steam.conf"))
-                 ("agenda.conf" ,(local-file "flatpak/agenda.conf"))))))
+               `(("steam.conf" ,(local-file "flatpak/installations.d/steam.conf"))
+                 ("agenda.conf" ,(local-file "flatpak/installations.d/agenda.conf"))))))
 
 ;; add libvirt & docker to the users who need it
 (define-public %dc-my-groups
