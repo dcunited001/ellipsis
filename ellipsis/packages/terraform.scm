@@ -25,6 +25,8 @@
                (base32 "0xbjjkknv6bvgh6j8dyfjf0d1sbwvf0vb8yq2npp15prsp84izil"))))
     (build-system copy-build-system)
     (inputs (list unzip))
+    (arguments
+     '(#:install-plan '(("packer" "bin/"))))
     (home-page "https://www.hashicorp.com/products/packer")
     (synopsis "Packer standardizes and automates the process of building
 images")
