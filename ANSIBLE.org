@@ -175,12 +175,60 @@ I'm only using this for =packer=.
    ))
 #+end_src
 
+The package spec may be out of sync until I have a Guix channel up
+
++ This workflow requires signed commits, which implies that you have CI/CD that
+  invokes =guix build= and other tools before the packages are available through
+  your channel.
+
+For =manifest.scm=
+
++ you can use =guix transformations= to select branches/patches or specify =-L
+  $loadpath= and pull in modules if your codebase is clean.
++ For local development you can always define packages inline.
+
+*** On Guix Channels
+
+Guix is actually much easier to use than most distributions, IMO, and I have
+learned about Linux like 20x faster ... but you're going to need to =grep= the
+codebase, since you /must/ write packages.
+
+For channels:
+
++ All the commits need to be signed for all upstream branches AFAIK, which is a
+  bit onerous. This may not be precise, but you need to ensure the Channel's
+  =keyring= branch is manageable. If you forget to sign git commits, then
+  downstream channels will fail, depending on how =channels.scm= validates git
+  objects.
++ This encourages a patch-based workflow with better oversight over what makes
+  it into a Guix channel. This increase in difficulty/complexity is actually
+  beneficial for consumers in the longrun, In your local environments, you can
+  still basically do whatever you want.
++ ... this _only seems difficult_ because Guix isn't insanely popular, so you
+  have to know how to grok the manual and workflows. This apparent steep
+  learning curve would be more manageable if larger distributions (or smaller
+  distributions) didn't preemptively siphon all the capital/manpower available
+  for Linux experimentation.
+
+if you're wondering why "the year of the Linux Desktop" never arrives it's
+because Linux on desktop and Linux in the network are two completely different
+worlds. The capital available for Linux systems/development is controlled by
+corporations who have quite a bit of inertia. It's hard for them to advocate for
+new ideas for package management (like Nix or Guix), esp. since their own
+packaging/infrastructure just really could not compete with the agility that you
+gain. Most users just want to download/use a package though -- and this creates
+a bad look where all you see in search/support is people having problems trying
+to reuse code/packages/configs they don't actually understand. If your users are
+not writing their own packages, you'll mostly just get is unix porn. Devops and
+systems work is maybe a bit different. The rest of us who don't get exposure to
+corporate networks, automation, etc have to work with tooling tends to create
+slow feedback loops and thus doesn't incentivize reuse of scripts/packages.
+
 ** Emacs
 
 #+begin_src emacs-lisp :tangle .dir-locals.eg
 ((yaml-mode . ((flycheck-checker . 'yaml-yamllint))))
 #+end_src
-
 
 ** Ansible
 
