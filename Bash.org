@@ -908,12 +908,25 @@ There is also [[https://github.com/tjquillan/poetry-plugin-pyenv][tjquillan/poet
 
 ***** Poetry Config
 
-See [[id:][configuration]] docs.
+See [[id:][configuration]] docs. The shared poetry configuration, which will use the
+=poetry= shim in the python selected by =pyenv= selects. In a poetry project,
+version should be set by =.python-version=.
 
 #+begin_src conf-toml :tangle .config/pypoetry/config.toml
 [virtualenvs]
 prefer-active-python = true
 #+end_src
+
+For poetry projects, the virtualenv should also be handled by =pyenv=:
+
+#+begin_example conf-toml
+[virtualenvs]
+create = false
+#+end_example
+
+An extra invocation of =direnv allow= will ensure the =pyenv= virtualenv before
+running =poetry= commands to modify the virtual env. Emacs may also need to
+reload because =direnv= doesn't detect the change.
 
 ****** Defaults
 
@@ -941,16 +954,6 @@ virtualenvs.prompt = "{project_name}-py{python_version}"
 
 ***** TODO Poetry in Jupyter Notebooks
 
-#+begin_quote
-NOTE: this seems to conflict with jupyterlab v8.x
-
-What TF is it that people do when they _don't_ have fatass wallets for google
-cloud or amazon. "HERE TAKE ALL MY FUCKING MONEY." -- the inept
-
-I'm not actually sure how, but I had blender-notebook in my environment and I
-haven't touched that for almost a year.
-#+end_quote
-
 [[https://morioh.com/p/b01442d52365][Poetry Kernel]]
 
 Ensure that you're installing to base =pyenv version-name= set, not a pyenv
@@ -973,7 +976,8 @@ Then install =poetry-kernel=
 pip install poetry-kernel jupyterlab
 #+end_src
 
-Then, in the notebook's directory, run =poetry init -n= and =poetry add ipykernel=.
+Then, in the notebook's directory, run =poetry init -n= and =poetry add
+ipykernel=.
 
 ***** Old poetry shell initialization
 
@@ -1048,8 +1052,6 @@ This method is compatible with the others, so a project on one laptop with
 + Use =layout poetry= where practical/possible (... test?)
 + Use the =pyenv-virtualenv= for one-off environments or things to don't fit
   neatly into dependency specs
-
-
 
 ***** Direnv: [[https://github.com/direnv/direnv/wiki/Python#venv-stdlib-module][layout python3]]
 
@@ -1277,7 +1279,9 @@ layout_poetry() {
 your path if =virtualenvs.prefer-active-python= is set, so it should use the one
 that =pyenv= hands it via its shims.
 
-See [[https://python-poetry.org/docs/configuration#configuration][Configuration]] and [[https://python-poetry.org/docs/managing-environments/][Managing Environments]].
++ It will install this virtualenv into =${cache-dir}= which is
+  =$HOME/.cache/pypoetry/virtualenvs=
++ See [[https://python-poetry.org/docs/configuration#configuration][Configuration]] and [[https://python-poetry.org/docs/managing-environments/][Managing Environments]].
 
 ****** Potential Issues
 
