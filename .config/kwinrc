@@ -29,6 +29,7 @@ CommandAllWheel=Previous/Next Desktop
 CommandTitlebarWheel=Previous/Next Desktop
 
 [Plugins]
+bismuthEnabled=true
 blurEnabled=false
 contrastEnabled=false
 desktopchangeosdEnabled=false
@@ -42,6 +43,7 @@ kwin4_effect_loginEnabled=false
 kwin4_effect_logoutEnabled=false
 kwin4_effect_morphingpopupsEnabled=false
 kwin4_effect_zoomdesktopEnabled=false
+kzonesEnabled=false
 lattewindowcolorsEnabled=true
 minimizeallEnabled=false
 showpaintEnabled=true
@@ -74,7 +76,7 @@ noTileBorder=true
 [TabBox]
 DesktopMode=0
 HighlightWindows=false
-LayoutName=flipswitch
+LayoutName=coverswitch
 
 [TabBoxAlternative]
 ActivitiesMode=0
