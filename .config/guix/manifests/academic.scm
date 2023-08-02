@@ -34,6 +34,28 @@ Roboto Slab and Roboto Serif families of fonts, designed by Christian Robertson
 and Greg Gazdowicz for Google.")
     (license (list license:asl2.0 license:silofl1.1 license:lppl))))
 
+(define texlive-moresize
+  (package
+    (name "texlive-moresize")
+    (version (number->string %texlive-revision))
+    (source (texlive-origin name version
+                            (list "doc/latex/moresize/" "source/latex/moresize/"
+                                  "tex/latex/moresize/")
+                            (base32
+                             "0wa1pp7k5s8xcxjw37543jdjclnx5hzcx4gnivhsb34s9nhwcjzn")))
+    (outputs '("out" "doc"))
+    (build-system texlive-build-system)
+    (home-page "https://ctan.org/pkg/moresize")
+    (synopsis "Allows font sizes up to 35.83pt")
+    (description
+     "This package provides a package for using font sizes up to 35.88pt, for example
+with the EC fonts.  New commands \\HUGE and \\ssmall for selecting font sizes are
+provided together with some options working around current @code{LaTeX2e}
+shortcomings in using big font sizes.  The package also provides options for
+improving the typesetting of paragraphs (or headlines) with embedded math
+expressions at font sizes above 17.28pt.")
+    (license license:lppl)))
+
 (concatenate-manifests
  (list
   (specifications->manifest
@@ -86,12 +108,20 @@ and Greg Gazdowicz for Google.")
      "texlive-xifthen"
      "texlive-ifmtarg"
      ;; "texlive-roboto"
+     "texlive-xkeyval"
+     "texlive-fontaxes"
+     "texlive-mweights"
+     ;; "texlive-moresize"
+     "texlive-multirow"
+     "texlive-enumitem"
+     "texlive-graphics"
+     "texlive-float"
 
      "gnuplot"
      ))
   (packages->manifest
-   (list texlive-roboto))))
-
+   (list texlive-roboto
+         texlive-moresize))))
 
 ;; (guix build-system texlive) provides a few helpers
 
