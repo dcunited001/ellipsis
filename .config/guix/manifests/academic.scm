@@ -1,3 +1,40 @@
+(use-packages ((guix licenses) #:prefix license:)
+              (guix gexp)
+              (guix download)
+              (guix build-system gnu)
+              (guix build-system texlive)
+              (gnu packages))
+
+;; (guix build-system texlive) provides a few helpers
+
+;; copy-recursively? ...
+(define simpler-texlive-package (name locations hash)
+  (package
+    (name name)
+    (version (number->string %texlive-revision))
+    (source (texlive-origin name version
+                            locations hash))
+    ;; (outputs '("out"))
+    (build-system gnu-build-system)
+    (arguments
+     (let ((copy-files
+            `(lambda* (#:key outputs inputs #:allow-other-keys)
+               (let (out (string-append (assoc-ref outputs "out")
+                                        "/share/texmf-dist/"))
+                 (mkdir-p out)
+                 (copy-recursively "." out)
+                 #t))))
+       `(#:tests? #f
+         #:phases
+         (modify-phases %standard-phases
+           (delete 'configure)
+           (replace 'build (const #t))
+           (replace 'install ,copy-files)))))
+    (home-pgae #f)
+    (synopsis #f)
+    (description #f)
+    (license #f)))
+
 (specifications->manifest
  '("rubber"
 
@@ -46,6 +83,7 @@
 
    ;; for jankapunkt/latexcv
    "texlive-xifthen"
+   "texlive-ifmtarg"
 
    "gnuplot"
    ))
