@@ -5,35 +5,31 @@
               (guix build-system texlive)
               (gnu packages))
 
-;; (guix build-system texlive) provides a few helpers
-
-;; copy-recursively? ...
-(define simpler-texlive-package (name locations hash)
-  (package
-    (name name)
-    (version (number->string %texlive-revision))
-    (source (texlive-origin name version
-                            locations hash))
-    ;; (outputs '("out"))
-    (build-system gnu-build-system)
-    (arguments
-     (let ((copy-files
-            `(lambda* (#:key outputs inputs #:allow-other-keys)
-               (let (out (string-append (assoc-ref outputs "out")
-                                        "/share/texmf-dist/"))
-                 (mkdir-p out)
-                 (copy-recursively "." out)
-                 #t))))
-       `(#:tests? #f
-         #:phases
-         (modify-phases %standard-phases
-           (delete 'configure)
-           (replace 'build (const #t))
-           (replace 'install ,copy-files)))))
-    (home-pgae #f)
-    (synopsis #f)
-    (description #f)
-    (license #f)))
+;; ....ok wow `guix import texlive roboto` ... nice
+(package
+  (name "texlive-roboto")
+  (version (number->string %texlive-revision))
+  (source (texlive-origin name version
+                          (list "doc/fonts/roboto/"
+                                "fonts/enc/dvips/roboto/"
+                                "fonts/map/dvips/roboto/"
+                                "fonts/opentype/google/roboto/"
+                                "fonts/tfm/google/roboto/"
+                                "fonts/type1/google/roboto/"
+                                "fonts/vf/google/roboto/"
+                                "tex/latex/roboto/")
+                          (base32
+                           "1gbg9p9y6a2fis88qfcsscksrkkcnqvsrhdkak2jm2dfjnq6v2n8")))
+  (outputs '("out" "doc"))
+  (build-system texlive-build-system)
+  (home-page "https://ctan.org/pkg/roboto")
+  (synopsis "Support for the Roboto family of fonts")
+  (description
+   "This package provides @code{LaTeX,} @code{pdfLaTeX,} @code{XeLaTeX} and
+@code{LuaLaTeX} support for the Roboto Sans, Roboto Condensed, Roboto Mono,
+Roboto Slab and Roboto Serif families of fonts, designed by Christian Robertson
+and Greg Gazdowicz for Google.")
+  (license (list asl2.0 silofl1.1 lppl)))
 
 (specifications->manifest
  '("rubber"
@@ -87,3 +83,34 @@
 
    "gnuplot"
    ))
+
+
+;; (guix build-system texlive) provides a few helpers
+
+;; copy-recursively? ...
+;; (define simpler-texlive-package (name locations hash)
+;;   (package
+;;     (name name)
+;;     (version (number->string %texlive-revision))
+;;     (source (texlive-origin name version
+;;                             locations hash))
+;;     ;; (outputs '("out"))
+;;     (build-system gnu-build-system)
+;;     (arguments
+;;      (let ((copy-files
+;;             `(lambda* (#:key outputs inputs #:allow-other-keys)
+;;                (let (out (string-append (assoc-ref outputs "out")
+;;                                         "/share/texmf-dist/"))
+;;                  (mkdir-p out)
+;;                  (copy-recursively "." out)
+;;                  #t))))
+;;        `(#:tests? #f
+;;          #:phases
+;;          (modify-phases %standard-phases
+;;            (delete 'configure)
+;;            (replace 'build (const #t))
+;;            (replace 'install ,copy-files)))))
+;;     (home-pgae #f)
+;;     (synopsis #f)
+;;     (description #f)
+;;     (license #f)))
