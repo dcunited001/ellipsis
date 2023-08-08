@@ -56,6 +56,33 @@ improving the typesetting of paragraphs (or headlines) with embedded math
 expressions at font sizes above 17.28pt.")
     (license license:lppl)))
 
+(define texlive-beamerposter
+  (package
+    (name "texlive-beamerposter")
+    (version (number->string %texlive-revision))
+    (source (texlive-origin name version
+                            (list "doc/latex/beamerposter/"
+                                  "tex/latex/beamerposter/")
+                            (base32
+                             "1xp8a6d82n1kgagdc7mm7hjihdzn1k7y4lijy924hjdvnvdmqa2i")))
+    (outputs '("out" "doc"))
+    (build-system texlive-build-system)
+    (home-page "https://ctan.org/pkg/beamerposter")
+    (synopsis "Extend beamer and a0poster for custom sized posters")
+    (description
+     "The package enables the user to use beamer style operations on a canvas of the
+sizes provided by a0poster; font scaling is available (using packages such as
+type1cm if necessary).  In addition, the package allows the user to benefit from
+the nice colour box handling and alignment provided by the beamer class (for
+example, with rounded corners and shadows).  Good looking posters may be created
+very rapidly.  Features include: scalable fonts using the fp and type1cm
+packages; posters in A-series sizes, and custom sizes like double A0 are
+possible; still applicable to custom beamer slides, e.g. 16:9 slides for a
+wide-screen (i.e.  1.78 aspect ratio); orientation may be portrait or landscape;
+a debug mode is provided.")
+    (license (list license:lppl license:gpl3+))))
+
+
 (concatenate-manifests
  (list
   (specifications->manifest
@@ -100,6 +127,7 @@ expressions at font sizes above 17.28pt.")
      "texlive-booktabs"       ;; table optimization
 
      "texlive-grfext" ;; also texlive-grffile
+     "texlive-hyphenat"
 
      ;; included as dependencies:
      ;; "texlive-hyperref"
@@ -117,11 +145,18 @@ expressions at font sizes above 17.28pt.")
      "texlive-graphics"
      "texlive-float"
 
+     ;; for PDF generation in ox-latex
+     "texlive-latexmk"
+
+     ;; for Beamer presentation exports
+     "texlive-beamer"
+
      "gnuplot"
      ))
   (packages->manifest
    (list texlive-roboto
-         texlive-moresize))))
+         texlive-moresize
+         texlive-beamerposter))))
 
 ;; (guix build-system texlive) provides a few helpers
 
