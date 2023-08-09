@@ -82,7 +82,6 @@ wide-screen (i.e.  1.78 aspect ratio); orientation may be portrait or landscape;
 a debug mode is provided.")
     (license (list license:lppl license:gpl3+))))
 
-
 (concatenate-manifests
  (list
   (specifications->manifest
@@ -151,11 +150,27 @@ a debug mode is provided.")
      ;; for Beamer presentation exports
      "texlive-beamer"
 
+     ;; for Beamer Poster exports
+     "texlive-type1cm"
+     "texlive-textpos"
+     "texlive-fp"
+     "texlive-paralist"
+
+     ;; for dangom/org-beamerposter template
+     "texlive-biblatex"
+     "texlive-sourceserifpro"
+     "texlive-sourcesanspro"
+     "texlive-sourcecodepro"
+     "texlive-sourceserifpro"
+     "texlive-ly1"                      ; generally req. for beamerposter?
+
      "gnuplot"
      ))
   (packages->manifest
+   ;; for jankapunkt/latexcv templates
    (list texlive-roboto
          texlive-moresize
+         ;; for beamerposter
          texlive-beamerposter))))
 
 ;; (guix build-system texlive) provides a few helpers
