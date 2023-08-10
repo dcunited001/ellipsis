@@ -131,6 +131,12 @@ a debug mode is provided.")
      ;; included as dependencies:
      ;; "texlive-hyperref"
 
+     ;; for xetex
+     "texlive-collection-xetex"
+
+     ;; or with less dependencies:
+     ;; "texlive-xetex"
+
      ;; for jankapunkt/latexcv
      "texlive-xifthen"
      "texlive-ifmtarg"
@@ -155,6 +161,11 @@ a debug mode is provided.")
      "texlive-textpos"
      "texlive-fp"
      "texlive-paralist"
+
+     ;; for beamerposter with gemini theme (and just generally)
+     "texlive-ragged2e"
+     "texlive-changepage"
+     "texlive-pgfplots"
 
      ;; for dangom/org-beamerposter template
      "texlive-biblatex"
