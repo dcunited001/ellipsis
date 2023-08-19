@@ -151,6 +151,27 @@
     (packages (append %dc-desktop-packages
                       %base-packages))
 
+    ;; TODO: customize console-font-service-type to have kanji in tty though
+    ;; configuring kmscon is likely different.
+    ;;
+    ;; - hopefully this makes for things like ubiquitous modeline/tab config
+    ;;
+    ;; - kanji are easier to arrange in a grid, though switching between
+    ;; single/double-width characters are another thing
+    ;;
+    ;;
+
+    ;; "Install the given fonts on the specified ttys (fonts are per virtual
+    ;; console on GNU/Linux).  The value of this service is a list of tty/font
+    ;; pairs.  The font can be the name of a font provided by the @code{kbd}
+    ;; package or any valid argument to @command{setfont}, as in this example:"
+    ;; `(("tty1" . "LatGrkCyr-8x16")
+    ;;   ("tty2" . ,(file-append font-tamzen
+    ;;                           "/share/kbd/consolefonts/TamzenForPowerline10x20.psf"))
+    ;;   ("tty3" . ,(file-append font-terminus
+    ;;                           "/share/consolefonts/ter-132n"))) ; for HDPI
+
+
     (services
      (append
       (modify-services %base-services
