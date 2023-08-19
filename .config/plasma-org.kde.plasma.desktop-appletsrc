@@ -179,6 +179,9 @@ DialogWidth=720
 immutability=1
 plugin=org.kde.plasma.userswitcher
 
+[Containments][141][Applets][159][Configuration]
+PreloadWeight=55
+
 [Containments][141][Applets][159][Configuration][General]
 showFace=true
 showName=false
@@ -277,7 +280,7 @@ immutability=1
 plugin=org.kde.plasma.notifications
 
 [Containments][141][Applets][169][Configuration]
-PreloadWeight=80
+PreloadWeight=90
 popupHeight=432
 popupWidth=324
 
@@ -325,7 +328,7 @@ plugin=org.kde.plasma.systemmonitor.cpu
 
 [Containments][141][Applets][172][Configuration]
 CurrentPreset=org.kde.plasma.systemmonitor
-PreloadWeight=60
+PreloadWeight=70
 
 [Containments][141][Applets][172][Configuration][Appearance]
 chartFace=org.kde.ksysguard.piechart
@@ -377,7 +380,7 @@ plugin=org.kde.plasma.systemmonitor.diskactivity
 
 [Containments][141][Applets][176][Configuration]
 CurrentPreset=org.kde.plasma.systemmonitor
-PreloadWeight=95
+PreloadWeight=100
 
 [Containments][141][Applets][176][Configuration][Appearance]
 chartFace=org.kde.ksysguard.linechart
@@ -613,7 +616,7 @@ immutability=1
 plugin=org.kde.plasma.notifications
 
 [Containments][147][Applets][155][Configuration]
-PreloadWeight=55
+PreloadWeight=60
 
 [Containments][147][Applets][156]
 immutability=1
@@ -627,7 +630,7 @@ immutability=1
 plugin=org.kde.plasma.volume
 
 [Containments][147][Applets][157][Configuration]
-PreloadWeight=85
+PreloadWeight=95
 
 [Containments][147][Applets][157][Configuration][General]
 migrated=true
@@ -664,7 +667,6 @@ DialogWidth=720
 [Containments][147][General]
 extraItems=org.kde.kdeconnect,org.kde.kscreen,org.kde.plasma.battery,org.kde.plasma.bluetooth,org.kde.plasma.clipboard,org.kde.plasma.devicenotifier,org.kde.plasma.keyboardindicator,org.kde.plasma.keyboardlayout,org.kde.plasma.manage-inputmethod,org.kde.plasma.mediacontroller,org.kde.plasma.networkmanagement,org.kde.plasma.nightcolorcontrol,org.kde.plasma.notifications,org.kde.plasma.vault,org.kde.plasma.volume
 knownItems=org.kde.kdeconnect,org.kde.kscreen,org.kde.plasma.battery,org.kde.plasma.bluetooth,org.kde.plasma.clipboard,org.kde.plasma.devicenotifier,org.kde.plasma.keyboardindicator,org.kde.plasma.keyboardlayout,org.kde.plasma.manage-inputmethod,org.kde.plasma.mediacontroller,org.kde.plasma.networkmanagement,org.kde.plasma.nightcolorcontrol,org.kde.plasma.notifications,org.kde.plasma.vault,org.kde.plasma.volume
-pin=true
 
 [Containments][160]
 activityId=
