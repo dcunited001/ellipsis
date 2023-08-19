@@ -34,6 +34,61 @@ Roboto Slab and Roboto Serif families of fonts, designed by Christian Robertson
 and Greg Gazdowicz for Google.")
     (license (list license:asl2.0 license:silofl1.1 license:lppl))))
 
+(define texlive-lato
+  (package
+    (name "texlive-lato")
+    (version (number->string %texlive-revision))
+    (source (texlive-origin name version
+                            (list "doc/fonts/lato/"
+                                  "fonts/enc/dvips/lato/"
+                                  "fonts/map/dvips/lato/"
+                                  "fonts/tfm/typoland/lato/"
+                                  "fonts/truetype/typoland/lato/"
+                                  "fonts/type1/typoland/lato/"
+                                  "fonts/vf/typoland/lato/"
+                                  "tex/latex/lato/")
+                            (base32
+                             "1ykwm108zh79dv96axl74izzhzvmbx74pcl46i99ix2qpicyvcf7")))
+    (outputs '("out" "doc"))
+    (build-system texlive-build-system)
+    (home-page "https://ctan.org/pkg/lato")
+    (synopsis "Lato font family and LaTeX support")
+    (description
+     "Lato is a sanserif typeface family designed in the Summer 2010 by Warsaw-based
+designer Lukasz Dziedzic for the @code{tyPoland} foundry.  This font, which
+includes five weights (hairline, light, regular, bold and black), is available
+from the Google Font Directory as @code{TrueType} files under the Open Font
+License version 1.1.  The package provides support for this font in
+@code{LaTeX.} It includes the original @code{TrueType} fonts, as well as Type 1
+versions, converted for this package using @code{FontForge} for full support
+with Dvips.")
+    (license (list license:silofl1.1 license:lppl1.3c))))
+
+(define texlive-raleway
+  (package
+    (name "texlive-raleway")
+    (version (number->string %texlive-revision))
+    (source (texlive-origin name version
+                            (list "doc/latex/raleway/"
+                                  "fonts/enc/dvips/raleway/"
+                                  "fonts/map/dvips/raleway/"
+                                  "fonts/opentype/impallari/raleway/"
+                                  "fonts/tfm/impallari/raleway/"
+                                  "fonts/type1/impallari/raleway/"
+                                  "fonts/vf/impallari/raleway/"
+                                  "tex/latex/raleway/")
+                            (base32
+                             "1pp5m31rr4lww0z92q3vsaz1l01nb78ll5mn2l9w469hpghf2gd3")))
+    (outputs '("out" "doc"))
+    (build-system texlive-build-system)
+    (home-page "https://ctan.org/pkg/raleway")
+    (synopsis "Use Raleway with TeX(-alike) systems")
+    (description
+     "The package provides the Raleway family in an easy to use way.  For
+@code{XeLaTeX} and @code{LuaLaTeX} users the original @code{OpenType} fonts are
+used.  The entire font family is included.")
+    (license license:silofl1.1)))
+
 (define texlive-moresize
   (package
     (name "texlive-moresize")
@@ -81,6 +136,29 @@ possible; still applicable to custom beamer slides, e.g. 16:9 slides for a
 wide-screen (i.e.  1.78 aspect ratio); orientation may be portrait or landscape;
 a debug mode is provided.")
     (license (list license:lppl license:gpl3+))))
+
+(define texlive-anyfontsize
+  (package
+    (name "texlive-anyfontsize")
+    (version (number->string %texlive-revision))
+    (source (texlive-origin name version
+                            (list "doc/latex/anyfontsize/"
+                                  "tex/latex/anyfontsize/")
+                            (base32
+                             "0wr4brhggmkb1rwzmcc2r5ygzqp6090z0bp3sfbarwvwz903wpdn")))
+    (outputs '("out" "doc"))
+    (build-system texlive-build-system)
+    (home-page "https://ctan.org/pkg/anyfontsize")
+    (synopsis "Select any font size in LaTeX")
+    (description
+     "The package allows the to user select any font size (via e.g.
+\\fontsize{...}{...}\\selectfont), even those sizes that are not listed in the .fd
+file.  If such a size is requested, @code{LaTeX} will search for and select the
+nearest listed size; anyfontsize will then scale the font to the size actually
+requested.  Similar functionality is available for the CM family, for the EC
+family, or for either computer modern encoding; the present package generalises
+the facility.")
+    (license license:lppl)))
 
 (concatenate-manifests
  (list
@@ -153,6 +231,10 @@ a debug mode is provided.")
      ;; for PDF generation in ox-latex
      "texlive-latexmk"
 
+     ;; for EPS to PDF conversion in luatex commandline
+     ;; (it seems that ox-beamer doesn't use this)
+     "texlive-epstopdf"
+
      ;; for Beamer presentation exports
      "texlive-beamer"
 
@@ -182,7 +264,10 @@ a debug mode is provided.")
    (list texlive-roboto
          texlive-moresize
          ;; for beamerposter
-         texlive-beamerposter))))
+         texlive-beamerposter
+         texlive-anyfontsize
+         texlive-lato
+         texlive-raleway))))
 
 ;; (guix build-system texlive) provides a few helpers
 
