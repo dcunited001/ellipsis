@@ -21,3 +21,5 @@ ellipsis
 .gitconfig.yk4
 .gitconfig.yk5
 .xsession.*
+.dir-locals\.*
+.envrc\.*

@@ -1,2 +1,9 @@
 #!/bin/sh
-guix shell -E "^EMAIL$" -p $GUIX_EXTRA/emacs-g/emacs-g -- emacs "$@"
+export GUIX_SOURCE=$_ECTO/guix/guix
+export EMACS_SOURCE=$_ECTO/emacs/emacs/src
+
+guix shell -E "^EMAIL$" \
+     -E 'EMACS_SOURCE' \
+     -E 'GUIX_SOURCE' \
+     -p $GUIX_EXTRA/emacs-g/emacs-g -- \
+     emacs "$@"
