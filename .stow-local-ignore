@@ -57,6 +57,9 @@ fonts
 # logs
 ^/.*\.log
 
+# python
+/\.python-version
+
 # direnv and dirlocals
 ^/\.dir-locals.*
 ^/\.envrc.*
@@ -65,12 +68,15 @@ fonts
 ellipsis
 dc
 dotspec
+/\.guix-channel
 
 # misc
 LICENSE
 ^\.site
 .gpg-test
 img
+ltximg
+misc
 
 # old dotfiles
 fedora
