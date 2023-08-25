@@ -1,25 +1,73 @@
-.*org_archive
-.*\.eg.sh
-.*\.eg
-.*\/\.gitkeep
-\.git
-\.gitignore
-\.site
-\.build.yml
-backgrounds
-mail
-fonts
+# Stow Ignore List (To diffuse any ambiguity here, since regexp be
+# \r\e\g\e\x\p\s which has never confused anyone at all)
+
+# Stow strips comments/blanks, divides PCRE into two sets:
+
+# RX_1: regexps containing /
+
+# RX_2: regexps not containing /
+
+# Then, for every file/dir path P
+
+# 1. compare P: calculate rel-path to top-level package directory, **compare
+#    all subpaths of P** to RX in RX_1. if match, then ignore. only after, run
+#    RX in RX_2.
+
+# 2. compare basename P: compare basename of P to RX in RX_2
+
+# git
+.git
+.gitignore
+^/\.gitconfig.yk4
+^/\.gitconfig.yk5
+
+# XDG
+^/\.local/share/applications
+^/\.local/share/bg
+
+# github actions/workflows
+# ^\.build.yml
+
+# mailstorage (which client?)
+# mail
+
+# fonts (.config/fonts)
+^/\.config/fonts
+
+# org todos
+/.*\.org_archive$
+
+# C++ docs?
 ^/.*(Doxygen.org(*SKIP)(*FAIL))\.org
-LICENSE
-\.local/share/applications
-\.local/share/bg
-misc
-\.xscreensaver.*
+
+# X11 (xscreensaver/xsession profiles should be manually linked, if you're using them)
+^/\.xsession.*
+^/\.xscreensaver.*
+
+# example configs and backups
+^/.*\.bak
+^/.*\.eg.sh
+^/.*\.eg
+
+# logs
+^/.*\.log
+
+# direnv and dirlocals
+^/\.dir-locals.*
+^/\.envrc.*
+
+# Guix
 ellipsis
-.*\.bak
-.*\.log
-.gitconfig.yk4
-.gitconfig.yk5
-.xsession.*
-.dir-locals\.*
-.envrc\.*
+dc
+dotspec
+
+# misc
+LICENSE
+^\.site
+
+# background images (no longer relevant)
+# backgrounds
+
+# empty directories,
+# but if empty in ellipsis, we want fully linked on host
+/\.gitkeep 
