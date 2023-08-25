@@ -31,11 +31,16 @@
 # mailstorage (which client?)
 # mail
 
-# fonts (.config/fonts)
-^/\.config/fonts
+# fonts
+fonts
 
-# org todos
+# emacs (lockfiles/etc)
+/.*~$
+/#.*$
+
+# org files + todo archive
 /.*\.org_archive$
+/.*\.org$
 
 # C++ docs?
 ^/.*(Doxygen.org(*SKIP)(*FAIL))\.org
@@ -64,6 +69,14 @@ dotspec
 # misc
 LICENSE
 ^\.site
+.gpg-test
+img
+
+# old dotfiles
+fedora
+garuda
+garuda-i3
+manjaro
 
 # background images (no longer relevant)
 # backgrounds

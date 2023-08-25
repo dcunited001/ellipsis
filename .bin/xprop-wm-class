@@ -1,0 +1,1 @@
+xprop | grep WM_CLASS

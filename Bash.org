@@ -1198,6 +1198,7 @@ export MATLAB_HOME=/flatpak/matlab
 export MATLAB_VERSION=R2022a
 export MATLAB_ARCH=glnxa64
 export MATLAB_PATH=$MATLAB_HOME/$MATLAB_VERSION/bin
+export MATLAB_JAVA=$MATLAB_HOME/$MATLAB_VERSION/sys/java/jre/glnxa64/jre
 
 export PATH=$MATLAB_PATH:$PATH
 
