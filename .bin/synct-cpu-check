@@ -1,0 +1,4 @@
+#!/bin/sh
+
+# note: 0 uses all logical cores, negative doesn't check
+syncthing cli config dump-json | jq .options.maxFolderConcurrency

@@ -34,6 +34,8 @@ xset -b
 xss-lock --transfer-sleep-lock -- xlock &
 #xss-lock -n xss-lock-dim-screen --transfer-sleep-lock -- xlock &
 
+# NOTE: enforce CPU Core Count on syncthing, set in config.xml
+
 setbg $_WALLPAPERS
 
 #exec dbus-launch --exit-with-session
