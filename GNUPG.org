@@ -105,6 +105,30 @@ Mastering Emacs
   using =--batch --passphrase-fd= to get a passphrase from a file descriptor
   =<(pass --command)=
 
+
+** FIDO2/WebAuthn
+
+They never tell you it's FIDO2 only, FIDO1 doesn't work. This will frustrate
+the average person to no end.
+
+About 2 years ago, I had to refer to webauthn docs to get the answer to this
+after looking at the console. I usually just assume that it won't enroll
+because FIDO1. It needs a proper error message, esp on enrollment. It's
+happened a few times, but I was ambivalent about it with my school. They
+upgraded to FIDO2 though this year. I figured that it was a matter of time.
+
+The average person already need to be told to have a backup key. This is 2x
+FIDO keys. The average person doesn't 2x PIV/OpenPGP but these should be
+separate from casual MFA. It's easier to be prepared for losing the key than
+to deal with fallout. This would be an appreciably simple way to be secure
+that's easier for older people than typical MFA. However, most people already
+have "security fatigue" ... if it's not easy to understand why FIDO doesn't
+work, then what would otherwise a simpler way for everyone instead becomes
+frustrating.
+
+However, I have two different keys and no USB3 ports within arm's reach. I
+would prefer FIDO2 across the board, but I guess i'll have to wait.
+
 ** Smartcard Integration
 
 *** [[https://pcsclite.apdu.fr/][PCSCD]]
@@ -585,6 +609,52 @@ expected.
   set, esp. given that some package managers will bundle custom or upstream
   patches for =gnupg= packages. I didn't encounter a confirmation of such, but I
   would rather not figure that out months down the road.
+
+***** Determining how gpg/pinentry are being launched
+
+For me, this time, I had moved the yubikey to another USB slot and for some
+reason, restarting the agent (which spawns scdaemon) was giving me this:
+
+#+begin_quote
+Aug 27 04:34:10 kratos gpg-agent[3816814]: listening on: std=3 extra=6 browser=4 ssh=5
+Aug 27 04:34:42 kratos gpg-agent[3818770]: scdaemon[3818770]: detected reader 'Yubico YubiKey OTP+FIDO+CCID 00 00'
+Aug 27 04:34:42 kratos gpg-agent[3818770]: scdaemon[3818770]: pcsc_connect failed: sharing violation (0x8010000b)
+#+end_quote
+
+I couldn't tell whether the =pinentry= in the config was actually what was
+spawning. =gpg-connect-agent= is actually a bit mum on config details, but
+check [[https://www.gnupg.org/documentation/manuals/gnupg/GPGSM-Protocol.html#GPGSM-Protocol][§5.6 on Server Protocol]] for details.
+
+Check for the =gpg= agent, =pinentry.*= and =scdaemon= processes. If it's got
+these, then any command passing through the gpg socket that should expect a
+smartcard pin will hang. It may be asking for the pin on another TTY.
+
+After checking for the processes, get a call to =git -T git@github.com= to
+hang for pin input. Then, depending on the pinentry process, you can start to
+infer what kind of issue it is.
+
+#+begin_src sh
+# the pgrep should return a single result
+pstree -H "$(pgrep pinentry)"
+#+end_src
+
+Or just check =journalctl --user -xb= for info.
+
+Judging by the size of the binary, =/usr/bin/pinentry= on arch does something
+else. There's barely enough to pack ELF headers into
+
+#+begin_quote
+-rwxr-xr-x 1 root root    369 Aug 29  2022 /usr/bin/pinentry
+-rwxr-xr-x 1 root root  63864 Aug 29  2022 /usr/bin/pinentry-curses
+-rwxr-xr-x 1 root root  51576 Aug 29  2022 /usr/bin/pinentry-emacs
+-rwxr-xr-x 1 root root  76128 Aug 29  2022 /usr/bin/pinentry-gnome3
+-rwxr-xr-x 1 root root  84320 Aug 29  2022 /usr/bin/pinentry-gtk-2
+-rwxr-xr-x 1 root root 182816 Aug 29  2022 /usr/bin/pinentry-qt
+-rwxr-xr-x 1 root root  55672 Aug 29  2022 /usr/bin/pinentry-tty
+#+end_quote
+
+......... oh ok, it's a shell. I really just want to make sure the config
+options i have set are actually being applied.
 
 *** Notes on Configuration
 
