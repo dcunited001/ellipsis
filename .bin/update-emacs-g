@@ -1,0 +1,4 @@
+guix_manifest_dir="$XDG_CONFIG_HOME/guix/manifests"
+emacsg_manifest="$HOME/.emacs.g/emacs-g.scm"
+cp "$emacsg_manifest" "$guix_manifest_dir"
+update-profiles "emacs-g"

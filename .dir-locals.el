@@ -5,9 +5,7 @@
      (texinfo-mode    . ((indent-tabs-mode . nil)
                          (fill-column . 72)))
 
-     (eval . (add-to-list 'completion-ignored-extensions ".go"))
-
-     ))
+     (eval . (add-to-list 'completion-ignored-extensions ".go"))))
 
  (shell-mode
   (eval . (add-hook 'shell-mode-hook 'guix-build-log-minor-mode)))

@@ -1246,6 +1246,7 @@ If =.bash_profile= does not exist, =.profile= will be sourced instead. When bash
 #[[ -z $XDG_CACHE_HOME ]]  && export XDG_CACHE_HOME=$HOME/.cache
 
 export PATH=$HOME/.local/bin:$HOME/.bin:$PATH
+export DISTRO="$(grep -e '^ID=' /etc/os-release | sed -e 's/^ID=//g')"
 #+end_src
 
 #+RESULTS:
@@ -1261,6 +1262,8 @@ loaded into =$PATH= and =.xsession= will fail. Several scripts are dependent on
 #+begin_src sh :tangle .profile :shebang #!/bin/sh
 export DOTS_CFG_SHELL=$XDG_CONFIG_HOME/sh
 export DOTS_PROFILE_D=$DOTS_CFG_SHELL/profile.d
+
+[[ -f $DOTS_CFG_SHELL/icons.sh ]] && source $DOTS_CFG_SHELL/icons.sh
 
 [[ -f $DOTS_CFG_SHELL/_before_profile.d.sh ]] && source $DOTS_CFG_SHELL/_before_profile.d.sh
 

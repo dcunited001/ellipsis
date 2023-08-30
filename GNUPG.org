@@ -260,11 +260,13 @@ shell --help-transform= for more information.
 (packages->manifest
  (list gnupg
        pinentry-tty
+       pinentry-gtk-2
        shroud-nox))
 #+end_src
 
-**** TODO include SSH/opensc in the profile?
-or use separate guix profiles? (on either USB or the system)
+The =shroud-nox= package is in another module. Either update profile with
+=guix home --load-path=/home/dc/.dotfiles= or pull the definition into the
+manifest.
 
 ** Portable GPG
 

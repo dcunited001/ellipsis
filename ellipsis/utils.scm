@@ -43,7 +43,8 @@
 
 
 (define dc/guix-site
-  (list "/home/dc/.config/guix/current/lib/guile/3.0/site"))
+  ;; (list "/home/dc/.config/guix/current/lib/guile/3.0/site")
+  (list "/home/dc/.config/guix/current/share/guile/site/3.0"))
 (define dc/guix-site-ccache
   (list "/home/dc/.config/guix/current/lib/guile/3.0/site-ccache"))
 (define dc/load-path '())
