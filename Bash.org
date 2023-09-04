@@ -762,15 +762,21 @@ This is an old config
 *** On Arch
 
 #+begin_src sh :tangle .config/sh/profile.d/node-arch.sh :shebang #!/bin/sh
+# npm install -g # bins go here
 export NPM_CONFIG_PREFIX=$HOME/.npm-global
 export PATH=$NPM_CONFIG_PREFIX/bin:$PATH
+# export NPM_CONFIG_USERCONFIG=$HOME/.npmrc # default
+# export NPM_CONFIG_GLOBALCONFIG=/usr/lib/node_modules/npm/npmrc # but it's not listed under `npm config ls -l`
 #+end_src
 
 *** On Guix
 
 #+begin_src sh :tangle .config/sh/profile.d/node-guix.sh :shebang #!/bin/sh
+# npm install -g # bins go here
 export NPM_CONFIG_PREFIX=$HOME/.npm-global
 export PATH=$NPM_CONFIG_PREFIX/bin:$PATH
+# export NPM_CONFIG_USERCONFIG=$HOME/.npmrc # default
+# export NPM_CONFIG_GLOBALCONFIG=$NODE_PROFILE/lib/node_modules/npm/npmrc # default
 #+end_src
 
 ** GraphQL
@@ -1874,6 +1880,9 @@ if [ -f $HOME/.profile ]; then . $HOME/.profile; fi
   ;; should fix a gdx-pixbuf issue for virt-manager
   "gdk-pixbuf"
   "virt-manager"
+
+;;** node
+  "node"
 
 ;;** network
   "bind:utils"

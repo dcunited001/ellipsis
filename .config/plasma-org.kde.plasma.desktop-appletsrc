@@ -562,12 +562,36 @@ plugin=org.kde.plasma.marginsseparator
 immutability=1
 plugin=org.kde.plasma.marginsseparator
 
+[Containments][141][Applets][249]
+immutability=1
+plugin=org.kde.plasma.systemmonitor.cpu
+
+[Containments][141][Applets][249][Configuration]
+CurrentPreset=org.kde.plasma.systemmonitor
+PreloadWeight=80
+
+[Containments][141][Applets][249][Configuration][Appearance]
+chartFace=org.kde.ksysguard.linechart
+title=Total CPU Use
+
+[Containments][141][Applets][249][Configuration][ConfigDialog]
+DialogHeight=780
+DialogWidth=1040
+
+[Containments][141][Applets][249][Configuration][SensorColors]
+cpu/all/usage=197,14,210
+
+[Containments][141][Applets][249][Configuration][Sensors]
+highPrioritySensorIds=["cpu/all/usage"]
+lowPrioritySensorIds=["cpu/all/cpuCount","cpu/all/coreCount"]
+totalSensors=["cpu/all/usage"]
+
 [Containments][141][ConfigDialog]
-DialogHeight=84
-DialogWidth=1440
+DialogHeight=102
+DialogWidth=2560
 
 [Containments][141][General]
-AppletOrder=142;165;143;179;174;236;235;234;176;168;158;172;167;241;171;173;242;181;182;175;169;170;146;159
+AppletOrder=142;165;143;179;174;236;235;234;176;168;249;158;172;167;241;171;173;242;181;182;175;169;170;146;159
 
 [Containments][147]
 activityId=
@@ -603,6 +627,9 @@ PreloadWeight=100
 immutability=1
 plugin=org.kde.plasma.keyboardindicator
 
+[Containments][147][Applets][152][Configuration]
+PreloadWeight=60
+
 [Containments][147][Applets][153]
 immutability=1
 plugin=org.kde.plasma.keyboardlayout
@@ -630,7 +657,7 @@ immutability=1
 plugin=org.kde.plasma.volume
 
 [Containments][147][Applets][157][Configuration]
-PreloadWeight=95
+PreloadWeight=100
 
 [Containments][147][Applets][157][Configuration][General]
 migrated=true
