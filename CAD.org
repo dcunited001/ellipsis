@@ -66,8 +66,11 @@ Profile:
 
 #+begin_src scheme :tangle .config/guix/manifests/raise3d.scm
 (use-modules
- ;; coreutils
- (gnu packages base)
+ (gnu packages)
+ ;; (guix packages)
+ ;; (guix transformations)
+ ;; ;; coreutils
+ ;; (gnu packages)
  ;; gcc:lib,
  (gnu packages gcc)
  ;; glib:bin
@@ -86,33 +89,51 @@ Profile:
  (gnu packages gnupg)
  ;; gmp
  (gnu packages multiprecision)
- ;; krita: overkill, acts as a catchall for user-facing QT app dependencies
- ;; (gnu packages kde)
+ (gnu packages gl)
+ ;; ungoogled-chromium
+ (gnu packages chromium)
 
- ;; ungoogled-chromium: acts as a catchall for user-facing GTK app dependencies
- (gnu packages chromium))
+ (guix packages))
+
+;; (concatenate-manifests
+;;  (list (packages->manifest
+;;         (list p11-kit
+;;               sqlite
+;;               libsm
+;;               libgpg-error))
+;;        (package->development-manifest
+;;         (list ungoogled-chromium
+;;               libtasn1
+;;               gmp
+;;               glu
+;;               glib "bin"
+;;               gcc "lib"
+;;               e2fsprogs))))
 
 (concatenate-manifests
- (list (package->manifest
+ (list (package->development-manifest
+        ungoogled-chromium)
+       (packages->manifest
         (list p11-kit
               sqlite
               libsm
-              libgpg-error))
-       (package->development-manifest
-        (list ungoogled-chromium
-              libtasn1
+              libgpg-error
+	            libtasn1
               gmp
               glu
-              glib #:bin
-              gcc #:lib
+              ;; `(,glib "bin")
+              ;; `(,gcc "lib")
+              (list glibc "bin")
+              (list gcc "lib")
               e2fsprogs))))
 
-       ;; debug tools
+;; debug tools
 ;; (package->manifest (list strace ...))
-       ;; "glibc"
-       ;; "gdb"
-       ;; "strace"
-       ;; "patchelf"
+;; "glibc"
+;; "gdb"
+;; "strace"
+;; "patchelf"
+
 #+end_src
 
 Environment:

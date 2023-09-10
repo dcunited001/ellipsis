@@ -91,7 +91,12 @@ sticks to =FHS= and =XDG= for clarity.
 Generally, most ansible project files will be generated in =.config/ansible= and
 can then be copied into =ANSIBLE_HOME= when needed.
 
-The build can be dumped into a folder or stowed:
+*** Don't Stow It
+
++The build can be dumped into a folder or stowed:+
+
+Probably don't do this, since it's already difficult enough to gitignore
+things (I could use a bit of feedback from time to time)
 
 #+begin_src sh
 ANSIBLE_HOME=$HOME/.ansible
@@ -100,7 +105,7 @@ stow --dir $ANSIBLE_PREFIX --target $ANSIBLE_HOME
 
 Anything that ends in =*.eg= or contains =*.eg.*= is added to the stow ignore list:
 
-#+begin_src gitignore :tangle (expand-file-name ".stow-local-ignore" ansible-prefix)
+#+begin_src conf
 # perl regex
 *.eg
 *.eg.*
@@ -135,6 +140,13 @@ export ANSIBLE_CONFIG=$ANSIBLE_HOME/ansible.cfg
 # probably don't use emacsclient to edit your vault
 export EDITOR=vi
 PATH_add .bin
+
+use_guix_manifest manifest.scm
+# use_guix_profile $GUIX_EXTRA/ansible/ansible
+
+# for guix
+export VIRTUAL_ENV=.genv
+layout python3
 #+end_src
 
 Guix manifest
