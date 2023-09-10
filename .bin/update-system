@@ -11,8 +11,6 @@ echo
 __substitute_urls=""
 __os="$HOME/.dotfiles/dc/systems/$(hostname).scm"
 while [ "$1" != "" ]; do
-    echo $1
-
     case $1 in
         --os)
             __os="$2"
@@ -39,7 +37,8 @@ __substitute_urls=${__substitute_urls:-https://ci.guix.gnu.org https://bordeaux.
 
 notify-send "GUIX Update $(hostname)" "Starting update to ${__os}"
 
-sudo -E guix system -L $HOME/.config/guix/systems reconfigure $HOME/.config/guix/systems/$(hostname).scm --substitute-urls="$__substitute_urls" $@
+__ellipsis_channel=$HOME/.dotfiles
+sudo -E guix system -L $__ellipsis_channel reconfigure $__os --substitute-urls="$__substitute_urls" $@
 
 if [ $? -eq 0 ]; then
     notify-send -i "${I_SUCCESS:-success}" "GUIX Update $(hostname) failed" "Update to ${__os}"
