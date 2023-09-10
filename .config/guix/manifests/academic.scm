@@ -257,6 +257,15 @@ the facility.")
      "texlive-sourceserifpro"
      "texlive-ly1"                      ; generally req. for beamerposter?
 
+     ;; for tecosaur/engrave-faces latex defaults
+     "texlive-fvextra"
+     "texlive-fancyvrb"
+     "texlive-upquote"
+     "texlive-lineno"
+     "texlive-tcolorbox"
+     "texlive-environ"
+     "texlive-pdfcol"
+     
      "gnuplot"
      ))
   (packages->manifest

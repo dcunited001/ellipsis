@@ -9,10 +9,15 @@ echo -e "${GREEN}Updating ${BLUE}$(hostname)${GREEN}...${NC}"
 echo
 
 __substitute_urls=""
+__os="$HOME/.dotfiles/dc/systems/$(hostname).scm"
 while [ "$1" != "" ]; do
     echo $1
 
     case $1 in
+        --os)
+            __os="$2"
+            shift 2
+            ;;
         --substitute-urls)
             __substitute_urls="$2"
             shift 2
@@ -30,5 +35,14 @@ done
 __substitute_urls=${__substitute_urls:-https://ci.guix.gnu.org https://bordeaux.guix.gnu.org https://substitutes.nonguix.org}
 
 # not sure on sudo -E, sudo -i or no option
-#sudo -i 
+#sudo -i
+
+notify-send "GUIX Update $(hostname)" "Starting update to ${__os}"
+
 sudo -E guix system -L $HOME/.config/guix/systems reconfigure $HOME/.config/guix/systems/$(hostname).scm --substitute-urls="$__substitute_urls" $@
+
+if [ $? -eq 0 ]; then
+    notify-send -i "${I_SUCCESS:-success}" "GUIX Update $(hostname) failed" "Update to ${__os}"
+else
+    notify-send -i "${I_ERROR:-error}" "GUIX Update $(hostname) finished" "Update to ${__os}"
+fi

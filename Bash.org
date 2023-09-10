@@ -1591,6 +1591,8 @@ Source: [[https://unix.stackexchange.com/questions/108699/documentation-on-less-
 
 *** Shell Prompt
 
+Update PS1 according to [[https://github.com/direnv/direnv/wiki/PS1][direnv wiki]]
+
 To check capabilities, see =man terminfo= and =infocmp=
 
 #+begin_src sh :tangle .config/sh/prompt.sh :shebang #!/bin/sh
