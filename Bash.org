@@ -1701,8 +1701,10 @@ use_guix() {
   fi
 }
 
+# NOTE: if arguments like -L need to be passed to guix shell,
+#   just use this one
 use_guixs() {
-  eval "$(guix shell \"$@\" --search-paths)"
+  eval "$(guix shell "$@" --search-paths)"
 }
 
 use_guix_profile() {
