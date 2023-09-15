@@ -141,20 +141,12 @@ export ANSIBLE_CONFIG=$ANSIBLE_HOME/ansible.cfg
 export EDITOR=vi
 PATH_add .bin
 
-use_guix_manifest manifest.scm
-# use_guix_profile $GUIX_EXTRA/ansible/ansible
+use_guixs -L $HOME/.dotfiles -m manifest.scm
+# use_guix_manifest manifest.scm
 
-# for guix
-export VIRTUAL_ENV=.genv
+# ansible binaries are in .venv
+export VIRTUAL_ENV=.venv
 layout python3
-#+end_src
-
-Guix manifest
-
-#+begin_src sh :tangle (expand-file-name ".envrc.eg" ansible-prefix)
-# https://github.com/dcunited001/ellipsis/blob/master/Bash.org#guix-direnv
-use_guix_manifest manifest.scm
-# use_guix_profile $GUIX_EXTRA/ansible/ansible
 #+end_src
 
 ** Python
@@ -166,8 +158,9 @@ export VIRTUAL_ENV=.genv
 layout python3
 #+end_src
 
-An additional =.venv= profile could be set up for other environments like VS
-Code. After the =.genv= profile is created, run the following
+An additional =.venv= profile could be set up for other environments like VS Code.
+
+After the =.genv= profile is created, run the following
 
 #+begin_example shell
 pip install --upgrade pip
@@ -189,6 +182,13 @@ to get =ansible= and other tools like =ansible-navigator=
 I'm only using this for =packer=.
 
 #+begin_src scheme :tangle (expand-file-name "manifest.scm" ansible-prefix)
+(specifications->manifest '("packer-bin"))
+#+end_src
+
+The source for the package is in my dotfiles. This is the equivalent inline
+definition.
+
+#+begin_src scheme
 ;; note, I have a custom package definition
 (use-modules
   ((guix licenses) #:prefix license:)
@@ -246,21 +246,65 @@ For =manifest.scm=
 
 ** Emacs
 
+*** Ansible LSP
+
+This will set =*.yml= buffers to be loaded with =ansible-mode=
+
 #+begin_src emacs-lisp :tangle .dir-locals.eg
-((yaml-mode . ((flycheck-checker . 'yaml-yamllint))))
+((auto-mode-alist . (("\\.yml\\'" . ansible-mode)))
+ (nil
+  . ((eglot-workspace-configuration
+      . (:ansible
+         (:validation
+          (:enabled t :lint (:enabled t))))))))
+
+;; ((yaml-mode . ((flycheck-checker . 'yaml-yamllint))))
 #+end_src
+
+Ansible LSP will silently fail if options like =ansible-lint= are enabled with
+an invalid path. This config explicitly defines all the paths and disables
+validation/linting. Ansible LSP doesn't have =-h= or =--help= options to
+document CLI functionality and doesn't send data to =stderr= afaik.
+
+#+begin_src emacs-lisp
+((nil ((eglot-workspace-configuration
+        . (:ansible
+           (:ansible (:path "/mnt/secrets/ansible/.genv/bin/ansible"))
+           (:python
+            (:interpreterPath "/mnt/secrets/ansible/.genv/bin/python3"))
+           (:validation
+            (:enabled nil :lint
+                      (:enabled nil :path "/mnt/secrets/ansible/.genv/bin/ansible-lint"))))))))
+#+end_src
+
+An additional mode descending from =yaml-mode= _may be_ needed to ensure that
+eglot is sending buffers to the LSP server to be interpreted as =:ansible=
+buffers.
+
+#+begin_src emacs-lisp
+(define-derived-mode ansible-mode yaml-mode "Ansible"
+  "Major mode which is YAML-mode + ansible minor mode."
+  (ansible))
+#+end_src
+
+**** LSP Docker
+
+I tried getting this to work in a docker container, but the in-project and
+in-container paths don't match. The =lsp-mode.el= package handles this with
+=lsp-docker=, but it can still represent a lot of configuration overhead for
+some projects.
+
+It may be possible if using =docker-tramp=, but you must interact with the
+project as though it's remote.
+
+Since Ansible LSP may run EE containers, it would break that functionality
+... unless ...  =¯\_(ツ)_/¯=
+
+#+begin_quote
+There is always a way... SMH
+#+end_quote
 
 ** Ansible
-
-*** TODO Ansible LSP
-
-This is instantiated via =docker compose=
-
-**** Docker Compose
-
-#+begin_src yaml :tangle (expand-file-name ".config/ansible/docker-compose.yml" ansible-prefix)
-
-#+end_src
 
 *** Execution Environment
 
