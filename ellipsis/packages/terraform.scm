@@ -33,3 +33,27 @@ images")
     (description "Packer is a tool for creating identical machine images for
 multiple platforms from a single source configuration.")
     (license license:mpl2.0)))
+
+(define-public terraform-bin
+  (package
+    (name "terraform-bin")
+    (version "1.5.4")
+    (source (origin
+              (method url-fetch)
+              (uri (string-append "https://releases.hashicorp.com/terraform/"
+                                  version "/terraform_"
+                                  version "_linux_amd64.zip"))
+              (sha256
+               (base32 "1skps2scfjl2d3iqxj7j76rkrry0wyllr8fgm0kz9xzc6x8w1n8n"))))
+    (build-system copy-build-system)
+    (inputs (list unzip))
+    (arguments
+     '(#:install-plan '(("terraform" "bin/"))))
+    (home-page "https://www.hashicorp.com/products/terraform")
+    (synopsis "Infrastructure automation to provision and manage resources in any cloud or
+data center")
+    (description "Terraform enables you to safely and predictably create, change, and improve
+infrastructure. It is an open source tool that codifies APIs into declarative
+configuration files that can be shared amongst team members, treated as code,
+edited, reviewed, and versioned.")
+    (license license:mpl2.0)))
