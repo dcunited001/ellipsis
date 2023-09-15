@@ -1365,7 +1365,8 @@ in a Docker container.
 For extensions whose configuration depends on Guix manifests:
 
 + If I were to open =*.hcl= files for packer or terraform, then the editor
-  won't be integrated.
+  won't be integrated. And why use Guix? Why containerize your dependencies
+  and pin versions?
 + If I use a Guix profile with a link -- =guix shell -p= instead of =guix
   shell -m= then I should be able to guarantee that I at least have a
   consistent path to reference binaries for in =settings.json= for
