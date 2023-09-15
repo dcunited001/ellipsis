@@ -1310,18 +1310,82 @@ python bundled inside.
 
 *** Configuration
 
-+ Config will be in =$FLATPAK_USER_VAR/app/vscodium.codium/config/VSCodium=
-  which has the structure of the standard Chrome-based electron app.
 + User config is in =./User/settings.json=. You could symlink or sync online.
 + Workspace configurations are in =./User/workspacestorage=
 
+*** Environment
+
 **** On Guix
+
+If =~/.pyenv= exists, VSCode will think you have =pyenv=.
+
+***** Shell Profile
+
+Ensure =terminal.integrated.profiles.linux= includes a profile that injects
+=GUIX_AUTOLOAD_PROFILES=. The set of profiles should include one that contains
+=direnv= and other tools.
+
+On Guix System, VSCode forks from a login profile -- but from before the
+=.xsession= script runs. Set up a terminal profile like the following to run
+your =.profile= logic like it's a login shell, which will also load =.bashrc=.
+This sources the =~/.config/sh/profile.d/guix.sh= script, which should load a
+custom set of profiles.
+
+#+begin_src json
+
+"bash": {
+  "path": "bash",
+  "icon": "terminal-bash",
+  "env": {
+    "GUIX_AUTOLOAD_PROFILES": "(desktop fonts mon devtools academic pythondev)"
+  },
+  "args": ["-l"]
+}
+#+end_src
+
+The value for =GUIX_AUTOLOAD_PROFILES= gets interpreted as an array.
+
+**** Direnv in VSCode
+
+The [[github:direnv/direnv-vscode][direnv/direnv-vscode]] plugin only works for:
+
++ integrated terminals
++ custom tasks of type =shell=
++ environment variable substitutions like =${env:VAR}=
+
+This really doesn't jive with how I'm loading environments, unless I'm working
+in a Docker container.
+
++ It's not really clear how extensions run commands -- though I just don't
+  know what VSCode does. There are logs somewhere. This probably appears in
+  the VSCode browser tools.
++ If =python.terminal.activateEnvironment= is on, it's available for tasks,
+  but gets loaded twice for shells.
+
+For extensions whose configuration depends on Guix manifests:
+
++ If I were to open =*.hcl= files for packer or terraform, then the editor
+  won't be integrated.
++ If I use a Guix profile with a link -- =guix shell -p= instead of =guix
+  shell -m= then I should be able to guarantee that I at least have a
+  consistent path to reference binaries for in =settings.json= for
+  project-specific configurations -- but there's a chance this would differ
+  from system to system and it impairs sharing project settings.
+
+Vim users working with Nix flakes would encounter many similar issues when
+they cross-over to VSCode, though maybe Nix has better tooling.
+
+**** In Flatpak
+
+Config will be in =$FLATPAK_USER_VAR/app/vscodium.codium/config/VSCodium=
+which has the structure of the standard Chrome-based electron app.
 
 VSCodium spawns from the environment, so when it runs the =/bin/bash= from
 inside it's flatpak, it still has the parent environment that =flatpak run=
 didn't override.
 
-If =~/.pyenv= exists, VSCode will think you have =pyenv=.
+I would recommend avoiding Flatpak unless you know the CLI well. It adds
+another layer of indirection in managing shell profiles for tasks.
 
 ** Screen
 
@@ -1663,7 +1727,7 @@ PS_INFO="${PS_INFO}${LGREEN}[ foo ]${RESTORE} "
 
 *** GPG/SSH
 
-#+begin_src sh :tangle .bashrc :shebang #!/bin/bash
+#+begin_src sh :tangle .bashrc :shebang #!/bin/sh
 unset SSH_AGENT_PID
 if [ "${gnupg_SSH_AUTH_SOCK_by:-0}" -ne $$ ]; then
   export SSH_AUTH_SOCK="$(gpgconf --list-dirs agent-ssh-socket)"

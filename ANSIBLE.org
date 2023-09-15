@@ -141,7 +141,7 @@ export ANSIBLE_CONFIG=$ANSIBLE_HOME/ansible.cfg
 export EDITOR=vi
 PATH_add .bin
 
-use_guixs -L $HOME/.dotfiles -m manifest.scm
+use_guixs --search-paths -L $HOME/.dotfiles -m manifest.scm
 # use_guix_manifest manifest.scm
 
 # ansible binaries are in .venv
@@ -175,7 +175,9 @@ to get =ansible= and other tools like =ansible-navigator=
 I'm only using this for =packer=.
 
 #+begin_src scheme :tangle (expand-file-name "manifest.scm" ansible-prefix)
-(specifications->manifest '("packer-bin"))
+(specifications->manifest 
+  '("packer-bin"
+    "terraform-bin"))
 #+end_src
 
 The source for the package is in my dotfiles. This is the equivalent inline
