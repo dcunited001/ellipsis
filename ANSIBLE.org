@@ -151,16 +151,9 @@ layout python3
 
 ** Python
 
-On guix system (load after ansible profile)
-
-#+begin_src sh :tangle (expand-file-name ".envrc.eg" ansible-prefix)
-export VIRTUAL_ENV=.genv
-layout python3
-#+end_src
-
 An additional =.venv= profile could be set up for other environments like VS Code.
 
-After the =.genv= profile is created, run the following
+After the =.venv= profile is created, run the following
 
 #+begin_example shell
 pip install --upgrade pip
@@ -269,12 +262,12 @@ document CLI functionality and doesn't send data to =stderr= afaik.
 #+begin_src emacs-lisp
 ((nil ((eglot-workspace-configuration
         . (:ansible
-           (:ansible (:path "/mnt/secrets/ansible/.genv/bin/ansible"))
+           (:ansible (:path "/mnt/secrets/ansible/.venv/bin/ansible"))
            (:python
-            (:interpreterPath "/mnt/secrets/ansible/.genv/bin/python3"))
+            (:interpreterPath "/mnt/secrets/ansible/.venv/bin/python3"))
            (:validation
             (:enabled nil :lint
-                      (:enabled nil :path "/mnt/secrets/ansible/.genv/bin/ansible-lint"))))))))
+                      (:enabled nil :path "/mnt/secrets/ansible/.venv/bin/ansible-lint"))))))))
 #+end_src
 
 An additional mode descending from =yaml-mode= _may be_ needed to ensure that
@@ -303,6 +296,12 @@ Since Ansible LSP may run EE containers, it would break that functionality
 #+begin_quote
 There is always a way... SMH
 #+end_quote
+
+** VS Code
+
+I must have missed the Guix =vscodium= package or decided to try the flatpak.
+
+
 
 ** Ansible
 
