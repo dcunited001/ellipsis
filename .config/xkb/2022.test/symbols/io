@@ -1,14 +1,10 @@
-// -*- mode: java; aphelia-mode: -1 -*-
-
-// what fucking language is this?
-// i never can find the answer lol.
-// there is no file-mode
-
-// zomfg why does no one use XKB? autoformatting here is ... problematic
+// -*- mode: java -*-
 
 default partial alphanumeric_keys modifier_keys xkb_symbols "basic" {
 
-  include "us" name[Group1] = "Digimon - US";
+  include "us" name[Group1] = "IO Keyboard";
+
+  key<SPCE>{[space, underscore, nobreakspace, nobreakspace]};
 
   key<TLDE>{[grave, asciitilde, dead_grave, dead_tilde]};
 
@@ -27,51 +23,39 @@ default partial alphanumeric_keys modifier_keys xkb_symbols "basic" {
   key<AE12>{[equal, plus, multiply, division]};
 };
 
-// messes with simple Emacs/OS keybindings
-// gives you accessible snake_case
-partial xkb_symbols "snakeyay" {
-  // TODO: shit1 emacs demands a sacrifice: fix snakeyay/snakeplus at levels 5-8
-  key<SPCE>{[space, underscore, space, underscore]};
+partial modifier_keys xkb_symbols "swap_capsesc_hyper_mod3" {
+  key<ESC>{[Hyper_L]};
+  key<CAPS>{[Escape]};
+  modifier_map Mod3{<ESC>};
 };
 
-// best of both worlds: gives you accessible snake_case,
-// but (+shift+space) keybinds still work as (+shift+altgr+space)
-// albeit right handed
-partial xkb_symbols "snakeplus" {
-  key<SPCE>{[space, space, underscore, underscore]};
-};
-
-hidden partial modifier_keys xkb_symbols "swaphyper" {
+partial modifier_keys xkb_symbols "swap_capsesc_hyper_mod4" {
   key<ESC>{[Hyper_L]};
   key<CAPS>{[Escape]};
   modifier_map Mod4{<ESC>};
 };
 
-hidden partial xkb_symbols "swapcaps" {
-  replace key<ESC>{[MENU]};
-  replace key<MENU>{[LVL3]};
-  replace key<CAPS>{[Escape]};
+partial modifier_keys xkb_symbols "swap_capslctl_hyper_mod3" {
+  key<LCTL>{[Hyper_L]};
+  key<CAPS>{[Control_L]} modifier_map Mod3{<LCTL>};
+  modifier_map Control{<CAPS>};
 };
 
-hidden partial modifier_keys xkb_symbols "hypermod5" {
-  modifier_map Mod5{Hyper_L};
-  modifier_map Mod5{Hyper_R};
-
-  replace key<CAPS>{[Escape]};
-
-  // esc => Hyper_L, print => Hyper_R
-  replace key<ESC>{[Hyper_L]};
-  replace key<PRSC>{[Hyper_R]};
+partial modifier_keys xkb_symbols "swap_capslctl_hyper_mod4" {
+  key<LCTL>{[Hyper_L]};
+  key<CAPS>{[Control_L]} modifier_map Mod4{<LCTL>};
+  modifier_map Control{<CAPS>};
 };
 
 // TODO: create intl-style Digimon layout based on the us(symbolic) layout
 
-xkb_symbols "intl" {
-  // i said no semicolons </my-stapler>
-  include "us(intl)" // include "io(swapcaps)"
-                     // autoformatting is problematic!!!
-                     // include "level5(lsgt_switch)"
-      name[Group1] = "Digimon - US (With Dead Keys)";
+xkb_symbols "io-dead" {
+
+  include "us(intl)"
+
+      name[Group1] = "IO (Deadkeys)";
+
+  key<SPCE>{[space, underscore, nobreakspace, nobreakspace]};
 
   // key <TLDE> {[dead_grave,         dead_tilde,      grave,       asciitilde ]
   // };
@@ -91,14 +75,19 @@ xkb_symbols "intl" {
   // key <AE12> {[     equal,       plus,      multiply,         division ] };
 };
 
-// TODO: fix keys for altgr-intl
-xkb_symbols "altgr-intl" {
-  include "us(altgr-intl)"          // include "io(swapcaps)"
-      include "level5(lsgt_switch)" //
+xkb_symbols "io-dead-altgr" {
 
-      name[Group1] = "Digimon - US (With Dead Keys)";
+  include "us(altgr-intl)"
 
-  key<AE01>{[exclam, 1, exclamdown, onesuperior]};
+      name[Group1] = "IO (AltGr Deadkeys)";
+
+  key<SPCE>{[space, underscore, nobreakspace, nobreakspace]};
+
+  // key <TLDE> { [    grave, asciitilde,  dead_grave,   dead_tilde      ] };
+  // key <AC11> { [apostrophe,quotedbl,    dead_acute,   dead_diaeresis  ] };
+
+  // hmmmm. i'm not sure whether the altgr characters should also be flipped
+  key<AE01>{[exclam, 1, onesuperior, exclamdown]};
   key<AE02>{[at, 2, twosuperior, dead_doubleacute]};
   key<AE03>{[numbersign, 3, threesuperior, dead_macron]};
   key<AE04>{[dollar, 4, currency, sterling]};
@@ -106,9 +95,10 @@ xkb_symbols "altgr-intl" {
   key<AE06>{[asciicircum, 6, dead_circumflex, onequarter]};
   key<AE07>{[ampersand, 7, dead_horn, onehalf]};
   key<AE08>{[asterisk, 8, dead_ogonek, threequarters]};
+  key<AE08>{[asterisk, 8, threequarters, dead_ogonek]};
   key<AE09>{[parenleft, 9, leftsinglequotemark, dead_breve]};
   key<AE10>{[parenright, 0, rightsinglequotemark, dead_abovering]};
 
-  // key <AE11> {[     minus, underscore,           yen,    dead_belowdot ] };
+  // key <AE11> {[     minus, underscore,           yen,         belowdot ] };
   // key <AE12> {[     equal,       plus,      multiply,         division ] };
 };

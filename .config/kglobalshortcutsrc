@@ -12,7 +12,7 @@ Switch keyboard layout to IO=none,none,Switch keyboard layout to IO
 Switch keyboard layout to IO: us,altgr-intl,deadkeys=none,none,Switch keyboard layout to IO: us\\,altgr-intl\\,deadkeys
 Switch keyboard layout to altgr-intl=none,none,Switch keyboard layout to altgr-intl
 Switch keyboard layout to io=none,none,Switch keyboard layout to io
-Switch to Next Keyboard Layout=none,none,Switch to Next Keyboard Layout
+Switch to Next Keyboard Layout=none,Meta+Alt+K,Switch to Next Keyboard Layout
 _k_friendly_name=Keyboard Layout Switcher
 
 [bismuth]

@@ -1,110 +1,110 @@
-default partial alphanumeric_keys modifier_keys
-xkb_symbols "basic" {
+// -*- mode: java; aphelia-mode: -1 -*-
 
-    include "us"
-    name[Group1] = "IO Keyboard";
+default partial alphanumeric_keys modifier_keys xkb_symbols "basic" {
 
-    key <SPCE> {[	space, underscore, nobreakspace, nobreakspace	]};
+  include "us"
 
-    key <TLDE> {[ grave,      asciitilde,    dead_grave,       dead_tilde ]};
+      name[Group1] = "Digimon - US";
 
-    key <AE01> {[              exclam, 1,    exclamdown,      onesuperior ]};
-    key <AE02> {[                  at, 2,   twosuperior, dead_doubleacute ]};
-    key <AE03> {[          numbersign, 3, threesuperior,      dead_macron ]};
-    key <AE04> {[              dollar, 4,      currency,         sterling ]};
-    key <AE05> {[             percent, 5,      EuroSign,     dead_cedilla ]};
-    key <AE06> {[         asciicircum, 6,    onequarter,  dead_circumflex ]};
-    key <AE07> {[           ampersand, 7,       onehalf,        dead_horn ]};
-    key <AE08> {[            asterisk, 8, threequarters,      dead_ogonek ]};
-    key <AE09> {[           parenleft, 9, leftsinglequotemark, dead_breve ]};
-    key <AE10> {[          parenright, 0, rightsinglequotemark, dead_abovering ] };
+  key<TLDE>{[grave, asciitilde, dead_grave, dead_tilde]};
 
-    key <AE11> {[     minus, underscore,           yen,    dead_belowdot ]};
-    key <AE12> {[     equal,       plus,      multiply,         division ]};
+  key<AE01>{[exclam, 1, exclamdown, onesuperior]};
+  key<AE02>{[at, 2, twosuperior, dead_doubleacute]};
+  key<AE03>{[numbersign, 3, threesuperior, dead_macron]};
+  key<AE04>{[dollar, 4, currency, sterling]};
+  key<AE05>{[percent, 5, EuroSign, dead_cedilla]};
+  key<AE06>{[asciicircum, 6, onequarter, dead_circumflex]};
+  key<AE07>{[ampersand, 7, onehalf, dead_horn]};
+  key<AE08>{[asterisk, 8, threequarters, dead_ogonek]};
+  key<AE09>{[parenleft, 9, leftsinglequotemark, dead_breve]};
+  key<AE10>{[parenright, 0, rightsinglequotemark, dead_abovering]};
+
+  key<AE11>{[minus, underscore, yen, dead_belowdot]};
+  key<AE12>{[equal, plus, multiply, division]};
 };
 
-
-partial modifier_keys
-xkb_symbols "swap_capsesc_hyper_mod3" {
-    key <ESC> {[ Hyper_L ]};
-    key <CAPS> {[ Escape ]};
-    modifier_map Mod3 { <ESC> };
+// messes with simple Emacs/OS keybindings
+// gives you accessible snake_case
+partial xkb_symbols "snakeyay" {
+  // TODO: shit1 emacs demands a sacrifice: fix snakeyay/snakeplus at levels 5-8
+  key<SPCE>{[space, underscore, space, underscore]};
 };
 
-partial modifier_keys
-xkb_symbols "swap_capsesc_hyper_mod4" {
-    key <ESC> {[ Hyper_L ]};
-    key <CAPS> {[ Escape ]};
-    modifier_map Mod4 { <ESC> };
+// best of both worlds: gives you accessible snake_case,
+// but (+shift+space) keybinds still work as (+shift+altgr+space)
+// albeit right handed
+partial xkb_symbols "snakeplus" {
+  key<SPCE>{[space, space, underscore, underscore]};
 };
 
-partial modifier_keys
-xkb_symbols "swap_capslctl_hyper_mod3" {
-  key <LCTL> {[ Hyper_L ]};
-  key <CAPS> {[ Control_L ]}
-  modifier_map Mod3 { <LCTL> };
-  modifier_map Control { <CAPS> };
+hidden partial modifier_keys xkb_symbols "swaphyper" {
+  key<ESC>{[Hyper_L]};
+  key<CAPS>{[Escape]};
+  modifier_map Mod4{<ESC>};
 };
 
-partial modifier_keys
-xkb_symbols "swap_capslctl_hyper_mod4" {
-  key <LCTL> {[ Hyper_L ]};
-  key <CAPS> {[ Control_L ]}
-  modifier_map Mod4 { <LCTL> };
-  modifier_map Control { <CAPS> };
+hidden partial xkb_symbols "swapcaps" {
+  replace key<ESC>{[MENU]};
+  replace key<MENU>{[LVL3]};
+  replace key<CAPS>{[Escape]};
+};
+
+hidden partial modifier_keys xkb_symbols "hypermod5" {
+  modifier_map Mod5{Hyper_L};
+  modifier_map Mod5{Hyper_R};
+
+  replace key<CAPS>{[Escape]};
+
+  // esc => Hyper_L, print => Hyper_R
+  replace key<ESC>{[Hyper_L]};
+  replace key<PRSC>{[Hyper_R]};
 };
 
 // TODO: create intl-style Digimon layout based on the us(symbolic) layout
 
-xkb_symbols "io-dead" {
+xkb_symbols "intl" {
+  // i said no semicolons </my-stapler>
+  include "us(intl)" // include "io(swapcaps)"
+                     // autoformatting is problematic!!!
+                     // include "level5(lsgt_switch)"
+      name[Group1] = "Digimon - US (With Dead Keys)";
 
-    include "us(intl)"
+  // key <TLDE> {[dead_grave,         dead_tilde,      grave,       asciitilde ]
+  // };
 
-    name[Group1] = "IO (Deadkeys)";
+  key<AE01>{[exclam, 1, exclamdown, onesuperior]};
+  key<AE02>{[at, 2, twosuperior, dead_doubleacute]};
+  key<AE03>{[numbersign, 3, threesuperior, dead_macron]};
+  key<AE04>{[dollar, 4, currency, sterling]};
+  key<AE05>{[percent, 5, EuroSign, dead_cedilla]};
+  key<AE06>{[dead_circumflex, 6, onequarter, asciicircum]};
+  key<AE07>{[ampersand, 7, onehalf, dead_horn]};
+  key<AE08>{[asterisk, 8, threequarters, dead_ogonek]};
+  key<AE09>{[parenleft, 9, leftsinglequotemark, dead_breve]};
+  key<AE10>{[parenright, 0, rightsinglequotemark, dead_abovering]};
 
-    key <SPCE> {[	space, underscore, nobreakspace, nobreakspace	]};
-
-    //key <TLDE> {[dead_grave,         dead_tilde,      grave,       asciitilde ] };
-
-    key <AE01> {[              exclam, 1,    exclamdown,      onesuperior ] };
-    key <AE02> {[                  at, 2,   twosuperior, dead_doubleacute ] };
-    key <AE03> {[          numbersign, 3, threesuperior,      dead_macron ] };
-    key <AE04> {[              dollar, 4,      currency,         sterling ] };
-    key <AE05> {[             percent, 5,      EuroSign,     dead_cedilla ] };
-    key <AE06> {[     dead_circumflex, 6,    onequarter,      asciicircum ] };
-    key <AE07> {[           ampersand, 7,       onehalf,        dead_horn ] };
-    key <AE08> {[            asterisk, 8, threequarters,      dead_ogonek ] };
-    key <AE09> {[           parenleft, 9, leftsinglequotemark, dead_breve ] };
-    key <AE10> {[          parenright, 0, rightsinglequotemark, dead_abovering ] };
-
-    //key <AE11> {[     minus, underscore,           yen,    dead_belowdot ] };
-    //key <AE12> {[     equal,       plus,      multiply,         division ] };
+  // key <AE11> {[     minus, underscore,           yen,    dead_belowdot ] };
+  // key <AE12> {[     equal,       plus,      multiply,         division ] };
 };
 
-xkb_symbols "io-dead-altgr" {
+// TODO: fix keys for altgr-intl
+xkb_symbols "altgr-intl" {
+  include "us(altgr-intl)"          // include "io(swapcaps)"
+      include "level5(lsgt_switch)" //
 
-    include "us(altgr-intl)"
+      name[Group1] = "Digimon - US (With Dead Keys)";
 
-    name[Group1] = "IO (AltGr Deadkeys)";
+  key<AE01>{[exclam, 1, exclamdown, onesuperior]};
+  key<AE02>{[at, 2, twosuperior, dead_doubleacute]};
+  key<AE03>{[numbersign, 3, threesuperior, dead_macron]};
+  key<AE04>{[dollar, 4, currency, sterling]};
+  key<AE05>{[percent, 5, EuroSign, dead_cedilla]};
+  key<AE06>{[asciicircum, 6, dead_circumflex, onequarter]};
+  key<AE07>{[ampersand, 7, dead_horn, onehalf]};
+  key<AE08>{[asterisk, 8, dead_ogonek, threequarters]};
+  key<AE09>{[parenleft, 9, leftsinglequotemark, dead_breve]};
+  key<AE10>{[parenright, 0, rightsinglequotemark, dead_abovering]};
 
-    key <SPCE> {[	space, underscore, nobreakspace, nobreakspace	]};
-
-    // key <TLDE> { [    grave, asciitilde,  dead_grave,   dead_tilde      ] };
-    // key <AC11> { [apostrophe,quotedbl,    dead_acute,   dead_diaeresis  ] };
-
-    // hmmmm. i'm not sure whether the altgr characters should also be flipped
-    key <AE01> {[              exclam, 1, onesuperior,     exclamdown  ] };
-    key <AE02> {[                  at, 2, twosuperior,     dead_doubleacute ] };
-    key <AE03> {[          numbersign, 3, threesuperior,   dead_macron ] };
-    key <AE04> {[              dollar, 4, currency,         sterling ] };
-    key <AE05> {[             percent, 5, EuroSign,     dead_cedilla ] };
-    key <AE06> {[         asciicircum, 6, dead_circumflex, onequarter    ] };
-    key <AE07> {[           ampersand, 7, dead_horn,       onehalf       ] };
-    key <AE08> {[            asterisk, 8, dead_ogonek,     threequarters ] };
-    key <AE08> {[            asterisk, 8, threequarters,      dead_ogonek ] };
-    key <AE09> {[           parenleft, 9, leftsinglequotemark, dead_breve ] };
-    key <AE10> {[          parenright, 0, rightsinglequotemark, dead_abovering ] };
-
-    //key <AE11> {[     minus, underscore,           yen,         belowdot ] };
-    //key <AE12> {[     equal,       plus,      multiply,         division ] };
+  // key <AE11> {[     minus, underscore,           yen,    dead_belowdot ] };
+  // key <AE12> {[     equal,       plus,      multiply,         division ] };
 };

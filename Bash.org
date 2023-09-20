@@ -1518,6 +1518,9 @@ pskill() {
 }
 alias psid='ps -opid,uid,command h'
 
+# grep
+alias grepnobin="grep -I"
+
 # updates
 alias grubup="sudo update-grub"
 alias upd='/usr/bin/update'

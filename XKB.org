@@ -3,28 +3,7 @@
 #+EMAIL:     noreply@te.xel.io
 #+DESCRIPTION: notes
 
-* Setup
 
-This directory should be linked from =$HOME/.xkb=
-
-Compile the layout with =xkbcomp -I$HOME/.xkb $HOME/.xkb/io.altgr-intl.xkb=
-
-Then, in =.xsession=, run =$HOME/.bin/set_xkbcomp=
-
-** Don't Learn Linux Wrong
-
-Note that =~= shell expansion doesn't work here. When something deviates from
-expected behavior, figuring this out is obvious despite being ignorant of "first
-principles"... but when as of yet you have no expections, it's quite a bit
-harder to form any at all. This also makes it difficult to form memories with
-any consistency, thus impacting the total "statistical confidence" your brain
-experiences when it does "brain things" in the future. If other things are
-confusing you, that will definitely add another dimension to convolute your
-perpexity.
-
-It's important to be corrected earlier on. Otherwise, you don't learn too good
-and bad habits/assumptions become more deeply engrained. Being corrected doesn't
-happen much in isolation. Find an expert/usergroup.
 
 * Resources
 
@@ -36,7 +15,39 @@ happen much in isolation. Find an expert/usergroup.
 
 Find X11 keyboard configs with: =find /gnu/store/ -wholename "*xkb/symbols" -type d=. They are in the =xkeyboard-config= package.
 
-* Customize
+* Config
+
+** IO
+
+RMLVO
+
+#+begin_src sh :results none :noweb-ref rmlvo :eval never
+
+xmodel="pc(pc105)"
+xlayout=io
+xrules=evdev
+xvariant=""
+xoptions=""
+
+# xoptions="lv3:menu_switch,ctrl:hyper_capscontrol,lv3:ralt_alt"
+#+end_src
+
+
+
+* Old Docs
+
+** Setup
+
+This directory should be linked from =$HOME/.xkb=
+
+Compile the layout with =xkbcomp -I$HOME/.xkb $HOME/.xkb/io.altgr-intl.xkb=
+
+Then, in =.xsession=, run =$HOME/.bin/set_xkbcomp=
+
+Note: =xkb= tools including =xkbcli= _do not_ expand the =~=. This makes it
+very confusing when in a shell trying to pin down how it works.
+
+** Customization
 
 Run =~/.bin/xkbio= or =~/.bin/xkbus= or:
 
@@ -54,17 +65,17 @@ The output from =xkbcomp= cannot be redirected using normal redirection
 ... hmmmm. But if you are keen to loading this in your =.bashrc= you can tell it
 to =shuttf= up with =-w0=.
 
-** Using with FCITX5
+*** Using with FCITX5
 
 FCITX5 will not like this. When it becomes active (or is restarted), it's main
 keyboard overrides yours. It must be aware of the =-I$HOME/.xkb= include and I
 believe needs to have =evdev.xml= and such compiled.
 
-** IO
+*** IO
 
 Ensure the keymap has been loaded into X11 with =setxkbmap -query io=
 
-#+begin_src java :tangle ./io.altgr-intl.xkb
+#+begin_src java :tangle .config/xkb/keymaps/io.altgr-intl.xkb
 xkb_keymap {
   xkb_keycodes  { include "evdev+aliases(qwerty)" };
   xkb_types     { include "complete" };
@@ -79,7 +90,7 @@ xkb_keymap {
 And the config file (may not be necessary). This is an older, alternate method
 of loading a keyboard. load it with =setxkbmap -config ~/.xkb/$layout.keyboard=
 
-#+begin_src conf :tangle ./io.altgr-intl.keyboard
+#+begin_src conf :tangle .config/xkb/keymaps/io.altgr-intl.keyboard
 Rules    =  "xorg"
 Model    =  "pc105"
 Layout   =  "io"
@@ -87,7 +98,7 @@ Variant  =  "altgr-intl"
 #Options  =  "level3:ralt_alt,level3:menu_switch,io:hypermod5"
 #+end_src
 
-** Basic altgr-intl
+*** Basic altgr-intl
 
 Example top-level config for =pc+us(altgr-intl)=
 
