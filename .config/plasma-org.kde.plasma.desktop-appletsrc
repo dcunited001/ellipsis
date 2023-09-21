@@ -92,7 +92,7 @@ FillMode=1
 Provider=flickr
 
 [Containments][140][Wallpaper][org.kde.slideshow][General]
-Image=file:///data/xdg/Wallpapers/anime/Guilty-Crown.jpg
+Image=file:///data/xdg/Wallpapers/anime/ergo_proxy_desktop.jpg
 SlidePaths=/data/xdg/Wallpapers/anime/
 
 [Containments][141]
@@ -667,7 +667,7 @@ immutability=1
 plugin=org.kde.plasma.nightcolorcontrol
 
 [Containments][147][Applets][162][Configuration]
-PreloadWeight=10
+PreloadWeight=0
 
 [Containments][147][Applets][163]
 immutability=1
@@ -980,4 +980,4 @@ wallpaperplugin=org.kde.image
 
 [ScreenMapping]
 itemsOnDisabledScreens=
-screenMapping=file:///data/xdg/Wallpapers/anime/ergo_proxy_desktop.jpg,1,bc3cdced-7201-4291-a43c-fe3ef12080c2,file:///data/xdg/Wallpapers/anime/default.jpg,1,bc3cdced-7201-4291-a43c-fe3ef12080c2,file:///data/xdg/Wallpapers/anime/Guilty-Crown.jpg,1,bc3cdced-7201-4291-a43c-fe3ef12080c2,desktop:/steam.desktop,0,bc3cdced-7201-4291-a43c-fe3ef12080c2,file:///data/xdg/Wallpapers/anime/blood-blockade-leonardo-2b.jpg,1,bc3cdced-7201-4291-a43c-fe3ef12080c2,file:///data/xdg/Wallpapers/anime/blood-blockade-leonardo-2a.jpg,1,bc3cdced-7201-4291-a43c-fe3ef12080c2,file:///data/xdg/Wallpapers/anime/ergo-proxy.jpg,1,bc3cdced-7201-4291-a43c-fe3ef12080c2,file:///data/xdg/Wallpapers/anime/blood-blockade-leo-123.jpg,1,bc3cdced-7201-4291-a43c-fe3ef12080c2,file:///data/xdg/Wallpapers/anime/yin-yang-fractal.jpg,1,bc3cdced-7201-4291-a43c-fe3ef12080c2,file:///data/xdg/Wallpapers/anime/kakegurui.png,1,bc3cdced-7201-4291-a43c-fe3ef12080c2,file:///data/xdg/Wallpapers/anime/blood-blockade-wallpaper.jpg,1,bc3cdced-7201-4291-a43c-fe3ef12080c2,file:///data/xdg/Wallpapers/anime/blood-blockade-leonardo.png,1,bc3cdced-7201-4291-a43c-fe3ef12080c2
+screenMapping=file:///data/xdg/Wallpapers/anime/ergo_proxy_desktop.jpg,1,bc3cdced-7201-4291-a43c-fe3ef12080c2,file:///data/xdg/Wallpapers/anime/blood-blockade-leonardo-2a.jpg,1,bc3cdced-7201-4291-a43c-fe3ef12080c2,file:///data/xdg/Wallpapers/anime/default.jpg,1,bc3cdced-7201-4291-a43c-fe3ef12080c2,file:///data/xdg/Wallpapers/anime/blood-blockade-leo-123.jpg,1,bc3cdced-7201-4291-a43c-fe3ef12080c2,file:///data/xdg/Wallpapers/anime/blood-blockade-wallpaper.jpg,1,bc3cdced-7201-4291-a43c-fe3ef12080c2,desktop:/steam.desktop,0,bc3cdced-7201-4291-a43c-fe3ef12080c2,file:///data/xdg/Wallpapers/anime/yin-yang-fractal.jpg,1,bc3cdced-7201-4291-a43c-fe3ef12080c2,file:///data/xdg/Wallpapers/anime/blood-blockade-leonardo.png,1,bc3cdced-7201-4291-a43c-fe3ef12080c2,file:///data/xdg/Wallpapers/anime/Guilty-Crown.jpg,1,bc3cdced-7201-4291-a43c-fe3ef12080c2,file:///data/xdg/Wallpapers/anime/blood-blockade-leonardo-2b.jpg,1,bc3cdced-7201-4291-a43c-fe3ef12080c2,file:///data/xdg/Wallpapers/anime/ergo-proxy.jpg,1,bc3cdced-7201-4291-a43c-fe3ef12080c2,file:///data/xdg/Wallpapers/anime/kakegurui.png,1,bc3cdced-7201-4291-a43c-fe3ef12080c2

@@ -1,23 +1,17 @@
 [Groups/0]
 # Group Name
-Name="Group 1"
+Name=Default
 # Layout
-Default Layout=io-io-dead-altgr
+Default Layout=us
 # Default Input Method
-DefaultIM=mozc
+DefaultIM=keyboard-us
 
 [Groups/0/Items/0]
 # Name
-Name=keyboard-io-io-dead-altgr
-# Layout
-Layout=
-
-[Groups/0/Items/1]
-# Name
-Name=mozc
+Name=keyboard-us
 # Layout
 Layout=
 
 [GroupOrder]
-0="Group 1"
+0=Default
 
