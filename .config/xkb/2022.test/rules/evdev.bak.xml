@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE xkbConfigRegistry SYSTEM "xkb.dtd">
 <xkbConfigRegistry version="1.1">
+  <modelList>
+  </modelList>
   <layoutList>
     <layout>
-
       <configItem>
         <name>io</name>
         <shortDescription>io</shortDescription>
@@ -12,7 +13,6 @@
           <iso639Id>eng</iso639Id>
         </languageList>
       </configItem>
-
       <variantList>
         <variant>
           <configItem>
@@ -30,6 +30,7 @@
         </variant>
       </variantList>
     </layout>
-
   </layoutList>
+  <optionList>
+  </optionList>
 </xkbConfigRegistry>

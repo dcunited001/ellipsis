@@ -17,7 +17,10 @@ Find X11 keyboard configs with: =find /gnu/store/ -wholename "*xkb/symbols" -typ
 
 * Config
 
-** IO
+
+** XKB
+
+*** IO
 
 RMLVO
 
@@ -112,4 +115,13 @@ xkb_keymap {
   //xkb_symbols   { include "pc+us(altgr-intl)+inet(evdev)+io(snakeplus)+level3(ralt_alt)+level3(menu_switch)+capslock(hyper)" };
   //xkb_geometry  { include "pc(pc105)" };
 };
+#+end_src
+
+
+***** select from this evdev.bak.xml
+
+
+
+#+begin_src bash
+xq --xml-dtd --xml-force-list="layout" --xml-force-list="variant" -y '.xkbConfigRegistry.layoutList.layout | map(select(.name="io"))' $myxml
 #+end_src

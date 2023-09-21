@@ -910,6 +910,41 @@ exec_always --no-startup-id herd restart polybar
 
 *** TODO setup =xidlehook= to notify-send when idletime is about to lock the computer
 
+** KDE
+
+*** Wayland
+
+#+begin_src sh :tangle .bin/q-wayland :shebang #!/bin/sh
+qdbus org.kde.KWin /KWin org.kde.KWin.showDebugConsole
+#+end_src
+
+*** Bismuth
+
+These lists may not be current, especially if I don't easily automate their
+creation.
+
+**** Float
+
+# +name: kde-bismuth-float-by-class
+
+# +name: kde-bismuth-float-by-title
+
+# +name: kde-bismuth-float-by-role
+
+**** Ignore
+
+# +name: kde-bismuth-ignore-by-class
+
+# +name: kde-bismuth-ignore-by-title
+
+
+***** TODO make these =2c x n= tables and autogen strings to supply to bismouth
+
++ odd columns: class/title
++ even columns: even /short/ desc
++ used =C-u M-|= to generate with =sed -e 's/,/\n/g'=
++ create functions =dc/redelimit[-as-table]= for similar data
+
 * Panel
 
 ** Polybar

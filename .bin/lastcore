@@ -1,0 +1,34 @@
+#!/bin/sh
+dlmtr=' '
+while getopts :d: OPT; do
+    case $OPT in
+        d|+d)
+            if [ 1 -lt ${#OPT} ]; then echo "Must be a single character -d"; exit 1; fi
+            dlmtr="$OPTARG"
+            ;;
+        *)
+            echo "usage: `basename $0` [+-d ARG} [--] ARGS..."
+            exit 2
+    esac
+done
+shift `expr $OPTIND - 1`
+OPTIND=1
+
+args=()
+until [ 0 -eq $# ]; do args+=($1); shift; done
+n_args=${#args[@]}
+if [ 0 -eq $n_args ]; then
+echo $n_args
+    #echo "Required: at least one argument"; exit 1; fi
+    args=(.pid)
+fi
+
+joinargs='"'
+joinargs+="\\(${args[0]})"
+for ((i=1;i<n_args;i++)); do joinargs+="$dlmtr\\(${args[$i]})"; done
+joinargs+='"'
+
+coredumpctl list --json=short | jq '. | last | @text '"$joinargs"
+
+# who knows?
+# "\(.pid) \(.gid) \(.uid) \('.fdsa)|fdsa) \(|) \(fdsa) \(|) \(@test) \("\(.evil?')"
