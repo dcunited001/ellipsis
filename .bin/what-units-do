@@ -1,0 +1,68 @@
+#!/bin/bash
+
+default_systemd_path=/usr/lib/systemd
+xdg_systemd_path=$HOME/.local/share/systemd
+
+# it's easier this way
+user_units=/
+units_path=""
+
+units_path=$default_systemd_path
+
+while getopts :uxsp: OPT; do
+    case $OPT in
+        s|+s)
+            user_units=/system
+            ;;
+        u|+u)
+            user_units=/user
+            ;;
+        x|+x)
+            user_units=/user
+            units_path=$xdg_systemd_path
+            ;;
+        p|+p)
+            units_path="$OPTARG"
+            ;;
+        ?)
+            echo "usage: ${0##*/} [+-up ARG} [--] ARGS..."
+            echo ""
+            echo "With one arg:\n"
+            echo "  find lines in systemd units containing arg. basically grep -re"
+            echo ""
+            echo "With two args:\n"
+            echo "  use file references from output to equivalent to the"
+            echo "  above to search for occurances of the second arg"
+            exit 2
+    esac
+done
+
+# if [ -n $units_path]; then headache; else remember the space; fi
+# if [ 0 -ne "${#units_path}" ]; then .... [[DAMIT]]
+if [[ -n "$units_path" ]]; then
+    units_path="$units_path$user_units"
+fi # condition is now somewhat irrelevant
+
+if [ ! -d "$units_path" ]; then
+    echo "Directory not found: $units_path"
+    exit 1
+fi
+
+shift $(( OPTIND - 1 ))
+OPTIND=1
+keyword1=$1
+shift
+keyword2=$1
+shift
+
+if [[ -z $keyword2 ]]; then
+    echo $units_path
+    grep -re $keyword1 $units_path
+else
+    echo $units_path
+    # a bit of a hack for xargs
+    grep -re $keyword1 $units_path \
+        | cut -f1 -d':'  \
+        | xargs -I '{}' grep -He $keyword2 "{}"
+    # can't pipe this to uniq
+fi

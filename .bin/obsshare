@@ -1,0 +1,4 @@
+#!/bin/bash
+export DISPLAY
+
+obs --platform xcb

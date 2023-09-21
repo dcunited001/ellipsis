@@ -54,11 +54,11 @@ zoomEnabled=false
 
 [Script-bismuth]
 enableFloatingLayout=true
-floatingClass=(?i)virtualbox,GParted,Lxappearance,Nitrogen,Oblogout,octopi,Skype,Xfburn,qt5ct,Gnuplot,Timeset-gui,Lightdm-settings,Qtconfig-qt4,Simple-scan,Pamac-updater,Pamac-manager,azote,GParted,Thunar,alacritty,Anki,ykman-gui,syncthing-gtk,dolphin,freecad,tk,toplevel,kcalcmanjaro-settings-manager,garuda-settings-manager,fcitx5-config-qt
+floatingClass=(?i)virtualbox,GParted,Lxappearance,Nitrogen,Oblogout,octopi,Skype,Xfburn,qt5ct,Gnuplot,Timeset-gui,Lightdm-settings,Qtconfig-qt4,Simple-scan,Pamac-updater,Pamac-manager,azote,GParted,Thunar,alacritty,Anki,ykman-gui,syncthing-gtk,dolphin,freecad,tk,toplevel,kcalcmanjaro-settings-manager,garuda-settings-manager,fcitx5-config-qt,vlc
 floatingTitle=Preferences,Configure Krita,- Krita$,Remmina,Steam - News,Friends List,Steam Guard.*,Steam Login,Blender Preferences,Btrfs Assistant,Timer,PipeControl,AXON,+X+Z,+Y+Z,+X+Y,-2D-,-Y+Z,PERS
 ignoreClass=systemsettings,yakuake,spectacle,Conky,zoom,pwsafe,keepassxc,Clipgrab,fpakman,Galculator,Manjaro-hello,garuda-welcome,mpv,Xfburn,Lxtask,Pavucontrol,Exo-helper*,Lxrandr,Arandr,Viewnior,feh,Audacious,File-roller,Lxappearance,Timeshift-gtk,kwin_rules_dialog
 ignoreRole=quake,task_dialog,pop-up
-ignoreTitle=alsamixer,Event Tester,Speedbar
+ignoreTitle=alsamixer,Event Tester,Speedbar,Screen Sharing
 keepFloatAbove=false
 newWindowAsMaster=true
 screenGapBottom=2
@@ -104,7 +104,7 @@ tiles={"layoutDirection":"horizontal","tiles":[{"width":0.618359375},{"width":0.
 tiles={"layoutDirection":"horizontal","tiles":[{"layoutDirection":"vertical","tiles":[{"height":0.380859375},{"height":0.6191406249999989}],"width":1}]}
 
 [Tiling][94ffe885-ea3c-5b75-868d-849720a2ac04]
-tiles={"layoutDirection":"horizontal","tiles":[]}
+tiles={"layoutDirection":"horizontal","tiles":[{"width":0.567187499999999},{"width":0.43281250000000104}]}
 
 [Tiling][c0c32115-6c0c-5e98-bf49-7e6b63b3835d]
 tiles={"layoutDirection":"horizontal","tiles":[{"width":0.25},{"width":0.5},{"width":0.25}]}

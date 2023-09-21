@@ -1,0 +1,14 @@
+#!/bin/sh 
+
+cd $_ECTO/guix
+repo_sync_opts="--no-prune"
+
+# use --onto-manifest after repo sync, else `git index --maybe-break`
+repo_rebase_opts="--onto-manifest"
+repo sync
+
+# TODO: run build for guix
+
+
+
+# TODO: run builds for dependent channels?
