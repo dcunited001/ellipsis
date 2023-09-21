@@ -1971,12 +1971,11 @@ colors:
 
 *** Via xwaylandbridge
 
-
+Great, it works! On KDE only :(
 
 **** Check Permissions
 
 ***** As a user oneshot
-
 
 #+begin_src conf :tangle .local/share/systemd/user/xwaylandvideobridge-check-permissions.service
 [Unit]
