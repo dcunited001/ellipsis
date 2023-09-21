@@ -1,4 +1,17 @@
-guix_manifest_dir="$XDG_CONFIG_HOME/guix/manifests"
-emacsg_manifest="$HOME/.emacs.g/emacs-g.scm"
-cp "$emacsg_manifest" "$guix_manifest_dir"
-update-profiles "emacs-g"
+#!/bin/sh
+# hmmm +- works
+emacs_profile="emacs-g${DEBUG_EMACS+-debug}"
+#default_target=".emacs.g${DEBUG_EMACS+.debug}"
+default_target=".emacs.g"
+target="${INIT_EMACS:-$HOME/$default_target}"
+
+emacs_manifest="emacs-g.scm"
+new_manifest="$emacs_profile.scm"
+guix_manifests=$HOME/.config/guix/manifests
+
+cp "$target/$emacs_manifest" "$guix_manifests/$new_manifest"
+if [ -d "$GUIX_EXTRA/$emacs_profile" ]; then
+    update-profiles $emacs_profile
+else
+    activate-profiles $emacs_profile
+fi

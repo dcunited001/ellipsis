@@ -2,8 +2,36 @@
 export GUIX_SOURCE=$_ECTO/guix/guix
 export EMACS_SOURCE=$_ECTO/emacs/emacs/src
 
-guix shell -E "^EMAIL$" \
-     -E 'EMACS_SOURCE' \
-     -E 'GUIX_SOURCE' \
-     -p $GUIX_EXTRA/emacs-g/emacs-g -- \
-     emacs "$@"
+emacs_profile=$GUIX_EXTRA/emacs-g/emacs-g
+search_paths=0
+
+while getopts :Zp: OPT; do
+    case $OPT in
+        Z|+Z)
+            search_paths=1
+            ;;
+        p|+p)
+            emacs_profile="$OPTARG"
+            ;;
+        *)
+            echo "usage: `basename $0` [+-p ARG} [--] ARGS..."
+            echo "-p profile/link"
+            exit 2
+    esac
+done
+shift `expr $OPTIND - 1`
+OPTIND=1
+
+if [ 0 -lt "$search_paths" ]; then
+    guix shell -E "^EMAIL$" \
+         -E 'EMACS_SOURCE' \
+         -E 'GUIX_SOURCE' \
+         -p $emacs_profile \
+         --search-paths
+else
+    guix shell -E "^EMAIL$" \
+         -E 'EMACS_SOURCE' \
+         -E 'GUIX_SOURCE' \
+         -p $emacs_profile -- \
+         emacs "$@"
+fi
