@@ -21,6 +21,7 @@ while [ "$1" != "" ]; do
             shift 2
             ;;
         --)
+            # shift # send the guix command additional args
             break
             ;;
         -*|--*=) # unsupported flags
@@ -30,6 +31,7 @@ while [ "$1" != "" ]; do
     esac
 done
 
+__ellipsis_channel=$HOME/.dotfiles
 __substitute_urls=${__substitute_urls:-https://ci.guix.gnu.org https://bordeaux.guix.gnu.org https://substitutes.nonguix.org}
 
 # not sure on sudo -E, sudo -i or no option
@@ -37,8 +39,10 @@ __substitute_urls=${__substitute_urls:-https://ci.guix.gnu.org https://bordeaux.
 
 notify-send "GUIX Update $(hostname)" "Starting update to ${__os}"
 
-__ellipsis_channel=$HOME/.dotfiles
-sudo -E guix system -L $__ellipsis_channel reconfigure $__os --substitute-urls="$__substitute_urls" $@
+sudo -E guix system -L $__ellipsis_channel \
+     reconfigure $__os \
+     --substitute-urls="$__substitute_urls" \
+     $@
 
 if [ $? -eq 0 ]; then
     notify-send -i "${I_SUCCESS:-success}" "GUIX Update $(hostname) failed" "Update to ${__os}"

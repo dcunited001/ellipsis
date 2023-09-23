@@ -18,7 +18,6 @@ args=()
 until [ 0 -eq $# ]; do args+=($1); shift; done
 n_args=${#args[@]}
 if [ 0 -eq $n_args ]; then
-echo $n_args
     #echo "Required: at least one argument"; exit 1; fi
     args=(.pid)
 fi

@@ -1,5 +1,5 @@
 #!/bin/sh
-# hmmm +- works
+# hmmm +- works, but ensure DEBUG_EMACS is unset
 emacs_profile="emacs-g${DEBUG_EMACS+-debug}"
 #default_target=".emacs.g${DEBUG_EMACS+.debug}"
 default_target=".emacs.g"
@@ -9,9 +9,11 @@ emacs_manifest="emacs-g.scm"
 new_manifest="$emacs_profile.scm"
 guix_manifests=$HOME/.config/guix/manifests
 
+guix_channel=$HOME/.dotfiles
+
 cp "$target/$emacs_manifest" "$guix_manifests/$new_manifest"
 if [ -d "$GUIX_EXTRA/$emacs_profile" ]; then
-    update-profiles $emacs_profile
+    update-profiles $emacs_profile -- -L $guix_channel
 else
-    activate-profiles $emacs_profile
+    activate-profiles $emacs_profile -- -L $guix_channel
 fi

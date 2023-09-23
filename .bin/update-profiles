@@ -14,6 +14,7 @@ while [ "$1" != "" ]; do
           shift 2
           ;;
         --)
+          # shift # send the guix command additional args
           break
           ;;
         -*|--*=)
@@ -41,7 +42,12 @@ for profile in $__profiles; do
   echo -e "${GREEN}Updating profile:" $profilePath "${NC}"
   echo
 
-  guix package --profile="$profilePath/$profileName" --manifest="$HOME/.config/guix/manifests/$profileName.scm" --substitute-urls="$__substitute_urls" $@
+  __ellipsis_channel=$HOME/.dotfiles
+  guix package -L $__ellipsis_channel \
+       --profile="$profilePath/$profileName" \
+       --manifest="$HOME/.config/guix/manifests/$profileName.scm" \
+       --substitute-urls="$__substitute_urls" \
+       $@
 
   notify-send "GUIX (Update Profile)" "Complete: $profileName"
 done

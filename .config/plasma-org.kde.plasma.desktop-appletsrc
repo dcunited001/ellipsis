@@ -92,7 +92,7 @@ FillMode=1
 Provider=flickr
 
 [Containments][140][Wallpaper][org.kde.slideshow][General]
-Image=file:///data/xdg/Wallpapers/anime/ergo_proxy_desktop.jpg
+Image=file:///data/xdg/Wallpapers/anime/Guilty-Crown.jpg
 SlidePaths=/data/xdg/Wallpapers/anime/
 
 [Containments][141]
@@ -678,7 +678,7 @@ immutability=1
 plugin=org.kde.plasma.networkmanagement
 
 [Containments][147][Applets][164][Configuration]
-PreloadWeight=100
+PreloadWeight=97
 
 [Containments][147][Applets][177]
 immutability=1
@@ -836,7 +836,7 @@ immutability=1
 plugin=org.kde.plasma.networkmanagement
 
 [Containments][192][Applets][207][Configuration]
-PreloadWeight=42
+PreloadWeight=34
 
 [Containments][192][Applets][231]
 immutability=1
@@ -953,7 +953,7 @@ immutability=1
 plugin=org.kde.plasma.networkmanagement
 
 [Containments][214][Applets][229][Configuration]
-PreloadWeight=42
+PreloadWeight=34
 
 [Containments][214][Applets][230]
 immutability=1

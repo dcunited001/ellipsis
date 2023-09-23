@@ -7,6 +7,7 @@ while [ "$1" != "" ]; do
             shift 2
             ;;
         --)
+          # shift # send the guix command additional args
           break
           ;;
         -*|--*=) # unsupported flags
@@ -19,11 +20,17 @@ while [ "$1" != "" ]; do
     esac
 done
 
+
+
+__ellipsis_channel=$HOME/.dotfiles
 __substitute_urls=${__substitute_urls:-https://ci.guix.gnu.org https://bordeaux.guix.gnu.org https://substitutes.nonguix.org}
 
 notify-send -i important "GUIX (Channels)" "Updating Guix"
 
-guix pull --channels=$HOME/.config/guix/base-channels.scm --substitute-urls="$__substitute_urls" $@
+guix pull -L $__ellipsis_channel \
+     --channels=$HOME/.config/guix/base-channels.scm \
+     --substitute-urls="$__substitute_urls" \
+     $@
 guix describe --format=channels > ~/.config/guix/channels.scm
 
 status=$?

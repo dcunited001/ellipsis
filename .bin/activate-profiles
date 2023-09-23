@@ -14,6 +14,7 @@ while [ "$1" != "" ]; do
             shift 2
             ;;
         --)
+          # shift # send the guix command additional args
           break
           ;;
         -*|--*=) # unsupported flags
@@ -31,6 +32,7 @@ if [ -z "$__profiles" ]; then
     __profiles="$HOME/.config/guix/manifests/*.scm"
 fi
 
+__ellipsis_channel=$HOME/.dotfiles
 __substitute_urls=${__substitute_urls:-https://ci.guix.gnu.org https://bordeaux.guix.gnu.org https://substitutes.nonguix.org}
 
 for profile in $__profiles; do
@@ -46,7 +48,11 @@ for profile in $__profiles; do
     echo
 
     mkdir -p $profilePath
-    guix package --manifest=$manifestPath --profile="$profilePath/$profileName" --substitute-urls="$__substitute_urls" $@
+    guix package -L $__ellipsis_channel \
+         --manifest=$manifestPath \
+         --profile="$profilePath/$profileName" \
+         --substitute-urls="$__substitute_urls" \
+         $@
 
     notify-send "GUIX (Activate Profile)" "Complete: $profileName"
 
