@@ -1,0 +1,5 @@
+! option = symbols
+  underspace:shift_underscore    = +underspace(shift_underscore)
+  underspace:shift_underscore    = +underspace(altgr_underscore)
+
+! include %S/evdev

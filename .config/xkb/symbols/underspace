@@ -1,0 +1,13 @@
+// messes with simple Emacs/OS keybindings
+// gives you accessible snake_case
+partial xkb_symbols "underspace:shift_underscore" {
+  // TODO: shit1 emacs demands a sacrifice: fix snakeyay/snakeplus at levels 5-8
+  key<SPCE>{[space, underscore, space, underscore]};
+};
+
+// best of both worlds: gives you accessible snake_case,
+// but (+shift+space) keybinds still work as (+shift+altgr+space)
+// albeit right handed
+partial xkb_symbols "underspace:altgr_underscore" {
+  key<SPCE>{[space, space, underscore, underscore]};
+};
