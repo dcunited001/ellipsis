@@ -2,7 +2,10 @@
 export GUIX_SOURCE=$_ECTO/guix/guix
 export EMACS_SOURCE=$_ECTO/emacs/emacs/src
 
-emacs_profile=$GUIX_EXTRA/emacs-g/emacs-g
+# either set DEBUG_EMACS=1 (unset completely to avoid)
+# or pass full path with -p
+emacs_profile_name="emacs-g${DEBUG_EMACS+-debug}"
+emacs_profile=$GUIX_EXTRA/$emacs_profile_name/$emacs_profile_name
 search_paths=0
 
 while getopts :Zp: OPT; do
@@ -32,6 +35,6 @@ else
     guix shell -E "^EMAIL$" \
          -E 'EMACS_SOURCE' \
          -E 'GUIX_SOURCE' \
-         -p $emacs_profile -- \
-         emacs "$@"
+         -p $emacs_profile \
+         -- emacs "$@"
 fi

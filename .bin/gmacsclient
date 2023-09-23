@@ -1,5 +1,27 @@
 #!/bin/sh
+# either set DEBUG_EMACS=1 (unset completely to avoid)
+# or pass full path with -p
+emacs_profile_name="emacs-g${DEBUG_EMACS+-debug}"
+emacs_profile=$GUIX_EXTRA/$emacs_profile_name/$emacs_profile_name
+search_paths=0
+
+while getopts :Zp: OPT; do
+    case $OPT in
+        Z|+Z)
+            search_paths=1
+            ;;
+        p|+p)
+            emacs_profile="$OPTARG"
+            ;;
+        *)
+            echo "usage: `basename $0` [+-p ARG} [--] ARGS..."
+            echo "-p profile/link"
+            exit 2
+    esac
+done
+shift `expr $OPTIND - 1`
+OPTIND=1
 
 guix shell -E "^EMAIL$" \
-     -p $GUIX_EXTRA/emacs-g/emacs-g -- \
-     emacsclient -c "$@"
+     -p $emacs_profile \
+     -- emacsclient -c "$@"
