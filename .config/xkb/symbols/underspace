@@ -1,3 +1,4 @@
+// -*- mode: c++; aphelia-mode: -1 -*-
 // messes with simple Emacs/OS keybindings
 // gives you accessible snake_case
 partial xkb_symbols "underspace:shift_underscore" {

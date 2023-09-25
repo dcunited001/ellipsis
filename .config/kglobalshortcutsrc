@@ -8,6 +8,7 @@ switch-to-activity-bc3cdced-7201-4291-a43c-fe3ef12080c2=none,none,Switch to acti
 
 [KDE Keyboard Layout Switcher]
 Switch keyboard layout to English (US)=none,none,Switch keyboard layout to English (US)
+Switch keyboard layout to English (US, intl., with dead keys)=none,none,Switch keyboard layout to English (US\\, intl.\\, with dead keys)
 Switch keyboard layout to English (intl., with AltGr dead keys)=none,none,Switch keyboard layout to English (intl.\\, with AltGr dead keys)
 Switch keyboard layout to IO=none,none,Switch keyboard layout to IO
 Switch keyboard layout to IO: us,altgr-intl,deadkeys=none,none,Switch keyboard layout to IO: us\\,altgr-intl\\,deadkeys

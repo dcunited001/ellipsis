@@ -1,10 +1,9 @@
-// -*- mode: java; aphelia-mode: -1 -*-
-
+// -*- mode: c++; aphelia-mode: -1 -*-
 default partial alphanumeric_keys modifier_keys xkb_symbols "basic" {
 
   include "us"
 
-      name[Group1] = "IO Keyboard";
+    name[Group1] = "IO Keyboard";
 
   key<TLDE>{[grave, asciitilde, dead_grave, dead_tilde]};
 
@@ -23,37 +22,13 @@ default partial alphanumeric_keys modifier_keys xkb_symbols "basic" {
   key<AE12>{[equal, plus, multiply, division]};
 };
 
-// hidden partial modifier_keys xkb_symbols "swaphyper" {
-//   key<ESC>{[Hyper_L]};
-//   key<CAPS>{[Escape]};
-//   modifier_map Mod4{<ESC>};
-// };
-
-// hidden partial xkb_symbols "swapcaps" {
-//   replace key<ESC>{[MENU]};
-//   replace key<MENU>{[LVL3]};
-//   replace key<CAPS>{[Escape]};
-// };
-
-// hidden partial modifier_keys xkb_symbols "hypermod5" {
-//   modifier_map Mod5{Hyper_L};
-//   modifier_map Mod5{Hyper_R};
-
-//   replace key<CAPS>{[Escape]};
-
-//   // esc => Hyper_L, print => Hyper_R
-//   replace key<ESC>{[Hyper_L]};
-//   replace key<PRSC>{[Hyper_R]};
-// };
-
 // TODO: create intl-style Digimon layout based on the us(symbolic) layout
-
 xkb_symbols "intl" {
-  // i said no semicolons </my-stapler>
+  // i said no semicolons
   include "us(intl)" // include "io(swapcaps)"
                      // autoformatting is problematic!!!
                      // include "level5(lsgt_switch)"
-      name[Group1] = "IO Keyboard (Intl With Dead Keys)";
+  name[Group1] = "IO Keyboard (Intl With Dead Keys)";
 
   // key <TLDE> {[dead_grave,         dead_tilde,      grave,       asciitilde ]
   // };

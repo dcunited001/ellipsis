@@ -927,15 +927,101 @@ creation.
 
 # +name: kde-bismuth-float-by-class
 
+systemsettings
+yakuake
+spectacle
+Conky
+zoom
+pwsafe
+keepassxc
+Clipgrab
+fpakman
+Galculator
+Manjaro-hello
+garuda-welcome
+mpv
+Xfburn
+Lxtask
+Pavucontrol
+Exo-helper*
+Lxrandr
+Arandr
+Viewnior
+feh
+Audacious
+File-roller
+Lxappearance
+Timeshift-gtk
+kwin_rules_dialog
+
 # +name: kde-bismuth-float-by-title
 
+alsamixer
+Event Tester
+Speedbar
+
 # +name: kde-bismuth-float-by-role
+
+quake
+task_dialog
+pop-up
 
 **** Ignore
 
 # +name: kde-bismuth-ignore-by-class
 
+(?i)virtualbox
+GParted
+Lxappearance
+Nitrogen
+Oblogout
+octopi
+Skype
+Xfburn
+qt5ct
+Gnuplot
+Timeset-gui
+Lightdm-settings
+Qtconfig-qt4
+Simple-scan
+Pamac-updater
+Pamac-manager
+azote
+GParted
+Thunar
+alacritty
+Anki
+ykman-gui
+syncthing-gtk
+dolphin
+freecad
+tk
+toplevel
+kcalcmanjaro-settings-manager
+garuda-settings-manager
+fcitx5-config-qt
+
 # +name: kde-bismuth-ignore-by-title
+
+Preferences
+Configure Krita
+- Krita$
+Remmina
+Steam - News
+Friends List
+Steam Guard.*
+Steam Login
+Blender Preferences
+Btrfs Assistant
+Timer
+PipeControl
+AXON
++X+Z
++Y+Z
++X+Y
+-2D-
+-Y+Z
+PERS
 
 
 ***** TODO make these =2c x n= tables and autogen strings to supply to bismouth
