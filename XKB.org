@@ -17,7 +17,6 @@ Find X11 keyboard configs with: =find /gnu/store/ -wholename "*xkb/symbols" -typ
 
 * Config
 
-
 ** XKB
 
 *** Symbols
@@ -289,7 +288,11 @@ xkbcomp -I$HOME/.xkb $HOME/.xkb/io.altgr-intl.xkb $DISPLAY
 Can roll this into a single step with:
 
 #+begin_src sh
-setxkbmap -print -layout io -variant altgr-intl | xkbcomp -I$HOME/.xkb/ $DISPLAY
+setxkbmap -print -layout us \
+          -variant altgr-intl \
+          -option "ctrl:hyper_capscontrol,lvl3:menu_switch,lvl3:ralt_alt" \
+          | xkbcomp $DISPLAY
+# setxkbmap -print -layout us -variant altgr-intl | xkbcomp -I$HOME/.xkb/ $DISPLAY
 #+end_src
 
 The output from =xkbcomp= cannot be redirected using normal redirection

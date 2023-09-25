@@ -31,6 +31,8 @@
                  (let* ((root-dir (file-local-name (expand-file-name root-dir-unexpanded)))
                         ;; Workaround for bug https://issues.guix.gnu.org/43818.
                         (root-dir* (directory-file-name root-dir))
+                        ;; TODO: guix-pulled-profile doesn't exist before
+                        ;; guix.el repl runs
                         (guix-lp (expand-file-name "lib/guile/3.0/site"
                                                    guix-pulled-profile))
                         (guix-lcp (expand-file-name "lib/guile/3.0/site-ccache"
