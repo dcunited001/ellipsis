@@ -104,7 +104,7 @@ tiles={"layoutDirection":"horizontal","tiles":[{"width":0.618359375},{"width":0.
 tiles={"layoutDirection":"horizontal","tiles":[{"layoutDirection":"vertical","tiles":[{"height":0.380859375},{"height":0.6191406249999989}],"width":1}]}
 
 [Tiling][94ffe885-ea3c-5b75-868d-849720a2ac04]
-tiles={"layoutDirection":"horizontal","tiles":[{"width":0.567187499999999},{"width":0.43281250000000104}]}
+tiles={"layoutDirection":"horizontal","tiles":[{"width":0.48489583333333336},{"width":0.5151041666666665}]}
 
 [Tiling][c0c32115-6c0c-5e98-bf49-7e6b63b3835d]
 tiles={"layoutDirection":"horizontal","tiles":[{"width":0.25},{"width":0.5},{"width":0.25}]}
@@ -114,9 +114,6 @@ tiles={"layoutDirection":"horizontal","tiles":[{"width":0.5203125},{"width":0.47
 
 [Tiling][ff2699f4-391b-5bbb-85ec-8649845b5b4b]
 tiles={"layoutDirection":"horizontal","tiles":[{"width":0.4869791666666667},{"width":0.5130208333333333}]}
-
-[Wayland]
-InputMethod[$e]=/usr/share/applications/org.fcitx.Fcitx5.desktop
 
 [Windows]
 ActiveMouseScreen=false

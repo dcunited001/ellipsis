@@ -13,7 +13,7 @@ guix_channel=$HOME/.dotfiles
 
 cp "$target/$emacs_manifest" "$guix_manifests/$new_manifest"
 if [ -d "$GUIX_EXTRA/$emacs_profile" ]; then
-    update-profiles $emacs_profile -- -L $guix_channel
+    update-profiles $emacs_profile
 else
-    activate-profiles $emacs_profile -- -L $guix_channel
+    activate-profiles $emacs_profile
 fi

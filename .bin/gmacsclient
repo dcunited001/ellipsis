@@ -5,7 +5,7 @@ emacs_profile_name="emacs-g${DEBUG_EMACS+-debug}"
 emacs_profile=$GUIX_EXTRA/$emacs_profile_name/$emacs_profile_name
 search_paths=0
 
-while getopts :Zp: OPT; do
+while getopts :Zp OPT; do
     case $OPT in
         Z|+Z)
             search_paths=1
@@ -13,6 +13,9 @@ while getopts :Zp: OPT; do
         p|+p)
             emacs_profile="$OPTARG"
             ;;
+	--)
+	    break
+	    ;;
         *)
             echo "usage: `basename $0` [+-p ARG} [--] ARGS..."
             echo "-p profile/link"
