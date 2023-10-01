@@ -33,7 +33,7 @@
                         (root-dir* (directory-file-name root-dir))
                         ;; TODO: guix-pulled-profile doesn't exist before
                         ;; guix.el repl runs
-                        (guix-lp (expand-file-name "lib/guile/3.0/site"
+                        (guix-lp (expand-file-name "share/guile/site/3.0"
                                                    guix-pulled-profile))
                         (guix-lcp (expand-file-name "lib/guile/3.0/site-ccache"
                                                     guix-pulled-profile)))
