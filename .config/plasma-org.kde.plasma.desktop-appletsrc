@@ -92,7 +92,7 @@ FillMode=1
 Provider=flickr
 
 [Containments][140][Wallpaper][org.kde.slideshow][General]
-Image=file:///data/xdg/Wallpapers/anime/Guilty-Crown.jpg
+Image=file:///data/xdg/Wallpapers/anime/blood-blockade-leonardo.png
 SlidePaths=/data/xdg/Wallpapers/anime/
 
 [Containments][141]
@@ -180,7 +180,7 @@ immutability=1
 plugin=org.kde.plasma.userswitcher
 
 [Containments][141][Applets][159][Configuration]
-PreloadWeight=55
+PreloadWeight=60
 
 [Containments][141][Applets][159][Configuration][General]
 showFace=true
@@ -280,7 +280,7 @@ immutability=1
 plugin=org.kde.plasma.notifications
 
 [Containments][141][Applets][169][Configuration]
-PreloadWeight=90
+PreloadWeight=100
 popupHeight=432
 popupWidth=324
 
@@ -422,7 +422,7 @@ plugin=org.kde.plasma.systemmonitor.net
 
 [Containments][141][Applets][181][Configuration]
 CurrentPreset=org.kde.plasma.systemmonitor
-PreloadWeight=90
+PreloadWeight=100
 
 [Containments][141][Applets][181][Configuration][Appearance]
 chartFace=org.kde.ksysguard.linechart
@@ -643,7 +643,7 @@ immutability=1
 plugin=org.kde.plasma.notifications
 
 [Containments][147][Applets][155][Configuration]
-PreloadWeight=60
+PreloadWeight=65
 
 [Containments][147][Applets][156]
 immutability=1
@@ -678,7 +678,7 @@ immutability=1
 plugin=org.kde.plasma.networkmanagement
 
 [Containments][147][Applets][164][Configuration]
-PreloadWeight=97
+PreloadWeight=100
 
 [Containments][147][Applets][177]
 immutability=1
