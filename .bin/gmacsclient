@@ -13,9 +13,9 @@ while getopts :Zp OPT; do
         p|+p)
             emacs_profile="$OPTARG"
             ;;
-	--)
-	    break
-	    ;;
+        --)
+	          break
+	          ;;
         *)
             echo "usage: `basename $0` [+-p ARG} [--] ARGS..."
             echo "-p profile/link"
