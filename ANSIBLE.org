@@ -245,7 +245,7 @@ For =manifest.scm=
 
 This will set =*.yml= buffers to be loaded with =ansible-mode=
 
-#+begin_src emacs-lisp :tangle .dir-locals.eg
+#+begin_src emacs-lisp  :tangle (expand-file-name ".dir-locals.eg.el" ansible-prefix)
 ((auto-mode-alist . (("\\.yml\\'" . ansible-mode)))
  (nil
   . ((eglot-workspace-configuration
@@ -323,7 +323,7 @@ Docs:
 When building Helm charts, at least some network state will probably need to be
 passed or fetched. I'll probably thin it out later.
 
-#+begin_src yaml :tangle (expand-file-name "ee/helm-env.yml.eg" ansible-prefix)
+#+begin_src yaml :tangle (expand-file-name "ee/helm-env.eg.yml" ansible-prefix)
 version: 3
 
 images:
@@ -410,7 +410,7 @@ additional_build_steps:
 
 This could drift (like everything else)
 
-#+begin_src conf :tangle (expand-file-name "ee/helm-env.yml.eg" ansible-prefix)
+#+begin_src conf :tangle (expand-file-name "ee/helm-env.eg.yml" ansible-prefix)
 [defaults]
 nocows=1
 # inventory=inventory.yml
@@ -561,7 +561,7 @@ potential problems, though you should already trust your EE container.
 
 These aliases provide some useful reminders of important CLI options.
 
-#+begin_src sh :tangle (expand-file-name ".local/lib/ansible/init_ansible.sh" ansible-prefix)
+#+begin_src sh :tangle (expand-file-name ".local/lib/ansible/init_ansible.eg.sh" ansible-prefix)
 # TODO perhaps avoid <(anon)
 # I'm still looking into security issues with anonymous file descriptors.
 
@@ -599,7 +599,7 @@ ansnav() {
 
 Some naïve example settings:
 
-#+begin_src conf :tangle (expand-file-name ".config/ansible/ansible.cfg.eg" ansible-prefix)
+#+begin_src conf :tangle (expand-file-name ".config/ansible/ansible.eg.cfg" ansible-prefix)
 
 [tags]
 
@@ -765,7 +765,7 @@ To make the [[https://github.com/pfsensible/core/blob/master/plugins/lookup/pfse
 
 An example of inventory.
 
-#+begin_src conf :tangle (expand-file-name ".config/ansible/inventory.yml.eg" ansible-prefix)
+#+begin_src conf :tangle (expand-file-name ".config/ansible/inventory.eg.yml" ansible-prefix)
 all:
   ansible_port: 2020
   # ansible_user: ansible
@@ -858,7 +858,7 @@ would be a bit different. See the =pulp/pulp_
 
 The Ansible Galaxy url's are nice and mnemonic: =galaxy.ansible.com/$namespace/$collection=
 
-#+begin_src yaml :tangle (expand-file-name ".config/ansible/requirements.yml.eg" ansible-prefix)
+#+begin_src yaml :tangle (expand-file-name ".config/ansible/requirements.eg.yml" ansible-prefix)
 ---
 collections:
 
