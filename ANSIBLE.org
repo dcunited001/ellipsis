@@ -184,19 +184,18 @@ The source for the package is in my dotfiles. This is the equivalent inline
 definition.
 
 #+begin_src scheme
-;; note, I have a custom package definition
-(use-modules
-  ((guix licenses) #:prefix license:)
-  (guix gexp)
-  (guix utils)
-  (guix download)
-  (guix packages)
-  (guix build-system copy)
+(define-module (ellipsis packages terraform)
+  #:use-module ((guix licenses) #:prefix license:)
+  #:use-module (guix gexp)
+  #:use-module (guix utils)
+  #:use-module (guix download)
+  #:use-module (guix packages)
+  #:use-module (guix build-system copy)
 
-  (gnu packages base)
-  (gnu packages compression)
+  #:use-module (gnu packages base)
+  #:use-module (gnu packages compression)
 
-  (srfi srfi-1))
+  #:use-module (srfi srfi-1))
 
 ;; NOTE may require ~/.config customization, esp for plugins
 (define-public packer-bin
@@ -221,10 +220,29 @@ images")
 multiple platforms from a single source configuration.")
     (license license:mpl2.0)))
 
-;; ansible
-;; man-db
-(packages->manifest
- (list packer-bin))
+(define-public terraform-bin
+  (package
+    (name "terraform-bin")
+    (version "1.5.4")
+    (source (origin
+              (method url-fetch)
+              (uri (string-append "https://releases.hashicorp.com/terraform/"
+                                  version "/terraform_"
+                                  version "_linux_amd64.zip"))
+              (sha256
+               (base32 "1skps2scfjl2d3iqxj7j76rkrry0wyllr8fgm0kz9xzc6x8w1n8n"))))
+    (build-system copy-build-system)
+    (inputs (list unzip))
+    (arguments
+     '(#:install-plan '(("terraform" "bin/"))))
+    (home-page "https://www.hashicorp.com/products/terraform")
+    (synopsis "Infrastructure automation to provision and manage resources in any cloud or
+data center")
+    (description "Terraform enables you to safely and predictably create, change, and improve
+infrastructure. It is an open source tool that codifies APIs into declarative
+configuration files that can be shared amongst team members, treated as code,
+edited, reviewed, and versioned.")
+    (license license:mpl2.0)))
 #+end_src
 
 The package spec may be out of sync until I have a Guix channel up
@@ -302,8 +320,6 @@ There is always a way... SMH
 ** VS Code
 
 I must have missed the Guix =vscodium= package or decided to try the flatpak.
-
-
 
 ** Ansible
 
