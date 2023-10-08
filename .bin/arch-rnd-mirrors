@@ -1,0 +1,5 @@
+#!/bin/sh
+
+mirrorlist=/etc/pacman.d/mirrorlist
+sudo bash -c "cp $mirrorlist $mirrorlist.bak"
+sudo bash -c "cat $mirrorlist.bak | grep -e '^Server' | sort -R > $mirrorlist"

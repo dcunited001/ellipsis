@@ -21,6 +21,9 @@
 ^/\.gitconfig.yk4
 ^/\.gitconfig.yk5
 
+# Patches
+/.*\.patch
+
 # XDG
 ^/\.local/share/applications
 ^/\.local/share/bg

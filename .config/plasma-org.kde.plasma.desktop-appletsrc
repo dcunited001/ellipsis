@@ -568,7 +568,7 @@ plugin=org.kde.plasma.systemmonitor.cpu
 
 [Containments][141][Applets][249][Configuration]
 CurrentPreset=org.kde.plasma.systemmonitor
-PreloadWeight=80
+PreloadWeight=85
 
 [Containments][141][Applets][249][Configuration][Appearance]
 chartFace=org.kde.ksysguard.linechart
@@ -822,7 +822,7 @@ immutability=1
 plugin=org.kde.plasma.nightcolorcontrol
 
 [Containments][192][Applets][205][Configuration]
-PreloadWeight=2
+PreloadWeight=0
 
 [Containments][192][Applets][206]
 immutability=1
@@ -939,7 +939,7 @@ immutability=1
 plugin=org.kde.plasma.nightcolorcontrol
 
 [Containments][214][Applets][227][Configuration]
-PreloadWeight=2
+PreloadWeight=0
 
 [Containments][214][Applets][228]
 immutability=1

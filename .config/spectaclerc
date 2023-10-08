@@ -12,14 +12,13 @@ DisplayPort-2 DisplayPort-0 DisplayPort-1 Width 2160x3840 DisplayPort-1=1100
 [General]
 autoSaveImage=true
 clipboardGroup=PostScreenshotCopyLocation
-onLaunchAction=DoNotTakeScreenshot
-printKeyActionRunning=FocusWindow
+onLaunchAction=UseLastUsedCapturemode
 rememberLastRectangularRegion=2
 useReleaseToCapture=true
 
 [GuiConfig]
 captureDelay=1
-captureMode=4
+captureMode=0
 includeDecorations=false
 includePointer=true
 quitAfterSaveCopyExport=true
