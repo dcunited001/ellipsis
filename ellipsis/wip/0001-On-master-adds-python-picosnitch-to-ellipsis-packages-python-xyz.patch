@@ -1,0 +1,86 @@
+diff --git a/ellipsis/packages/python-xyz.scm b/ellipsis/packages/python-xyz.scm
+index 9772a77..0b1407c 100644
+--- a/ellipsis/packages/python-xyz.scm
++++ b/ellipsis/packages/python-xyz.scm
+@@ -1,5 +1,11 @@
+ (define-module (ellipsis packages python-xyz)
+   #:use-module ((guix licenses) #:prefix license:)
++  #:use-module (gnu packages geo)
++  #:use-module (gnu packages graph)
++  #:use-module (gnu packages linux)
++  #:use-module (gnu packages python-build)
++  #:use-module (gnu packages python-science)
++  #:use-module (gnu packages python-web)
+   #:use-module (gnu packages python-xyz)
+   #:use-module (gnu packages)
+   #:use-module (guix build-system pyproject)
+@@ -14,3 +20,69 @@
+   #:export (pyfoo))
+ 
+ (define pyfoo "pyfoo")
++
++;; requests (python-web)
++;; pandas (python-science)
++;; plotly (graph)
++;; geoip2 (geo)
++;; setuptools (python-build)
++
++;; the AUR package doesn't build on arch for me
++;;
++;; https://github.com/elesiuta/picosnitch/blob/master/picosnitch.py
++;;
++;; 0.14 on nix (only substitutes
++;;
++;; https://github.com/NixOS/nixpkgs/blob/master/pkgs/tools/networking/picosnitch/default.nix
++(define-public python-picosnitch
++  (package
++    (name "python-picosnitch")
++    (version "1.0.0")
++    (source
++     (origin
++       (method url-fetch)
++       (uri (pypi-uri "picosnitch" version))
++       (sha256
++        (base32
++         "1p4kvhkshysjd4xnykhrjynfypsirkbj7fciljv59793f5fswz69"))))
++    (build-system python-build-system)
++    (arguments
++     `(#:tests? #f
++       #:phases
++       (modify-phases %standard-phases
++         (add-after 'unpack 'change-pid-file-path
++           (lambda _
++             (substitute* "picosnitch.py"
++               (("/run/picosnitch.pid") "/run/picosnitch/picosnitch.pid")))))))
++
++    ;; the resulting package is massively inflated to satisfy propagated
++    ;; inputs for pandas/plotly. it also doesn't include dash, which is
++    ;; required for the UI (it's not dash the shell)
++    (propagated-inputs
++     (list python-setuptools
++           bcc
++           python-psutil
++           python-dbus
++           python-requests
++           python-pandas
++           python-plotly
++           ;; python-dash
++           ))
++    (home-page "https://elesiuta.github.io/picosnitch/")
++    (synopsis "Monitor network traffic per executable with hashing")
++    (description "Picosnitch is a network monitoring tool that uses BPF for accurate, low-overhead bandwidth monitoring and uses fanotify to watch executables for modification. It breaks down traffic by executable, hash, parent, domain, port or user over time. Parent executables and hashes are also logged for each connection.")
++    (license license:gpl3+)))
++
++
++;; using the github release URL resulted in a single-file (something like a bare checkout)
++;; and the call to (substitute* ...) failed
++;;
++;; (uri (string-append "https://github.com/elesiuta/picosnitch/releases/download/"
++;;                     (string-append "v" version)
++;;                     "/picosnitch.tar.gz"))
++;; (base32
++;;  "1z1nf09xbr6cf1rjgk1y128g7ppix1bz1cdy9cx4hn3zvjifmn3l")
++
++;; plots require python311.dash (not /bin/dash the shell)
++;; https://search.nixos.org/packages?channel=23.05&show=python311Packages.dash&from=0&size=50&buckets=%7B%22package_attr_set%22%3A%5B%22python311Packages%22%5D%2C%22package_license_set%22%3A%5B%5D%2C%22package_maintainers_set%22%3A%5B%5D%2C%22package_platforms%22%3A%5B%5D%7D&sort=relevance&type=packages&query=dash
++;; https://github.com/NixOS/nixpkgs/blob/nixos-23.05/pkgs/development/python-modules/dash/default.nix#L80
