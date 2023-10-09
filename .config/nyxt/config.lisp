@@ -1,23 +1,39 @@
 ;;* Nyxt
+(in-package #:nyxt-user)
+
+;; to start an alternate configuration:
+;; nyxt --profile nosave --socket /tmp/nyxt-nosave.socket
+
+;;** Modules
 
 ;;** Editor
+
+;;*** Theme
+
+;; Alter the instance of the browser's theme slot
 (defmethod customize-instance ((browser browser) &key)
-           (setf (slot-value browser 'theme) theme:+dark-theme+)
-           (setf (slot-value browser 'external-editor-program) '("gmacsclient" "-c")))
+           (setf (slot-value browser 'theme)
+                 theme:+dark-theme+)
+           (setf (slot-value browser 'external-editor-program)
+                 ;; '("gmacsclient" "-c")
+                 '("alacritty --command vim")))
 
 ;;** Keybindings
+
 (define-configuration
  buffer
  ((default-modes
    (pushnew 'nyxt/mode/emacs:emacs-mode %slot-value%))))
 
 
-(define-configuration buffer
-                      ((override-map
-                        (let ((map (make-keymap "override-map")))
-                          (define-key map "f1 f5" 'execute-command "C-space" 'nothing)))))
+(define-configuration
+ buffer
+ ((override-map
+   (let ((map (make-keymap "override-map")))
+     (define-key map "f1 f5" 'execute-command "C-space" 'nothing)))))
 
 ;;** Search
+
 (defvar *dc/search-engines*
   (list
    '("g" "https://google.com/search?q=~a" "https://google.com")

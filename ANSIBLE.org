@@ -65,20 +65,6 @@ which for better or worse happens less frequently than it may seem. I'm not sure
 there are any secrets in my repos unless in the git index somehow, but I've
 always staged by line/hunk ... so.
 
-** Var Setup
-
-To add in bash scripts as =<<ansible-prefix>>=
-
-#+name: ansible-prefix
-#+begin_src emacs-lisp :results value silent
-ansible-prefix
-#+end_src
-
-#+name: secrets-home
-#+begin_src emacs-lisp :results value silent
-secrets-home
-#+end_src
-
 ** Build
 
 The intent here is to build a portable ansible config at =ansible-prefix=.  When
@@ -628,6 +614,8 @@ inventory=inventory.yml
 # * playbooks
 
 # * facts
+
+# gather_subset=
 
 # * logs
 
