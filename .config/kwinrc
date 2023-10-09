@@ -25,7 +25,6 @@ MoveResize=100
 Shift=true
 
 [MouseBindings]
-CommandAllWheel=Previous/Next Desktop
 CommandTitlebarWheel=Previous/Next Desktop
 
 [Plugins]
@@ -121,7 +120,7 @@ InputMethod[$e]=/usr/share/applications/org.fcitx.Fcitx5.desktop
 [Windows]
 ActiveMouseScreen=false
 BorderlessMaximizedWindows=true
-TitlebarDoubleClickCommand=OnAllDesktops
+DelayFocusInterval=50
 
 [Xwayland]
 Scale=1
