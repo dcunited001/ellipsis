@@ -903,7 +903,7 @@ bindsym $super+q exec "loginctl lock-session"
 
 # polybar won't start with the i3 socket (and won't display modes)
 #   unless i3 starts the service
-exec_always --no-startup-id herd restart polybar
+# exec_always --no-startup-id herd restart polybar
 
 #+end_src
 
