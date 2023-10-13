@@ -86,7 +86,6 @@ fonts/**
 !.config/guix/manifests/emacs-native-comp.scm
 
 # shepherd
-.config/shepherd/init.scm
 .config/shepherd/shepherd.log
 
 # user-level guix channel signing keys

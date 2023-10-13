@@ -301,7 +301,7 @@ mode "$supere_system" {
 
 # TODO: potentially extract from i3/config (just secrets here)
 # - i feel better about publickizing my dotfiles every day that goes by
-exec --nostartup-id gnome-keyring-daemon --start --components=secrets
+# exec --nostartup-id gnome-keyring-daemon --start --components=secrets
 
 #+end_src
 
@@ -444,8 +444,7 @@ bindsym $super+F4 exec $preferredTextEditor;focus
 # and nm-applet is a desktop environment-independent system tray GUI for it.
 exec --no-startup-id nm-applet
 #exec_always --no-startup-id fcitx5 -d
-
-exec_always --no-startup-id syncthing-gtk
+#exec_always --no-startup-id syncthing-gtk
 
 ###########################################
 ### KEYBINDINGS
