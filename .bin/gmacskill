@@ -1,0 +1,23 @@
+#!/bin/sh
+emacs_profile_name="emacs-g${DEBUG_EMACS+-debug}"
+emacs_profile=$GUIX_EXTRA/$emacs_profile_name/$emacs_profile_name
+
+while getopts :p OPT; do
+    case $OPT in
+        p|+p)
+            emacs_profile="$OPTARG"
+            ;;
+        --)
+            break
+            ;;
+        *)
+            echo "usage `basename $0` [+-p ARG} [--] ARGS..."
+            echo "-p profile/link"
+            exit 2
+    esac
+done
+shift `expr $OPTIND - 1`
+OPTIND=1
+
+guix shell -p $emacs_profile \
+     -- emacsclient -e "(kill-emacs)"
