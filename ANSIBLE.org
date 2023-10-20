@@ -149,7 +149,8 @@ pip install -r requirements.txt
 The requirements file has been generated from:
 
 #+begin_src sh
-pip install ansible-core ansible-builder ansible-navigator ansible-lint ansible-pylibssh yamllint dnspython passlib
+pip install ansible-core ansible-builder ansible-navigator ansible-lint \
+    ansible-pylibssh yamllint dnspython passlib netaddr
 # pip install kubernetes # installs kubectl for kubernetes.core.*
 #+end_src
 

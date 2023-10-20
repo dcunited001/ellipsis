@@ -2085,6 +2085,7 @@ colors:
 #+begin_src scheme :noweb-ref packages :noweb-sep ""
 
 "pwsafe"
+"seahorse"
 
 #+end_src
 
