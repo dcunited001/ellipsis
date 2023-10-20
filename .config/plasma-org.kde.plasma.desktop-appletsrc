@@ -180,7 +180,7 @@ immutability=1
 plugin=org.kde.plasma.userswitcher
 
 [Containments][141][Applets][159][Configuration]
-PreloadWeight=60
+PreloadWeight=75
 
 [Containments][141][Applets][159][Configuration][General]
 showFace=true

@@ -1,0 +1,129 @@
+#!/bin/bash
+
+# this could be cleaned up. I would need to parse the output or use jinja
+# the tool should probably support jq or something.
+# these things need machine-readable output formats
+
+# source the script.
+# - run ratbagctl list to get the device name.
+# - run ratbagctl $mouse info to get number of profiles and other params
+# - to set defaults for all profiles: for i in {0..4}; do rbctl_defaults $mouse $i; done
+# - it takes about 5 minutes
+# - then run rbctl_programming_profile $mouse $profile to override the defaults
+# - then delete all traces of ratbagctl/piper
+
+# maybe i didn't stay in a holiday in express,
+#   but i did spot two of the exact same mouse model for $15 each. good reviews from xah lee.
+
+rbctl_buttons_list() {
+    ratbagctl $1 profile $2 get \
+        | grep -e "^Button:" \
+        | sed -E "s/Button: ([0-9]+) is mapped to '(.*)'$/\1	\2/g" \
+        | tr ' ' '-' | tr '	' ' '
+}
+
+rbctl_resolution_defaults() {
+  local m=$1
+  local p=$2
+  local resolutions=(2400 3000 3600 4200 4800)
+
+  #default_resolutions
+
+  local res
+  for res in {0..4}; do
+      ratbagctl $m profile $p resolution $res dpi set "${resolutions[$res]}"
+      ratbagctl $m profile $p resolution $res enabled set
+  done
+
+  ratbagctl $m profile $p resolution default set 2
+  ratbagctl $m profile $p resolution active set 2
+}
+
+rbctl_button_defaults() {
+    local m=$1
+    local p=$2
+
+    # left/right/middle | rb: 0,1,2 | input: 1,2,3 | emacs: 1,2,3
+    ratbagctl $m profile $p button 0  action set button 1
+    ratbagctl $m profile $p button 1  action set button 2
+    ratbagctl $m profile $p button 2  action set button 3
+
+    # back/forward
+    # rb: 3,4 | input: 4,5 | emacs: 9,10
+    ratbagctl $m profile $p button 3  action set button 4
+    ratbagctl $m profile $p button 4  action set button 5
+
+    # res shift
+    # rb: 5 | input: 9 | emacs: 12
+    ratbagctl $m profile $p button 5  action set button 9
+
+    # back2/forward2
+    # rb: 6,7 | input: 10,11 | emacs: 14,15
+    ratbagctl $m profile $p button 6  action set button 10
+    ratbagctl $m profile $p button 7  action set button 11
+
+    # profile cycle
+    # rb: 8 | input: 8 | emacs: 13
+    ratbagctl $m profile $p button 8  action set button 8
+
+    # mouse wheel
+    ratbagctl $m profile $p button 9  action set special wheel-right
+    ratbagctl $m profile $p button 10 action set special wheel-left
+}
+
+rbctl_defaults() {
+    local m=$1
+    local p=$2
+
+    # LED's
+    ratbagctl $m profile $p led 0 set mode cycle \
+              duration 3500 \
+              brightness 127
+    ratbagctl $m profile $p led 1 set mode cycle \
+              duration 3500 \
+              brightness 127
+
+    rbctl_resolution_defaults $m $p
+    rbctl_button_defaults $m $p
+}
+
+# programming profile
+rbctl_prog_profile() {
+    local m=$1
+    local p=$2
+
+    ratbagctl $m profile $p led 0 set mode breathing \
+              color "2ec27e" \
+              duration 3500 \
+              brightness 255
+    ratbagctl $m profile $p led 1 set mode on \
+              color "dc8add" \
+              duration 3500 \
+              brightness 255
+}
+
+rbctl_translation_profile() {
+    local m=$1
+    local p=$2
+
+    _screenshot='+KEY_LEFTSHIFT +KEY_LEFTMETA KEY_SYSRQ -KEY_LEFTSHIFT -KEY_LEFTMETA'
+    _cut='+KEY_RIGHTCTRL KEY_SYSRQ -KEY_LEFTCTRL'
+    _paste='+KEY_RIGHTCTRL KEY_SYSRQ -KEY_LEFTCTRL'
+    _selectall='+KEY_RIGHTCTRL KEY_SYSRQ -KEY_LEFTCTRL'
+
+    ratbagctl $m profile $p button 2  action set macro $_selectall
+    ratbagctl $m profile $p button 8  action set macro $_screenshot
+    ratbagctl $m profile $p button 9  action set macro $_paste
+    ratbagctl $m profile $p button 10 action set macro $_cut
+
+    ratbagctl $m profile $p led 0 set mode on \
+              color "ffdc00" \
+              brightness 255
+    ratbagctl $m profile $p led 1 set mode on \
+              color "ffdc00" \
+              brightness 255
+}
+
+rbctl_gamingprofile() {
+    echo TODO ... someday?
+}

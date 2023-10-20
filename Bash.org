@@ -1554,6 +1554,9 @@ alias rip="expac --timefmt='%Y-%m-%d %T' '%l\t%n %v' | sort | tail -200 | nl"
 alias pathtr="tr ':' '\n'"
 alias shitbin='echo -e "\033c"'
 
+# ssh
+
+alias sshddump='sudo sshd -T'
 # gpg
 alias gpga='gpg --armor'
 alias gpguptty='gpg-connect-agent updatestartuptty /bye'

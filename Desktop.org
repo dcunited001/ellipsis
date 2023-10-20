@@ -924,6 +924,8 @@ creation.
 
 **** Float
 
+krunner, kded, polkit, plasmashell
+
 # +name: kde-bismuth-float-by-class
 
 systemsettings
