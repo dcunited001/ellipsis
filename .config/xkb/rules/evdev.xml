@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE xkbConfigRegistry SYSTEM "xkb.dtd">
 <xkbConfigRegistry version="1.1">
+  <modelList>
+  </modelList>
   <layoutList>
     <layout>
       <configItem>
@@ -32,7 +34,7 @@
   <optionList>
     <group allowMultipleSelection="false">
       <configItem>
-        <name>Underspace</name>
+        <name>underspace</name>
         <description>Type Underscore with the Space Bar</description>
       </configItem>
       <option>
@@ -45,6 +47,24 @@
         <configItem>
           <name>underspace:altgr_underscore</name>
           <description>Make AltGr+[Shift]+Space An Underscore (less problems in emacs)</description>
+        </configItem>
+      </option>
+    </group>
+    <group allowMultipleSelection="true">
+      <configItem>
+        <name>fmedia</name>
+        <description>Reuse Media Keys as additional function keys</description>
+      </configItem>
+      <option>
+        <configItem>
+          <name>fmedia:mute_f17</name>
+          <description>fdsa</description>
+        </configItem>
+      </option>
+      <option>
+        <configItem>
+          <name>fmedia:voldown_f18</name>
+          <description>fdsa</description>
         </configItem>
       </option>
     </group>
