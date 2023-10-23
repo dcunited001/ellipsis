@@ -755,7 +755,7 @@ export DISTRO="$(grep -e '^ID=' /etc/os-release | sed -e 's/^ID=//g')"
 
 # can't add functions to .bash_profile: only .bashrc
 export NTHREADS="$(ncpu-threads)"
-if [[ -n "$NCPU" ]]; then
+if [[ -n "$NTHREADS" ]]; then
     NCPU="$((NTHREADS / 2))"
 else
     NCPU="4"
