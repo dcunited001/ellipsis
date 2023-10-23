@@ -1,2 +1,4 @@
 #!/bin/sh
-gpg-connect-agent 'getinfo std_env_names' /bye | awk '$1=="D" {print $2}'
+gpg-agent-env-vars |\
+    tr -dc '[:alnum:]\n' |\
+    xargs -I '___' gpg-connect-agent "getinfo getenv ___" /bye
