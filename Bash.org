@@ -133,9 +133,9 @@ export DOOMDIR=$HOME/.doom.d
 #+begin_src sh :tangle .profile :noweb yes :comments none :results none :exports none :shebang #!/bin/sh
 <<bash-env-bindings_CALL()>>
 
-# sourcing .profile in .xsession: GPG_TTY='not a tty' ... inherited by everything
-# GPG_TTY="$(tty)"
-# export GPG_TTY
+# not setting gpg tty for now
+#GPG_TTY="$(tty)"
+#export GPG_TTY
 #+end_src
 
 #+RESULTS:

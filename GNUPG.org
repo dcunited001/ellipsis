@@ -359,7 +359,8 @@ or =start-gpg-connect=. My notes say to prefer starting =gpg-agent= via
 **** With =gpg-connect-agent=
 
 #+begin_src sh :tangle (concat (or (getenv "SECRETS_HOME") ".") "/bin/start-gpg-connect") :shebang "#!/bin/sh" :tangle-mode (identity #o500)
-export GPG_TTY="$(tty)"
+# The TTY should be set by the caller
+# export GPG_TTY="$(tty)"
 unset SSH_AGENT_PID
 export SSH_AUTH_SOCK="/run/user/$UID/gnupg/S.gpg-agent.ssh"
 gpg-connect-agent update-startuptty /bye > /dev/null
@@ -370,7 +371,8 @@ gpg-connect-agent update-startuptty /bye > /dev/null
 Prefer to start with =gpgconf=
 
 #+begin_src sh :tangle (concat (or (getenv "SECRETS_HOME") ".") "/bin/start-gpg") :shebang "#!/bin/sh" :tangle-mode (identity #o500)
-export GPG_TTY="$(tty)"
+# The TTY should be set by the caller
+# export GPG_TTY="$(tty)"
 unset SSH_AGENT_PID
 export SSH_AUTH_SOCK="$(gpgconf --list-dirs agent-ssh-socket)"
 gpgconf --launch gpg-agent
@@ -431,7 +433,8 @@ Troubleshoot =gpg-agent=
 
 #+begin_src sh :tangle (concat (or (getenv "SECRETS_HOME") ".") "/bin/start-gpg-debug") :shebang "#!/bin/sh" :tangle-mode (identity #o500)
 # run with --log-file to log
-export GPG_TTY="$(tty)"
+# The TTY should be set by the caller
+# export GPG_TTY="$(tty)"
 unset SSH_AGENT_PID
 export SSH_AUTH_SOCK="$(gpgconf --list-dirs agent-ssh-socket)"
 gpg-agent --daemon --no-detach -v -v --debug-level advanced $@
@@ -444,7 +447,8 @@ Troubleshoot =gpg-agent= with:
 
 #+begin_src sh :tangle (concat (or (getenv "SECRETS_HOME") ".") "/bin/start-gpg-debug-pinentry") :shebang "#!/bin/sh" :tangle-mode (identity #o500)
 # run with --log-file to log
-export GPG_TTY="$(tty)"
+# The TTY should be set by the caller
+# export GPG_TTY="$(tty)"
 unset SSH_AGENT_PID
 export SSH_AUTH_SOCK="$(gpgconf --list-dirs agent-ssh-socket)"
 gpg-agent --daemon --no-detach -v -v --debug-pinentry --debug 1024 $@

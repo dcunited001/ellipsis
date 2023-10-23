@@ -1622,7 +1622,7 @@ dispatch on:
 #+begin_src scheme :noweb-ref packages :noweb-sep ""
 "dmenu"
 "rofi"
-"pinentry-rofi"
+"pinentry-gtk2"
 #+end_src
 
 
