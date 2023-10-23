@@ -1,0 +1,2 @@
+#!/bin/sh
+find $_ECTO -maxdepth 5 -wholename '*.repo/manifests.git/config' -exec grep -re "url = " '{}' +

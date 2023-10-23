@@ -410,8 +410,25 @@ alias guix-main="$HOME/.config/guix/current/bin/guix"
 # GUIX_PROFILE="$HOME/.guix-profile"
 # . "$GUIX_PROFILE/etc/profile"
 
-# GUIX_AUTOLOAD_PROFILES=(desktop i3)
+export GUIX_LOCPATH=$HOME/.guix-profile/lib/locale
+
+# -c cores -m jobs
+export GUIX_BUILD_OPTIONS="-c$NCPU"
+
+export GUIX_DEVTOOLS=$GUIX_EXTRA/devtools/devtools
+export GUIX_DEVDEBUG=$GUIX_EXTRA/devdebug/devdebug
 export GUIX_EXTRA=$HOME/.guix-extra-profiles
+
+#+end_src
+
+#+begin_src sh :tangle .config/sh/profile.d/guix-profiles.sh
+# GUIX_AUTOLOAD_PROFILES=(desktop i3)
+if [[ -z $GUIX_AUTOLOAD_PROFILES ]]; then
+    GUIX_AUTOLOAD_PROFILES=(i3 desktop fonts browsers xkb pipewire \
+                               mon devtools academic office cad kicad \
+                               pythondev)
+fi
+
 for i in ${GUIX_AUTOLOAD_PROFILES[@]}; do
   echo $i
   profile=$GUIX_EXTRA/$i/$i
@@ -421,15 +438,8 @@ for i in ${GUIX_AUTOLOAD_PROFILES[@]}; do
   fi
   unset $profile
 done
-
-export GUIX_LOCPATH=$HOME/.guix-profile/lib/locale
-
-# -c cores -m jobs
-export GUIX_BUILD_OPTIONS="-c6"
-
-export GUIX_DEVTOOLS=$GUIX_EXTRA/devtools/devtools
-export GUIX_DEVDEBUG=$GUIX_EXTRA/devdebug/devdebug
 #+end_src
+
 
 Misc guix utils
 
@@ -721,15 +731,28 @@ kacomp_set() {
 
 * Hardware
 
-#+begin_src sh :tangle .profile :shebang #!/bin/sh
-ncpu_x86_threads() {
-    ls -al /sys/class/cpuid/cpu8 | wc -l
-}
+#+begin_src sh :tangle bin/ncpu-threads :shebang #!/bin/sh
+ls -al /sys/class/cpuid/cpu* | wc -l
+#+end_src
 
-ncpu_x86() {
-    nthreads=$(ncpu_x86_threads)
-    echo $(($nthreads / 2))
-}
+Typically, I'd only like to commit half threads to anything
+
+#+begin_src sh :tangle .profile :shebang #!/bin/sh
+if [[ ! -d "$HOME/bin" ]]; then
+    echo "Move ~/bin to ~/bin !!"
+fi
+
+export PATH=$HOME/.local/bin:$HOME/bin:$PATH
+export DISTRO="$(grep -e '^ID=' /etc/os-release | sed -e 's/^ID=//g')"
+
+# can't add functions to .bash_profile: only .bashrc
+export NTHREADS="$(ncpu-threads)"
+if [[ -n "$NCPU" ]]; then
+    NCPU="$((NTHREADS / 2))"
+else
+    NCPU="4"
+fi
+export NCPU
 #+end_src
 
 * Languages
@@ -890,13 +913,12 @@ MAKE_OPTS="-j14" PYTHON_MAKE_OPTS="-j14"
 
 Full command
 
-#+begin_src sh :tangle .bin/pynv-install-py
+#+begin_src sh :tangle bin/pynv-install-py
 [[ -z "$1" ]] && echo "Requires semantic version" && exit 1;
 
 version=$1
-ncpu=$(ncpu_x86)
 
-[[ ncpu -le 3 ]] && mjobs=3 || mjobs=$(($ncpu - 2))
+mjobs=$((NTHREADS - 2))
 
 env PYTHON_CONFIGURE_OPTS='--enable-optimizations --with-lto' \
     PYTHON_CFLAGS='-march=native -mtune=native' \
@@ -1180,10 +1202,10 @@ use_julia_system() {
     export JULIA_PATH="$_LANG/julia"
     export JULIA_VERSION="1.7.3"
 
-    export JULIA_BIN="$JULIA_PATH/.bin/julia-$JULIA_VERSION/bin/julia"
-    export JULIA_LIB="$JULIA_PATH/.bin/julia-$JULIA_VERSION/lib/julia"
+    export JULIA_BIN="$JULIA_PATH/bin/julia-$JULIA_VERSION/bin/julia"
+    export JULIA_LIB="$JULIA_PATH/bin/julia-$JULIA_VERSION/lib/julia"
 
-    PATH_add "$JULIA_PATH/.bin"
+    PATH_add "$JULIA_PATH/bin"
 
     alias pluto='julia --project=nb --threads=auto -e "using Pluto; Pluto.run(port=4321)"'
 }
@@ -1254,9 +1276,6 @@ If =.bash_profile= does not exist, =.profile= will be sourced instead. When bash
 #[[ -z $XDG_DATA_DIRS ]]   && export XDG_DATA_DIRS=/usr/local/share/:/usr/share/
 #[[ -z $XDG_STATE_HOME ]]  && export XDG_STATE_HOME=$HOME/.local/state
 #[[ -z $XDG_CACHE_HOME ]]  && export XDG_CACHE_HOME=$HOME/.cache
-
-export PATH=$HOME/.local/bin:$HOME/.bin:$PATH
-export DISTRO="$(grep -e '^ID=' /etc/os-release | sed -e 's/^ID=//g')"
 #+end_src
 
 #+RESULTS:
@@ -1557,6 +1576,8 @@ alias shitbin='echo -e "\033c"'
 # ssh
 
 alias sshddump='sudo sshd -T'
+#alias sship='ssh -i $
+
 # gpg
 alias gpga='gpg --armor'
 alias gpguptty='gpg-connect-agent updatestartuptty /bye'

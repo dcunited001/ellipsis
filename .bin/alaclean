@@ -1,2 +1,0 @@
-#!/bin/sh
-exec $GUIX_EXTRA/desktop/desktop/bin/alacritty --config-file $XDG_CONFIG_HOME/alacritty/alacritty.clean.yml

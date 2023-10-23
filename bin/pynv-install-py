@@ -1,0 +1,13 @@
+# [[file:../Bash.org::*Optimizations][Optimizations:3]]
+[[ -z "$1" ]] && echo "Requires semantic version" && exit 1;
+
+version=$1
+
+mjobs=$((NTHREADS - 2))
+
+env PYTHON_CONFIGURE_OPTS='--enable-optimizations --with-lto' \
+    PYTHON_CFLAGS='-march=native -mtune=native' \
+    PYTHON_MAKE_OPTS="-j$mjobs" \
+    MAKE_OPTS="-j$mjobs" \
+    pyenv install $version 2>&1 > ~/src/log/python-build-$version.log
+# Optimizations:3 ends here

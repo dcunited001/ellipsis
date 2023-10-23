@@ -282,14 +282,14 @@ This directory should be linked from =$HOME/.xkb=
 
 Compile the layout with =xkbcomp -I$HOME/.xkb $HOME/.xkb/io.altgr-intl.xkb=
 
-Then, in =.xsession=, run =$HOME/.bin/set_xkbcomp=
+Then, in =.xsession=, run =$HOME/bin/set_xkbcomp=
 
 Note: =xkb= tools including =xkbcli= _do not_ expand the =~=. This makes it
 very confusing when in a shell trying to pin down how it works.
 
 ** Customization
 
-Run =~/.bin/xkbio= or =~/.bin/xkbus= or:
+Run =~/bin/xkbio= or =~/bin/xkbus= or:
 
 #+begin_src sh
 xkbcomp -I$HOME/.xkb $HOME/.xkb/io.altgr-intl.xkb $DISPLAY

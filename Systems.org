@@ -405,7 +405,7 @@ This script accepts a space-separated list of manifest file names (without exten
 activate-profiles desktop emacs music
 #+end_example
 
-+ [[file:.bin/activate-profiles][.bin/activate-profiles]]
++ [[file:bin/activate-profiles][bin/activate-profiles]]
 
 ** Updating Profiles
 
@@ -415,13 +415,13 @@ This script accepts a space-separated list of manifest file names (without exten
 update-profiles emacs
 #+end_example
 
-+ [[file:.bin/update-profiles][.bin/update-profiles]]
++ [[file:bin/update-profiles][bin/update-profiles]]
 
 ** Updating Channels
 
 This script makes it easy to update all channels to the latest commit based on an original channel file (see the Channels section at the top of this document).
 
-+ [[file:.bin/update-channels][.bin/update-channels]]
++ [[file:bin/update-channels][bin/update-channels]]
 
 * Dotfiles Management
 ** Syncing

@@ -1,0 +1,9 @@
+#!/bin/sh
+guix_manifest_dir="$XDG_CONFIG_HOME/guix/manifests"
+scimax_manifest="$HOME/.emacs.scimax/scimax.scm"
+# echo $emacsg_manifest
+cp "$scimax_manifest" "$guix_manifest_dir"
+
+# run `activate-profiles scimax` the first time
+# or install manually with `guix package ...`
+update-profiles scimax

@@ -1,0 +1,12 @@
+#!/bin/sh
+export GUIX_SOURCE="$_ECTO/guix/guix"
+export EMACS_SOURCE="$_ECTO/emacs/emacs/src"
+export EMACS_SCIMAX="$HOME/.emacs.scimax"
+export SCIMAX_PROFILE="$GUIX_EXTRA/scimax/scimax"
+
+guix shell -E "^EMAIL$" \
+     -E 'EMACS_SOURCE' \
+     -E 'GUIX_SOURCE' \
+     -E 'EMACS_SCIMAX' \
+     -p "$SCIMAX_PROFILE" -- \
+     emacs -q -l "$EMACS_SCIMAX/init-scimax.el" "$@"

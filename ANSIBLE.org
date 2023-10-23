@@ -125,7 +125,7 @@ export ANSIBLE_CONFIG=$ANSIBLE_HOME/ansible.cfg
 
 # probably don't use emacsclient to edit your vault
 export EDITOR=vi
-PATH_add .bin
+PATH_add bin
 
 use_guixs --search-paths -L $HOME/.dotfiles -m manifest.scm
 # use_guix_manifest manifest.scm
@@ -484,7 +484,7 @@ From [[https://gitlab.com/tomaskadlec/ansible-vault-gpg][gitlab.com/tomaskadlec/
 Set this in your =ansible.cfg=
 
 #+begin_example conf
-vault_password_file=.bin/vaultgpgpass
+vault_password_file=bin/vaultgpgpass
 #+end_example
 
 Create a script, ensure it has the =#!/bin/sh= directive and chmod it.
@@ -537,7 +537,7 @@ ansible-navigator:
   execution-environment:
     enabled: False
   ansible:
-    cmdline: --vault-password-file .bin/vaultgpgpass
+    cmdline: --vault-password-file bin/vaultgpgpass
 #+end_example
 
 If you set a conflicting value for =vault_password_file= in =ansible.cfg=, you
@@ -1248,7 +1248,7 @@ generally needs to be provided ahead of time, unless stowed somewhere.
 #+begin_src sh :eval no
 guixpkg=$(guix pack --relocatable --system=x86_64-linux --compression=gzip --save-provenance \
       -L $HOME/.dotfiles -m $SECRETS_HOME/.config/guix/manifests/ansible-usb.scm \
-      -S .bin=bin)
+      -S bin=bin)
 if [ ! -e $SECRETS_HOME/pkg ]; then
     mkdir -p $SECRETS_HOME/pkg
 fi

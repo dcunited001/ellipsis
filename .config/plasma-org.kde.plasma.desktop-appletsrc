@@ -161,7 +161,7 @@ plugin=org.kde.plasma.digitalclock
 [Containments][141][Applets][158][Configuration]
 PreloadWeight=100
 popupHeight=650
-popupWidth=1170
+popupWidth=1072
 
 [Containments][141][Applets][158][Configuration][Appearance]
 customDateFormat=yyyy-MM-dd
@@ -197,7 +197,7 @@ plugin=org.kde.plasma.systemmonitor.cpu
 
 [Containments][141][Applets][167][Configuration]
 CurrentPreset=org.kde.plasma.systemmonitor
-PreloadWeight=80
+PreloadWeight=90
 
 [Containments][141][Applets][167][Configuration][Appearance]
 chartFace=org.kde.ksysguard.linechart
@@ -274,6 +274,9 @@ cpu/cpu9/usage=210,136,14
 [Containments][141][Applets][168][Configuration][Sensors]
 highPrioritySensorIds=["cpu/cpu.*/usage"]
 totalSensors=["cpu/all/usage"]
+
+[Containments][141][Applets][168][Configuration][org.kde.ksysguard.linechart][General]
+rangeAutoY=false
 
 [Containments][141][Applets][169]
 immutability=1
@@ -533,7 +536,7 @@ plugin=org.kde.plasma.systemmonitor
 
 [Containments][141][Applets][236][Configuration]
 CurrentPreset=org.kde.plasma.systemmonitor
-PreloadWeight=85
+PreloadWeight=90
 
 [Containments][141][Applets][236][Configuration][Appearance]
 chartFace=org.kde.ksysguard.linechart
@@ -575,7 +578,7 @@ plugin=org.kde.plasma.systemmonitor.cpu
 
 [Containments][141][Applets][249][Configuration]
 CurrentPreset=org.kde.plasma.systemmonitor
-PreloadWeight=90
+PreloadWeight=100
 
 [Containments][141][Applets][249][Configuration][Appearance]
 chartFace=org.kde.ksysguard.linechart

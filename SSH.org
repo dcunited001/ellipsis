@@ -257,9 +257,9 @@ export SSH_AUTH_SOCK=$(gpgconf --list-dirs agent-ssh-socket)
 
 ** Emacs
 
-This is output to =$SECRETS_HOME/.bin=, but needs to be in path or copied to =~/.bin=.
+This is output to =$SECRETS_HOME/bin=, but needs to be in path or copied to =~/bin=.
 
-#+begin_src sh :tangle (concat secrets-home "/.bin/emacs-agent-set") :shebang "#!/bin/sh"
+#+begin_src sh :tangle (concat secrets-home "/bin/emacs-agent-set") :shebang "#!/bin/sh"
 if [ ! -z "$SSH_AGENT_PID" ]; then
     if [ ! -z "$SSH_AUTH_SOCK" ]; then
         emacsclient -e "(setenv \"SSH_AGENT_PID\" \"$SSH_AGENT_PID\")" -a "Something somewhere happen"
@@ -276,14 +276,14 @@ fi
 
 And clear the agent vars from an emacs server
 
-#+begin_src sh :tangle (concat secrets-home "/.bin/emacs-agent-clear") :shebang "#!/bin/sh"
+#+begin_src sh :tangle (concat secrets-home "/bin/emacs-agent-clear") :shebang "#!/bin/sh"
 emacsclient -e "(setenv \"SSH_AGENT_PID\" \"\")" -a "Something somewhere still happen"
 emacsclient -e "(setenv \"SSH_AUTH_SOCK\" \"\")" -a "Something somewhere still happen"
 #+end_src
 
 When using GPG
 
-#+begin_src sh :tangle (concat secrets-home "/.bin/emacs-agent-gpg") :shebang "#!/bin/sh"
+#+begin_src sh :tangle (concat secrets-home "/bin/emacs-agent-gpg") :shebang "#!/bin/sh"
 if [ ! -z "$SSH_AUTH_SOCK" ]; then
     emacsclient -e "(setenv \"SSH_AUTH_SOCK\" \"$SSH_AUTH_SOCK\")" -a "Something somewhere happen"
 else

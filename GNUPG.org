@@ -303,7 +303,7 @@ if [ -z $GNUPGHOME ];then
     export GNUPGHOME=$HOME/.gnupg
     echo "GNUPGHOME=$GNUPGHOME"
 fi
-export PATH=$SECRETS_HOME/.bin:$PATH
+export PATH=$SECRETS_HOME/bin:$PATH
 
 # unless there is a specific $GNUPG_PATH, use a guix profile
 if [ -z $GNUPG_PATH ];then
@@ -358,7 +358,7 @@ or =start-gpg-connect=. My notes say to prefer starting =gpg-agent= via
 
 **** With =gpg-connect-agent=
 
-#+begin_src sh :tangle (concat (or (getenv "SECRETS_HOME") ".") "/.bin/start-gpg-connect") :shebang "#!/bin/sh" :tangle-mode (identity #o500)
+#+begin_src sh :tangle (concat (or (getenv "SECRETS_HOME") ".") "/bin/start-gpg-connect") :shebang "#!/bin/sh" :tangle-mode (identity #o500)
 export GPG_TTY="$(tty)"
 unset SSH_AGENT_PID
 export SSH_AUTH_SOCK="/run/user/$UID/gnupg/S.gpg-agent.ssh"
@@ -369,7 +369,7 @@ gpg-connect-agent update-startuptty /bye > /dev/null
 
 Prefer to start with =gpgconf=
 
-#+begin_src sh :tangle (concat (or (getenv "SECRETS_HOME") ".") "/.bin/start-gpg") :shebang "#!/bin/sh" :tangle-mode (identity #o500)
+#+begin_src sh :tangle (concat (or (getenv "SECRETS_HOME") ".") "/bin/start-gpg") :shebang "#!/bin/sh" :tangle-mode (identity #o500)
 export GPG_TTY="$(tty)"
 unset SSH_AGENT_PID
 export SSH_AUTH_SOCK="$(gpgconf --list-dirs agent-ssh-socket)"
@@ -395,7 +395,7 @@ For flatpak apps:
   be included in a script, called after =GPG_TTY= has been established for the
   =gpg-agent=.
 
-#+begin_src sh :tangle (concat (or (getenv "SECRETS_HOME") ".") "/.bin/flatpak-gpg-overrides") :shebang "#!/bin/sh" :tangle-mode (identity #o500)
+#+begin_src sh :tangle (concat (or (getenv "SECRETS_HOME") ".") "/bin/flatpak-gpg-overrides") :shebang "#!/bin/sh" :tangle-mode (identity #o500)
 flatpak --user override --env=GPG_TTY=$(tty) org.mozilla.Thunderbird
 #+end_src
 
@@ -415,13 +415,13 @@ gpg -k | grep -e "^sub" | cut -b 16-33
 Get the environment variables that =gpg= passes to =gpg-agent=. These are the
 only variables permitted in =gpg-agent.conf=.
 
-#+begin_src sh :tangle (concat (or (getenv "SECRETS_HOME") ".") "/.bin/gpg-agent-env-vars") :shebang "#!/bin/sh" :tangle-mode (identity #o500)
+#+begin_src sh :tangle (concat (or (getenv "SECRETS_HOME") ".") "/bin/gpg-agent-env-vars") :shebang "#!/bin/sh" :tangle-mode (identity #o500)
 gpg-connect-agent 'getinfo std_env_names' /bye | awk '$1=="D" {print $2}'
 #+end_src
 
 Dump the =gpg-agent= environment (throws errors when env vars have no value):
 
-#+begin_src sh :tangle (concat (or (getenv "SECRETS_HOME") ".") "/.bin/gpg-agent-env") :shebang "#!/bin/sh" :tangle-mode (identity #o500)
+#+begin_src sh :tangle (concat (or (getenv "SECRETS_HOME") ".") "/bin/gpg-agent-env") :shebang "#!/bin/sh" :tangle-mode (identity #o500)
 gpg-agent-env-vars |\
     tr -dc '[:alnum:]\n' |\
     xargs -I '___' gpg-connect-agent "getinfo getenv ___" /bye
@@ -429,7 +429,7 @@ gpg-agent-env-vars |\
 
 Troubleshoot =gpg-agent=
 
-#+begin_src sh :tangle (concat (or (getenv "SECRETS_HOME") ".") "/.bin/start-gpg-debug") :shebang "#!/bin/sh" :tangle-mode (identity #o500)
+#+begin_src sh :tangle (concat (or (getenv "SECRETS_HOME") ".") "/bin/start-gpg-debug") :shebang "#!/bin/sh" :tangle-mode (identity #o500)
 # run with --log-file to log
 export GPG_TTY="$(tty)"
 unset SSH_AGENT_PID
@@ -442,7 +442,7 @@ Troubleshoot =gpg-agent= with:
 + =--debug-pinentry=
 + =--debug 1024= which is required
 
-#+begin_src sh :tangle (concat (or (getenv "SECRETS_HOME") ".") "/.bin/start-gpg-debug-pinentry") :shebang "#!/bin/sh" :tangle-mode (identity #o500)
+#+begin_src sh :tangle (concat (or (getenv "SECRETS_HOME") ".") "/bin/start-gpg-debug-pinentry") :shebang "#!/bin/sh" :tangle-mode (identity #o500)
 # run with --log-file to log
 export GPG_TTY="$(tty)"
 unset SSH_AGENT_PID

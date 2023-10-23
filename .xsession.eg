@@ -1,7 +1,5 @@
 #!/bin/sh
 # Source .profile for common environment vars
-GUIX_AUTOLOAD_PROFILES=(i3 desktop fonts browsers xkb pipewire mon devtools academic office cad kicad pythondev)
-source ~/.profile
 
 export SSH_AUTH_SOCK="$(gpgconf --list-dirs agent-ssh-socket)"
 

@@ -530,7 +530,7 @@ however you do that for =~/.config/guix/systems/blank.scm=:
 
 *** Reconfigure
 
-Run =~/.bin/update-system= and wait. 
+Run =~/bin/update-system= and wait.
 
 **** TODO finish docs. there's probably some typos. =no spellchack &=
 

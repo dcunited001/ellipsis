@@ -33,7 +33,7 @@ export FREECADPATH=$GUIX_EXTRA/freecad/freecad/bin
 
 startup command
 
-#+begin_src bash :tangle .bin/run-freecad :shebang #!/bin/sh
+#+begin_src bash :tangle bin/run-freecad :shebang #!/bin/sh
 # Custom Env
 export FREECAD_PROFILE=$GUIX_EXTRA/freecad/freecad
 
@@ -144,7 +144,7 @@ Environment:
 
 Launch script:
 
-#+begin_src bash :tangle .bin/run-ideamaker :shebang !#/bin/sh
+#+begin_src bash :tangle bin/run-ideamaker :shebang !#/bin/sh
 
 #+end_src
 

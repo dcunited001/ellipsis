@@ -913,7 +913,7 @@ bindsym $super+q exec "loginctl lock-session"
 
 *** Wayland
 
-#+begin_src sh :tangle .bin/q-wayland :shebang #!/bin/sh
+#+begin_src sh :tangle bin/q-wayland :shebang #!/bin/sh
 qdbus org.kde.KWin /KWin org.kde.KWin.showDebugConsole
 #+end_src
 
@@ -1362,7 +1362,7 @@ fi
 
 Shell script
 
-#+begin_src sh :tangle .bin/polybar/emacs-pomm
+#+begin_src sh :tangle bin/polybar/emacs-pomm
 if ps -e | grep emacs >> /dev/null; then
     emacsclient --eval "(if (boundp 'pomm-current-mode-line-string) pomm-current-mode-line-string \"\") " | xargs echo -e
 fi
@@ -1373,7 +1373,7 @@ Polybar config
 #+begin_src conf :tangle .config/polybar/pomm.ini
 [module/pomm]
 type = custom/script
-exec = $HOME/.bin/polybar/emacs-pomm
+exec = $HOME/bin/polybar/emacs-pomm
 interval = 1
 #+end_src
 
@@ -1537,7 +1537,7 @@ interval = 1
 
 [notification_sound]
     desktop_entry = *
-    script = $HOME/.bin/dunst/notification-sound
+    script = $HOME/bin/dunst/notification-sound
 
 #+end_src
 
@@ -1553,7 +1553,7 @@ interval = 1
 
 Script
 
-#+begin_src sh :tangle .bin/dunst/notification-sound :shebang #!/bin/sh
+#+begin_src sh :tangle bin/dunst/notification-sound :shebang #!/bin/sh
 #local sound_path="$GUIX_EXTRA/xdg/xdg/share/sounds/freedesktop/stereo/"
 local sound_path="$GUIX_EXTRA/desktop/desktop/share/sounds/freedesktop/stereo/"
 local sound_file="message.oga"
@@ -1631,7 +1631,7 @@ dispatch on:
 
 * Display Management
 
-#+begin_src sh :tangle .bin/update-screens :shebang #!/bin/sh
+#+begin_src sh :tangle bin/update-screens :shebang #!/bin/sh
 
 case $(hostname) in
 
@@ -1900,6 +1900,8 @@ dwdot https://github.com/daviwil/dotfiles
 
 #+end_src
 
+*** Alacritty
+
 Alacritty Features:
 
 |----------------------+---------------------------------------------------+--------+---------------|
@@ -2054,10 +2056,16 @@ colors:
     white:   '0x828282'
 #+end_src
 
-Clean alacritty config (no profiles):
+**** Clean Profile
 
-#+begin_src sh :tangle .bin/alaclean :shebang #!/bin/sh
-exec $GUIX_EXTRA/desktop/desktop/bin/alacritty --config-file $XDG_CONFIG_HOME/alacritty/alacritty.clean.yml
+To run on Guix System with no profiles loaded.
+
+#+begin_src sh :tangle bin/alaclean :shebang #!/bin/sh
+GUIX_AUTOLOAD_PROFILES=()
+
+exec env GUIX_AUTOLOAD_PROFILES=$GUIX_AUTOLOAD_PROFILES \
+     $GUIX_EXTRA/desktop/desktop/bin/alacritty \
+     --config-file $XDG_CONFIG_HOME/alacritty/alacritty.clean.yml
 #+end_src
 
 #+begin_src yaml :tangle .config/alacritty/alacritty.clean.yml
@@ -2158,7 +2166,7 @@ Copy the root-owned unit manually
 
 This is not ideal, since it can only
 
-#+begin_src sh :tangle .bin/obsshare :shebang #!/bin/bash
+#+begin_src sh :tangle bin/obsshare :shebang #!/bin/bash
 export DISPLAY
 
 obs --platform xcb
