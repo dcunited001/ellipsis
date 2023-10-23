@@ -1,2 +1,2 @@
 #!/bin/sh
-ls -al /sys/class/cpuid/cpu* | wc -l
+ls -d /sys/devices/system/cpu/cpu* | grep -E "/cpu[0-9]+$" | wc -l

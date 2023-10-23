@@ -731,7 +731,15 @@ kacomp_set() {
 
 * Hardware
 
+On Guix and Arch
+
 #+begin_src sh :tangle bin/ncpu-threads :shebang #!/bin/sh
+ls -d /sys/devices/system/cpu/cpu* | grep -E "/cpu[0-9]+$" | wc -l
+#+end_src
+
+On Arch:
+
+#+begin_src sh :tangle bin/ncpu-threads-arch :shebang #!/bin/sh
 ls -al /sys/class/cpuid/cpu* | wc -l
 #+end_src
 

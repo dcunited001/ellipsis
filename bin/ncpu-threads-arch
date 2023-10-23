@@ -1,0 +1,2 @@
+#!/bin/sh
+ls -al /sys/class/cpuid/cpu* | wc -l
