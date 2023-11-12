@@ -1,0 +1,13 @@
+diff --git a/Makefile b/Makefile
+index ab34dce..d7301e5 100644
+--- a/Makefile
++++ b/Makefile
+@@ -37,7 +37,7 @@ PROGS=		regpg
+ 
+ ALL=		${PROGS} ${DOCS}
+ 
+-all: ${ALL}
++all: ${PROGS} ${man1files}
+ 
+ install: all
+ 	install -m 755 -d ${bindest}

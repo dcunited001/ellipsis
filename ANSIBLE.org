@@ -150,7 +150,7 @@ The requirements file has been generated from:
 
 #+begin_src sh
 pip install ansible-core ansible-builder ansible-navigator ansible-lint \
-    ansible-pylibssh yamllint dnspython passlib netaddr
+    ansible-pylibssh yamllint dnspython passlib netaddr pysocks httpx
 # pip install kubernetes # installs kubectl for kubernetes.core.*
 #+end_src
 
@@ -159,7 +159,8 @@ pip install ansible-core ansible-builder ansible-navigator ansible-lint \
 See "Ansible On Guix" for info on its dependencies. The =venv= above is required
 to get =ansible= and other tools like =ansible-navigator=
 
-I'm only using this for =packer=.
+I'm only using this for =packer=. Manually add this to the project. Tangling
+into dotfiles makes Guix assume that it should interpret it as a scheme file.
 
 #+begin_src scheme :tangle (expand-file-name "manifest.scm" ansible-prefix)
 (specifications->manifest 

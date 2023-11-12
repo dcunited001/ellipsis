@@ -443,8 +443,17 @@ done
 
 Misc guix utils
 
-#+begin_src sh :tangle .config/sh/profile.d/guix-utils :shebang #!/bin/sh
+#+begin_src sh :tangle .config/sh/profile.d/guix-utils.sh :shebang #!/bin/sh
 
+#+end_src
+
+Guix aliases
+
+#+begin_src sh :tangle .config/sh/profile.d/guix-aliases.sh :shebang #!/bin/sh
+alias gsl="guix shell -L $HOME/.dotfiles"
+alias gskl="guix shell --keep-failed -L $HOME/.dotfiles"
+alias gbl="guix build -L $HOME/.dotfiles"
+alias gbkl="guix build --keep-failed -L $HOME/.dotfiles"
 #+end_src
 
 *** On Arch
@@ -2064,6 +2073,7 @@ if [ -f $HOME/.profile ]; then . $HOME/.profile; fi
 #+begin_src scheme :tangle ".config/guix/manifests/yubikey.scm"
 (specifications->manifest
  '("yubikey-personalization"
+   "yubikey-manager-qt"
    "python-yubikey-manager"
    ;; "libyubikey"
    "yubico-piv-tool"

@@ -84,7 +84,7 @@
 (define-public step-cli
   (package
     (name "step-cli")
-    (version "0.24.4")
+    (version "0.25.0")
     (source (origin
               (method url-fetch)
               (uri (string-append
@@ -111,7 +111,7 @@
 (define-public step-cli-bin
   (package
     (name "step-cli-bin")
-    (version "0.24.4")
+    (version "0.25.0")
     (source (origin
               (method url-fetch)
               (uri (string-append
@@ -119,7 +119,7 @@
                     "v" version "/step_linux_" version "_amd64.tar.gz"))
               (sha256
                (base32
-                "12amxqcln1h20hfibvkawzsx44im552365djvwhd19f3sr1hbqfi"))))
+                "12qnmah4g8kz5nzmlmya5ai0hmpjgqpbxx69m59y51awa6733vsf"))))
     (build-system copy-build-system)
     (inputs
      (list coreutils pcsc-lite))
@@ -131,7 +131,7 @@
 (define-public step-ca-bin
   (package
     (name "step-ca-bin")
-    (version "0.24.2")
+    (version "0.25.0")
     (source (origin
               (method url-fetch)
               (uri (string-append
@@ -139,7 +139,7 @@
                     "v" version "/step-ca_linux_" version "_amd64.tar.gz"))
               (sha256
                (base32
-                "08d4803795kl78qnscysimr875afsvcj578zqhmy0dfwid9rg58h"))))
+                "055k0q25cah8pwlqhwxr0qlbf3dbvn1d2kja6rzlz98cicqrdfwz"))))
     (build-system copy-build-system)
     (inputs
      (list coreutils pcsc-lite))
