@@ -16,6 +16,59 @@
 
   #:use-module (srfi srfi-1))
 
+(define-public sops
+  (let* ((bin-platform "linux.amd64")
+         (bin-version "3.8.1")
+         (bin-name (string-append "sops-v" bin-version "." bin-platform)))
+    (package
+      (name "sops")
+      (version bin-version)
+      (source (origin
+                (method url-fetch)
+                (uri (string-append
+                      "https://github.com/getsops/sops/releases/download/"
+                      "v" version "/" bin-name))
+                (sha256
+                 (base32
+                  "15qnh4hi15i8689gnwbrkypirn624hqm48nnw34jf8cpc7xhggyn"))))
+      (build-system copy-build-system)
+      (arguments
+       (list
+        ;; run by guix build daemon, so bin-name not in scope
+        ;; #:install-plan #~`((,bin-name "bin/"))
+        ;; otherwise, should be double-quoted
+        ;; #:install-plan ''(("sops" "bin/"))
+        ;; nothing i try here seemed to work until i added 'make-symlink
+        #:install-plan ''(("." "bin/"
+                           #:include-regexp ("sops.*$")))
+        #:modules '((guix build copy-build-system)
+                    (guix build utils)  ; for find-file
+                    (srfi srfi-26))     ; for cut, a swappier curry
+
+        #:phases
+        #~(modify-phases %standard-phases
+            (add-after 'unpack 'make-executable
+              (lambda _
+                (for-each (cut chmod <> #o555)
+                          (find-files "." "sops.*$"))))
+
+            ;; from tcl's phase install-private-headers
+            (add-after 'install 'make-symlink
+              (lambda* (#:key inputs outputs #:allow-other-keys)
+                (let ((bin (string-append (assoc-ref outputs "out")
+                                          "/bin")))
+                  (with-directory-excursion bin
+                    (symlink (car (find-files "." "sops"))
+                             "sops"))))))))
+      (inputs '())
+      (native-inputs '())
+      (home-page "https://github.com/getsops/sops")
+      (synopsis "Simple and flexible tool for managing secrets")
+      (description "SOPS is an editor of encrypted files that supports YAML,
+JSON, ENV, INI and BINARY formats and encrypts with AWS KMS, GCP KMS, Azure
+Key Vault, age, and PGP.")
+      (license license:mpl2.0))))
+
 ;; gnu-build-system phases:
 ;; set-SOURCE-DATE-EPOCH set-paths install-locale unpack
 ;; bootstrap
