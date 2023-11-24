@@ -12,7 +12,7 @@ Type=simple
 Environment=EMAIL=aionfork@gmail.com
 Environment=SSH_AUTH_SOCK=/run/user/1000/gnupg/S.gpg-agent.ssh
 Environment=GUIX_SOURCE=/data/ecto/guix/guix
-ENVIRONMENT=EMACS_SOURCE=/data/ecto/emacs/emacs/src
+Environment=EMACS_SOURCE=/data/ecto/emacs/emacs/src
 
 #Type=notify #requires Notify
 ExecStart=/bin/bash -c \
@@ -21,11 +21,11 @@ ExecStart=/bin/bash -c \
                           -E 'GUIX_SOURCE' \
                           -p $GUIX_EXTRA/emacs-g/emacs-g -- \
                           emacs --fg-daemon"
-ExecStartPre=/bin/bash -c "notify-send 'Starting Emacs Service...'"
-ExecStartPost=/bin/bash -c "notify-send 'Emacs Service Started Successfully'"
+#ExecStartPre=/bin/bash -c "notify-send 'Starting Emacs Service...'"
+#ExecStartPost=/bin/bash -c "notify-send 'Emacs Service Started Successfully'"
 
 ExecStop=/bin/bash -c "guix shell -p $GUIX_EXTRA/emacs-g/emacs-g -- emacsclient -e '(kill-emacs)'"
-ExecStopPost=/bin/bash -c "notify-send 'Emacs Service Stopped Successfully'"
+#ExecStopPost=/bin/bash -c "notify-send 'Emacs Service Stopped Successfully'"
 
 
 Restart=on-failure
@@ -39,4 +39,4 @@ TimeoutStartSec=300
 SuccessExitStatus=15
 
 [Install]
-WantedBy=default.target
+WantedBy=graphical-session.target

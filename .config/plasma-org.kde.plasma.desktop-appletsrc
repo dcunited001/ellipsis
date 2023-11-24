@@ -7,8 +7,10 @@ wheel:Vertical;NoModifier=org.kde.switchdesktop
 RightButton;NoModifier=org.kde.contextmenu
 
 [Containments][138]
+ItemGeometries-1234x2194=
 ItemGeometries-1440x2560=
 ItemGeometries-2160x3840=
+ItemGeometries-2194x1234=
 ItemGeometries-2560x1440=
 ItemGeometriesHorizontal=
 ItemGeometriesVertical=
@@ -35,14 +37,14 @@ DialogWidth=910
 
 [Containments][138][General]
 ToolBoxButtonState=topcenter
-ToolBoxButtonX=764
+ToolBoxButtonX=279
 
 [Containments][138][Wallpaper][org.kde.potd][General]
 FillMode=2
-Provider=wcpotd
 
 [Containments][139]
 ItemGeometries-1440x2560=
+ItemGeometries-1920x1080=
 ItemGeometries-2160x3840=
 ItemGeometries-2560x1440=Applet-244:2398,1439,935,54,0;
 ItemGeometriesHorizontal=Applet-244:2398,1439,935,54,0;
@@ -53,7 +55,7 @@ immutability=1
 lastScreen=1
 location=0
 plugin=org.kde.plasma.folder
-wallpaperplugin=org.kde.potd
+wallpaperplugin=org.kde.slideshow
 
 [Containments][139][ConfigDialog]
 DialogHeight=540
@@ -66,9 +68,14 @@ ToolBoxButtonX=385
 [Containments][139][Wallpaper][org.kde.potd][General]
 FillMode=2
 
+[Containments][139][Wallpaper][org.kde.slideshow][General]
+Image=file:///data/xdg/Wallpapers/anime/blood-blockade-leonardo-2a.jpg
+SlidePaths=/data/xdg/Wallpapers/anime/
+
 [Containments][140]
 ItemGeometries-1080x1920=
 ItemGeometries-1920x1080=
+ItemGeometries-2560x1440=
 ItemGeometriesHorizontal=
 ItemGeometriesVertical=
 activityId=bc3cdced-7201-4291-a43c-fe3ef12080c2
@@ -77,7 +84,7 @@ immutability=1
 lastScreen=2
 location=0
 plugin=org.kde.plasma.folder
-wallpaperplugin=org.kde.slideshow
+wallpaperplugin=org.kde.potd
 
 [Containments][140][ConfigDialog]
 DialogHeight=780
@@ -85,21 +92,21 @@ DialogWidth=910
 
 [Containments][140][General]
 ToolBoxButtonState=topcenter
-ToolBoxButtonX=194
+ToolBoxButtonX=202
 
 [Containments][140][Wallpaper][org.kde.potd][General]
-FillMode=1
-Provider=flickr
+FillMode=2
+Provider=wcpotd
 
 [Containments][140][Wallpaper][org.kde.slideshow][General]
-Image=file:///data/xdg/Wallpapers/anime/blood-blockade-leo-123.jpg
+Image=file:///data/xdg/Wallpapers/anime/blood-blockade-wallpaper.jpg
 SlidePaths=/data/xdg/Wallpapers/anime/
 
 [Containments][141]
 activityId=
 formfactor=2
 immutability=1
-lastScreen=0
+lastScreen=2
 location=4
 plugin=org.kde.panel
 wallpaperplugin=org.kde.image
@@ -290,6 +297,9 @@ popupWidth=324
 [Containments][141][Applets][170]
 immutability=1
 plugin=org.kde.plasma.wacomtablet
+
+[Containments][141][Applets][170][Configuration]
+PreloadWeight=55
 
 [Containments][141][Applets][171]
 immutability=1
@@ -657,7 +667,7 @@ AppletOrder=142;165;143;179;174;236;235;234;250;176;168;249;158;172;167;241;171;
 activityId=
 formfactor=2
 immutability=1
-lastScreen=0
+lastScreen=2
 location=4
 plugin=org.kde.plasma.private.systemtray
 popupHeight=624
@@ -703,7 +713,7 @@ immutability=1
 plugin=org.kde.plasma.notifications
 
 [Containments][147][Applets][155][Configuration]
-PreloadWeight=65
+PreloadWeight=70
 
 [Containments][147][Applets][156]
 immutability=1
@@ -759,7 +769,7 @@ knownItems=org.kde.kdeconnect,org.kde.kscreen,org.kde.plasma.battery,org.kde.pla
 activityId=
 formfactor=2
 immutability=1
-lastScreen=2
+lastScreen=1
 location=4
 plugin=org.kde.panel
 wallpaperplugin=org.kde.image
@@ -1040,6 +1050,123 @@ location=0
 plugin=org.kde.plasma.folder
 wallpaperplugin=org.kde.image
 
+[Containments][257]
+activityId=
+formfactor=2
+immutability=1
+lastScreen=0
+location=3
+plugin=org.kde.plasma.private.systemtray
+wallpaperplugin=org.kde.image
+
+[Containments][257][Applets][258]
+immutability=1
+plugin=org.kde.kdeconnect
+
+[Containments][257][Applets][258][Configuration]
+PreloadWeight=42
+
+[Containments][257][Applets][259]
+immutability=1
+plugin=org.kde.kscreen
+
+[Containments][257][Applets][259][Configuration]
+PreloadWeight=42
+
+[Containments][257][Applets][260]
+immutability=1
+plugin=org.kde.plasma.clipboard
+
+[Containments][257][Applets][260][Configuration]
+PreloadWeight=42
+
+[Containments][257][Applets][261]
+immutability=1
+plugin=org.kde.plasma.devicenotifier
+
+[Containments][257][Applets][261][Configuration]
+PreloadWeight=42
+
+[Containments][257][Applets][262]
+immutability=1
+plugin=org.kde.plasma.keyboardindicator
+
+[Containments][257][Applets][262][Configuration]
+PreloadWeight=42
+
+[Containments][257][Applets][263]
+immutability=1
+plugin=org.kde.plasma.keyboardlayout
+
+[Containments][257][Applets][263][Configuration]
+PreloadWeight=42
+
+[Containments][257][Applets][264]
+immutability=1
+plugin=org.kde.plasma.manage-inputmethod
+
+[Containments][257][Applets][264][Configuration]
+PreloadWeight=42
+
+[Containments][257][Applets][265]
+immutability=1
+plugin=org.kde.plasma.notifications
+
+[Containments][257][Applets][265][Configuration]
+PreloadWeight=42
+
+[Containments][257][Applets][266]
+immutability=1
+plugin=org.kde.plasma.vault
+
+[Containments][257][Applets][266][Configuration]
+PreloadWeight=42
+
+[Containments][257][Applets][267]
+immutability=1
+plugin=org.kde.plasma.volume
+
+[Containments][257][Applets][267][Configuration]
+PreloadWeight=42
+
+[Containments][257][Applets][267][Configuration][General]
+migrated=true
+
+[Containments][257][Applets][270]
+immutability=1
+plugin=org.kde.plasma.mediacontroller
+
+[Containments][257][Applets][270][Configuration]
+PreloadWeight=42
+
+[Containments][257][Applets][271]
+immutability=1
+plugin=org.kde.plasma.nightcolorcontrol
+
+[Containments][257][Applets][271][Configuration]
+PreloadWeight=34
+
+[Containments][257][Applets][272]
+immutability=1
+plugin=org.kde.plasma.battery
+
+[Containments][257][Applets][272][Configuration]
+PreloadWeight=42
+
+[Containments][257][Applets][273]
+immutability=1
+plugin=org.kde.plasma.networkmanagement
+
+[Containments][257][Applets][273][Configuration]
+PreloadWeight=42
+
+[Containments][257][Configuration]
+PreloadWeight=42
+
+[Containments][257][General]
+extraItems=org.kde.kdeconnect,org.kde.kscreen,org.kde.plasma.battery,org.kde.plasma.bluetooth,org.kde.plasma.clipboard,org.kde.plasma.devicenotifier,org.kde.plasma.keyboardindicator,org.kde.plasma.keyboardlayout,org.kde.plasma.manage-inputmethod,org.kde.plasma.mediacontroller,org.kde.plasma.networkmanagement,org.kde.plasma.nightcolorcontrol,org.kde.plasma.notifications,org.kde.plasma.vault,org.kde.plasma.volume
+knownItems=org.kde.kdeconnect,org.kde.kscreen,org.kde.plasma.battery,org.kde.plasma.bluetooth,org.kde.plasma.clipboard,org.kde.plasma.devicenotifier,org.kde.plasma.keyboardindicator,org.kde.plasma.keyboardlayout,org.kde.plasma.manage-inputmethod,org.kde.plasma.mediacontroller,org.kde.plasma.networkmanagement,org.kde.plasma.nightcolorcontrol,org.kde.plasma.notifications,org.kde.plasma.vault,org.kde.plasma.volume
+
 [ScreenMapping]
 itemsOnDisabledScreens=
-screenMapping=file:///data/xdg/Wallpapers/anime/blood-blockade-leonardo.png,1,bc3cdced-7201-4291-a43c-fe3ef12080c2,file:///data/xdg/Wallpapers/anime/Guilty-Crown.jpg,1,bc3cdced-7201-4291-a43c-fe3ef12080c2,file:///data/xdg/Wallpapers/anime/ergo-proxy.jpg,1,bc3cdced-7201-4291-a43c-fe3ef12080c2,file:///data/xdg/Wallpapers/anime/kakegurui.png,1,bc3cdced-7201-4291-a43c-fe3ef12080c2,file:///data/xdg/Wallpapers/anime/ergo_proxy_desktop.jpg,1,bc3cdced-7201-4291-a43c-fe3ef12080c2,file:///data/xdg/Wallpapers/anime/blood-blockade-leonardo-2b.jpg,1,bc3cdced-7201-4291-a43c-fe3ef12080c2,file:///data/xdg/Wallpapers/anime/yin-yang-fractal.jpg,1,bc3cdced-7201-4291-a43c-fe3ef12080c2,file:///data/xdg/Wallpapers/anime/blood-blockade-leonardo-2a.jpg,1,bc3cdced-7201-4291-a43c-fe3ef12080c2,file:///data/xdg/Wallpapers/anime/blood-blockade-wallpaper.jpg,1,bc3cdced-7201-4291-a43c-fe3ef12080c2,file:///data/xdg/Wallpapers/anime/default.jpg,1,bc3cdced-7201-4291-a43c-fe3ef12080c2,file:///data/xdg/Wallpapers/anime/blood-blockade-leo-123.jpg,1,bc3cdced-7201-4291-a43c-fe3ef12080c2,desktop:/steam.desktop,0,bc3cdced-7201-4291-a43c-fe3ef12080c2
+screenMapping=file:///data/xdg/Wallpapers/anime/kakegurui.png,1,bc3cdced-7201-4291-a43c-fe3ef12080c2,file:///data/xdg/Wallpapers/anime/blood-blockade-leonardo.png,1,bc3cdced-7201-4291-a43c-fe3ef12080c2,file:///data/xdg/Wallpapers/anime/blood-blockade-leonardo-2b.jpg,1,bc3cdced-7201-4291-a43c-fe3ef12080c2,file:///data/xdg/Wallpapers/anime/Guilty-Crown.jpg,1,bc3cdced-7201-4291-a43c-fe3ef12080c2,file:///data/xdg/Wallpapers/anime/ergo_proxy_desktop.jpg,1,bc3cdced-7201-4291-a43c-fe3ef12080c2,file:///data/xdg/Wallpapers/anime/blood-blockade-leo-123.jpg,1,bc3cdced-7201-4291-a43c-fe3ef12080c2,file:///data/xdg/Wallpapers/anime/yin-yang-fractal.jpg,1,bc3cdced-7201-4291-a43c-fe3ef12080c2,desktop:/steam.desktop,0,bc3cdced-7201-4291-a43c-fe3ef12080c2,file:///data/xdg/Wallpapers/anime/blood-blockade-leonardo-2a.jpg,1,bc3cdced-7201-4291-a43c-fe3ef12080c2,file:///data/xdg/Wallpapers/anime/ergo-proxy.jpg,1,bc3cdced-7201-4291-a43c-fe3ef12080c2,file:///data/xdg/Wallpapers/anime/blood-blockade-wallpaper.jpg,1,bc3cdced-7201-4291-a43c-fe3ef12080c2,file:///data/xdg/Wallpapers/anime/default.jpg,1,bc3cdced-7201-4291-a43c-fe3ef12080c2
