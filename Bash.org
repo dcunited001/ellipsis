@@ -1532,6 +1532,23 @@ shopt -s histappend
 [[ "$TERM" == "dumb" ]] || export TERM="xterm-256color"
 #+end_src
 
+Keybindings. Run =bind -f $file= to emit bindings to a script.
+
+#+begin_src sh :tangle .bashrc :shebang #!/bin/sh
+# enable set-mark (overrides control sequences like unix-word-rubout)
+
+# enable copy/paste
+bind '"C-@":set-mark'
+bind '"\e ":set-mark'
+bind '"\C-w":kill-region'
+bind '"\ew":copy-region-as-kill'
+
+# now i know this is more common
+bind '"\e/":dabbrev-expand'
+
+# also M-tab for `dynamic-complete-history`
+#+end_src
+
 Aliases
 
 #+begin_src sh :tangle .bashrc :shebang #!/bin/sh
