@@ -866,8 +866,13 @@ export GRAPHVIZ_DOT=$HOME/.guix-extra-profiles/desktop/desktop/bin/dot
 
 ** Python
 
+This should end up in =$HOME= to fix an issue where =jupyter.el= uses =$HOME=
+as its default directory. This main python should have =pip= set up with the
+=jupyter-lab= environment, which can load kernels can be built from other
+=venvs= ... (this might conflict with other information on jupyter herein)
+
 #+begin_src sh :tangle .python-version
-3.10.11
+3.12.1
 #+end_src
 
 *** Python on Arch
@@ -943,6 +948,14 @@ env PYTHON_CONFIGURE_OPTS='--enable-optimizations --with-lto' \
     MAKE_OPTS="-j$mjobs" \
     pyenv install $version 2>&1 > ~/src/log/python-build-$version.log
 #+end_src
+
+Then =pip install --upgrade pip= and set up =jupyter-lab= from within that new
+python's main env.
+
+#+begin_example sh
+pip install --upgrade
+pip install jupyter-lab # etc...
+#+end_example
 
 **** Poetry
 
