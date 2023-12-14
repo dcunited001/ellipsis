@@ -1,3 +1,6 @@
+[Applications][@other]
+ShowInHistory=false
+
 [Applications][discord]
 Seen=true
 

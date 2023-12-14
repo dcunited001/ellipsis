@@ -87,8 +87,8 @@ plugin=org.kde.plasma.folder
 wallpaperplugin=org.kde.potd
 
 [Containments][140][ConfigDialog]
-DialogHeight=780
-DialogWidth=910
+DialogHeight=1408
+DialogWidth=2560
 
 [Containments][140][General]
 ToolBoxButtonState=topcenter
@@ -546,7 +546,7 @@ plugin=org.kde.plasma.systemmonitor
 
 [Containments][141][Applets][236][Configuration]
 CurrentPreset=org.kde.plasma.systemmonitor
-PreloadWeight=90
+PreloadWeight=95
 
 [Containments][141][Applets][236][Configuration][Appearance]
 chartFace=org.kde.ksysguard.linechart
@@ -1137,7 +1137,7 @@ immutability=1
 plugin=org.kde.plasma.mediacontroller
 
 [Containments][257][Applets][270][Configuration]
-PreloadWeight=42
+PreloadWeight=0
 
 [Containments][257][Applets][271]
 immutability=1
