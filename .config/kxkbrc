@@ -4,7 +4,6 @@ update_info=kxkb.upd:remove-empty-lists,kxkb.upd:add-back-resetoptions,kxkb_vari
 [Layout]
 DisplayNames=
 LayoutList=us
-#Options=lv3:ralt_alt,ctrl:hyper_capscontrol,lv3:menu_switch
 Options=lv3:ralt_alt,ctrl:hyper_capscontrol,lv3:menu_switch
 ResetOldOptions=true
 Use=true
