@@ -164,7 +164,7 @@ Key Vault, age, and PGP.")
 (define-public step-cli-bin
   (package
     (name "step-cli-bin")
-    (version "0.25.0")
+    (version "0.25.1")
     (source (origin
               (method url-fetch)
               (uri (string-append
@@ -172,7 +172,7 @@ Key Vault, age, and PGP.")
                     "v" version "/step_linux_" version "_amd64.tar.gz"))
               (sha256
                (base32
-                "12qnmah4g8kz5nzmlmya5ai0hmpjgqpbxx69m59y51awa6733vsf"))))
+                "0yyv8s1x0wg7090pxh4nzi0yh5bicwvfq17dxf5iszz1r5iihscq"))))
     (build-system copy-build-system)
     (inputs
      (list coreutils pcsc-lite))
@@ -184,7 +184,7 @@ Key Vault, age, and PGP.")
 (define-public step-ca-bin
   (package
     (name "step-ca-bin")
-    (version "0.25.0")
+    (version "0.25.2")
     (source (origin
               (method url-fetch)
               (uri (string-append
@@ -192,8 +192,11 @@ Key Vault, age, and PGP.")
                     "v" version "/step-ca_linux_" version "_amd64.tar.gz"))
               (sha256
                (base32
-                "055k0q25cah8pwlqhwxr0qlbf3dbvn1d2kja6rzlz98cicqrdfwz"))))
+                "0hfs1fb74wa1cbjapacwyspnm40i5xrh5br724yxw9f3l6iwvp2c"))))
     (build-system copy-build-system)
+    (arguments
+     (list
+      #:install-plan ''(("." "bin/" #:include-regexp ("step-ca$")))))
     (inputs
      (list coreutils pcsc-lite))
     (home-page "https://smallstep.com/certificates/")
