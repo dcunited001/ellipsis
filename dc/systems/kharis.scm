@@ -114,6 +114,20 @@
             ;; defaults, should work for IBM trackpoints
             (options '("-m" "/dev/input/mice" "-t" "ps2")))))
 
+;; TODO: (send-notification-command "a/herd/service/or/root/script")
+;; logs: /var/log/earlyoom
+(define-public %kharis-earlyoom-service
+  (service earlyoom-service-type
+           (earlyoom-configuration
+            (minimum-available-memory 10) ;; default
+
+            ;; noswap, but both mem/swap
+            ;; must be below threshold for
+            ;; oom to act
+            (minimum-free-swap 1)        
+            (prefer-regexp "syncthing|firefox")
+            (show-debug-messages? #t))))
+
 (define system
   (operating-system
     (host-name %host-name)
@@ -270,6 +284,7 @@
        (service thermald-service-type)
        %kharis-tlp-service
        %dc-ras-daemon-service
+       %kharis-earlyoom-service
        %kharis-gpm-service
 
        %dc-nntp-service

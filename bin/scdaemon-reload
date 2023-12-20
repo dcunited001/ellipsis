@@ -1,0 +1,5 @@
+#!/bin/sh
+gpgconf --reload scdaemon
+
+# or using the agent
+# gpg-connect-agent "SCD KILLSCD" "SCD BYE" /bye

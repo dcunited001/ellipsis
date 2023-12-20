@@ -229,6 +229,7 @@ EndSection
        (service thermald-service-type)
        %kharis-tlp-service
        %dc-ras-daemon-service
+       %kharis-earlyoom-service
        %kharis-gpm-service
 
        (service avahi-service-type)
@@ -263,7 +264,6 @@ EndSection
        (udev-rules-service 'pipewire-add-udev-rules pipewire)
        (udev-rules-service 'brightnessctl-udev-rules brightnessctl)
 
-       %dc-unattended-upgrade-service-type
-       )))))
+       %dc-unattended-upgrade-service-type)))))
 
 system

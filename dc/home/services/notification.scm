@@ -8,7 +8,7 @@
   #:use-module (guix packages)
   #:use-module (guix import utils)
   #:use-module (rde serializers ini)
-  #:use-module (gnu packages dunst)
+  ;; #:use-module (gnu packages dunst) ;; not a module
   #:export (home-dunst-configuration
             home-dunst-service-type))
 
