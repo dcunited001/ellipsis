@@ -1898,7 +1898,54 @@ dwdot https://github.com/daviwil/dotfiles
 "alacritty"
 "terminator"
 
+;; terminal
+"alacritty"  ;; alacritty has a problem with screen
+"terminator" ;; profiles, but meh
+"tilix"      ;; written in D
+"byobu" ;; this can launch from VTY (and I can reattach?)
+;; "konsole" ;; i have zero KDE deps and there's like 30
+;; TODO: check out contour, but too many features.
+
 #+end_src
+
+*** Byobu
+
++ Great profile support: GNU Screen and TMux are implicitly profiles
++ Great overall: same settings in VTY as in a GUI Terminal.
+
+Choosing a terminal to run byobu in is a bit of a problem: many terminals will
+rebind the keys that byobu wants to set as default. These byobu default keys
+are themselves a problem -- since they differ from GNU Screen's which itself
+conflicts with Emacs.
+
+For the purposes of proving the how of why we cannot have nice things -- and
+to briefly review -- here's the chain of potential key conflicts:
+
+#+begin_src mermaid :file img/byobu-key-conflicts.svg
+WM --> XTermAppX --> Byobu --> GNUScreen --> Emacs
+Vty --> Console --> GNUScreen
+#+end_src
+
+Quod erat demonstratum (it's still the best terminal option here)
+
+#+ATTR_HTML: :style width:300px;
+[[file:img/byobu-key-conflicts.svg]]
+
+
+
+*** Tilix
+
+Config is in =~/.config/tilix/=.
+
++ Supports profiles; unsure of the features
+
+*** Terminator
+
+Good suuport for profiles
+
+*** Contour
+
+Interesting, includes sixel support.
 
 *** Alacritty
 
