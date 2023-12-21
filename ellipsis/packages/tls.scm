@@ -5,8 +5,10 @@
   #:use-module (guix download)
   #:use-module (guix git-download)
   #:use-module (guix packages)
+
   #:use-module (guix build-system gnu)
   #:use-module (guix build-system copy)
+  #:use-module (nonguix build-system binary)
 
   #:use-module (gnu packages base)
   #:use-module (gnu packages golang)
@@ -203,3 +205,95 @@ Key Vault, age, and PGP.")
     (synopsis "(prebuilt) Open-Source Certificate Authority & PKI Toolkit")
     (description "A private certificate authority (X.509 & SSH) & ACME server for secure automated certificate management, so you can use TLS everywhere & SSO for SSH.")
     (license license:asl2.0)))
+
+;; step-kms-bin uses an image based on smallstep/step-kms-plugin:0.10.0-rc1
+
+;; ==================================
+;; Problems:
+
+;; ldd shows libpcsclite.so.1 not resolving
+;; libpcsclite.so.1
+
+;; - patchelf --print-needed /tmp/guix-build-step-cgo-bin-0.25.1.drv-0/step-cgo/bin/step-ca
+;; libpcsclite.so.1
+
+;; ldd does seem to resolve
+;; libresolv.so.2
+;; libpthread.so.0
+;; libdl.so.2
+;; libc.so.6
+
+
+;; ==================================
+
+;; runpath is patched, package installs, but segfault on running either
+;; of the patched binaries.
+
+
+(define-public step-cgo-bin
+  (package
+    (name "step-cgo-bin")
+    ;; build the bin in docker, extract to ~/.dotfiles/ellipsis/bin...
+    ;; no ... this was not the wei
+    (version "0.25.1")
+    (source (origin
+              (method url-fetch)
+              (uri (string-append
+                    "file:///home/dc/.dotfiles/ellipsis/bin/"
+                    "step-cgo/step-cgo_" version "_linux_amd64.tar.gz"))
+              (sha256
+               (base32
+                "14f0r2qn0mbnq1a813lh89jpshxysn5y9pyz0xa2knc0ic8q1sg4"))))
+    (build-system binary-build-system)
+    (arguments
+     (list
+      ;; #:install-plan ''(("." "bin/" #:include-regexp ("step.*")))
+      #:patchelf-plan ''(("bin/step")
+                         ("bin/step-ca" ("pcsc-lite"))
+                         ("bin/step-kms-plugin" ("pcsc-lite")))))
+    (propagated-inputs
+     (list pcsc-lite))
+    (home-page "https://smallstep.com/certificates/")
+    (synopsis "(prebuilt) Open-Source Certificate Authority & PKI Toolkit")
+    (description "A private certificate authority (X.509 & SSH) & ACME server for secure automated certificate management, so you can use TLS everywhere & SSO for SSH.")
+    (license license:asl2.0)))
+
+;; ==================================
+;; After guix shell -L ~/.dotfiles step-cgo-bin:
+;; ----------------------------------
+;;  ldd `which step-ca`
+;; ----------------------------------
+;; 	linux-vdso.so.1 (0x00007ffceedfa000)
+;; 	libresolv.so.2 => /gnu/store/daas786mm1zi3kxp03640n6anhrlrcng-glibc-2.35/lib/libresolv.so.2 (0x00007f693598c000)
+
+;; 	libpcsclite.so.1 => /gnu/store/y0h5q9zbxwcqkjk5irb4ni3jfx0pahaz-pcsc-lite-1.9.8/lib/libpcsclite.so.1 (0x00007f693597f000)
+
+;; 	libpthread.so.0 => /gnu/store/daas786mm1zi3kxp03640n6anhrlrcng-glibc-2.35/lib/libpthread.so.0 (0x00007f693597a000)
+;; 	libdl.so.2 => /gnu/store/daas786mm1zi3kxp03640n6anhrlrcng-glibc-2.35/lib/libdl.so.2 (0x00007f6935975000)
+;; 	libc.so.6 => /gnu/store/daas786mm1zi3kxp03640n6anhrlrcng-glibc-2.35/lib/libc.so.6 (0x00007f6935779000)
+;; 	libgcc_s.so.1 => /gnu/store/6ncav55lbk5kqvwwflrzcr41hp5jbq0c-gcc-11.3.0-lib/lib/libgcc_s.so.1 (0x00007f693575d000)
+;; 	/gnu/store/ln6hxqjvz6m9gdd9s97pivlqck7hzs99-glibc-2.35/lib/ld-linux-x86-64.so.2 => /gnu/store/daas786mm1zi3kxp03640n6anhrlrcng-glibc-2.35/lib/ld-linux-x86-64.so.2 (0x00007f69359a1000)
+
+
+;; It now finds libs more quickly, but then segfaults (because
+;; addressing & dylib linking are bad?)
+
+;; execve("/gnu/store/7hg78sqkkly0fblqadg25fgwggb6p7zw-profile/bin/step-ca", ["step-ca"], 0x7fff4f538de0 /* 166 vars */) = 0
+;; access("/etc/ld.so.preload", R_OK)      = -1 ENOENT (No such file or directory)
+;; readlink("/proc/self/exe", "/gnu/store/lwf77y37z6wrckdh3r8is"..., 4096) = 75
+;; openat(AT_FDCWD, "/gnu/store/lwf77y37z6wrckdh3r8isrgc3kljfsjq-step-cgo-bin-0.25.1/etc/ld.so.cache", O_RDONLY|O_CLOEXEC) = 3
+;; newfstatat(3, "", {st_mode=S_IFREG|0444, st_size=9007, ...}, AT_EMPTY_PATH) = 0
+;; openat(AT_FDCWD, "/gnu/store/ln6hxqjvz6m9gdd9s97pivlqck7hzs99-glibc-2.35/lib/libresolv.so.2", O_RDONLY|O_CLOEXEC) = 3
+;; newfstatat(3, "", {st_mode=S_IFREG|0555, st_size=73024, ...}, AT_EMPTY_PATH) = 0
+;; openat(AT_FDCWD, "/gnu/store/y0h5q9zbxwcqkjk5irb4ni3jfx0pahaz-pcsc-lite-1.9.8/lib/libpcsclite.so.1", O_RDONLY|O_CLOEXEC) = 3
+;; newfstatat(3, "", {st_mode=S_IFREG|0555, st_size=47424, ...}, AT_EMPTY_PATH) = 0
+;; openat(AT_FDCWD, "/gnu/store/ln6hxqjvz6m9gdd9s97pivlqck7hzs99-glibc-2.35/lib/libpthread.so.0", O_RDONLY|O_CLOEXEC) = 3
+;; newfstatat(3, "", {st_mode=S_IFREG|0555, st_size=16256, ...}, AT_EMPTY_PATH) = 0
+;; openat(AT_FDCWD, "/gnu/store/ln6hxqjvz6m9gdd9s97pivlqck7hzs99-glibc-2.35/lib/libdl.so.2", O_RDONLY|O_CLOEXEC) = 3
+;; newfstatat(3, "", {st_mode=S_IFREG|0555, st_size=15408, ...}, AT_EMPTY_PATH) = 0
+;; openat(AT_FDCWD, "/gnu/store/ln6hxqjvz6m9gdd9s97pivlqck7hzs99-glibc-2.35/lib/libc.so.6", O_RDONLY|O_CLOEXEC) = 3
+;; newfstatat(3, "", {st_mode=S_IFREG|0555, st_size=2335360, ...}, AT_EMPTY_PATH) = 0
+;; openat(AT_FDCWD, "/gnu/store/6ncav55lbk5kqvwwflrzcr41hp5jbq0c-gcc-11.3.0-lib/lib/libgcc_s.so.1", O_RDONLY|O_CLOEXEC) = 3
+;; newfstatat(3, "", {st_mode=S_IFREG|0444, st_size=100760, ...}, AT_EMPTY_PATH) = 0
+;; --- SIGSEGV {si_signo=SIGSEGV, si_code=SEGV_MAPERR, si_addr=NULL} ---
+;; +++ killed by SIGSEGV +++
