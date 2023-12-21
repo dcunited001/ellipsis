@@ -1918,12 +1918,16 @@ rebind the keys that byobu wants to set as default. These byobu default keys
 are themselves a problem -- since they differ from GNU Screen's which itself
 conflicts with Emacs.
 
-For the purposes of proving the how of why we cannot have nice things -- and
-to briefly review -- here's the chain of potential key conflicts:
+For the purposes of proving the how of why we cannot have nice things. To
+briefly review -- here's the chain of potential key conflicts:
 
-#+begin_src mermaid :file img/byobu-key-conflicts.svg
-WM --> XTermAppX --> Byobu --> GNUScreen --> Emacs
-Vty --> Console --> GNUScreen
+#+begin_src mermaid :file img/byobu-key-conflicts.svg :results none
+graph TD
+    c1((WM)) --> oh{XTermAppX} --> sq1[Byobu] --> sq2[GNUScreen] --> c3((Emacs</br>Terminal))
+    c2((VTY)) --> d1{Console} --> sq1[Byobu]
+
+classDef orange fill:#b98,stroke:#333,stroke-width:3px
+class oh orange
 #+end_src
 
 Quod erat demonstratum (it's still the best terminal option here)
