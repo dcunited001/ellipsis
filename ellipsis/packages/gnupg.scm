@@ -12,8 +12,15 @@
   #:use-module (guix build-system copy)
   #:use-module (guix build-system perl)
 
+  #:use-module (gnu packages)
   #:use-module (gnu packages base)
   #:use-module (gnu packages perl)
+  #:use-module (gnu packages gnupg)
+  #:use-module (gnu packages tls)
+  #:use-module (gnu packages compression)
+  #:use-module (gnu packages libusb)
+  #:use-module (gnu packages openldap)
+  ;; #:use-module (gnu packages hardware) ;; for tpm2-tss
 
   #:use-module (ellipsis packages)
   #:use-module (ellipsis packages perl)
@@ -102,3 +109,82 @@ after secrets that need to be stored engrypted in VCS.  Secrets are encrypted
 as ASCII-armored messages to keyring for the project.  The regpg tool is
 written in standard perl modules, but can integrate with Ansible Vault.")
       (license license:gpl3))))
+
+
+;; upgraded to get gpg-card and potentially fix some issues. they're fixed
+;; and if the tests are passing ... then you can roll your own crypto?
+
+(define-public gnupg2.3
+  (package
+    (inherit gnupg)
+    (name "gnupg2.3")
+    (version "2.3.8")
+    (source (origin
+              (method url-fetch)
+              (uri (string-append "mirror://gnupg/gnupg/gnupg-" version
+                                  ".tar.bz2"))
+              (patches (search-patches "gnupg-default-pinentry.patch"))
+              (sha256
+               (base32
+                "1vb99657wxbizdskw0pxh0m568805ql1llpg23xn38kxwm07l2sl"))))
+    (inputs
+     (modify-inputs (package-inputs gnupg)
+       (append
+        ;; libldap
+        bzip2
+        libusb)))
+    (arguments
+     (substitute-keyword-arguments
+         (package-arguments gnupg)
+       ((#:phases phases)
+        #~(modify-phases #$phases
+            (replace 'patch-test-paths
+              (lambda _
+                (substitute*
+                    '("tests/Makefile"
+                      "tests/cms/inittests"
+                      "tests/cms/Makefile"
+                      "tests/pkits/inittests"
+                      "tests/pkits/common.sh"
+                      "tests/pkits/Makefile")
+                  ;; (("/bin/pwd") (which "pwd"))
+                  (("/bin/pwd") (string-append #$output "/bin/pwd")))
+                (substitute* "common/t-exectool.c"
+                  ;; (("/bin/cat") (which "cat"))
+                  ;; (("/bin/true") (which "true"))
+                  ;; (("/bin/false") (which "false"))
+                  (("/bin/cat") (string-append #$output "/bin/cat"))
+                  (("/bin/true") (string-append #$output "/bin/true"))
+                  (("/bin/false") (string-append #$output "/bin/false")))))))))))
+
+;; X: has package
+;; Guix version (req. version)
+
+;; (list gnutls       ;; x 3.7.7  (3.0)
+;;       libassuan    ;; x 2.5.5  (2.5)
+;;       libgcrypt    ;; x 1.10.1 (1.9.1)
+;;       libgpg-error ;; x
+;;       libksba      ;; x 1.6.3 (1.3.4)
+;;       npth         ;; x 1.6   (1.2)
+;;       openldap     ;; libldap
+;;       pcsc-lite    ;; x
+;;       readline     ;; x
+;;       sqlite       ;; x 3.42.0 (3.27)
+;;       zlib)        ;; x
+
+;; + bzip2?           ;; 1.0.8 (>1.0?)
+;; + pinentry? ...    ;; runtime
+;; + tpm2-tss         ;; O >2.4.0? (3.0.3)
+;; + libusb           ;; x 1.0.25 (1.0)
+
+;; TPM2 support may be complicated (build outputs may suffice)
+;; LDAP: may cause problems? maybe?
+
+;; - https://dev.gnupg.org/source/gnupg/browse/master/configure.ac ;gnupg-2.3.8$1216-1247
+;; - https://dev.gnupg.org/source/gnupg/browse/master/configure.ac;gnupg-2.3.8$1104-1111
+
+;;  --enable-maintainer-mode?
+
+;; phases:
+;; - patches: these are fine. common/homedir.c last changed in 2016
+;; - patch-paths: fix scdaemon references to pcscd dylib path
