@@ -27,36 +27,36 @@
   #:use-module (srfi srfi-1))
 
 (define-public regpg-bin
-               (package
-                 (name "regpg-bin")
-                 (version "1.11")
-                 (source (origin
-                           (method url-fetch)
-                           (uri (string-append
-                                 "https://dotat.at/prog/regpg/regpg"))
-                           (sha256
-                            (base32 "1frb0hx9lwbk2d79q01733bfvb4d12wdqqrv0cdqs6x6lsdjlflp"))))
-                 (build-system copy-build-system)
+  (package
+    (name "regpg-bin")
+    (version "1.11")
+    (source (origin
+              (method url-fetch)
+              (uri (string-append
+                    "https://dotat.at/prog/regpg/regpg"))
+              (sha256
+               (base32 "1frb0hx9lwbk2d79q01733bfvb4d12wdqqrv0cdqs6x6lsdjlflp"))))
+    (build-system copy-build-system)
 
-                 (arguments
-                  (list
-                   #:install-plan ''(("." "bin/"
-                                      #:include-regexp ("regpg.*$")))
-                   #:modules '((guix build copy-build-system)
-                               (guix build utils) ; for find-file
-                               (srfi srfi-26))    ; for cut, a swappier curry
+    (arguments
+     (list
+      #:install-plan ''(("." "bin/"
+                         #:include-regexp ("regpg.*$")))
+      #:modules '((guix build copy-build-system)
+                  (guix build utils)    ; for find-file
+                  (srfi srfi-26))       ; for cut, a swappier curry
 
-                   #:phases
-                   #~(modify-phases %standard-phases
-                       (add-after 'unpack 'make-executable
-                         (lambda _
-                           (for-each (cut chmod <> #o555)
-                                     (find-files "." "regpg$")))))))
+      #:phases
+      #~(modify-phases %standard-phases
+          (add-after 'unpack 'make-executable
+            (lambda _
+              (for-each (cut chmod <> #o555)
+                        (find-files "." "regpg$")))))))
 
-                 (home-page "https://dotat.at/proj/regpg")
-                 (synopsis "Safely store server secrets with GnuPG")
-                 (description "The regpg program is a thin wrapper around gpg for looking after secrets that need to be stored engrypted in VCS. Secrets are encrypted as ASCII-armored messages to keyring for the project. The regpg tool is written in standard perl modules, but can integrate with Ansible Vault.")
-                 (license license:gpl3+)))
+    (home-page "https://dotat.at/proj/regpg")
+    (synopsis "Safely store server secrets with GnuPG")
+    (description "The regpg program is a thin wrapper around gpg for looking after secrets that need to be stored engrypted in VCS. Secrets are encrypted as ASCII-armored messages to keyring for the project. The regpg tool is written in standard perl modules, but can integrate with Ansible Vault.")
+    (license license:gpl3+)))
 
 
 ;; the main difference between 1.11 and 1.11.6 (from git) is that the latter
