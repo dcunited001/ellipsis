@@ -1,0 +1,3 @@
+#!/bin/sh
+echo scd getinfo reader_list \
+     | gpg-connect-agent --decode | awk '/^D/ {print $2}'

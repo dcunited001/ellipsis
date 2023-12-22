@@ -3,3 +3,9 @@ gpgconf --reload scdaemon
 
 # or using the agent
 # gpg-connect-agent "SCD KILLSCD" "SCD BYE" /bye
+
+# other tools
+# opensc-tool: scdaemon only, irrelevant when using pcscd
+# pkcs11-tool: requires login
+# ykman openpgp info: shows "cached"
+

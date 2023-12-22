@@ -22,7 +22,7 @@
                      bash emacs emacs-xyz gnome networking libusb
                      fonts cups audio xorg xdisorg linux file-systems
                      version-control package-management freedesktop
-                     cryptsetup hardware guile vim)
+                     cryptsetup hardware guile vim golang)
 
 ;; not sure what and=> is, but accepts (value procedure)
 ;; and seems to return a default for the maybe? or Some<T> pattern

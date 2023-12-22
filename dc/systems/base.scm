@@ -21,7 +21,7 @@
                      bash emacs emacs-xyz gnome networking libusb
                      fonts cups audio xorg xdisorg linux file-systems
                      version-control package-management freedesktop
-                     cryptsetup hardware guile vim)
+                     cryptsetup hardware guile vim golang)
 ;; guile-xyz: guile-fibers
 
 (define-public %dc-kernel-modules
@@ -261,6 +261,7 @@
    libfido2 ;; included as dependency
    opensc   ;; for pkcs#11 (ssh using smartcard PIV certs)
    gnupg
+   age
    pcsc-lite
    hidapi ;; for HID devices to control FIDO/U2F
 
