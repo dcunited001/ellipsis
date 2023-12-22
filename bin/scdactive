@@ -1,0 +1,13 @@
+#!/bin/sh
+
+# from https://demu.red/blog/2017/03/how-to-check-if-your-smartcards-gpg-key-is-in-cache-part-3/
+read -d '' _awkprog <<EOF
+BEGIN {CH=0} /SERIALNO/ {
+  if(\$0!="") {CH=1}
+} END {
+  print CH
+}
+EOF
+
+gpg-connect-agent 'scd getinfo card_list' /bye 2>/dev/null \
+                  | awk "$_awkprog"

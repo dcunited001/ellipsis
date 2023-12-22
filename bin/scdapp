@@ -1,0 +1,9 @@
+#!/bin/sh
+
+_app=$1
+
+if [ -n "$_app" ]; then
+    gpg-connect-agent "scd switchapp $_app" /bye
+else
+    gpg-connect-agent --decode 'scd getinfo app_list' /bye
+fi
