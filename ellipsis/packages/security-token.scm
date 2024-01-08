@@ -81,40 +81,39 @@
 
 
 ;; NOTE: it builds: no idea whether it works
-(define-public go-github-com-go-piv-piv-go
-  (package
-    (name "go-github-com-go-piv-piv-go")
-    (version "1.11.0")
-    (source
-     (origin
-       (method git-fetch)
-       (uri (git-reference
-             (url "https://github.com/go-piv/piv-go")
-             (commit (string-append "v" version))))
-       (file-name (git-file-name name version))
-       (sha256
-        (base32 "13njcz4lxrac5r3ww4bdrrzkiz2x057d6cyjq9p2jylygkwkp631"))))
-    (build-system go-build-system)
+;; (define-public go-github-com-go-piv-piv-go
+;;   (package
+;;     (name "go-github-com-go-piv-piv-go")
+;;     (version "1.11.0")
+;;     (source
+;;      (origin
+;;        (method git-fetch)
+;;        (uri (git-reference
+;;              (url "https://github.com/go-piv/piv-go")
+;;              (commit (string-append "v" version))))
+;;        (file-name (git-file-name name version))
+;;        (sha256
+;;         (base32 "13njcz4lxrac5r3ww4bdrrzkiz2x057d6cyjq9p2jylygkwkp631"))))
+;;     (build-system go-build-system)
 
-    ;; the importpath is ./piv. makefile calls `go build ./...`
-    ;; #:import-path "github.com/go-piv/piv-go"
+;;     ;; the importpath is ./piv. makefile calls `go build ./...`
+;;     ;; #:import-path "github.com/go-piv/piv-go"
 
-    (native-inputs (list pkg-config))
-    (inputs (list pcsc-lite))
-    (arguments
-     (list
-      #:unpack-path "github.com/go-piv/piv-go"
-      #:import-path "github.com/go-piv/piv-go/piv"
-      ;; TODO: fix tests: pcsc_test.go and piv_test.go rely on hardware
-      ;; the only test that passes is key_test.go
-      #:tests? #f
-      #:phases
-      #~(modify-phases %standard-phases
-          (add-after 'unpack 'delete-python-script
-            (lambda _
-              (for-each delete-file (find-files "src" "pcsc_errors\\.py$")))))))
-    (home-page "https://github.com/go-piv/piv-go")
-    (synopsis "A Go YubiKey PIV implementation")
-    (description "This is not an officially supported Google product")
-    (license license:asl2.0)))
-
+;;     (native-inputs (list pkg-config))
+;;     (inputs (list pcsc-lite))
+;;     (arguments
+;;      (list
+;;       #:unpack-path "github.com/go-piv/piv-go"
+;;       #:import-path "github.com/go-piv/piv-go/piv"
+;;       ;; TODO: fix tests: pcsc_test.go and piv_test.go rely on hardware
+;;       ;; the only test that passes is key_test.go
+;;       #:tests? #f
+;;       #:phases
+;;       #~(modify-phases %standard-phases
+;;           (add-after 'unpack 'delete-python-script
+;;             (lambda _
+;;               (for-each delete-file (find-files "src" "pcsc_errors\\.py$")))))))
+;;     (home-page "https://github.com/go-piv/piv-go")
+;;     (synopsis "A Go YubiKey PIV implementation")
+;;     (description "This is not an officially supported Google product")
+;;     (license license:asl2.0)))
