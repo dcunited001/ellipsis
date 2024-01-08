@@ -9,10 +9,6 @@
   #:use-module (gnu packages)
   #:use-module (srfi srfi-1))
 
-  (package
-    (build-system emacs-build-system)
-    (arguments
-
 ;; TODO: maybe implement an ox-ssh package?
 
 ;; https://github.com/jobbflykt/x509-mode
