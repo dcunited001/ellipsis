@@ -238,6 +238,7 @@
    hwinfo
    stow
    vim
+   rsync
 
    xterm
    bluez
