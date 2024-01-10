@@ -7,8 +7,24 @@
   #:use-module (guix packages)
   #:use-module (guix build-system emacs)
   #:use-module (gnu packages)
+  #:use-module (gnu packages emacs-xyz)
   #:use-module (srfi srfi-1))
 
+(define-public emacs-docker-tmp
+  (package
+    (inherit emacs-docker)
+    ;; (name "emacs-docker")
+    (propagated-inputs
+     (modify-inputs (package-propagated-inputs emacs-docker)
+       (delete "emacs-docker-tramp")))))
+
+;; (define-public emacs-docker-tmp
+;;   (package
+;;     (inherit emacs-docker)
+;;     (name "emacs-docker-tmp")
+;;     (propagated-inputs
+;;      (modify-inputs (package-propagated-inputs emacs-docker)
+;;        (delete "emacs-docker-tramp")))))
 ;; TODO: maybe implement an ox-ssh package?
 
 ;; https://github.com/jobbflykt/x509-mode
