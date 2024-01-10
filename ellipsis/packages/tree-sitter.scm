@@ -14,6 +14,8 @@
   #:use-module (guix packages)
   #:use-module (guix utils))
 
+;; TODO: https://github.com/shopify/tree-sitter-liquid
+
 ;; From Guix ./gnu/packages/tree-sitter.scm
 (define (tree-sitter-delete-generated-files grammar-directories)
   #~(begin

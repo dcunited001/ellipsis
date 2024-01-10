@@ -2375,6 +2375,9 @@ map <C-g> abort
 
 #+end_src
 
+The =.stglobalignore= patterns are from [[https://codeberg.org/iNeedADoctor/Syncthing-Ignore-Patterns][iNeedADoctor/Syncthing-Ignore-Patterns]]
+
+
 ** Flatpak
 
 #+begin_example sh

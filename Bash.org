@@ -613,10 +613,10 @@ Now nix should build and =direnv allow= should run flakes right.
 According to =fcitx5-diagnose= these need to be set to =fcitx= NOT =fcitx5=.
 
 #+begin_src sh :tangle .config/sh/profile.d/fcitx5.sh :shebang #!/bin/sh
-export QT_IM_MODULE=fcitx
-export GTK_IM_MODULE=fcitx
-export SDL_IM_MODULE=fcitx
-export XMODIFIERS="@im=fcitx"
+# export QT_IM_MODULE=fcitx
+# export GTK_IM_MODULE=fcitx
+# export SDL_IM_MODULE=fcitx
+# export XMODIFIERS="@im=fcitx"
 #+end_src
 
 If fcitx5 is being loaded by a guix profile that doesn't update =XDG_DATA_DIRS=, then that variable needs to be updated as well
