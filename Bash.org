@@ -251,8 +251,8 @@ export MAIL=geary
 export BROWSER=firefox
 
 # TODO: update to use terminal emacsclient
-export VISUAL="emacsclient -c"
-export EDITOR="emacsclient"
+export VISUAL="gmacsclient"
+export EDITOR="gmacsclient -- -nw"
 export ALTERNATE_EDITOR=vim
 #+end_src
 
