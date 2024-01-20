@@ -16,5 +16,5 @@ Seen=true
 [Notifications]
 LowPriorityHistory=true
 NormalAlwaysOnTop=true
-PopupPosition=TopLeft
+PopupPosition=TopRight
 PopupTimeout=30000

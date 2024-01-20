@@ -16,7 +16,7 @@ Version=202
 ViewPropsTimestamp=2022,7,12,7,23,45.809
 
 [IconsMode]
-PreviewSize=128
+PreviewSize=48
 
 [KFileDialog Settings]
 Places Icons Auto-resize=false
@@ -44,3 +44,6 @@ ToolBarsMovable=Disabled
 [Open-with settings]
 CompletionMode=1
 History=mesh,ema
+
+[Search]
+Location=Everywhere

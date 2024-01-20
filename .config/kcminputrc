@@ -7,6 +7,9 @@ NumLock=0
 RepeatDelay=600
 RepeatRate=25
 
+[Libinput][1386][855][Wacom Intuos Pro M Pen]
+OutputName=DP-1
+
 [Mouse]
 X11LibInputXAccelProfileFlat=true
 

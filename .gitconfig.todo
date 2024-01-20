@@ -1,0 +1,318 @@
+# -*- mode: gitconfig -*-
+
+# TODO: absorb after grok
+	
+[fetch]
+	prune = true
+
+# =============================================
+# patches
+	
+[format]
+	# Automatically sign-off patches when using format-patch.
+	signoff = true
+
+[commit]
+  verbose = true
+	template = ~/.gittemplates/commit
+	
+[stash]
+    showPatch = true
+	
+# =============================================
+
+[core]   
+  pager = "(diff-highlight 2>/dev/null || cat) | ${PAGER:-less}"
+
+[status]
+  showUntrackedFiles = all
+
+[help]
+	autocorrect = 1
+
+# =============================================
+
+[branch]
+	autosetupmerge = always
+	autosetuprebase = always
+
+# ---------------------------------------------
+[branch "master"]
+    merge = refs/heads/master
+
+# =============================================
+
+[merge]
+    tool = emerge/ediff/diffconflicts
+    prompt = true
+
+[merge "ours"]
+	driver = true
+	
+[mergetool]
+	keepBackup = false
+
+# https://github.com/whiteinge/diffconflicts
+[mergetool "diffconflicts"]
+	cmd = vim -c DiffConflicts \"$MERGED\" \"$BASE\" \"$LOCAL\" \"$REMOTE\"
+	trustExitCode = true
+
+[merge]
+    conflictstyle = diff3
+	stat = true
+# =============================================
+	
+# https://git-scm.com/docs/git-rebase
+[rebase]
+	# https://thoughtbot.com/blog/autosquashing-git-commits
+	autoSquash = true
+	# https://cscheng.info/2017/01/26/git-tip-autostash-with-git-pull-rebase.html
+	autoStash = true
+	# https://github.blog/2022-10-03-highlights-from-git-2-38/
+	updateRefs = true
+
+
+# https://git-scm.com/docs/git-rerere
+[rerere]
+   autoUpdate = true
+
+
+[interactive]
+    diffFilter = delta --color-only --features=interactive
+
+
+# =============================================
+
+[push]
+	# default = current/simple
+	# followTags = true
+
+
+# =============================================
+[secrets]
+	providers = git-pass-secrets
+
+[credential]
+  helper = cache --timeout=3600
+	helper = store
+
+# =============================================
+
+[format]
+    pretty = "Commit:  %C(cyan)%H%nAuthor:  %C(green)%aN <%aE>%nDate:    (%C(yellow)%ar%Creset) %ai%n%n     %C(white)%s%n%b"
+
+signoff = true
+[log]
+    decorate = full
+
+[grep]
+    extendRegexp = true
+    lineNumber = true
+	
+# =============================================
+diff tools
+
+[diff]
+	# Detect copies in addition to renames
+	renames = copies
+	# A la `git submodule summary`
+	submodule = log
+	# Do not show "a/" "b/", allows file navigation when supported
+	noPrefix = true
+	
+	
+[diff "lisp"]
+    xfuncname = "^(\\((def).*)$"
+[diff "gpg"]
+	textconv = gpg --use-agent -q --batch --decrypt
+
+
+[diff]
+    renames = copies
+    mnemonicprefix = true
+[diff "hex"]
+    textconv = hexdump -v -C
+    binary = true
+[diff "zip"]
+    textconv = unzip -v
+[diff "pdf"]
+    textconv = mdls
+[diff "bin"]
+    textconv = hexdump -v -C
+	
+# ---------------------------------------------
+
+[delta]
+	features = decorations
+
+[delta]
+    syntax-theme = gruvbox-dark
+    features = unobtrusive-line-numbers decorations
+    line-numbers = true
+    navigate = true
+[interactive]
+	diffFilter = delta --color-only
+	
+[delta "interactive"]
+    keep-plus-minus-markers = false
+
+[delta "decorations"]
+    commit-decoration-style = blue ol
+    commit-style = raw
+    file-style = omit
+    hunk-header-decoration-style = blue box
+    hunk-header-file-style = red
+    hunk-header-line-number-style = "#067a00"
+    hunk-header-style = file line-number syntax
+
+# =============================================
+# misc
+	
+[i18n]
+    logoutputencoding = UTF-8
+
+[pager]
+    diff = delta
+    log = delta
+    reflog = delta
+    show = delta
+
+[flake8]
+    strict = true
+	
+# ============================================
+
+# ---------------------------------------------
+
+# ---------------------------------------------
+# thiagowfx
+	
+# git-absorb(1): https://github.com/tummychow/git-absorb
+[alias]
+	absorb = absorb --and-rebase
+
+	# do not use "emerge" as it is already defined in corp
+	emergef = !git add -A && git amend && git pushm -f
+	pushm = !git push $(git remote) $(git branch --show-current):$(git branch --show-current)
+	pullm = !git pull $(git remote) $(git branch --show-current):$(git branch --show-current)
+
+	# usage: git ignore go,hugo,vim >> .gitignore
+	ignore = !curl -L -s https://www.gitignore.io/api/$@
+
+	# log: there's also gitk and tig
+	l = log --graph --pretty=oneline --abbrev-commit --all
+	xl = branch -vva
+
+	# hg/fig compatibility
+	purge = clean -f -d
+	reword = commit --allow-empty --amend -n
+	rbi = rebase -i HEAD~10
+	shelve = stash
+	uncommit = !git reset --soft HEAD^ && git restore --staged .
+	unshelve = stash apply
+	unstash = stash apply
+
+# ---------------------------------------------
+kubemacs
+	
+[alias]
+	lol = log --graph --decorate --pretty=oneline --abbrev-commit --all
+	create-pull-request = !sh -c 'stash pull-request $0'
+	lg = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
+	
+[alias]
+    cl  = clone
+    p   = push
+    pl  = pull
+    f   = fetch
+    fa  = fetch --all
+    a   = add
+    ap  = add -p
+    d   = diff
+    dl  = diff HEAD~ HEAD
+    ds  = diff --staged
+    l   = log
+    l1  = log -1
+    lp  = log -p
+    c   = commit
+    ca  = commit --amend
+    co  = checkout
+    cb  = checkout -b
+    cm  = checkout origin/master
+    de  = checkout --detach
+    br  = branch
+    s   = status
+    re  = reset --hard
+    dp  = push origin HEAD:refs/drafts/master
+    pp  = push origin HEAD:refs/publish/master
+    r   = rebase
+    rc  = rebase --continue
+    ri  = rebase -i
+    m   = merge
+    t   = tag
+    su  = submodule update --init --recursive
+    bi  = bisect
+    bg  = bisect good
+    bb  = bisect bad
+    bis = bisect start
+    bir = bisect reset
+
+# ---------------------------------------------
+benmetzger
+	
+[alias]
+    unadd = reset HEAD
+    undo-commit = reset --soft HEAD^
+    ec = config --global -e # edit gitconfig
+    ls = log --pretty=format:"%C(yellow)%h%Cred%d\\ %Creset%s%Cblue\\ [%cn]" --decorate # List commits in short form, with colors and branch/tag annotations.
+    ll = log --pretty=format:"%C(yellow)%h%Cred%d\\ %Creset%s%Cblue\\ [%cn]" --decorate --numstat # List commits showing changed files
+    lds = log --pretty=format:"%C(yellow)%h\\ %ad%Cred%d\\ %Creset%s%Cblue\\ [%cn]" --decorate --date=short # List oneline commits showing dates
+    ld = log --pretty=format:"%C(yellow)%h\\ %ad%Cred%d\\ %Creset%s%Cblue\\ [%cn]" --decorate --date=relative # List oneline commits showing relative dates
+    le = log --oneline --decorate #Default look for short git log
+    logtree = "log --graph --oneline --decorate --all" # same as above, but with graph
+    filelog = log -u # See all the commits related to a file, with the diff of the changes with git log -u
+    dl = "!git ll -1" # Show modified files in last commit
+    dlc = diff --cached HEAD^ # Show a diff last commit
+    dr  = "!f() { git diff "$1"^.."$1"; }; f" # Show content (full diff) of a commit given a revision
+    lc  = "!f() { git ll "$1"^.."$1"; }; f" # ^
+    diffr  = "!f() { git diff "$1"^.."$1"; }; f" # ^
+    la = "!git config -l | grep alias | cut -c 7-" # List all your Aliases
+    permission-reset = !git diff -p -R | grep -E \"^(diff|(old|new) mode)\" | git apply
+    co = checkout
+    br = branch
+    ci = commit
+    st = status
+    last = log -1 HEAD
+    web = instaweb --httpd=webrick
+    webstop = instaweb --httpd=webrick --stop
+    permission-reset = !git diff -p -R | grep -E \"^(diff|(old|new) mode)\" | git apply
+    dsf = "!f() { [ \"$GIT_PREFIX\" != \"\" ] && cd "$GIT_PREFIX"; git diff --color $@ | diff-so-fancy | less --tabs=4 -RFX; }; f"
+    git = !exec git
+    pushall = !git remote | xargs -L1 git push --all
+
+
+	
+[alias]
+	# hg-style listing commands
+	branches = branch -va
+	tags = tag --list
+	parents = show --pretty=format:'%P' -s
+	paths = remote -v
+	remotes = remote -v
+	#glog = log --graph --abbrev-commit --decorate --date=short --format=format:'%C(bold blue)%h%C(reset)%C(bold yellow)%d%C(reset) - %C(green)(%ad)%C(reset) %C(white)%s%C(reset) %C(bold black)- %an%C(reset)' --date-order
+	outgoing = !git fetch && git log FETCH_HEAD..
+	incoming = !git fetch && git log ..FETCH_HEAD
+
+	# Other hg-style commands
+	revert = checkout --
+	rollback = reset --soft HEAD^
+	forget = reset HEAD
+	manifest = ls-tree -r --name-only --full-tree HEAD
+	export = format-patch
+	update = checkout -m
+	verify = fsck
+
+	# Other random convenience commands
+	revert-all = checkout -f .
+	new-branch = checkout -b
+	wdiff = diff --color-words='\\w+|\\S'

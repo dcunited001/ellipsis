@@ -3,38 +3,98 @@
 	email = aionfork@gmail.com
 	name = David Conner
 	signingkey = 0x4FFBCBA193874066
-[alias]
-	co = checkout
-[color]
-	diff = auto
-	status = auto
-	branch = auto
+	
+[github]
+	user = dcunited001
+	
+# =============================================
+# Core
+
 [core]
 	excludesfile = /home/dc/.gitignore_global
 	editor = emacsclient -t
 	autocrlf = input
 	pager = less -R
-[apply]
-	whitespace = nowarn
-[format]
-	pretty = %C(yellow)%h%Creset %s %C(red)(%an, %cr)%Creset
-	enabled = true
-[pull]
-	rebase = true
+
+# =============================================
+# Fetch
+
 [init]
 	defaultBranch = master
+
+# TODO: templates?
+# [init]
+# templatedir = ~/.gittemplates
+# [commit]
+#	template = ~/.gittemplates/commit
+	
+[protocol "file"]
+	allow = always
+
+[submodule]
+	# if zero: no limit on parallel clone jobs 4 submodules
+	fetchJobs = 6
+
+# ---------------------------------------------
+# [remote "origin"]
+#     prune = true
+	
+# ---------------------------------------------
+	
+[pull]
+	rebase = true
+
+# =============================================
+# Merge
+
+# =============================================
+# Rebase
+
+# TODO: consider [rebase] autoStash = true
+	
+[rerere]
+	enabled = true
+	
+# =============================================
+# Commits
+
 [commit]
   gpgSign = true # in git repository
 # TODO: [difftool "emacsclient"] with smerge
 
-[rerere]
-	enabled = true
+# =============================================
+# Diff and Patch
+	
+# [diff] # TODO: keep if compat with magit
+# 	colorMoved = default
 
 # via tecosaur & protesilaos (req. ~/.config/git/attributes)
 # show org headlines instead of line numbers in diff hunks
+	
 [diff "org"]
 	xfuncname = "^(\\*+ +.*)$"
-[protocol "file"]
-	allow = always
-[github]
-	user = dcunited001
+	
+[apply]
+	whitespace = nowarn
+	
+# =============================================	
+# Format
+
+[format]
+	pretty = %C(yellow)%h%Creset %s %C(red)(%an, %cr)%Creset
+	enabled = true
+
+[color]
+	diff = auto
+	status = auto
+	branch = auto
+
+# TODO: if [color] ui = true
+# [column]
+# 	ui = auto column dense
+	
+# =============================================
+	
+[alias]
+	co = checkout
+	
