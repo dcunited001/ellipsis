@@ -15,6 +15,9 @@
   #:use-module (gnu packages mtools) ;; for msdos file systems
   #:use-module (gnu packages file-systems)
 
+  ;; AGE keygen
+  #:use-module (gnu packages golang)
+
   ;;** PGP Packages
   #:use-module (gnu packages gnupg)
   #:use-module (gnu packages security-token)
@@ -23,9 +26,11 @@
   #:use-module (gnu services authentication)
   #:use-module (gnu services security-token)
 
+
   #:use-module (ellipsis packages tls)
   #:use-module (ellipsis packages emacs-xyz)
   #:use-module (ellipsis packages password-utils)
+  #:use-module (ellipsis packages security-token)
 
   ;; certbot/letsencrypt packages
   ;; #:use-module (gnu packages tls)
@@ -163,7 +168,8 @@
                    paperkey
                    datefudge
 
-                   shroud-nox
+                   ;; TODO: remove shroud-nox?
+                   ;; shroud-nox
 
                    le-certs
                    nss-certs
@@ -172,7 +178,10 @@
                    step-cli-bin
                    certdata2pem
                    ;; desec-certbot-hook
-                   )
+
+                   sops
+                   age-keygen
+                   age-plugin-yubikey-bin)
              %base-packages))
 
     (services
