@@ -1722,6 +1722,7 @@ export LESS_TERMCAP_ue="${RESTORE}"
 export LESS_TERMCAP_us="${LGREEN}"
 
 # fix for less as MANPAGER
+# https://bbs.archlinux.org/viewtopic.php?id=287185
 export GROFF_NO_SGR=1
 #+end_src
 
