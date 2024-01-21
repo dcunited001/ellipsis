@@ -1949,6 +1949,7 @@ if [ -f $HOME/.profile ]; then . $HOME/.profile; fi
  '("git"
   "git-lfs"
   "git-repo"
+  "git-stack"
 
 ;;** fetch
   "curl"
