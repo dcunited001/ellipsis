@@ -1720,6 +1720,9 @@ export LESS_TERMCAP_so="${STANDOUT}"
 #export LESS_TERMCAP_so=$'\E[00;44;37m'
 export LESS_TERMCAP_ue="${RESTORE}"
 export LESS_TERMCAP_us="${LGREEN}"
+
+# fix for less as MANPAGER
+export GROFF_NO_SGR=1
 #+end_src
 
 And when no colors
