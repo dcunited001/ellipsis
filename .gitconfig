@@ -97,4 +97,7 @@
 	
 [alias]
 	co = checkout
+	kg = stack
+	ksy = stack sync
+  kcfg = stack --dump-config -
 	

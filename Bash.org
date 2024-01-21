@@ -1652,6 +1652,13 @@ alias gpguptty='gpg-connect-agent updatestartuptty /bye'
 alias gpgrel='gpg-connect-agent reloadagent /bye'
 alias gpgk='gpg-connect-agent killagent /bye'
 
+#* git
+
+#** git-stack
+alias gkg='git stack'
+alias gksy='git stack sync'
+alias gkcfg='git stack --dump-config -'
+
 # Advanced command-not-found hook
 # source /usr/share/doc/find-the-command/ftc.bash
 

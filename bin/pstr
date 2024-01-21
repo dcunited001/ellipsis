@@ -1,0 +1,9 @@
+#!/bin/sh
+if [ $# -lt 1 ]; then
+  echo "Requires regexp as arg"
+fi
+
+pattern=$1
+shift 1
+
+pgrep $pattern | xargs -I '{}' pstree -s "{}"
