@@ -244,6 +244,22 @@ unset $__script
 
 #+end_src
 
+
+***** RC
+
+#+begin_src sh :tangle .config/sh/_load_rc.eg.sh :shebang #!/bin/sh
+# This is the default _load_rc.d.sh script
+
+__scripts=(
+"git-prompt.sh"
+    )
+for __script in ${__scripts[@]}; do
+    [[ -f $DOTS_RC_D/$__script ]] && source $DOTS_RC_D/$__script || echo "couldn't load $__script"
+done
+unset $__script
+#+end_src
+
+
 ** Apps
 
 #+begin_src sh :tangle .config/sh/profile.d/apps.sh :shebang #!/bin/sh
@@ -1324,8 +1340,8 @@ export DOTS_PROFILE_D=$DOTS_CFG_SHELL/profile.d
 
 [[ -f $DOTS_CFG_SHELL/icons.sh ]] && source $DOTS_CFG_SHELL/icons.sh
 
+# Profile
 [[ -f $DOTS_CFG_SHELL/_before_profile.d.sh ]] && source $DOTS_CFG_SHELL/_before_profile.d.sh
-
 [[ -f $DOTS_CFG_SHELL/_load_profile.d.sh ]] && source $DOTS_CFG_SHELL/_load_profile.d.sh
 #+end_src
 
@@ -1543,6 +1559,11 @@ If not running interactively, return
 shopt -s histappend
 
 [[ "$TERM" == "dumb" ]] || export TERM="xterm-256color"
+
+# RC
+export DOTS_RC_D=$DOTS_CFG_SHELL/rc.d
+[[ -f $DOTS_CFG_SHELL/_before_rc.d.sh ]] && source $DOTS_CFG_SHELL/_before_rc.d.sh
+[[ -f $DOTS_CFG_SHELL/_load_rc.d.sh ]] && source $DOTS_CFG_SHELL/_load_rc.d.sh
 #+end_src
 
 Keybindings. Run =bind -f $file= to emit bindings to a script.
@@ -1742,6 +1763,11 @@ To check capabilities, see =man terminfo= and =infocmp=
 export PS_INFO=""
 export PS_PROMPT=""
 
+PS_GIT=""
+GIT_PS1_SHOWCOLORHINTS=1
+GIT_PS1_DESCRIBE_STYLE=branch
+GIT_PS1_SHOWUPSTREAM=name
+
 PS_PROMPT="${LYELLOW}\A ${LGREEN}\u${RED}@${LCYAN}\h ${RED}:: ${YELLOW}\w"
 if [ -n "$GUIX_ENVIRONMENT" ]; then
     PS_INFO="${LMAGENTA}g${RESTORE}"
@@ -1750,9 +1776,13 @@ fi
 if [ "$TERM" = "dumb" ]; then
     PS1='$ '
 else
-    PS1="$PS_PROMPT"
-    if [ -n "$PS_INFO" ]; then
-        PS1="$PS_INFO\n$PS1"
+    PS_GIT='$(__git_ps1 "«%s»") '
+    PS_INFO="$PS_GIT $PS_INFO"
+    PS1="$PS_INFO \n$PS_PROMPT"
+
+    # calc number of cols with $((COLUMNS -n ))
+    if [ -n "$PS_GIT" ]; then
+       PS1="$PS1"
     fi
     PS1="$PS1${RED}$ ${RESTORE}"
 fi
