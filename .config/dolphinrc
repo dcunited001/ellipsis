@@ -4,6 +4,9 @@ update_info=dolphin_detailsmodesettings.upd:rename-leading-padding
 [CompactMode]
 PreviewSize=22
 
+[DetailsMode]
+PreviewSize=16
+
 [FileDialogSize]
 3 screens: Height=1340
 3 screens: Width=884
@@ -44,6 +47,3 @@ ToolBarsMovable=Disabled
 [Open-with settings]
 CompletionMode=1
 History=mesh,ema
-
-[Search]
-Location=Everywhere

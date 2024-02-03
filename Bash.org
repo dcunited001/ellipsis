@@ -224,26 +224,25 @@ it is assumed that the sequence is structured.
 # This is the default _load_profile.d.sh script
 
 __scripts=(
-"guix.sh"
-"mail.sh"
-"email.sh"
-"apps.sh"
-"xdg.sh"
-"gtk.sh"
-"qt.sh"
-"emacs.sh"
-"java.sh"
-"julia.sh"
-"graphviz.sh"
-"flatpak.sh"
-    )
+    "guix.sh"
+    "mail.sh"
+    "email.sh"
+    "apps.sh"
+    "xdg.sh"
+    "gtk.sh"
+    "qt.sh"
+    "emacs.sh"
+    "java.sh"
+    "julia.sh"
+    "graphviz.sh"
+    "flatpak.sh"
+)
 for __script in ${__scripts[@]}; do
     [[ -f $DOTS_PROFILE_D/$__script ]] && source $DOTS_PROFILE_D/$__script || echo "couldn't load $__script"
 done
 unset $__script
-
+# unset $__scripts
 #+end_src
-
 
 ***** RC
 
@@ -251,14 +250,18 @@ unset $__script
 # This is the default _load_rc.d.sh script
 
 __scripts=(
-"git-prompt.sh"
-    )
+    "aliases.sh"
+    "functions.sh"
+    "colors.sh"
+    "git-prompt.sh"
+    "prompt.sh"
+)
 for __script in ${__scripts[@]}; do
     [[ -f $DOTS_RC_D/$__script ]] && source $DOTS_RC_D/$__script || echo "couldn't load $__script"
 done
 unset $__script
+# unset $__scripts
 #+end_src
-
 
 ** Apps
 
@@ -348,7 +351,7 @@ Or simply =flatpak --installation=steam run com.valvesoftware.Steam=
 
 *** Setup
 
-+ Add =steam.sh= to =~/.config/sh/_load_profile.sh=
++ Add =steam.sh= to =~/.config/sh/_load_profile.d.sh=
 
 #+begin_src sh :tangle no :eval no
 mkdir -p $_STEAM $FLATPAK_STEAM_VAR/com.valvesoftware.Steam
@@ -896,7 +899,7 @@ as its default directory. This main python should have =pip= set up with the
 **** Pyenv
 
 Ensure pyenv is installed with =yay -Syu pyenv= and add this to
-=.config/sh/_load_profile.sh=. This should be loaded after all the guix
+=.config/sh/_load_profile.d.sh=. This should be loaded after all the guix
 profiles, in case one contains a python.
 
 #+begin_src sh :tangle .config/sh/profile.d/python-pyenv.sh :shebang #!/bin/sh
@@ -1572,7 +1575,7 @@ Keybindings. Run =bind -f $file= to emit bindings to a script.
 # enable set-mark (overrides control sequences like unix-word-rubout)
 
 # enable copy/paste
-bind '"C-@":set-mark'
+bind '"\C-@":set-mark'
 bind '"\e ":set-mark'
 bind '"\C-w":kill-region'
 bind '"\ew":copy-region-as-kill'
@@ -1583,9 +1586,9 @@ bind '"\e/":dabbrev-expand'
 # also M-tab for `dynamic-complete-history`
 #+end_src
 
-Aliases
+*** Aliases
 
-#+begin_src sh :tangle .bashrc :shebang #!/bin/sh
+#+begin_src sh :tangle .config/sh/rc.d/aliases.sh :shebang #!/bin/sh
 # unless dumbterm
 
 if [ "$TERM" != "dumb" ]; then
@@ -1659,13 +1662,48 @@ alias gkg='git stack'
 alias gksy='git stack sync'
 alias gkcfg='git stack --dump-config -'
 
+# TODO: ascii git tree
+# git log --graph --pretty=format:'%Cred%h%Creset%n %d' --abbrev-commit --decorate -n32 --all HEAD~
+
 # Advanced command-not-found hook
 # source /usr/share/doc/find-the-command/ftc.bash
 
 alias emacs-debug-wayland='WAYLAND_DEBUG=1 emacs --fg-daemon > $HOME/.cache/log/emacs.wayland.`date +%Y-%m%d-%H%M`.log 2>&1'
 #+end_src
 
-*** Color
+*** Functions
+
+**** Aliases
+
+
+
+**** Git Repo
+
+#+begin_src sh :tangle .config/sh/rc.d/functions.sh :shebang #!/bin/sh
+# clear all the fat fingers, so sync happens without dired
+repo_reset_repos() {
+    [[ -z "$1" ]] && \
+        printf "quoted glob pattern: \$1\nargs to git reset \$@" && \
+        return 1
+
+    local _pattern=$1
+    shift 1
+
+    # pattern is optional .... oh
+    if [[ $# -gt 0 ]]; then
+        # which is probably why there's no explicit command for this
+        repo forall $_pattern -c git reset $@
+    else
+        repo forall $_pattern -c git reset --hard
+    fi
+
+}
+
+# alias rprr=repo_reset_repos
+#+end_src
+
+
+*** Colors
 
 #+begin_quote
 hmmmmm colors in man are gone except for the standout effect on the status
@@ -1673,10 +1711,9 @@ line. /Some of it/ is still there in vty's. but =!echo $PAGER $MANPAGER and $(wh
 from within man/less show the expected output AFAIK.
 #+end_quote
 
-
 Shell colors (stackoverflow)
 
-#+begin_src sh :tangle .config/sh/colors.sh :shebang #!/bin/sh
+#+begin_src sh :tangle .config/sh/rc.d/colors.sh :shebang #!/bin/sh
 if [ "$TERM" != "dumb" ]; then
     #export CURSOR_BOX=$(echo -e '\001\033[\017
 
@@ -1739,12 +1776,6 @@ And when no colors
 + =man termcap= for an explanation of codes
 + example dircolors output: [[file:/data/ecto/x.files/benmezger/dotfiles/dot_dircolors][benmezger dircolors]]
 
-And source
-
-#+begin_src sh :tangle .bashrc :shebang #!/bin/sh
-source "$DOTS_CFG_SHELL/colors.sh"
-#+end_src
-
 **** Less Termcaps
 
 Source: [[https://unix.stackexchange.com/questions/108699/documentation-on-less-termcap-variables][stackoverflow]]
@@ -1770,7 +1801,7 @@ Update PS1 according to [[https://github.com/direnv/direnv/wiki/PS1][direnv wiki
 
 To check capabilities, see =man terminfo= and =infocmp=
 
-#+begin_src sh :tangle .config/sh/prompt.sh :shebang #!/bin/sh
+#+begin_src sh :tangle .config/sh/rc.d/prompt.sh :shebang #!/bin/sh
 export PS_INFO=""
 export PS_PROMPT=""
 
@@ -1798,12 +1829,6 @@ else
     PS1="$PS1${RED}$ ${RESTORE}"
 fi
 
-#+end_src
-
-And source
-
-#+begin_src sh :tangle .bashrc :shebang #!/bin/sh
-source "$DOTS_CFG_SHELL/prompt.sh"
 #+end_src
 
 **** Ok, nevermind then

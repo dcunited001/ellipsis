@@ -12,10 +12,16 @@
 
 [core]
 	excludesfile = /home/dc/.gitignore_global
-	editor = emacsclient -t
+	editor = gmacsclient -- -t
 	autocrlf = input
 	pager = less -R
 
+# =============================================
+# Branching
+[branch]
+	autoSetupMerge=always
+	autoSetupRebase=always
+	
 # =============================================
 # Fetch
 
@@ -40,7 +46,8 @@
 #     prune = true
 	
 # ---------------------------------------------
-	
+
+# TODO: .gitconfig: remove pull.rebase? (when autoSetupRebase=always)
 [pull]
 	rebase = true
 

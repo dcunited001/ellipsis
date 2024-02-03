@@ -1,6 +1,9 @@
 [Applications][@other]
 ShowInHistory=false
 
+[Applications][chromium]
+Seen=true
+
 [Applications][discord]
 Seen=true
 
