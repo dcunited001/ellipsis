@@ -300,9 +300,9 @@ retrieve these settings appropriately. This is used throughout =Desktop.org=.
   (when (equal system-name "kharis")
     `((desktop/dpi . nil)
  	;;(desktop/dpi . 157) ;; TODO verify DPI
-      (emacs/default-face-size . 100)
-      (emacs/variable-face-size . 110)
-      (emacs/fixed-face-size . 100)
+      (emacs/default-face-size . 90)
+      (emacs/variable-face-size . 100)
+      (emacs/fixed-face-size . 90)
       (emacs/doom-modeline-height . 17)
       (alacritty/shell-program . "/run/current-system/profile/bin/bash")
       (polybar/height . 32)
