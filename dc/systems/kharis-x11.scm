@@ -20,11 +20,14 @@
                      desktop linux mcron networking xorg ssh
                      security-token docker audio virtualization)
 
+;; req for %dc-desktop-packages
 (use-package-modules nfs certs shells ssh tls gnupg security-token
                      bash emacs emacs-xyz gnome networking libusb
                      fonts cups audio xorg xdisorg linux file-systems
-                     version-control package-management freedesktop
-                     cryptsetup hardware guile vim suckless golang)
+                     version-control package-management freedesktop rsync
+                     cryptsetup hardware guile vim golang golang-crypto
+                     ;; packages req for image
+                     suckless)
 
 (define %host-name "kharis")
 
