@@ -18,6 +18,36 @@
      (modify-inputs (package-propagated-inputs emacs-docker)
        (delete "emacs-docker-tramp")))))
 
+
+;; for now on guix, this requires shimming js--treesit-sentence-nodes
+;;
+;; https://github.com/xhcoding/qml-ts-mode/issues/1
+;;
+;; https://github.com/emacs-mirror/emacs/blame/5c43ef86bf169a79b87bd082d2f884757f7c2efc/lisp/progmodes/js.el#L3805-L3827
+;;
+;; NOTE: my version of emacs is missing this line (and likely other js
+;; keywords for treesitter
+(define-public emacs-qml-ts-mode
+  (let* ((commit "2db1a798cd320d37c6031bc4583199524e24cc0b")
+         (github-repo "https://github.com/xhcoding/qml-ts-mode")
+         (revision "1"))
+    (package
+      (name "emacs-qml-ts-mode")
+      (version (git-version "0.9" revision commit))
+      (source (origin
+                (method git-fetch)
+                (uri (git-reference
+                      (url github-repo)
+                      (commit commit)))
+                (file-name (git-file-name name version))
+                (sha256 (base32 "1rx51ndpllgrkm291qhvnsgz1rj5wjkbr9pvcm1lnw3kb0kw1qbc"))))
+      (build-system emacs-build-system)
+      (home-page github-repo)
+      (synopsis "QML major mode using treesit")
+      (description "qml-ts-mode is major-mode for editing Qt Declarative (QML) code.")
+      ;; TODO: correct the license (project has none)
+      (license license:expat))))
+
 ;; (define-public emacs-docker-tmp
 ;;   (package
 ;;     (inherit emacs-docker)

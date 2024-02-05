@@ -1,0 +1,67 @@
+#+TITLE:     Ellipsis Packages: Tree Sitter
+#+AUTHOR:    David Conner
+#+EMAIL:     aionfork@gmail.com
+#+DESCRIPTION: notes
+
+Notes on tree-sitter packages and related emacs modes.
+
+* [[https://github.com/yuja/tree-sitter-qmljs][tree-sitter-qmljs]]
+
+Once I got the dependencies for =tree-sitter-qmljs= building, this was pretty
+straightforward.
+
+** Dependencies
+
+|------------------------+---------+-------------------|
+| guix pkg               | version | available         |
+|------------------------+---------+-------------------|
+| tree-sitter-typescript |  0.20.5 | 0.20.3            |
+| tree-sitter-javascript |  0.20.3 | 0.20.0-22.f772967 |
+|------------------------+---------+-------------------|
+
+*** Test Upgrading Deps
+
+#+begin_example sh :results output :eval confirm
+guix build --with-version=tree-sitter-typescript=0.20.5 \
+     --with-version=tree-sitter-javascript=0.20.3 \
+     --keep-failed
+     tree-sitter-typescript
+#+end_example 
+
+Looks like it be simple, though it did not complete without including the
+upgraded javascript version.
+
+#+begin_quote
+successfully built /gnu/store/4j1pgl9kvqybk77fz80kdz835l667sz8-tree-sitter-typescript-0.20.5.drv
+/gnu/store/k0r1dq5axd9f8zxc166rab3akvx48a4z-tree-sitter-typescript-0.20.5-js
+/gnu/store/bbjlh3hch5yq4jfz5i36hgsmbvck9809-tree-sitter-typescript-0.20.5
+#+end_quote
+
+Now to figure out how to specify the transforms in scheme.
+
+*** Graphs
+
+#+name: gg-tree-sitter-typescript
+#+begin_src sh :results output file :file img/guix-pkg-tree-sitter-typescript.svg
+guix graph --type=referrers tree-sitter-typescript | dot -Tsvg
+#+end_src
+
+#+RESULTS: gg-tree-sitter-typescript
+[[file:img/guix-pkg-tree-sitter-typescript.svg]]
+
+**** Referrers
+
+What would definitely break if javascript and typescript upgraded? The
+referrers graph doesn't include implicit references
+
+#+name: gg-tree-sitter-javascript-referrers
+#+begin_src sh :results output file :file img/guix-pkg-tree-sitter-javascript-referrers.svg
+guix graph --type=referrers tree-sitter-javascript | dot -Tsvg
+#+end_src
+
+#+RESULTS: gg-tree-sitter-javascript-referrers
+[[file:img/guix-pkg-tree-sitter-javascript.svg]]
+
+** [[https://github.com/xhcoding/qml-ts-mode/tree/main][qml-ts-mode]]
+
+This was fairly straightforward (see emacs-xyz.scm)
