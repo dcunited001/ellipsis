@@ -28,12 +28,14 @@
 ;; NOTE: my version of emacs is missing this line (and likely other js
 ;; keywords for treesitter
 (define-public emacs-qml-ts-mode
-  (let* ((commit "2db1a798cd320d37c6031bc4583199524e24cc0b")
-         (github-repo "https://github.com/xhcoding/qml-ts-mode")
-         (revision "1"))
+  (let* ((github-repo "https://github.com/xhcoding/qml-ts-mode")
+         ;; update version once next release is ready
+         (version "0.0.1")
+         (revision "1")
+         (commit "2db1a798cd320d37c6031bc4583199524e24cc0b"))
     (package
       (name "emacs-qml-ts-mode")
-      (version (git-version "0.9" revision commit))
+      (version (git-version version revision commit))
       (source (origin
                 (method git-fetch)
                 (uri (git-reference

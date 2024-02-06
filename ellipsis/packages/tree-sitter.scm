@@ -32,20 +32,25 @@
               (replace "tree-sitter-javascript" tree-sitter-javascript-0.20.3)))))
 
 (define-public tree-sitter-qmljs
-  (let* ((commit "9fa49ff3315987f715ce5666ff979a7742fa8a98")
-         (github-repo "https://github.com/yuja/tree-sitter-qmljs")
-         (revision "1"))
+  (let* ((github-repo "https://github.com/yuja/tree-sitter-qmljs")
+         ;; update version once next release is ready
+         (version "0.1.2")
+         (revision "1")
+         ;; dev
+         ;; (commit "56e49d45608783ae0424cd9aeb697b9233046085") 
+         ;; master
+         (commit "9fa49ff3315987f715ce5666ff979a7742fa8a98"))
 
     (package
       (name "tree-sitter-qmljs")
-      (version (git-version "0.9" revision commit))
+      (version (git-version version revision commit))
       (home-page github-repo)
       (source (origin
                 (method git-fetch)
                 (uri (git-reference
                       (url github-repo)
                       (commit commit)))
-                (sha256 (base32 "18sgh27wfvndijcja871cmnk3w8da6izwa4q8rmbml7ca8nj0vdb"))
+                (sha256 (base32 "0wiynnmywqkmmm2ri1n47sfshj1pkwjvwnriwcc5mhhhj53fmidk"))
                 (file-name (git-file-name name version))))
       (build-system tree-sitter-build-system)
       (arguments
