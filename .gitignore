@@ -152,3 +152,6 @@ fonts/**
 
 .screenlayout/kharis.sh
 .screenlayout/kratos.sh
+
+# patches
+/patches
