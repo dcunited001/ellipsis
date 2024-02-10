@@ -50,7 +50,7 @@
                 (uri (git-reference
                       (url github-repo)
                       (commit commit)))
-                (sha256 (base32 "0wiynnmywqkmmm2ri1n47sfshj1pkwjvwnriwcc5mhhhj53fmidk"))
+                (sha256 (base32 "18sgh27wfvndijcja871cmnk3w8da6izwa4q8rmbml7ca8nj0vdb"))
                 (file-name (git-file-name name version))))
       (build-system tree-sitter-build-system)
       (arguments

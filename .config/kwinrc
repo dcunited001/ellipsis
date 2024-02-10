@@ -100,7 +100,7 @@ tiles={"layoutDirection":"horizontal","tiles":[{"width":0.3203125},{"width":0.34
 tiles={"layoutDirection":"horizontal","tiles":[{"width":0.25},{"width":0.5},{"width":0.25}]}
 
 [Tiling][20cf8d90-6dec-52b6-bb7f-a7c963e624a4]
-tiles={"layoutDirection":"horizontal","tiles":[{"layoutDirection":"vertical","tiles":[{"height":0.3857638888888893},{"height":0.6142361111111108}],"width":0.48703703703703705},{"layoutDirection":"vertical","tiles":[{"height":0.38645833333333374},{"height":0.6135416666666662}],"width":0.512962962962963}]}
+tiles={"layoutDirection":"horizontal","tiles":[{"layoutDirection":"vertical","tiles":[{"height":0.3857638888888893},{"height":0.6142361111111108}],"width":0.48703703703703705},{"layoutDirection":"vertical","tiles":[{"height":0.3875},{"height":0.6125}],"width":0.512962962962963}]}
 
 [Tiling][368b7d02-7626-5761-b3c7-502a4da21d49]
 tiles={"layoutDirection":"horizontal","tiles":[{"width":0.618359375},{"width":0.3816406249999995}]}
