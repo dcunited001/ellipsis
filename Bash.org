@@ -1569,10 +1569,22 @@ export DOTS_RC_D=$DOTS_CFG_SHELL/rc.d
 [[ -f $DOTS_CFG_SHELL/_load_rc.d.sh ]] && source $DOTS_CFG_SHELL/_load_rc.d.sh
 #+end_src
 
-Keybindings. Run =bind -f $file= to emit bindings to a script.
+*** Keybindings.
+
+#+begin_quote
+Note, this still isn't copying to clipboard (I swear it was working)
+#+end_quote
+
+Run =bind -f $file= to emit bindings to a script.
 
 #+begin_src sh :tangle .bashrc :shebang #!/bin/sh
 # enable set-mark (overrides control sequences like unix-word-rubout)
+# set bind-tty-special-chars off
+
+# for some reason, i still need to undef C-w (so i don't need the above
+# ... removing, since my changes did not fix the problem)
+#
+# stty werase undef
 
 # enable copy/paste
 bind '"\C-@":set-mark'
@@ -1586,11 +1598,33 @@ bind '"\e/":dabbrev-expand'
 # also M-tab for `dynamic-complete-history`
 #+end_src
 
+With this:
+
++ Use =C-@= or =M-<space>= to set mark.
++ Use =C-x C-x= to show mark -- by exchanging point's current position with
+  marked. This can be confusing because it changes the current mark
+  position. And the text must be highlighted to kill/copy.
++ =M-w= will always copy text highlighted text to clipboard (like Emacs). This
+  works using mark & move commands or with mouse. 
++ =C-w= will always kill the text, but it won't copy it
+
+Find =rl_tty_set_default_bindings= in the readline source to see exactly what
+it does (no time). This [[https://stackoverflow.com/a/23558325][s/o answer]] explains ... and i guess =stty -a= will
+tell you what's mapped by default.
+
+| erase | =^?=      | kill  | =^U=      | eof     | =^D=      | werase | =^W= |      |      |
+| eol   | =<undef>= | eol2  | =<undef>= | swtch   | =<undef>= |        |      |      |      |
+| rprnt | =^R=      | lnext | =^V=      | discard | =^O=      |        |      |      |      |
+| intr  | =^C=      | quit  | =^\=      | start   | =^Q=      | stop   | =^S= | susp | =^Z= |
+
 *** Aliases
 
 #+begin_src sh :tangle .config/sh/rc.d/aliases.sh :shebang #!/bin/sh
-# unless dumbterm
+#* alias @ALIAS
 
+#** color @ALIAS
+
+# unless dumbterm
 if [ "$TERM" != "dumb" ]; then
     # commandline color by default
     alias ls='ls --color=auto'
@@ -1605,6 +1639,8 @@ if [ "$TERM" != "dumb" ]; then
     # no color
 fi
 
+#* ps @ALIAS
+
 # pgrep -u $UID
 pskill() {
     [[ -z "$1" ]] && echo "Requires command name" && return 1
@@ -1612,52 +1648,57 @@ pskill() {
 }
 alias psid='ps -opid,uid,command h'
 
-# grep
+#* grep @ALIAS
 alias grepnobin="grep -I"
 
-# updates
+#* system @ALIAS
+
+#* updates @ALIAS
 alias grubup="sudo update-grub"
 alias upd='/usr/bin/update'
 
-# hardware
+#* hardware @ALIAS
 alias hw='hwinfo --short'
 alias psmem10='ps auxf | sort -nr -k 4 | head -10'
 alias psmem='ps auxf | sort -nr -k 4'
 
-# archive
+#* archive @ALIAS
 alias tarnow='tar -acf '
 alias untar='tar -zxvf '
 alias wget='wget -c '
 
-# systemd
+#* systemd @ALIAS
 alias jctl="journalctl -p 3 -xb"
 alias jctlu="journalctl --user -u"
 alias sysu='systemctl --user'
 
-# pacman
+#* pkg
+#** pacman @ALIAS
 alias fixpacman="sudo rm /var/lib/pacman/db.lck"
 alias rmpkg="sudo pacman -Rdd"
 alias cleanup='sudo pacman -Rns `pacman -Qtdq`'
 alias rip="expac --timefmt='%Y-%m-%d %T' '%l\t%n %v' | sort | tail -200 | nl"
 
-# shell tools
+#* shelltools @ALIAS
 alias pathtr="tr ':' '\n'"
 alias shitbin='echo -e "\033c"'
 
-# ssh
+#* crypto @ALIAS
+
+#** ssh @ALIAS
 
 alias sshddump='sudo sshd -T'
 #alias sship='ssh -i $
 
-# gpg
+#* gpg @ALIAS
 alias gpga='gpg --armor'
 alias gpguptty='gpg-connect-agent updatestartuptty /bye'
 alias gpgrel='gpg-connect-agent reloadagent /bye'
 alias gpgk='gpg-connect-agent killagent /bye'
 
-#* git
+#* git @ALIAS
 
-#** git-stack
+#** git-stack @ALIAS
 alias gkg='git stack'
 alias gksy='git stack sync'
 alias gkcfg='git stack --dump-config -'
@@ -1668,6 +1709,7 @@ alias gkcfg='git stack --dump-config -'
 # Advanced command-not-found hook
 # source /usr/share/doc/find-the-command/ftc.bash
 
+#* git-stack @ALIAS
 alias emacs-debug-wayland='WAYLAND_DEBUG=1 emacs --fg-daemon > $HOME/.cache/log/emacs.wayland.`date +%Y-%m%d-%H%M`.log 2>&1'
 #+end_src
 
@@ -1702,6 +1744,36 @@ repo_reset_repos() {
 # alias rprr=repo_reset_repos
 #+end_src
 
+
+**** File Listing
+
+#+begin_src sh :tangle .config/sh/rc.d/functions.sh :shebang #!/bin/sh
+tre() {
+    local -a tree_opts=()
+    local -a tree_args=()
+
+    while [ "$#" -gt 0 ]; do
+        if [[ "$1" = "--" ]]; then
+            shift 1
+            tree_opts=$@
+            break;
+        fi
+        tree_args+=($1)
+        shift 1
+    done
+
+    echo ${tree_opts[@]}
+    echo ${tree_args[@]}
+}
+
+#+end_src
+
+#+begin_src sh :tangle .config/sh/rc.d/aliases.sh :shebang #!/bin/sh
+#* tree @ALIAS
+
+# nevermind, --prune removes empty subdirectories not containing -P $pattern
+alias treef='tree --prune -aP'
+#+end_src
 
 *** Colors
 

@@ -86,6 +86,16 @@ Base Groups for guix. Found in =./gnu/system/shadow.scm=
 
 * Misc
 
+** Locking
+
+*** On Removing Yubikey
+
+vendor=1050
+device=
+busid="$(lsusb | grep Yubico | sed -E 's/^Bus ([0-9]+).*$/\1/g')"
+devid="$(lsusb | grep Yubico | sed -E 's/^Bus.*Device ([0-9]+).*$/\1/g')"
+devpath="/dev/bus/usb/$busid/$devid"
+
 ** PAM Limits Entries
 
 Entries require: domain, type, item, value

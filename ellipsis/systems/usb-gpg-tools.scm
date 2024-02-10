@@ -16,7 +16,7 @@
   #:use-module (gnu packages file-systems)
 
   ;; AGE keygen
-  #:use-module (gnu packages golang)
+  #:use-module (gnu packages golang-crypto)
 
   ;;** PGP Packages
   #:use-module (gnu packages gnupg)
@@ -45,9 +45,9 @@
 
 ;; networking is [probably] needed for loopback
 (use-service-modules networking ssh security-token)
-(use-package-modules wget screen password-utils vim emacs emacs-xyz)
-(use-package-modules linux time mtools lsof file-systems disk version-control)
-(use-package-modules ssh gnupg cryptsetup security-token tls certs libusb)
+(use-package-modules wget screen password-utils vim emacs emacs-xyz
+                     linux time mtools lsof file-systems disk version-control
+                     ssh gnupg cryptsetup security-token tls certs libusb)
 
 (define %my-user "dc")
 
