@@ -26,7 +26,7 @@ done
 shift `expr $OPTIND - 1`
 OPTIND=1
 
-if [[ ! -f "/run/user/1000/emacs/doom" ]]; then
+if [[ ! -S "/run/user/1000/emacs/doom" ]]; then
     # TODO: fix icons on guix
     notify-send -a "doomclient" -i vim "Doom Emacs" "<b>doomclient</b> requires a running server"
 fi
