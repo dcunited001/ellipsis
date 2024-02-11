@@ -6,6 +6,8 @@ emacs_profile_name="doomemacs"
 emacs_profile=$GUIX_EXTRA/$emacs_profile_name/$emacs_profile_name
 search_paths=0
 
+doomsocket=/run/user/1000/emacs/doom
+
 while getopts :Zp OPT; do
     case $OPT in
         Z|+Z)
@@ -26,9 +28,9 @@ done
 shift `expr $OPTIND - 1`
 OPTIND=1
 
-if [[ ! -S "/run/user/1000/emacs/doom" ]]; then
+if [[ ! -S "$doomsocket" ]]; then
     # TODO: fix icons on guix
     notify-send -a "doomclient" -i vim "Doom Emacs" "<b>doomclient</b> requires a running server"
 fi
 
-guix shell -p $emacs_profile -- emacsclient --socket= "$@"
+guix shell -p $emacs_profile -- emacsclient --socket=$doomsocket "$@"
