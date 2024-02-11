@@ -20,7 +20,7 @@ while getopts :Zp OPT; do
             break
 	          ;;
         *)
-            echo "usage: `basename $0` [+-p ARG} [--] ARGS..."
+            echo "usage: `basename $0` [+-Z ARG} [+-p ARG}  [--] ARGS..."
             echo "-p profile/link"
             exit 2
     esac
@@ -29,15 +29,7 @@ shift `expr $OPTIND - 1`
 OPTIND=1
 
 if [ 0 -lt "$search_paths" ]; then
-    guix shell -E "^EMAIL$" \
-         -E 'EMACS_SOURCE' \
-         -E 'GUIX_SOURCE' \
-         -p $emacs_profile \
-         --search-paths
+    guix shell -p $emacs_profile --search-paths
 else
-    guix shell -E "^EMAIL$" \
-         -E 'EMACS_SOURCE' \
-         -E 'GUIX_SOURCE' \
-         -p $emacs_profile \
-         -- emacs "$@"
+    guix shell -p $emacs_profile -- emacs "$@"
 fi

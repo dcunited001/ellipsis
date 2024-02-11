@@ -17,7 +17,7 @@ while getopts :Zp OPT; do
 	          break
 	          ;;
         *)
-            echo "usage: `basename $0` [+-p ARG} [--] ARGS..."
+            echo "usage: `basename $0` [+-Z ARG} [+-p ARG}  [--] ARGS..."
             echo "-p profile/link"
             exit 2
     esac

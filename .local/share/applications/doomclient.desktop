@@ -1,22 +1,22 @@
 [Desktop Entry]
-Name=Gmacs (Client)
+Name=Doom Emacs (Client)
 GenericName=Text Editor
 Comment=Edit text
 MimeType=text/org;text/english;text/plain;text/x-makefile;text/x-c++hdr;text/x-c++src;text/x-chdr;text/x-csrc;text/x-java;text/x-moc;text/x-pascal;text/x-tcl;text/x-tex;application/x-shellscript;text/x-c;text/x-c++;
-Icon=emacs
+Icon=vim
 Type=Application
 Terminal=false
 Categories=Development;TextEditor;
 StartupNotify=true
-StartupWMClass=Gmacs
-Keywords=gmacsclient;gmacs;emacsclient;emacs
+StartupWMClass=Doom
+Keywords=doomclient;doom;
 Actions=new-window;new-instance;
 
-Exec=gmacsclient -- --alternate-editor="alacritty -e vim" %F
+Exec=doomclient -- --alternate-editor="alacritty -e vim" %F
 
 [Desktop Action new-window]
 Name=New Window
-Exec=gmacsclient -- --alternate-editor="alacritty -e vim" %F
+Exec=doomclient -- --alternate-editor="alacritty -e vim" %F
 
 # [Desktop Action new-instance]
 # Name=New Instance

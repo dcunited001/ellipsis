@@ -1711,6 +1711,9 @@ alias gkcfg='git stack --dump-config -'
 
 #* git-stack @ALIAS
 alias emacs-debug-wayland='WAYLAND_DEBUG=1 emacs --fg-daemon > $HOME/.cache/log/emacs.wayland.`date +%Y-%m%d-%H%M`.log 2>&1'
+
+alias nodenpm_lsparse="npm ls -g --parseable | grep node_modules | sed -e 's/.*node_modules\///g'"
+
 #+end_src
 
 *** Functions
