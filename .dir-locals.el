@@ -33,11 +33,12 @@
                         (root-dir* (directory-file-name root-dir))
                         ;; TODO: guix-pulled-profile doesn't exist before
                         ;; guix.el repl runs
+                        (guix-pr (or (and (bound-and-true-p guix-pulled-profile))
+                                     (expand-file-name ".config/guix/current" (getenv "HOME"))))
                         (guix-lp (expand-file-name "share/guile/site/3.0"
-                                                   guix-pulled-profile))
+                                                   guix-pr))
                         (guix-lcp (expand-file-name "lib/guile/3.0/site-ccache"
-                                                    guix-pulled-profile)))
-
+                                                    guix-pr)))
                    (unless (boundp 'geiser-guile-load-path)
                      (defvar geiser-guile-load-path '()))
                    (make-local-variable 'geiser-guile-load-path)
