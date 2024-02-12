@@ -50,6 +50,7 @@
        (docker +lsp)
        editorconfig ;; ... how did i miss this?
        (eval +overlay)
+       (lsp +peek)                      ; +peek doesn't do much in the code
        lookup
        (magit +forge)
        make

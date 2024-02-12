@@ -95,9 +95,37 @@ The Vim icon seems to be about as available as the Emacs icon, so I use it for
 
 * Functionality
 
+Quite a few packages lack official modules in Doom... which is fine, since you
+can add the functionality yourself. See the [[https://github.com/orgs/doomemacs/projects/5/views/1][Packages under review]] for info and
+issues when deciding to add a package.
+
+** Treesit
+
+For my other Emacs configuration, I'm in the process of splitting out treesit
+dependencies from the main Guix profile.
+
++ Link =~/.local/lib/tree-sitter= to =$GUIX_TREE_SITTER/lib/tree-sitter=,
+  which should survive updates to the Guix profile. Set
+  =treesit-extra-load-path= to the latter.
++ Install ad-hoc treesitter grammars into =$EMACSDIR/tree-sitter=, where I
+  have YAML and QML now.
+
+** Consult
+
++ embark-act :: bound to =C-;=. For other relevant keys. [[https://docs.doomemacs.org/v21.12/modules/completion/vertico/#/usage/vertico-keybindings][see here]]
++ Navigate history with =M-n= and =M-p=
+
+*** Menus
+
+
+*** Notes
+
++ corfu is not immediately available, but also not immediately necessary.
++ orderless needs customization
++ vertico needs some configuration to get its full range of filters.
++ commands like =consult-ripgrep= need to be bound to be useful.
 
 ** Editor Config
-
 
 ** Web
 

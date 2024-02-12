@@ -5,4 +5,3 @@ export EMACS=$GUIX_EXTRA/doomemacs/doomemacs/bin/emacs
 
 cd $EMACSDIR
 guix shell -m $_DF/.config/guix/manifests/doomemacs.scm -- bin/doom sync
-

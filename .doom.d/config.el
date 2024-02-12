@@ -1,8 +1,112 @@
-;;; $DOOMDIR/config.el -*- lexical-binding: t; -*-
+;;; $DOOMDIR/config.el -*- lexical-binding: t; mode: emacs-lisp -*-
+
+
+
+;;* Basics
+
+(defvar dw/is-guix-system (and (eq system-type 'gnu/linux)
+                               (with-temp-buffer
+                                 (insert-file-contents "/etc/os-release")
+                                 (search-forward "ID=guix" nil t))
+                               t))
+
+;;** UI
+
+(menu-bar-mode)
+
+(setq doom-theme 'modus-vivendi
+      display-line-numbers-type nil)
+
+;;*** Font 
+
+(if dw/is-guix-system
+    (setq doom-font (font-spec :family "Noto Sans Mono" :size 12 :weight 'normal)
+          doom-serif-font (font-spec :family "Noto Serif" :size 12 :weight 'normal))
+  (setq doom-font (font-spec :family "FiraCode Nerd Font Mono" :size 12 :weight 'normal)
+        doom-serif-font (font-spec :family "SourceCodeVF" :size 12)))
+
+;; doom-symbol-font
+;; doom-big-font
+;; doom-variable-pitch-font
+
+;;** Org
+;; Dear god no
+
+;;* Dev
+;;** Tree Sitter
+
+;;** LSP
+
+;; M-x lsp-describe-sessions
+;; M-x lsp-workspace-show-log
+
+;; (after! lsp-ui
+;;         (setq lsp-ui-doc-enable t))
+
+;;** Emacs Lisp
+
+(add-hook 'lisp-data-mode-hook 'lispy-mode)
+
+;;** Web
+
+;;*** HTML
+
+(use-package! html-ts-mode
+              :mode "\\.html?\\'"
+              :config (add-to-list 'major-mode-remap-alist
+                                   '(mhtml-mode . html-ts-mode)))
+
+(use-package apheleia
+  :config
+  (dolist (webml '(html-mode html-ts-mode mhtml-mode web-mode))
+    ;; aphelia: prettier instead of prettier-html, so it relies on .prettierrc
+    (add-to-list 'apheleia-mode-alist `(,webml . prettier))))
+
+;;**** Tailwind LSP
+
+;; see https://emacs-lsp.github.io/lsp-mode/page/faq/#i-have-multiple-language-servers-registered-for-language-foo-which-one-will-be-used-when-opening-a-project
+
+(use-package! lsp-tailwindcss
+              :init (setq lsp-tailwindcss-add-on-mode t
+                          ;; set in .dir-locals.el, along with lsp-disabled-servers
+                          ;; ... or just use it for rustywind (i can 't get it to work)
+                          lsp-tailwindcss-major-modes nil))
+
+;;** Langs
+
+(setq-default treesit-extra-load-path
+              (list (expand-file-name ".local/lib/tree-sitter" (getenv "HOME"))))
+
+;;* Keys
+
+;;** Global Remaps
+(global-set-key (kbd "C-<prior>") #'tab-bar-switch-to-tab)
+(global-set-key (kbd "C-<next>") #'tab-bar-switch-to-recent-tab)
+
+;;** Search Map
+
+(map! :map 'search-map
+      "d" #'consult-find
+      "D" #'consult-locate
+      ;; "M-d" #'consult-dir-jump-file
+      "g" #'consult-grep
+      ;; "G" #'consult-git-log-grep
+      "M-g" #'consult-git-grep
+      "i" #'consult-info
+      "k" #'consult-keep-lines
+      "m" #'consult-man
+      "r" #'consult-ripgrep
+      "s" #'consult-line-multi          ; "L"
+      "S" #'swiper
+      ;; "M-s" #'consult-yasnippet
+      ;; "M-S" #'consult-yasnippet-visit-snippet-file
+      "u" #'consult-focus-lines
+
+      ;; Isearch integration
+      "e" #'consult-isearch-history)
 
 ;; Place your private configuration here! Remember, you do not need to run 'doom
 ;; sync' after modifying this file!
-
 
 ;; Some functionality uses this to identify you, e.g. GPG configuration, email
 ;; clients, file templates and snippets. It is optional.
@@ -28,15 +132,8 @@
 ;; up, `M-x eval-region' to execute elisp code, and 'M-x doom/reload-font' to
 ;; refresh your font settings. If Emacs still can't find your font, it likely
 ;; wasn't installed correctly. Font issues are rarely Doom issues!
-
-;; There are two ways to load a theme. Both assume the theme is installed and
-;; available. You can either set `doom-theme' or manually load a theme with the
-;; `load-theme' function. This is the default:
-(setq doom-theme 'doom-one)
-
 ;; This determines the style of line numbers in effect. If set to `nil', line
 ;; numbers are disabled. For relative line numbers, set this to `relative'.
-(setq display-line-numbers-type t)
 
 ;; If you use `org' and don't want your org files in the default location below,
 ;; change `org-directory'. It must be set before org loads!

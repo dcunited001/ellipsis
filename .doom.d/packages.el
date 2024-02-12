@@ -16,6 +16,8 @@
 
 ;;** Web
 
+(package! html-ts-mode :recipe (:host github :repo "mickeynp/html-ts-mode"))
+
 ;;*** Tailwind
 ;; TODO: add web packages (tailwind, liquid, etc)
 
