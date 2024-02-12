@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 export EMACSDIR=$HOME/.emacs.doom
 export DOOMDIR=$HOME/.doom.d
 export EMACS=$GUIX_EXTRA/doomemacs/doomemacs/bin/emacs
