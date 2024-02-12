@@ -119,6 +119,7 @@ These are defined in [[file:.config/shepherd/init.d][.config/shepherd/init.d]] a
   "font-fira-code"
   "font-jetbrains-mono"
   "font-iosevka"
+  "font-iosevka-nerd"
   "font-iosevka-aile"
   ;; "font-abattis-cantarell"
   "font-overpass"

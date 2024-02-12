@@ -25,7 +25,6 @@ I set this up in addition to my own emacs for mainly a few reasons:
 
 * Caveat
 
-
 Please do not expect this to have current configuration. I will only
 occasionally use it and /if/ it ever references modules in my other emacs
 config... then it will drift. There be dragons and I plan to stay tf away from
@@ -56,13 +55,13 @@ The Guix manifest environment at =.config/guix/manifests/doomemacs.scm= mainly
 just specifies =emacs-pgtk=, the basic Doom deps and =openjdk= so it's in the
 path for my Guix System laptop.
 
-#+begin_example scheme
+#+begin_src scheme :tangle ../.config/guix/manifests/doomemacs.scm
 (specifications->manifest
  '("openjdk"
    "emacs-pgtk"
    "ripgrep"
    "fd"))
-#+end_example
+#+end_src
 
 This Emacs profile intended to run as a secondary server
 
