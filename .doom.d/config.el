@@ -20,8 +20,10 @@
 ;;*** Font 
 
 (if dw/is-guix-system
-    (setq doom-font (font-spec :family "Noto Sans Mono" :size 12 :weight 'normal)
-          doom-serif-font (font-spec :family "Noto Serif" :size 12 :weight 'normal))
+    (setq doom-font (font-spec :family "Iosevka Nerd Font Mono" :size 14 :weight 'normal)
+          doom-serif-font (font-spec :family "Iosevka Nerd Font Mono" :size 14 :weight 'normal))
+  ;; (setq doom-font (font-spec :family "Noto Sans Mono" :size 12 :weight 'normal)
+  ;;       doom-serif-font (font-spec :family "Noto Serif" :size 12 :weight 'normal))
   (setq doom-font (font-spec :family "FiraCode Nerd Font Mono" :size 12 :weight 'normal)
         doom-serif-font (font-spec :family "SourceCodeVF" :size 12)))
 
