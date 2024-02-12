@@ -808,6 +808,24 @@ export _JAVA_AWT_WM_NONREPARENTING=1
 # This sets Java Swing UI -> GTK
 #export _JAVA_OPTIONS="-Dawt.useSystemAAFontSettings=on -Dswing.aatext=true -Dswing.defaultlaf=com.sun.java.swing.plaf.gtk.GTKLookAndFeel -Dswing.crossplatformlaf=com.sun.java.swing.plaf.gtk.GTKLookAndFeel $_JAVA_OPTIONS"
 
+# multiple java versions
+# https://docs.doomemacs.org/v21.12/modules/lang/java/#/prerequisites/multiple-java-versions
+
+# TODO: set differently for arch/guix
+#export JAVA_HOME=/usr/local/jdk-11.0.2
+#export PATH=$PATH:$JAVA_HOME/bin
+
+export ECLIPSE_HOME=${_LANG}/.eclipse/eclipse
+#+end_src
+
+*** Eclipse
+
+For Guix, eclipse should basically just require an OpenJDK
+
+#+begin_src sh :tangle bin/eclipse.sh :shebang #!/bin/sh
+export ECLIPSE_HOME=${_LANG}/.eclipse/eclipse
+
+# TODO: provide JAVA_PATH/etc and exec eclipse 
 #+end_src
 
 ** Node
