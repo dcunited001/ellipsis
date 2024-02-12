@@ -25,6 +25,4 @@ done
 shift `expr $OPTIND - 1`
 OPTIND=1
 
-guix shell -E "^EMAIL$" \
-     -p $emacs_profile \
-     -- emacsclient -c "$@"
+guix shell -p $emacs_profile -- emacsclient -c "$@"

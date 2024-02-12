@@ -33,4 +33,4 @@ if [[ ! -S "$doomsocket" ]]; then
     notify-send -a "doomclient" -i vim "Doom Emacs" "<b>doomclient</b> requires a running server"
 fi
 
-guix shell -p $emacs_profile -- emacsclient --socket=$doomsocket "$@"
+guix shell -p $emacs_profile -- emacsclient -c --socket=$doomsocket "$@"

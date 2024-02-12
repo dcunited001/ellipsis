@@ -1,0 +1,9 @@
+#!/bin/bash
+export EMACSDIR=$HOME/.emacs.doom
+export DOOMDIR=$HOME/.doom.d
+export EMACS=$GUIX_EXTRA/doomemacs/doomemacs/bin/emacs
+
+cd $EMACSDIR
+guix shell -m $_DF/.config/guix/manifests/doomemacs.scm -- bin/doom clean
+guix shell -m $_DF/.config/guix/manifests/doomemacs.scm -- bin/doom upgrade
+guix shell -m $_DF/.config/guix/manifests/doomemacs.scm -- bin/doom build

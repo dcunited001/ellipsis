@@ -1,0 +1,45 @@
+[Unit]
+Description=Doom Emacs text editor
+# Documentation=info:emacs man:emacs(1) https://gnu.org/software/emacs/
+StartLimitIntervalSec=300
+StartLimitBurst=3
+
+#--search-paths is diagnostic (output only)
+#--network is only necessary for containers
+
+[Service]
+Type=simple
+Environment=EMAIL=aionfork@gmail.com
+Environment=SSH_AUTH_SOCK=/run/user/1000/gnupg/S.gpg-agent.ssh
+Environment=EMACS=/home/dc/.guix-extra-profiles/doomemacs/doomemacs/bin/emacs
+# Environment=EMACS_SOURCE=/data/ecto/emacs/emacs/src
+Environment=EMACSDIR=/home/dc/.emacs.doom
+Environment=DOOMDIR=/home/dc/.doom.d
+Environment=GPROFILE=.guix-extra-profiles/doomemacs/doomemacs
+Environment=EMACSSOCKET=/run/users/1000/emacs/doom
+
+#Type=notify #requires Notify
+ExecStart=/bin/bash -c \
+                    "guix shell -p $HOME/$GPROFILE \
+                          -- emacs -init-directory $EMACSDIR --fg-daemon=doom"
+#ExecStartPre=/bin/bash -c "notify-send 'Starting Emacs Service...'"
+#ExecStartPost=/bin/bash -c "notify-send 'Emacs Service Started Successfully'"
+
+ExecStop=/bin/bash -c \
+                     "guix shell -p $HOME/$GPROFILE \
+                          -- emacsclient --socket=$EMACSSOCKET -e '(kill-emacs)'"
+#ExecStopPost=/bin/bash -c "notify-send 'Emacs Service Stopped Successfully'"
+
+
+Restart=on-failure
+RestartSec=30
+
+# straight can take awhile
+TimeoutStartSec=300
+
+# Emacs will exit with status 15 after having received SIGTERM, which
+# is the default "KillSignal" value systemd uses to stop services.
+SuccessExitStatus=15
+
+[Install]
+WantedBy=graphical-session.target
