@@ -45,6 +45,10 @@ there's no particular guarantees about load order in package consumers
 [[https://github.com/magit/magit/blob/main/lisp/magit-base.el#L57-L64][magit/magit]]. In this case, I would be the package consumer... and if you're
 moving fast, you're breaking things.
 
+If you /were/ to decide to share end-user functionality between Emacs configs
+and you built a robust system of doing so ... you'd be writing a Spacemacs or
+Doom Emacs.
+
 * Setup
 
 The Guix manifest environment at =.config/guix/manifests/doomemacs.scm= mainly
