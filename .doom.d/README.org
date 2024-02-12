@@ -5,8 +5,9 @@
 
 I set this up in addition to my own emacs for mainly a few reasons:
 
-+ Doom's codebase has a lot of examples of code, which is helpful when
-  deciding how to advise your own code.
++ Doom's codebase has a lot of examples of code, which are helpful when
+  deciding how to advise your own code. The =git blame= is also useful for
+  this purpose. It's very well-storied code.
 + I need a baseline of functionality against which I can compare my own
   config, which I would still prefer. For example, I need to understand what
   using LSP should feel like. Also, there's no way to get =eglot= to run
@@ -84,6 +85,8 @@ There are some helper scripts to demonstrate and accomplish this:
   wrapper
 + bin/doomclient :: run an =emacsclient= that connects to the =doom= server
 + bin/doomemacs :: run the doom emacs server, outside of systemd
++ bin/doomsync :: wrapper script to run =doom sync= only, when full rebuilds
+  aren't helpful
 + bin/doomup :: runs =doom clean= to clean elc/eln, runs =doom up= and then
   =doom build=, some of which may be redundant.
 
@@ -92,31 +95,42 @@ The Vim icon seems to be about as available as the Emacs icon, so I use it for
 
 * Functionality
 
-**  LSP
 
-*** Java
+** Editor Config
 
-**** Features
+
+** Web
+
+*** Features
+
+
+
+** Java
+
+*** Features
 
 |--------+----------+--------+-----------------------------------------------------|
 | Module | Feature  | System | Notes                                               |
 |--------+----------+--------+-----------------------------------------------------|
-| LSP    | LSP      | Arch   | Available, easy to isntall, dead easy to start      |
+| LSP    | LSP      | Arch   | Available, easy to install, dead easy to start      |
 |        |          | Guix   |                                                     |
 |        | Xref     | Arch   | Just works. Works for Throwable and in-project refs |
 |        | Flycheck | Arch   | Setup through LSP. Seems to work                    |
 |--------+----------+--------+-----------------------------------------------------|
-|        |          |        |                                                     |
-|--------+----------+--------+-----------------------------------------------------|
 
-**** Files
+*** Files
 
-|-------------------------------------------------+-------------------------------|
-| File                                            |                               |
-|-------------------------------------------------+-------------------------------|
-| ~/.emacs.doom/.local/etc/java-workspace/.cache/ | cache containing java symbols |
-|-------------------------------------------------+-------------------------------|
+In =$EMACSDIR/.local/etc/java-workspace=
 
-**** Tasks
+|---------------------+-------------------------------|
+| File                |                               |
+|---------------------+-------------------------------|
+| .cache              | cache containing java symbols |
+| .metadata           |                               |
+| jdt-ls-java-project |                               |
+|---------------------+-------------------------------|
 
-***** TODO test that Java's LSP can install/run with the Guix OpenJDK package
+*** Tasks
+
+**** TODO test that Java's LSP can install/run with the Guix OpenJDK package
+

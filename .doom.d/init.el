@@ -48,6 +48,7 @@
        (debugger +lsp)
        direnv
        (docker +lsp)
+       editorconfig ;; ... how did i miss this?
        (eval +overlay)
        lookup
        (magit +forge)
@@ -58,7 +59,6 @@
        terraform
        tree-sitter
        ;; TODO: collab: this is a new module
-       ;; TODO: editorconfig: ... how did i miss this?
 
        :os
        ;; TODO: tty?
