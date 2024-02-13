@@ -1,26 +1,19 @@
 #!/bin/sh
-export EMACSDIR=$HOME/.emacs.doom
-export DOOMDIR=$HOME/.doom.d
-
 emacs_profile_name="doomemacs"
 emacs_profile=$GUIX_EXTRA/$emacs_profile_name/$emacs_profile_name
-search_paths=0
 
 doomsocket=/run/user/1000/emacs/doom
 
-while getopts :Zp OPT; do
+while getopts :p OPT; do
     case $OPT in
-        Z|+Z)
-            search_paths=1
-            ;;
         p|+p)
             emacs_profile="$OPTARG"
             ;;
-	      --)
+        --)
             break
-	          ;;
+            ;;
         *)
-            echo "usage: `basename $0` [+-Z ARG} [+-p ARG} [--] ARGS..."
+            echo "usage `basename $0` [+-p ARG} [--] ARGS..."
             echo "-p profile/link"
             exit 2
     esac
@@ -32,7 +25,7 @@ if [[ ! -S "$doomsocket" ]]; then
     # TODO: fix icons on guix
     notify-send -a "doomclient" -i vim \
                 "Doom Emacs" \
-                "<b>doomclient</b> requires a running server"
+                "<b>doomkill</b> requires a running server"
 fi
 
-guix shell -p $emacs_profile -- emacsclient -c --socket=$doomsocket "$@"
+guix shell -p $emacs_profile -- emacsclient --socket=$doomsocket -e "(kill-emacs)"

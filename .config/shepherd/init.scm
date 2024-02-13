@@ -158,6 +158,20 @@
              #:stop (make-forkexec-constructor stop-cmd)
              #:respawn? #f)))
 
+(define doomemacs
+  (let* ((start-cmd (list "doomemacs" "--" "--fg-daemon=doom"))
+         (stop-cmd (list "doomkill"))
+         (log-time (strftime "%Y-%m-%d-" (gmtime (current-time))))
+         (log-file (string-append (mkdtemp "/tmp/doom-XXXXXX")
+                                  "/doom-emacs-"
+                                  log-time
+                                  (gethostname)
+                                  ".log")))
+    (service '(doomemacs)
+             #:start (make-forkexec-constructor start-cmd #:log-file log-file)
+             #:stop (make-forkexec-constructor stop-cmd)
+             #:respawn? #f)))
+
 (register-services (list gmacs))
 
 ;;*** GPG Agent
