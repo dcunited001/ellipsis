@@ -4,6 +4,7 @@
        ;; bidi chinese japanese layout
 
        :completion
+       (company +childframe)
        (vertico +icons)
        ;; company helm ido ivy
 

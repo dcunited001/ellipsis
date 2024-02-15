@@ -31,16 +31,34 @@
 ;; doom-big-font
 ;; doom-variable-pitch-font
 
+;;*** Dired
+
+(setq dired-omit-files "^.DS_Store\\'\\|^.project\\(?:ile\\)?\\'\\|^.\\(svn\\)\\'\\|^.ccls-cache\\'\\|\\(?:\\.js\\)?\\.meta\\'\\|\\.\\(?:elc\\|o\\|pyo\\|swp\\|class\\)\\'")
+
 ;;** Org
 ;; Dear god no
 
 ;;* Dev
 ;;** Tree Sitter
 
+(setq treesit-extra-load-path
+      (list (expand-file-name ".local/lib/tree-sitter" (getenv "HOME")))
+      treesit-language-source-alist
+      '((yaml . ("https://github.com/ikatyang/tree-sitter-yaml"))
+        (astro . ("https://github.com/virchau13/tree-sitter-astro"))))
+
+(with-eval-after-load 'treesit
+  (cl-loop for lang-key
+           in (a-keys treesit-language-source-alist)
+           unless (treesit-language-available-p lang-key)
+           do (treesit-install-language-grammar lang-key)))
+
 ;;** LSP
 
 ;; M-x lsp-describe-sessions
 ;; M-x lsp-workspace-show-log
+
+(setq-default lsp-keep-workspace-alive nil)
 
 ;; (after! lsp-ui
 ;;         (setq lsp-ui-doc-enable t))

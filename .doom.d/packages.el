@@ -17,6 +17,8 @@
 ;;** Web
 
 (package! html-ts-mode :recipe (:host github :repo "mickeynp/html-ts-mode"))
+(package! astro-ts-mode :recipe (:host github :repo "Sorixelle/astro-ts-mode"))
+
 
 ;;*** Tailwind
 ;; TODO: add web packages (tailwind, liquid, etc)
