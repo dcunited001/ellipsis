@@ -146,6 +146,7 @@ UseSystemBell=true
 XftAntialias=true
 XftHintStyle=hintnone
 XftSubPixel=rgb
+fixed=FiraCode Nerd Font Mono,10,-1,5,50,0,0,0,0,0
 shadeSortColumn=true
 widgetStyle=Breeze
 

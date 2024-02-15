@@ -100,7 +100,7 @@ FillMode=2
 Provider=wcpotd
 
 [Containments][140][Wallpaper][org.kde.slideshow][General]
-Image=file:///data/xdg/Wallpapers/anime/blood-blockade-wallpaper.jpg
+Image=file:///data/xdg/Wallpapers/anime/default.jpg
 SlidePaths=/data/xdg/Wallpapers/anime/
 
 [Containments][141]
