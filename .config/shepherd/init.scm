@@ -172,7 +172,7 @@
              #:stop (make-forkexec-constructor stop-cmd)
              #:respawn? #f)))
 
-(register-services (list gmacs))
+(register-services (list gmacs doomemacs))
 
 ;;*** GPG Agent
 
