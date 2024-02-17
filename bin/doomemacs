@@ -60,5 +60,5 @@ export EMACS=$emacs_profile/bin/emacs
 if [ 0 -lt "$search_paths" ]; then
     guix shell -p $emacs_profile --search-paths
 else
-    guix shell -p $emacs_profile -- emacs -init-directory $EMACSDIR "$@"
+    guix shell -p $emacs_profile -- emacs --init-directory=$EMACSDIR "$@"
 fi

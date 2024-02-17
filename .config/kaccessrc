@@ -5,4 +5,4 @@ ArtsBellFile=fuzzy.mp3
 ToggleKeysBeep=true
 
 [ScreenReader]
-Enabled=false
+Enabled=true

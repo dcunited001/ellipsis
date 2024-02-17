@@ -47,7 +47,7 @@
       '((yaml . ("https://github.com/ikatyang/tree-sitter-yaml"))
         (astro . ("https://github.com/virchau13/tree-sitter-astro"))))
 
-(with-eval-after-load 'treesit
+(after! treesit
   (cl-loop for lang-key
            in (a-keys treesit-language-source-alist)
            unless (treesit-language-available-p lang-key)
@@ -82,7 +82,7 @@
     ;; aphelia: prettier instead of prettier-html, so it relies on .prettierrc
     (add-to-list 'apheleia-mode-alist `(,webml . prettier))))
 
-;;**** Tailwind LSP
+;;*** Tailwind
 
 ;; see https://emacs-lsp.github.io/lsp-mode/page/faq/#i-have-multiple-language-servers-registered-for-language-foo-which-one-will-be-used-when-opening-a-project
 
@@ -96,6 +96,11 @@
 
 (setq-default treesit-extra-load-path
               (list (expand-file-name ".local/lib/tree-sitter" (getenv "HOME"))))
+
+;;*** Astro
+
+(use-package astro-ts-mode
+  :mode "\\.astro\\'")
 
 ;;* Keys
 
