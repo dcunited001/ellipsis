@@ -94,6 +94,6 @@ manjaro
 # but if empty in ellipsis, we want fully linked on host
 /\.gitkeep 
 
-^/\.doom.d/eln.cache
-^/\.doom.d/url
-^/\.doom.d/auto-save-list
+# ^/\.doom.d/eln.cache
+# ^/\.doom.d/url
+# ^/\.doom.d/auto-save-list

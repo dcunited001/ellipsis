@@ -1,6 +1,5 @@
 ;;; $DOOMDIR/config.el -*- lexical-binding: t; mode: emacs-lisp -*-
-
-
+(require 'a)
 
 ;;* Basics
 
@@ -14,8 +13,12 @@
 
 (menu-bar-mode)
 
-(setq doom-theme 'modus-vivendi
-      display-line-numbers-type nil)
+(setq display-line-numbers-type nil
+      doom-theme 'modus-vivendi)
+
+;; doom--setq-outline-level-for-emacs-lisp-mode-h
+;; doom--setq-outline-regexp-for-emacs-lisp-mode-h
+;; doom--setq-tab-width-for-emacs-lisp-mode-h
 
 ;;*** Font 
 
@@ -72,9 +75,9 @@
 ;;*** HTML
 
 (use-package! html-ts-mode
-              :mode "\\.html?\\'"
-              :config (add-to-list 'major-mode-remap-alist
-                                   '(mhtml-mode . html-ts-mode)))
+  :mode "\\.html?\\'"
+  :config (add-to-list 'major-mode-remap-alist
+                       '(mhtml-mode . html-ts-mode)))
 
 (use-package apheleia
   :config
@@ -87,10 +90,10 @@
 ;; see https://emacs-lsp.github.io/lsp-mode/page/faq/#i-have-multiple-language-servers-registered-for-language-foo-which-one-will-be-used-when-opening-a-project
 
 (use-package! lsp-tailwindcss
-              :init (setq lsp-tailwindcss-add-on-mode t
-                          ;; set in .dir-locals.el, along with lsp-disabled-servers
-                          ;; ... or just use it for rustywind (i can 't get it to work)
-                          lsp-tailwindcss-major-modes nil))
+  :init (setq lsp-tailwindcss-add-on-mode t
+              ;; set in .dir-locals.el, along with lsp-disabled-servers
+              ;; ... or just use it for rustywind (i can 't get it to work)
+              lsp-tailwindcss-major-modes nil))
 
 ;;** Langs
 
