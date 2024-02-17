@@ -1747,7 +1747,7 @@ you [[https://www.gnu.org/software/bash/manual/bash.html#Shell-Parameter-Expansi
 
 #+begin_src sh :tangle .config/sh/rc.d/aliases.sh :shebang #!/bin/sh
 #* window-mgmt @ALIAS
-alias @terminator='terminator "\$${__title:-TERM}"'
+alias @terminator='terminator --title "\$${__title:-TERM}"'
 #+end_src
 
 *** Functions
