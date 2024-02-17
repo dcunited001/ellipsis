@@ -1589,11 +1589,25 @@ export DOTS_RC_D=$DOTS_CFG_SHELL/rc.d
 
 *** Keybindings.
 
+Run =bind -f $file= to emit your current bindings to a script.
+
+Other useful Bash bindings:
+
++ C-x C-e :: open $EDITOR and evaluate the buffer as command when it closes.
+
+**** Send to clipboard without =xclip=
+
 #+begin_quote
-Note, this still isn't copying to clipboard (I swear it was working)
+This did seem to work, now it's not. One computer on wayland; another on X11.
 #+end_quote
 
-Run =bind -f $file= to emit bindings to a script.
++ Use =C-@= or =M-<space>= to set mark.
++ Use =C-x C-x= to show mark -- by exchanging point's current position with
+  marked. This can be confusing because it changes the current mark
+  position. And the text must be highlighted to kill/copy.
++ =M-w= will always copy text highlighted text to clipboard (like Emacs). This
+  works using mark & move commands or with mouse. 
++ =C-w= will always kill the text, but it won't copy it
 
 #+begin_src sh :tangle .bashrc :shebang #!/bin/sh
 # enable set-mark (overrides control sequences like unix-word-rubout)
@@ -1615,16 +1629,6 @@ bind '"\e/":dabbrev-expand'
 
 # also M-tab for `dynamic-complete-history`
 #+end_src
-
-With this:
-
-+ Use =C-@= or =M-<space>= to set mark.
-+ Use =C-x C-x= to show mark -- by exchanging point's current position with
-  marked. This can be confusing because it changes the current mark
-  position. And the text must be highlighted to kill/copy.
-+ =M-w= will always copy text highlighted text to clipboard (like Emacs). This
-  works using mark & move commands or with mouse. 
-+ =C-w= will always kill the text, but it won't copy it
 
 Find =rl_tty_set_default_bindings= in the readline source to see exactly what
 it does (no time). This [[https://stackoverflow.com/a/23558325][s/o answer]] explains ... and i guess =stty -a= will
@@ -1665,6 +1669,15 @@ pskill() {
     pkill -u $UID -x "$1"
 }
 alias psid='ps -opid,uid,command h'
+# h sorts
+alias pspri='ps -eo pid,tid,class,rtprio,ni,pri,psr,pcpu,stat,wchan:14,comm k pri'
+alias ps_pri='ps -eo pri k +pri h | uniq -c'
+
+# emacs stays at -4: https://github.com/Nefelim4ag/Ananicy
+alias ps_nice='ps axo pid,comm,nice,cls --sort=-nice'
+alias psnice='ps -o pid,comm,nice' # $pid
+
+#*renice @alias
 
 #* grep @ALIAS
 alias grepnobin="grep -I"
