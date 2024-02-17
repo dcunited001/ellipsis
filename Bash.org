@@ -1731,7 +1731,23 @@ alias gkcfg='git stack --dump-config -'
 alias emacs-debug-wayland='WAYLAND_DEBUG=1 emacs --fg-daemon > $HOME/.cache/log/emacs.wayland.`date +%Y-%m%d-%H%M`.log 2>&1'
 
 alias nodenpm_lsparse="npm ls -g --parseable | grep node_modules | sed -e 's/.*node_modules\///g'"
+#+end_src
 
+***** TODO: script to diff active aliases against standard aliases
+
+so i can dump them to a temp file to process later
+
+**** Window Control
+
+Aliases that set titles/classes when launching ... so i can actually get a
+window manager to do window manager things.
+
+The =@= character seems to be okay to overload... but apparently =${@:3}= gets
+you [[https://www.gnu.org/software/bash/manual/bash.html#Shell-Parameter-Expansion][slice on positional parameters]] and arrays.
+
+#+begin_src sh :tangle .config/sh/rc.d/aliases.sh :shebang #!/bin/sh
+#* window-mgmt @ALIAS
+alias @terminator='terminator "\$${__title:-TERM}"'
 #+end_src
 
 *** Functions
