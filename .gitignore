@@ -21,6 +21,7 @@ misc/**
 # .config/sh
 .config/sh/*.sh
 .config/sh/profile.d/*.sh
+.config/sh/rc.d/*.sh
 
 # direnv
 .config/direnv/eg
