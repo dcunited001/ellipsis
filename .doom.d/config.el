@@ -38,6 +38,8 @@
 
 (setq dired-omit-files "^.DS_Store\\'\\|^.project\\(?:ile\\)?\\'\\|^.\\(svn\\)\\'\\|^.ccls-cache\\'\\|\\(?:\\.js\\)?\\.meta\\'\\|\\.\\(?:elc\\|o\\|pyo\\|swp\\|class\\)\\'")
 
+;; TODO: get Doom to not close all the direds(advice-add #'+doom-)
+
 ;;** Org
 ;; Dear god no
 
@@ -51,10 +53,10 @@
         (astro . ("https://github.com/virchau13/tree-sitter-astro"))))
 
 (after! treesit
-  (cl-loop for lang-key
-           in (a-keys treesit-language-source-alist)
-           unless (treesit-language-available-p lang-key)
-           do (treesit-install-language-grammar lang-key)))
+        (cl-loop for lang-key
+                 in (a-keys treesit-language-source-alist)
+                 unless (treesit-language-available-p lang-key)
+                 do (treesit-install-language-grammar lang-key)))
 
 ;;** LSP
 
@@ -75,9 +77,9 @@
 ;;*** HTML
 
 (use-package! html-ts-mode
-  :mode "\\.html?\\'"
-  :config (add-to-list 'major-mode-remap-alist
-                       '(mhtml-mode . html-ts-mode)))
+              :mode "\\.html?\\'"
+              :config (add-to-list 'major-mode-remap-alist
+                                   '(mhtml-mode . html-ts-mode)))
 
 (use-package apheleia
   :config
@@ -90,10 +92,10 @@
 ;; see https://emacs-lsp.github.io/lsp-mode/page/faq/#i-have-multiple-language-servers-registered-for-language-foo-which-one-will-be-used-when-opening-a-project
 
 (use-package! lsp-tailwindcss
-  :init (setq lsp-tailwindcss-add-on-mode t
-              ;; set in .dir-locals.el, along with lsp-disabled-servers
-              ;; ... or just use it for rustywind (i can 't get it to work)
-              lsp-tailwindcss-major-modes nil))
+              :init (setq lsp-tailwindcss-add-on-mode t
+                          ;; set in .dir-locals.el, along with lsp-disabled-servers
+                          ;; ... or just use it for rustywind (i can 't get it to work)
+                          lsp-tailwindcss-major-modes nil))
 
 ;;** Langs
 

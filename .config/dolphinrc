@@ -27,8 +27,8 @@ Places Icons Static Size=22
 detailViewIconSize=16
 
 [KPropertiesDialog]
-3 screens: Height=458
-3 screens: Width=427
+3 screens: Height=678
+3 screens: Width=487
 4 screens: Height=678
 4 screens: Width=487
 DisplayPort-0 DisplayPort-1 DisplayPort-2 Height 1080x1920 DisplayPort-1=458
