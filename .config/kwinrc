@@ -22,8 +22,18 @@ ZoomFactor=0.9999999999999998
 IndividualMenuConfig=true
 MoveResize=100
 
+[Effect-overview]
+BorderActivate=0,7
+
 [Effect-trackmouse]
 Shift=true
+
+[Effect-windowview]
+BorderActivateAll=9
+BorderActivateClass=1,5
+
+[ElectricBorders]
+Left=ActivityManager
 
 [Input]
 TabletMode=off
@@ -81,9 +91,11 @@ FilterClientCaption=alsamixer, Event Tester, Speedbar
 FilterProcessName=krunner, yakuake, kded, polkit, plasmashell, systemsettings, spectacle, Conky, zoom, pwsafe, keepassxc, Clipgrab, fpakman, Galculator, Manjaro-hello, garuda-welcome, mpv, Xfburn, Lxtask, Pavucontrol, Exo-helper*, Lxrandr, Arandr, Viewnior, feh, Audacious, File-roller, Lxappearance, Timeshift-gtk, kwin_rules_dialog
 
 [TabBox]
+ActivitiesMode=0
 DesktopMode=0
 HighlightWindows=false
 LayoutName=coverswitch
+OrderMinimizedMode=1
 
 [TabBoxAlternative]
 ActivitiesMode=0
@@ -132,3 +144,6 @@ InputMethod[$e]=/usr/share/applications/org.fcitx.Fcitx5.desktop
 ActiveMouseScreen=false
 BorderlessMaximizedWindows=true
 DelayFocusInterval=50
+
+[org.kde.kdecoration2]
+ButtonsOnLeft=MSN

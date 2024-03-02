@@ -100,7 +100,7 @@ FillMode=2
 Provider=wcpotd
 
 [Containments][140][Wallpaper][org.kde.slideshow][General]
-Image=file:///data/xdg/Wallpapers/anime/default.jpg
+Image=file:///data/xdg/Wallpapers/anime/yin-yang-fractal.jpg
 SlidePaths=/data/xdg/Wallpapers/anime/
 
 [Containments][141]
@@ -786,7 +786,7 @@ DialogWidth=720
 [Containments][160][Applets][161][Configuration][General]
 fill=false
 iconSpacing=2
-launchers=file:///home/dc/.guix-extra-profiles/arch-pwsafe/arch-pwsafe/bin/pwsafe?iconData=iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAYAAABXAvmHAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAC4ElEQVRogdWaT28SQRjG3z35BWbm2N29qTDMrVcxhviXs5emLLttEQquJaQNhoR-DfkaxJNHTv0CcjIm1lZTEqVNU9otdT1AqxRYZmdIZ3kSjvPk-SUv77w7M6Drer9arT6CBZZvGIa3vb39WHUQUfkwgOiVy-UnqsOIyId_EGeu66ZUBworH0YhTovF4lPFmULJv_0zTfOkUCg8UxuLX2MAMIA4zufzz5Um49REABhAdHO53AuV4Xg0FQAGEL83NjZeKsw3U4EAMIRYX19_pS5isGYCwADiV1QhuAAgwhDcABBRiFAAEEGI0AAQse4kBABDiHQ6baoIfS1N1_X-0tLS61ar9VnQ4wsAePMMFVY-pfRwd3f3ocoQMvIBwI_H4wsLcVPTlNKDRYQY-WMuIsRYd1m0cprYIimlh7Va7YHSZJya2ucppT_q9fp9leF4FLhZJRKJn9VqNdLlNHPHZYwd7uzsxNRFDBbX2MAYO6hUKnFlKQPEPfswxr5vbW1RVUGnKdQAxxjbd103oSjrRIWeQhlj30qlElMTd1xCo3RUILRhICExxvY9z1tpt9sdUY90On3ebDa_iq7XNE3zl5eXP-3t7X0QMYjFYrGjo6P3nU7nnsh60zS7qVRqpdFofBRZDwDgY4wvbdt-I2pgWdY7jPE5SHzZyXxj-0MIz7KsggwEQuhCAkL4oODGhBBykclkNiUgXBUQIyaEkHMZiGw2-xYh5N0lxJgJIaS3urpaFIWwbbuEEOrfFcREE1kIx3GKCKErCQjuc6epJrIQa2trmwihPzIQPPcTgSZzKKdNhJAQwBCiO-umaKbJHMqpgDGWgTgOurPjMiGE9CS6k2ZZlizEybTbU24TyRarZbPZvAyEYRink-6xQ5kQQi4kdux5QJzdflEQ2gRj7EnMTtLlZBhG7_-3HUImGONLx3FyohCO4xRkupNhGN71KxthE4zxVTKZFD43km2xuq73_wKYeSJsoXcBCAAAAABJRU5ErkJggg%3D%3D,applications:Alacritty.desktop,applications:emacs.desktop,preferred://browser,preferred://filemanager,applications:org.kde.plasma-systemmonitor.desktop,applications:snapper-tools.desktop,applications:systemsettings.desktop,applications:garuda-welcome.desktop,applications:octopi.desktop,applications:org.gnome.Firmware.desktop,applications:org.corectrl.corectrl.desktop
+launchers=applications:terminator.desktop,preferred://browser,applications:emacsclient.desktop,applications:firefox.desktop,applications:code.desktop,applications:org.zealdocs.zeal.desktop,file:///home/dc/.guix-extra-profiles/arch-pwsafe/arch-pwsafe/bin/pwsafe?iconData=iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAYAAABXAvmHAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAC4ElEQVRogdWaT28SQRjG3z35BWbm2N29qTDMrVcxhviXs5emLLttEQquJaQNhoR-DfkaxJNHTv0CcjIm1lZTEqVNU9otdT1AqxRYZmdIZ3kSjvPk-SUv77w7M6Drer9arT6CBZZvGIa3vb39WHUQUfkwgOiVy-UnqsOIyId_EGeu66ZUBworH0YhTovF4lPFmULJv_0zTfOkUCg8UxuLX2MAMIA4zufzz5Um49REABhAdHO53AuV4Xg0FQAGEL83NjZeKsw3U4EAMIRYX19_pS5isGYCwADiV1QhuAAgwhDcABBRiFAAEEGI0AAQse4kBABDiHQ6baoIfS1N1_X-0tLS61ar9VnQ4wsAePMMFVY-pfRwd3f3ocoQMvIBwI_H4wsLcVPTlNKDRYQY-WMuIsRYd1m0cprYIimlh7Va7YHSZJya2ucppT_q9fp9leF4FLhZJRKJn9VqNdLlNHPHZYwd7uzsxNRFDBbX2MAYO6hUKnFlKQPEPfswxr5vbW1RVUGnKdQAxxjbd103oSjrRIWeQhlj30qlElMTd1xCo3RUILRhICExxvY9z1tpt9sdUY90On3ebDa_iq7XNE3zl5eXP-3t7X0QMYjFYrGjo6P3nU7nnsh60zS7qVRqpdFofBRZDwDgY4wvbdt-I2pgWdY7jPE5SHzZyXxj-0MIz7KsggwEQuhCAkL4oODGhBBykclkNiUgXBUQIyaEkHMZiGw2-xYh5N0lxJgJIaS3urpaFIWwbbuEEOrfFcREE1kIx3GKCKErCQjuc6epJrIQa2trmwihPzIQPPcTgSZzKKdNhJAQwBCiO-umaKbJHMqpgDGWgTgOurPjMiGE9CS6k2ZZlizEybTbU24TyRarZbPZvAyEYRink-6xQ5kQQi4kdux5QJzdflEQ2gRj7EnMTtLlZBhG7_-3HUImGONLx3FyohCO4xRkupNhGN71KxthE4zxVTKZFD43km2xuq73_wKYeSJsoXcBCAAAAABJRU5ErkJggg%3D%3D,applications:Alacritty.desktop,applications:org.kde.plasma-systemmonitor.desktop,applications:systemsettings.desktop,applications:snapper-tools.desktop,applications:garuda-welcome.desktop,applications:octopi.desktop,applications:org.gnome.Firmware.desktop,applications:org.corectrl.corectrl.desktop,preferred://filemanager
 maxStripes=1
 showOnlyCurrentDesktop=false
 showOnlyCurrentScreen=false
@@ -804,7 +804,7 @@ DialogHeight=84
 DialogWidth=1620
 
 [Containments][160][General]
-AppletOrder=246;161;243
+AppletOrder=246;;161;243
 
 [Containments][192]
 activityId=
@@ -1170,4 +1170,4 @@ knownItems=org.kde.kdeconnect,org.kde.kscreen,org.kde.plasma.battery,org.kde.pla
 
 [ScreenMapping]
 itemsOnDisabledScreens=
-screenMapping=desktop:/steam.desktop,0,bc3cdced-7201-4291-a43c-fe3ef12080c2,file:///data/xdg/Wallpapers/anime/blood-blockade-leonardo.png,1,bc3cdced-7201-4291-a43c-fe3ef12080c2,file:///data/xdg/Wallpapers/anime/default.jpg,1,bc3cdced-7201-4291-a43c-fe3ef12080c2,file:///data/xdg/Wallpapers/anime/Guilty-Crown.jpg,1,bc3cdced-7201-4291-a43c-fe3ef12080c2,file:///data/xdg/Wallpapers/anime/ergo_proxy_desktop.jpg,1,bc3cdced-7201-4291-a43c-fe3ef12080c2,file:///data/xdg/Wallpapers/anime/blood-blockade-leo-123.jpg,1,bc3cdced-7201-4291-a43c-fe3ef12080c2,file:///data/xdg/Wallpapers/anime/blood-blockade-leonardo-2a.jpg,1,bc3cdced-7201-4291-a43c-fe3ef12080c2,file:///data/xdg/Wallpapers/anime/kakegurui.png,1,bc3cdced-7201-4291-a43c-fe3ef12080c2,file:///data/xdg/Wallpapers/anime/ergo-proxy.jpg,1,bc3cdced-7201-4291-a43c-fe3ef12080c2,file:///data/xdg/Wallpapers/anime/blood-blockade-wallpaper.jpg,1,bc3cdced-7201-4291-a43c-fe3ef12080c2,file:///data/xdg/Wallpapers/anime/blood-blockade-leonardo-2b.jpg,1,bc3cdced-7201-4291-a43c-fe3ef12080c2,file:///data/xdg/Wallpapers/anime/yin-yang-fractal.jpg,1,bc3cdced-7201-4291-a43c-fe3ef12080c2
+screenMapping=file:///data/xdg/Wallpapers/anime/ergo_proxy_desktop.jpg,1,bc3cdced-7201-4291-a43c-fe3ef12080c2,file:///data/xdg/Wallpapers/anime/kakegurui.png,1,bc3cdced-7201-4291-a43c-fe3ef12080c2,file:///data/xdg/Wallpapers/anime/ergo-proxy.jpg,1,bc3cdced-7201-4291-a43c-fe3ef12080c2,file:///data/xdg/Wallpapers/anime/default.jpg,1,bc3cdced-7201-4291-a43c-fe3ef12080c2,file:///data/xdg/Wallpapers/anime/blood-blockade-leonardo-2a.jpg,1,bc3cdced-7201-4291-a43c-fe3ef12080c2,desktop:/steam.desktop,0,bc3cdced-7201-4291-a43c-fe3ef12080c2,file:///data/xdg/Wallpapers/anime/Guilty-Crown.jpg,1,bc3cdced-7201-4291-a43c-fe3ef12080c2,file:///data/xdg/Wallpapers/anime/blood-blockade-wallpaper.jpg,1,bc3cdced-7201-4291-a43c-fe3ef12080c2,file:///data/xdg/Wallpapers/anime/yin-yang-fractal.jpg,1,bc3cdced-7201-4291-a43c-fe3ef12080c2,file:///data/xdg/Wallpapers/anime/blood-blockade-leo-123.jpg,1,bc3cdced-7201-4291-a43c-fe3ef12080c2,file:///data/xdg/Wallpapers/anime/blood-blockade-leonardo.png,1,bc3cdced-7201-4291-a43c-fe3ef12080c2,file:///data/xdg/Wallpapers/anime/blood-blockade-leonardo-2b.jpg,1,bc3cdced-7201-4291-a43c-fe3ef12080c2

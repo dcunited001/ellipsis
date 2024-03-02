@@ -60,7 +60,7 @@ _k_friendly_name=GPU-Viewer
 _launch=Meta+Ctrl+Alt+Esc,none,GPU-Viewer
 
 [kaccess]
-Toggle Screen Reader On and Off=Meta+Alt+S,Meta+Alt+S,Toggle Screen Reader On and Off
+Toggle Screen Reader On and Off=none,Meta+Alt+S,Toggle Screen Reader On and Off
 _k_friendly_name=Accessibility
 
 [kcm_touchpad]
@@ -76,7 +76,7 @@ display=none,Display\tMeta+P,Switch Display
 
 [khotkeys]
 _k_friendly_name=Custom Shortcuts Service
-{1327ca43-f63f-48d1-bfbe-1e0b3eab7e1b}=Menu,none,Trigger Menu Key
+{1327ca43-f63f-48d1-bfbe-1e0b3eab7e1b}=none,none,Trigger Menu Key
 {d03619b6-9b3c-48cc-9d9c-a2aadb485550}=none,none,Search
 
 [kmix]
@@ -89,12 +89,12 @@ mic_mute=Microphone Mute\tMeta+Volume Mute,Microphone Mute\tMeta+Volume Mute,Mut
 mute=Volume Mute,Volume Mute,Mute
 
 [ksmserver]
-Halt Without Confirmation=none,,Halt Without Confirmation
-Lock Session=Meta+Q\tScreensaver,Meta+L\tScreensaver,Lock Session
+Halt Without Confirmation=none,none,Halt Without Confirmation
+Lock Session=Meta+Q,Meta+L\tScreensaver,Lock Session
 Log Out=none,Ctrl+Alt+Del,Log Out
-Log Out Without Confirmation=none,,Log Out Without Confirmation
-Reboot Without Confirmation=none,,Reboot Without Confirmation
-_k_friendly_name=Session Management
+Log Out Without Confirmation=none,none,Log Out Without Confirmation
+Reboot Without Confirmation=none,none,Reboot Without Confirmation
+_k_friendly_name=KWin
 
 [kwin]
 Activate Window Demanding Attention=none,Meta+Ctrl+A,Activate Window Demanding Attention
@@ -200,14 +200,14 @@ Walk Through Desktop List=none,,Walk Through Desktop List
 Walk Through Desktop List (Reverse)=none,,Walk Through Desktop List (Reverse)
 Walk Through Desktops=none,,Walk Through Desktops
 Walk Through Desktops (Reverse)=none,,Walk Through Desktops (Reverse)
-Walk Through Windows=Meta+Tab,Alt+Tab,Walk Through Windows
-Walk Through Windows (Reverse)=Meta+Shift+Tab,Alt+Shift+Backtab,Walk Through Windows (Reverse)
-Walk Through Windows Alternative=none,,Walk Through Windows Alternative
-Walk Through Windows Alternative (Reverse)=none,,Walk Through Windows Alternative (Reverse)
-Walk Through Windows of Current Application=Meta+`,Alt+`,Walk Through Windows of Current Application
-Walk Through Windows of Current Application (Reverse)=Meta+~,Alt+~,Walk Through Windows of Current Application (Reverse)
-Walk Through Windows of Current Application Alternative=none,,Walk Through Windows of Current Application Alternative
-Walk Through Windows of Current Application Alternative (Reverse)=none,,Walk Through Windows of Current Application Alternative (Reverse)
+Walk Through Windows=Meta+`,Alt+Tab,Walk Through Windows
+Walk Through Windows (Reverse)=Meta+~,Alt+Shift+Backtab,Walk Through Windows (Reverse)
+Walk Through Windows Alternative=,,Walk Through Windows Alternative
+Walk Through Windows Alternative (Reverse)=,,Walk Through Windows Alternative (Reverse)
+Walk Through Windows of Current Application=Meta+Tab,Alt+`,Walk Through Windows of Current Application
+Walk Through Windows of Current Application (Reverse)=Meta+Ctrl+Tab,Alt+~,Walk Through Windows of Current Application (Reverse)
+Walk Through Windows of Current Application Alternative=,,Walk Through Windows of Current Application Alternative
+Walk Through Windows of Current Application Alternative (Reverse)=,,Walk Through Windows of Current Application Alternative (Reverse)
 Window Above Other Windows=none,,Keep Window Above Others
 Window Below Other Windows=none,,Keep Window Below Others
 Window Close=Alt+F4,Alt+F4,Close Window
@@ -236,14 +236,14 @@ Window Pack Down=none,,Move Window Down
 Window Pack Left=none,,Move Window Left
 Window Pack Right=none,,Move Window Right
 Window Pack Up=none,,Move Window Up
-Window Quick Tile Bottom=none,Meta+Down,Quick Tile Window to the Bottom
-Window Quick Tile Bottom Left=none,,Quick Tile Window to the Bottom Left
-Window Quick Tile Bottom Right=none,,Quick Tile Window to the Bottom Right
-Window Quick Tile Left=none,Meta+Left,Quick Tile Window to the Left
-Window Quick Tile Right=none,Meta+Right,Quick Tile Window to the Right
-Window Quick Tile Top=none,Meta+Up,Quick Tile Window to the Top
-Window Quick Tile Top Left=none,,Quick Tile Window to the Top Left
-Window Quick Tile Top Right=none,,Quick Tile Window to the Top Right
+Window Quick Tile Bottom=Meta+Alt+Down,Meta+Down,Quick Tile Window to the Bottom
+Window Quick Tile Bottom Left=Meta+Alt+End,,Quick Tile Window to the Bottom Left
+Window Quick Tile Bottom Right=Meta+Alt+PgDown,,Quick Tile Window to the Bottom Right
+Window Quick Tile Left=Meta+Alt+Left,Meta+Left,Quick Tile Window to the Left
+Window Quick Tile Right=Meta+Alt+Right,Meta+Right,Quick Tile Window to the Right
+Window Quick Tile Top=Meta+Alt+Up,Meta+Up,Quick Tile Window to the Top
+Window Quick Tile Top Left=Meta+Alt+Home,,Quick Tile Window to the Top Left
+Window Quick Tile Top Right=Meta+Alt+PgUp,,Quick Tile Window to the Top Right
 Window Raise=none,,Raise Window
 Window Resize=none,,Resize Window
 Window Shade=none,,Shade Window
@@ -292,11 +292,11 @@ _launch=Meta+Ctrl+Shift+Esc,none,Hardware Locality (lstopo)
 
 [mediacontrol]
 _k_friendly_name=Media Controller
-mediavolumedown=none,,Media volume down
-mediavolumeup=none,,Media volume up
+mediavolumedown=none,none,Media volume down
+mediavolumeup=none,none,Media volume up
 nextmedia=Media Next,Media Next,Media playback next
 pausemedia=Media Pause,Media Pause,Pause media playback
-playmedia=none,,Play media playback
+playmedia=none,none,Play media playback
 playpausemedia=Media Play,Media Play,Play/Pause media playback
 previousmedia=Media Previous,Media Previous,Media playback previous
 stopmedia=Media Stop,Media Stop,Stop media playback
@@ -320,7 +320,7 @@ _k_friendly_name=Konsole
 _launch=none,Ctrl+Alt+T,Konsole
 
 [org.kde.krunner.desktop]
-RunClipboard=Alt+Shift+F2\tMeta+Shift+F2,Alt+Shift+F2,Run command on clipboard contents
+RunClipboard=Meta+Shift+F2,Alt+Shift+F2,Run command on clipboard contents
 _k_friendly_name=KRunner
 _launch=Meta+D,Alt+Space\tAlt+F2\tSearch,KRunner
 
@@ -351,29 +351,29 @@ _k_friendly_name=SystemdGenie
 _launch=Meta+Alt+Esc,none,SystemdGenie
 
 [org_kde_powerdevil]
-Decrease Keyboard Brightness=none,none,none
-Decrease Screen Brightness=none,none,none
-Hibernate=none,none,none
-Increase Keyboard Brightness=none,none,none
-Increase Screen Brightness=none,none,none
+Decrease Keyboard Brightness=none,Keyboard Brightness Down,Decrease Keyboard Brightness
+Decrease Screen Brightness=none,Monitor Brightness Down,Decrease Screen Brightness
+Hibernate=none,Hibernate,Hibernate
+Increase Keyboard Brightness=none,Keyboard Brightness Up,Increase Keyboard Brightness
+Increase Screen Brightness=none,Monitor Brightness Up,Increase Screen Brightness
 PowerDown=Power Down,Power Down,Power Down
 PowerOff=Power Off,Power Off,Power Off
-Sleep=none,none,none
-Toggle Keyboard Backlight=none,none,none
-Turn Off Screen=none,none,none
+Sleep=none,Sleep,Suspend
+Toggle Keyboard Backlight=none,Keyboard Light On/Off,Toggle Keyboard Backlight
+Turn Off Screen=none,none,Turn Off Screen
 _k_friendly_name=Power Management
 
 [plasmashell]
 _k_friendly_name=Plasma
-activate task manager entry 1=none,Meta+1,Activate Task Manager Entry 1
+activate task manager entry 1=Meta+Alt+1,Meta+1,Activate Task Manager Entry 1
 activate task manager entry 10=none,Meta+0,Activate Task Manager Entry 10
-activate task manager entry 2=none,Meta+2,Activate Task Manager Entry 2
-activate task manager entry 3=none,Meta+3,Activate Task Manager Entry 3
-activate task manager entry 4=none,Meta+4,Activate Task Manager Entry 4
-activate task manager entry 5=none,Meta+5,Activate Task Manager Entry 5
-activate task manager entry 6=none,Meta+6,Activate Task Manager Entry 6
-activate task manager entry 7=none,Meta+7,Activate Task Manager Entry 7
-activate task manager entry 8=none,Meta+8,Activate Task Manager Entry 8
+activate task manager entry 2=Meta+Alt+2,Meta+2,Activate Task Manager Entry 2
+activate task manager entry 3=Meta+Alt+3,Meta+3,Activate Task Manager Entry 3
+activate task manager entry 4=Meta+Alt+4,Meta+4,Activate Task Manager Entry 4
+activate task manager entry 5=Meta+Alt+5,Meta+5,Activate Task Manager Entry 5
+activate task manager entry 6=Meta+Alt+6,Meta+6,Activate Task Manager Entry 6
+activate task manager entry 7=Meta+Alt+7,Meta+7,Activate Task Manager Entry 7
+activate task manager entry 8=Meta+Alt+8,Meta+8,Activate Task Manager Entry 8
 activate task manager entry 9=none,Meta+9,Activate Task Manager Entry 9
 activate widget 142=none,none,Activate Application Launcher Widget
 activate widget 176=none,none,Activate Hard Disk Activity Widget
@@ -381,7 +381,7 @@ activate widget 181=none,none,Activate Network speed Widget
 activate widget 187=none,none,Activate Application Launcher Widget
 activate widget 209=none,none,Activate Application Launcher Widget
 activate widget 234=none,none,Activate GPU Compute Widget
-activate widget 4=Alt+F1,none,Activate Application Launcher Widget
+activate widget 4=none,none,Activate Application Launcher Widget
 activate widget 57=none,none,Activate Application Launcher Widget
 clear-history=none,,Clear Clipboard History
 clipboard_action=none,Meta+Ctrl+X,Automatic Action Popup Menu
