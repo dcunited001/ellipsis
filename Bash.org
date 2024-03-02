@@ -1677,6 +1677,8 @@ alias ps_pri='ps -eo pri k +pri h | uniq -c'
 alias ps_nice='ps axo pid,comm,nice,cls --sort=-nice'
 alias psnice='ps -o pid,comm,nice' # $pid
 
+alias ptrgb="pstree -C age -pT"
+
 #*renice @alias
 # alias renoice="renice --priority 15 $(pgrep emacs-29)"
 

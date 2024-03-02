@@ -351,16 +351,16 @@ _k_friendly_name=SystemdGenie
 _launch=Meta+Alt+Esc,none,SystemdGenie
 
 [org_kde_powerdevil]
-Decrease Keyboard Brightness=Keyboard Brightness Down,Keyboard Brightness Down,Decrease Keyboard Brightness
-Decrease Screen Brightness=Monitor Brightness Down,Monitor Brightness Down,Decrease Screen Brightness
-Hibernate=Hibernate,Hibernate,Hibernate
-Increase Keyboard Brightness=Keyboard Brightness Up,Keyboard Brightness Up,Increase Keyboard Brightness
-Increase Screen Brightness=Monitor Brightness Up,Monitor Brightness Up,Increase Screen Brightness
+Decrease Keyboard Brightness=none,none,none
+Decrease Screen Brightness=none,none,none
+Hibernate=none,none,none
+Increase Keyboard Brightness=none,none,none
+Increase Screen Brightness=none,none,none
 PowerDown=Power Down,Power Down,Power Down
 PowerOff=Power Off,Power Off,Power Off
-Sleep=Sleep,Sleep,Suspend
-Toggle Keyboard Backlight=Keyboard Light On/Off,Keyboard Light On/Off,Toggle Keyboard Backlight
-Turn Off Screen=none,none,Turn Off Screen
+Sleep=none,none,none
+Toggle Keyboard Backlight=none,none,none
+Turn Off Screen=none,none,none
 _k_friendly_name=Power Management
 
 [plasmashell]
