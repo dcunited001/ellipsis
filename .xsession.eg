@@ -33,8 +33,10 @@ xset -b
 #xset s 60 20
 
 # Enable screen locking on suspend (or set lock in guix system definition)
-xss-lock --transfer-sleep-lock -- xlock &
-#xss-lock -n xss-lock-dim-screen --transfer-sleep-lock -- xlock &
+xss-lock --transfer-sleep-lock -- xlock +resetsaver -mode random &
+
+# xss-lock --transfer-sleep-lock -- xlock &
+# xss-lock -n xss-lock-dim-screen --transfer-sleep-lock -- xlock &
 
 setbg $_WALLPAPERS
 

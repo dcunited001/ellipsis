@@ -115,6 +115,8 @@ EndSection
                            "matrix-flatpak"
                            "matrix-data"))
             (type lvm-device-mapping))))
+
+    ;; TODO: hmmm
     (swap-devices (list (file-system-label "kharisSwap")))
 
     (file-systems
@@ -177,7 +179,7 @@ EndSection
         (guix-service-type
          config => (guix-configuration
                     (inherit config)
-                    (extra-options '("-c10")))))
+                    (extra-options '("--cores=8" "--max-jobs=4")))))
 
       ;; from %desktop-services
       (list
@@ -187,8 +189,12 @@ EndSection
                  ;; (x-session) ;; default: (xinitrc)
                  (xorg-configuration
                   %kharis-xorg-configuration)))
-       (screen-locker-service slock)
-       (screen-locker-service xlockmore "xlock")
+       (service screen-locker-service-type
+                (screen-locker-configuration
+                 (name "xlock")
+                 (program (file-append xlockmore "/bin/xlock"))
+                 ;; (using-setuid? #f)
+                 (using-pam? #t)))
        (simple-service 'mtp udev-service-type (list libmtp))
        (simple-service
         'mount-setuid-helpers
@@ -202,9 +208,15 @@ EndSection
        (simple-service 'network-manager-applet
                        profile-service-type
                        (list network-manager-applet))
-       (accountsservice-service)        ; missing in kharis.scm
+
+       ;; accountsservice-service was missing in kharis.scm
+       (service accountsservice-service-type)
        (service colord-service-type)
-       x11-socket-directory-service
+
+       ;; x11-socket-directory-service-type:
+       ;; stands for libxcb when using xwayland
+
+       ;; (service x11-socket-directory-service-type)
 
        ;; TODO: add pipewire
        ;; (service pulseaudio-service-type)

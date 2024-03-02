@@ -83,13 +83,15 @@
                    epson-inkjet-printer-escpr
                    hplip-minimal)))))
 
+;; see man limits.conf
+;; or https://baeldung.com/linux/error-too-many-open-files/
 (define-public %dc-pam-limits-service
   ;; TODO: (service pam-limits-service-type
-  (pam-limits-service
-   (list
-    (pam-limits-entry "@realtime" 'both 'rtprio 99)
-    (pam-limits-entry "@realtime" 'both 'nice -19)
-    (pam-limits-entry "@realtime" 'both 'memlock 'unlimited))))
+  (service pam-limits-service-type
+           (list
+            (pam-limits-entry "@realtime" 'both 'rtprio 99)
+            (pam-limits-entry "@realtime" 'both 'nice -19)
+            (pam-limits-entry "@realtime" 'both 'memlock 'unlimited))))
 
 ;; TODO: this won't have environment vars set (for ssh)
 (define-public %dc-unattended-upgrade-service-type
@@ -221,6 +223,7 @@
 
 (define-public %dc-packages-xorg-only
   (list
+   xlockmore
 
    ;; required for wacom
    ;; - libwacom modifies udev rules & must be in system config
