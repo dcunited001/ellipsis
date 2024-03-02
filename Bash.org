@@ -1229,8 +1229,9 @@ virtualenvs.
  '(
    "python"
    "python-pip"
-   )
- )
+
+   "docker-compose"
+   ))
 #+end_src
 
 The description of Direnv's =layout python= directive is a bit confusing. I
