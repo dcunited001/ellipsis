@@ -1678,6 +1678,7 @@ alias ps_nice='ps axo pid,comm,nice,cls --sort=-nice'
 alias psnice='ps -o pid,comm,nice' # $pid
 
 #*renice @alias
+# alias renoice="renice --priority 15 $(pgrep emacs-29)"
 
 #* grep @ALIAS
 alias grepnobin="grep -I"
@@ -1762,6 +1763,8 @@ you [[https://www.gnu.org/software/bash/manual/bash.html#Shell-Parameter-Expansi
 #* window-mgmt @ALIAS
 alias @terminator='terminator --title "\$${__title:-TERM}"'
 #+end_src
+
+... This doesn't work very well with KRunner or dmenu
 
 *** Functions
 

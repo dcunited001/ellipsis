@@ -1,0 +1,60 @@
+#!/bin/sh
+
+# to flexible composition, input redirection should be done by the caller
+# inotifydir ~/.emacs.g/straight | tee -a "$(mktemp --suffix '-inotifydir')"
+
+monitor_log=""
+while getopts :l: OPT; do
+    case $OPT in
+        l|+l)
+            monitor_log="$OPTARG"
+            ;;
+        --)
+            # TODO pass args to inotify?
+            break
+            ;;
+        *)
+            echo "usage: `basename $0` [+-l logfile} [--] ARGS..."
+            echo "-p profile/link"
+            exit 2
+    esac
+done
+shift `expr $OPTIND - 1`
+OPTIND=1
+
+if [ -z "$monitor_log" ]; then
+    monitor_log="$(mktemp --suffix '-inotifydir')"
+fi
+
+echo $monitor_log
+
+file_removed() {
+    # LMAO @ xmessage: https://www.baeldung.com/linux/monitor-changes-directory-tree
+    # xmessage "$2 was removed from $1" &
+    local TIMESTAMP=`date -u --iso-8601=seconds`
+    echo "$TIMESTAMP DELETE $1$2" # | tee -a $monitor_log
+}
+
+file_modified() {
+    local TIMESTAMP=`date -u --iso-8601=seconds`
+    echo "$TIMESTAMP MODIFY $1$2 was modified" # | tee -a $monitor_log
+}
+
+file_created() {
+    local TIMESTAMP=`date -u --iso-8601=seconds`
+    echo "$TIMESTAMP CREATE $1$2" # | tee -a $monitor_log
+}
+
+inotifywait -q -m -r -e modify,delete,create $1 | while read DIRECTORY EVENT FILE; do
+    case $EVENT in
+        MODIFY*)
+            file_modified "$DIRECTORY" "$FILE"
+            ;;
+        CREATE*)
+            file_created "$DIRECTORY" "$FILE"
+            ;;
+        DELETE*)
+            file_removed "$DIRECTORY" "$FILE"
+            ;;
+    esac
+done
