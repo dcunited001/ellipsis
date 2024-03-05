@@ -1,0 +1,99 @@
+#!/bin/sh
+# via https://blog.cryptomilk.org/2023/02/10/sliced-bread-git-worktree-and-bare-repo/
+
+_master=master
+_forge_user=git
+_forge_name=github.com
+
+_print_usage() {
+    echo "`basename $0` [+-b <master_branch>] [+-F <forge_name>] [+-U <forge_user>] [--] <repo> [<worktree_root>]"
+    echo
+    echo "This will clone a bare checkout in <worktree_root>/.bare"
+    echo "and then set up some defaults for git with worktrees. It will"
+    echo "also check out the default branch to <worktree_root>/<master_branch>."
+    echo
+    echo "The command is intended, in theory, to only create the changes"
+    echo "necessary so that it can be run repeatedly."
+    echo
+    echo "It wasn't the best of scripts. It wasn't the worst of scripts."
+    echo
+    echo "repo: the repository path on the forge (e.g. myorg/myrepo)"
+    echo "worktree_root: the root path inside which checkouts are located"
+    echo
+    echo "master_branch: the default branch ref (default: master)"
+    echo "forge_name: DNS name (default: github.com)"
+    echo "forge_user: git user (default: git)"
+}
+
+while getopts :b:F:U: OPT; do
+    case $OPT in
+        b|+b)
+            _master="$OPTARG"
+            ;;
+        F|+F)
+            _forge_name="$OPTARG"
+            ;;
+        U|+U)
+            _forge_user="$OPTARG"
+            ;;
+        *)
+            _print_usage
+            exit 2
+    esac
+done
+shift `expr $OPTIND - 1`
+OPTIND=1
+
+_repo=$1
+if [ -z "$_repo" ]; then
+    _print_usage
+    echo ""
+    echo "repo is required." && exit 1
+fi
+
+_wtroot=$2
+if [ -z "$_wtroot" ]; then
+    _wtroot=$(pwd)
+fi
+
+_repo_url="$_forge_user@$_forge_name:$_repo"
+
+_git_cmd="git"
+
+cd $_wtroot
+if [ ! -d ".bare" ]; then
+    $_git_cmd clone --bare "git@github.com:$_repo" $_wtroot/.bare
+fi
+
+if [ ! -f ".git" ]; then
+    echo 'gitdir: ./.bare' > .git
+fi
+
+if [ -z "$(git config --get remote.origin.fetch)" ]; then
+    $_git_cmd config --replace-all remote.origin.fetch "+refs/heads/*:refs/remotes/origin/*"
+fi
+
+$_git_cmd config --replace-all core.logallrefupdates true
+
+$_git_cmd fetch --all
+
+_fetch_status=$?
+if [ $_fetch_status -ne 0 ]; then
+    echo "`git fetch` exited with $_fetch_status. Check your config. Terminating..." && exit 1
+fi
+
+$_git_cmd config --replace-all alias.wt "worktree"
+$_git_cmd config --replace-all alias.wtl "worktree list"
+
+# check remote branches for $_master
+if [ -z "$(git branch -r --list origin/"$_master")" ]; then
+    echo "`git branch -r` shows no such ref: origin/$_master. Terminating..." && exit 1
+fi
+
+if [ -z "$(git branch --list "$_master")" ]; then
+    $_git_cmd branch -f "$_master" "origin/$_master"
+fi
+
+if [ -z "$(git worktree list | grep $_master)" ]; then
+    $_git_cmd worktree add $_master $_master
+fi
