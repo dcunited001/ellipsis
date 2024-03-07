@@ -804,7 +804,7 @@ DialogHeight=84
 DialogWidth=1620
 
 [Containments][160][General]
-AppletOrder=246;;161;243
+AppletOrder=246;161;243
 
 [Containments][192]
 activityId=

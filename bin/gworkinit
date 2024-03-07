@@ -5,6 +5,10 @@ _master=master
 _forge_user=git
 _forge_name=github.com
 
+# TODO: create .config folder?
+# TODO: create .patches directory?
+# TODO: check for or create a tools orphan branch?
+
 _print_usage() {
     echo "`basename $0` [+-b <master_branch>] [+-F <forge_name>] [+-U <forge_user>] [--] <repo> [<worktree_root>]"
     echo
