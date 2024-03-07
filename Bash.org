@@ -1697,6 +1697,10 @@ alias hw='hwinfo --short'
 alias psmem10='ps auxf | sort -nr -k 4 | head -10'
 alias psmem='ps auxf | sort -nr -k 4'
 
+#** disk @ALIAS
+alias iotopa='iotop -oa'
+# atop
+
 #* archive @ALIAS
 alias tarnow='tar -acf '
 alias untar='tar -zxvf '

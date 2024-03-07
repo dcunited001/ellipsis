@@ -43,3 +43,6 @@ powerDownAction=16
 idleTime=300000
 suspendThenHibernate=false
 suspendType=1
+
+[Migration]
+MigratedProfilesToPlasma6=powerdevilrc

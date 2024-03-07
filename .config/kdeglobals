@@ -156,7 +156,6 @@ ColorScheme=BreezeLight
 LookAndFeelPackage=Dr460nized
 SingleClick=false
 contrast=4
-widgetStyle=Breeze
 
 [KFileDialog Settings]
 Allow Expansion=false
