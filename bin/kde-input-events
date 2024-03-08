@@ -1,0 +1,9 @@
+#!/bin/sh
+i=0
+journalctl -f | grep -e 'QObject::startTimer' | while read log
+do
+  i=$((i + 1))
+  if [ $((i % 10)) -eq 9 ]; then
+    echo $(date -u --iso-8601=seconds) :: $i :: $log
+  fi
+done
