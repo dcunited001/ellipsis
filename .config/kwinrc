@@ -18,6 +18,9 @@ Rows=1
 [Effect-Zoom]
 ZoomFactor=0.9999999999999998
 
+[Effect-cube]
+DistanceFactor=1.58
+
 [Effect-kwin4_effect_translucency]
 IndividualMenuConfig=true
 MoveResize=100
@@ -42,6 +45,7 @@ TabletMode=off
 bismuthEnabled=true
 blurEnabled=false
 contrastEnabled=false
+cubeEnabled=true
 desktopchangeosdEnabled=false
 forceblurEnabled=false
 highlightwindowEnabled=false
@@ -117,7 +121,7 @@ tiles={"layoutDirection":"horizontal","tiles":[{"width":0.25},{"width":0.5},{"wi
 tiles={"layoutDirection":"vertical","tiles":[{"height":0.37326388888888884},{"height":0.6267361111111103}]}
 
 [Tiling][322e0433-e997-5047-978d-1f67aef3238f]
-tiles={"layoutDirection":"horizontal","tiles":[{"width":0.25},{"width":0.5},{"width":0.25}]}
+tiles={"layoutDirection":"vertical","tiles":[{"height":0.26814236111111545},{"height":0.4158854166666748,"layoutDirection":"horizontal","tiles":[{"width":0.48024691358024696},{"width":0.519753086419753}]},{"height":0.3159722222222098}]}
 
 [Tiling][368b7d02-7626-5761-b3c7-502a4da21d49]
 tiles={"layoutDirection":"horizontal","tiles":[{"width":0.618359375},{"width":0.3816406249999995}]}
@@ -126,7 +130,7 @@ tiles={"layoutDirection":"horizontal","tiles":[{"width":0.618359375},{"width":0.
 tiles={"layoutDirection":"horizontal","tiles":[{"layoutDirection":"vertical","tiles":[{"height":0.380859375},{"height":0.6191406249999989}],"width":1}]}
 
 [Tiling][8ee18305-78b9-5cbd-ace2-f5e435d14724]
-tiles={"layoutDirection":"horizontal","tiles":[{"width":0.25},{"width":0.5},{"width":0.25}]}
+tiles={"layoutDirection":"vertical","tiles":[{"height":0.3911458333333343},{"height":0.6088541666666654}]}
 
 [Tiling][94ffe885-ea3c-5b75-868d-849720a2ac04]
 tiles={"layoutDirection":"vertical","tiles":[{"height":0.4557291666666667},{"height":0.5442708333333226}]}
@@ -138,7 +142,7 @@ tiles={"layoutDirection":"horizontal","tiles":[{"width":0.25},{"width":0.5},{"wi
 tiles={"layoutDirection":"vertical","tiles":[{"height":0.4979166666666667},{"height":0.5020833333333332}]}
 
 [Tiling][e91a902e-5437-541f-aca8-7bcdd0b3de65]
-tiles={"layoutDirection":"horizontal","tiles":[{"width":0.25},{"width":0.5},{"width":0.25}]}
+tiles={"layoutDirection":"horizontal","tiles":[{"width":0.3421875000000003},{"width":0.358984375000002},{"width":0.29882812499999767}]}
 
 [Tiling][fb913d12-34d0-5259-9378-f641ec9e1635]
 tiles={"layoutDirection":"horizontal","tiles":[{"width":0.5203125},{"width":0.47968750000000004}]}
@@ -146,13 +150,12 @@ tiles={"layoutDirection":"horizontal","tiles":[{"width":0.5203125},{"width":0.47
 [Tiling][ff2699f4-391b-5bbb-85ec-8649845b5b4b]
 tiles={"layoutDirection":"horizontal","tiles":[{"width":0.4869791666666667},{"width":0.5130208333333333}]}
 
-[Wayland]
-InputMethod[$e]=/usr/share/applications/org.fcitx.Fcitx5.desktop
-
 [Windows]
 ActiveMouseScreen=false
 BorderlessMaximizedWindows=true
 DelayFocusInterval=50
+ElectricBorderDelay=250
+Placement=Smart
 
 [org.kde.kdecoration2]
 ButtonsOnLeft=MSN

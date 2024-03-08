@@ -136,12 +136,14 @@ ForegroundPositive=113,247,159
 ForegroundVisited=179,13,191
 
 [DirSelect Dialog]
-DirSelectDialog Size=1072,780
+DirSelectDialog Size=1300,780
 History Items[$e]=file:///data/xdg/Wallpapers/anime,file:///data/xdg/Wallpapers/,file:$HOME/.dotfiles
 
 [General]
 ColorSchemeHash=a054744e5da530142f039caa182148b170643d2e
 Name=Breeze Light
+TerminalApplication=terminator
+TerminalService=terminator.desktop
 UseSystemBell=true
 XftAntialias=true
 XftHintStyle=hintnone
