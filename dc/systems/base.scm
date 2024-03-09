@@ -281,4 +281,5 @@
    ifuse
 
    gvfs
-   nss-certs))
+   nss-certs
+   gnutls))

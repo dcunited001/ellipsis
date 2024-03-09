@@ -5,11 +5,16 @@
   #:use-module (guix download)
   #:use-module (guix git-download)
   #:use-module (guix packages)
+
   #:use-module (guix build-system gnu)
   #:use-module (guix build-system copy)
+  #:use-module (nonguix build-system binary)
 
   #:use-module (gnu packages base)
+  #:use-module (gnu packages gcc)
+  #:use-module (gnu packages commencement)
   #:use-module (gnu packages golang)
+
   #:use-module (gnu packages tls)
   #:use-module (gnu packages security-token)
   ;; #:use-module (gnu packages gcc)
@@ -199,6 +204,37 @@ Key Vault, age, and PGP.")
       #:install-plan ''(("." "bin/" #:include-regexp ("step-ca$")))))
     (inputs
      (list coreutils pcsc-lite))
+    (home-page "https://smallstep.com/certificates/")
+    (synopsis "(prebuilt) Open-Source Certificate Authority & PKI Toolkit")
+    (description "A private certificate authority (X.509 & SSH) & ACME server for secure automated certificate management, so you can use TLS everywhere & SSO for SSH.")
+    (license license:asl2.0)))
+(define-public step-kms-plugin-bin
+  (package
+    (name "step-kms-plugin-bin")
+    (version "0.10.0")
+    (source (origin
+              (method url-fetch)
+              (uri (string-append
+                    "https://github.com/smallstep/step-kms-plugin/releases/download/"
+                    "v" version "/step-kms-plugin_" version "_linux_amd64.tar.gz"))
+              (sha256
+               (base32
+                "1cha21n2wbzasycz5ygfa8kc3riqq1njxv3gh7xw92yzn1w9wmq1"))))
+    (build-system binary-build-system)
+    (inputs `((,gcc "lib")
+              ,gcc-toolchain
+              ,pcsc-lite))
+    (propagated-inputs (list))
+    (arguments
+     (list
+      #:patchelf-plan ''(("step-kms-plugin"
+                          ;; gcc gcc-toolchain
+                          ("pcsc-lite" "gcc" "gcc-toolchain")))
+      #:install-plan ''(("." "bin/" #:include-regexp ("step-kms-plugin$")))))
+
+    ;; TODO: update details ...
+    ;; segfault, no debugging symbols
+
     (home-page "https://smallstep.com/certificates/")
     (synopsis "(prebuilt) Open-Source Certificate Authority & PKI Toolkit")
     (description "A private certificate authority (X.509 & SSH) & ACME server for secure automated certificate management, so you can use TLS everywhere & SSO for SSH.")

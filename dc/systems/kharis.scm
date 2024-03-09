@@ -15,14 +15,14 @@
   #:use-module (ellipsis home config))
 
 (use-service-modules guix admin sysctl pm nix avahi dbus cups
-                     desktop linux mcron networking xorg ssh
+                     desktop linux mcron networking ssh ;; xorg?
                      security-token docker audio virtualization)
 
 (use-package-modules nfs certs shells ssh tls gnupg security-token
                      bash emacs emacs-xyz gnome networking libusb
                      fonts cups audio xorg xdisorg linux file-systems
-                     version-control package-management freedesktop
-                     cryptsetup hardware guile vim golang)
+                     version-control package-management freedesktop rsync
+                     cryptsetup hardware guile vim golang golang-crypto)
 
 ;; not sure what and=> is, but accepts (value procedure)
 ;; and seems to return a default for the maybe? or Some<T> pattern
@@ -74,7 +74,7 @@
   (keyboard-layout
    "us" "altgr-intl"
    #:model "pc105"
-	 ;; see gitlab.freedesktop.org/xkeyboard-config/xkeyboard-config/-/issue/344
+         ;; see gitlab.freedesktop.org/xkeyboard-config/xkeyboard-config/-/issue/344
    #:options '("caps:ctrl_modifier"
                ;; "ctrl:swapcaps_hyper" ; in 1.3.0 (hyper as Mod3)
                ;; "ctrl:hyper_capscontrol" ; in 1.5.0 (hyper as Mod4)
@@ -124,7 +124,7 @@
             ;; noswap, but both mem/swap
             ;; must be below threshold for
             ;; oom to act
-            (minimum-free-swap 1)        
+            (minimum-free-swap 1)
             (prefer-regexp "syncthing|firefox")
             (show-debug-messages? #t))))
 
@@ -233,12 +233,12 @@
            ;;     (command (file-append bash "/bin/bash"))
            ;;     (command-args '("-l")))))
            (greetd-terminal-configuration (terminal-vt "6"))
-	         (greetd-terminal-configuration (terminal-vt "7"))
+                 (greetd-terminal-configuration (terminal-vt "7"))
            (greetd-terminal-configuration (terminal-vt "8"))
            ;; (greetd-terminal-configuration
-	         ;;   (terminal-vt "9")
-	         ;;   (default-session-command (file-append bash "/bin/bash")))
-	         ))))
+                 ;;   (terminal-vt "9")
+                 ;;   (default-session-command (file-append bash "/bin/bash")))
+                 ))))
 
        %dc-nonguix-substitutes-service
 

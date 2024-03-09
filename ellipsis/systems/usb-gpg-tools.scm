@@ -16,6 +16,7 @@
   #:use-module (gnu packages file-systems)
 
   ;; AGE keygen
+  #:use-module (gnu packages golang)
   #:use-module (gnu packages golang-crypto)
 
   ;;** PGP Packages
@@ -32,8 +33,10 @@
   #:use-module (ellipsis packages password-utils)
   #:use-module (ellipsis packages security-token)
 
+  ;; gnutls packages
+  #:use-module (gnu packages tls)
+
   ;; certbot/letsencrypt packages
-  ;; #:use-module (gnu packages tls)
   ;; #:use-module (gnu services certbot)
 
   #:export (usb-gpg-tools)
@@ -130,6 +133,7 @@
                    stow
                    vim
 
+                   screen
                    emacs-no-x-toolkit
                    emacs-x509-mode ;; very helpful for certs
                    emacs-better-defaults
@@ -174,6 +178,7 @@
                    le-certs
                    nss-certs
 
+                   gnutls
                    step-ca-bin
                    step-cli-bin
                    certdata2pem
