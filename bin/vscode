@@ -1,0 +1,24 @@
+#!/bin/sh
+_vscode_path=/data/mr/frc/3939/VSCode-linux-x64/bin
+_vscode=/data/mr/frc/3939/VSCode-linux-x64/bin/code
+manifest=~/.dotfiles/.config/guix/manifests/vscode.scm
+
+export PATH="$_vscode_path:$PATH"
+
+# inside guix manifest, need to unpack with `./Synthesis.AppImage --appimage-extract`
+# then rename and correct permissions, then the same guix shell manifest will run it.
+
+# TODO: maybe restrict the --share flags here.
+# TODO: --share /data/...
+# TODO: what in home directory & environment must be accessible?
+guix shell -CNF -m $manifest \
+  --user=dc \
+  --preserve='^XDG_CONFIG_HOME$' --preserve='^PATH$' \
+  --preserve='^DISPLAY$' --preserve='^XAUTHORITY$' --preserve='^DBUS_' \
+  --share=/run/current-system/profile --share="$HOME"   \
+  --share=/run/user/1000/gdm/Xauthority \
+  --share=/sys/dev --share=/sys/devices --share=/tmp \
+  --share=/data \
+  --expose=/dev/dri --expose=/var/run/dbus \
+  $@
+#  -- $_vscode/code
