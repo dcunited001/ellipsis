@@ -47,3 +47,6 @@ ToolBarsMovable=Disabled
 [Open-with settings]
 CompletionMode=1
 History=mesh,ema
+
+[PreviewSettings]
+Plugins=appimagethumbnail,audiothumbnail,comicbookthumbnail,cursorthumbnail,directorythumbnail,djvuthumbnail,ebookthumbnail,exrthumbnail,imagethumbnail,jpegthumbnail,kraorathumbnail,opendocumentthumbnail,svgthumbnail,windowsexethumbnail,windowsimagethumbnail,ffmpegthumbs,fontthumbnail,palathumbcreator,blenderthumbnail,gsthumbnail,mobithumbnail,rawthumbnail,mltpreview

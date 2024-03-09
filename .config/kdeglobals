@@ -158,6 +158,7 @@ ColorScheme=BreezeLight
 LookAndFeelPackage=Dr460nized
 SingleClick=false
 contrast=4
+widgetStyle=kvantum-dark
 
 [KFileDialog Settings]
 Allow Expansion=false
@@ -186,6 +187,9 @@ XwaylandClientsScale=false
 
 [KShortcutsDialog Settings]
 Dialog Size=600,480
+
+[PreviewSettings]
+MaximumRemoteSize=0
 
 [Shortcuts]
 Close=Ctrl+W

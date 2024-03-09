@@ -20,6 +20,10 @@ wallpaperplugin=org.kde.potd
 network/all/download=197,14,210
 network/all/upload=27,210,14
 
+[Containments][278][ConfigDialog]
+DialogHeight=540
+DialogWidth=720
+
 [Containments][278][General]
 ToolBoxButtonState=topcenter
 ToolBoxButtonX=704
@@ -225,9 +229,9 @@ plugin=org.kde.plasma.systemmonitor.diskactivity
 
 [Containments][281][Applets][309][Configuration]
 CurrentPreset=org.kde.plasma.systemmonitor
-PreloadWeight=80
-popupHeight=200
-popupWidth=162
+PreloadWeight=85
+popupHeight=211
+popupWidth=173
 
 [Containments][281][Applets][309][Configuration][Appearance]
 chartFace=org.kde.ksysguard.linechart
@@ -375,14 +379,14 @@ immutability=1
 plugin=org.kde.plasma.battery
 
 [Containments][290][Applets][305][Configuration]
-PreloadWeight=34
+PreloadWeight=10
 
 [Containments][290][Applets][306]
 immutability=1
 plugin=org.kde.plasma.brightness
 
 [Containments][290][Applets][306][Configuration]
-PreloadWeight=34
+PreloadWeight=10
 
 [Containments][290][Applets][307]
 immutability=1
@@ -393,7 +397,7 @@ immutability=1
 plugin=org.kde.plasma.mediacontroller
 
 [Containments][290][Applets][317][Configuration]
-PreloadWeight=34
+PreloadWeight=26
 
 [Containments][290][General]
 extraItems=org.kde.kdeconnect,org.kde.kscreen,org.kde.plasma.battery,org.kde.plasma.bluetooth,org.kde.plasma.clipboard,org.kde.plasma.devicenotifier,org.kde.plasma.keyboardindicator,org.kde.plasma.keyboardlayout,org.kde.plasma.manage-inputmethod,org.kde.plasma.mediacontroller,org.kde.plasma.networkmanagement,org.kde.plasma.notifications,org.kde.plasma.vault,org.kde.plasma.volume,org.kde.plasma.brightness,org.kde.plasma.cameraindicator
