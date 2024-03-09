@@ -1,4 +1,5 @@
 #!/bin/sh
+# via https://github.com/AlexStragies/lsnetdev
 
 DIRECTION="UP"
 UTF=""
