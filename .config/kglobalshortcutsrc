@@ -273,7 +273,7 @@ powerProfile=Battery\tMeta+B,Battery\tMeta+B,Switch Power Profile
 
 [plasmashell]
 _k_friendly_name=plasmashell
-activate task manager entry 1=,Meta+1,Activate Task Manager Entry 1
+activate task manager entry 1=Meta+Alt+1,Meta+1,Activate Task Manager Entry 1
 activate task manager entry 10=none,Meta+0,Activate Task Manager Entry 10
 activate task manager entry 2=Meta+Alt+2,Meta+2,Activate Task Manager Entry 2
 activate task manager entry 3=Meta+Alt+3,Meta+3,Activate Task Manager Entry 3

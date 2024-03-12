@@ -155,10 +155,9 @@ widgetStyle=Breeze
 [KDE]
 AnimationDurationFactor=0.35355339059327373
 ColorScheme=BreezeLight
-LookAndFeelPackage=Dr460nized
+LookAndFeelPackage=org.kde.breezedark.desktop
 SingleClick=false
 contrast=4
-widgetStyle=kvantum-dark
 
 [KFileDialog Settings]
 Allow Expansion=false

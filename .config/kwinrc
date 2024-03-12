@@ -21,10 +21,6 @@ ZoomFactor=0.9999999999999998
 [Effect-cube]
 DistanceFactor=1.58
 
-[Effect-kwin4_effect_translucency]
-IndividualMenuConfig=true
-MoveResize=100
-
 [Effect-overview]
 BorderActivate=0,7
 
@@ -121,7 +117,7 @@ tiles={"layoutDirection":"horizontal","tiles":[{"width":0.25},{"width":0.5},{"wi
 tiles={"layoutDirection":"vertical","tiles":[{"height":0.37326388888888884},{"height":0.6267361111111103}]}
 
 [Tiling][322e0433-e997-5047-978d-1f67aef3238f]
-tiles={"layoutDirection":"vertical","tiles":[{"height":0.26814236111111545},{"height":0.4158854166666748,"layoutDirection":"horizontal","tiles":[{"width":0.48024691358024696},{"width":0.519753086419753}]},{"height":0.3159722222222098}]}
+tiles={"layoutDirection":"vertical","tiles":[{"height":0.32222222222222224},{"height":0.3680555555555555,"layoutDirection":"horizontal","tiles":[{"width":0.48024691358024696},{"width":0.519753086419753}]},{"height":0.30972222222222223}]}
 
 [Tiling][368b7d02-7626-5761-b3c7-502a4da21d49]
 tiles={"layoutDirection":"horizontal","tiles":[{"width":0.618359375},{"width":0.3816406249999995}]}
@@ -130,7 +126,7 @@ tiles={"layoutDirection":"horizontal","tiles":[{"width":0.618359375},{"width":0.
 tiles={"layoutDirection":"horizontal","tiles":[{"layoutDirection":"vertical","tiles":[{"height":0.380859375},{"height":0.6191406249999989}],"width":1}]}
 
 [Tiling][8ee18305-78b9-5cbd-ace2-f5e435d14724]
-tiles={"layoutDirection":"vertical","tiles":[{"height":0.3911458333333343},{"height":0.6088541666666654}]}
+tiles={"layoutDirection":"horizontal","tiles":[{"width":0.5},{"width":0.5}]}
 
 [Tiling][94ffe885-ea3c-5b75-868d-849720a2ac04]
 tiles={"layoutDirection":"vertical","tiles":[{"height":0.4557291666666667},{"height":0.5442708333333226}]}
@@ -142,7 +138,7 @@ tiles={"layoutDirection":"horizontal","tiles":[{"width":0.25},{"width":0.5},{"wi
 tiles={"layoutDirection":"vertical","tiles":[{"height":0.4979166666666667},{"height":0.5020833333333332}]}
 
 [Tiling][e91a902e-5437-541f-aca8-7bcdd0b3de65]
-tiles={"layoutDirection":"horizontal","tiles":[{"width":0.3421875000000003},{"width":0.358984375000002},{"width":0.29882812499999767}]}
+tiles={"layoutDirection":"horizontal","tiles":[{"width":0.299609375},{"width":0.38242187499999997},{"width":0.31796875}]}
 
 [Tiling][fb913d12-34d0-5259-9378-f641ec9e1635]
 tiles={"layoutDirection":"horizontal","tiles":[{"width":0.5203125},{"width":0.47968750000000004}]}
@@ -159,3 +155,4 @@ Placement=Smart
 
 [org.kde.kdecoration2]
 ButtonsOnLeft=MSN
+theme=__aurorae__svg__Sweet-Dark
