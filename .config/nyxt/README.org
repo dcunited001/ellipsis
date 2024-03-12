@@ -1,7 +1,61 @@
-
 #+TITLE:     Nyxt Config
 #+AUTHOR:    David Conner
 #+EMAIL:     noreply@te.xel.io
 #+DESCRIPTION: notes
 
 referencing [[github:aartaka/nyxt-config][aartaka/nyxt-config]] and others
+
+#+begin_src emacs-lisp
+(setq-local nyxt-config (expand-file-name "~/.config/nyxt")
+            nyxt-pkg (expand-file-name "~/.local/share/nyxt/extensions"))
+#+end_src
+
+
+* Setup
+
+** Installing Packages
+
+My configs need a few packages. I'd like to source the code locally instead of
+installing packages. I'm not sure of options for managing Nyxt packages.
+
+#+begin_src sh :dir (identity nyxt-pkg)
+git clone https://github.com/migalmoreno/nx-tailor
+#+end_src
+ 
+** NX Tailor
+
+Just trying out the examples for now
+
+#+begin_src common-lisp :tangle (expand-file-name "tailor.lisp" nyxt-config)
+(define-configuration tailor:tailor-mode
+  ((tailor:auto-p :time)
+   (tailor:light-theme-threshold (* 8 60 60))
+   (tailor:dark-theme-threshold (* 21.5 60 60))
+   (tailor:main '(modus-operandi . modus-vivendi))
+   (tailor:themes
+    (list
+     (make-instance 'tailor:user-theme
+                    :name 'modus-operandi
+                    :background-color "white"
+                    :on-background-color "black"
+                    :primary-color "#093060"
+                    :secondary-color "#dfdfdf"
+                    :on-secondary-color "#f0f0f0"
+                    :accent-color "#8f0075"
+                    :on-accent-color "#005a5f"
+                    :font-family "Iosevka")
+     (make-instance 'tailor:user-theme
+                    :name 'modus-vivendi
+                    :dark-p t
+                    :background-color "black"
+                    :on-background-color "white"
+                    :primary-color "#c6eaff"
+                    :secondary-color "#323232"
+                    :on-secondary-color "#a8a8a8"
+                    :accent-color "#afafef"
+                    :on-accent-color "#a8a8a8"
+                    :font-family "Iosevka")))))
+#+end_src
+
+Some other code is needed in =config.lisp= in order to add =tailor-mode= to
+=web-buffers=. Once =tailor-mode= is active in a buffer, run =M-x load-theme=.

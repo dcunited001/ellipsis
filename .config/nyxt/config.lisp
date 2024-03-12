@@ -26,13 +26,39 @@
 
 ;;*** Theme
 
+;;**** Tailor
+
+;; to use with my config, uncomment the define-configuration below to append the
+;; mode to all web-buffers. or run M-x tailor-mode to append mode to bufffer.
+;;
+;; once mode is set in a buffer, then run M-x load-theme
+
+;; to ensure timer switching works at startup and through the SBCL timers
+;;
+;; must run before loading the package
+(local-time:reread-timezone-repository)
+(setf local-time:*default-timezone*
+      (local-time:find-timezone-by-location-name "America/New_York"))
+
+;; package will define a mode called tailor
+(define-nyxt-user-system-and-load
+ nyxt-user/tailor
+ :depends-on (nx-tailor)
+ ;; configured in nyxt-user:tailor (./tailor.lisp)
+ :components ("tailor.lisp"))
+
+;; this will add tailor-mode to all web-buffers
+;; (define-configuration web-buffer
+;;   ((default-modes `(tailor:tailor-mode ,@%slot-default%))))
+
+;; old theme code: just set dark mode
 ;; Alter the instance of the browser's theme slot
-(defmethod customize-instance ((browser browser) &key)
-           (setf (slot-value browser 'theme)
-                 theme:+dark-theme+)
-           (setf (slot-value browser 'external-editor-program)
-                 ;; '("gmacsclient" "-c")
-                 '("alacritty --command vim")))
+;; (defmethod customize-instance ((browser browser) &key)
+;;            (setf (slot-value browser 'theme)
+;;                  theme:+dark-theme+)
+;;            (setf (slot-value browser 'external-editor-program)
+;;                  ;; '("gmacsclient" "-c")
+;;                  '("alacritty --command vim")))
 
 ;;** Profiles
 
