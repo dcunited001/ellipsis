@@ -230,13 +230,17 @@ plugin=org.kde.plasma.systemmonitor.diskactivity
 
 [Containments][281][Applets][309][Configuration]
 CurrentPreset=org.kde.plasma.systemmonitor
-PreloadWeight=85
-popupHeight=211
-popupWidth=173
+PreloadWeight=90
+popupHeight=222
+popupWidth=184
 
 [Containments][281][Applets][309][Configuration][Appearance]
 chartFace=org.kde.ksysguard.linechart
 title=Hard Disk Activity
+
+[Containments][281][Applets][309][Configuration][ConfigDialog]
+DialogHeight=540
+DialogWidth=720
 
 [Containments][281][Applets][309][Configuration][SensorColors]
 disk/all/read=27,210,14
@@ -245,19 +249,26 @@ disk/all/write=197,14,210
 [Containments][281][Applets][309][Configuration][Sensors]
 highPrioritySensorIds=["disk/all/write","disk/all/read"]
 
+[Containments][281][Applets][309][Configuration][org.kde.ksysguard.linechart][General]
+historyAmount=300
+
 [Containments][281][Applets][310]
 immutability=1
 plugin=org.kde.plasma.systemmonitor.net
 
 [Containments][281][Applets][310][Configuration]
 CurrentPreset=org.kde.plasma.systemmonitor
-PreloadWeight=70
-popupHeight=200
-popupWidth=162
+PreloadWeight=75
+popupHeight=211
+popupWidth=173
 
 [Containments][281][Applets][310][Configuration][Appearance]
 chartFace=org.kde.ksysguard.linechart
 title=Network speed
+
+[Containments][281][Applets][310][Configuration][ConfigDialog]
+DialogHeight=540
+DialogWidth=720
 
 [Containments][281][Applets][310][Configuration][SensorColors]
 network/all/download=197,14,210
@@ -266,27 +277,43 @@ network/all/upload=27,210,14
 [Containments][281][Applets][310][Configuration][Sensors]
 highPrioritySensorIds=["network/all/download","network/all/upload"]
 
+[Containments][281][Applets][310][Configuration][org.kde.ksysguard.linechart][General]
+historyAmount=300
+
 [Containments][281][Applets][311]
 immutability=1
 plugin=org.kde.plasma.systemmonitor.memory
 
 [Containments][281][Applets][311][Configuration]
 CurrentPreset=org.kde.plasma.systemmonitor
-PreloadWeight=60
-popupHeight=240
-popupWidth=162
+PreloadWeight=85
+popupHeight=313
+popupWidth=173
 
 [Containments][281][Applets][311][Configuration][Appearance]
-chartFace=org.kde.ksysguard.piechart
+chartFace=org.kde.ksysguard.linechart
 title=Memory Usage
 
+[Containments][281][Applets][311][Configuration][ConfigDialog]
+DialogHeight=540
+DialogWidth=720
+
 [Containments][281][Applets][311][Configuration][SensorColors]
+memory/physical/application=14,210,139
+memory/physical/buffer=20,210,14
+memory/physical/cache=57,14,210
+memory/physical/free=210,140,14
 memory/physical/used=197,14,210
+memory/swap/free=14,210,41
+memory/swap/total=14,210,24
 
 [Containments][281][Applets][311][Configuration][Sensors]
-highPrioritySensorIds=["memory/physical/used"]
-lowPrioritySensorIds=["memory/physical/total"]
+highPrioritySensorIds=["memory/physical/used","memory/physical/application","memory/physical/buffer","memory/physical/cache","memory/physical/free","memory/swap/free"]
+lowPrioritySensorIds=["memory/physical/total","memory/swap/total"]
 totalSensors=["memory/physical/usedPercent"]
+
+[Containments][281][Applets][311][Configuration][org.kde.ksysguard.linechart][General]
+historyAmount=300
 
 [Containments][281][Applets][312]
 immutability=1
@@ -294,28 +321,119 @@ plugin=org.kde.plasma.systemmonitor.cpu
 
 [Containments][281][Applets][312][Configuration]
 CurrentPreset=org.kde.plasma.systemmonitor
-PreloadWeight=65
-popupHeight=240
-popupWidth=162
+PreloadWeight=100
+popupHeight=269
+popupWidth=173
 
 [Containments][281][Applets][312][Configuration][Appearance]
-chartFace=org.kde.ksysguard.piechart
+chartFace=org.kde.ksysguard.linechart
 title=Total CPU Use
 
+[Containments][281][Applets][312][Configuration][ConfigDialog]
+DialogHeight=540
+DialogWidth=720
+
 [Containments][281][Applets][312][Configuration][SensorColors]
+cpu/all/system=14,210,59
 cpu/all/usage=197,14,210
+cpu/all/user=14,210,184
+cpu/all/wait=14,192,210
 
 [Containments][281][Applets][312][Configuration][Sensors]
-highPrioritySensorIds=["cpu/all/usage"]
+highPrioritySensorIds=["cpu/all/usage","cpu/all/system","cpu/all/user","cpu/all/wait"]
 lowPrioritySensorIds=["cpu/all/cpuCount","cpu/all/coreCount"]
 totalSensors=["cpu/all/usage"]
+
+[Containments][281][Applets][312][Configuration][org.kde.ksysguard.linechart][General]
+historyAmount=300
 
 [Containments][281][Applets][315]
 immutability=1
 plugin=org.kde.plasma.pager
 
+[Containments][281][Applets][321]
+immutability=1
+plugin=org.kde.plasma.systemmonitor
+
+[Containments][281][Applets][321][Configuration]
+CurrentPreset=org.kde.plasma.systemmonitor
+PreloadWeight=90
+popupHeight=216
+popupWidth=156
+
+[Containments][281][Applets][321][Configuration][Appearance]
+chartFace=org.kde.ksysguard.linechart
+title=GPU Temperature
+
+[Containments][281][Applets][321][Configuration][ConfigDialog]
+DialogHeight=540
+DialogWidth=720
+
+[Containments][281][Applets][321][Configuration][SensorColors]
+gpu/gpu1/power=14,157,210
+gpu/gpu1/temp2=14,210,149
+gpu/gpu1/temp3=14,210,76
+gpu/gpu1/temperature=14,18,210
+gpu/gpu1/usage=14,210,58
+gpu/gpu1/usedVram=210,160,14
+
+[Containments][281][Applets][321][Configuration][Sensors]
+highPrioritySensorIds=["gpu/gpu1/temperature","gpu/gpu1/temp3","gpu/gpu1/temp2"]
+
+[Containments][281][Applets][322]
+immutability=1
+plugin=org.kde.plasma.systemmonitor
+
+[Containments][281][Applets][322][Configuration]
+CurrentPreset=org.kde.plasma.systemmonitor
+PreloadWeight=80
+popupHeight=194
+popupWidth=156
+
+[Containments][281][Applets][322][Configuration][Appearance]
+chartFace=org.kde.ksysguard.linechart
+title=GPU Memory
+
+[Containments][281][Applets][322][Configuration][ConfigDialog]
+DialogHeight=540
+DialogWidth=720
+
+[Containments][281][Applets][322][Configuration][SensorColors]
+gpu/gpu1/totalVram=14,152,210
+gpu/gpu1/usedVram=210,14,80
+
+[Containments][281][Applets][322][Configuration][Sensors]
+highPrioritySensorIds=["gpu/gpu1/usedVram"]
+lowPrioritySensorIds=["gpu/gpu1/totalVram"]
+
+[Containments][281][Applets][323]
+immutability=1
+plugin=org.kde.plasma.systemmonitor
+
+[Containments][281][Applets][323][Configuration]
+CurrentPreset=org.kde.plasma.systemmonitor
+PreloadWeight=90
+popupHeight=282
+popupWidth=156
+
+[Containments][281][Applets][323][Configuration][Appearance]
+chartFace=org.kde.ksysguard.linechart
+title=GPU
+
+[Containments][281][Applets][323][Configuration][ConfigDialog]
+DialogHeight=540
+DialogWidth=720
+
+[Containments][281][Applets][323][Configuration][SensorColors]
+gpu/gpu1/coreFrequency=175,210,14
+gpu/gpu1/memoryFrequency=14,210,111
+
+[Containments][281][Applets][323][Configuration][Sensors]
+highPrioritySensorIds=["gpu/gpu1/coreFrequency","gpu/gpu1/memoryFrequency"]
+lowPrioritySensorIds=["gpu/gpu1/name","gpu/gpu1/power","gpu/gpu1/power1","gpu/gpu1/usage"]
+
 [Containments][281][General]
-AppletOrder=282;315;283;284;285;288;308;312;311;309;310;287;286;289;302
+AppletOrder=282;315;283;284;285;288;323;322;321;287;312;308;311;309;310;286;289;302
 
 [Containments][290]
 activityId=
@@ -435,5 +553,5 @@ showOnlyCurrentScreen=false
 AppletOrder=304
 
 [ScreenMapping]
-itemsOnDisabledScreens=
+itemsOnDisabledScreens=2,f7e7668d-9397-4146-8c8b-f84e4af99f1e,1,desktop:/steam.desktop
 screenMapping=file:///data/xdg/Wallpapers/anime/blood-blockade-leonardo-2b.jpg,1,bc3cdced-7201-4291-a43c-fe3ef12080c2,file:///data/xdg/Wallpapers/anime/ergo_proxy_desktop.jpg,1,bc3cdced-7201-4291-a43c-fe3ef12080c2,file:///data/xdg/Wallpapers/anime/blood-blockade-leo-123.jpg,1,bc3cdced-7201-4291-a43c-fe3ef12080c2,file:///data/xdg/Wallpapers/anime/kakegurui.png,1,bc3cdced-7201-4291-a43c-fe3ef12080c2,file:///data/xdg/Wallpapers/anime/yin-yang-fractal.jpg,1,bc3cdced-7201-4291-a43c-fe3ef12080c2,file:///data/xdg/Wallpapers/anime/blood-blockade-leonardo-2a.jpg,1,bc3cdced-7201-4291-a43c-fe3ef12080c2,desktop:/steam.desktop,0,bc3cdced-7201-4291-a43c-fe3ef12080c2,file:///data/xdg/Wallpapers/anime/ergo-proxy.jpg,1,bc3cdced-7201-4291-a43c-fe3ef12080c2,file:///data/xdg/Wallpapers/anime/default.jpg,1,bc3cdced-7201-4291-a43c-fe3ef12080c2,file:///data/xdg/Wallpapers/anime/blood-blockade-leonardo.png,1,bc3cdced-7201-4291-a43c-fe3ef12080c2,file:///data/xdg/Wallpapers/anime/Guilty-Crown.jpg,1,bc3cdced-7201-4291-a43c-fe3ef12080c2,file:///data/xdg/Wallpapers/anime/blood-blockade-wallpaper.jpg,1,bc3cdced-7201-4291-a43c-fe3ef12080c2

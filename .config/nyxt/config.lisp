@@ -19,6 +19,10 @@
 
 
 ;;** Modules
+(define-nyxt-user-system-and-load
+ nyxt-user/basic-config
+ :components ("status"))
+
 ;; (define-nyxt-user-system-and-load nyxt-user/basic-config
 ;;   :components ("keybinds" "passwd" "status" "commands" "hsplit" "style" "unpdf" "objdump" "github"))
 
@@ -133,34 +137,14 @@
 ;; and abc::keywords)
 ;; https://stackoverflow.com/questions/8567155/why-colons-precede-variables-in-common-lisp
 
+;;** Bookmarks
+
+;; see bookmarks.lisp
+
+(defmethod files:resolve ((profile nyxt:nyxt-profile) (file nyxt/mode/bookmark:bookmarks-file))
+           "Reroute the bookmarks to the config directory."
+           #p"~/.config/nyxt/bookmarks.lisp")
+
 ;;** Search
 
-(defvar *dc/search-engines*
-  (list
-   '("g" "https://google.com/search?q=~a" "https://google.com")
-   '("doi" "https://dx.doi.org/~a" "https://dx.doi.org/")
-   '("py" "https://docs.python.org/3/search.html?q=~a"
-     "https://docs.python.org/3")
-   '("ansd" "https://docs.ansible.com/ansible/latest/index.html#stq=~a&stp=1"
-     "https://docs.ansible.com/")
-   '("ansg" "https://galaxy.ansible.com/search?deprecated=false&keywords=~a&order_by=-download_count&page=1"
-     "https://galaxy.ansible.com/")
-   '("gh" "https://github.com/~a" "Github (URL)")
-   '("ghi" "https://github.com/search?q=~a&type=issues" "Github (Issues)")
-   '("ghp" "https://github.com/search?q=~a&type=pullrequests" "Github (Pull Reqs)")
-   '("ght" "https://github.com/search?q=~a&type=topics" "Github (Topics)")
-   '("npm" "https://www.npmjs.com/search?q=~a"
-     "https://www.npmjs.com/"))
-  "List of search engines.")
-
-;; TODO: consider using ©hárß for urls without search
-;; '("á©" "https://galaxy.ansible.com/community") ; no URL for community
-
-(define-configuration
- context-buffer
- "Go through the search engines above and make-search-engine out of them."
- ((search-engines
-   (append
-    (mapcar (lambda (engine) (apply 'make-search-engine engine))
-            *dc/search-engines*)
-    %slot-default%))))
+;; see search-engines.lisp

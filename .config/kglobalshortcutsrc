@@ -2,7 +2,7 @@
 update_info=bismuth_shortcuts_category.upd:bismuth-shortcuts-category,bismuth_shortcuts_from_kwin.upd:bismuth-shortcuts-from-kwin
 
 [ActivityManager]
-_k_friendly_name=Activity Manager
+_k_friendly_name=System Settings
 switch-to-activity-22b52e63-da72-4604-84ca-ccbc26e5c289=none,none,Switch to activity "Default"
 switch-to-activity-bc3cdced-7201-4291-a43c-fe3ef12080c2=none,none,Switch to activity "Default"
 

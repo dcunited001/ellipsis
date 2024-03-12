@@ -10,6 +10,13 @@ referencing [[github:aartaka/nyxt-config][aartaka/nyxt-config]] and others
             nyxt-pkg (expand-file-name "~/.local/share/nyxt/extensions"))
 #+end_src
 
+* Tasks
+** TODO checkout Nyxt packages
++ [ ] [[https://github.com/aartaka/nx-search-engines][aartaka/nx-search-engines]] (contains completion for many [[https://github.com/aartaka/nx-search-engines/blob/master/search-engines.lisp][search engines]])
++ [ ] [[https://github.com/aartaka/nx-kaomoji][aartaka/nx-kaomoji]]
+
+** TODO review [[https://github.com/migalmoreno/nx-tailor][migalmoreno/nx-tailor]] source
+
 
 * Setup
 
@@ -21,8 +28,8 @@ installing packages. I'm not sure of options for managing Nyxt packages.
 #+begin_src sh :dir (identity nyxt-pkg)
 git clone https://github.com/migalmoreno/nx-tailor
 #+end_src
- 
-** NX Tailor
+
+** [[https://github.com/migalmoreno/nx-tailor][migalmoreno/nx-tailor]]
 
 Just trying out the examples for now
 
