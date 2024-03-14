@@ -13,6 +13,8 @@
 
   #:use-module (dc systems base)
   #:use-module (dc systems kharis)
+
+  #:use-module (ellipsis services vpn)
   #:use-module (ellipsis home config))
 
 
@@ -262,6 +264,8 @@ EndSection
        %dc-nntp-service
        %kharis-openssh-service
 
+       zerotier-one-service-type
+
        (service pcscd-service-type)
        (udev-rules-service 'fido2 libfido2 #:groups '("plugdev"))
        (udev-rules-service 'u2f libu2f-host #:groups '("plugdev"))
@@ -278,7 +282,7 @@ EndSection
        %dc-pam-limits-service
        (udev-rules-service 'pipewire-add-udev-rules pipewire)
        (udev-rules-service 'brightnessctl-udev-rules brightnessctl)
-
+       
        %dc-unattended-upgrade-service-type)))))
 
 system

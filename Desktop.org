@@ -101,6 +101,8 @@ These are defined in [[file:.config/shepherd/init.d][.config/shepherd/init.d]] a
 
   ;; Settings Manager
   "xsettingsd"
+  "dconf" ;; needed for virt-manager
+  ;; gsettings-desktop-schemas
 
   ;; GTK Themes
   "arc-icon-theme"
@@ -111,6 +113,8 @@ These are defined in [[file:.config/shepherd/init.d][.config/shepherd/init.d]] a
   "papirus-icon-theme"
   "breeze-icons"
 #+end_src
+
+Fonts profile
 
 #+begin_src scheme :tangle .config/guix/manifests/fonts.scm :comments none
 (specifications->manifest
@@ -2319,6 +2323,10 @@ keep-open
 "gst-libav"
 "intel-vaapi-driver"
 "libva-utils"
+
+;; testing video devices, but it lacks qv4l2, thus guvcview
+"v4l-utils"
+"guvcview"
 
 #+end_src
 

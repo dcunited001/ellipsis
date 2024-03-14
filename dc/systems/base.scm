@@ -9,8 +9,8 @@
   ;; #:use-module (nongnu packages linux)
   ;; #:use-module (nongnu system linux-initrd)
 
-  )
-
+  ;; #:use-module (nongnu services vpn)
+  #:use-module (nongnu packages vpn))
 
 (use-service-modules guix admin sysctl pm nix
                      avahi dbus cups desktop linux
@@ -257,6 +257,16 @@
 
    openssh
    openssl
+   nss-certs
+   gnutls
+
+   ;; no uml-utilities though (ohhh... so thats...)
+   tunctl
+   bridge-utils
+   iptables-nft
+   ;; ulogd: logging for
+
+   zerotier
 
    ccid
    yubikey-personalization
@@ -280,6 +290,7 @@
    usbmuxd
    ifuse
 
-   gvfs
-   nss-certs
-   gnutls))
+   ;; virt-manager needs dconf schemas/services available via dbus.
+   ;; dconf
+
+   gvfs))
