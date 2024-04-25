@@ -280,6 +280,7 @@
    pcsc-lite
    hidapi ;; for HID devices to control FIDO/U2F
 
+   libsecret
    rng-tools ;; req. to seed /dev/random with entropy from yubikey
 
    ;; required for xdg-user-dirs-update

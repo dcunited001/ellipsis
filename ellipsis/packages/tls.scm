@@ -208,10 +208,11 @@ Key Vault, age, and PGP.")
     (synopsis "(prebuilt) Open-Source Certificate Authority & PKI Toolkit")
     (description "A private certificate authority (X.509 & SSH) & ACME server for secure automated certificate management, so you can use TLS everywhere & SSO for SSH.")
     (license license:asl2.0)))
+
 (define-public step-kms-plugin-bin
   (package
     (name "step-kms-plugin-bin")
-    (version "0.10.0")
+    (version "0.11.0")
     (source (origin
               (method url-fetch)
               (uri (string-append
@@ -219,17 +220,25 @@ Key Vault, age, and PGP.")
                     "v" version "/step-kms-plugin_" version "_linux_amd64.tar.gz"))
               (sha256
                (base32
-                "1cha21n2wbzasycz5ygfa8kc3riqq1njxv3gh7xw92yzn1w9wmq1"))))
+                "1ij837n9zx6s403i5v1dki0l180h7y70fgwqbrqlb7p4y4kxzfib"))))
     (build-system binary-build-system)
+    ;; (build-system copy-build-system)
     (inputs `((,gcc "lib")
               ,gcc-toolchain
-              ,pcsc-lite))
-    (propagated-inputs (list))
+              ,softhsm
+              ;; ,pcsc-lite
+              ;; ,glibc
+              ))
+    (propagated-inputs (list pcsc-lite))
     (arguments
      (list
       #:patchelf-plan ''(("step-kms-plugin"
-                          ;; gcc gcc-toolchain
-                          ("pcsc-lite" "gcc" "gcc-toolchain")))
+                          ("pcsc-lite"
+                           "gcc"
+                           "gcc-toolchain"
+                           ;; "glibc"
+                           ;; "libc"
+                           )))
       #:install-plan ''(("." "bin/" #:include-regexp ("step-kms-plugin$")))))
 
     ;; TODO: update details ...

@@ -2548,9 +2548,6 @@ flatpak override --user $CURA_APP --filesystem=$CURA_HOME
 (use-modules (guix transformations)
              (ellipsis packages gnupg))
 
-;; TODO: eventually may need to map the transformation across the list/graph,
-;; but flatpak pulls in gnupg ... so use (package-input-rewriting/spec ...)
-
 ;; this returns a procedure
 (define transform-gnupg
   (options->transformation
@@ -2567,7 +2564,6 @@ flatpak override --user $CURA_APP --filesystem=$CURA_HOME
    (list gnupg2.3
          (transform-gnupg
           (specification->package "flatpak"))))))
-
 #+end_src
 
 ** Desktop Bin Profile

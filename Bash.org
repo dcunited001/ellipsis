@@ -565,7 +565,7 @@ so no need to set =-c= in $GUIX_BUILD_OPTIONS
 # export GUIX_BUILD_OPTIONS="-c6"
 
 # never again, wxPython ... never again
-GUIX_AUTOLOAD_PROFILES=(arch-pwsafe academic arch-devtools nyxt)
+GUIX_AUTOLOAD_PROFILES=(arch-pwsafe academic arch-devtools nyxt k8s)
 if [ -z "$GUIX_ARCH_LOADED" ]; then
     guix_arch_load ${GUIX_AUTOLOAD_PROFILES[@]}
     export GUIX_ARCH_LOADED=${GUIX_AUTOLOAD_PROFILES[@]}
@@ -1775,6 +1775,39 @@ alias @terminator='terminator --title "\$${__title:-TERM}"'
 
 *** Functions
 
+**** Completion
+
+See [[https://www.gnu.org/software/bash/manual/html_node/Programmable-Completion-Builtins.html][Programmable Completion Builtins]]
+
+#+begin_src sh :tangle .config/sh/rc.d/completions.sh :shebang #!/bin/sh
+bash_completion_guix_system() {
+    # this will also source completions in ~/.config/bash_completion
+    local __completion="/run/current-system/profile/etc/profile.d/bash_completion.sh"
+    if [[ -r "$__completion" ]]; then
+        source "$__completion"
+    fi
+}
+
+tre() {
+    local -a tree_opts=()
+    local -a tree_args=()
+
+    while [ "$#" -gt 0 ]; do
+        if [[ "$1" = "--" ]]; then
+            shift 1
+            tree_opts=$@
+            break;
+        fi
+        tree_args+=($1)
+        shift 1
+    done
+
+    echo ${tree_opts[@]}
+    echo ${tree_args[@]}
+}
+#+end_src
+
+
 **** Aliases
 
 
@@ -1825,7 +1858,6 @@ tre() {
     echo ${tree_opts[@]}
     echo ${tree_args[@]}
 }
-
 #+end_src
 
 #+begin_src sh :tangle .config/sh/rc.d/aliases.sh :shebang #!/bin/sh

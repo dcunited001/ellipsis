@@ -1,0 +1,12 @@
+#!/bin/sh
+
+if [[ $# -ne 1 ]]; then
+  echo "URL String required"
+  exit 1
+fi;
+
+url=$1
+printf "${url//%/\\x}"
+
+# echo $1 | sed -e 's/+/ /g' | sed -e 's/%../\x' ...
+# "${*//+/ }"; echo -e "${_//%/\\x}";

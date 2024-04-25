@@ -27,7 +27,7 @@
   #:use-module (gnu services authentication)
   #:use-module (gnu services security-token)
 
-
+  #:use-module (ellipsis packages gnupg)
   #:use-module (ellipsis packages tls)
   #:use-module (ellipsis packages emacs-xyz)
   #:use-module (ellipsis packages password-utils)
@@ -158,7 +158,7 @@
                    openssl
 
                    pcsc-lite
-                   gnupg
+                   gnupg2.3
 
                    ccid
                    yubico-piv-tool
@@ -179,8 +179,13 @@
                    nss-certs
 
                    gnutls
+
+                   ;; NOTE: step-kms-plugin should work if ldd discovers
+                   ;; pscscd via rpath
+                   step-kms-plugin-bin
                    step-ca-bin
                    step-cli-bin
+
                    certdata2pem
                    ;; desec-certbot-hook
 
