@@ -1,0 +1,145 @@
+diff --git a/ellipsis/services/vpn.scm b/ellipsis/services/vpn.scm
+index de54ecb..3020b2f 100644
+--- a/ellipsis/services/vpn.scm
++++ b/ellipsis/services/vpn.scm
+@@ -1,6 +1,33 @@
+ ;;; SPDX-License-Identifier: GPL-3.0-or-later
+ ;;; Copyright © 2020 Alexey Abramov <levenson@mmer.org>
+ 
++
++
++
++;; Code from ssouth on irc.libera.chat#guix
++;; (service (auto-start-disabled <service-type>) ...)
++;; FIXME: Services are auto started on reconfigure.
++
++;; (define (auto-start-disabled type)
++;;   "Returns a @code{service-type} record derived from @var{type} with any
++;; Shepherd services configured not to start automatically."
++;;   (service-type
++;;    (inherit type)
++;;    (extensions
++;;     (map (lambda (extension)
++;;            (let ((target (service-extension-target extension))
++;;                  (compute (service-extension-compute extension)))
++;;              (if (eq? target shepherd-root-service-type)
++;;                  (service-extension shepherd-root-service-type
++;;                                     (lambda (config)
++;;                                       (map (lambda (service)
++;;                                              (shepherd-service
++;;                                               (inherit service)
++;;                                               (auto-start? #f)))
++;;                                            (compute config))))
++;;                  extension)))
++;;          (service-type-extensions type)))))
++
+ (define-module (ellipsis services vpn)
+   #:use-module (gnu packages)
+   #:use-module (gnu services)
+@@ -11,6 +38,50 @@
+   #:use-module (nongnu packages vpn)
+   #:export (zerotier-one-service-type
+             zerotier-one-configuration))
++
++;; TODO: manage iptables/routing when zerotier is activated
++
++;; - add (service-extension activation-service-type zerotier-activation)?
++;; - or use something like static-networking-service-type
++;;   - may be able to depend on a static zerotier interface name https://harivemula.com/2021/09/18/routing-all-traffic-through-home-with-zerotier-on-travel/
++
++
++;; see systemd solution: https://vercas.com/2023/10/28/zerotier-hooks-linux.html
++
++
++
++
++;; https://github.com/zerotier/ZeroTierOne/blob/dev/doc/zerotier-one.8.md
++;;
++;; JSON Service: port 9993
++;; JSON Service: auth-token (saved in /var/lib/zerotier-one/)
++
++;; https://guix.gnu.org/manual/devel/en/guix.html#Complex-Configurations
++;; (field-name type-decl documentation option*)
++;; 
++;; option* is either:
++;; - empty-serializer,
++;; - (serializer serializer)
++;; - (sanitizer sanitizer)
++
++;; ---------------------------------------------
++
++;; this wasn't going to work
++
++;; (let ((zt-service (service zerotier-one-service-type))
++;;       (zt-service-type (service-type zerotier-one-zervice-type)))
++;;   (service))
++
++;; (service (make-service-type zerotier-one-service-type (list)))
++
++;; =============================================
++
++
++;; (define (serialize-boolean field-name val)
++;;   (serialize-field field-name (if val 1 0)))
++
++;; (define-configuration zerotier-one-configuration
++;;   (auto-start? (boolean #t) "Auto-start zerotier on boot."))
+  
+ (define-record-type* <zerotier-one-configuration>
+   zerotier-one-configuration make-zerotier-one-configuration
+@@ -61,3 +132,55 @@
+                  (list (service-extension shepherd-root-service-type
+                                           zerotier-one-shepherd-service)))
+                 (default-value (zerotier-one-configuration))))
++
++;; This style is deprecated. instantiate service with type
++;; 
++;; (define* (ellipsis-zerotier-one-service #:key (config (list)))
++;;   (service zerotier-one-service-type config))
++
++;; The data type representing a service managed by the Shepherd.
++
++;; provision
++
++;;     This is a list of symbols denoting what the service provides.
++
++;;     These are the names that may be passed to herd start, herd status, and similar commands (see Invoking herd in The GNU Shepherd Manual). See Defining Services in The GNU Shepherd Manual, for details.
++;; requirement (default: '())
++
++;;     List of symbols denoting the Shepherd services this one depends on.
++;; one-shot? (default: #f)
++
++;;     Whether this service is one-shot. One-shot services stop immediately after their start action has completed. See Slots of services in The GNU Shepherd Manual, for more info.
++;; respawn? (default: #t)
++
++;;     Whether to restart the service when it stops, for instance when the underlying process dies.
++;; respawn-limit (default: #f)
++
++;;     Set a limit on how many times and how frequently a service may be restarted by Shepherd before it is disabled. See Defining Services in The GNU Shepherd Manual, for details.
++;; respawn-delay (default: #f)
++
++;;     When true, this is the delay in seconds before restarting a failed service.
++;; start
++;; stop (default: #~(const #f))
++
++;;     The start and stop fields refer to the Shepherd’s facilities to start and stop processes (see Service De- and Constructors in The GNU Shepherd Manual). They are given as G-expressions that get expanded in the Shepherd configuration file (see G-Expressions).
++;; actions (default: '()) ¶
++
++;;     This is a list of shepherd-action objects (see below) defining actions supported by the service, in addition to the standard start and stop actions. Actions listed here become available as herd sub-commands:
++
++;;     herd action service [arguments…]
++
++;; auto-start? (default: #t)
++
++;;     Whether this service should be started automatically by the Shepherd. If it is #f the service has to be started manually with herd start.
++;; documentation
++
++;;     A documentation string, as shown when running:
++
++;;     herd doc service-name
++
++;;     where service-name is one of the symbols in provision (see Invoking herd in The GNU Shepherd Manual).
++;; modules (default: %default-modules)
++
++;;     This is the list of modules that must be in scope when start and stop are evaluated.
++

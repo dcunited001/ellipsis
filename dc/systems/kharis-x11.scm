@@ -264,7 +264,7 @@ EndSection
        %dc-nntp-service
        %kharis-openssh-service
 
-       zerotier-one-service-type
+       (service zerotier-one-service-type)
 
        (service pcscd-service-type)
        (udev-rules-service 'fido2 libfido2 #:groups '("plugdev"))
