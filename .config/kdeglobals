@@ -136,8 +136,8 @@ ForegroundPositive=113,247,159
 ForegroundVisited=179,13,191
 
 [DirSelect Dialog]
-DirSelectDialog Size=1300,780
-History Items[$e]=file:///data/xdg/Wallpapers/anime,file:///data/xdg/Wallpapers/,file:$HOME/.dotfiles
+DirSelectDialog Size=908,584
+History Items[$e]=file:///data/xdg,file:///data/xdg/Wallpapers/anime,file:///data/xdg/Wallpapers/,file:$HOME/.dotfiles
 
 [General]
 ColorSchemeHash=a054744e5da530142f039caa182148b170643d2e

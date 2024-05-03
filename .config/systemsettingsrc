@@ -22,8 +22,6 @@ Type=80
 UsageBar=448
 
 [KFileDialog Settings]
-Recent Files[$e]=file:$HOME/.dotfiles/.config/kratos.kksrc,file:$HOME/src/kde-shortcuts.kksrc,file:$HOME/.screenlayout/icc/lg_27gl850_user.icm,file:$HOME/.screenlayout/icc/samsung_u28d590d.icc,file:$HOME/.screenlayout/icc/lg_27gl850_native.icc,file:///data/xdg/Wallpapers/anime/blood-blockade-wallpaper.jpg,file:///data/xdg/Wallpapers/anime/ergo-proxy.jpg,file:///data/xdg/Wallpapers/anime/blood-blockade-leo-123.jpg
-Recent URLs[$e]=file:$HOME/.screenlayout/,file:$HOME/,file:///data/xdg/Wallpapers/anime/,file:///data/xdg/Wallpapers/,file:///data/xdg/Documents/,file:$HOME/.screenlayout/icc/,file:$HOME/src/
 detailViewIconSize=16
 iconViewIconSize=64
 listViewIconSize=64

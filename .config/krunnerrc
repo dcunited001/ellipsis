@@ -8,7 +8,7 @@ migrated=true
 [Plugins]
 PowerDevilEnabled=false
 appstreamEnabled=false
-baloosearchEnabled=false
+baloosearchEnabled=true
 calculatorEnabled=false
 desktopsessionsEnabled=false
 krunner_spellcheckEnabled=false

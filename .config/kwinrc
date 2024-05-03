@@ -32,9 +32,6 @@ Shift=true
 BorderActivateAll=9
 BorderActivateClass=1,5
 
-[ElectricBorders]
-Left=ActivityManager
-
 [Input]
 TabletMode=off
 
@@ -142,8 +139,11 @@ tiles={"layoutDirection":"horizontal","tiles":[{"width":0.25},{"width":0.5},{"wi
 [Tiling][ce8dac1e-46fa-524d-946b-a5a8ef55b651]
 tiles={"layoutDirection":"vertical","tiles":[{"height":0.4979166666666667},{"height":0.5020833333333332}]}
 
+[Tiling][d81b23e8-5f17-54d3-bdaa-46738b248d04]
+tiles={"layoutDirection":"horizontal","tiles":[{"width":0.3057291666666685},{"width":0.34088541666666294},{"width":0.35338541666666357}]}
+
 [Tiling][e91a902e-5437-541f-aca8-7bcdd0b3de65]
-tiles={"layoutDirection":"horizontal","tiles":[{"width":0.299609375},{"width":0.38242187499999997},{"width":0.31796875}]}
+tiles={"layoutDirection":"horizontal","tiles":[{"width":0.30195312500000004},{"width":0.3609375},{"width":0.33710937499999993}]}
 
 [Tiling][fb913d12-34d0-5259-9378-f641ec9e1635]
 tiles={"layoutDirection":"horizontal","tiles":[{"width":0.5203125},{"width":0.47968750000000004}]}

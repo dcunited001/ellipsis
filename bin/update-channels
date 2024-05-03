@@ -6,6 +6,10 @@ while [ "$1" != "" ]; do
             __substitute_urls="$2"
             shift 2
             ;;
+	-v|--verbosity)
+            verbosity="$2"
+            shift 2
+            ;;
         --)
           # shift # send the guix command additional args
           break
@@ -28,15 +32,15 @@ __substitute_urls=${__substitute_urls:-https://ci.guix.gnu.org https://bordeaux.
 notify-send -i important "GUIX (Channels)" "Updating Guix"
 
 guix pull -L $__ellipsis_channel \
+     --verbosity="${verbosity:-1}" \
      --channels=$HOME/.config/guix/base-channels.scm \
      --substitute-urls="$__substitute_urls" \
      $@
-guix describe --format=channels > ~/.config/guix/channels.scm
-
 status=$?
 
 if [ $status -eq 0 ]; then
-    notify-send -i important "GUIX (Channels)" "Update Complete"
+    guix describe --format=channels > ~/.config/guix/channels.scm
+    notify-send -i "${I_SUCCESS:-checkmark}" "GUIX (Channels)" "Update Complete"
 else
-    notify-send "GUIX (Channels)" "Failed: $profileName"
+    notify-send -i "${I_FAIL:-error}" "GUIX (Channels)" "Update Failed"
 fi

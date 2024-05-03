@@ -285,6 +285,8 @@ export WINIT_X11_SCALE_FACTOR=1
 **** TODO collect list of pacman packages installed explicitly
 ** Flatpak
 
+Install =flatseal=
+
 Here, flatpak will be configured to use a custom installation on another
 partition at =/flatpak/$USER=. To keep the flatpak app state on the same
 partition, link =$HOME/.var= to =$FLATPAK_USER_VAR=.
@@ -310,9 +312,6 @@ export FLATPAK_CONFIG_DIR=/etc/flatpak
 
 #+end_src
 
-***** TODO figure out how to call xdg-open for flatpak apps
-
-
 *** The Goal
 
 After creating & mounting a =/flatpak= disk, syncthing can push centrally
@@ -328,7 +327,7 @@ updates to new flatpak installations to =/flatpak/syncpak123=:
 + Then the custom flatpak installations can be linked into the local system via
   =stow=, where a few modifications to =XDG= vars will pick them up.
 
-  This method has not been tested yet. However, since they are plain binaries, then they should be syncable.
+This method has not been tested yet. However, since they are plain binaries, then they should be syncable.
 
 ** Steam & Proton
 
@@ -368,7 +367,6 @@ flatpak --installation=steam remote-add --if-not-exists flathub-beta https://fla
 flatpak --installation=steam install flathub com.valvesoftware.Steam
 flatpak --installation=steam install flathub com.valvesoftware.Steam.CompatibilityTool.Proton
 #+end_src
-
 
 **** Issues
 
@@ -925,6 +923,7 @@ export PYENV_POETRY_VENV=poetry
 export PYENV_ROOT="$_LANG/.pyenv"
 command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
 eval "$(pyenv init -)"
+source "${PYENV_ROOT}/completions/pyenv.bash"
 #+end_src
 
 + Install new pythons with =pyenv install 3.11.3= and see below for optimizations.
@@ -2128,6 +2127,8 @@ if [ -f $HOME/.profile ]; then . $HOME/.profile; fi
 #+end_src
 
 ** Zsh
+
+** Scripts
 
 * Environment
 

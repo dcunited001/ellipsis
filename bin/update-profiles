@@ -5,6 +5,10 @@ GREEN='\033[1;32m'
 NC='\033[0m'
 GUIX_EXTRA_PROFILES=$HOME/.guix-extra-profiles
 
+# these are defined in bash profile
+# I_SUCCESS=emblem-success
+# I_FAIL=emblem-error
+
 __profiles=""
 __substitute_urls=""
 while [ "$1" != "" ]; do
@@ -49,5 +53,10 @@ for profile in $__profiles; do
        --substitute-urls="$__substitute_urls" \
        $@
 
-  notify-send "GUIX (Update Profile)" "Complete: $profileName"
+  status=$?
+  if [[ $status -eq 0 ]] then
+      notify-send -i "${I_SUCCESS:-checkmark}" "GUIX (Update Profile)" "Complete: $profileName"
+  else
+      notify-send -i "${I_FAIL:-error}" "GUIX (Profile)" "Failed: $profileName"
+  fi
 done

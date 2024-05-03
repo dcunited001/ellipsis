@@ -14,7 +14,7 @@ stow .
 
 status=$?
 if [ $status -eq 0 ]; then
-    notify-send -i emblem-default "Dotfiles" "Update Complete"
+    notify-send -i "${I_SUCCESS:-checkmark}" "Dotfiles" "Update Complete"
 else
-    notify-send -i emblem-important "Dotfiles" "Update failed"
+    notify-send -i "${I_ERROR:-error}" "Dotfiles" "Update failed"
 fi

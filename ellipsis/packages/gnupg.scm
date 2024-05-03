@@ -114,6 +114,50 @@ written in standard perl modules, but can integrate with Ansible Vault.")
 ;; upgraded to get gpg-card and potentially fix some issues. they're fixed
 ;; and if the tests are passing ... then you can roll your own crypto?
 
+;; TODO: work in progress....
+(define-public gnupg2.4
+  (package
+    (inherit gnupg)
+    (name "gnupg2.4")
+    (version "2.4.5")
+    (source (origin
+              (method url-fetch)
+              (uri (string-append "mirror://gnupg/gnupg/gnupg-" version
+                                  ".tar.bz2"))
+              (patches (search-patches "gnupg-default-pinentry.patch"))
+              (sha256
+               (base32
+                "1vb99657wxbizdskw0pxh0m568805ql1llpg23xn38kxwm07l2sl"))))
+    (inputs
+     (modify-inputs (package-inputs gnupg)
+       (append
+        ;; libldap
+        bzip2
+        libusb)))
+    (arguments
+     (substitute-keyword-arguments
+         (package-arguments gnupg)
+       ((#:phases phases)
+        #~(modify-phases #$phases
+            (replace 'patch-test-paths
+              (lambda _
+                (substitute*
+                    '("tests/Makefile"
+                      "tests/cms/inittests"
+                      "tests/cms/Makefile"
+                      "tests/pkits/inittests"
+                      "tests/pkits/common.sh"
+                      "tests/pkits/Makefile")
+                  ;; (("/bin/pwd") (which "pwd"))
+                  (("/bin/pwd") (string-append #$output "/bin/pwd")))
+                (substitute* "common/t-exectool.c"
+                  ;; (("/bin/cat") (which "cat"))
+                  ;; (("/bin/true") (which "true"))
+                  ;; (("/bin/false") (which "false"))
+                  (("/bin/cat") (string-append #$output "/bin/cat"))
+                  (("/bin/true") (string-append #$output "/bin/true"))
+                  (("/bin/false") (string-append #$output "/bin/false")))))))))))
+
 (define-public gnupg2.3
   (package
     (inherit gnupg)
