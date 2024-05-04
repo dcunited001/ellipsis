@@ -2,12 +2,19 @@
 update_info=spectacle_clipboard.upd:clipboard-settings-change,spectacle_rememberregion.upd:spectacle-migrate-rememberregion
 
 [Annotations]
-annotationToolType=1
+annotationToolType=9
 arrowStrokeColor=0,255,0
+ellipseShadow=false
+ellipseStrokeColor=255,0,0
 freehandStrokeColor=0,255,0
-rectangleStrokeColor=0,255,255
+rectangleShadow=false
+rectangleStrokeColor=255,0,0
+rectangleStrokeWidth=3
+textFont=Noto Sans,14,-1,0,400,0,0,0,0,0,0,0,0,0,0,1
 
 [FileDialogSize]
+4 screens: Height=1440
+4 screens: Width=864
 DisplayPort-0 DisplayPort-1 DisplayPort-2 Height 1080x1920 DisplayPort-1=1020
 DisplayPort-0 DisplayPort-1 DisplayPort-2 Width 1080x1920 DisplayPort-1=884
 DisplayPort-2 DisplayPort-0 DisplayPort-1 Height 1440x2560 DisplayPort-1=1340
@@ -18,8 +25,8 @@ DisplayPort-2 DisplayPort-0 DisplayPort-1 Width 2160x3840 DisplayPort-1=1100
 [General]
 autoSaveImage=true
 clipboardGroup=PostScreenshotCopyLocation
-onLaunchAction=UseLastUsedCapturemode
-rememberLastRectangularRegion=2
+launchAction=UseLastUsedCaptureMode
+rememberSelectionRect=2
 useReleaseToCapture=true
 
 [GuiConfig]
@@ -31,14 +38,16 @@ quitAfterSaveCopyExport=true
 window-position=106,1882
 
 [ImageSave]
+imageFilenameTemplate=Screenshot_<yyyy>-<MM>-<dd>_<hh>-<mm>-<ss>
+lastImageSaveAsLocation=file:///data/org/rants/discord-user-list4.png
+lastImageSaveLocation=file:///data/xdg/Pictures/Screenshots/Screenshot_2024-04-26_12-11-40.jpeg
+preferredImageFormat=JPEG
 translatedScreenshotsFolder=Screenshots
 
 [KFileDialog Settings]
+Recent Files[$e]=file:///data/org/rants/discord-user-list4.png
+Recent URLs[$e]=file:///data/org/rants/,file:$HOME/
 detailViewIconSize=16
-
-[Save]
-defaultSaveImageFormat=JPEG
-saveFilenameFormat=Screenshot_%T_%Y_%M_%D_%H%m%S
 
 [VideoSave]
 translatedScreencastsFolder=Screencasts
