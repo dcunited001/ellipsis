@@ -110,11 +110,21 @@ as ASCII-armored messages to keyring for the project.  The regpg tool is
 written in standard perl modules, but can integrate with Ansible Vault.")
       (license license:gpl3))))
 
+(define-public libgpg-error1.46
+  (package
+    (inherit libgpg-error)
+    (name "libgpg-error1.46")
+    (version "1.46")
+    (source
+     (origin
+       (method url-fetch)
+       (uri (string-append "mirror://gnupg/libgpg-error/libgpg-error-"
+                           version ".tar.bz2"))
+       (sha256
+        (base32
+         "1396h4f9z9awzkkyb6iwspy2rmxb8nr47pj8fzrmxgkb4ij1mqdp"))))))
 
-;; upgraded to get gpg-card and potentially fix some issues. they're fixed
-;; and if the tests are passing ... then you can roll your own crypto?
 
-;; TODO: work in progress....
 (define-public gnupg2.4
   (package
     (inherit gnupg)
@@ -127,36 +137,50 @@ written in standard perl modules, but can integrate with Ansible Vault.")
               (patches (search-patches "gnupg-default-pinentry.patch"))
               (sha256
                (base32
-                "1vb99657wxbizdskw0pxh0m568805ql1llpg23xn38kxwm07l2sl"))))
+                "0xs2yjb2yy39r2vvq57achznqhwpmx2dhd3d6df67cbcs1spv3zn"))))
     (inputs
      (modify-inputs (package-inputs gnupg)
+       (delete "libgpg-error")
        (append
         ;; libldap
+        libgpg-error1.46
         bzip2
         libusb)))
     (arguments
      (substitute-keyword-arguments
          (package-arguments gnupg)
+
+       ;; the readme instructs to run ../configure from the build directory
+       ;; now. this requires setting #out-of-source?
+       ((#:out-of-source? _ #f) #t)
        ((#:phases phases)
         #~(modify-phases #$phases
+            ;; these test files aren't in the ./build directory and now need
+            ;; to be patched separately, otherwise neither substitute* nor
+            ;; mkstemp! can find the files.
+            (add-after 'patch-paths 'patch-test-source-paths
+              (lambda _
+                (substitute*
+                    '("../gnupg-2.4.5/tests/cms/inittests"
+                      "../gnupg-2.4.5/tests/pkits/inittests"
+                      "../gnupg-2.4.5/tests/pkits/common.sh")
+                  (("/bin/pwd") (string-append #$output "/bin/pwd")))
+                (substitute*
+                    "../gnupg-2.4.5/common/t-exectool.c"
+                  (("/bin/cat") (string-append #$output "/bin/cat"))
+                  (("/bin/true") (string-append #$output "/bin/true"))
+                  (("/bin/false") (string-append #$output "/bin/false")))))
             (replace 'patch-test-paths
               (lambda _
                 (substitute*
                     '("tests/Makefile"
-                      "tests/cms/inittests"
                       "tests/cms/Makefile"
-                      "tests/pkits/inittests"
-                      "tests/pkits/common.sh"
                       "tests/pkits/Makefile")
-                  ;; (("/bin/pwd") (which "pwd"))
                   (("/bin/pwd") (string-append #$output "/bin/pwd")))
-                (substitute* "common/t-exectool.c"
-                  ;; (("/bin/cat") (which "cat"))
-                  ;; (("/bin/true") (which "true"))
-                  ;; (("/bin/false") (which "false"))
-                  (("/bin/cat") (string-append #$output "/bin/cat"))
-                  (("/bin/true") (string-append #$output "/bin/true"))
-                  (("/bin/false") (string-append #$output "/bin/false")))))))))))
+                ))))))))
+
+;; upgraded to get gpg-card and potentially fix some issues. they're fixed
+;; and if the tests are passing ... then you can roll your own crypto?
 
 (define-public gnupg2.3
   (package
@@ -203,6 +227,8 @@ written in standard perl modules, but can integrate with Ansible Vault.")
 
 ;; X: has package
 ;; Guix version (req. version)
+
+;; GnuPG 2.3.8 notes
 
 ;; (list gnutls       ;; x 3.7.7  (3.0)
 ;;       libassuan    ;; x 2.5.5  (2.5)
