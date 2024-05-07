@@ -158,7 +158,7 @@
                    openssl
 
                    pcsc-lite
-                   gnupg2.3
+                   gnupg2.4
 
                    ccid
                    yubico-piv-tool

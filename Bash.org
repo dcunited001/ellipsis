@@ -443,7 +443,7 @@ export GUIX_EXTRA=$HOME/.guix-extra-profiles
 if [[ -z $GUIX_AUTOLOAD_PROFILES ]]; then
     GUIX_AUTOLOAD_PROFILES=(i3 desktop fonts browsers xkb pipewire \
                                mon devtools academic office cad kicad \
-                               pythondev)
+                               pythondev k8s)
 fi
 
 for i in ${GUIX_AUTOLOAD_PROFILES[@]}; do

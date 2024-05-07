@@ -2551,7 +2551,7 @@ flatpak override --user $CURA_APP --filesystem=$CURA_HOME
 ;; this returns a procedure
 (define transform-gnupg
   (options->transformation
-   '((with-graft . "gnupg=gnupg2.3"))))
+   '((with-graft . "gnupg=gnupg2.4"))))
 
 (concatenate-manifests
  (list
@@ -2561,7 +2561,7 @@ flatpak override --user $CURA_APP --filesystem=$CURA_HOME
      ))
 
   (packages->manifest
-   (list gnupg2.3
+   (list gnupg2.4
          (transform-gnupg
           (specification->package "flatpak"))))))
 #+end_src
