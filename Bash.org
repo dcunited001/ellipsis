@@ -2235,6 +2235,7 @@ if [ -f $HOME/.profile ]; then . $HOME/.profile; fi
 ;;** data vis
   "plantuml"
   "graphviz"
+  "d2-bin"
 
 ;;** ssh
   "openssh"
