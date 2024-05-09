@@ -30,5 +30,5 @@ switch-to-session-9=Alt+9; Alt+(
 
 [Window]
 DynamicTabTitles=true
-Screen=3
+Screen=1
 ShowOnAllDesktops=false

@@ -33,6 +33,7 @@ FillMode=2
 Provider=wcpotd
 
 [Containments][279]
+ItemGeometries-1600x2560=
 ItemGeometries-1620x2880=
 ItemGeometriesVertical=
 activityId=bc3cdced-7201-4291-a43c-fe3ef12080c2
@@ -93,8 +94,8 @@ plugin=org.kde.plasma.kickoff
 
 [Containments][281][Applets][282][Configuration]
 PreloadWeight=100
-popupHeight=597
-popupWidth=766
+popupHeight=542
+popupWidth=711
 
 [Containments][281][Applets][282][Configuration][ConfigDialog]
 DialogHeight=540
@@ -193,9 +194,9 @@ plugin=org.kde.plasma.systemmonitor.cpucore
 
 [Containments][281][Applets][308][Configuration]
 CurrentPreset=org.kde.plasma.systemmonitor
-PreloadWeight=60
-popupHeight=446
-popupWidth=588
+PreloadWeight=100
+popupHeight=468
+popupWidth=610
 
 [Containments][281][Applets][308][Configuration][Appearance]
 chartFace=org.kde.ksysguard.barchart
@@ -278,7 +279,7 @@ plugin=org.kde.plasma.systemmonitor.net
 
 [Containments][281][Applets][310][Configuration]
 CurrentPreset=org.kde.plasma.systemmonitor
-PreloadWeight=100
+PreloadWeight=90
 popupHeight=222
 popupWidth=184
 
@@ -312,8 +313,8 @@ plugin=org.kde.plasma.systemmonitor.memory
 [Containments][281][Applets][311][Configuration]
 CurrentPreset=org.kde.plasma.systemmonitor
 PreloadWeight=100
-popupHeight=346
-popupWidth=206
+popupHeight=324
+popupWidth=184
 
 [Containments][281][Applets][311][Configuration][Appearance]
 chartFace=org.kde.ksysguard.linechart
@@ -333,8 +334,8 @@ memory/swap/free=14,210,41
 memory/swap/total=14,210,24
 
 [Containments][281][Applets][311][Configuration][Sensors]
-highPrioritySensorIds=["memory/physical/used","memory/physical/application","memory/physical/buffer","memory/physical/cache"]
-lowPrioritySensorIds=["memory/physical/total","memory/swap/total","memory/physical/free"]
+highPrioritySensorIds=["memory/physical/used","memory/physical/application","memory/physical/buffer","memory/physical/cache","memory/physical/free"]
+lowPrioritySensorIds=["memory/physical/total","memory/swap/total","memory/physical/free","memory/swap/free"]
 totalSensors=["memory/physical/usedPercent"]
 
 [Containments][281][Applets][311][Configuration][org.kde.ksysguard.linechart][General]
@@ -383,8 +384,8 @@ plugin=org.kde.plasma.systemmonitor
 [Containments][281][Applets][321][Configuration]
 CurrentPreset=org.kde.plasma.systemmonitor
 PreloadWeight=100
-popupHeight=238
-popupWidth=178
+popupHeight=227
+popupWidth=167
 
 [Containments][281][Applets][321][Configuration][Appearance]
 chartFace=org.kde.ksysguard.linechart
@@ -437,8 +438,8 @@ plugin=org.kde.plasma.systemmonitor
 
 [Containments][281][Applets][323][Configuration]
 CurrentPreset=org.kde.plasma.systemmonitor
-PreloadWeight=100
-popupHeight=315
+PreloadWeight=95
+popupHeight=293
 popupWidth=167
 
 [Containments][281][Applets][323][Configuration][Appearance]
@@ -610,7 +611,7 @@ immutability=1
 plugin=org.kde.plasma.mediacontroller
 
 [Containments][290][Applets][317][Configuration]
-PreloadWeight=5
+PreloadWeight=0
 
 [Containments][290][General]
 extraItems=org.kde.kdeconnect,org.kde.kscreen,org.kde.plasma.battery,org.kde.plasma.bluetooth,org.kde.plasma.clipboard,org.kde.plasma.devicenotifier,org.kde.plasma.keyboardindicator,org.kde.plasma.keyboardlayout,org.kde.plasma.manage-inputmethod,org.kde.plasma.mediacontroller,org.kde.plasma.networkmanagement,org.kde.plasma.notifications,org.kde.plasma.vault,org.kde.plasma.volume,org.kde.plasma.brightness,org.kde.plasma.cameraindicator
