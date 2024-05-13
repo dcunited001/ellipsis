@@ -41,6 +41,14 @@ subkeys and RSA sucks so the files are larger.
 [[https://blogs.gentoo.org/mgorny/2018/05/12/on-openpgp-gnupg-key-management/][Leave it to the Gentoo guys]] to answer your questions. You can use multiple
 yubikeys, but only use one set of subkeys.
 
+*** Packets
++ [[https://www.ietf.org/archive/id/draft-koch-openpgp-2015-rfc4880bis-02.html#name-packet-tags][PGP Packet Tags]] (from IETF manual)
+
+Only the session key is included in the gpg message packets. The structure of
+the session key is dependent on the encryption algorithm, but it seems these
+keys are created per-message. The subkey ID will be included unless the
+=throw-keyid= option is set.
+
 ** GPG Agent
 
 See [[https://www.gnupg.org/documentation/manuals/gnupg/Agent-Protocol.html][Agent ASSUAN protocol]] for other things like:
