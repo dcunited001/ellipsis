@@ -77,6 +77,13 @@ guess since no one customizes anything and the GUI does most of it for them.
 *** Scute: PCKS#11 with =gpg-agent=
 + [[https://www.gnupg.org/documentation/manuals/scute.pdf][Scute manual]]
 
+*** Kleopatra
+
++ [[https://www.reddit.com/r/yubikey/comments/p1zvac/signature_public_key_not_found_locally/][Signature Public Key not found locally]] for me, it's my encryption
+  key. Everything seems normal in =gpg --card-status= and =gpg-card=. However,
+  =gpg -d= always iterates through subkeys when it decrypts, which i suspect
+  may be the issue.
+
 *** Emacs
 + [[https://www.gnu.org/software/emacs/manual/html_mono/auth.html][auth-source]]
 

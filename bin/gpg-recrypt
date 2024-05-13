@@ -1,70 +1,76 @@
 #!/bin/sh
 
-# TODO: support -- --passing --args to/gnupg
+# It was a bit difficult to structure the CLI here without creating
+# unnecessary abstractions. I wanted to allow passing of GPG options to its
+# invocations in the script, where it makes sense. ultimately, i need this to
+# work on many files at once! so I shoehorned the -g <gpg-args> option below.
+
+# --multifile --encrypt/decrypt may help
+
+# also, testing that gpg is creating the encryption output using both subkeys
+# is a bit complicated, as it's silently refusing to encrypt with the expired
+# subkeys on my Yubikey.
 
 _print_usage() {
-    echo "`basename $0` [+-o <output>] [+-r <recipient1>]  [+-R <recipient2>] <file>"
-    echo
-    echo "supports only one file for now."
-    echo
-    echo "  both recipient arguments will be passed to gpg via -r"
-    echo
-    echo "  recipient1: the recipient to which data is currently encrypted."
-    echo "  recipient2: the new recipient, probably a subkey fingerprint."
-    echo
-    echo "use `-o -` to write to STDOUT."
-    echo
-    echo "  if output is omitted, command writes to STDOUT."
-    echo "  if output is a directory, recrypted content will be saved as $output/$file"
-    echo
+    # apparently, this should be echo >&2
+
+    echo >&2 "`basename $0` [+-o <directory>] [+-r <recipient1] [+-R <recipient2>] [+-g <gpg-args>] FILES"
+    echo >&2
+    echo >&2 "Recrypted content will be saved as $output/$file."
+    echo >&2
+    echo >&2 "Using -g requires that 'gpgargs' is quoted."
+    echo >&2
+    echo >&2 "Using -o is required."
+    echo >&2
+    echo >&2 "Both recipient arguments will be passed to gpg via -r"
+    echo >&2 "  recipient1: the recipient to which data is currently encrypted."
+    echo >&2 "  recipient2: the new recipient, probably a subkey fingerprint."
 }
 
+# output=-
+output=
 recip1=
 recip2=
-output=-
-# output_is_dir=
+gpgargs=()
 
-while getopts :o:r:R: OPT; do
+while getopts :g:o:r:R: OPT; do
     case $OPT in
-        o|+o)
-            output="$OPTARG"
-            ;;
-        r|+r)
-            recip1="$OPTARG"
-            ;;
-        R|+R)
-            recip2="$OPTARG"
-            ;;
-        --)
-            break
-            ;;
-        *)
-            _print_usage
-            exit 2
+        # maybe slightly unsafe
+        g|+g) gpgargs=($OPTARG);;
+        o|+o) output="$OPTARG";;
+        r|+r) recip1="$OPTARG";;
+        R|+R) recip2="$OPTARG";;
+        *) _print_usage; exit 2
     esac
 done
 
 shift `expr $OPTIND - 1`
 OPTIND=1
 
-input=$1
+FILES=("$@")
 
 # for now, just mandate both recipients (maybe later: infer first)
 if [ -z "$recip1" ] || [ -z "$recip2" ]; then
     _print_usage
-    echo
-    echo "Recipients are required"
+    echo >&2
+    echo >&2 "Recipients are required"
     exit 2
 fi
 
-if [ -d "$output" ]; then
-    gpg -r $recip1 -d $file | gpg -r $recip2 -e
-else
-    gpg -r $recip1 -d $file |
+if [ ! -d "$output" ]; then
+    _print_usage
+    echo >&2
+    echo >&2 "Output directory must exist"
+    exit 2
 fi
 
-# gpg -r "David Conner <aionfork@gmail.com>"
-#     -d ~/.env/aionfork.authinfo.gpg  |
-# gpg -r "5AA3269777368E0F" -e --armor
+if [ ${#FILES[@]} -lt 1 ]; then
+    echo >&2 "One or more files are required"
+    exit 2
+fi
 
-echo $output $recip1 $recip2
+for f in ${FILES[@]}; do
+    fnew="$output/$(basename $f)"
+    gpg -r "$recip1" ${gpgargs[@]} -d "$f" |
+        gpg -r "$recip1" -r "$recip2" ${gpgargs[@]} -o "$fnew" -e
+done
