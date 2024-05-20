@@ -2242,6 +2242,11 @@ if [ -f $HOME/.profile ]; then . $HOME/.profile; fi
   "openssl"
   "rsync"
 
+;;** pass
+  "password-store"
+  "age"
+  "pass-age"
+
 ;;** compression
   "zip"
   "unzip"

@@ -15,6 +15,7 @@ guix shell -CNF -m $manifest \
   --user=dc \
   --preserve='^XDG_CONFIG_HOME$' --preserve='^PATH$' \
   --preserve='^DISPLAY$' --preserve='^XAUTHORITY$' --preserve='^DBUS_' \
+  --preserve='^APPDIR' \
   --share=/run/current-system/profile --share="$HOME"   \
   --share=/run/user/1000/gdm/Xauthority \
   --share=/sys/dev --share=/sys/devices --share=/tmp \
