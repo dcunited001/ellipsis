@@ -2247,7 +2247,7 @@ if [ -f $HOME/.profile ]; then . $HOME/.profile; fi
   "age"
   "pass-age"
   "age-plugin-yubikey-bin"
-  "sops-bin"
+  "sops"
 
 ;;** compression
   "zip"

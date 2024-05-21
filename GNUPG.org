@@ -974,6 +974,105 @@ gpg-connect-agent "DELETE_KEY $keygrip" /bye
 # or rm ~/.gnupg/private-keys-v1.d/$keygrip.key
 #+end_src
 
+* Pass
+
+** Advantages
+
+Beyond the KISS and ecosystem, there are a few process-related advantages to
+pass:
+
+*** Pass is designed around the filesystem
+
+This mirrors the tree of groups. Working with multiple formats will require
+tree traversal ... so Bash is helpful, though Python is recommended.
+
+*** Pass is helpful as a unit of exchange
+
+When converting between one password format and another. As long as there is a
+CLI for a password manager that will output passwords metadata to =STDOUT= or
+reads them via =readline=, then you can migrate from it.
+
+*** Writing to the pass format doesn't require secrets
+
+This means you can read from your =pwsafe= or =1password= and write to the
+pass format with the public key.
+
++ Then when you send data over the network, you just need to expect to have
+  secrets available there -- i.e. you won't need specific software on that
+  system & you don't need to worry about ports/DNS unblocked/monitored. You
+  will likely need a GnuPG keyring available on that system to access the
+  public key (see [[https://lists.gnupg.org/pipermail/gnupg-users/2010-March/038555.html][this]]).
++ If public keys are a problem, you can use a =GNUPGHOME= within =/tmp= or
+  something. Or =pass-age= may work better here, since there's less metadata
+  assoc with the keys.
+
+If you don't have the =pass= binary available, it's just the file system, so
+something like =MUH_SECRET=$(gpg -d $muh_file | head -n1)= works
+
+*** Pass works well for a single user
+
+The file-based nature of pass means the git diffs can help you understand
+which secrets have changed.
+
++ Except for the file-system metadata which exposes a bit of info about how
+  you organize secrets, then info about usernames/etc isn't exposed.
++ As long as you have =throw-keyids= set when you write secrets, then it's
+  impossible to what public keys encrypted the files (though it will slow you
+  down a bit).
+
+*** You can store secrets in Git without a Forge
+
+Using some of the Remote URL's available to =git=, you don't necessarily need
+to merge your updates to secrets into a Git Forge (see [[https://git-scm.com/book/en/v2/Git-on-the-Server-The-Protocols][Git Protocols]])
+
++ You should identitfy which remote available to your git checkouts is the
+  most authoritative: a "source of truthiness." You will likely need SSH
+  public keys set up on the machines you're moving to though.
++ Unlike most git workflows, however, this is a decentralized workflow. Still,
+  each checkout should have a =master= branch and (because the commits involve
+  opaque whole-file encrypted data) then your work should occur on a branch
+  other than master. For other small branches where the =pull.rerere= works,
+  then you can usually work on a single branch, but there's no easy way for
+  merge/rebase conflicts to be resolved via diff content here.
+
+*** The Memory Footprint of Secrets Read Via Pass Is Easier to Manage
+
+When the processes that have read GPG secrets are terminated, then things like
+an open =dbus= can't really expose you, though an unterminated =gpg-agent= or
+open socket may.
+
++ When you read secrets into environment variables, then they may be exported
+  to child processes or even available in the =ps= output (or the =/proc=
+  equivalent). The =docker= and =docker-compose= means of using =.env= files
+  is probably safe (from the aforementioned mechanisms of secrets extraction),
+  but that process has been standardized ... it involves quite a bit of
+  tooling where code quality has many eyeballs.
++ However, AFAIK, using the =<(process substitution)= creates FD's that expire
+  quickly, provided that the reading process can determine that the FD is no
+  longer needed for that process. This assertion depends on whether the kernel
+  can tell that a process has no remaining links to file descriptors -- and if
+  so, again, code quality ... since likely the process would need to say "hey
+  kernel, i'm done with this". NO FUCKING NODEJS BINARY WILL DO THIS FOR YOU.
+
+So TL;DR; the processes you want to have read the secret will have it in
+memory.  When those processes end, the memory can no longer be accessed.
+
+** Emacs
+
+These packages seem minimalistic & helpful:
+
++ [[password-store.el]] in the same git repo as =password-store= itself.
++ auth-source-pass
++ [[https://github.com/NicolasPetton/pass/tree/master][NicolasPetton/pass]] this provides =pass-view-mode= which helps manage the
+  secrets in Emacs, though you likely want this functionality enabled on an
+  as-needed basis.
+
+** Migration
+
+*** TODO From pwSafe
+
+Describe migrating via Loxodo
+
 * Emacs
 
 ** Loading the profile
