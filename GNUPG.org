@@ -1060,7 +1060,8 @@ open socket may.
   longer needed for that process. This assertion depends on whether the kernel
   can tell that a process has no remaining links to file descriptors -- and if
   so, again, code quality ... since likely the process would need to say "hey
-  kernel, i'm done with this". NO FUCKING NODEJS BINARY WILL DO THIS FOR YOU.
+  kernel, i'm done with this". Maybe NodeJS binaries with sensible handling
+  for FD's will do this, but most do not support procsub. Microsoft is a fan.
 
 So TL;DR; the processes you want to have read the secret will have it in
 memory.  When those processes end, the memory can no longer be accessed.

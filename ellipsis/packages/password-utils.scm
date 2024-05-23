@@ -1,14 +1,19 @@
 (define-module (ellipsis packages password-utils)
+  #:use-module ((guix licenses) #:prefix license:)
+
   #:use-module (guix gexp)
   #:use-module (guix download)
   #:use-module (guix git-download)
+  #:use-module (guix packages)
 
-  #:use-module (guix build-system trivial)
-  #:use-module (guix build-system copy)
-
-  #:use-module ((guix licenses) #:prefix license:)
+  #:use-module (guix build-system python)
 
   #:use-module (gnu packages)
+  #:use-module (gnu packages guile)
+  #:use-module (gnu packages gnupg)
+  #:use-module (gnu packages password-utils)
+  #:use-module (gnu packages python-xyz)
+
   #:use-module (gnu packages rust))
 
 (define-public shroud-nox
