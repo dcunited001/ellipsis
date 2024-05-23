@@ -8,10 +8,13 @@
 
   #:use-module (guix build-system trivial)
   #:use-module (guix build-system copy)
+  #:use-module ((guix build gnu-build-system) :prefix gnu:)
 
   #:use-module (gnu packages base)
   #:use-module (gnu packages java)
   #:use-module (gnu packages perl)
+
+  #:use-module (nonguix build-system chromium-binary)
 
   #:use-module (srfi srfi-1))
 

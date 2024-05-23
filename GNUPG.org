@@ -46,8 +46,16 @@ yubikeys, but only use one set of subkeys.
 
 Only the session key is included in the gpg message packets. The structure of
 the session key is dependent on the encryption algorithm, but it seems these
-keys are created per-message. The subkey ID will be included unless the
-=throw-keyid= option is set.
+keys are created per-message.
+
+This command dumps the session key.
+
+#+begin_src sh
+gpg -vv --show-session-key --list-packets $gpg_crypted_file
+#+end_src
+
+
++ The subkey ID will be included unless the =throw-keyid= option is set.
 
 ** GPG Agent
 
