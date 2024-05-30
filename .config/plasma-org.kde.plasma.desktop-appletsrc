@@ -5,6 +5,15 @@ RightButton;NoModifier=org.kde.contextmenu
 [ActionPlugins][1]
 RightButton;NoModifier=org.kde.contextmenu
 
+[Containments][140][Wallpaper][org.kde.potd][General]
+FillMode=2
+Provider=wcpotd
+
+[Containments][140][Wallpaper][org.kde.slideshow][General]
+Image=file:///data/xdg/Wallpapers/anime/kakegurui.png
+SlidePaths=/data/xdg/Wallpapers/anime/
+UncheckedSlides=/data/xdg/Wallpapers/anime/blood-blockade-leonardo-2a.jpg
+
 [Containments][278]
 ItemGeometries-2560x1440=
 ItemGeometriesHorizontal=
@@ -75,9 +84,7 @@ ToolBoxButtonState=topcenter
 ToolBoxButtonX=202
 
 [Containments][280][Wallpaper][org.kde.slideshow][General]
-Image=file:///data/xdg/Wallpapers/anime/blood-blockade-leo-123.jpg
-SlidePaths=/data/xdg/Wallpapers/anime/
-UncheckedSlides=/data/xdg/Wallpapers/anime/blood-blockade-leonardo-2a.jpg
+Image=file:///usr/share/wallpapers/garuda-wallpapers/wp-waben-01-sgs.png
 
 [Containments][281]
 activityId=
@@ -94,8 +101,8 @@ plugin=org.kde.plasma.kickoff
 
 [Containments][281][Applets][282][Configuration]
 PreloadWeight=100
-popupHeight=542
-popupWidth=711
+popupHeight=531
+popupWidth=755
 
 [Containments][281][Applets][282][Configuration][ConfigDialog]
 DialogHeight=540
@@ -152,9 +159,9 @@ immutability=1
 plugin=org.kde.plasma.digitalclock
 
 [Containments][281][Applets][287][Configuration]
-PreloadWeight=90
-popupHeight=450
-popupWidth=810
+PreloadWeight=95
+popupHeight=461
+popupWidth=821
 
 [Containments][281][Applets][287][Configuration][Appearance]
 autoFontAndSize=false
@@ -195,8 +202,8 @@ plugin=org.kde.plasma.systemmonitor.cpucore
 [Containments][281][Applets][308][Configuration]
 CurrentPreset=org.kde.plasma.systemmonitor
 PreloadWeight=100
-popupHeight=468
-popupWidth=610
+popupHeight=479
+popupWidth=621
 
 [Containments][281][Applets][308][Configuration][Appearance]
 chartFace=org.kde.ksysguard.barchart
@@ -582,6 +589,7 @@ plugin=org.kde.plasma.volume
 PreloadWeight=100
 
 [Containments][290][Applets][300][Configuration][General]
+currentTab=streams
 migrated=true
 
 [Containments][290][Applets][301]
@@ -647,11 +655,20 @@ ItemGeometriesHorizontal=
 activityId=bc3cdced-7201-4291-a43c-fe3ef12080c2
 formfactor=0
 immutability=1
+lastScreen=4
+location=0
+plugin=org.kde.plasma.folder
+wallpaperplugin=org.kde.image
+
+[Containments][327]
+activityId=bc3cdced-7201-4291-a43c-fe3ef12080c2
+formfactor=0
+immutability=1
 lastScreen=3
 location=0
 plugin=org.kde.plasma.folder
 wallpaperplugin=org.kde.image
 
 [ScreenMapping]
-itemsOnDisabledScreens=2,f7e7668d-9397-4146-8c8b-f84e4af99f1e,1,desktop:/steam.desktop
-screenMapping=file:///data/xdg/Wallpapers/anime/ergo_proxy_desktop.jpg,1,bc3cdced-7201-4291-a43c-fe3ef12080c2,file:///data/xdg/Wallpapers/anime/blood-blockade-leonardo-2a.jpg,1,bc3cdced-7201-4291-a43c-fe3ef12080c2,file:///data/xdg/Wallpapers/anime/default.jpg,1,bc3cdced-7201-4291-a43c-fe3ef12080c2,file:///data/xdg/Wallpapers/anime/ergo-proxy.jpg,1,bc3cdced-7201-4291-a43c-fe3ef12080c2,file:///data/xdg/Wallpapers/anime/yin-yang-fractal.jpg,1,bc3cdced-7201-4291-a43c-fe3ef12080c2,file:///data/xdg/Wallpapers/anime/Guilty-Crown.jpg,1,bc3cdced-7201-4291-a43c-fe3ef12080c2,file:///data/xdg/Wallpapers/anime/kakegurui.png,1,bc3cdced-7201-4291-a43c-fe3ef12080c2,file:///data/xdg/Wallpapers/anime/blood-blockade-leo-123.jpg,1,bc3cdced-7201-4291-a43c-fe3ef12080c2,file:///data/xdg/Wallpapers/anime/blood-blockade-leonardo-2b.jpg,1,bc3cdced-7201-4291-a43c-fe3ef12080c2,file:///data/xdg/Wallpapers/anime/blood-blockade-leonardo.png,1,bc3cdced-7201-4291-a43c-fe3ef12080c2,desktop:/steam.desktop,0,bc3cdced-7201-4291-a43c-fe3ef12080c2,file:///data/xdg/Wallpapers/anime/blood-blockade-wallpaper.jpg,1,bc3cdced-7201-4291-a43c-fe3ef12080c2
+itemsOnDisabledScreens=
+screenMapping=file:///data/xdg/Wallpapers/anime/blood-blockade-leonardo.png,1,bc3cdced-7201-4291-a43c-fe3ef12080c2,file:///data/xdg/Wallpapers/anime/yin-yang-fractal.jpg,1,bc3cdced-7201-4291-a43c-fe3ef12080c2,file:///data/xdg/Wallpapers/anime/Guilty-Crown.jpg,1,bc3cdced-7201-4291-a43c-fe3ef12080c2,file:///data/xdg/Wallpapers/anime/blood-blockade-leo-123.jpg,1,bc3cdced-7201-4291-a43c-fe3ef12080c2,file:///data/xdg/Wallpapers/anime/kakegurui.png,1,bc3cdced-7201-4291-a43c-fe3ef12080c2,file:///data/xdg/Wallpapers/anime/blood-blockade-wallpaper.jpg,1,bc3cdced-7201-4291-a43c-fe3ef12080c2,file:///data/xdg/Wallpapers/anime/blood-blockade-leonardo-2b.jpg,1,bc3cdced-7201-4291-a43c-fe3ef12080c2,file:///data/xdg/Wallpapers/anime/ergo-proxy.jpg,1,bc3cdced-7201-4291-a43c-fe3ef12080c2,file:///data/xdg/Wallpapers/anime/ergo_proxy_desktop.jpg,1,bc3cdced-7201-4291-a43c-fe3ef12080c2,file:///data/xdg/Wallpapers/anime/blood-blockade-leonardo-2a.jpg,1,bc3cdced-7201-4291-a43c-fe3ef12080c2,file:///data/xdg/Wallpapers/anime/default.jpg,1,bc3cdced-7201-4291-a43c-fe3ef12080c2,desktop:/steam.desktop,0,bc3cdced-7201-4291-a43c-fe3ef12080c2
