@@ -2,7 +2,17 @@
 
 (defvar *dc/search-engines*
   (list
+   ;; google:
+   ;;
+   ;; - &udm=14 disables AI results (supposedly; for now)
+   ;; - &tbs=li:1 disable fuzzy search
    '("g"
+     "https://google.com/search?q=~a&udm=14&tbs=li:1"
+     "https://google.com")
+   '("go"
+     "https://google.com/search?q=~a&udm=14"
+     "https://google.com")
+   '("gfuzz"
      "https://google.com/search?q=~a"
      "https://google.com")
    '("doi"

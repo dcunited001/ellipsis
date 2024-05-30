@@ -18,6 +18,29 @@ referencing [[github:aartaka/nyxt-config][aartaka/nyxt-config]] and others
 ** TODO review [[https://github.com/migalmoreno/nx-tailor][migalmoreno/nx-tailor]] source
 
 
+** TODO Configure & Try features
+
+Maybe purchase the [[https://nyxt.atlas.engineer/extension/invader.org][invader theme]]
+
+*** Automation
+
++ scripting nyxt :: run with --headless, --no-socket and etc
++ extracting content :: using lisp or javascript
++ nyxt/mode/password:password-mode :: look into keypassxc/yubikey and gpg
++ Process Mode :: watch files/directories, run commands
+
+
+*** Desktop/Customization
+
+Auto rules is a good way to enforce policy for browsing specific apps. If
+applied alongside custom wrapper scripts or Desktop files, then SSB's can be
+supported
+
++ Auto Rules :: match-(domain|host|url|regex|scheme)
++ format-status-(tabs|modes) ::
+
+
+
 * Setup
 
 ** Installing Packages
