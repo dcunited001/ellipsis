@@ -257,7 +257,6 @@
 
    openssh
    openssl
-   nss-certs
    gnutls
 
    ;; no uml-utilities though (ohhh... so thats...)
