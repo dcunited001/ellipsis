@@ -1813,7 +1813,7 @@ tre() {
 
 **** Git Repo
 
-#+begin_src sh :tangle .config/sh/rc.d/functions.sh :shebang #!/bin/sh
+#+begin_src sh :tangle .config/sh/rc.d/functions.sh
 # clear all the fat fingers, so sync happens without dired
 repo_reset_repos() {
     [[ -z "$1" ]] && \
@@ -1837,9 +1837,21 @@ repo_reset_repos() {
 #+end_src
 
 
+**** IPC
+
+#+begin_src sh :tangle .config/sh/rc.d/functions.sh
+# from https://git.aweirdimagination.net/perelman/kill-child-jobs/src/branch/master/bash.sh
+# set -e # um no
+
+kill_child_jobs() {
+    # From https://unix.stackexchange.com/a/544167
+    while kill %% 2>/dev/null; do sleep 0; done
+}
+#+end_src
+
 **** File Listing
 
-#+begin_src sh :tangle .config/sh/rc.d/functions.sh :shebang #!/bin/sh
+#+begin_src sh :tangle .config/sh/rc.d/functions.sh
 tre() {
     local -a tree_opts=()
     local -a tree_args=()
