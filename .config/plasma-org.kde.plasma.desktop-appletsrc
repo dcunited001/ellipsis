@@ -183,7 +183,7 @@ immutability=1
 plugin=org.kde.plasma.systemtray
 
 [Containments][281][Applets][289][Configuration]
-PreloadWeight=85
+PreloadWeight=90
 SystrayContainmentId=290
 
 [Containments][281][Applets][302]
@@ -255,8 +255,8 @@ plugin=org.kde.plasma.systemmonitor.diskactivity
 [Containments][281][Applets][309][Configuration]
 CurrentPreset=org.kde.plasma.systemmonitor
 PreloadWeight=100
-popupHeight=233
-popupWidth=195
+popupHeight=244
+popupWidth=206
 
 [Containments][281][Applets][309][Configuration][Appearance]
 chartFace=org.kde.ksysguard.linechart
@@ -355,8 +355,8 @@ plugin=org.kde.plasma.systemmonitor.cpu
 [Containments][281][Applets][312][Configuration]
 CurrentPreset=org.kde.plasma.systemmonitor
 PreloadWeight=100
-popupHeight=280
-popupWidth=184
+popupHeight=291
+popupWidth=195
 
 [Containments][281][Applets][312][Configuration][Appearance]
 chartFace=org.kde.ksysguard.linechart
@@ -538,8 +538,8 @@ immutability=1
 lastScreen=0
 location=4
 plugin=org.kde.plasma.private.systemtray
-popupHeight=465
-popupWidth=465
+popupHeight=476
+popupWidth=476
 wallpaperplugin=org.kde.image
 
 [Containments][290][Applets][291]
