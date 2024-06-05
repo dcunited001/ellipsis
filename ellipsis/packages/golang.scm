@@ -47,3 +47,85 @@
 produce SVGs from @@code{.d2} files.")
       (license license:mpl2.0))))
 
+;;** Codesearch
+
+;; TODO: these are technically separate packages (and leaf-level CLI, almost
+;; self-contained). Do they need to be bundled separately? Do they need to
+;; follow the Guix go package naming conventions?
+
+;; #:go go-1.17 ;; earlier, specifying go-1.14 used 1.17 anyways
+;;
+;; this changed after adding #:unpack-path, which probably means it wasn't
+;; properly discovering the configuration/metadata for the main package
+
+(define-public go-github-com-google-codesearch-cmd-cgrep
+  (package
+    (name "go-github-com-google-codesearch-cmd-cgrep")
+    (version "1.2.0")
+    (source
+     (origin
+       (method git-fetch)
+       (uri (git-reference
+             (url "https://github.com/google/codesearch")
+             (commit (string-append "v" version))))
+       (file-name (git-file-name name version))
+       (sha256
+        (base32 "1jzgq0rf9qzng1mqlpx0ib7zwz5hk6lnj6fmp923xmkpyvqg0kcb"))))
+    (build-system go-build-system)
+    (arguments
+     (list
+      #:go go-1.14 ;; go.mod: 1.13
+      #:import-path "github.com/google/codesearch/cmd/cgrep"
+      #:unpack-path "github.com/google/codesearch"))
+    (home-page "https://github.com/google/codesearch")
+    (synopsis #f)
+    (description #f)
+    (license license:bsd-3)))
+
+(define-public go-github-com-google-codesearch-cmd-csearch
+  (package
+    (name "go-github-com-google-codesearch-cmd-csearch")
+    (version "1.2.0")
+    (source
+     (origin
+       (method git-fetch)
+       (uri (git-reference
+             (url "https://github.com/google/codesearch")
+             (commit (string-append "v" version))))
+       (file-name (git-file-name name version))
+       (sha256
+        (base32 "1jzgq0rf9qzng1mqlpx0ib7zwz5hk6lnj6fmp923xmkpyvqg0kcb"))))
+    (build-system go-build-system)
+    (arguments
+     (list
+      #:go go-1.14 ;; go.mod: 1.13
+      #:import-path "github.com/google/codesearch/cmd/csearch"
+      #:unpack-path "github.com/google/codesearch"))
+    (home-page "https://github.com/google/codesearch")
+    (synopsis #f)
+    (description #f)
+    (license license:bsd-3)))
+
+(define-public go-github-com-google-codesearch-cmd-cindex
+  (package
+    (name "go-github-com-google-codesearch-cmd-cindex")
+    (version "1.2.0")
+    (source
+     (origin
+       (method git-fetch)
+       (uri (git-reference
+             (url "https://github.com/google/codesearch")
+             (commit (string-append "v" version))))
+       (file-name (git-file-name name version))
+       (sha256
+        (base32 "1jzgq0rf9qzng1mqlpx0ib7zwz5hk6lnj6fmp923xmkpyvqg0kcb"))))
+    (build-system go-build-system)
+    (arguments
+     (list
+      #:go go-1.14 ;; go.mod: 1.13
+      #:import-path "github.com/google/codesearch/cmd/cindex"
+      #:unpack-path "github.com/google/codesearch"))
+    (home-page "https://github.com/google/codesearch")
+    (synopsis #f)
+    (description #f)
+    (license license:bsd-3)))
