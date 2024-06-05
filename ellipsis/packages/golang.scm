@@ -49,6 +49,20 @@ produce SVGs from @@code{.d2} files.")
 
 ;;** Codesearch
 
+;;*** Setup
+
+;; heard about this on a podcast and i was curious
+
+;; -----------------------
+;; cd /data/ecto/finance/openbb
+;; export CSEARCHINDEX=$PWD/.csearchindex
+;; cindex .
+;; find . -name '*.ts*' -type f -print | xargs cgrep -n -i "atom"  | wc -l
+;; -----------------------
+
+;; it does seem fairly fast, but code changes, so you need a background
+;; service (or a git hook), probably with multiple checkouts.
+
 ;; TODO: these are technically separate packages (and leaf-level CLI, almost
 ;; self-contained). Do they need to be bundled separately? Do they need to
 ;; follow the Guix go package naming conventions?
@@ -75,6 +89,7 @@ produce SVGs from @@code{.d2} files.")
     (arguments
      (list
       #:go go-1.14 ;; go.mod: 1.13
+      #:install-source? #f
       #:import-path "github.com/google/codesearch/cmd/cgrep"
       #:unpack-path "github.com/google/codesearch"))
     (home-page "https://github.com/google/codesearch")
@@ -99,6 +114,7 @@ produce SVGs from @@code{.d2} files.")
     (arguments
      (list
       #:go go-1.14 ;; go.mod: 1.13
+      #:install-source? #f
       #:import-path "github.com/google/codesearch/cmd/csearch"
       #:unpack-path "github.com/google/codesearch"))
     (home-page "https://github.com/google/codesearch")
@@ -123,6 +139,7 @@ produce SVGs from @@code{.d2} files.")
     (arguments
      (list
       #:go go-1.14 ;; go.mod: 1.13
+      #:install-source? #f
       #:import-path "github.com/google/codesearch/cmd/cindex"
       #:unpack-path "github.com/google/codesearch"))
     (home-page "https://github.com/google/codesearch")
