@@ -17,7 +17,7 @@
                      mcron networking xorg ssh
                      docker audio virtualization)
 
-(use-package-modules nfs certs shells ssh tls gnupg security-token
+(use-package-modules nfs certs shells ssh tls gnupg security-token acl
                      bash emacs emacs-xyz gnome networking libusb
                      fonts cups audio xorg xdisorg linux file-systems
                      version-control package-management freedesktop rsync
@@ -239,6 +239,7 @@
    ntfs-3g
    exfat-utils
    fuse-exfat
+   acl
    hwinfo
    stow
    vim
