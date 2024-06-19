@@ -306,7 +306,12 @@ mode "$supere_system" {
 
 # TODO: potentially extract from i3/config (just secrets here)
 # - i feel better about publickizing my dotfiles every day that goes by
-# exec --nostartup-id gnome-keyring-daemon --start --components=secrets
+# exec --no-startup-id gnome-keyring-daemon --start --components=secrets
+
+# prevent X11 from blanking. it will still lock.
+# to "standby", run xreblank script
+exec --no-startup-id xset dpms 0 0
+exec --no-startup-id xset s noblank
 
 #+end_src
 
@@ -739,6 +744,10 @@ for_window [class="Alacritty"] floating enable
 for_window [instance="zoom"] floating enable, sticky enable
 for_window [instance="zoom"] inhibit_idle fullscreen
 
+# VLC: class='vlc',instance='vlc',window_role='vlc-main'
+for_window [instance="vlc"] floating enable, sticky enable
+for_window [instance="vlc"] inhibit_idle fullscreen
+
 # Steam
 for_window [class="Steam" title="^Steam Guard.*"] floating enable
 for_window [class="Steam" title="^Steam - News.*"] floating enable
@@ -793,12 +802,12 @@ default_border pixel 3
 gaps inner 7
 gaps outer 0
 hide_edge_borders both
-  
+
 ###########################################
 ### AUTOSTART USER APPS
 ###########################################
 # TODO: needs startup id but neither works. launch a task with sleep 10?
-exec --no-startup-id flatpak --user run org.mozilla.Thunderbird 
+exec --no-startup-id flatpak --user run org.mozilla.Thunderbird
 
 #+end_src
 
