@@ -57,6 +57,11 @@ gpg -vv --show-session-key --list-packets $gpg_crypted_file
 
 + The subkey ID will be included unless the =throw-keyid= option is set.
 
+*** Symmetric Encryption
+
++ [[https://unix.stackexchange.com/questions/560135/how-to-decrypt-file-that-was-symmetrically-encrypted-using-gpg][How to decrypt file that was symmetrically encrypted using GPG?]]
+  Particularly, see the answer with the [[https://unix.stackexchange.com/a/662662][batch script]] that uses FD's
+
 ** GPG Agent
 
 See [[https://www.gnupg.org/documentation/manuals/gnupg/Agent-Protocol.html][Agent ASSUAN protocol]] for other things like:

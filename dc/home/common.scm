@@ -10,6 +10,16 @@
   #:use-module (gnu home services guix)
   #:use-module (gnu home services fontutils))
 
+
+;; TODO: refactor env-vars into records & services
+;;
+;; extend from home-environment-variables-service-type
+;;
+;;  see: akagi/dotfiles/magi/home/{base,scheme}.scm
+
+
+;; ==[ old notes ]===========================================
+
 ;; TODO: home-files-service-type
 ;; files to copy into /gnu/store
 

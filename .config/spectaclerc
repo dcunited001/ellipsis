@@ -2,7 +2,7 @@
 update_info=spectacle_clipboard.upd:clipboard-settings-change,spectacle_rememberregion.upd:spectacle-migrate-rememberregion
 
 [Annotations]
-annotationToolType=9
+annotationToolType=6
 arrowStrokeColor=0,255,0
 ellipseShadow=false
 ellipseStrokeColor=255,0,0
@@ -40,7 +40,7 @@ window-position=106,1882
 [ImageSave]
 imageFilenameTemplate=Screenshot_<yyyy>-<MM>-<dd>_<hh>-<mm>-<ss>
 lastImageSaveAsLocation=file:///data/org/rants/discord-user-list4.png
-lastImageSaveLocation=file:///data/xdg/Pictures/Screenshots/Screenshot_2024-04-26_12-11-40.jpeg
+lastImageSaveLocation=file:///data/xdg/Pictures/Screenshots/Screenshot_2024-06-19_09-22-18.jpeg
 preferredImageFormat=JPEG
 translatedScreenshotsFolder=Screenshots
 
