@@ -1,11 +1,11 @@
 (use-modules ((guix licenses) #:prefix license:)
-              (guix gexp)
-              (guix packages)
-              (guix utils)
-              (guix download)
-              (guix build-system gnu)
-              (guix build-system texlive)
-              (gnu packages))
+             (guix gexp)
+             (guix packages)
+             (guix utils)
+             (guix download)
+             (guix build-system gnu)
+             (guix build-system texlive)
+             (gnu packages))
 
 ;; ....ok wow `guix import texlive roboto` ... nice
 (define texlive-roboto
@@ -265,7 +265,11 @@ the facility.")
      "texlive-tcolorbox"
      "texlive-environ"
      "texlive-pdfcol"
-     
+
+     ;; to add russian fonts via T2A encoding
+     ;; https://tex.stackexchange.com/questions/646561/how-to-use-cyrillic-russian-with-sciposter
+     "texlive-babel-russian"
+
      "gnuplot"
      ))
   (packages->manifest
