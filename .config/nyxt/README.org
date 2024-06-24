@@ -48,11 +48,15 @@ supported
 My configs need a few packages. I'd like to source the code locally instead of
 installing packages. I'm not sure of options for managing Nyxt packages.
 
-#+begin_src sh :dir (identity nyxt-pkg)
-git clone https://github.com/migalmoreno/nx-tailor
-#+end_src
+*** nx-tailor
 
-** [[https://github.com/migalmoreno/nx-tailor][migalmoreno/nx-tailor]]
+** [[https://git.migalmoreno.com/nx-tailor][migalmoreno/nx-tailor]]
+
+See [[https://git.migalmoreno.com/nx-tailor/tree/README.md][README.md]]
+
+#+begin_src sh :dir (identity nyxt-pkg)
+git clone https://git.migalmoreno.com/nx-tailor
+#+end_src
 
 Just trying out the examples for now
 

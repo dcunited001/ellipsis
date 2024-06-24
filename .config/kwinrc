@@ -110,13 +110,13 @@ ShowTabBox=false
 padding=4
 
 [Tiling][1029d820-f73b-5369-8221-b4095e1ae1f2]
-tiles={"layoutDirection":"horizontal","tiles":[{"width":0.48886718750000147},{"width":0.5111328124999984}]}
+tiles={"layoutDirection":"horizontal","tiles":[{"width":0.27734375},{"layoutDirection":"vertical","tiles":[{"height":0.5},{"height":0.5}],"width":0.37890625},{"width":0.34375}]}
 
 [Tiling][1de74c2c-7c31-57ed-b159-16fc6eee9612]
 tiles={"layoutDirection":"horizontal","tiles":[{"width":0.25},{"width":0.5},{"width":0.25}]}
 
 [Tiling][20cf8d90-6dec-52b6-bb7f-a7c963e624a4]
-tiles={"layoutDirection":"vertical","tiles":[{"height":0.37326388888888884},{"height":0.6267361111111103}]}
+tiles={"layoutDirection":"vertical","tiles":[{"height":0.3092013888888889},{"height":0.33689236111111115},{"height":0.3539062499999991}]}
 
 [Tiling][322e0433-e997-5047-978d-1f67aef3238f]
 tiles={"layoutDirection":"horizontal","tiles":[{"layoutDirection":"vertical","tiles":[{"height":0.467578125},{"height":0.532421875}],"width":0.49125},{"layoutDirection":"vertical","tiles":[{"height":0.5710937500000002},{"height":0.4289062499999998}],"width":0.5087499999999991}]}
@@ -131,7 +131,7 @@ tiles={"layoutDirection":"horizontal","tiles":[{"layoutDirection":"vertical","ti
 tiles={"layoutDirection":"horizontal","tiles":[{"width":0.28857421874999994},{"width":0.35693359374999983},{"width":0.3544921875000002}]}
 
 [Tiling][94ffe885-ea3c-5b75-868d-849720a2ac04]
-tiles={"layoutDirection":"vertical","tiles":[{"height":0.4557291666666667},{"height":0.5442708333333226}]}
+tiles={"layoutDirection":"horizontal","tiles":[{"width":0.3289062499999999},{"width":0.3464843749999999},{"width":0.3246093750000002}]}
 
 [Tiling][c0c32115-6c0c-5e98-bf49-7e6b63b3835d]
 tiles={"layoutDirection":"horizontal","tiles":[{"width":0.25},{"width":0.5},{"width":0.25}]}

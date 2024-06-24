@@ -30,7 +30,7 @@
 ;;   &key depends-on components &allow-other-keys)
 
 (define-nyxt-user-system-and-load
- nyxt-user/basic-config
+ "nyxt-user/basic-config"
  :components ("status"))
 
 ;; (define-nyxt-user-system-and-load nyxt-user/basic-config
@@ -39,6 +39,12 @@
 ;;** Editor
 
 ;;*** Theme
+
+;;**** Invader
+
+(nyxt:define-nyxt-user-system-and-load
+ "nyxt-user/invader-proxy"
+ :depends-on ("invader"))
 
 ;;**** Tailor
 
@@ -54,12 +60,18 @@
 (setf local-time:*default-timezone*
       (local-time:find-timezone-by-location-name "America/New_York"))
 
+;; ==================================================
+;; nx-tailor
+;; ---------------------------------------------
+
 ;; package will define a mode called tailor
-(define-nyxt-user-system-and-load
- nyxt-user/tailor
- :depends-on (nx-tailor)
- ;; configured in nyxt-user:tailor (./tailor.lisp)
- :components ("tailor.lisp"))
+;; (define-nyxt-user-system-and-load
+;;  nyxt-user/tailor
+;;  :depends-on (nx-tailor)
+;;  ;; configured in nyxt-user:tailor (./tailor.lisp)
+;;  :components ("tailor.lisp"))
+
+;; ---------------------------------------------
 
 ;; this will add tailor-mode to all web-buffers
 ;; (define-configuration web-buffer
@@ -141,7 +153,6 @@
 ;;** Defaults
 
 (define-configuration
-
  (:modable-buffer :prompt-buffer :editor-buffer)
  "Sets emacs-mode and mouse/noob bindings everywhere."
  ((default-modes `(:emacs-mode :dc/noob-mode ,@%slot-value%))))
