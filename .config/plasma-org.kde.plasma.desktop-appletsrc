@@ -150,6 +150,18 @@ showIcon=false
 immutability=1
 plugin=org.kde.plasma.appmenu
 
+[Containments][281][Applets][285][Configuration]
+PreloadWeight=100
+popupHeight=27
+popupWidth=87
+
+[Containments][281][Applets][285][Configuration][ConfigDialog]
+DialogHeight=540
+DialogWidth=720
+
+[Containments][281][Applets][285][Shortcuts]
+global=Ctrl+Alt
+
 [Containments][281][Applets][286]
 immutability=1
 plugin=org.kde.plasma.panelspacer

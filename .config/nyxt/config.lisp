@@ -2,89 +2,16 @@
 ;;* Nyxt
 (in-package #:nyxt-user)
 
-;; configs
-
-;; https://github.com/shaunsingh/nix-darwin-dotfiles/tree/main/configs/nyxt
-
-;; packages
-;; https://github.com/aartaka/nx-dark-reader
-;; https://github.com/migalmoreno/nx-router
-;; https://github.com/migalmoreno/nx-tailor/blob/master/tailor.lisp
-
-;; emacs
-;; https://github.com/ag91/emacs-with-nyxt/blob/master/emacs-with-nyxt.el
-;; cl indentation: https://discourse.atlas.engineer/t/emacs-dir-locals-el-tutorial/555
-
-;; discourse
-;; https://discourse.atlas.engineer/t/better-hint-selectiors-for-gmail/750
-
-
-
 ;;** Modules
 
 ;;*** nyxt-user
 
-;; (defmacro define-nyxt-user-system[-and-load]
-;;   name
+;; (defmacro define-nyxt-user-system[-and-load]  name
 ;;   &rest args
 ;;   &key depends-on components &allow-other-keys)
 
-(define-nyxt-user-system-and-load
- "nyxt-user/basic-config"
- :components ("status"))
-
-;; (define-nyxt-user-system-and-load nyxt-user/basic-config
-;;   :components ("keybinds" "passwd" "status" "commands" "hsplit" "style" "unpdf" "objdump" "github"))
-
-;;** Editor
-
-;;*** Theme
-
-;;**** Invader
-
-(nyxt:define-nyxt-user-system-and-load
- "nyxt-user/invader-proxy"
- :depends-on ("invader"))
-
-;;**** Tailor
-
-;; to use with my config, uncomment the define-configuration below to append the
-;; mode to all web-buffers. or run M-x tailor-mode to append mode to bufffer.
-;;
-;; once mode is set in a buffer, then run M-x load-theme
-
-;; to ensure timer switching works at startup and through the SBCL timers
-;;
-;; must run before loading the package
-(local-time:reread-timezone-repository)
-(setf local-time:*default-timezone*
-      (local-time:find-timezone-by-location-name "America/New_York"))
-
-;; ==================================================
-;; nx-tailor
-;; ---------------------------------------------
-
-;; package will define a mode called tailor
-;; (define-nyxt-user-system-and-load
-;;  nyxt-user/tailor
-;;  :depends-on (nx-tailor)
-;;  ;; configured in nyxt-user:tailor (./tailor.lisp)
-;;  :components ("tailor.lisp"))
-
-;; ---------------------------------------------
-
-;; this will add tailor-mode to all web-buffers
-;; (define-configuration web-buffer
-;;   ((default-modes `(tailor:tailor-mode ,@%slot-default%))))
-
-;; old theme code: just set dark mode
-;; Alter the instance of the browser's theme slot
-;; (defmethod customize-instance ((browser browser) &key)
-;;            (setf (slot-value browser 'theme)
-;;                  theme:+dark-theme+)
-;;            (setf (slot-value browser 'external-editor-program)
-;;                  ;; '("gmacsclient" "-c")
-;;                  '("alacritty --command vim")))
+(define-nyxt-user-system-and-load nyxt-user/basic-config
+  :components ("status" "search-engines"))
 
 ;;** Profiles
 
@@ -95,80 +22,63 @@
 ;; couldn't quite get it to work. it's simpler to use defmethod to dispatch on
 ;; the profile type to customize each (e.g. custom theme per profile)
 
-;;** Keybindings
+;;** Browser
 
-;;*** Mouse Bindings
+(define-configuration browser
+  ((restore-session-on-startup-p :never-restore)))
 
-(defvar *dc/mouse-keymap* (make-keymap "mouse-map"))
+;;** UI
 
-;; these commands are handy, but it's better to use Nyxt's unique features
-;; (hints, etc). also, without beginning a mouse binding with a keystroke, it's
-;; unclear how many events are in the current sequence. (hence the button12
-;; mapping)
-(define-key *dc/mouse-keymap*
-            "button13 button1" 'nyxt/mode/document:jump-to-heading
+;;*** Prompt
 
-            ;; "button13 button3" 'nyxt/mode/document:headings-panel
-            "button12" 'nothing)
+;; when results only present a single source, hide it
+(define-configuration prompt-buffer
+  ((hide-single-source-header-p t)))
 
-(define-mode dc/mouse-mode ()
-             "Dummy mode for custom mouse bindings in *dc/mouse-keymap*."
-             ((keyscheme-map
-               (nkeymaps/core:make-keyscheme-map
-                nyxt/keyscheme:emacs *dc/mouse-keymap*))))
+;;*** Editor
 
-;;*** Noob Bindings
+;; (define-configuration browser
+;;   ((external-editor-program (list "terminator" "-x" "vim"))))
 
-;; a list of bindings to focus on learning
-(defvar *dc/noob-keymap* (make-keymap "noob-map"))
+;; otherwise access via a handle on a (browser browser)
+;;
+;; (defmethod-instalce
+;; (setf (slot-value browser 'external-editor-program)
+;;       '("alacritty --command vim"))
 
-(define-key *dc/noob-keymap*
-            "f1 m" 'nyxt/mode/message:list-messages
-            "f1 f2 b" 'nyxt/mode/history:buffer-history-tree
-            "f1 f2 B" 'nyxt/mode/buffer-listing:buffers-panel
-            "f1 f2 h" 'nyxt/mode/history:history-tree
-            "f1 f2 ." 'nyxt/mode/document:headings-panel
-            "f1 f2 w" 'nyxt/mode/watch:watch-mode
-            "f1 f2 p" 'nyxt/mode/preview:preview-mode
-            "f1 f2 k" 'delete-current-buffer
+;;*** Theme
 
-            ;; only possible from macro editor
-            ;; "f1 f2 M" 'nyxt/mode/macro-edit/save-macro
-            "f1 f2 M" 'nyxt/mode/macro-edit:edit-macro)
+;;**** Invader
 
+;; ASDF won't compile compile this or any other modules
 
-(define-mode dc/noob-mode ()
-             "Dummy mode for custom noob bindings in *dc/noob-keymap*."
-             ((keyscheme-map
-               (nkeymaps/core:make-keyscheme-map
-                nyxt/keyscheme:emacs *dc/noob-keymap*))))
+;; (define-nyxt-user-system-and-load "nyxt-user/invader-proxy"
+;;   :depends-on ("invader"))
 
-;; Move C-space
-(define-configuration
- buffer
- ((override-map
-   (let ((map (make-keymap "override-map")))
-     (define-key map "f1 f5" 'execute-command "C-space" 'nothing)))))
+;;** Keys
 
-;;** Defaults
-
-(define-configuration
- (:modable-buffer :prompt-buffer :editor-buffer)
- "Sets emacs-mode and mouse/noob bindings everywhere."
- ((default-modes `(:emacs-mode :dc/noob-mode ,@%slot-value%))))
-
-;; :keywords are handled differently than 'symbols. (also delineate abc:keywords
-;; and abc::keywords)
-;; https://stackoverflow.com/questions/8567155/why-colons-precede-variables-in-common-lisp
+(define-configuration input-buffer
+  ((override-map
+    (let ((map (make-keymap "override-map")))
+      (define-key map "f1 f5" 'execute-command "C-space" 'nothing)))))
 
 ;;** Bookmarks
 
 ;; see bookmarks.lisp
 
 (defmethod files:resolve ((profile nyxt:nyxt-profile) (file nyxt/mode/bookmark:bookmarks-file))
-           "Reroute the bookmarks to the config directory."
-           #p"~/.config/nyxt/bookmarks.lisp")
+  "Reroute the bookmarks to the config directory."
+  #p"~/.config/nyxt/bookmarks.lisp")
 
 ;;** Search
 
 ;; see search-engines.lisp
+
+
+;;** Defaults
+
+(define-configuration buffer
+  ;; (:web-buffer :prompt-buffer :editor-buffer)
+  "Sets emacs-mode and mouse/noob bindings everywhere."
+  ;; ((default-modes `(:emacs-mode :dc/noob-mode ,@%slot-value%)))
+  ((default-modes `(:emacs-mode ,@%slot-value%))))

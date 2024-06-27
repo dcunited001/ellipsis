@@ -3,7 +3,7 @@
 #+EMAIL:     noreply@te.xel.io
 #+DESCRIPTION: notes
 
-referencing [[github:aartaka/nyxt-config][aartaka/nyxt-config]] and others
+Referencing [[github:aartaka/nyxt-config][aartaka/nyxt-config]] and others
 
 #+begin_src emacs-lisp
 (setq-local nyxt-config (expand-file-name "~/.config/nyxt")
@@ -41,16 +41,142 @@ supported
 
 
 
+
+* Docs
+
 * Setup
 
-** Installing Packages
+** ASDF
 
 My configs need a few packages. I'd like to source the code locally instead of
 installing packages. I'm not sure of options for managing Nyxt packages.
 
+See [[https://github.com/atlas-engineer/nyxt/blob/630287ca5ac6bb05719ba899f0270f33b7b58294/documents/README.org#branch-management][nyxt.asd]] for example of an =asdf= system declaration.
+
+** Dependencies
 *** nx-tailor
 
-** [[https://git.migalmoreno.com/nx-tailor][migalmoreno/nx-tailor]]
+** REPL
+
+Seriously, probably try the REPL-features earlier rather than later...
+
++ Nyxt's autodocumenting features are fantastic, but the REPL will just make it
+  way easier to learn.
++ A common-lisp setup in emacs with no more than the =sly= packages should hook
+  into your completion nicely.
++ Symbols complete with no LSP server/process required, since code is data is
+  code is data ... then reflection is easy.
++ Jumping to source while connected to the =slynk= REPL just works, using
+  =xref=.
+
+***** TODO revisit the following later after more time (not my first rodeo)
+
+#+begin_quote
+I have consult, xref, eldoc, vertico, etc. set up, but it should work with
+minimal tweaks in other completion systems. If you haven't set up ivy, company,
+helm, consult, etc... then that may pose some challenges.
+
+Otherwise, it just all falls into place.
+
+NO LSP REQUIRED. No half-patched template typescript projects that import junk
+from =npm= while requiring platform/project specific configuration. Your runtime
+already runs your code, so those configurations should remain where code runs.
+
+Formatters are also an entire class of problems that you generally avoid.
+
+Can also easily connect to REPL on the network (though jumping to source there
+may requires the same path-mapping shenanigans as LSP)
+#+end_quote
+
+*** SLY
+
+Mainly follow the [[https://github.com/atlas-engineer/nyxt/blob/master/documents/README.org#L77][dev guide]].
+
+#+begin_quote
+Note to Self (from 2012-2014): Slime has be outmoded by Sly
+#+end_quote
+
++ start-slynk :: run from nyxt, check for =port= using =list-messages=
++ sly-connect :: run from emacs
+
+**** TODO Required? =(asdf:load-system :slynk)=
+
+Also, note =(reset-asdf-registries)= does seem to be required, unless you don't
+hook into nyxt's package loading. (e.g. quicklisp, which i'm not sure is
+recommended; or other methods)
+
+**** TODO how to send desktop notifications on REPL start, etc?
+
+
+* Notes
+
+I'm not sure how to set up a completely separate profile to isolate the
+programmability from long-term browsing sessions.
+
+** Common Lisp
+
+
+*** Classes & Slots
+
+These are eqivalent, but naively reevaluating does't affect the browser.
+
+#+begin_src common-lisp
+(define-configuration browser
+  ;; it doesn't run anything that overwrites the defaults...
+  ;; other settings are taking effect either.
+  ((external-editor-program (list "alacritty --command vim"))))
+#+end_src
+
+Use =(slot-value ...)=
+
+#+begin_src common-lisp
+(defmethod customize-instance ((browser browser) &key)
+  ;; old theme code: just set dark mode
+  ;; (setf (slot-value browser 'theme) theme:+dark-theme+)
+
+  ;; Alter the instance of the browser's theme slot
+  (setf (slot-value browser 'external-editor-program)
+        ;; '("gmacsclient" "-c")
+        '("alacritty --command vim")))
+#+end_src
+
+***** TODO learn mroe...
+
+** Source
+
+*** libraries/analysis
+
++ The CL code in [[https://github.com/atlas-engineer/nyxt/blob/630287ca5ac6bb05719ba899f0270f33b7b58294/libraries/analysis/README.org?plain=1#L5][libraries/analysis/*.lisp]] implements a tokenizer for processing
+  natural language (probably within nyxt's output itself).
+
+|-------------------------+----------------------------------------------------|
+| file                    | class                                              |
+|-------------------------+----------------------------------------------------|
+| text-rank.lisp          | (defclass document-vertex (document) ... )         |
+| analysis.lisp           | (defclass document () ... )                        |
+| analysis.lisp           | (defclass document-collection () ... )             |
+| composite-sequence.lisp | (defclass sequence-model (node) ... )              |
+| composite-sequence.lisp | (defclass node () ... )                            |
+| composite-sequence.lisp | (defclass element-node (node) ... )                |
+| data.lisp               | (defclass language-data () ... )                   |
+| dbscan.lisp             | (defclass document-cluster (document-vertex) ... ) |
+|-------------------------+----------------------------------------------------|
+
+Some detail is omitted from the tables.
+
+** Automation
+
+*** Notifications
+
+Is there an interface for this?
+
++ The [[https://github.com/atlas-engineer/nyxt/blob/630287ca5ac6bb05719ba899f0270f33b7b58294/libraries/password-manager/password-keepassxc.lisp#L7][password:keepassxc-interface]] class shows how to interface with CLI
+
+** Packages
+
+I tried some of these, but can't quite get =asdf= working
+
+*** [[https://git.migalmoreno.com/nx-tailor][migalmoreno/nx-tailor]]
 
 See [[https://git.migalmoreno.com/nx-tailor/tree/README.md][README.md]]
 
@@ -93,3 +219,8 @@ Just trying out the examples for now
 
 Some other code is needed in =config.lisp= in order to add =tailor-mode= to
 =web-buffers=. Once =tailor-mode= is active in a buffer, run =M-x load-theme=.
+
+#+begin_src common-lisp
+(define-configuration web-buffer
+ ((default-modes `(tailor:tailor-mode ,@%slot-default%))))
+#+end_src
