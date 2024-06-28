@@ -195,7 +195,7 @@ immutability=1
 plugin=org.kde.plasma.systemtray
 
 [Containments][281][Applets][289][Configuration]
-PreloadWeight=95
+PreloadWeight=100
 SystrayContainmentId=290
 
 [Containments][281][Applets][302]
@@ -550,8 +550,8 @@ immutability=1
 lastScreen=0
 location=4
 plugin=org.kde.plasma.private.systemtray
-popupHeight=487
-popupWidth=487
+popupHeight=498
+popupWidth=498
 wallpaperplugin=org.kde.image
 
 [Containments][290][Applets][291]
@@ -601,7 +601,6 @@ plugin=org.kde.plasma.volume
 PreloadWeight=100
 
 [Containments][290][Applets][300][Configuration][General]
-currentTab=streams
 migrated=true
 
 [Containments][290][Applets][301]

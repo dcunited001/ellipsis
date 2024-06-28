@@ -74,7 +74,6 @@
 
 ;; see search-engines.lisp
 
-
 ;;** Defaults
 
 (define-configuration buffer

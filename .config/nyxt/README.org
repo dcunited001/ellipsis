@@ -3,7 +3,6 @@
 #+EMAIL:     noreply@te.xel.io
 #+DESCRIPTION: notes
 
-Referencing [[github:aartaka/nyxt-config][aartaka/nyxt-config]] and others
 
 #+begin_src emacs-lisp
 (setq-local nyxt-config (expand-file-name "~/.config/nyxt")
@@ -29,7 +28,6 @@ Maybe purchase the [[https://nyxt.atlas.engineer/extension/invader.org][invader 
 + nyxt/mode/password:password-mode :: look into keypassxc/yubikey and gpg
 + Process Mode :: watch files/directories, run commands
 
-
 *** Desktop/Customization
 
 Auto rules is a good way to enforce policy for browsing specific apps. If
@@ -43,6 +41,10 @@ supported
 
 
 * Docs
+
+* Resources
++ [[https://github.com/shaunsingh/nix-darwin-dotfiles/blob/9a434ffd912b781d01bc92abd6317c0fcfaa6cdb/configs/nyxt/commands.lisp][shaunsingh/nix-darwin-dotfiles]]
++ [[github:aartaka/nyxt-config][aartaka/nyxt-config]]
 
 * Setup
 
@@ -114,7 +116,6 @@ I'm not sure how to set up a completely separate profile to isolate the
 programmability from long-term browsing sessions.
 
 ** Common Lisp
-
 
 *** Classes & Slots
 

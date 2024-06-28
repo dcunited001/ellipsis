@@ -110,7 +110,7 @@ ShowTabBox=false
 padding=4
 
 [Tiling][1029d820-f73b-5369-8221-b4095e1ae1f2]
-tiles={"layoutDirection":"horizontal","tiles":[{"width":0.27734375},{"layoutDirection":"vertical","tiles":[{"height":0.5},{"height":0.5}],"width":0.37890625},{"width":0.34375}]}
+tiles={"layoutDirection":"horizontal","tiles":[{"width":0.32421875},{"layoutDirection":"vertical","tiles":[{"height":0.5},{"height":0.5}],"width":0.33203125},{"width":0.34375}]}
 
 [Tiling][1de74c2c-7c31-57ed-b159-16fc6eee9612]
 tiles={"layoutDirection":"horizontal","tiles":[{"width":0.25},{"width":0.5},{"width":0.25}]}
