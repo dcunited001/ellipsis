@@ -1,0 +1,48 @@
+#!/bin/sh
+
+# another way to count profiles
+
+# hard `env` dependency
+prof_path=$GUIX_EXTRA
+prof_regexp="$1"
+
+if [[ -n "$prof_regexp" ]]; then
+  profiles=$(ls $prof_path | grep -E "$prof_regexp")
+else
+  profiles=$(ls $prof_path)
+fi
+
+for p in ${profiles}; do
+  # shouldn't be possible
+  if [[ -d "$prof_path/$p" ]]; then
+    prof_count="$(ls "$prof_path/$p" | wc -l)"
+
+    # ls "$prof_path/$p" 
+    echo $prof_count $p
+  fi
+done
+
+# ls $GUIX_EXTRA | xargs -I{} ls $GUIX_EXTRA/{}  | sed -E 's/-[[:digit:]]+-link//g' | sort | uniq -c
+#!/bin/sh
+# because I can't remember recsel basics lol
+#
+# guix search auctex | recsel -p name,dependencies
+
+
+#_print_usage() {
+#  echo "TODO"
+#}
+
+#justlist=
+
+#while getopts :l OPT; do
+#  case $OPT in
+#  # maybe slightly unsafe
+#    l) justlist=1;;
+#    *) _print_usage; exit 2
+#  esac
+#done
+
+#shift `expr $OPTIND - 1`
+#OPTIND=1
+#

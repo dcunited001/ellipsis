@@ -1903,6 +1903,12 @@ dwdot https://github.com/daviwil/dotfiles
 
 #+end_src
 
+
+*** IRC
+
+
+**** Quassel
+
 ** File Managers
 
 *Guix Packages*
@@ -2580,6 +2586,12 @@ flatpak override --user $CURA_APP --filesystem=$CURA_HOME
          (transform-gnupg
           (specification->package "flatpak"))))))
 #+end_src
+
+This command emits a Guix manifest that's very close, including the graft.
+
+#+begin_example sh
+guix shell -L ~/.dotfiles -m ~/.config/guix/manifests/desktop.scm --export-manifest
+#+end_example
 
 ** Desktop Bin Profile
 

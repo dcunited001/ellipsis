@@ -1,0 +1,35 @@
+#!/bin/sh
+# because I can't remember recsel basics lol
+#
+# guix search auctex | recsel -p name,dependencies
+
+_print_usage() {
+  echo "TODO"
+}
+
+justlist=
+
+while getopts :l OPT; do
+  case $OPT in
+  # maybe slightly unsafe
+    l) justlist=1;;
+    *) _print_usage; exit 2
+  esac
+done
+
+shift `expr $OPTIND - 1`
+OPTIND=1
+
+pkg_regexp=$1
+
+if [[ -z "$justlist" ]]; then
+  # the sed could be eliminated via more specific recsel query
+  guix search $pkg_regexp |
+    recsel -p dependencies | 
+    sed -e "s/dependencies://g" | 
+    tr ' ' '\n' |
+    sort | uniq
+else
+  guix search $pkg_regexp |
+    recsel -p name,dependencies
+fi

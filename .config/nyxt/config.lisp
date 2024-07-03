@@ -11,7 +11,7 @@
 ;;   &key depends-on components &allow-other-keys)
 
 (define-nyxt-user-system-and-load nyxt-user/basic-config
-  :components ("status" "search-engines"))
+  :components ("status" "search-engines" "keys"))
 
 ;;** Profiles
 
@@ -50,10 +50,13 @@
 
 ;;**** Invader
 
-;; ASDF won't compile compile this or any other modules
+;; ISSUE: ASDF won't compile compile this or any other modules
 
-;; (define-nyxt-user-system-and-load "nyxt-user/invader-proxy"
-;;   :depends-on ("invader"))
+;; CAUSE: the SBCL compiling this wasn't the SBCL that Guix got Nyxt got
+;; compiled with. A Guix profile needs to propagate SBCL (or something) and
+;; some environment constraints on CL/SBCL/ASDF are needed
+
+(define-nyxt-user-system-and-load "nyxt-user/invader-proxy" :depends-on ("invader"))
 
 ;;** Keys
 
@@ -80,4 +83,4 @@
   ;; (:web-buffer :prompt-buffer :editor-buffer)
   "Sets emacs-mode and mouse/noob bindings everywhere."
   ;; ((default-modes `(:emacs-mode :dc/noob-mode ,@%slot-value%)))
-  ((default-modes `(:emacs-mode ,@%slot-value%))))
+  ((default-modes `(:dc/noob-mode :emacs-mode ,@%slot-value%))))
