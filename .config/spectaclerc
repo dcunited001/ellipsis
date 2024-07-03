@@ -7,8 +7,8 @@ arrowStrokeColor=0,255,0
 ellipseShadow=false
 ellipseStrokeColor=255,0,0
 freehandStrokeColor=0,255,0
-rectangleShadow=false
-rectangleStrokeColor=255,0,0
+rectangleFillColor=30,30,30
+rectangleStrokeColor=255,0,0,0
 rectangleStrokeWidth=3
 textFont=Noto Sans,14,-1,0,400,0,0,0,0,0,0,0,0,0,0,1
 
@@ -39,15 +39,10 @@ window-position=106,1882
 
 [ImageSave]
 imageFilenameTemplate=Screenshot_<yyyy>-<MM>-<dd>_<hh>-<mm>-<ss>
-lastImageSaveAsLocation=file:///data/org/rants/discord-user-list4.png
-lastImageSaveLocation=file:///data/xdg/Pictures/Screenshots/Screenshot_2024-06-26_04-19-15.jpeg
+lastImageSaveAsLocation=file:///tmp/Screenshot_foobar.jpeg
+lastImageSaveLocation=file:///tmp/Screenshot_foobar.jpeg
 preferredImageFormat=JPEG
 translatedScreenshotsFolder=Screenshots
-
-[KFileDialog Settings]
-Recent Files[$e]=file:///data/org/rants/discord-user-list4.png
-Recent URLs[$e]=file:///data/org/rants/,file:$HOME/
-detailViewIconSize=16
 
 [VideoSave]
 translatedScreencastsFolder=Screencasts

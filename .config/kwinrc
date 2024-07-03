@@ -39,7 +39,6 @@ TabletMode=off
 bismuthEnabled=true
 blurEnabled=false
 contrastEnabled=false
-cubeEnabled=true
 desktopchangeosdEnabled=false
 forceblurEnabled=false
 highlightwindowEnabled=false

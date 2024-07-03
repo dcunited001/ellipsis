@@ -87,7 +87,7 @@ Halt Without Confirmation=none,,Shut Down Without Confirmation
 Lock Session=Meta+Q,Meta+L\tScreensaver,Lock Session
 Log Out=none,Ctrl+Alt+Del,Show Logout Prompt
 Log Out Without Confirmation=none,,Log Out Without Confirmation
-LogOut=,,Log Out
+LogOut=none,,Log Out
 Reboot=none,,Reboot
 Reboot Without Confirmation=none,,Reboot Without Confirmation
 Shut Down=none,,Shut Down
@@ -95,23 +95,23 @@ _k_friendly_name=Session Management
 
 [kwin]
 Activate Window Demanding Attention=none,Meta+Ctrl+A,Activate Window Demanding Attention
-Cube=Meta+C,Meta+C,Toggle Cube
-Cycle Overview=none,none,Cycle through Overview and Grid View
-Cycle Overview Opposite=none,none,Cycle through Grid View and Overview
+Cube=,Meta+C,Toggle Cube
+Cycle Overview=Ctrl+Volume Down,none,Cycle through Overview and Grid View
+Cycle Overview Opposite=,none,Cycle through Grid View and Overview
 Decrease Opacity=none,,Decrease Opacity of Active Window by 5%
 Edit Tiles=Meta+Alt+Shift+Tab,Meta+T,Toggle Tiles Editor
 Expose=Ctrl+Volume Up,Ctrl+F9,Toggle Present Windows (Current desktop)
-ExposeAll=Ctrl+Shift+Volume Up,Ctrl+F10\tLaunch (C),Toggle Present Windows (All desktops)
+ExposeAll=Ctrl+Shift+Volume Up,Ctrl+F10,Toggle Present Windows (All desktops)
 ExposeClass=Ctrl+Volume Mute,Ctrl+F7,Toggle Present Windows (Window class)
 ExposeClassCurrentDesktop=Ctrl+Shift+Volume Mute,none,Toggle Present Windows (Window class on current desktop)
-Grid View=Meta+G,Meta+G,Toggle Grid View
+Grid View=,Meta+G,Toggle Grid View
 Increase Opacity=none,,Increase Opacity of Active Window by 5%
 Invert=Meta+Ctrl+I,Meta+Ctrl+I,Toggle Invert Effect
 Invert Screen Colors=none,none,Invert Screen Colors
 InvertWindow=Meta+Ctrl+U,Meta+Ctrl+U,Toggle Invert Effect on Window
 Kill Window=none,Meta+Ctrl+Esc,Kill Window
 Move Tablet to Next Output=none,none,Move the tablet to the next output
-Overview=none,Meta+W,Toggle Overview
+Overview=,Meta+W,Toggle Overview
 Setup Window Shortcut=none,,Setup Window Shortcut
 Show Desktop=none,Meta+D,Peek at Desktop
 Switch One Desktop Down=none,Meta+Ctrl+Down,Switch One Desktop Down
@@ -244,6 +244,9 @@ Window to Screen 5=none,,Move Window to Screen 5
 Window to Screen 6=none,,Move Window to Screen 6
 Window to Screen 7=none,,Move Window to Screen 7
 _k_friendly_name=KWin
+view_actual_size=Meta+0,Meta+0,Zoom to Actual Size
+view_zoom_in=Meta++\tMeta+=,Meta++\tMeta+=,Zoom In
+view_zoom_out=Meta+-,Meta+-,Zoom Out
 
 [mediacontrol]
 _k_friendly_name=Media Controller
@@ -274,7 +277,7 @@ powerProfile=Battery\tMeta+B,Battery\tMeta+B,Switch Power Profile
 
 [plasmashell]
 _k_friendly_name=plasmashell
-activate application launcher=Meta\t,Meta\tAlt+F1,Activate Application Launcher
+activate application launcher=Meta,Meta\tAlt+F1,Activate Application Launcher
 activate task manager entry 1=Meta+Alt+1,Meta+1,Activate Task Manager Entry 1
 activate task manager entry 10=none,Meta+0,Activate Task Manager Entry 10
 activate task manager entry 2=Meta+Alt+2,Meta+2,Activate Task Manager Entry 2
@@ -291,7 +294,7 @@ activate widget 181=none,none,Activate Network speed Widget
 activate widget 187=none,none,Activate Application Launcher Widget
 activate widget 209=none,none,Activate Application Launcher Widget
 activate widget 234=none,none,Activate GPU Compute Widget
-activate widget 282=Alt+F1,none,Activate Application Launcher Widget
+activate widget 282=,none,Activate Application Launcher Widget
 activate widget 285=Ctrl+Alt,none,Activate Global Menu Widget
 activate widget 4=none,none,Activate Application Launcher Widget
 activate widget 57=none,none,Activate Application Launcher Widget

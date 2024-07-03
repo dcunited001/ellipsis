@@ -22,7 +22,6 @@ Type=80
 UsageBar=448
 
 [KFileDialog Settings]
-detailViewIconSize=16
 iconViewIconSize=64
 listViewIconSize=64
 

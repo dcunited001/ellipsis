@@ -9,8 +9,14 @@ migrated=true
 PowerDevilEnabled=false
 appstreamEnabled=false
 baloosearchEnabled=true
+browserhistoryEnabled=false
 calculatorEnabled=false
 desktopsessionsEnabled=false
+krunner_appstreamEnabled=false
+krunner_katesessionsEnabled=false
+krunner_powerdevilEnabled=false
+krunner_recentdocumentsEnabled=false
+krunner_sessionsEnabled=false
 krunner_spellcheckEnabled=false
 locationsEnabled=false
 org.kde.activities2Enabled=false
@@ -19,3 +25,6 @@ org.kde.windowedwidgetsEnabled=false
 plasma-desktopEnabled=false
 recentdocumentsEnabled=false
 unitconverterEnabled=false
+
+[Plugins][Favorites]
+plugins=krunner_services,krunner_systemsettings,helprunner,krunner_konsoleprofiles,krunner_kwin,krunner_placesrunner

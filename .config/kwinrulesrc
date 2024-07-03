@@ -19,6 +19,10 @@ wmclass=ykman-gui yubikey manager
 wmclasscomplete=true
 wmclassmatch=1
 
+[General]
+count=1
+rules=fd810c0d-b637-465a-a2c6-57dd47ec789f
+
 [bb60cc91-70b1-4855-89ec-47ef035bf14a]
 Description=Window settings for ykpersonalization
 clientmachine=localhost
@@ -27,3 +31,16 @@ types=1
 wmclass=yubikey-personalization-gui ykpersonalization
 wmclasscomplete=true
 wmclassmatch=1
+
+[ebf41967-5fba-4b8b-94b9-226633251c52]
+decocolor=BreezeClassic
+decocolorrule=2
+noborderrule=3
+
+[fd810c0d-b637-465a-a2c6-57dd47ec789f]
+Description=Default Window Size
+size=1680,1050
+sizerule=3
+types=1
+wmclass=(nyxt|emacs)
+wmclassmatch=3

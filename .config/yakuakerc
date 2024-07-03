@@ -1,8 +1,9 @@
 [Appearance]
+HideSkinBorders=true
 TerminalHighlightOnManualActivation=true
 
 [Desktop Entry]
-DefaultProfile=Eagle.profile
+DefaultProfile=DC.profile
 
 [Dialogs]
 FirstRun=false
@@ -30,5 +31,5 @@ switch-to-session-9=Alt+9; Alt+(
 
 [Window]
 DynamicTabTitles=true
-Screen=3
+Screen=1
 ShowOnAllDesktops=false
