@@ -1,5 +1,8 @@
 (in-package #:nyxt-user)
 
+;; the context-buffer search-engines are sorted alphabetically
+;; and *dc/search-engines* is appended to the slot value
+;; https://github.com/atlas-engineer/nyxt/blob/97c0b4164df88e9e610b3237d7e304539abae618/source/buffer.lisp#L592
 (defvar *dc/search-engines*
   (list
    ;; google:

@@ -9,37 +9,6 @@
             nyxt-pkg (expand-file-name "~/.local/share/nyxt/extensions"))
 #+end_src
 
-* Tasks
-** TODO checkout Nyxt packages
-+ [ ] [[https://github.com/aartaka/nx-search-engines][aartaka/nx-search-engines]] (contains completion for many [[https://github.com/aartaka/nx-search-engines/blob/master/search-engines.lisp][search engines]])
-+ [ ] [[https://github.com/aartaka/nx-kaomoji][aartaka/nx-kaomoji]]
-
-** TODO review [[https://github.com/migalmoreno/nx-tailor][migalmoreno/nx-tailor]] source
-
-
-** TODO Configure & Try features
-
-Maybe purchase the [[https://nyxt.atlas.engineer/extension/invader.org][invader theme]]
-
-*** Automation
-
-+ scripting nyxt :: run with --headless, --no-socket and etc
-+ extracting content :: using lisp or javascript
-+ nyxt/mode/password:password-mode :: look into keypassxc/yubikey and gpg
-+ Process Mode :: watch files/directories, run commands
-
-*** Desktop/Customization
-
-Auto rules is a good way to enforce policy for browsing specific apps. If
-applied alongside custom wrapper scripts or Desktop files, then SSB's can be
-supported
-
-+ Auto Rules :: match-(domain|host|url|regex|scheme)
-+ format-status-(tabs|modes) ::
-
-
-
-
 * Docs
 
 * Resources
@@ -141,7 +110,27 @@ Use =(slot-value ...)=
         '("alacritty --command vim")))
 #+end_src
 
-***** TODO learn mroe...
+***** TODO learn more...
+
+#+begin_src common-lisp
+(with-slots ((a obj1-slot-a) ... ) obj1 ... )
+#+end_src
+
+
+*** Combinating
+
+"Method Combination" ... hmm close
+
+#+begin_quote
+_method_ *n.* an object that is part of a generic function and which provides
+information about how that generic function should behave when its arguments are
+objects of certain classes or with certain identities.
+
+_method combination_ *n.* 1. generally, the composition of a set of methods to
+produce an effective method for a generic function. 2. an object of type
+method-combination, which represents the details of how the method
+combination[1] for one or more specific generic functions is to be performed.
+#+end_quote
 
 ** Source
 
@@ -225,3 +214,36 @@ Some other code is needed in =config.lisp= in order to add =tailor-mode= to
 (define-configuration web-buffer
  ((default-modes `(tailor:tailor-mode ,@%slot-default%))))
 #+end_src
+
+* Tasks
+
+* nyxt
+
+** TODO checkout Nyxt packages
++ [ ] [[https://github.com/aartaka/nx-search-engines][aartaka/nx-search-engines]] (contains completion for many [[https://github.com/aartaka/nx-search-engines/blob/master/search-engines.lisp][search engines]])
++ [ ] [[https://github.com/aartaka/nx-kaomoji][aartaka/nx-kaomoji]]
+
+** Try emitting graphviz from Nyxt using [[https://github.com/michaelw/cl-dot/blob/master/package.lisp][cl-dot]]
+
+** TODO review [[https://github.com/migalmoreno/nx-tailor][migalmoreno/nx-tailor]] source
+
+
+** TODO Configure & Try features
+
+Maybe purchase the [[https://nyxt.atlas.engineer/extension/invader.org][invader theme]]
+
+*** Automation
+
++ scripting nyxt :: run with --headless, --no-socket and etc
++ extracting content :: using lisp or javascript
++ nyxt/mode/password:password-mode :: look into keypassxc/yubikey and gpg
++ Process Mode :: watch files/directories, run commands
+
+*** Desktop/Customization
+
+Auto rules is a good way to enforce policy for browsing specific apps. If
+applied alongside custom wrapper scripts or Desktop files, then SSB's can be
+supported
+
++ Auto Rules :: match-(domain|host|url|regex|scheme)
++ format-status-(tabs|modes) ::
