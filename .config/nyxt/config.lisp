@@ -12,6 +12,9 @@
 
 (define-nyxt-user-system-and-load nyxt-user/basic-config
   :components ("status" "search-engines" "keys"))
+;; (reset-asdf-registries)
+;; (define-nyxt-user-system-and-load nyxt-user/invader-proxy
+;;     :depends-on ("invader"))
 
 ;;** Profiles
 
@@ -56,14 +59,14 @@
 ;; compiled with. A Guix profile needs to propagate SBCL (or something) and
 ;; some environment constraints on CL/SBCL/ASDF are needed
 
-(define-nyxt-user-system-and-load "nyxt-user/invader-proxy" :depends-on ("invader"))
+;; TODO: still not loading
 
 ;;** Keys
 
 (define-configuration input-buffer
-  ((override-map
-    (let ((map (make-keymap "override-map")))
-      (define-key map "f1 f5" 'execute-command "C-space" 'nothing)))))
+                      ((override-map
+                        (let ((map (make-keymap "override-map")))
+                          (define-key map "f1 f5" 'execute-command "C-space" 'nothing)))))
 
 ;;** Bookmarks
 
@@ -84,3 +87,68 @@
   "Sets emacs-mode and mouse/noob bindings everywhere."
   ;; ((default-modes `(:emacs-mode :dc/noob-mode ,@%slot-value%)))
   ((default-modes `(:dc/noob-mode :emacs-mode ,@%slot-value%))))
+
+
+;;*** Default Modes
+
+;;  reduce-tracking-mode
+;;  no-procrastinate-mode
+;;  force-https-mode
+;;  emacs-mode
+;;  bookmark-frequent-visits-mode
+;;  certificate-exception-mode
+;;  autofill-mode
+;;  spell-check-mode
+;;  search-buffer-mode
+;;  hint-mode
+;;  document-mode
+;;  password-mode
+;;  bookmark-mode
+;;  annotate-mode
+;;  history-mode
+
+;;*** UI
+
+;; reading-line-mode
+;; + small-web-mode :: for gopher/gemini (a major mode, i think)
+;; + style-mode :: 
+
+;;*** Nyxt UI
+
+;; repeat-mode
+
+;;*** Policy
+
+;; no-sound-mode
+;; no-webgl-mode
+
+;;*** Automation
+
+;; + bookmark-frequent-visits-mode
+;; + bookmarklets
+;; + user-script-mode
+
+;;*** Systems & Security
+
+;; + watch-mode :: refresh every N minutes
+;; + proxy-mode :: analyze/intercept traffic (for non-malicious purposes)
+;; + remembrance-mode
+;; + process-mode :: display formatted content from system commands
+;; + process-mode + tts-mode :: alerts
+
+;;*** Programming
+
+;; preview-mode
+
+;;*** Common Lisp
+
+;; macro-edit-mode
+;; editor-mode
+;; repl-mode
+
+;; history-migration-mode
+;; (does this import or append another history source)
+
+;;*** Interactive
+
+;; expedition-mode

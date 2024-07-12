@@ -11,7 +11,13 @@
 
 * Docs
 
+** Lisp
+
++ [[https://www.sbcl.org/manual/index.html][SBLC Manual]]
++ [[https://www.sbcl.org/manual/asdf.html#Top][ASDF Manual]]
+
 * Resources
+
 + [[https://github.com/shaunsingh/nix-darwin-dotfiles/blob/9a434ffd912b781d01bc92abd6317c0fcfaa6cdb/configs/nyxt/commands.lisp][shaunsingh/nix-darwin-dotfiles]]
 + [[github:aartaka/nyxt-config][aartaka/nyxt-config]]
 
