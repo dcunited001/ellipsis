@@ -10,6 +10,7 @@ RepeatRate=25
 [Libinput][1149][8264][Kensington Eagle Trackball]
 LeftHanded=false
 PointerAcceleration=-0.400
+ScrollFactor=0.5
 
 [Libinput][1386][855][Wacom Intuos Pro M Pen]
 OutputName=DP-1

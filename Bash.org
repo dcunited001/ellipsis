@@ -1679,11 +1679,29 @@ alias psnice='ps -o pid,comm,nice' # $pid
 
 alias ptrgb="pstree -C age -pT"
 
-#*renice @alias
+#* renice @alias
 # alias renoice="renice --priority 15 $(pgrep emacs-29)"
 
-#* grep @ALIAS
+#* shell
+
+#** redirect @ALIAS
+alias wordcat="tee >(xargs -n1 cat) | wc -w"
+
+#** curl @ALIAS
+
+# use with parameter expansion: echo -e https://fdsa.com/path/to/{0,1,2,3,4,5}.jpg | curlist -o
+
+# curl --remote-name-all --output-dir /data/xdg/Documents/cheatsheets/lisp/folding/ -K <( ... )
+# <(echo -e https://page.com/path/to/{4,5,6,7,8,9,10,11}.jpg | sed -e 's/ /\n/g' | sed -E 's/^(.*)$/url="\1"/g')
+
+#* data
+alias tyxy="tidy --quiet yes --tidy-mark no --vertical-space yes -indent -xml"
+
+#** jqyq @ALIAS
+
+#** grep @ALIAS
 alias grepnobin="grep -I"
+
 
 #* system @ALIAS
 
@@ -1809,7 +1827,17 @@ tre() {
 
 **** Aliases
 
+simple functions for simple man
 
+#+begin_src sh :tangle .config/sh/rc.d/functions.sh
+  diffpair() {
+    [[ $# -gt 1 ]] || return 1;
+    globbed=$2
+    prefix=$1
+
+    for f in $globbed; do diff $prefix/$f $f; done
+  }
+#+end_src
 
 **** Git Repo
 

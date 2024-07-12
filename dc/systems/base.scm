@@ -19,7 +19,7 @@
 
 (use-package-modules nfs certs shells ssh tls gnupg security-token acl
                      bash emacs emacs-xyz gnome networking libusb
-                     fonts cups audio xorg xdisorg linux file-systems
+                     texinfo fonts cups audio xorg xdisorg linux file-systems
                      version-control package-management freedesktop rsync
                      cryptsetup hardware guile vim golang golang-crypto)
 
@@ -293,5 +293,7 @@
 
    ;; virt-manager needs dconf schemas/services available via dbus.
    ;; dconf
+
+   ;; pinfo
 
    gvfs))

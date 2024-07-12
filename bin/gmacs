@@ -8,6 +8,17 @@ emacs_profile_name="emacs-g${DEBUG_EMACS+-debug}"
 emacs_profile=$GUIX_EXTRA/$emacs_profile_name/$emacs_profile_name
 search_paths=0
 
+_print_initfile_warning() {
+    echo "You have a ~/.emacs file (probably custom.el)."
+    echo ""
+    echo "That will be very confusing."
+    echo ""
+    echo "It prevents $initdir/init.el from loading."
+    echo ""
+}
+
+[[ -f "$HOME/.emacs" ]] && _print_initfile_warning
+
 while getopts :Zp OPT; do
     case $OPT in
         Z|+Z)
@@ -31,5 +42,7 @@ OPTIND=1
 if [ 0 -lt "$search_paths" ]; then
     guix shell -p $emacs_profile --search-paths
 else
-    guix shell -p $emacs_profile -- emacs "$@"
+    # echo "$@"
+    echo guix shell -p $emacs_profile -- emacs $@
+    guix shell -p $emacs_profile -- emacs $@
 fi
