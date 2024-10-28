@@ -4,8 +4,9 @@
        ;; bidi chinese japanese layout
 
        :completion
-       (company +childframe)
+       ;; (company +childframe)
        (vertico +icons)
+       corfu
        ;; company helm ido ivy
 
        :ui
@@ -28,8 +29,8 @@
        :editor
        ;; (evil +everywhere) god objed parinfer rotate-text word-wrap
        ;; TODO: fold: probably remove
-       file-templates fold (format +onsave) lispy multiple-cursors snippets
-
+       file-templates fold lispy multiple-cursors snippets
+       (format +onsave +lsp)
 
        :emacs
        ;; ibuffer
@@ -51,6 +52,9 @@
        (docker +lsp)
        editorconfig ;; ... how did i miss this?
        (eval +overlay)
+
+       ;; TODO implement (unless (getenv "DOOMLSP") +eglot)
+       
        (lsp +peek)                      ; +peek doesn't do much in the code
        lookup
        (magit +forge)
@@ -83,10 +87,10 @@
        (javascript +lsp)
        (julia +lsp)
        (latex +cdlatex +latexmk)
-       lua
+       lua ;; TODO: (lua +lsp)
        markdown
        nix
-       (org +jupyter +pandoc +pretty +noter)
+       (org +jupyter +pandoc +pretty +noter +gnuplot +present +roam2)
        plantuml
        (python +lsp) ;; TODO: +poetry +pyright +pyenv
        qt

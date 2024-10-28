@@ -58,12 +58,12 @@ path for my Guix System laptop.
 #+begin_src scheme :tangle ../.config/guix/manifests/doomemacs.scm
 (specifications->manifest
  '("openjdk"
-   "emacs-pgtk"
+   "emacs-next-pgtk"
    "ripgrep"
    "fd"))
 #+end_src
 
-This Emacs profile intended to run as a secondary server
+This Emacs profile is intended to run as a secondary server
 
 + All =emacsclient= interaction with it must specify
   =--socket=/run/user/1000/emacs/$socket= where for me, =socket=doom=
@@ -76,21 +76,38 @@ but i can't really specify it as the Doom Emacs =EMACS=/usr/bin/emacs=
 variable ... for reasons. So I just specify the binary in the link to the guix
 profile, which should be most current.
 
-There are some helper scripts to demonstrate and accomplish this:
+Below are some helper scripts and services to ensure that Doom Emacs uses the
+proper environment.
 
 + .local/share/systemd/user/doom.service :: start a systemd service to run a
   second emacs server
 + .local/share/applications/doomclient.desktop :: uses the =doomclient=
   wrapper
-+ bin/doomclient :: run an =emacsclient= that connects to the =doom= server
-+ bin/doomemacs :: run the doom emacs server, outside of systemd
++ bin/doomemacs :: run the doom emacs server, outside of systemd. A socket
+  specified by =-- --socket=muh.socket= may need to be managed.
++ bin/doomclient :: run an =emacsclient= that connects to the =doom=
+  server. The socket argument must match.
 + bin/doomsync :: wrapper script to run =doom sync= only, when full rebuilds
   aren't helpful
 + bin/doomup :: runs =doom clean= to clean elc/eln, runs =doom up= and then
   =doom build=, some of which may be redundant.
 
+Run =bin/doom install= from =$EMACSDIR= after exporting variables listed in
+the =doom.service= file, then seems to install correctly. You should check the
+timestamps on directories like =$EMACSDIR/.local/straight= to ensure the
+initial setup is correct. Doom is pretty good with straight builds, but if the
+ELC and ELN files are built incorrectly, strap on in for a good time.
+
 The Vim icon seems to be about as available as the Emacs icon, so I use it for
 =freedesktop= shortcuts and when calling =notify-send=
+
+** Guix
+
+*** LSP
+
+There are some issues when running LSP servers if they are built from
+Microsoft's NodeJS template. I still need to test a bit to see how Doom
+handles Eglot & LSP, but I'd like to move to Fedora or something soon.
 
 * Functionality
 
