@@ -76,6 +76,7 @@
        ;; racket raku rst (scheme +guile) sml solidity swift terra
        (cc +lsp)
        (clojure +lsp)
+       common-lisp
        data
        emacs-lisp
        (go +lsp)

@@ -3,7 +3,7 @@ HideSkinBorders=true
 TerminalHighlightOnManualActivation=true
 
 [Desktop Entry]
-DefaultProfile=DC.profile
+DefaultProfile=dc.profile
 
 [Dialogs]
 FirstRun=false
@@ -31,5 +31,8 @@ switch-to-session-9=Alt+9; Alt+(
 
 [Window]
 DynamicTabTitles=true
+Height=60
+Position=51
 Screen=1
 ShowOnAllDesktops=false
+Width=80

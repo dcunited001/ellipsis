@@ -16,6 +16,7 @@ UncheckedSlides=/data/xdg/Wallpapers/anime/blood-blockade-leonardo-2a.jpg
 
 [Containments][278]
 ItemGeometries-2560x1440=
+ItemGeometries-2880x1620=
 ItemGeometriesHorizontal=
 activityId=bc3cdced-7201-4291-a43c-fe3ef12080c2
 formfactor=0
@@ -44,6 +45,8 @@ Provider=wcpotd
 [Containments][279]
 ItemGeometries-1600x2560=
 ItemGeometries-1620x2880=
+ItemGeometries-2560x1440=
+ItemGeometriesHorizontal=
 ItemGeometriesVertical=
 activityId=bc3cdced-7201-4291-a43c-fe3ef12080c2
 formfactor=0
@@ -54,8 +57,8 @@ plugin=org.kde.plasma.folder
 wallpaperplugin=org.kde.potd
 
 [Containments][279][ConfigDialog]
-DialogHeight=540
-DialogWidth=720
+DialogHeight=678
+DialogWidth=1045
 
 [Containments][279][Wallpaper][org.kde.potd][General]
 FillMode=3
@@ -84,7 +87,7 @@ ToolBoxButtonState=topcenter
 ToolBoxButtonX=202
 
 [Containments][280][Wallpaper][org.kde.slideshow][General]
-Image=file:///usr/share/wallpapers/ColorfulCups/
+Image=file:///usr/share/wallpapers/garuda-wallpapers/violett-eevee-02.png
 
 [Containments][281]
 activityId=
@@ -101,7 +104,7 @@ plugin=org.kde.plasma.kickoff
 
 [Containments][281][Applets][282][Configuration]
 PreloadWeight=100
-popupHeight=531
+popupHeight=500
 popupWidth=755
 
 [Containments][281][Applets][282][Configuration][ConfigDialog]
@@ -173,8 +176,8 @@ plugin=org.kde.plasma.digitalclock
 
 [Containments][281][Applets][287][Configuration]
 PreloadWeight=100
-popupHeight=483
-popupWidth=843
+popupHeight=527
+popupWidth=887
 
 [Containments][281][Applets][287][Configuration][Appearance]
 autoFontAndSize=false
@@ -186,6 +189,10 @@ fontFamily=Fira Sans ExtraBold
 fontStyleName=Regular
 fontWeight=400
 showWeekNumbers=true
+
+[Containments][281][Applets][287][Configuration][ConfigDialog]
+DialogHeight=540
+DialogWidth=720
 
 [Containments][281][Applets][288]
 immutability=1
@@ -551,8 +558,8 @@ immutability=1
 lastScreen=0
 location=4
 plugin=org.kde.plasma.private.systemtray
-popupHeight=520
-popupWidth=520
+popupHeight=575
+popupWidth=575
 wallpaperplugin=org.kde.image
 
 [Containments][290][Applets][291]
@@ -594,7 +601,7 @@ immutability=1
 plugin=org.kde.plasma.notifications
 
 [Containments][290][Applets][298][Configuration]
-PreloadWeight=70
+PreloadWeight=85
 
 [Containments][290][Applets][299]
 immutability=1
@@ -608,6 +615,7 @@ plugin=org.kde.plasma.volume
 PreloadWeight=100
 
 [Containments][290][Applets][300][Configuration][General]
+currentTab=streams
 migrated=true
 
 [Containments][290][Applets][301]
@@ -633,7 +641,7 @@ immutability=1
 plugin=org.kde.plasma.networkmanagement
 
 [Containments][290][Applets][307][Configuration]
-PreloadWeight=55
+PreloadWeight=65
 
 [Containments][290][Applets][317]
 immutability=1
@@ -662,7 +670,7 @@ plugin=org.kde.plasma.icontasks
 [Containments][303][Applets][304][Configuration][General]
 fill=false
 iconSpacing=2
-launchers=applications:terminator.desktop,applications:org.zealdocs.zeal.desktop,applications:code.desktop,applications:quassel.desktop,applications:org.kde.plasma-systemmonitor.desktop,applications:emacs.desktop,preferred://browser,applications:io.element.Element.desktop,applications:systemsettings.desktop,applications:octopi.desktop
+launchers=applications:terminator.desktop,applications:org.zealdocs.zeal.desktop,applications:code.desktop,applications:quassel.desktop,applications:org.kde.plasma-systemmonitor.desktop,applications:emacs.desktop,preferred://browser,applications:io.element.Element.desktop,applications:systemsettings.desktop,applications:org.kde.konsole.desktop
 maxStripes=1
 showOnlyCurrentDesktop=false
 showOnlyCurrentScreen=false
@@ -692,4 +700,4 @@ wallpaperplugin=org.kde.image
 
 [ScreenMapping]
 itemsOnDisabledScreens=
-screenMapping=file:///data/xdg/Wallpapers/anime/default.jpg,1,bc3cdced-7201-4291-a43c-fe3ef12080c2,file:///data/xdg/Wallpapers/anime/blood-blockade-leonardo-2a.jpg,1,bc3cdced-7201-4291-a43c-fe3ef12080c2,file:///data/xdg/Wallpapers/anime/ergo-proxy.jpg,1,bc3cdced-7201-4291-a43c-fe3ef12080c2,file:///data/xdg/Wallpapers/anime/yin-yang-fractal.jpg,1,bc3cdced-7201-4291-a43c-fe3ef12080c2,file:///data/xdg/Wallpapers/anime/kakegurui.png,1,bc3cdced-7201-4291-a43c-fe3ef12080c2,file:///data/xdg/Wallpapers/anime/Guilty-Crown.jpg,1,bc3cdced-7201-4291-a43c-fe3ef12080c2,file:///data/xdg/Wallpapers/anime/blood-blockade-leo-123.jpg,1,bc3cdced-7201-4291-a43c-fe3ef12080c2,desktop:/steam.desktop,0,bc3cdced-7201-4291-a43c-fe3ef12080c2,file:///data/xdg/Wallpapers/anime/blood-blockade-leonardo.png,1,bc3cdced-7201-4291-a43c-fe3ef12080c2,file:///data/xdg/Wallpapers/anime/ergo_proxy_desktop.jpg,1,bc3cdced-7201-4291-a43c-fe3ef12080c2,file:///data/xdg/Wallpapers/anime/blood-blockade-wallpaper.jpg,1,bc3cdced-7201-4291-a43c-fe3ef12080c2,file:///data/xdg/Wallpapers/anime/blood-blockade-leonardo-2b.jpg,1,bc3cdced-7201-4291-a43c-fe3ef12080c2
+screenMapping=file:///data/xdg/Wallpapers/anime/default.jpg,1,bc3cdced-7201-4291-a43c-fe3ef12080c2,file:///data/xdg/Wallpapers/anime/ergo-proxy.jpg,1,bc3cdced-7201-4291-a43c-fe3ef12080c2,file:///data/xdg/Wallpapers/anime/Guilty-Crown.jpg,1,bc3cdced-7201-4291-a43c-fe3ef12080c2,file:///data/xdg/Wallpapers/anime/blood-blockade-leonardo-2b.jpg,1,bc3cdced-7201-4291-a43c-fe3ef12080c2,file:///data/xdg/Wallpapers/anime/blood-blockade-leonardo.png,1,bc3cdced-7201-4291-a43c-fe3ef12080c2,file:///data/xdg/Wallpapers/anime/ergo_proxy_desktop.jpg,1,bc3cdced-7201-4291-a43c-fe3ef12080c2,file:///data/xdg/Wallpapers/anime/blood-blockade-wallpaper.jpg,1,bc3cdced-7201-4291-a43c-fe3ef12080c2,desktop:/steam.desktop,0,bc3cdced-7201-4291-a43c-fe3ef12080c2,file:///data/xdg/Wallpapers/anime/kakegurui.png,1,bc3cdced-7201-4291-a43c-fe3ef12080c2,file:///data/xdg/Wallpapers/anime/blood-blockade-leo-123.jpg,1,bc3cdced-7201-4291-a43c-fe3ef12080c2,file:///data/xdg/Wallpapers/anime/blood-blockade-leonardo-2a.jpg,1,bc3cdced-7201-4291-a43c-fe3ef12080c2,file:///data/xdg/Wallpapers/anime/yin-yang-fractal.jpg,1,bc3cdced-7201-4291-a43c-fe3ef12080c2

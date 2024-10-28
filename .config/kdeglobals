@@ -157,11 +157,12 @@ widgetStyle=Breeze
 AnimationDurationFactor=0.35355339059327373
 ColorScheme=BreezeLight
 LookAndFeelPackage=org.kde.breezedark.desktop
+ShowDeleteCommand=false
 SingleClick=false
 contrast=4
 
 [KFileDialog Settings]
-Allow Expansion=false
+Allow Expansion=true
 Automatically select filename extension=true
 Breadcrumb Navigation=true
 Decoration position=0
@@ -169,16 +170,16 @@ LocationCombo Completionmode=5
 PathCombo Completionmode=5
 Show Bookmarks=false
 Show Full Path=false
-Show Inline Previews=true
+Show Inline Previews=false
 Show Preview=false
 Show Speedbar=true
 Show hidden files=true
-Sort by=Date
+Sort by=Name
 Sort directories first=true
 Sort hidden files last=false
-Sort reversed=true
-Speedbar Width=138
-View Style=Detail
+Sort reversed=false
+Speedbar Width=141
+View Style=DetailTree
 
 [KScreen]
 ScaleFactor=1

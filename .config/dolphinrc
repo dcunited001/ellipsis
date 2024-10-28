@@ -4,6 +4,9 @@ update_info=dolphin_detailsmodesettings.upd:rename-leading-padding
 [CompactMode]
 PreviewSize=22
 
+[ContentDisplay]
+UseShortRelativeDates=false
+
 [DetailsMode]
 PreviewSize=16
 
@@ -13,13 +16,24 @@ PreviewSize=16
 
 [General]
 AutoExpandFolders=true
+EditableUrl=true
+FilterBar=true
+OpenExternallyCalledFolderInNewTab=true
+OpenNewTabAfterLastTab=true
+ShowFullPath=true
+ShowFullPathInTitlebar=true
 ShowToolTips=true
 ShowZoomSlider=false
+UseTabForSwitchingSplitView=true
 Version=202
 ViewPropsTimestamp=2022,7,12,7,23,45.809
 
 [IconsMode]
 PreviewSize=48
+
+[InformationPanel]
+dateFormat=ShortFormat
+showHovered=false
 
 [KFileDialog Settings]
 Places Icons Auto-resize=false
@@ -49,4 +63,11 @@ CompletionMode=1
 History=mesh,ema
 
 [PreviewSettings]
-Plugins=appimagethumbnail,audiothumbnail,comicbookthumbnail,cursorthumbnail,directorythumbnail,djvuthumbnail,ebookthumbnail,exrthumbnail,imagethumbnail,jpegthumbnail,kraorathumbnail,opendocumentthumbnail,svgthumbnail,windowsexethumbnail,windowsimagethumbnail,ffmpegthumbs,fontthumbnail,palathumbcreator,blenderthumbnail,gsthumbnail,mobithumbnail,rawthumbnail,mltpreview
+Plugins=audiothumbnail,directorythumbnail,fontthumbnail,imagethumbnail,jpegthumbnail,kraorathumbnail,gsthumbnail,rawthumbnail,svgthumbnail,ffmpegthumbs
+
+[Search]
+What=Content
+
+[ViewPropertiesDialog]
+3 screens: Height=334
+3 screens: Width=379

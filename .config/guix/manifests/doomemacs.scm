@@ -1,5 +1,5 @@
 (specifications->manifest
  '("openjdk"
-   "emacs-pgtk"
+   "emacs-next-pgtk"
    "ripgrep"
    "fd"))

@@ -2,18 +2,25 @@
 update_info=spectacle_clipboard.upd:clipboard-settings-change,spectacle_rememberregion.upd:spectacle-migrate-rememberregion
 
 [Annotations]
-annotationToolType=6
-arrowStrokeColor=0,255,0
+annotationToolType=5
+arrowStrokeColor=0,85,255
+arrowStrokeWidth=7
 ellipseShadow=false
-ellipseStrokeColor=255,0,0
-freehandStrokeColor=0,255,0
-rectangleFillColor=30,30,30
-rectangleStrokeColor=255,0,0,0
-rectangleStrokeWidth=3
-textFont=Noto Sans,14,-1,0,400,0,0,0,0,0,0,0,0,0,0,1
+ellipseStrokeColor=85,255,0
+ellipseStrokeWidth=22
+freehandStrokeColor=255,255,127
+freehandStrokeWidth=26
+highlighterStrokeColor=255,170,0
+lineStrokeColor=255,255,0
+lineStrokeWidth=8
+rectangleFillColor=255,170,0,0
+rectangleStrokeColor=0,85,255
+rectangleStrokeWidth=7
+textFont=Noto Serif,24,-1,0,400,1,0,0,0,0,0,0,0,0,0,1,SemiCondensed Italic
+textFontColor=255,255,0
 
 [FileDialogSize]
-4 screens: Height=1440
+4 screens: Height=1376
 4 screens: Width=864
 DisplayPort-0 DisplayPort-1 DisplayPort-2 Height 1080x1920 DisplayPort-1=1020
 DisplayPort-0 DisplayPort-1 DisplayPort-2 Width 1080x1920 DisplayPort-1=884
@@ -39,8 +46,8 @@ window-position=106,1882
 
 [ImageSave]
 imageFilenameTemplate=Screenshot_<yyyy>-<MM>-<dd>_<hh>-<mm>-<ss>
-lastImageSaveAsLocation=file:///tmp/Screenshot_foobar.jpeg
-lastImageSaveLocation=file:///tmp/Screenshot_foobar.jpeg
+lastImageSaveAsLocation=file:///data/xdg/Pictures/Screenshots/doom-emacs-codebase-is-impressive.jpeg
+lastImageSaveLocation=file:///data/xdg/Pictures/Screenshots/Screenshot_2024-10-02_07-58-57-1.jpeg
 preferredImageFormat=JPEG
 translatedScreenshotsFolder=Screenshots
 

@@ -16,33 +16,40 @@
   - [[#xdg-shim][XDG Shim]]
   - [[#xdg-user-dirs][XDG User Dirs]]
   - [[#profile-hooks][Profile Hooks]]
-  - [[#rc-hooks][RC Hooks]]
   - [[#apps][Apps]]
   - [[#xdg][XDG]]
-  - [[#arch][Arch]]
   - [[#flatpak][Flatpak]]
   - [[#steam--proton][Steam & Proton]]
+  - [[#shepherd][Shepherd]]
   - [[#guix][Guix]]
+  - [[#nix][Nix]]
   - [[#fcitx5][FCITX5]]
   - [[#gtk][GTK]]
   - [[#qt][QT]]
   - [[#emacs][Emacs]]
+  - [[#amd-rocm][AMD ROCm]]
+  - [[#podman][Podman]]
+  - [[#docker][Docker]]
+  - [[#kaggle][Kaggle]]
+- [[#hardware][Hardware]]
 - [[#languages][Languages]]
   - [[#java][Java]]
   - [[#node][Node]]
+  - [[#graphql][GraphQL]]
   - [[#graphviz][Graphviz]]
   - [[#python][Python]]
   - [[#julia][Julia]]
   - [[#matlab][Matlab]]
 - [[#profile][Profile]]
   - [[#profile-1][=.profile=]]
-- [[#alacritty][Alacritty]]
 - [[#tools][Tools]]
+  - [[#vs-codium][VS Codium]]
   - [[#screen][Screen]]
 - [[#shells][Shells]]
   - [[#rc][RC]]
   - [[#bash][Bash]]
   - [[#zsh][Zsh]]
+  - [[#scripts][Scripts]]
 - [[#environment-1][Environment]]
   - [[#main][main]]
   - [[#devtools][devtools]]
@@ -55,7 +62,6 @@
 - [[#tui][TUI]]
   - [[#env][Env]]
   - [[#apps-1][Apps]]
-  - [[#guix-1][Guix]]
 
 * Environment
 :PROPERTIES:
@@ -1003,6 +1009,13 @@ long as there isn't an active =venv= for that =pyenv= in the shell -- these have
 a separate =pip=.
 
 There is also [[https://github.com/tjquillan/poetry-plugin-pyenv][tjquillan/poetry-plugin-pyenv]].
+
+***** Keyring
+
+In KDE, unless there's a reason for pip to cache in keyring, then maybe
+disable it: =`pyenv which python3` -m keyring --disable=
+
+See [[https://stackoverflow.com/a/68760190]]
 
 ***** Poetry Config
 
