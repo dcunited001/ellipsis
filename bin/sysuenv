@@ -1,0 +1,6 @@
+[[ $# -lt 1 ]] && echo requires filename && exit
+
+#awkprog='$1 == field { key=$1; var=$2; $1 = ""; $2=""; print "export",var,"=",$0;}'
+#awk -F '=' -v field=Environment "$awkprog" $1
+
+grep -e '^Environment=' $1 | sed -e 's/^Environment=//i'

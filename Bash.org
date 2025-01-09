@@ -1740,6 +1740,13 @@ alias wget='wget -c '
 alias jctl="journalctl -p 3 -xb"
 alias jctlu="journalctl --user -u"
 alias sysu='systemctl --user'
+# also: systemd-search-shared
+alias sysupath='systemd-path user-shared'
+alias sysdpath='systemd-path system-shared'
+# sysu cat doom
+# sysu show -p Type $doom
+# sysu show -vp Type $doom # only values
+# alias sysed='systemctl --user edit --drop-in=$overridename $svc'
 
 #* pkg
 #** pacman @ALIAS
