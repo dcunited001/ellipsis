@@ -20,7 +20,7 @@
        modeline
        ophints
        (popup +defaults)
-       (vc-gutter +pretty)
+       ;; (vc-gutter +pretty)
        vi-tilde-fringe
 
        ;; TODO window-select: maybe add it
@@ -95,7 +95,7 @@
        plantuml
        (python +lsp) ;; TODO: +poetry +pyright +pyenv
        qt
-       rest
+       (rest +jq)
        (ruby +lsp) ;; TODO: +rails +chruby +rbenv +rvm
        (rust +lsp)
        (scala +lsp)

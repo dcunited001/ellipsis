@@ -1,16 +1,84 @@
 ;; -*- no-byte-compile: t; -*-
 ;;; $DOOMDIR/packages.el
 
-;;* Essentials
+;;* Interface
 
-(package! journalctl-mode)
+;;** Search
+
+;;** Buffers
+(package! bufler)
+
+;;** Minibuffer
+
+;;** Look and Feel
+;; https://github.com/kickingvegas/casual-suite
+(package! casual-suite)
+;; (package! casual-avy)
+;; (pacakge! casual-symbol-overlay)
+(package! ef-themes)
+;; pomm
+;; pulsar
+
+;;** Editor
+;; visual-fill-column?
+
+;;** Highlighting
+;; highlight-symbol?
+
+;;** Bookmarks
+(package! burly)
+(package! activities)
+
+;;** UI
+(package! buffer-move)
+(package! tmr)
+
+;;** UI Components
+;; tabspaces
+;;** Completion
+;; consult-git-log-grep?
+
+;; later?
+;;
+;; consult-eglot?
+;; consult-flyspell?
+;; consult-recoll?
+
+
+;;* Systems
+
+;;** Unix
+
 (package! crontab-mode)
-(package! ssh-config-mode)
 (package! x509-mode)
 (package! elf-mode)
+(package! syslog-mode :recipe (:type git :flavor melpa :host github
+                               :repo "dcunited001/syslog-mode"
+                               :branch "dcunited001-read-only"))
+
+;;** Linux
+
+(package! aurel)
 (package! archive-rpm)
+(package! journalctl-mode)
+(package! systemd-mode)
+(package! daemons)
+
+;;**
+
+;;** Guix
+
+;;** Geiser
+
+;;** Arei
+;; packages: queue, sesman, arei
+(package! queue)
+(package! arei :recipe (:type git :repo "https://git.sr.ht/~abcdw/emacs-arei"))
 
 ;;* Programming
+
+;;** Shell
+(package! flymake-shellcheck)
 
 ;;** LSP
 
@@ -19,6 +87,11 @@
 (package! html-ts-mode :recipe (:host github :repo "mickeynp/html-ts-mode"))
 (package! astro-ts-mode :recipe (:host github :repo "Sorixelle/astro-ts-mode"))
 
+;;** Lisp
+
+;;*** Scheme
+
+;;** Lang
 
 ;;*** Tailwind
 ;; TODO: add web packages (tailwind, liquid, etc)
@@ -30,6 +103,75 @@
 ;;   :init
 ;;   (setq lsp-tailwindcss-add-on-mode t))
 ;; (add-hook 'before-save-hook 'lsp-tailwindcss-rustywind-before-save)
+
+;;* Dev
+
+;;* Org
+
+(package! ob-nix)
+(package! ob-graphql)
+
+
+;;* Tools
+
+;;** Auth
+;; (package! auth-source-pass) ; already in doom
+;; (package! oauth2)
+
+;;** Crypto
+
+(package! ssh-config-mode)
+
+;;** Data
+
+;;*** Structure
+
+(package! protobuf-mode)
+
+;;*** Database
+
+;;*** API
+
+;;**** Restclient
+
+;; doom: restclient.el
+;;
+;; this seems to include restclient-jq, whereas my config used the
+;; restclient.jq from restclient.el
+
+;;**** OpenAPI
+;; (package! swagg)
+
+;;**** GraphQL
+;; doom: graphql-mode
+
+;;*** Visualization
+
+;; doom: graphviz-dot-mode
+
+;;**** D2
+(package! d2-mode)
+
+;;**** Mermaid
+(package! mermaid-mode)
+(package! ob-mermaid)
+
+;;**** Smiles
+(package! smiles-mode)
+(package! ob-smiles)
+
+;;** Writing
+
+;;*** Kanji
+;; TODO: (package! kanji-mode)
+
+;;*** Translate
+(package! google-translate)
+(package! ob-translate)
+
+;; * Social
+
+(package! 0x0 :recipe (:host sourcehut :repo "willvaughn/emacs-0x0"))
 
 ;; To install SOME-PACKAGE from MELPA, ELPA or emacsmirror:
 ;; (package! some-package)
