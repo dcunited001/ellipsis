@@ -20,34 +20,44 @@
 (defconst NATIVECOMP  (featurep 'native-compile))
 (defconst DBUS_FOUND (not (null (getenv "DBUS_SESSION"))))
 
-;;** Essential Vars
+;;** Emacs
 
 ;;*** User
 
 (setq-default user-full-name "David Conner"
               user-mail-address (or (getenv "EMAIL") "noreply@te.xel.io"))
 
-;;*** Emacs Config
+;;*** Paths
 
+;; see doom-{emacs,core,data,docs,env,user,etc,cache,modules,...}-dir
 ;; (defvar dc/emacs-d (expand-file-name "~/.emacs.g/") "TODO: docs.")
 ;; (defvar dc/emacs-cache (expand-file-name "~/.cache/emacs/") "TODO: docs.")
 ;; (defvar dc/emacs-dw (expand-file-name "dw" dc/emacs-d) "TODO: docs.")
 ;; (defvar dc/emacs-doom-modules (expand-file-name "doom/modules" dc/emacs-d))
 ;; (defvar dc/emacs-modules (expand-file-name "modules" dc/emacs-d) "TODO: docs.")
 
-(setopt use-package-enable-imenu-support t)
+;; don't accidentally edit doom's straight.el files
+(def-project-mode! doom-straight-read-only-mode
+  :match (rx-to-string (string-join (list "" (f-base doom-emacs-dir) ".local" "straight" "") "/"))
+  :modes '(emacs-lisp-mode)
+  :on-enter (setq-local buffer-read-only t))
 
-;;*** Paths
+;;**** Load Path
 
 (add-to-list 'load-path (expand-file-name ".dotfiles/.emacs.d/lisp" (getenv "HOME")))
 (require 'dw-settings)
 
 ;; TODO no-littering?
 ;;\\(?:;[^#]\\|\\*+\\)
+
+;;**** Use Package
+
+(setopt use-package-enable-imenu-support t)
+
 ;;** UI
 
 (add-hook! 'doom-init-ui-hook
-  (lambda ()
+  (progn
     (menu-bar-mode +1)
     (scroll-bar-mode -1)
     (tool-bar-mode -1)))
@@ -58,7 +68,15 @@
 ;; doom--setq-outline-regexp-for-emacs-lisp-mode-h
 ;; doom--setq-tab-width-for-emacs-lisp-mode-h
 
-;;*** Font 
+;;*** Alerts
+(require 'notifications)
+(use-package! alert
+  :demand t
+  :custom
+  ((alert-default-style 'libnotify)
+   (alert-log-level 'normal)))
+
+;;*** Font
 
 ;; (setopt doom-font (font-spec :family "Noto Sans Mono" :size 12 :weight 'normal)
 ;;       doom-serif-font (font-spec :family "Noto Serif" :size 12 :weight 'normal))
@@ -80,8 +98,39 @@
 
 ;; TODO: get Doom to; not close all the direds(advice-add #'+doom-)
 
+
 ;;*** Theme
-(use-package ef-themes :demand t :init (setopt doom-theme nil) :config (ef-themes-load-random 'dark))
+(use-package ef-themes
+  :demand t
+  :init (setopt doom-theme nil)
+  :hook (doom-init-ui-hook . (lambda () (ef-themes-load-random 'dark))))
+
+;;*** Windows
+(use-package! ace-window
+  :commands ace-window aw-show-dispatch-help
+  :config
+  (map! :map ctl-x-map "o" #'aw-show-dispatch-help "C-o" #'ace-window))
+
+(use-package! buffer-move
+  :commands buf-move-up buf-move-down buf-move-left buf-move-right
+  :config
+  (map! "<C-S-up>" #'buf-move-up
+        "<C-S-down>" #'buf-move-down
+        "<C-S-left>" #'buf-move-left
+        "<C-S-right>" #'buf-move-right))
+
+
+;;*** Tabs Windows
+
+;;*** Completion
+;;**** Vertico
+;;**** Corfu
+;;**** Orderless
+;;**** Consult
+;;**** Marginalia
+;;**** Cape
+;;**** Embark
+
 
 ;;* Org
 
@@ -89,32 +138,30 @@
 
 ;;** Bibtex
 
-(after! ob
-  (use-package google-translate
-    :custom
-
-    (google-translate-backend-method 'curl)
-
-    ;; (:bind "C-T" #'my-google-translate-at-point)
-    (defun google-translate--search-tkk ()
-      (list 430675 2721866130))
-    (defun my-google-translate-at-point ()
-      "reverse translate if prefix"
-      (interactive)
-      (if current-prefix-arg
-          (google-translate-at-point)
-        (google-translate-at-point-reverse))))
-  (use-package ob-translate)
-
-  (use-package ob-mermaid
-    ;; TODO :custom ob-mermaid-cli-path "~/.nix-profile/bin/mmdc"
-    ))
+(use-package! google-translate
+  ;; (:bind "C-T" #'my-google-translate-at-point)
+  :init
+  (defun google-translate--search-tkk ()
+    (list 430675 2721866130))
+  (defun my-google-translate-at-point ()
+    "reverse translate if prefix"
+    (interactive)
+    (if current-prefix-arg
+        (google-translate-at-point)
+      (google-translate-at-point-reverse)))
+  :custom (google-translate-backend-method 'curl))
 
 ;;** Roam
+
 (after! org
-  (use-package org-roam
+  (use-package! org-roam
     :custom
     (org-roam-directory (expand-file-name "roam" org-directory))))
+
+(after! ob
+  (use-package! ob-translate :defer t)
+  ;; TODO :custom ob-mermaid-cli-path "~/.nix-profile/bin/mmdc"
+  (use-package! ob-mermaid :defer t))
 
 ;;* Dev
 ;;
@@ -150,6 +197,16 @@
   +emacs-lisp-outline-regexp ";;\\(?:;[^#]\\|\\*+\\)"
   outline-regexp +emacs-lisp-outline-regexp)
 
+;;*** Emacs Lisp
+
+;;*** Scheme
+
+;; the arei package hooks itself already. .dir-locals.el may need an update.
+;;
+;; run guile-ares-rs server externally, then connect using sesman-start
+(use-package! arei :defer t)
+
+;;*** Lispy
 ;; lispy-outline: "^[ 	]*;;;\\(;*\\**\\) [^ 	\n]"
 ;;   doom: "^;;\\(?:;[^#]\\|\\*+\\)"
 (use-package! lispy
@@ -170,7 +227,6 @@
 ;;
 ;; this should get you between 80% to -20% there.
 
-;;*** Emacs Lisp
 
 ;;** Web
 
@@ -205,7 +261,7 @@
 (use-package astro-ts-mode
   :mode "\\.astro\\'")
 
-;;** Langs
+;;** Scripting
 
 ;;*** Shell
 
@@ -213,13 +269,61 @@
   :commands flymake-shellcheck-load
   :config (add-hook 'sh-mode-hook 'flymake-shellcheck-load))
 
-;; TODO: per-project vterm
-;; https://github.com/doomemacs/doomemacs/blob/master/modules/term/vterm/autoload.el
-
 (use-package vterm :defer t
   :custom
   (vterm-max-scrollback 1000)
   (vterm-set-bold-hightbright t))
+
+;; TODO: per-project vterm
+;; https://github.com/doomemacs/doomemacs/blob/master/modules/term/vterm/autoload.el
+
+;;** Compiled
+
+(use-package! zig-mode
+  ;; :custom (lsp-zig-zls-executable . "~/.fdsa")
+  :defer t)
+
+;;** Langs
+
+;;* VCS
+;;** Git
+(use-package! git-link
+  :commands git-link git-link-commit git-link-homepage
+  :config (map! :leader
+                "v M-g l" #'git-link
+                "v M-g c" #'git-link-commit
+                "v M-g h" #'git-link-homepage))
+
+;;** Diff
+;;*** Patches
+;;*** Smerge
+(after! hydra
+  (require 'smerge)
+  (defhydra dw/smerge-panel ()
+    "smerge"
+    ("k" (smerge-prev) "prev change" )
+    ("j" (smerge-next) "next change")
+    ("u" (smerge-keep-upper) "keep upper")
+    ("l" (smerge-keep-lower) "keep lower")
+    ("q" nil "quit" :exit t)))
+
+;;*** Emerge
+;;
+;;** Magit
+
+(after! magit
+  (use-package! magit-todos
+    :config (magit-todos-mode 1))
+
+  ;; magit-tbdiff commands interfaced via a transient
+  (use-package! magit-tbdiff))
+
+;;** Ghub
+;;** Forge
+;;** Forges
+;;*** Sourcehut
+;;*** Repo
+
 
 ;;* Tools
 
@@ -234,14 +338,21 @@
 ;; (setq epg-debug t)
 
 ;;*** auth-source-pass
-(use-package auth-source-pass
-  :demand t
-  :config (auth-source-pass-enable))
+;; via doom
 
 ;;** Docs
 ;; (external docs: dash/tldr)
 ;;** Systems
+
+;;*** Emacs
+;; via tecosaur (open elp/etrace output in flamegraphs)
+;;
+;; open in: speedscope https://www.speedscope.app/ or chrome://tracing
+(use-package! etrace :after elp)
+
 ;;*** Arch
+(use-package! aurel :defer t)
+
 ;;*** Guix
 ;;**** recutils: manipulate guix cli output
 (use-package! rec-mode
@@ -250,34 +361,83 @@
   (add-to-list 'dc/org-babel-load-languages '(rec . t))
   (require 'ob-rec)
   (dc/org-babel-do-load-languages))
+
 ;;*** Nix, ContainerD
-;;** Unix
-;; elf-mode, crontab-mode
-(use-package syslog-mode
+
+(use-package! docker
+  :commands docker
+  :config (map! "<f1> <f2> d" #'docker))
+
+;;*** Unix
+
+(use-package! elf-mode
+  :commands elf-mode
+  :magic ("ELF" . 'elf-mode))
+
+(use-package! crontab-mode)
+(use-package! syslog-mode
   :custom (syslog-setup-on-load t)
   :mode "\\(messages\\(\\.[0-9]\\)?\\|SYSLOG\\|\\.s?trace\\)\\'")
 
 ;; ("\\(messages\\(\\.[0-9]\\)?\\|SYSLOG\\|\\.s?trace\\)\\'" . syslog-mode)
 
-;;** Linux
-;;
-;;** Network
+;; TODO: PROCED: setup keybindings
+(use-package! proced
+  :commands proced
+  :config (map! "<f1> <f2> d" #'proced
+                :map proced-mode-map
+                "sh" #'proced-sort-header))
+
+;;*** Linux
+(use-package! repology
+  :commands repology
+  :config (map! "<f1> <f2> r" #'repology))
+(use-package! dts-mode :defer t)
+(use-package! archive-rpm :defer t)
+
+;;*** Network
 ;; password-store.el? pass.el?
-;; terraform
+(use-package! terraform-mode
+  :defer t
+  :custom (terraform-format-on-save t))
+
 ;;*** SSH
-;;**** Tramp
-;;**** x509-mode
-(use-package x509-mode
+
+(use-package! ssh-config-mode)
+
+(use-package! x509-mode
   ;; TODO x509-mode-hook: jumping straight to x509 doesn't work well
   ;; :hook (x509-mode-hook . (lambda () (call-interactively 'x509-dwim)))
   :mode (rx "." (| "pem" "cer" "der" "crt" "crl") eos))
 
-;; ((rx "." (| "pem" "cer" "der" "crt" "crl") eos) . x509-mode)
+;;**** Tramp
+;; TODO: TRAMP: check that guix emacs build prepends to tramp-remote-path
+(use-package tramp :demand t
+  :config (require 'tramp-container)
+  :custom (tramp-default-method "ssh"))
 
 ;;** Services
-;;
+
+;; TODO: DAEMONS.EL: setup keybindings (daemons-systemd-toggle-user)
+(use-package! daemons
+  :commands daemons
+  :custom ((daemons-systemd-is-user t)))
+
+(use-package! systemd :defer t)
+(use-package! journalctl-mode
+  :commands journalctl
+  :config (map! :leader "oj" #'journalctl))
+
 ;;** Data
 ;;*** Structure
+
+;;**** XML
+(require 'dom)
+(use-package! esxml :demand t)
+
+;;**** Protobuf
+(use-package! protobuf :defer t)
+
 ;;*** Database
 ;;*** Visualization
 ;; gnu plot, graphviz/plot, d2, mermaid, plantuml
@@ -285,10 +445,31 @@
 
 ;;* Applications
 
-(require 'dom)
-(require 'esxml-query)
+;;* Social
+
+;;** Pastebin
+
+(use-package! 0x0 :defer t :init (require 'dc-0x0))
+(after! 0x0
+  (setopt 0x0-servers (dc/0x0-retention-policy)))
+
+;;** Open Source
+;;
+;;*** Debbugs
+(use-package! debbugs
+  :commands debbugs-gnu-bugs debbugs-gnu-guix-search debbugs-gnu-search debbugs-gnu-package
+  :custom (debbugs-gnu-default-packages '("guix-patches" "guix"))
+  :hook  ((bug-reference-mode-hook bug-reference-prog-mode-hook) . #'debbugs-browse-mode)
+  :config (map! :map ctl-x-map
+                (:prefix-map ("G" . "DEBBUGS")
+                             "Gb" #'debbugs-gnu-bugs
+                             "Gg" #'debbugs-gnu-guix-search
+                             "Gs" #'debbugs-gnu-search
+                             "Gp" #'debbugs-gnu-package)))
 
 ;;* Keys
+
+;; TODO: move setup for <f1> <f2> map to after use-package (and after! which-key?)
 
 ;;** Global Remaps
 (global-set-key (kbd "C-<prior>") #'tab-bar-switch-to-tab)
@@ -315,6 +496,24 @@
 
       ;; Isearch integration
       "e" #'consult-isearch-history)
+
+;;** Search Map
+(map! :map 'goto-map
+      "a" #'consult-org-agenda
+      "e" #'consult-compile-error
+      (:prefix-map ("f" . "FLY")
+                   "c" #'consult-flycheck
+                   "m" #'consult-flymake)
+      "i" #'consult-imenu-multi
+      "I" #'consult-imenu-multi ;; duplicate
+      "k" #'consult-global-mark
+      "m" #'consult-mark
+      "o" #'consult-outline
+      (:prefix-map ("r" . "ROAM")
+                   "r" #'consult-org-roam-search
+                   "b" #'consult-org-roam-backlinks
+                   "f" #'consult-org-roam-file-find
+                   "l" #'consult-org-roam-forward-links))
 
 ;; Place your private configuration here! Remember, you do not need to run 'doom
 ;; sync' after modifying this file!

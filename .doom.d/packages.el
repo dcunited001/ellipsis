@@ -32,18 +32,24 @@
 ;;** UI
 (package! buffer-move)
 (package! tmr)
+(package! alert)
 
-;;** UI Components
+;;*** UI Components
 ;; tabspaces
-;;** Completion
+;;*** Completion
 ;; consult-git-log-grep?
+;;
+;; doom includes consult's core + dir,lsp,flycheck,yasnippet
 
 ;; later?
 ;;
 ;; consult-eglot?
 ;; consult-flyspell?
 ;; consult-recoll?
+(package! consult-org-roam)
 
+;;** Docs
+(package! tldr)
 
 ;;* Systems
 
@@ -55,25 +61,33 @@
 (package! syslog-mode :recipe (:type git :flavor melpa :host github
                                :repo "dcunited001/syslog-mode"
                                :branch "dcunited001-read-only"))
+;;** Emacs
+
+(package! etrace
+  :recipe (:host github :repo "aspiers/etrace"))
+;; :pin "2291ccf2f2ccc80a6aac4664e8ede736ceb672b7"
 
 ;;** Linux
 
 (package! aurel)
+(package! repology)
 (package! archive-rpm)
+(package! dts-mode)
+
+;;** Services
 (package! journalctl-mode)
 (package! systemd-mode)
 (package! daemons)
 
-;;**
-
 ;;** Guix
 
-;;** Geiser
+;;* VCS
+;;** Git
+(package! git-link)
 
-;;** Arei
-;; packages: queue, sesman, arei
-(package! queue)
-(package! arei :recipe (:type git :repo "https://git.sr.ht/~abcdw/emacs-arei"))
+;;** Magit
+(package! magit-todos)
+(package! magit-tbdiff)
 
 ;;* Programming
 
@@ -87,12 +101,6 @@
 (package! html-ts-mode :recipe (:host github :repo "mickeynp/html-ts-mode"))
 (package! astro-ts-mode :recipe (:host github :repo "Sorixelle/astro-ts-mode"))
 
-;;** Lisp
-
-;;*** Scheme
-
-;;** Lang
-
 ;;*** Tailwind
 ;; TODO: add web packages (tailwind, liquid, etc)
 
@@ -104,7 +112,37 @@
 ;;   (setq lsp-tailwindcss-add-on-mode t))
 ;; (add-hook 'before-save-hook 'lsp-tailwindcss-rustywind-before-save)
 
-;;* Dev
+;;** Lisp
+
+;;*** Common Lisp
+
+;;*** Scheme
+
+;;**** Geiser
+
+;;**** Arei
+;; packages: queue, sesman, arei
+(package! queue)
+(package! arei :recipe (:type git :repo "https://git.sr.ht/~abcdw/emacs-arei"))
+
+;;*** Clojure
+
+;;** Lang
+
+;;*** Rust
+;; TODO: PKG cargo-transient (dep on project.el)
+;;*** C++
+;;**** CMake
+;; TODO: PKG project-cmake (dep on project.el)
+;;**** QML
+;;*** Go
+
+;;*** Python
+
+;;*** Scala
+;;*** TCL
+;; TODO: PKG tcl-ts-mode? (local)
+
 
 ;;* Org
 
@@ -127,6 +165,7 @@
 ;;*** Structure
 
 (package! protobuf-mode)
+(package! esxml)
 
 ;;*** Database
 
@@ -172,6 +211,9 @@
 ;; * Social
 
 (package! 0x0 :recipe (:host sourcehut :repo "willvaughn/emacs-0x0"))
+
+;;** Open Source
+(package! debbugs)
 
 ;; To install SOME-PACKAGE from MELPA, ELPA or emacsmirror:
 ;; (package! some-package)

@@ -23,7 +23,7 @@
        ;; (vc-gutter +pretty)
        vi-tilde-fringe
 
-       ;; TODO window-select: maybe add it
+       window-select
        ;; TODO vc-gutter: probably remove it
 
        :editor
@@ -45,7 +45,7 @@
        syntax
 
        :tools
-       ;; ansible ein (pass +auth) prodigy tmux upload
+       ;; ansible ein prodigy tmux upload
        biblio
        (debugger +lsp)
        direnv
@@ -59,6 +59,7 @@
        lookup
        (magit +forge)
        make
+       (pass +auth)
        pdf
        rgb
        taskrunner
@@ -73,9 +74,9 @@
        ;; agda beancount common-lisp coq crystal csharp (dart +flutter) dhall
        ;; elixir elm erlang ess factor faust fortran fsharp fstar gdscript
        ;; idris kotlin lean ledger nim ocaml php purescript
-       ;; racket raku rst (scheme +guile) sml solidity swift terra
+       ;; racket raku rst sml solidity swift terra
        (cc +lsp)
-       (clojure +lsp)
+       (clojure +lsp +tree-sitter)
        common-lisp
        data
        emacs-lisp
@@ -91,19 +92,20 @@
        lua ;; TODO: (lua +lsp)
        markdown
        nix
-       (org +jupyter +pandoc +pretty +noter +gnuplot +present +roam2)
+       (org +jupyter +pandoc +pretty +noter +gnuplot +present +roam2) ; +crypt?
        plantuml
-       (python +lsp) ;; TODO: +poetry +pyright +pyenv
+       (python +lsp +tree-sitter) ;; TODO: +poetry +pyright +pyenv
        qt
        (rest +jq)
        (ruby +lsp) ;; TODO: +rails +chruby +rbenv +rvm
        (rust +lsp)
        (scala +lsp)
+       (scheme)                         ;; not +guile
        (sh +lsp)
 
-       (web +lsp)
+       (web +lsp +tree-sitter)
        (yaml +lsp)
-       ;; TODO: zig: add if i try it
+       (zig +lsp +treesitter)
 
        :email
        ;; (mu4e +org +gmail) notmuch (wanderlust +gmail)

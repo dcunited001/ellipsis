@@ -169,7 +169,7 @@ Key Vault, age, and PGP.")
 (define-public step-cli-bin
   (package
     (name "step-cli-bin")
-    (version "0.25.1")
+    (version "0.28.2")
     (source (origin
               (method url-fetch)
               (uri (string-append
@@ -177,7 +177,7 @@ Key Vault, age, and PGP.")
                     "v" version "/step_linux_" version "_amd64.tar.gz"))
               (sha256
                (base32
-                "0yyv8s1x0wg7090pxh4nzi0yh5bicwvfq17dxf5iszz1r5iihscq"))))
+                "1imqqzb3n783ilwf5y3vacvix1n0llfj62q7632fx081v73z6219"))))
     (build-system copy-build-system)
     (inputs
      (list coreutils pcsc-lite))
@@ -189,7 +189,7 @@ Key Vault, age, and PGP.")
 (define-public step-ca-bin
   (package
     (name "step-ca-bin")
-    (version "0.25.2")
+    (version "0.28.1")
     (source (origin
               (method url-fetch)
               (uri (string-append
@@ -197,7 +197,7 @@ Key Vault, age, and PGP.")
                     "v" version "/step-ca_linux_" version "_amd64.tar.gz"))
               (sha256
                (base32
-                "0hfs1fb74wa1cbjapacwyspnm40i5xrh5br724yxw9f3l6iwvp2c"))))
+                "01q5m0y0rh7w5lzhrwgy5ks44dfkg7f608qyc08gw62lrql5cj3m"))))
     (build-system copy-build-system)
     (arguments
      (list
@@ -212,7 +212,7 @@ Key Vault, age, and PGP.")
 (define-public step-kms-plugin-bin
   (package
     (name "step-kms-plugin-bin")
-    (version "0.11.0")
+    (version "0.11.7")
     (source (origin
               (method url-fetch)
               (uri (string-append
@@ -220,7 +220,7 @@ Key Vault, age, and PGP.")
                     "v" version "/step-kms-plugin_" version "_linux_amd64.tar.gz"))
               (sha256
                (base32
-                "1ij837n9zx6s403i5v1dki0l180h7y70fgwqbrqlb7p4y4kxzfib"))))
+                "17058v307x7l1c0c3j0x1wllq27fhvszxzp7k9ra7hwlsi4s0w80"))))
     (build-system binary-build-system)
     ;; (build-system copy-build-system)
     (inputs `((,gcc "lib")
