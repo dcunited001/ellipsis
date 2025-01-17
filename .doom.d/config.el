@@ -73,8 +73,8 @@
 (use-package! alert
   :demand t
   :custom
-  ((alert-default-style 'libnotify)
-   (alert-log-level 'normal)))
+  (alert-default-style 'libnotify)
+  (alert-log-level 'normal))
 
 ;;*** Font
 
@@ -98,7 +98,6 @@
 
 ;; TODO: get Doom to; not close all the direds(advice-add #'+doom-)
 
-
 ;;*** Theme
 (use-package ef-themes
   :demand t
@@ -119,44 +118,362 @@
         "<C-S-left>" #'buf-move-left
         "<C-S-right>" #'buf-move-right))
 
+;; from tecosaur: ask for buffer after basic window splits
+;;
+;; TODO: need to distinguish between interactive calls to split-window-*
+;;
+;; (defadvice! prompt-for-buffer (&rest _)
+;;   :after '(split-window-below split-window-right)
+;;   (consult-buffer))
 
 ;;*** Tabs Windows
 
 ;;*** Completion
 ;;**** Vertico
 ;;**** Corfu
+
+(setq corfu-auto-delay 0.5)
+
 ;;**** Orderless
 ;;**** Consult
+(use-package! consult-org-roam
+  :after (org-roam consult)
+  :custom
+  (consult-org-roam-grep-func #'consult-ripgrep)
+  (consult-org-roam-buffer-narrow-key consult-narrow-key)
+  (consult-org-roam-buffer-after-buffers t))
+
+;; TODO: CONF: consult-org-roam: (consult-customize ...) & (consult-org-roam-mode)
+
 ;;**** Marginalia
+;; regex to prevent things from popping on screen
+;; (setq marginalia-censor-variables nil)
 ;;**** Cape
 ;;**** Embark
 
 
 ;;* Org
 
-(setq org-directory "/data/org")
+;; + Structure via https://tecosaur.github.io/emacs-config
+;; + my old config was mostly porting in Doom's org behavior, so there was a
+;;   lot of duplication there
 
-;;** Bibtex
+;;** Packages
 
-(use-package! google-translate
-  ;; (:bind "C-T" #'my-google-translate-at-point)
-  :init
-  (defun google-translate--search-tkk ()
-    (list 430675 2721866130))
-  (defun my-google-translate-at-point ()
-    "reverse translate if prefix"
-    (interactive)
-    (if current-prefix-arg
-        (google-translate-at-point)
-      (google-translate-at-point-reverse)))
-  :custom (google-translate-backend-method 'curl))
+(setopt org-directory "/data/org")
+
+;;*** Org, itself
+
+
+;;*** Visuals
+
+;;**** org-modern
+;; TODO: PKG: configure org-modern? (later)
+
+;;**** org-appear
+;; TODO: PKG: configure org-appear tweaks? (later)
+;; https://tecosaur.github.io/emacs-config/config.html#emphasis-markers
+
+;;*** Extras
+;; TODO: PKG: consider org-glossary
+
+;;**** Importing with pandoc
+;; TODO: PKG: configure org-pandoc-import
+
+;;**** Recipes
+;; TODO: PKG: configure org-chef (+ capture)
+
+;;** Behavior
+
+;; from tecosaur
+(setq org-use-property-inheritance t
+      org-log-done t
+      org-list-allow-alphabetical t
+      org-catch-invisible-edits 'smart
+      org-export-with-sub-superscripts '{}
+      ;; org-export-allow-bind-keywords t
+      org-image-actual-width '(0.9)
+
+      ;; from .emacs.guix
+      org-capture-bookmark t ;; nil
+      org-cycle-separator-lines 2
+      org-eldoc-breadcrumb-separator " → "
+      org-enforce-todo-dependencies t
+      ;; startup
+      org-startup-folded 'content
+      org-startup-indented t)
+
+;; this adds (:comments . "link"), which is useful for detangling
+(setq org-babel-default-header-args
+      '((:session . "none")
+        (:results . "replace")
+        (:exports . "code")
+        (:cache . "no")
+        (:noweb . "no")
+        (:hlines . "no")
+        (:tangle . "no")
+        (:comments . "link")))
+
+(remove-hook 'text-mode-hook #'visual-line-mode)
+(add-hook 'text-mode-hook #'auto-fill-mode)
+
+;; (setq org-list-demote-modify-bullet
+;;       '(("+" . "-") ("-" . "+") ("*" . "+") ("1." . "a.")))
+
+;;*** Citation
+
+;;**** Citar
+
+;; TODO: PKG: citar: expect to manage citar-bibliography as list
+;; TODO: PKG: citar: set/manage citar-library-paths, citar-notes-paths
+
+;;**** Zotero
+;; TODO: PKG: oc-csl, renders/exports citations with Zotoro CSL styles (req. download)
+
+;; - doom imports citation
+
+;; (after! oc (setq org-cite-export-processors '((t csl))))
+;; TODO: CONF: oc: org-cite-export-processors ;; => ((latex biblatex) (t csl))
+;; TODO: CONF: org-ref => org-cite https://tecosaur.github.io/emacs-config/config.html#citation,code--7
+
+;;*** cdlatex
+
+;;*** Org Agenda
+;; start with empty org-agenda-files
+(setq org-agenda-files '()
+
+      ;; org-habit
+      org-habit-show-habits t           ; default
+      org-habit-show-habits-only-for-today nil
+
+      ;; org-clock
+      org-clock-auto-clockout-timer 300
+      org-clock-history-length 25
+      org-clock-in-switch-to-state "STRT"
+      org-clock-out-switch-to-state "HOLD"
+      org-clock-out-remove-zero-time-clocks t
+
+      ;; Don't monopolize the whole frame just for the agenda
+      org-agenda-window-setup 'current-window
+      org-agenda-skip-unavailable-files t
+
+      ;; org-clock-persist
+      org-clock-persist t
+      org-clock-persist-query-save t
+      org-clock-persist-query-resume nil ; default
+
+      ;; org-log-into-drawer t ;; use #+STARTUP: logdrawer
+      org-log-done 'time
+
+      ;; org-columns-default-format-for-agenda
+      org-columns-default-format (string-join '("%20CATEGORY(Category)"
+                                                "%65ITEM(Task)"
+                                                "%TODO"
+                                                "%6Effort(Estim){:}"
+                                                "%6CLOCKSUM(Clock)"
+                                                "%TAGS") " ")
+
+      ;; from tecosaur
+      org-agenda-skip-scheduled-if-done t
+      org-agenda-skip-deadline-if-done t
+      org-agenda-include-deadlines t
+      ;; org-agenda-block-separator nil
+      ;; org-agenda-tags-column 100 ;; from testing this seems to be a good value
+      org-agenda-compact-blocks t)
+
+(setq-default org-agenda-span 10
+              org-agenda-start-on-weekday nil
+              org-agenda-start-day "-3d"
+              org-agenda-inhibit-startup t
+              org-agenda-deadline-faces '((1.001 . error)
+                                          (1.0 . org-warning)
+                                          (0.5 . org-upcoming-deadline)
+                                          (0.0 . org-upcoming-distant-deadline)))
+
+;;*** Org Super Agenda
+
+(use-package! org-super-agenda
+  :commands org-super-agenda-mode
+  :init (setq org-super-agenda-header-separator ""
+              org-super-agenda-groups
+              '((:name "Today" :time-grid t :todo "TODO")
+                ;; (:habit t)
+                (:name "Due today" :deadline today)
+                (:name "Overdue" :deadline past)
+                (:name "Due soon" :deadline future)
+                (:name "Urgent" :priority "A")
+                (:name "Crit" :priority "B")
+                (:name "No Estimate" :scheduled t)
+                (:name "No Deadline" :scheduled t)
+                (:priority<= "C" :order 1))))
+
+(after! org-agenda
+  (let ((inhibit-message t))
+    (org-super-agenda-mode)
+    (org-clock-auto-clockout-insinuate)))
+
+
+;;**** org-clock sounds
+;; (and (file-exists-p dc/emacs-sound-theme-path)
+;;      (setq-default org-clock-sound (expand-file-name "complete.oga"
+;;                                                      dc/emacs-sound-theme-path)))
+
+
+;;*** Capture
+
+;;*** Roam
+
+;;*** Snippets
+
+;;** Visuals
+;;*** Font Display
+
+(add-hook 'org-mode-hook #'+org-pretty-mode)
+
+(custom-set-faces!
+  '(outline-1 :weight extra-bold :height 1.25)
+  '(outline-2 :weight bold :height 1.15)
+  '(outline-3 :weight bold :height 1.12)
+  '(outline-4 :weight semi-bold :height 1.09)
+  '(outline-5 :weight semi-bold :height 1.06)
+  '(outline-6 :weight semi-bold :height 1.03)
+  '(outline-8 :weight semi-bold)
+  '(outline-9 :weight semi-bold))
+
+(custom-set-faces!
+  '(org-document-title :height 1.2))
+
+(setq org-fontify-quote-and-verse-blocks t
+      doom-themes-org-fontify-special-tags nil)
+
+;;*** Reduced Text Indent
+;; TODO: CONF: ORG: reduced text indent (maybe configure this later)
+
+;;*** Symbols
+
+(setq org-ellipsis " ▾"
+      org-priority-default ?A
+      org-priority-highest ?A
+      org-priority-lowest ?E
+      org-priority-faces '((?A . nerd-icons-red)
+                           (?B . nerd-icons-orange)
+                           (?C . nerd-icons-yellow)
+                           (?D . nerd-icons-green)
+                           (?E . nerd-icons-blue)))
+
+;; TODO: consider +ligatures-extra-symbols (req config. org-modern)
+
+;;*** Latex Fragments
+
+(after! org
+  (setq org-highlight-latex-and-related '(native script-entities))
+  ;; doom already does this
+  ;; (plist-put org-format-latex-options :scale 1.5)
+  (require 'org-src)
+  (add-to-list 'org-src-block-faces '("latex" (:inherit default :extend t))))
+
+
+
+;;**** Latex Fragments (extras)
+
+;; TODO: CONF: org/latex: auto-preview
+;; (add-hook 'org-mode-hook #'org-latex-preview-auto-mode)
+
+;; also: https://tecosaur.github.io/emacs-config/config.html#prettier-rendering
+
+;;*** Org Plot
+
+;; TODO: CONF: org-plot preamble: https://tecosaur.github.io/emacs-config/config.html#org-plot
 
 ;;** Roam
 
+;; TODO: CONF: org-roam-dailies-capture-templates (req. dc/read-template ... & paths)
+;;  - need to fix paths in ~/.emacs.g
+;; TODO: CONF: rename org-roam-dailies-directory back to default...?
+
+;; doom loads roam via :hook (org-load . +org-init-roam-h)
+(setq org-roam-directory (expand-file-name "roam" org-directory)
+      org-roam-dailies-directory "dailies/"
+      ;; TODO: CONF: org-roam-extract-new-file-path "${slug}-%<%Y%m%d%H%M%S>-.org"
+      org-roam-list-files-commands '(fd fdfind rg find)
+      org-roam-db-gc-threshold most-positive-fixnum
+      org-roam-mode-section-functions #'(org-roam-backlinks-section
+                                         org-roam-reflinks-section)
+      org-roam-completion-everywhere nil
+      org-roam-capture-templates
+      (append
+       '(("n" "Note")
+         ("d" "Default"
+          plain "%?" :unnarrowed t
+          :target (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n"))
+         ("p" "Project"
+          plain "%?" :unnarrowed t
+          :target (file+head
+                   "projects/${slug}.org"
+                   "#+TITLE: ${title}\n#+DESCRIPTION: ${description}\n"))
+         ("t" "Topic"
+          plain "%?" :unnarrowed t
+          :target (file+head+olp
+                   "topics/${slug}.org"
+                   "#+TITLE: ${title}\n#+DESCRIPTION: ${description}\n#+TAGS:\n\n"
+                   ("Roam" "Docs" "Resources" "Topics" "Issues")))
+         ("c" "Code"
+          plain "%?" :unnarrowed t
+          :target (file+head
+                   "code/${slug}.org"
+                   "#+TITLE: ${title}\n#+DESCRIPTION: ${description}\n#+TAGS:\n\n")))
+       `(("z" "Zettel"
+          plain "%?" :unnarrowed t
+          :target (file+head+olp
+                   "slips/%<%Y%m%d%H%M%S>-${slug}.org"
+                   ,(string-join '("#+TITLE: ${title}"
+                                   "#+CATEGORY: slips"
+                                   "#+TAGS: ") "\n")
+                   ("Roam" "Docs" "Resources" "Issues" "Projects"))))))
+
+;;*** Roam UI
+
+;;*** Noter
+;; TODO: PKG: org-noter (req. determining cd/aca-notes-path)
+
+;;** Exports
+
+;;*** General
+
+;; to match the LaTeX article's five levels
+(setq org-export-headline-levels 5)
+
 (after! org
-  (use-package! org-roam
-    :custom
-    (org-roam-directory (expand-file-name "roam" org-directory))))
+  (require 'ox-extra)
+  (ox-extras-activate '(ignore-headlines)))
+
+;;**** Acronym Formatting
+
+;;*** HTML
+
+;;*** LaTeX
+
+;;*** Beamer
+
+;;*** Reveal
+
+;;** Babel
+
+;;*** Google Translate
+
+(defun google-translate--search-tkk ()
+  (list 430675 2721866130))
+(defun my-google-translate-at-point ()
+  "reverse translate if prefix"
+  (interactive)
+  (if current-prefix-arg
+      (google-translate-at-point)
+    (google-translate-at-point-reverse)))
+
+(use-package! google-translate
+  ;; (:bind "C-T" #'my-google-translate-at-point)
+  :custom (google-translate-backend-method 'curl))
+
 
 (after! ob
   (use-package! ob-translate :defer t)
@@ -211,11 +528,11 @@
 ;;   doom: "^;;\\(?:;[^#]\\|\\*+\\)"
 (use-package! lispy
   :defer t
+  :hook (lisp-data-mode . lispy-mode)
   :config
   (setq lispy-outline "^;;\\(?:;[^#]\\|\\*+\\)")
   ;; removing advice fixes consult-outline
-  (advice-remove #'lispy-outline-level #'+emacs-lisp-outline-level)
-  :hook (lisp-data-mode . lispy-mode))
+  (advice-remove #'lispy-outline-level #'+emacs-lisp-outline-level))
 
 ;; TODO: to implement for arel:
 ;;
@@ -298,7 +615,7 @@
 ;;*** Patches
 ;;*** Smerge
 (after! hydra
-  (require 'smerge)
+  (require 'smerge-mode)
   (defhydra dw/smerge-panel ()
     "smerge"
     ("k" (smerge-prev) "prev change" )

@@ -146,6 +146,8 @@
 
 ;;* Org
 
+;; (package! org-modern)
+(package! org-super-agenda)
 (package! ob-nix)
 (package! ob-graphql)
 
