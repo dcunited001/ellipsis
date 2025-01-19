@@ -1,0 +1,28 @@
+# -*- mode: snippet -*-
+# name: srcrcjq
+# uuid: srcrcjq
+# key: srcrcjq
+# condition: t
+# --
+
+#+begin_src restclient :jq "map([.owner.login, .name, .size])[] | @csv" :results table :jq-args "--raw-output"
+:gh-graphql-url = https://api.github.com/graphql
+:gh-url-base = https://api.github.com
+:gh-org = vyos
+:gh-url-path = orgs/:gh-org/repos
+:gh-token := (auth-source-pass-get 'secret "api.github.com/dcunited001^ghub")
+
+:headers = <<
+Accept: application/vnd.github+json
+Authorization: Bearer :gh-token
+X-GitHub-Api-Version: 2022-11-28
+User-Agent: Emacs
+#
+
+GET :gh-url-base/:gh-url-path
+:headers
+
+# nope, just use :jq and :jq-args above.
+# -> jq-set-var :repo-sizes map(.owner)
+# -> jq-set-var :repo-sizes map(. | "\(.owner.login)")
+#+end_src

@@ -100,7 +100,7 @@
 
 ;;*** Theme
 (use-package ef-themes
-  :demand t
+  :defer t
   :init (setopt doom-theme nil)
   :hook (doom-init-ui-hook . (lambda () (ef-themes-load-random 'dark))))
 
@@ -135,6 +135,9 @@
 (setq corfu-auto-delay 0.5)
 
 ;;**** Orderless
+
+;; TODO: CONF: look into `orderless-style-dispatchers'
+
 ;;**** Consult
 (use-package! consult-org-roam
   :after (org-roam consult)
@@ -148,6 +151,8 @@
 ;;**** Marginalia
 ;; regex to prevent things from popping on screen
 ;; (setq marginalia-censor-variables nil)
+;; TODO: CONF: extend `marginalia-annotator-registry'
+
 ;;**** Cape
 ;;**** Embark
 
@@ -754,8 +759,11 @@
 
 ;;**** Protobuf
 (use-package! protobuf :defer t)
-
 ;;*** Database
+
+;;*** API
+(use-package! graphql :after ghub)
+
 ;;*** Visualization
 ;; gnu plot, graphviz/plot, d2, mermaid, plantuml
 ;;** Misc

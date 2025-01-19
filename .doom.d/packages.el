@@ -185,6 +185,7 @@
 
 ;;**** GraphQL
 ;; doom: graphql-mode
+(package! graphql)
 
 ;;*** Visualization
 
