@@ -20,14 +20,14 @@
 (defconst NATIVECOMP  (featurep 'native-compile))
 (defconst DBUS_FOUND (not (null (getenv "DBUS_SESSION"))))
 
-;;** Emacs
+;;* Emacs
 
-;;*** User
+;;** User
 
 (setq-default user-full-name "David Conner"
               user-mail-address (or (getenv "EMAIL") "noreply@te.xel.io"))
 
-;;*** Paths
+;;** Paths
 
 ;; see doom-{emacs,core,data,docs,env,user,etc,cache,modules,...}-dir
 ;; (defvar dc/emacs-d (expand-file-name "~/.emacs.g/") "TODO: docs.")
@@ -42,19 +42,23 @@
   :modes '(emacs-lisp-mode)
   :on-enter (setq-local buffer-read-only t))
 
-;;**** Load Path
+;;*** Load Path
 
 (add-to-list 'load-path (expand-file-name ".dotfiles/.emacs.d/lisp" (getenv "HOME")))
 (require 'dw-settings)
+(require 'dc-util)
 
 ;; TODO no-littering?
 ;;\\(?:;[^#]\\|\\*+\\)
 
-;;**** Use Package
+;;** Use Package
 
 (setopt use-package-enable-imenu-support t)
 
-;;** UI
+
+;;* Interface
+;;** Basics
+;;*** Tooltips
 
 (add-hook! 'doom-init-ui-hook
   (progn
@@ -62,13 +66,67 @@
     (scroll-bar-mode -1)
     (tool-bar-mode -1)))
 
+;;*** Menus
+;;*** Date & Time
+;;*** Mouse
+
+;;** Casual
+
+;; TODO: PKG recent-rgrep https://github.com/kickingvegas/recent-rgrep
+
+;;*** Calc Mode For The Plebs
+(use-package! casual-suite
+  :config
+  (map! "C-o" #'casual-editkit-main-tmenu
+        :map goto-map "M-g" #'casual-avy-tmenu
+        :map ibuffer-mode-map
+        "C-o" #'casual-ibuffer-tmenu
+        "F" #'casual-ibuffer-filter-tmenu
+        "s" #'casual-ibuffer-sortby-tmenu
+        :map calc-mode-map "C-o" #'casual-calc-tmenu
+        :map dired-mode-map "C-o" #'casual-dired-tmenu
+        :map isearch-mode-map "C-o" #'casual-isearch-tmenu
+        :map Info-mode-map "C-o" #'casual-info-tmenu
+        :map reb-mode-map "C-o" #'casual-re-builder-tmenu
+        :map reb-lisp-mode-map "C-o" #'casual-re-builder-tmenu
+        :map bookmark-bmenu-mode-map "C-o" #'casual-bookmarks-tmenu
+        :map org-agenda-mode-map "C-o" #'casual-agenda-tmenu
+        :map symbol-overlay-map "C-o" #'casual-symbol-overlay-tmenu))
+
+;;** Search
+;;*** Xref
+;;*** Grep
+
+;;** Buffers
+(setopt global-auto-revert-non-file-buffers t
+        auto-revert-verbose nil)
+
+;; TODO: decide on global-auto-revert-mode
+;; (global-auto-revert-mode 1)
+
+;;*** Bufler
+;;**** Bufler defauto-groups
+;;**** Bufler defgroups
+;;**** Bufler package
+
+;;** Editor
+;;** UI
+
 (setq display-line-numbers-type nil)
 
 ;; doom--setq-outline-level-for-emacs-lisp-mode-h
 ;; doom--setq-outline-regexp-for-emacs-lisp-mode-h
 ;; doom--setq-tab-width-for-emacs-lisp-mode-h
 
-;;*** Alerts
+;;** Dired
+
+(setq dired-omit-files "^.DS_Store\\'\\|^.project\\(?:ile\\)?\\'\\|^.\\(svn\\)\\'\\|^.ccls-cache\\'\\|\\(?:\\.js\\)?\\.meta\\'\\|\\.\\(?:elc\\|o\\|pyo\\|swp\\|class\\)\\'")
+
+;; TODO: get Doom to; not close all the direds(advice-add #'+doom-)
+;;   - dirvish is somewhat responsible for this
+(dirvish-override-dired-mode -1)
+
+;;** Alerts
 (require 'notifications)
 (use-package! alert
   :demand t
@@ -76,7 +134,7 @@
   (alert-default-style 'libnotify)
   (alert-log-level 'normal))
 
-;;*** Font
+;;** Font
 
 ;; (setopt doom-font (font-spec :family "Noto Sans Mono" :size 12 :weight 'normal)
 ;;       doom-serif-font (font-spec :family "Noto Serif" :size 12 :weight 'normal))
@@ -90,21 +148,13 @@
 ;; doom-big-font
 ;; doom-variable-pitch-font
 
-;;*** Dired
-
-(setq dired-omit-files "^.DS_Store\\'\\|^.project\\(?:ile\\)?\\'\\|^.\\(svn\\)\\'\\|^.ccls-cache\\'\\|\\(?:\\.js\\)?\\.meta\\'\\|\\.\\(?:elc\\|o\\|pyo\\|swp\\|class\\)\\'")
-
-(dirvish-override-dired-mode -1)
-
-;; TODO: get Doom to; not close all the direds(advice-add #'+doom-)
-
-;;*** Theme
+;;** Theme
 (use-package ef-themes
   :defer t
   :init (setopt doom-theme nil)
   :hook (doom-init-ui-hook . (lambda () (ef-themes-load-random 'dark))))
 
-;;*** Windows
+;;** Windows
 (use-package! ace-window
   :commands ace-window aw-show-dispatch-help
   :config
@@ -126,19 +176,88 @@
 ;;   :after '(split-window-below split-window-right)
 ;;   (consult-buffer))
 
-;;*** Tabs Windows
+;;** Tabs Windows
 
-;;*** Completion
-;;**** Vertico
-;;**** Corfu
+;;** Completion
+;;*** Vertico
 
-(setq corfu-auto-delay 0.5)
+;; Doom defaults
 
-;;**** Orderless
+;; (add-to-list 'vertico-multiform-categories
+;;              '(file (+vertico-transform-functions . +vertico-highlight-directory)))
+;; (add-to-list 'vertico-multiform-commands
+;;              '(execute-extended-command (+vertico-transform-functions . +vertico-highlight-enabled-mode)))
+
+;;**** vertico-multiform-{categories,commands}
+(after! vertico-multiform
+  (cl-dolist
+      (vrt-cat
+       '((bookmark reverse grid)
+         (buffer reverse grid)          ; works for ido
+         (command reverse)
+         (consult-compile-error buffer)
+         (consult-compile-multi grid (vertico-grid-annotate . 20))
+         ;; (consult-flymake-error)
+         (consult-grep buffer)
+         (consult-git-log-grep-result buffer)
+         (consult-info reverse)
+         ;; (consult-kmacro)
+         (consult-location buffer)
+         ;; (consult-imenu buffer)
+         (consult-man reverse grid (vertigo-cycle . t))
+         (consult-xref buffer)
+         (environment-variable reverse grid)
+         (expression reverse)           ; for repeat-complex-command
+
+         (file reverse grid (vertico-grid-annotate . 20))
+         ;; (file reverse grid)
+         (imenu buffer)
+         (info-menu reverse grid)
+         (kill-ring reverse grid)
+         (minor-mode reverse)
+         (consult-org-heading reverse grid)
+         ;; (symbol)
+         ;; not sure what symbol-help category refers to
+         (symbol-help reverse grid (vertico-grid-annotate . 20))
+         (theme reverse grid)
+         (unicode-name grid reverse)
+         (yasnippet grid reverse (vertico-cycle . t))
+         (t)))
+    (add-to-list 'vertico-multiform-categories vrt-cat))
+
+  (cl-dolist (vrt-cmd '(("flyspell-correct-*" grid reverse (vertico-grid-annotate . 20))
+                        (org-refile grid reverse indexed)
+                        (consult-yank-pop indexed)
+                        ;; (consult-lsp-diagnostics)
+                        (consult-flycheck reverse)
+                        (consult-flymake reverse)))
+    (add-to-list 'vertico-multiform-commands vrt-cmd)))
+
+;;*** Corfu
+
+(setq corfu-auto-delay 0.5
+      corfu-auto-prefix 3
+
+      global-corfu-modes
+      ;; the doom defaults
+      '((not erc-mode
+         circe-mode
+         help-mode
+         gud-mode
+         vterm-mode)
+        t)
+      corfu-popupinfo-min-height 5
+      corfu-popupinfo-max-height 15
+      corfu-popupinfo-direction 'right  ; default list: '(right left down)
+      corfu-popupinfo-delay '(1.0 0.5)
+
+      corfu-preview-current nil)
+
+;;*** Orderless
 
 ;; TODO: CONF: look into `orderless-style-dispatchers'
 
-;;**** Consult
+;;*** Consult
 (use-package! consult-org-roam
   :after (org-roam consult)
   :custom
@@ -148,13 +267,13 @@
 
 ;; TODO: CONF: consult-org-roam: (consult-customize ...) & (consult-org-roam-mode)
 
-;;**** Marginalia
+;;*** Marginalia
 ;; regex to prevent things from popping on screen
 ;; (setq marginalia-censor-variables nil)
 ;; TODO: CONF: extend `marginalia-annotator-registry'
 
-;;**** Cape
-;;**** Embark
+;;*** Cape
+;;*** Embark
 
 
 ;;* Org
@@ -506,10 +625,67 @@
 ;; M-x lsp-describe-sessions
 ;; M-x lsp-workspace-show-log
 
-(setq-default lsp-keep-workspace-alive nil)
+;; TODO: how to manage eglot/lsp
+;; - i would actually prefer eglot more often than not.
 
-;; (after! lsp-ui
-;;         (setq lsp-ui-doc-enable t))
+;; TODO: determine how to manage functionality per guix-system & foriegn-dist
+;; - i.e. guix-system no likey npm install bigbloobfromsky (neither do i)
+;; - tools shud just be written in rust for umm... a great memory safety good
+
+;; TODO: ponder deeply the deepest unasked questions of the cosmos
+;; TODO: CONF: per-project `lsp-diagnostics-provider'? fly{check,make}
+
+;;*** LSP Default Functionality
+
+;; See: https://emacs-lsp.github.io/lsp-mode/tutorials/how-to-turn-of
+;;
+;; `lsp--auto-configure' manages `lsp-mode' functionality (and then, doom)
+;;
+;; + activates `lsp-ui-mode' if fn defined
+;; + ensures: `yas-inhibit-overlay-modification-protection' t
+;; + toggles functions on `lsp-configure-hook' for:
+;;   - `lsp-headerline-breadcrumb-enable' => `lsp-headerline-breadcrumb-mode'
+;;   - `lsp-modeline-code-actions-enable' => `lsp-modeline-code-actions-mode'
+;;   - `lsp-modeline-diagnostics-enable' => `lsp-modeline-diagnostics-mode'
+;;   - `lsp-modeline-workspace-status-enable' => `lsp-modeline-workspace-status-mode'
+;;   - `lsp-lens-enable' => `lsp-lens--enable'
+;;   - `lsp-semantic-tokens-enable' => `lsp-semantic-tokens--enable'
+
+(setq-default
+ lsp-keep-workspace-alive nil           ; custom
+ lsp-enable-symbol-highlighting t       ; doom default
+ lsp-lens-enable t              ; TODO: enable lsp-lens, but hook per-language
+ lsp-headerline-breadcrumb-enable t     ; custom
+
+ ;; lsp-ui-doc
+ lsp-ui-doc-enable t
+ lsp-ui-doc-show-with-cursor nil
+ lsp-ui-doc-show-with-mouse t
+
+ ;; lsp-eldoc
+ lsp-eldoc-enable-hover t               ; doom default
+
+ ;; lsp-ui-sideline
+ lsp-ui-sideline-enable t               ; doom default
+ lsp-ui-sideline-show-code-actions nil  ; doom default, enable per-project?
+
+ ;; lsp-diagnostics
+ lsp-diagnostics-provider :auto         ; doom default
+
+ ;; lsp-modeline
+ lsp-modeline-code-actions-enable t        ; doom default
+ lsp-modeline-diagnostics-enable t         ; doom default
+ lsp-modeline-diagnostics-scope :workspace ; doom default
+
+ ;; lsp-signature
+ lsp-signature-auto-activate '(:on-trigger-char :on-server-request)
+ lsp-signature-render-documentation t   ; doom default
+
+ ;; lsp-completion
+ lsp-completion-provider :none          ; doom default, maybe :capf
+ lsp-completion-show-detail t           ; doom default
+ lsp-completion-show-kind t             ; doom default
+ )
 
 ;;** Lisp
 
@@ -523,17 +699,26 @@
 
 ;;*** Scheme
 
+;;**** Geiser
+
+(use-package! geiser-guile :defer t)
+(use-package! geiser-racket :defer t)   ; req. for lispy? even with master?
+
+;;**** Arei
+
 ;; the arei package hooks itself already. .dir-locals.el may need an update.
 ;;
 ;; run guile-ares-rs server externally, then connect using sesman-start
 (use-package! arei :defer t)
+
+;; TODO: manage GUILE_LOAD_PATH for arei? it's incorrect on arch for now
 
 ;;*** Lispy
 ;; lispy-outline: "^[ 	]*;;;\\(;*\\**\\) [^ 	\n]"
 ;;   doom: "^;;\\(?:;[^#]\\|\\*+\\)"
 (use-package! lispy
   :defer t
-  :hook (lisp-data-mode . lispy-mode)
+  :hook 'lisp-data-mode-hook
   :config
   (setq lispy-outline "^;;\\(?:;[^#]\\|\\*+\\)")
   ;; removing advice fixes consult-outline
@@ -646,7 +831,6 @@
 ;;*** Sourcehut
 ;;*** Repo
 
-
 ;;* Tools
 
 ;;** Auth
@@ -676,6 +860,22 @@
 (use-package! aurel :defer t)
 
 ;;*** Guix
+;;
+;; guix.el gets built into the guix profile for doomemacs, so it doesn't need
+;; use-package.
+;;
+
+(setopt guix-load-path (expand-file-name ".dotfiles" (getenv "HOME")))
+
+;; TODO: defer guix?
+(use-package! guix
+  :init (require 'ffap))
+
+;; NOTE: guix-load-path needs to be done outside of use-package! or hook for
+;; some reasons -- e.g. guix-repl.el isn't loaded by use-package, where
+;; guix-load-path is defined. it looks like it's intended to be managed by
+;; GUILE_LOAD_PATH, (setq guix-load-path ...) or in .dir-locals.el
+
 ;;**** recutils: manipulate guix cli output
 (use-package! rec-mode
   :defer t
@@ -684,11 +884,7 @@
   (require 'ob-rec)
   (dc/org-babel-do-load-languages))
 
-;;*** Nix, ContainerD
-
-(use-package! docker
-  :commands docker
-  :config (map! "<f1> <f2> d" #'docker))
+;;*** Nix
 
 ;;*** Unix
 
@@ -717,27 +913,6 @@
 (use-package! dts-mode :defer t)
 (use-package! archive-rpm :defer t)
 
-;;*** Network
-;; password-store.el? pass.el?
-(use-package! terraform-mode
-  :defer t
-  :custom (terraform-format-on-save t))
-
-;;*** SSH
-
-(use-package! ssh-config-mode)
-
-(use-package! x509-mode
-  ;; TODO x509-mode-hook: jumping straight to x509 doesn't work well
-  ;; :hook (x509-mode-hook . (lambda () (call-interactively 'x509-dwim)))
-  :mode (rx "." (| "pem" "cer" "der" "crt" "crl") eos))
-
-;;**** Tramp
-;; TODO: TRAMP: check that guix emacs build prepends to tramp-remote-path
-(use-package tramp :demand t
-  :config (require 'tramp-container)
-  :custom (tramp-default-method "ssh"))
-
 ;;** Services
 
 ;; TODO: DAEMONS.EL: setup keybindings (daemons-systemd-toggle-user)
@@ -749,6 +924,40 @@
 (use-package! journalctl-mode
   :commands journalctl
   :config (map! :leader "oj" #'journalctl))
+
+
+;;*** Network
+;; password-store.el? pass.el?
+(use-package! terraform-mode
+  :defer t
+  :custom (terraform-format-on-save t))
+
+;;**** ContainerD
+
+(use-package! docker
+  :commands docker
+  :config (map! "<f1> <f2> d" #'docker))
+
+;;**** Terraform/HCL
+
+;;**** ContainerD
+
+;;**** K8S
+
+;;**** SSH
+
+(use-package! ssh-config-mode)
+
+(use-package! x509-mode
+  ;; TODO x509-mode-hook: jumping straight to x509 doesn't work well
+  ;; :hook (x509-mode-hook . (lambda () (call-interactively 'x509-dwim)))
+  :mode (rx "." (| "pem" "cer" "der" "crt" "crl") eos))
+
+;;***** Tramp
+;; TODO: TRAMP: check that guix emacs build prepends to tramp-remote-path
+(use-package tramp :demand t
+  :config (require 'tramp-container)
+  :custom (tramp-default-method "ssh"))
 
 ;;** Data
 ;;*** Structure
@@ -839,6 +1048,12 @@
                    "b" #'consult-org-roam-backlinks
                    "f" #'consult-org-roam-file-find
                    "l" #'consult-org-roam-forward-links))
+
+;; FIXME: the hook gets set. the code works, but it doesn't run
+(add-hook! 'server-mode-hook
+           ;; (when server-mode) ;; still doesn't run
+           (alert (format "Loaded Emacs Server\n\nConfig: %s\nSocket: %s" doom-user-dir
+                          (expand-file-name server-name server-socket-dir)) :title "Doom:"))
 
 ;; Place your private configuration here! Remember, you do not need to run 'doom
 ;; sync' after modifying this file!

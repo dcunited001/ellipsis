@@ -100,7 +100,7 @@
        (ruby +lsp) ;; TODO: +rails +chruby +rbenv +rvm
        (rust +lsp)
        (scala +lsp)
-       (scheme)                         ;; not +guile
+       (scheme +guile +racket)
        (sh +lsp)
 
        (web +lsp +tree-sitter)

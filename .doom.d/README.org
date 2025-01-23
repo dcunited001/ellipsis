@@ -60,6 +60,7 @@ path for my Guix System laptop.
  '("openjdk"
    "emacs-next-pgtk"
    "ripgrep"
+   "guile-ares-rs"
    "fd"))
 #+end_src
 

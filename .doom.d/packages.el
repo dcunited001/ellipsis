@@ -11,10 +11,10 @@
 ;;** Minibuffer
 
 ;;** Look and Feel
-;; https://github.com/kickingvegas/casual-suite
+
+;; casual-suite will install casual-{avy,symbol-overlay}, in addition to
+;; casual-{agenda,bookmarks,calc,calendar,dired,editkit,ibuffer,info,isearch,re-builder}
 (package! casual-suite)
-;; (package! casual-avy)
-;; (pacakge! casual-symbol-overlay)
 (package! ef-themes)
 ;; pomm
 ;; pulsar
@@ -67,19 +67,34 @@
   :recipe (:host github :repo "aspiers/etrace"))
 ;; :pin "2291ccf2f2ccc80a6aac4664e8ede736ceb672b7"
 
-;;** Linux
+;;** Guix
+;;
+;; when straight builds guix.el, it finds its path and, in emacs,
+;; `geiser-guile-load-path' has
+;; `$EMACSDIR/.local/straight/repos/emacs-guix/scheme'
+;;
+(package! guix)
 
+;;** Nix
+
+;;** Linux
 (package! aurel)
 (package! repology)
 (package! archive-rpm)
 (package! dts-mode)
 
 ;;** Services
+(package! daemons)
 (package! journalctl-mode)
 (package! systemd-mode)
-(package! daemons)
 
-;;** Guix
+;;** Network
+;;*** ContainerD
+
+;;*** Terraform/HCL
+;;*** ContainerD
+;;*** K8S
+;;*** SSH
 
 ;;* VCS
 ;;** Git
@@ -114,6 +129,7 @@
 
 ;;** Lisp
 
+(package! lispy :recipe (:host github :repo "abo-abo/lispy"))
 ;;*** Common Lisp
 
 ;;*** Scheme
