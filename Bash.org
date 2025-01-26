@@ -276,8 +276,8 @@ export MAIL=geary
 export BROWSER=firefox
 
 # TODO: update to use terminal emacsclient
-export VISUAL="gmacsclient"
-export EDITOR="gmacsclient -- -nw"
+export VISUAL="doomclient --"
+export EDITOR="doomclient -- -nw"
 export ALTERNATE_EDITOR=vim
 #+end_src
 
@@ -1674,6 +1674,9 @@ if [ "$TERM" != "dumb" ]; then
     # no color
 fi
 
+#* docs @ALIAS
+alias imacs='emacs -f info-standalone --eval="(load-theme (intern \"wombat\"))"'
+
 #* ps @ALIAS
 
 # pgrep -u $UID
@@ -1695,7 +1698,7 @@ alias ptrgb="pstree -C age -pT"
 #* renice @alias
 # alias renoice="renice --priority 15 $(pgrep emacs-29)"
 
-#* shell
+#* shell @ALIAS
 
 #** redirect @ALIAS
 alias wordcat="tee >(xargs -n1 cat) | wc -w"
@@ -1715,10 +1718,9 @@ alias tyxy="tidy --quiet yes --tidy-mark no --vertical-space yes -indent -xml"
 #** grep @ALIAS
 alias grepnobin="grep -I"
 
-
 #* system @ALIAS
 
-#* updates @ALIAS
+#** updates @ALIAS
 alias grubup="sudo update-grub"
 alias upd='/usr/bin/update'
 
@@ -1736,7 +1738,8 @@ alias tarnow='tar -acf '
 alias untar='tar -zxvf '
 alias wget='wget -c '
 
-#* systemd @ALIAS
+#* services @ALIAS
+#** systemd @ALIAS
 alias jctl="journalctl -p 3 -xb"
 alias jctlu="journalctl --user -u"
 alias sysu='systemctl --user'
@@ -1885,6 +1888,23 @@ repo_reset_repos() {
 #+end_src
 
 
+**** Find
+
+#+begin_src sh :tangle .config/sh/rc.d/functions.sh
+find_dirs_with_ext() {
+    [[ -z "$1" ]] && \
+        printf "requires quoted regexp pattern for sed -E (e.g. '.*\.scm')" && return 1
+
+    local _pattern=$1
+    shift 1
+
+    find . -name "*.scm" -type f -print \
+        | sed -E 's/^(.*\/)'"$_pattern"'/\1/g' \
+        | sort | uniq \
+        | tree --fromfile .
+}
+#+end_src
+
 **** IPC
 
 #+begin_src sh :tangle .config/sh/rc.d/functions.sh
@@ -1896,7 +1916,6 @@ kill_child_jobs() {
     while kill %% 2>/dev/null; do sleep 0; done
 }
 #+end_src
-
 **** File Listing
 
 #+begin_src sh :tangle .config/sh/rc.d/functions.sh

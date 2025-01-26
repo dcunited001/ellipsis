@@ -50,6 +50,7 @@
 
 ;;** Docs
 (package! tldr)
+(package! info+)
 
 ;;* Systems
 
@@ -162,7 +163,7 @@
 
 ;;* Org
 
-;; (package! org-modern)
+(package! org-modern)
 (package! org-super-agenda)
 (package! ob-nix)
 (package! ob-graphql)

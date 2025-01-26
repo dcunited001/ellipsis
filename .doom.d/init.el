@@ -82,6 +82,7 @@
        emacs-lisp
        (go +lsp)
        (graphql +lsp)
+       (graphviz)
        (haskell +lsp)
        hy
        json

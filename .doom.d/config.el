@@ -36,6 +36,31 @@
 ;; (defvar dc/emacs-doom-modules (expand-file-name "doom/modules" dc/emacs-d))
 ;; (defvar dc/emacs-modules (expand-file-name "modules" dc/emacs-d) "TODO: docs.")
 
+;;*** Project Paths
+
+(defvar dc/ecto-path (or (getenv "_ECTO") (expand-file-name "~/ecto"))
+  "Directory where git-repo projects are checked out.")
+(defvar dc/repo-path (or (getenv "_REPO") (expand-file-name "~/repo"))
+  "Directory containing XML for git-repo projects are checked out.")
+(defvar dc/lang-path (or (getenv "_LANG") (expand-file-name "~/lang"))
+  "Directory containing quick projects under ./lang. It typically
+contains config under ./.lang to encourage native and portable
+12factor language configs, when not container.")
+
+;;*** Guix/Geiser Paths
+
+(defvar dc/guix-checkout-path (getenv "GUIX_SOURCE")
+  "Directory containing a guix checkout. The .dir-locals.el in Guix
+should be used for setting guix-load-path unless working on
+checkouts of channels which depend on modified packages in the
+Guix channel.")
+
+(defvar source-directory (getenv "EMACS_SOURCE")
+  "Directory containing the ./src directory of an Emacs checkout.")
+
+(unless source-directory (warn "Emacs: source-directory is not set"))
+(unless dc/guix-checkout-path (warn "Emacs: source-directory is not set"))
+
 ;; don't accidentally edit doom's straight.el files
 (def-project-mode! doom-straight-read-only-mode
   :match (rx-to-string (string-join (list "" (f-base doom-emacs-dir) ".local" "straight" "") "/"))
@@ -55,9 +80,124 @@
 
 (setopt use-package-enable-imenu-support t)
 
+;;** Keymaps (Emacs Native)
+
+;;*** Unbind Globally
+
+(defun dc/unbind-keys (key-names &optional keymap)
+  (seq-do (lambda (key)
+            (if keymap
+                (unbind-key key keymap)
+              (unbind-key key)))
+          key-names))
+
+;;**** Unbind 2C-mode
+
+;; This mode's global bindings are also bound on C-x 6 {2,s,RET}
+(dc/unbind-keys '("<f2> 2" "<f2> b" "<f2> s" "<f2> <f2>"))
+
+;;**** Unbind kmacro
+;;
+;; - `kmacro-start-macro-or-insert-macro' not doubly mapped
+;; - `kmacro-end-or-call-macro' via `C-x e'
+;;
+(dc/unbind-keys '("<f3>" "<f4>"))
+
+;;*** Global
+
+(global-set-key (kbd "C-<prior>") #'tab-bar-switch-to-tab)
+(global-set-key (kbd "C-<next>") #'tab-bar-switch-to-recent-tab)
+
+;;*** Help Map (native)
+
+(map! :map 'help-map
+      "M-k" #'describe-keymap
+      "M-f" #'list-faces-display)
+
+;; TODO: these don't work because doom uses [remap]
+;; :prefix ("<f1>" . "NATIVEHELP")
+;; "f" #'describe-function
+
+;;*** Quick Map (native) <f1> <f2>
+
+;; this is a bit tough to determine how to get it to be a separate keymap. you
+;; can't (map! :map help-map "<f2>" 'dc/quick-map)
+
+(general-create-definer quick-def
+  :prefix-map 'dc/quick-map
+  :prefix-command 'dc/quick-map)
+
+;; NOTE: running this after defining the map means all subsequent references
+;; must use (map! :map dc/quick-map)
+;;
+(general-define-key
+ :keymaps 'help-map
+ "<f2>" '(:prefix-command dc/quick-map :wk "QUICK"))
+
+(quick-def
+  "D" '(:ignore t :which-key "DESKTOP")
+  "Ds" #'desktop-save-in-desktop-dir
+  "DS" #'desktop-save
+  "Dr" #'desktop-read
+
+  "h" #'shortdoc
+
+  "M-l" '(:ignore t :which-key "LOCALVARS")
+  "M-l ad" #'add-dir-local-variable
+  "M-l aF" #'add-file-local-variable
+  "M-l af" #'add-file-local-variable-prop-line
+  "M-l dd" #'delete-dir-local-variable
+  "M-l dF" #'delete-file-local-variable
+  "M-l df" #'delete-file-local-variable-prop-line
+  "M-l k" #'kill-local-variable
+  "M-l m" #'make-local-variable
+  "M-l M" #'make-variable-buffer-local
+  "M-l h" #'apropos-local-variable
+  "M-l H" #'array-display-local-variables)
+
+;;* Projects
+;;
+;;** Project.el
+;;
+;;*** Projectile
+
+(use-package! projectile
+  :custom (projectile-project-search-path `((,dc/repo-path . 1)
+                                            (,dc/ecto-path . 3))))
+
+;;*** Activities
+(use-package! activities
+  :commands activities-mode activities-kill activities-discard activities-new activities-resume activities-revert activities-save-all activities-suspend activities-switch activities-tabs-mode activities-list
+  :config
+  (map! :map dc/quick-map
+        (:prefix ("@" . "ACTIVITIES")
+                 "@" #'activities-list
+                 "m" #'activities-mode
+                 "k" #'activities-kill
+                 "d" #'activities-discard
+                 "n" #'activities-new
+                 "r" #'activities-resume
+                 "d" #'activities-revert
+                 "$" #'activities-save-all
+                 "q" #'activities-suspend
+                 "b" #'activities-switch
+                 "t" #'activities-tabs-mode)))
+
+;; phew, I can jump to a window on KDE without using my eyes
+(defun dc/tab-names (&optional tabs)
+  (let ((tabs (or tabs (funcall tab-bar-tabs-function))))
+    (mapcar (lambda (tab) (alist-get 'name tab)) tabs)))
+
+(after! tab-bar
+  (setq frame-title-format
+        '("♦ DOOM ♣︎ ╟─» "
+          (:eval (string-join (dc/tab-names) " «─┼─» "))
+          " «─╢ ♠︎ %b ♥︎")))
 
 ;;* Interface
+;;
 ;;** Basics
+;;
 ;;*** Tooltips
 
 (add-hook! 'doom-init-ui-hook
@@ -110,6 +250,17 @@
 ;;**** Bufler package
 
 ;;** Editor
+
+;;*** Highlighting
+
+;; call unhighlight-regexp, it lists the regexps corresponding to the current
+;; highlights
+;;
+;; otherwise, highlight-symbol-at-point runs this to get the regexp
+;; corresponding to the parsed current symbol at point
+;;
+;; (hi-lock-regexp-okay (find-tag-default-as-symbol-regexp))
+
 ;;** UI
 
 (setq display-line-numbers-type nil)
@@ -158,7 +309,9 @@
 (use-package! ace-window
   :commands ace-window aw-show-dispatch-help
   :config
-  (map! :map ctl-x-map "o" #'aw-show-dispatch-help "C-o" #'ace-window))
+  ;; this logs to messages a bit too often, to engrain the functionality...
+  (global-set-key [remap other-window] #'aw-show-dispatch-help)
+  (map! :map ctl-x-map "C-o" #'ace-window))
 
 (use-package! buffer-move
   :commands buf-move-up buf-move-down buf-move-left buf-move-right
@@ -293,6 +446,25 @@
 
 ;;**** org-modern
 ;; TODO: PKG: configure org-modern? (later)
+(use-package! org-modern
+  :hook (org-mode . org-modern-mode)
+  :config
+  (setq org-modern-star '("◉" "○" "✸" "✿" "✤" "✜" "◆" "▶")
+        org-modern-table-vertical 1
+        org-modern-table-horizontal 0.2
+        org-modern-list '((43 . "➤")
+                          (45 . "–")
+                          (42 . "•"))
+        org-modern-todo-faces
+        '(("TODO" :inverse-video t :inherit org-todo)
+          ("PROJ" :inverse-video t :inherit +org-todo-project)
+          ("STRT" :inverse-video t :inherit +org-todo-active)
+          ("[-]"  :inverse-video t :inherit +org-todo-active)
+          ("HOLD" :inverse-video t :inherit +org-todo-onhold)
+          ("WAIT" :inverse-video t :inherit +org-todo-onhold)
+          ("[?]"  :inverse-video t :inherit +org-todo-onhold)
+          ("KILL" :inverse-video t :inherit +org-todo-cancel)
+          ("NO"   :inverse-video t :inherit +org-todo-cancel))))
 
 ;;**** org-appear
 ;; TODO: PKG: configure org-appear tweaks? (later)
@@ -651,7 +823,11 @@
 ;;   - `lsp-lens-enable' => `lsp-lens--enable'
 ;;   - `lsp-semantic-tokens-enable' => `lsp-semantic-tokens--enable'
 
+;; TODO: set lsp-disabled-servers or lsp-enabled-servers
+;; TODO: decide on `lsp-auto-guess-root' (to avoid popup)
+
 (setq-default
+ lsp-enable-suggest-server-download nil
  lsp-keep-workspace-alive nil           ; custom
  lsp-enable-symbol-highlighting t       ; doom default
  lsp-lens-enable t              ; TODO: enable lsp-lens, but hook per-language
@@ -701,7 +877,30 @@
 
 ;;**** Geiser
 
-(use-package! geiser-guile :defer t)
+(use-package! geiser
+  :defer t
+  :config
+  (add-to-list 'geiser-implementations-alist '(((regexp "\\.scm$") guile)))
+  :custom
+  ;; TODO: PKG: project.el -- maybe update to geiser-repl-project-root
+  (geiser-repl-current-project-function
+   #'projectile-project-root)
+  (geiser-repl-add-project-paths t)
+  (geiser-repl-add-project-paths
+   t "`guix-load-path' seems to append using `add-to-list', so whether the
+.dotfiles channel is added via that or `geiser-repl-add-project-paths',
+the result is the same")
+  (geiser-debug-treat-ansi-colors
+   'colors "Requires guile-colorized (ice-9 colorized)")
+  (geiser-default-implementation 'guile)
+  (geiser-repl-highlight-output-p t))
+(use-package! geiser-guile
+  :defer t
+  :config
+  (add-to-list 'geiser-guile-manual-lookup-nodes "Geiser")
+  (add-to-list 'geiser-guile-manual-lookup-nodes "Guile Reference")
+  (add-to-list 'geiser-guile-manual-lookup-nodes "Guile Library")
+  (add-to-list 'geiser-guile-manual-lookup-nodes "Guix"))
 (use-package! geiser-racket :defer t)   ; req. for lispy? even with master?
 
 ;;**** Arei
@@ -839,8 +1038,9 @@
 (require 'epg)
 
 ;;*** pinentry
-(setopt epg-pinentry-mode 'loopback)    ;; cancel/ask
+
 (setopt epg-user-id user-mail-address)
+;; (setopt epg-pinentry-mode nil) ; cancel/ask/loopback
 ;; (setq epg-debug t)
 
 ;;*** auth-source-pass
@@ -848,6 +1048,24 @@
 
 ;;** Docs
 ;; (external docs: dash/tldr)
+
+;;*** Info
+(use-package! info :defer t)
+(use-package! info+
+  :commands info
+  :custom
+  (Info-breadcrumbs-depth 4)
+  (Info-breadcrumbs-depth-internal 6)
+  (Info-breadcrumbs-in-header-flag t)
+  ;; (Info-saved-history-file (expand-file-name
+  ;;                           "info-history"
+  ;;                           no-littering-var-directory))
+  ;; TODO: (Info-apropos-manuals (dc/Info-manuals))
+
+  :config
+  (add-hook 'emacs-startup-hook #'Info-breadcrumbs-in-mode-line-mode)
+  (add-hook 'emacs-startup-hook #'Info-persist-history-mode +1))
+
 ;;** Systems
 
 ;;*** Emacs
@@ -902,14 +1120,13 @@
 ;; TODO: PROCED: setup keybindings
 (use-package! proced
   :commands proced
-  :config (map! "<f1> <f2> d" #'proced
-                :map proced-mode-map
-                "sh" #'proced-sort-header))
+  :init (map! :map dc/quick-map "p" #'proced)
+  :config (map! :map proced-mode-map "sh" #'proced-sort-header))
 
 ;;*** Linux
 (use-package! repology
   :commands repology
-  :config (map! "<f1> <f2> r" #'repology))
+  :init (map! :map dc/quick-map "r" #'repology))
 (use-package! dts-mode :defer t)
 (use-package! archive-rpm :defer t)
 
@@ -936,7 +1153,7 @@
 
 (use-package! docker
   :commands docker
-  :config (map! "<f1> <f2> d" #'docker))
+  :config (map! :map dc/quick-map "d" #'docker))
 
 ;;**** Terraform/HCL
 
@@ -995,19 +1212,34 @@
   :custom (debbugs-gnu-default-packages '("guix-patches" "guix"))
   :hook  ((bug-reference-mode-hook bug-reference-prog-mode-hook) . #'debbugs-browse-mode)
   :config (map! :map ctl-x-map
-                (:prefix-map ("G" . "DEBBUGS")
-                             "Gb" #'debbugs-gnu-bugs
-                             "Gg" #'debbugs-gnu-guix-search
-                             "Gs" #'debbugs-gnu-search
-                             "Gp" #'debbugs-gnu-package)))
+                (:prefix ("G" . "DEBBUGS")
+                         "Gb" #'debbugs-gnu-bugs
+                         "Gg" #'debbugs-gnu-guix-search
+                         "Gs" #'debbugs-gnu-search
+                         "Gp" #'debbugs-gnu-package)))
 
-;;* Keys
+;;* Keymaps
 
 ;; TODO: move setup for <f1> <f2> map to after use-package (and after! which-key?)
 
+;;NOTE: some of these may need to be hooked (after! ...)
+
 ;;** Global Remaps
-(global-set-key (kbd "C-<prior>") #'tab-bar-switch-to-tab)
-(global-set-key (kbd "C-<next>") #'tab-bar-switch-to-recent-tab)
+
+;;** Help Map
+
+(map! :map 'help-map
+
+      ;; can insert values with embark
+      "M-v" #'getenv
+
+      ;; not interactive, also not sure whether it works
+      ;; "C-k" (apply-partially #'embark-bindings-at-point)
+
+      "B" #'embark-bindings
+      "M-b" #'embark-bindings-in-keymap
+      "M-m" #'consult-minor-mode-menu)
+
 
 ;;** Search Map
 
@@ -1035,19 +1267,19 @@
 (map! :map 'goto-map
       "a" #'consult-org-agenda
       "e" #'consult-compile-error
-      (:prefix-map ("f" . "FLY")
-                   "c" #'consult-flycheck
-                   "m" #'consult-flymake)
+      (:prefix ("f" . "FLY")
+               "c" #'consult-flycheck
+               "m" #'consult-flymake)
       "i" #'consult-imenu-multi
       "I" #'consult-imenu-multi ;; duplicate
       "k" #'consult-global-mark
       "m" #'consult-mark
       "o" #'consult-outline
-      (:prefix-map ("r" . "ROAM")
-                   "r" #'consult-org-roam-search
-                   "b" #'consult-org-roam-backlinks
-                   "f" #'consult-org-roam-file-find
-                   "l" #'consult-org-roam-forward-links))
+      (:prefix ("r" . "ROAM")
+               "r" #'consult-org-roam-search
+               "b" #'consult-org-roam-backlinks
+               "f" #'consult-org-roam-file-find
+               "l" #'consult-org-roam-forward-links))
 
 ;; FIXME: the hook gets set. the code works, but it doesn't run
 (add-hook! 'server-mode-hook
