@@ -174,10 +174,11 @@ Guix channel.")
                  "@" #'activities-list
                  "m" #'activities-mode
                  "k" #'activities-kill
-                 "d" #'activities-discard
-                 "n" #'activities-new
+                 "M-k" #'activities-discard
+                 "n" #'activities-define
+                 "M-n" #'activities-new
                  "r" #'activities-resume
-                 "d" #'activities-revert
+                 "M-r" #'activities-revert
                  "$" #'activities-save-all
                  "q" #'activities-suspend
                  "b" #'activities-switch
@@ -277,6 +278,11 @@ Guix channel.")
 ;;   - dirvish is somewhat responsible for this
 (dirvish-override-dired-mode -1)
 
+;;*** Recentf
+
+(after! recentf
+  (add-to-list 'recentf-exclude (rx (and line-start "/gnu/store"))))
+
 ;;** Alerts
 (require 'notifications)
 (use-package! alert
@@ -284,6 +290,36 @@ Guix channel.")
   :custom
   (alert-default-style 'libnotify)
   (alert-log-level 'normal))
+
+;;** Confirmations
+
+(setq dired-deletion-confirmer 'y-or-n-p
+      dired-confirm-shell-command 'y-or-n-p
+
+      ;; dired-no-confirm '()
+
+      ;; files/urs
+      url-confirmation-func 'y-or-n-p
+      url-cookie-confirmation 'y-or-n-p
+      log-edit-confirm  'changed
+      ;; log-edit-confirm #'yes-or-no-p ; defaults to 'changed
+
+      ;; emacs
+      confirm-kill-processes 'y-or-n-p
+      confirm-kill-emacs #'doom-quit-p
+
+      ;; email
+      message-confirm-send 'y-or-n-p
+
+      ;; org
+      org-table-fix-formulas-confirm nil ;; 'y-or-n-p ; no default is no
+
+      ;; eglot
+      eglot-confirm-server-initiated-edits 'y-or-n-p
+      ;; TODO: lsp confirmations?
+
+      ;; smerge-mode is lazy loaded, default: t
+      smerge-change-buffer-confirm t)
 
 ;;** Font
 
@@ -341,6 +377,8 @@ Guix channel.")
 ;; (add-to-list 'vertico-multiform-commands
 ;;              '(execute-extended-command (+vertico-transform-functions . +vertico-highlight-enabled-mode)))
 
+;; NOTE: vertico--remote-p checks if path is remote (tramp)
+
 ;;**** vertico-multiform-{categories,commands}
 (after! vertico-multiform
   (cl-dolist
@@ -391,14 +429,8 @@ Guix channel.")
 (setq corfu-auto-delay 0.5
       corfu-auto-prefix 3
 
-      global-corfu-modes
       ;; the doom defaults
-      '((not erc-mode
-         circe-mode
-         help-mode
-         gud-mode
-         vterm-mode)
-        t)
+      global-corfu-modes '((not erc-mode circe-mode help-mode gud-mode vterm-mode) t)
       corfu-popupinfo-min-height 5
       corfu-popupinfo-max-height 15
       corfu-popupinfo-direction 'right  ; default list: '(right left down)
@@ -409,6 +441,28 @@ Guix channel.")
 ;;*** Orderless
 
 ;; TODO: CONF: look into `orderless-style-dispatchers'
+
+;; TODO: CONF: get orderless to group M-g o `consult-outline' candidates by depth
+
+;; Each override has the shape (CATEGORY . ALIST) where ALIST is
+;; an association list that can specify properties such as:
+;; - `styles': the list of `completion-styles' to use for that category.
+;; - `cycle': the `completion-cycle-threshold' to use for that category.
+;; - `cycle-sort-function': function to sort entries when cycling.
+;; - `display-sort-function': nil means to use either the sorting
+;; function from metadata, or if that is nil, fall back to `completions-sort';
+;; `identity' disables sorting and keeps the original order; and other
+;; possible values are the same as in `completions-sort'.
+;; - `group-function': function for grouping the completion candidates.
+;; - `annotation-function': function to add annotations in *Completions*.
+;; - `affixation-function': function to prepend/append a prefix/suffix.
+;; See more description of metadata in `completion-metadata'.
+
+(use-package! orderless
+  :custom
+  (read-buffer-completion-ignore-case t))
+
+;; `completion-category-defaults' is set to nil in doom's vertico/corfu modules
 
 ;;*** Consult
 (use-package! consult-org-roam
@@ -426,6 +480,10 @@ Guix channel.")
 ;; TODO: CONF: extend `marginalia-annotator-registry'
 
 ;;*** Cape
+
+(after! capf
+  (map! :map dc/quick-map "SPC" #'cape-prefix-map))
+
 ;;*** Embark
 
 
@@ -776,7 +834,7 @@ Guix channel.")
   ;; TODO :custom ob-mermaid-cli-path "~/.nix-profile/bin/mmdc"
   (use-package! ob-mermaid :defer t))
 
-;;* Dev
+;;* Programming
 ;;
 ;;** Tree Sitter
 
@@ -824,6 +882,12 @@ Guix channel.")
 ;;   - `lsp-semantic-tokens-enable' => `lsp-semantic-tokens--enable'
 
 ;; TODO: set lsp-disabled-servers or lsp-enabled-servers
+;;
+;;   These are checked in `lsp--supports-buffer?', setting anything in
+;;   `lsp-enabled-servers' will stop checking before `lsp-disabled-servers' is
+;;   considered. `lsp-enabled-servers' is also effectively checked elsewhere,
+;;   but these act like a typical whitelist/blacklist
+;;
 ;; TODO: decide on `lsp-auto-guess-root' (to avoid popup)
 
 (setq-default
@@ -971,11 +1035,12 @@ the result is the same")
 
 ;;*** Shell
 
-(use-package flymake-shellcheck
+(use-package! flymake-shellcheck
   :commands flymake-shellcheck-load
   :config (add-hook 'sh-mode-hook 'flymake-shellcheck-load))
 
-(use-package vterm :defer t
+(use-package! vterm
+  :defer t
   :custom
   (vterm-max-scrollback 1000)
   (vterm-set-bold-hightbright t))
@@ -983,13 +1048,36 @@ the result is the same")
 ;; TODO: per-project vterm
 ;; https://github.com/doomemacs/doomemacs/blob/master/modules/term/vterm/autoload.el
 
-;;** Compiled
+;;** Compiled Langs
 
 (use-package! zig-mode
   ;; :custom (lsp-zig-zls-executable . "~/.fdsa")
   :defer t)
 
-;;** Langs
+;;** Functional Langs
+
+;;** Other Langs
+
+;;** Compile
+
+
+;;*** Compile Multi
+;;
+;; TODO: CONF: set a default compile-multi-config
+;; - use a function to parse out targets from makefile
+;; - https://github.com/mohkale/compile-multi?tab=readme-ov-file#actions
+;;
+;; the extensions here will load when the `compile-multi' command is run. no
+;; :defer is needed. doomemacs defers loading of consult.
+(use-package! compile-multi :commands compile-multi)
+(use-package! consult-compile-multi
+  :after (consult compile-multi)
+  :config (consult-compile-multi-mode))
+(use-package! compile-multi-nerd-icons
+  :after (compile-multi nerd-icons-completion))
+(use-package! compile-multi-embark
+  :after (compile-multi embark)
+  :config (compile-multi-embark-mode +1))
 
 ;;* VCS
 ;;** Git
@@ -1026,6 +1114,23 @@ the result is the same")
 
 ;;** Ghub
 ;;** Forge
+
+(after! forge
+  (map! :map forge-topic-mode-map
+        "c" #'forge-create-post
+        (:prefix ("e" . "FORGE-EDIT")
+                 "a" #'forge-edit-topic-assignees
+                 "d" #'forge-edit-topic-draft
+                 "k" #'forge-delete-comment
+                 "l" #'forge-edit-topic-labels
+                 "m" #'forge-edit-topic-marks
+                 ;; "M" #'forge-merge
+                 "n" #'forge-edit-topic-note
+                 "p" #'forge-edit-post
+                 "r" #'forge-edit-topic-review-requests
+                 "s" #'forge-edit-topic-state
+                 "t" #'forge-edit-topic-title)))
+
 ;;** Forges
 ;;*** Sourcehut
 ;;*** Repo

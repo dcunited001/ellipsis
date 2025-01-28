@@ -55,7 +55,6 @@
 ;;* Systems
 
 ;;** Unix
-
 (package! crontab-mode)
 (package! x509-mode)
 (package! elf-mode)
@@ -107,10 +106,17 @@
 
 ;;* Programming
 
-;;** Shell
-(package! flymake-shellcheck)
+;;** Tree Sitter
 
 ;;** LSP
+
+;;** Lisp
+
+(package! lispy :recipe (:host github :repo "abo-abo/lispy"))
+
+;; Arei deps: queue, sesman, arei
+(package! queue)
+(package! arei :recipe (:type git :repo "https://git.sr.ht/~abcdw/emacs-arei"))
 
 ;;** Web
 
@@ -123,28 +129,16 @@
 ;; https://github.com/merrickluo/lsp-tailwindcss
 (package! lsp-tailwindcss :recipe (:host github :repo "merrickluo/lsp-tailwindcss"))
 
+
+;;** Shell
+(package! flymake-shellcheck)
+
+;;** Compiled Langs
+
 ;; (use-package lsp-tailwindcss
 ;;   :init
 ;;   (setq lsp-tailwindcss-add-on-mode t))
 ;; (add-hook 'before-save-hook 'lsp-tailwindcss-rustywind-before-save)
-
-;;** Lisp
-
-(package! lispy :recipe (:host github :repo "abo-abo/lispy"))
-;;*** Common Lisp
-
-;;*** Scheme
-
-;;**** Geiser
-
-;;**** Arei
-;; packages: queue, sesman, arei
-(package! queue)
-(package! arei :recipe (:type git :repo "https://git.sr.ht/~abcdw/emacs-arei"))
-
-;;*** Clojure
-
-;;** Lang
 
 ;;*** Rust
 ;; TODO: PKG cargo-transient (dep on project.el)
@@ -154,12 +148,21 @@
 ;;**** QML
 ;;*** Go
 
+;;** Other Langs
+;;
 ;;*** Python
 
 ;;*** Scala
 ;;*** TCL
 ;; TODO: PKG tcl-ts-mode? (local)
 
+;;** Compile
+
+;; may need to include extensions: (compile-multi :type git :host github :repo "mohkale/compile-multi")
+(package! compile-multi)
+(package! consult-compile-multi)
+(package! compile-multi-nerd-icons)
+(package! compile-multi-embark)
 
 ;;* Org
 
@@ -228,12 +231,25 @@
 (package! google-translate)
 (package! ob-translate)
 
-;; * Social
+;;* Social
 
 (package! 0x0 :recipe (:host sourcehut :repo "willvaughn/emacs-0x0"))
 
 ;;** Open Source
 (package! debbugs)
+
+;;* Remaining
+;;
+;;** To Add
+;;*** Tools
+;; TODO: PKG: Add Ansible
+;; TODO: PKG: TS LANGS: python-ts-mode, clojure-ts-mode
+;; TODO: PKG: TOOLS: srht, repo
+
+;;** To Config
+;;***
+;;*** Babel
+;; TODO: PKG: BABEL graphql, mermaid, d2, smiles, translate
 
 ;; To install SOME-PACKAGE from MELPA, ELPA or emacsmirror:
 ;; (package! some-package)
@@ -268,7 +284,6 @@
 
 ;; Use `:pin' to specify a particular commit to install.
 ;; (package! builtin-package :pin "1a2b3c4d5e")
-
 
 ;; Doom's packages are pinned to a specific commit and updated from release to
 ;; release. The `unpin!' macro allows you to unpin single packages...
