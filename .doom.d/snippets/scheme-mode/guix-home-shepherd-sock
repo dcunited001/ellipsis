@@ -1,0 +1,39 @@
+# -*- mode: snippet -*-
+# name: guix-home-shepherd-socket
+# key: §g«shep«sock
+# condition: t
+# --
+(define (nginx-shepherd-service config)
+  (match-record config <nginx-configuration>
+    (nginx run-directory shepherd-requirement)
+    (let* ((nginx-binary (file-append nginx "/sbin/nginx"))
+           (pid-file (in-vicinity run-directory "pid"))
+           (config-file (get-nginx-conf-file config))
+           (nginx-action
+            (lambda args
+              #~(lambda _
+                  (invoke #$nginx-binary "-c" #$config-file #$@args)
+                  (match '#$args
+                    (("-s" . _) #f)
+                    (_ #$#~(read-pid-file #$pid-file)))))))
+
+      (list (shepherd-service
+             (provision '(nginx))
+             (documentation "Run the nginx daemon.")
+             (requirement `(user-processes loopback ,@shepherd-requirement))
+             (modules `((ice-9 match)
+                        ,@%default-modules))
+             (start (nginx-action "-p" run-directory))
+             (stop (nginx-action "-s" "stop"))
+             (actions
+              (list
+               (shepherd-configuration-action config-file)
+               (shepherd-action
+                (name 'reload)
+                (documentation "\
+Reload nginx configuration file and restart worker processes.  This has the
+effect of killing old worker processes and starting new ones, using the same
+configuration file.  It is useful for situations where the same nginx
+configuration file can point to different things after a reload, such as
+renewed TLS certificates, or @code{include}d files.")
+                (procedure (nginx-action "-s" "reload"))))))))))

@@ -1,0 +1,51 @@
+# -*- mode: snippet -*-
+# name: guix-home-shepherd-cli
+# key: §g«shep«cli
+# condition: t
+# --
+
+;; from acbdw's rde: ./src/rde/system/services/web.scm
+
+;; this snippet is useful when you want an FSM to match a service CLI's actions
+;; that transition the service between different FSM states.
+
+;; for FSM-based services whose actions are more abstract (not daemons, but workflows)
+;; just use (generic-state ...) macro/factory in rde: ./src/gnu/home-services/state.scm
+
+;; ($1-action ...) defines dsl with matcher
+;; - use below when providing documentation for each action
+
+(define ($1-shepherd-service config)
+  (match-record config <$1-configuration>
+    ($1 run-directory shepherd-requirement)
+    (let* (($1-binary (file-append $1 "/sbin/$1")) ; here, the gexp binary
+           (pid-file (in-vicinity run-directory "pid"))
+           (config-file (get-$1-conf-file config)) ; (define (get-$1-conf-file ...)
+           ($1-action
+            (lambda args
+              #~(lambda _
+                  (invoke #$$1-binary "-c" #$config-file #$@args)
+                  (match '#$args
+                    (("-s" . _) #f)
+                    (_ #$#~(read-pid-file #$pid-file)))))))
+
+      (list (shepherd-service
+             (provision '($1))
+             (documentation "Run the $1 daemon.")
+             (requirement `(user-processes loopback ,@shepherd-requirement))
+             (modules `((ice-9 match)
+                        ,@%default-modules))
+             (start ($1-action "-p" run-directory))
+             (stop ($1-action "-s" "stop"))
+             (actions
+              (list
+               (shepherd-configuration-action config-file)
+               (shepherd-action
+                (name 'reload)
+                (documentation "\
+Reload nginx configuration file and restart worker processes.  This has the
+effect of killing old worker processes and starting new ones, using the same
+configuration file.  It is useful for situations where the same nginx
+configuration file can point to different things after a reload, such as
+renewed TLS certificates, or @code{include}d files.")
+                (procedure ($1-action "-s" "reload"))))))))))

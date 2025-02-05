@@ -1,0 +1,40 @@
+# -*- mode: snippet -*-
+# name: guix-home-shepherd-one-shot-shceme
+# key: §g«shep«1«scm
+# condition: t
+# --
+
+;; from abcdw's rde: ./examples/src/rde-configs/user/guest.scm
+
+(shepherd-service
+ (documentation "Run one-shot: $1")
+ (requirement '($2))
+ (provision '($1))
+ (start
+  (with-imported-modules '((guix build utils) $0)
+    #~(lambda ()
+        (let (($1-config-dir
+               #$(local-file
+                  "../../.." "example-$1-config-dir"
+                  #:recursive? #t
+                  #:select?
+                  (lambda (file _)
+                    (not (string=? (basename file) "target")))))
+
+              (output
+               (string-append (getenv "HOME") "/example-$1-config-dir")))
+          (when (not (file-exists? output))
+            (mkdir-p output)
+            (copy-recursively
+             $1-config-dir
+             output
+             #:copy-file (lambda (f t)
+                           (copy-file f t)
+                           (make-file-writable t)))
+
+            ;; MAYBE: take this value from rde-config
+
+            (system* #$(file-append (@ (gnu packages shellutils) direnv)
+                                    "/bin/direnv") "allow" output))))))
+ (auto-start? #f)
+ (one-shot? #t))

@@ -1,0 +1,13 @@
+# -*- mode: snippet -*-
+# name: guix-home-shepherd-one-shot
+# key: §g«shep«1
+# condition: t
+# --
+
+(shepherd-service
+ (provision '(one-shot-$1))
+ (requirement '($2))
+ (start #~(lambda ()
+            (invoke #$(file-append muhpkg "/bin/muhbin$0")
+                    #$(format #f "~a" "args..."))))
+ (one-shot? #t))

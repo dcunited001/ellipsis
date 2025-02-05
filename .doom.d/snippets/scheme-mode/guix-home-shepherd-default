@@ -1,0 +1,20 @@
+# -*- mode: snippet -*-
+# name: guix-home-shepherd-default
+# key: g§shep«
+# --
+(define ($1-shepherd-service config)
+  (list
+   (shepherd-service
+    (provision '($1))
+    (requirement '($2))
+    (auto-start #f)
+    (one-shot? #f)
+    (start #~(make-forkexec-constructor
+              (list
+               #$(file-append
+                  (home-$1-configuration-$0 ...)
+                  "/bin/..."))
+              #:log-file (string-append
+                          (getenv "XDG_STATE_HOME") "/log"
+                          "/$1.log")))
+    (stop #~(make-kill-destructor)))))

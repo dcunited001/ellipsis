@@ -1,0 +1,20 @@
+# -*- mode: snippet -*-
+# name: guix-home-shepherd-pid
+# key: §g«shep«pid
+# condition: t
+# --
+
+;; from acbdw's rde: ./src/rde/home/services/i2p.scm
+
+(shepherd-service
+ (provision '($1))
+ (start #~(make-forkexec-constructor
+           (list #$(file-append $1 "/bin/$1"))
+            ;; #:environment-variables
+            ;; (list (string-append "PATH=" #$$1 "/bin"))
+            ;; runtime dir?
+            #:pid-file (string-append (getenv "HOME") "/.$1/$1.pid")
+            #:log-file (string-append
+                        (getenv "XDG_STATE_HOME") "/log" "/$1.log")))
+ (stop #~(make-kill-destructor))
+ (documentation "Run $1"))
