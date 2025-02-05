@@ -154,7 +154,6 @@ Once paths are set in your profile, you will need to do something like:
 
 ** XDG Shim
 
-
 + =.xdg_shim.sh=
   - This file ensures XDG can be modified by user before the rest of =.profile= runs. It's necessary because =.config/sh= relies on XDG.
   - This script is not managed by =git= or =stow=
@@ -1676,6 +1675,13 @@ fi
 
 #* docs @ALIAS
 alias imacs='emacs -f info-standalone --eval="(load-theme (intern \"wombat\"))"'
+manhtml() {
+    [[ -z "$1" ]] && echo "Requires man page name" && return 1
+    man -Thtml "$1" \
+        | sed -e 's/margin-top: 1em//g' \
+        | sed -E 's/(<br>|<hr>)//g' \
+        | sed -E 's/<a href="#.*>//g'
+}
 
 #* ps @ALIAS
 
@@ -1776,6 +1782,9 @@ alias gpgrel='gpg-connect-agent reloadagent /bye'
 alias gpgk='gpg-connect-agent killagent /bye'
 
 #* git @ALIAS
+
+# passes NUL byte to xargs, needs to be function
+# alias gitls_bydate='git ls-tree -r --name-only HEAD -z | TZ=UTC xargs -0n1 -I_ git --no-pager log -1 --date=iso-local --format="%ad _" -- _ | sort'
 
 #** git-stack @ALIAS
 alias gkg='git stack'

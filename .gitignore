@@ -1,8 +1,5 @@
 # daviwil/dotfiles scripts
 
-# misc files (notes/etc)
-misc/**
-
 # .bin scripts
 .bin/emacs-network
 

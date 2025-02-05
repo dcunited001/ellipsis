@@ -212,7 +212,7 @@ Key Vault, age, and PGP.")
 (define-public step-kms-plugin-bin
   (package
     (name "step-kms-plugin-bin")
-    (version "0.11.7")
+    (version "0.11.8")
     (source (origin
               (method url-fetch)
               (uri (string-append
@@ -220,7 +220,7 @@ Key Vault, age, and PGP.")
                     "v" version "/step-kms-plugin_" version "_linux_amd64.tar.gz"))
               (sha256
                (base32
-                "17058v307x7l1c0c3j0x1wllq27fhvszxzp7k9ra7hwlsi4s0w80"))))
+                "1w69d14q14apzb99xpl2ddjn583dz62lfsklyskqxzdh9vzk0aml"))))
     (build-system binary-build-system)
     ;; (build-system copy-build-system)
     (inputs `((,gcc "lib")

@@ -7,8 +7,16 @@
   #:use-module (guix packages)
 
   #:use-module (guix build-system go)
+  #:use-module (guix build-system python)
+  #:use-module (guix build-system pyproject)
 
   #:use-module (gnu packages base)
+  #:use-module (gnu packages check)
+  #:use-module (gnu packages python-xyz)
+  #:use-module (gnu packages python-build)
+  #:use-module (gnu packages python-check)
+  #:use-module (gnu packages graphviz)
+  #:use-module (gnu packages protobuf)
 
   ;; #:use-module (guix import go)
   #:use-module (gnu packages golang)
@@ -58,3 +66,36 @@
 directory and generates Mermaid Diagrams in .md files in each directory, or the
 output directory with the given tree structure.")
       (license license:asl2.0))))
+
+(define-public python-protobuf-uml-diagram
+  (package
+    (name "python-protobuf-uml-diagram")
+    (version "0.13")
+    (source
+     (origin
+       (method url-fetch)
+       (uri (pypi-uri "protobuf-uml-diagram" version))
+       (sha256
+        (base32 "0p0cyk62m6a9zj5xqxkmdqs4r71n9xfywqxcp962ffgi85jpd6vy"))))
+    (build-system pyproject-build-system)
+    (propagated-inputs (list python-click python-graphviz python-protobuf))
+    (native-inputs (list python-codecov
+                         python-coverage
+                         python-pycodestyle
+                         python-pytest
+                         python-pytest-cov
+                         python-pytest-env
+                         python-pytest-mock
+                         python-setuptools
+                         python-wheel))
+    (arguments
+     (list
+      #:phases
+      #~(modify-phases %standard-phases
+          (delete 'check))))
+    (home-page "https://github.com/kinow/protobuf-uml-diagram/")
+    (synopsis "Create UML diagrams from Protobuf proto files")
+    (description "Create UML diagrams from Protobuf proto files. Requires
+using `protoc' to compile them using `--python_out'. See `./dockerrun.sh' and
+`./docker/gen_uml.sh' to generate.")
+    (license #f)))
