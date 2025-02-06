@@ -1,0 +1,12 @@
+# -*- mode: snippet -*-
+# name: guix-config-record
+# key: «cfg
+# condition: t
+# --
+
+;; (define (serialize-field field-name val) (do it #:to it))
+;; (define serialize-boolean serialize-field)
+;; (define serialize-string serialize-field)
+
+(define-configuration $1-configuration
+ $0)

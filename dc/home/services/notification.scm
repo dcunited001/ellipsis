@@ -8,9 +8,10 @@
   #:use-module (guix packages)
   #:use-module (guix import utils)
   #:use-module (rde serializers ini)
-  ;; #:use-module (gnu packages dunst) ;; not a module
+  #:use-module (gnu packages wm)
   #:export (home-dunst-configuration
             home-dunst-service-type))
+
 
 (define-configuration/no-serialization home-dunst-configuration
   (package
@@ -28,7 +29,6 @@
                (serialize-ini-config
                 cfg
                 #:format-ini-section (lambda (s) (format #f "[~a]\n" s))))))))
-
 
 (define add-dunst-package
   (compose list home-dunst-configuration-package))

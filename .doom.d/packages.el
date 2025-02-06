@@ -113,6 +113,7 @@
 ;;** Lisp
 
 (package! lispy :recipe (:host github :repo "abo-abo/lispy"))
+(package! prism)
 
 ;; Arei deps: queue, sesman, arei
 (package! queue)
@@ -168,6 +169,11 @@
 
 (package! org-modern)
 (package! org-super-agenda)
+
+;; the doom module will pull in cfw.* packages
+(package! org-gcal)
+
+;;** Babel
 (package! ob-nix)
 (package! ob-graphql)
 

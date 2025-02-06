@@ -1,0 +1,42 @@
+;;; Copyright © `(nth 5 (decode-time))` `user-full-name` <`user-mail-address`>
+
+(define-module (dc home services `(file-name-base (buffer-name))`)
+
+  ;; FIXME: /home/dc/.dotfiles/.emacs.d/insert/dotfiles/dc/services/service
+
+  #:use-module (gnu services)
+  #:use-module (gnu services base)
+  #:use-module (gnu services configuration)
+  #:use-module (gnu services shepherd)
+  #:use-module (guix gexp)
+  #:use-module (srfi srfi-1)
+  #:export (`(file-name-base (buffer-name))`-service-type))
+
+;;; Commentary:
+;;;
+;;; This module provides a service definition for the `(file-name-base (buffer-name))` service.
+;;;
+;;; Code:
+
+(define (`(file-name-base (buffer-name))`-shepherd-service config)
+  (list
+   (shepherd-service
+    (provision '(`(file-name-base (buffer-name))`))
+    (documentation "Run `(file-name-base (buffer-name))`.")
+    (requirement '())
+    (start #~(make-forkexec-constructor
+              (list "cmd" "arg1" "arg2")))
+    (respawn? #f)
+    (stop #~(make-kill-destructor)))))
+
+(define `(file-name-base (buffer-name))`-service-type
+  (service-type
+   (name 'dc-home-`(file-name-base (buffer-name))`)
+   (extensions
+    (list
+     (service-extension home-shepherd-service-type
+                        `(file-name-base (buffer-name))`-shepherd-service)))
+   (default-value '())
+   (description "Runs `(file-name-base (buffer-name)) Daemon`")))
+
+;;; `(file-name-base (buffer-name))`.scm ends here

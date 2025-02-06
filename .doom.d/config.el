@@ -96,12 +96,22 @@ Guix channel.")
 ;; This mode's global bindings are also bound on C-x 6 {2,s,RET}
 (dc/unbind-keys '("<f2> 2" "<f2> b" "<f2> s" "<f2> <f2>"))
 
+;;**** Unbind fullscreen
+
+;; toggle-frame-fullscreen is setting bad state in the parameters to restore
+;; and won't toggle back. on f10, KDE just moves focus to emacs' menus
+(dc/unbind-keys '("<f10>" "M-<f10>" "<f11>"))
+
 ;;**** Unbind kmacro
 ;;
 ;; - `kmacro-start-macro-or-insert-macro' not doubly mapped
 ;; - `kmacro-end-or-call-macro' via `C-x e'
 ;;
 (dc/unbind-keys '("<f3>" "<f4>"))
+
+;; ;;**** Unbind completion-at-point (for cape)
+
+;; (dc/unbind-keys '("C-M-i"))
 
 ;;*** Global
 
@@ -167,7 +177,7 @@ Guix channel.")
 
 ;;*** Activities
 (use-package! activities
-  :commands activities-mode activities-kill activities-discard activities-new activities-resume activities-revert activities-save-all activities-suspend activities-switch activities-tabs-mode activities-list
+  :demand t
   :config
   (map! :map dc/quick-map
         (:prefix ("@" . "ACTIVITIES")
@@ -182,7 +192,8 @@ Guix channel.")
                  "$" #'activities-save-all
                  "q" #'activities-suspend
                  "b" #'activities-switch
-                 "t" #'activities-tabs-mode)))
+                 "t" #'activities-tabs-mode))
+  :hook (doom-init-ui-hook . #'activities-tabs-mode))
 
 ;; phew, I can jump to a window on KDE without using my eyes
 (defun dc/tab-names (&optional tabs)
@@ -251,6 +262,40 @@ Guix channel.")
 ;;**** Bufler package
 
 ;;** Editor
+
+;;*** Auto Insert
+
+(use-package! autoinsert
+  :config
+  (setq auto-insert-directory
+        (expand-file-name ".dotfiles/.emacs.d/insert" (getenv "HOME")))
+  :hook (doom-init-ui-hook . #'auto-insert-mode))
+
+;; TODO: tweak auto insert paths/modules/contents (for packages & guix home)
+
+(defun yas-expand-current-buffer ()
+  "Expand all yasnippet snippets in a current buffer."
+  (interactive)
+  (yas-expand-snippet (buffer-string) (point-min) (point-max)))
+
+;;**** Auto Insert Scheme & Guix
+
+;; NOTE: auto-insert detects the file-path, errors if
+;; yas-expand-current-buffer is nil, but fizzles silently if nothing else goes
+;; wrong? dammit. this was working in ©1987 .... "well how's that get there?"
+
+;; TODO: "guix/gnu/packages/package"
+;; TODO: "guix/gnu/services/service"
+;; TODO: "dotfiles/ellipsis/service"
+;; TODO: "dotfiles/ellipsis/home/service"
+
+(define-auto-insert
+  (rx "dc/services/" (one-or-more (or alphanumeric "-")) ".scm" line-end)
+  ["dotfiles/dc/service" yas-expand-current-buffer])
+
+(define-auto-insert
+  (rx "dc/home/services/" (one-or-more (or alphanumeric "-")) ".scm" line-end)
+  ["dotfiles/dc/home/service" yas-expand-current-buffer])
 
 ;;*** Highlighting
 
@@ -555,7 +600,7 @@ Guix channel.")
       org-enforce-todo-dependencies t
       ;; startup
       org-startup-folded 'content
-      org-startup-indented t)
+      org-startup-indented nil)
 
 ;; this adds (:comments . "link"), which is useful for detangling
 (setq org-babel-default-header-args
@@ -935,6 +980,11 @@ Guix channel.")
   +emacs-lisp-outline-regexp ";;\\(?:;[^#]\\|\\*+\\)"
   outline-regexp +emacs-lisp-outline-regexp)
 
+(use-package! prism
+  :commands prism-mode prism-whitespace-mode
+  :config
+  (map! :map doom-leader-toggle-map "M-p" #'prism-mode))
+
 ;;*** Emacs Lisp
 
 ;;*** Scheme
@@ -1069,7 +1119,7 @@ the result is the same")
 ;;
 ;; the extensions here will load when the `compile-multi' command is run. no
 ;; :defer is needed. doomemacs defers loading of consult.
-(use-package! compile-multi :commands compile-multi)
+(use-package! compile-multi :after consult)
 (use-package! consult-compile-multi
   :after (consult compile-multi)
   :config (consult-compile-multi-mode))
@@ -1189,6 +1239,8 @@ the result is the same")
 ;;
 
 (setopt guix-load-path (expand-file-name ".dotfiles" (getenv "HOME")))
+;; TODO: GUIX: maybe set guix-load-compiled-path
+;; see [[file:~/.emacs.doom/.local/straight/repos/emacs-guix/elisp/guix-repl.el::defun guix-repl-guile-args]]
 
 ;; TODO: defer guix?
 (use-package! guix

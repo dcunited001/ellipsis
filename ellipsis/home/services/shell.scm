@@ -8,7 +8,6 @@
   #:use-module (guix gexp))
 
 
-
 ;; TODO: will color aliases affect tramp connectivity?
 
 (define-public systemd-bash-configuration
