@@ -25,7 +25,7 @@
        "specification?"))
 
 (define (add-`(file-name-base (buffer-name))`-xdg-configuration-files)
-  (list `("`(file-name-base (buffer-name))`.conf"
+  (list ("`(file-name-base (buffer-name))`.conf"
           ,(plain-file "muh-temp-file.txt"
                        "the content of ~/.config/`(file-name-base (buffer-name))`.conf"))))
 

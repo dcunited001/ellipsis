@@ -263,40 +263,6 @@ Guix channel.")
 
 ;;** Editor
 
-;;*** Auto Insert
-
-(use-package! autoinsert
-  :config
-  (setq auto-insert-directory
-        (expand-file-name ".dotfiles/.emacs.d/insert" (getenv "HOME")))
-  :hook (doom-init-ui-hook . #'auto-insert-mode))
-
-;; TODO: tweak auto insert paths/modules/contents (for packages & guix home)
-
-(defun yas-expand-current-buffer ()
-  "Expand all yasnippet snippets in a current buffer."
-  (interactive)
-  (yas-expand-snippet (buffer-string) (point-min) (point-max)))
-
-;;**** Auto Insert Scheme & Guix
-
-;; NOTE: auto-insert detects the file-path, errors if
-;; yas-expand-current-buffer is nil, but fizzles silently if nothing else goes
-;; wrong? dammit. this was working in ©1987 .... "well how's that get there?"
-
-;; TODO: "guix/gnu/packages/package"
-;; TODO: "guix/gnu/services/service"
-;; TODO: "dotfiles/ellipsis/service"
-;; TODO: "dotfiles/ellipsis/home/service"
-
-(define-auto-insert
-  (rx "dc/services/" (one-or-more (or alphanumeric "-")) ".scm" line-end)
-  ["dotfiles/dc/service" yas-expand-current-buffer])
-
-(define-auto-insert
-  (rx "dc/home/services/" (one-or-more (or alphanumeric "-")) ".scm" line-end)
-  ["dotfiles/dc/home/service" yas-expand-current-buffer])
-
 ;;*** Highlighting
 
 ;; call unhighlight-regexp, it lists the regexps corresponding to the current
