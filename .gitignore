@@ -103,10 +103,6 @@ fonts/**
 .config/mimeapps.list
 .local/share/mime/packages/org.xml
 
-# qutebrowser
-.config/qutebrowser/config.py
-.config/qutebrowser/quickmarks
-
 # mpv
 .config/mpv/mpv.conf
 
