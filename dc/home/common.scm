@@ -8,7 +8,135 @@
   #:use-module (gnu services)
   #:use-module (gnu home services)
   #:use-module (gnu home services guix)
-  #:use-module (gnu home services fontutils))
+  #:use-module (gnu home services fontutils)
+
+  #:export (udiskie-packages
+            gtk-packages
+            gtk-theme-packages
+            fontconfig-packages
+            gpg-packages
+            dmenu-packages
+            terminator-packages
+            printer-packages
+            x11-packages
+            fcitx5-packages
+
+            ;; environments
+            gtk-environment
+            wayland-environment
+            wayland-kde-environment
+
+            dc-channels-service
+            ))
+
+
+(define udiskie-packages
+  (list "udiskie"))
+
+(define gtk-packages
+  ;; gsettings-desktop-schemas
+
+  (list "xsettingsd"
+        "dconf"))
+
+(define gtk-theme-packages
+  (list "arc-icon-theme"
+        "matcha-theme"
+        "hicolor-icon-theme"
+        "gnome-icon-theme"
+        "gnome-backgrounds"
+        "papirus-icon-theme"
+        "breeze-icons"
+        "yad"))
+
+(define fontconfig-packages
+  ;; TODO FONTS: maybe break fontconfig-packages into its own profile?
+  (list "font-fira-code"
+        "font-jetbrains-mono"
+        "font-iosevka"
+        "font-iosevka-nerd"
+        "font-iosevka-aile"
+        ;; "font-abattis-cantarell"
+        "font-overpass"
+        "font-dejavu"
+        "font-google-noto"
+        "font-gnu-freefont"
+        "font-liberation"
+        "font-awesome"
+        "font-google-material-design-icons"
+        "font-ghostscript"
+        "font-bitstream-vera"
+
+        ;; japanese (CJK)
+        "font-adobe-source-han-sans"
+        "font-wqy-zenhei"
+
+        ;; more fonts
+        "font-juliamono"
+        "font-adobe-source-han-sans"))
+
+(define dmenu-packages
+  (list "dmenu"
+        "rofi"))
+
+(define gpg-packages
+  (list "pinentry-gtk2"
+        "gnupg"))
+
+(define terminator-packages
+  (list "terminator"))
+
+(define printer-packages
+  (list "system-config-printer"))
+
+(define x11-packages
+  ;; trash-cli?
+  (list "xset"
+        "xrdb"
+        "xhost"
+        "xss-lock"
+        "xscreensaver"
+        "xrandr"
+        "arandr"
+        "autorandr"))
+
+(define desktop-packages
+  (list "xdg-utils"
+        "xdg-user-dirs"
+        "libinput"))
+
+(define fcitx5-packages
+  (list "fcitx5"
+        "anthy"
+        "fcitx5-anthy"
+        "fcitx5-configtool"
+        "fcitx5-chinese-addons"
+        "fcitx5-material-color-theme"
+        "fcitx5-gtk"
+        "fcitx5-gtk4"
+        "fcitx5-qt"))
+
+(define wayland-environment
+  ;; on guix system, agreety will set XDG_SESSION_TYPE
+  '(("XDG_SESSION_TYPE" . "wayland")
+    ("QT_QPA_PLATFORM" . "wayland-egl")))
+
+(define gtk-environment
+  '(("GTK2_RC_FILES" . "$HOME/.gtkrc-2.0")))
+
+(define wayland-kde-environment
+  ;; necessary for sway
+  `(("XDG_CURRENT_DESKTOP" . "KDE")
+
+    ;; potential necessary for styling/theming
+    ("QT_QPA_PLATFORMTHEME" . "qt5ct")
+    ("QT_WAYLAND_FORCE_DPI" . "physical")
+    ("QT_WAYLAND_DISABLE_WINDOWDECORATION" . "1")
+
+    ;; necessary on a per-app basis or for the entire wm session,
+    ("SDL_VIDEODRIVER" . "wayland")
+    ("SDL_IM_MODULE" . "fcitx")))
+
 
 
 ;; TODO: refactor env-vars into records & services
@@ -144,7 +272,25 @@
            (prefer
             (family "Liberation Mono"))))))
 
-(define-public dc-channels-service
+;; services that do more than one thing need to be defined privately as service-type
+;;  - in order to bundle together extensions of different types
+
+
+(define dc-gpg-agent-configruation
+  (home-gpg-agent-configuration
+   (pinentry-program (file-append pinentry-gtk2 "/bin/pinentry-gtk-2"))
+   (ssh-support? #t)
+   (default-cache-ttl 60)
+   (default-cache-ttl-ssh 60)
+   (max-cache-ttl 600)
+   (max-cache-ttl-ssh 600)
+   (extra-content "
+no-allow-external-cache
+no-allow-mark-trusted
+no-allow-emacs-pinentry
+no-allow-loopback-pinentry")))
+
+(define dc-channels-service
   (simple-service
    'dc-channels
    home-channels-service-type

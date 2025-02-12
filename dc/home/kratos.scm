@@ -1,121 +1,47 @@
-(use-modules (gnu home services desktop)
-             (gnu home services gnupg)
-             (gnu home services dotfiles)
-             (gnu home services shells)
-             (gnu home services sound)
-             (gnu home services)
-             (gnu home)
-             (gnu packages admin)
-             (gnu packages)
-             (gnu packages package-management)
-             (gnu services guix)
-             (gnu services shepherd)
-             (gnu services)
-             (gnu)
-             (guix channels)
-             (guix gexp)
-             (guix packages)
-             (guix profiles)
-             (guix inferior)
-             (guix ui)
-             (srfi srfi-1)
+(define-module (dc home kratos)
+  #:use-module (gnu home services desktop)
+  #:use-module (gnu home services gnupg)
+  #:use-module (gnu home services dotfiles)
+  #:use-module (gnu home services shells)
+  #:use-module (gnu home services sound)
+  #:use-module (gnu home services)
+  #:use-module (gnu home)
 
-             (dc config))
+  #:use-module (gnu packages admin)
+  #:use-module (gnu packages)
+  #:use-module (gnu packages package-management)
+  #:use-module (gnu services guix)
+  #:use-module (gnu services shepherd)
+  #:use-module (gnu services)
+  #:use-module (gnu)
+
+  #:use-module (guix channels)
+  #:use-module (guix gexp)
+  #:use-module (guix packages)
+  #:use-module (guix profiles)
+  #:use-module (guix ui)
+  #:use-module (srfi srfi-1)
+
+  #:use-module (dc common)
+  #:use-module (dc config)
+  #:use-module (dc home services alacritty))
 
 (define %host-name "kratos")
 
-(define %udiskie-packages
-  (list "udiskie"))
-
-(define %gtk-packages
-  ;; gsettings-desktop-schemas
-
-  (list "xsettingsd"
-        "dconf"))
-
-(define %gtktheme-packages
-  (list "arc-icon-theme"
-        "matcha-theme"
-        "hicolor-icon-theme"
-        "gnome-icon-theme"
-        "gnome-backgrounds"
-        "papirus-icon-theme"
-        "breeze-icons"
-        "yad"))
-
-(define %dmenu-packages
-  (list "dmenu"
-        "rofi"))
-
-(define %gpg-packages
-  (list "pinentry-gtk2"
-        "gnupg"))
-
-(define %terminator-packages
-  (list "terminator"))
-
-(define %printer-packages
-  (list "system-config-printer"))
-
-(define %x11-packages
-  ;; trash-cli?
-  (list "xset"
-        "xrdb"
-        "xhost"
-        "xss-lock"
-        "xscreensaver"
-        "xrandr"
-        "arandr"
-        "autorandr"))
-
-(define %desktop-packages
-  (list "xdg-utils"
-        "xdg-user-dirs"
-        "libinput"))
-
-(define %fcitx5-packages
-  (list "fcitx5"
-        "anthy"
-        "fcitx5-anthy"
-        "fcitx5-configtool"
-        "fcitx5-chinese-addons"
-        "fcitx5-material-color-theme"
-        "fcitx5-gtk"
-        "fcitx5-gtk4"
-        "fcitx5-qt"))
-
-(define %wayland-environment
-  ;; on guix system, agreety will set XDG_SESSION_TYPE
-  '(("XDG_SESSION_TYPE" . "wayland")
-    ("QT_QPA_PLATFORM" . "wayland-egl")))
-
-(define %gtk-environment
-  '(("GTK2_RC_FILES" . "$HOME/.gtkrc-2.0")))
-
-(define wayland-environment
-  ;; necessary for sway
-  `(("XDG_CURRENT_DESKTOP" . "KDE")
-
-    ;; potential necessary for styling/theming
-    ("QT_QPA_PLATFORMTHEME" . "qt5ct")
-    ("QT_WAYLAND_FORCE_DPI" . "physical")
-    ("QT_WAYLAND_DISABLE_WINDOWDECORATION" . "1")
-
-    ;; necessary on a per-app basis or for the entire wm session,
-    ("SDL_VIDEODRIVER" . "wayland")
-    ("SDL_IM_MODULE" . "fcitx")))
-
-(define %home-manifest
+(define home-manifest
   (specifications->packages
    (append
-    %gpg-packages
-    %desktop-packages
-    ;; %gtk-packages
-    ;; %dmenu-packages
-    ;; %fcitx5-packages
-    ;; %printer-packages
-    ;; %terminator-packages
-    ;; %udiskie-packages
+    gpg-packages
+    (list "pinentry-qt5")
+    desktop-packages
+    fontconfg-packages
+    ;; gtk-packages
+    ;; gtk-theme-packages
+    ;; dmenu-packages
+    ;; fcitx5-packages
+    ;; printer-packages
+    ;; terminator-packages
+    ;; udiskie-packages
     (list "guile-next"
           "guile-ares-rs"
           "glibc-locales"
@@ -126,37 +52,63 @@
 
           "keepassxc"))))
 
-(home-environment
-  (packages (list htop))
-  (services
-   (append
-    (list
-     (service home-bash-service-type
-              (home-bash-configuration
-               (guix-defaults? #t)
-               (bash-profile)))
-     (simple-service 'wayland-environment-variables
-                     home-environment-variables-service-type
-                     %wayland-environment)
-     (simple-service 'gtk-environment-variables
-                     home-environment-variables-service-type
-                     %gtk-environment)
-     (service home-bash-service-type
-              (home-bash-configuration
-               (aliases me-aliases)
-               (bashrc (list (local-file
-                              "/home/dc/.guix-home-test/.bashrc"
-                              "bashrc")))
-               (bash-profile (list (local-file
-                                    "/home/dc/.guix-home-test/.bash_profile"
-                                    "bash_profile")))
-               (bash-logout (list (local-file
-                                   "/home/dc/.guix-home-test/.bash_logout"
-                                   "bash_logout")))))
-     (service home-dotfiles-service-type
-              (home-dotfiles-configuration
-               (directories (list %dotfiles-directory)))))
-    %base-home-services)))
+;; TODO: gpg-agent: reopen configuration instead of defining a new one
+(define dc-gpg-agent-configruation
+  (home-gpg-agent-configuration
+   ;; (pinentry-program (file-append pinentry-gtk2 "/bin/pinentry-gtk-2"))
+   (pinentry-program (file-append pinentry- "/bin/pinentry-qt5"))
+
+   (ssh-support? #t)
+   (default-cache-ttl 60)
+   (default-cache-ttl-ssh 60)
+   (max-cache-ttl 600)
+   (max-cache-ttl-ssh 600)
+   (extra-content "
+no-allow-external-cache
+no-allow-mark-trusted
+no-allow-emacs-pinentry
+no-allow-loopback-pinentry")))
+
+(define kratos-home-environment
+  (home-environment
+    (services
+     (append
+      (list
+       (simple-service 'wayland-environment-variables
+                       home-environment-variables-service-type
+                       wayland-environment)
+       (simple-service 'dc-shell-profile
+                       home-shell-profile-service-type
+                       (list ""))
+       (simple-service 'gtk-environment-variables
+                       home-environment-variables-service-type
+                       gtk-environment)
+       (service home-gpg-agent-service-type
+                dc-gpg-agent-configuration)
+       (service home-bash-service-type
+                (home-bash-configuration
+                 (aliases me-aliases)
+                 (bashrc (list (local-file
+                                "/home/dc/.guix-home-test/.bashrc"
+                                "bashrc")))
+                 (bash-profile (list (local-file
+                                      "/home/dc/.guix-home-test/.bash_profile"
+                                      "bash_profile")))
+                 (bash-logout (list (local-file
+                                     "/home/dc/.guix-home-test/.bash_logout"
+                                     "bash_logout")))))
+
+       ;; NOTE: not really sure this a great pattern
+       (service (alacritty-service-type dc-alacritty-xdg-files))
+
+       ;; NOTE: stowing this will likely conflict (unless abcdw's power level is over 9,000,000)
+       (service home-dotfiles-service-type
+                (home-dotfiles-configuration
+                 (directories (list %dotfiles-directory))))
+
+       )
+      (list dc-channels-service)
+      %base-home-services))))
 
 
 ;; potentially necessary for some steam tweaks
