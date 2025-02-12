@@ -32,12 +32,17 @@
 
 ;; TODO: services that extend home-mcron-service-type?
 
+;;* Env
+;;** Universal
+
 (define-public %dc-env-universal
   `(("SHELL" . ,(file-append bash "/bin/bash"))
     ("LESSHISTFILE" . "$XDG_CACHE_HOME/.lesshst")
     ("_JAVA_AWT_WM_NONREPARENTING" . #t)
     ;; ("LITERAL_VALUE" . ,(literal-string "${abc}"))
     ))
+
+;;** Applications
 
 (define-public %dc-env-applications
   '(("MAIL" . "geary")
@@ -46,29 +51,14 @@
     ("EDITOR" . "emacsclient")
     ("ALTERNATE_EDITOR" . "vim")))
 
-(define-public %dc-env-gtk
-  '(("GTK2_RC_FILES" . "$HOME/.gtkrc-2.0")))
+;;** Display Servers
+;;*** X11
 
 (define-public %dc-env-x11
   ;; this seems to fix alacritty HiDPI
   '(("WINIT_X11_SCALE_FACTOR=1")))
 
-(define-public %dc-env-i3
-  '(("XDG_CURRENT_DESKTOP=i3")))
-
-;; override with specifics
-(define-public %dc-env-sway
-  '(("XDG_CURRENT_DESKTOP=sway")))
-
-(define-public %dc-env-kde
-  '(("XDG_CURRENT_DESKTOP=KDE")))
-
-;; does this even work in wayland?
-(define-public fcitx-environment
-  '(("QT_IM_MODULE" . "fcitx")
-    ("GTK_IM_MODULE" . "fcitx")
-    ("SDL_IM_MODULE" . "fcitx")
-    ("XMODIFIERS" . "@im=fcitx")))
+;;*** Wayland
 
 (define-public %dc-env-wayland
   `( ;; necessary for wayland
@@ -97,6 +87,43 @@
 
     ;; ("SDL_DYNAMIC_API" . "/usr/lib/libSDL2-2.0.so") ; steam tweaks
     ))
+;;** Toolkits
+
+;;*** GTK
+
+(define-public %dc-env-gtk
+  '(("GTK2_RC_FILES" . "$HOME/.gtkrc-2.0")))
+
+;;*** QT
+
+;;** Window Managers
+
+;;*** i3
+
+(define-public %dc-env-i3
+  '(("XDG_CURRENT_DESKTOP=i3")))
+
+;;*** Sway
+
+;; override with specifics
+(define-public %dc-env-sway
+  '(("XDG_CURRENT_DESKTOP=sway")))
+
+;;*** KDE
+
+(define-public %dc-env-kde
+  '(("XDG_CURRENT_DESKTOP=KDE")))
+
+;;** Applications
+
+;;*** FCITX
+
+;; does this even work in wayland?
+(define-public fcitx-environment
+  '(("QT_IM_MODULE" . "fcitx")
+    ("GTK_IM_MODULE" . "fcitx")
+    ("SDL_IM_MODULE" . "fcitx")
+    ("XMODIFIERS" . "@im=fcitx")))
 
 ;; (define* (dc-env-universal #:optional
 ;;          (env-vars %env-universal))
@@ -122,28 +149,27 @@
    'dc-channels
    home-channels-service-type
    (list
-    (list
-     (channel
-      (name 'rde)
-      (url "https://git.sr.ht/~abcdw/rde")
-      (introduction
-       (make-channel-introduction
-        "257cebd587b66e4d865b3537a9a88cccd7107c95"
-        (openpgp-fingerprint
-         "2841 9AC6 5038 7440 C7E9  2FFA 2208 D209 58C1 DEB0"))))
-     (channel
-      (name 'guixrus)
-      (url "https://git.sr.ht/~whereiseveryone/guixrus")
-      (introduction
-       (make-channel-introduction
-        "7c67c3a9f299517bfc4ce8235628657898dd26b2"
-        (openpgp-fingerprint
-         "CD2D 5EAA A98C CB37 DA91  D6B0 5F58 1664 7F8B E551"))))
-     (channel
-      (name 'nonguix)
-      (url "https://gitlab.com/nonguix/nonguix")
-      (introduction
-       (make-channel-introduction
-        "897c1a470da759236cc11798f4e0a5f7d4d59fbc"
-        (openpgp-fingerprint
-         "2A39 3FFF 68F4 EF7A 3D29  12AF 6F51 20A0 22FB B2D5"))))))))
+    (channel
+     (name 'rde)
+     (url "https://git.sr.ht/~abcdw/rde")
+     (introduction
+      (make-channel-introduction
+       "257cebd587b66e4d865b3537a9a88cccd7107c95"
+       (openpgp-fingerprint
+        "2841 9AC6 5038 7440 C7E9  2FFA 2208 D209 58C1 DEB0"))))
+    (channel
+     (name 'guixrus)
+     (url "https://git.sr.ht/~whereiseveryone/guixrus")
+     (introduction
+      (make-channel-introduction
+       "7c67c3a9f299517bfc4ce8235628657898dd26b2"
+       (openpgp-fingerprint
+        "CD2D 5EAA A98C CB37 DA91  D6B0 5F58 1664 7F8B E551"))))
+    (channel
+     (name 'nonguix)
+     (url "https://gitlab.com/nonguix/nonguix")
+     (introduction
+      (make-channel-introduction
+       "897c1a470da759236cc11798f4e0a5f7d4d59fbc"
+       (openpgp-fingerprint
+        "2A39 3FFF 68F4 EF7A 3D29  12AF 6F51 20A0 22FB B2D5")))))))
