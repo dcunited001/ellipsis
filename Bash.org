@@ -1248,29 +1248,8 @@ use julia_system
 
 ** =.profile=
 
-If =.bash_profile= does not exist, =.profile= will be sourced instead. When bash is invoked as =sh=, then it will source =.profile= anyways.
-
-*** Load XDG Shim
-
-#+begin_src sh :tangle .profile :shebang #!/bin/sh
-# If XDG variables need to change from default, set them here.
-[[ -f $HOME/.xdg_shim.sh ]] && source $HOME/.xdg_shim.sh
-
-#[[ -z $XDG_CONFIG_HOME ]] && export XDG_CONFIG_HOME=$HOME/.config
-#[[ -z $XDG_CONFIG_DIRS ]] && export XDG_CONFIG_DIRS=/etc/xdg
-#[[ -z $XDG_DATA_HOME ]]   && export XDG_DATA_HOME=$HOME/.local/share
-#[[ -z $XDG_DATA_DIRS ]]   && export XDG_DATA_DIRS=/usr/local/share/:/usr/share/
-#[[ -z $XDG_STATE_HOME ]]  && export XDG_STATE_HOME=$HOME/.local/state
-#[[ -z $XDG_CACHE_HOME ]]  && export XDG_CACHE_HOME=$HOME/.cache
-#+end_src
-
-#+RESULTS:
-
-***** NOTA BIG BENE:
-
-If there is no =.xdg_shim.sh=, none of the =$GUIX_AUTOLOAD_PROFILES= will be
-loaded into =$PATH= and =.xsession= will fail. Several scripts are dependent on
-=$XDG_CONFIG_HOME= at least.
+If =.bash_profile= does not exist, =.profile= will be sourced instead. When bash
+is invoked as =sh=, then it will source =.profile= anyways.
 
 *** Before Profile.d
 
