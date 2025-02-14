@@ -1,17 +1,25 @@
+;;; Copyright © 2025 David Conner <aionfork@gmail.com>
+
 (define-module (dc home kratos)
+  #:use-module (dc home config)
+  #:use-module (dc home common)
+  #:use-module (dc home services alacritty)
+
   #:use-module (gnu home services desktop)
-  #:use-module (gnu home services gnupg)
   #:use-module (gnu home services dotfiles)
+  #:use-module (gnu home services gnupg)
+  #:use-module (gnu home services pm)
   #:use-module (gnu home services shells)
   #:use-module (gnu home services sound)
+  #:use-module (gnu home services xdg)
   #:use-module (gnu home services)
   #:use-module (gnu home)
 
-  #:use-module (gnu packages admin)
   #:use-module (gnu packages)
-  #:use-module (gnu packages package-management)
+
   #:use-module (gnu services guix)
   #:use-module (gnu services shepherd)
+  #:use-module (gnu services configuration)
   #:use-module (gnu services)
   #:use-module (gnu)
 
@@ -20,44 +28,49 @@
   #:use-module (guix packages)
   #:use-module (guix profiles)
   #:use-module (guix ui)
-  #:use-module (srfi srfi-1)
 
-  #:use-module (dc common)
-  #:use-module (dc config)
-  #:use-module (dc home services alacritty))
+  #:use-module (rde home services video)
+  #:use-module (rde serializers ini)
+
+  #:use-module (srfi srfi-1))
+
+(use-package-modules gnupg password-utils)
 
 (define %host-name "kratos")
+(define %xdg "/data/xdg")
 
-(define home-manifest
-  (specifications->packages
-   (append
-    gpg-packages
-    (list "pinentry-qt5")
-    desktop-packages
-    fontconfg-packages
-    ;; gtk-packages
-    ;; gtk-theme-packages
-    ;; dmenu-packages
-    ;; fcitx5-packages
-    ;; printer-packages
-    ;; terminator-packages
-    ;; udiskie-packages
-    (list "guile-next"
-          "guile-ares-rs"
-          "glibc-locales"
-          "guile-colorized"
+(define home-packages
+  (append
+   gpg-packages
+   desktop-packages
+   fontconfig-packages
+   ;; gtk-packages
+   ;; gtk-theme-packages
+   ;; dmenu-packages
+   ;; fcitx5-packages
+   ;; printer-packages
+   ;; terminator-packages
+   ;; udiskie-packages
+   (list keepassxc
+         pwsafe)
+   guile-packages))
 
-          "xsettingsd"
-          "dconf"
-
-          "keepassxc"))))
+(define kratos-xdg-user-directories
+  ;; TODO: ensure XDG_CONFIG_HOME is set (see .xdg_shim.eg.sh)
+  (home-xdg-user-directories-configuration
+   (music (string-append %xdg "/Music"))
+   (videos (string-append %xdg "/Videos"))
+   (pictures (string-append %xdg "/Pictures"))
+   (documents (string-append %xdg "/Documents"))
+   (download (string-append %xdg "/Downloads"))
+   (desktop (string-append %xdg "/Desktop"))
+   (publicshare (string-append %xdg "/Public"))
+   (templates (string-append %xdg "/Templates"))))
 
 ;; TODO: gpg-agent: reopen configuration instead of defining a new one
-(define dc-gpg-agent-configruation
+(define kratos-gpg-agent-configuration
   (home-gpg-agent-configuration
-   ;; (pinentry-program (file-append pinentry-gtk2 "/bin/pinentry-gtk-2"))
-   (pinentry-program (file-append pinentry- "/bin/pinentry-qt5"))
-
+   (pinentry-program (file-append pinentry-qt5 "/bin/pinentry-qt5"))
    (ssh-support? #t)
    (default-cache-ttl 60)
    (default-cache-ttl-ssh 60)
@@ -69,25 +82,30 @@ no-allow-mark-trusted
 no-allow-emacs-pinentry
 no-allow-loopback-pinentry")))
 
-(define kratos-home-environment
+(define kratos-alacritty-service
+  (alacritty-service-type dc-alacritty-xdg-files))
+
+(define kratos-wayland-environment-variables
+  (simple-service 'wayland-environment-variables
+                  home-environment-variables-service-type
+                  wayland-environment))
+
+(define (kratos-home-environment)
   (home-environment
+    (packages home-packages)
     (services
      (append
       (list
-       (simple-service 'wayland-environment-variables
-                       home-environment-variables-service-type
-                       wayland-environment)
        (simple-service 'dc-shell-profile
                        home-shell-profile-service-type
                        (list ""))
        (simple-service 'gtk-environment-variables
                        home-environment-variables-service-type
                        gtk-environment)
-       (service home-gpg-agent-service-type
-                dc-gpg-agent-configuration)
+       (service home-gpg-agent-service-type kratos-gpg-agent-configuration)
        (service home-bash-service-type
                 (home-bash-configuration
-                 (aliases me-aliases)
+                 ;; (aliases '())
                  (bashrc (list (local-file
                                 "/home/dc/.guix-home-test/.bashrc"
                                 "bashrc")))
@@ -99,17 +117,18 @@ no-allow-loopback-pinentry")))
                                      "bash_logout")))))
 
        ;; NOTE: not really sure this a great pattern
-       (service (alacritty-service-type dc-alacritty-xdg-files))
+       (service kratos-alacritty-service dc-alacritty-xdg-files)
+       (service home-xdg-user-directories-service-type kratos-xdg-user-directories)
 
        ;; NOTE: stowing this will likely conflict (unless abcdw's power level is over 9,000,000)
        (service home-dotfiles-service-type
                 (home-dotfiles-configuration
-                 (directories (list %dotfiles-directory))))
-
-       )
+                 (source-directory ".")
+                 (directories (list %dotfiles-directory)))))
       (list dc-channels-service)
       %base-home-services))))
 
+(kratos-home-environment)
 
 ;; potentially necessary for some steam tweaks
 ;; ("SDL_DYNAMIC_API" . "/usr/lib/libSDL2-2.0.so")

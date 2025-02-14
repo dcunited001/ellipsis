@@ -13,8 +13,6 @@
 * Table Of Contents :TOC_2_gh:
 - [[#environment][Environment]]
   - [[#org-variables][Org Variables]]
-  - [[#xdg-shim][XDG Shim]]
-  - [[#xdg-user-dirs][XDG User Dirs]]
   - [[#profile-hooks][Profile Hooks]]
   - [[#apps][Apps]]
   - [[#xdg][XDG]]
@@ -146,49 +144,6 @@ export DOOMDIR=$HOME/.doom.d
 *** Create Paths
 
 Once paths are set in your profile, you will need to do something like:
-
-
-
-** XDG Shim
-
-+ =.xdg_shim.sh=
-  - This file ensures XDG can be modified by user before the rest of =.profile= runs. It's necessary because =.config/sh= relies on XDG.
-  - This script is not managed by =git= or =stow=
-
-#+begin_src sh :tangle .xdg_shim.eg.sh :shebang #!/bin/sh
-export XDG_CONFIG_HOME=$HOME/.config
-#+end_src
-
-** XDG User Dirs
-
-This requires the =xdg-user-dirs= tool
-
-See [[https://wiki.archlinux.org/title/XDG_user_directories][XDG User Directories]] for more info. This file allows directories like
-=$HOME/Documents= to survive reinstallation of systems & home directories in a
-sane way.
-
-#+begin_src sh :result none :eval no
-dirsfile=$XDG_CONFIG_HOME/user-dirs.dirs
-
-# overwrite (requires stow .)
-echo > $dirsfile
-echo "XDG_DOCUMENTS_DIR=\"$_DATA/xdg/Documents\"" >> $dirsfile
-echo "XDG_MUSIC_DIR=\"$_DATA/xdg/Music\"" >> $dirsfile
-echo "XDG_PICTURES_DIR=\"$_DATA/xdg/Pictures\"" >> $dirsfile
-echo "XDG_VIDEOS_DIR=\"$_DATA/xdg/Videos\"" >> $dirsfile
-echo "XDG_TEMPLATES_DIR=\"$_DATA/xdg/Templates\"" >> $dirsfile
-
-# and ignore these
-#XDG_DESKTOP_DIR="$_DATA/xdg/Desktop"
-#XDG_DOWNLOADS_DIR="$_DATA/xdg/Downloads"
-#XDG_PUBLICSHARE_DIR="$_DATA/xdg/Public"
-#+end_src
-
-*** Note
-
-+ xdg-user-dirs-update will replace everything if anything is invalid (only =$HOME/yyy= or =/path/to/yyy= is valid)
-+ it will autoupdate everything if any dirs don't exist
-
 
 ** Profile Hooks
 
