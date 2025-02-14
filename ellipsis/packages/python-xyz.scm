@@ -6,6 +6,10 @@
   #:use-module (gnu packages python-check)
   #:use-module (guix build-system pyproject)
   #:use-module (guix build-system python)
+
+  #:use-module (gnu packages gcc)
+  #:use-module (nonguix build-system binary)
+
   #:use-module (guix download)
   #:use-module (guix gexp)
   #:use-module (guix git-download)
@@ -69,3 +73,40 @@
      "Extract colors from an image.  Colors are grouped based on visual similarities
 using the CIE76 formula.")
     (license license:expat)))
+
+(define-public uv-bin
+  (let* ((bin-platform "x86_64-unknown-linux-gnu")
+         (bin-version "0.5.24")
+         (bin-name (string-append "uv-" bin-platform)))
+
+    ;; bin-name: k0s-v1.28.4+k0s.0-amd64
+    ;; url: v1.28.4+k0s.0/k0s-v1.28.4+k0s.0-amd64
+
+    (package
+      (name "uv-bin")
+      (version bin-version)
+      (source (origin
+                (method url-fetch)
+                (uri (string-append
+                      "https://github.com/astral-sh/uv/releases/download/"
+                      version "/" bin-name ".tar.gz"))
+                (sha256
+                 (base32
+                  "1qh079kbvc9qms6j3i6kw2w1snc7y7qijj0wxwa6x2n3gx7n3sx0"))))
+
+      (build-system binary-build-system)
+      (arguments
+       (list
+
+        #:patchelf-plan #~`(("uv" ("gcc" "libc"))
+                            ("uvx" ("gcc" "libc")))
+        #:install-plan ''(("." "bin/"
+                           #:include-regexp ("uv.*$")))))
+
+      (inputs `((,gcc "lib")))
+      (propagated-inputs '())
+      (home-page "https://github.com/astral-sh/uv")
+      (synopsis "In which python installs things")
+      (description "... TODO this was never going to work. UV needs to
+understand how to build with the correct paths and things.")
+      (license license:asl2.0))))
