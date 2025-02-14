@@ -1,3 +1,0 @@
-#!/bin/sh
-emacsclient -e "(setenv \"SSH_AGENT_PID\" \"\")" -a "Something somewhere still happen"
-emacsclient -e "(setenv \"SSH_AUTH_SOCK\" \"\")" -a "Something somewhere still happen"
