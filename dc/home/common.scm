@@ -1,16 +1,27 @@
+;;; Copyright © 2025 David Conner <aionfork@gmail.com>
+
 (define-module (dc home common)
-  #:use-module (srfi srfi-1)
-  #:use-module (ice-9 format)
-  #:use-module (guix gexp)
-  #:use-module (guix channels)
-  #:use-module (gnu packages)
-  #:use-module (gnu packages bash)
-  #:use-module (gnu services)
-  #:use-module (gnu home services)
-  #:use-module (gnu home services guix)
   #:use-module (gnu home services fontutils)
+  #:use-module (gnu home services gnupg)
+  #:use-module (gnu home services guix)
+  #:use-module (gnu home services)
+
+  #:use-module (gnu packages base)
+  #:use-module (gnu packages)
+
+  #:use-module (gnu services)
+  #:use-module (gnu services configuration)
+  #:use-module (gnu)
+  #:use-module (guix channels)
+  #:use-module (guix gexp)
+
+  #:use-module (ice-9 format)
+  #:use-module (rde packages fonts)     ; font-iosevka-nerd
+  #:use-module (rde serializers ini)
+  #:use-module (srfi srfi-1)
 
   #:export (udiskie-packages
+            guile-packages
             gtk-packages
             gtk-theme-packages
             fontconfig-packages
@@ -19,6 +30,7 @@
             terminator-packages
             printer-packages
             x11-packages
+            desktop-packages
             fcitx5-packages
 
             ;; environments
@@ -26,95 +38,117 @@
             wayland-environment
             wayland-kde-environment
 
-            dc-channels-service
-            ))
+            ;; services
+            dc-gpg-agent-configuration
 
+            dc-channels-service))
+
+(use-package-modules bash guile guile-xyz gnupg security-token
+                     fonts ghostscript
+                     suckless freedesktop xorg xdisorg fcitx5 anthy
+                     kde-frameworks gtk gnome gnome-xyz)
+
+(define guile-packages
+  (list guile-next guile-ares-rs glibc-locales))
+
+(define yubikey-packages
+  ;; libyubikey yubico-pam pam-u2f
+  (list yubikey-personalization
+        yubikey-manager-qt
+        python-yubikey-manager
+        yubico-piv-tool
+        libu2f-host))
 
 (define udiskie-packages
-  (list "udiskie"))
+  (list udiskie))                       ; freedesktop
 
 (define gtk-packages
   ;; gsettings-desktop-schemas
 
-  (list "xsettingsd"
-        "dconf"))
+  (list xsettingsd                      ; xdisorg
+        dconf))                         ; gnome
 
 (define gtk-theme-packages
-  (list "arc-icon-theme"
-        "matcha-theme"
-        "hicolor-icon-theme"
-        "gnome-icon-theme"
-        "gnome-backgrounds"
-        "papirus-icon-theme"
-        "breeze-icons"
-        "yad"))
+  (list arc-icon-theme                  ; gnome-xyz
+        matcha-theme                    ; gnome-xyz
+        papirus-icon-theme              ; gnome-xyz
+        hicolor-icon-theme              ; gnome
+        adwaita-icon-theme              ; gnome
+        gnome-backgrounds               ; gnome
+        breeze-icons                    ; kde-frameworks
+        yad))                           ; gtk
 
 (define fontconfig-packages
   ;; TODO FONTS: maybe break fontconfig-packages into its own profile?
-  (list "font-fira-code"
-        "font-jetbrains-mono"
-        "font-iosevka"
-        "font-iosevka-nerd"
-        "font-iosevka-aile"
-        ;; "font-abattis-cantarell"
-        "font-overpass"
-        "font-dejavu"
-        "font-google-noto"
-        "font-gnu-freefont"
-        "font-liberation"
-        "font-awesome"
-        "font-google-material-design-icons"
-        "font-ghostscript"
-        "font-bitstream-vera"
+  (list font-fira-code
+        font-jetbrains-mono
+        font-iosevka
+        font-iosevka-nerd               ; rde packages fonts
+        font-iosevka-aile
+        font-abattis-cantarell
+        font-overpass
+        font-dejavu
+        font-google-noto
+        font-gnu-freefont
+        font-liberation
+        font-awesome
+        font-google-material-design-icons
+        font-ghostscript                ; ghostscript
+        font-bitstream-vera
 
         ;; japanese (CJK)
-        "font-adobe-source-han-sans"
-        "font-wqy-zenhei"
+        font-adobe-source-han-sans
+        font-wqy-zenhei
 
         ;; more fonts
-        "font-juliamono"
-        "font-adobe-source-han-sans"))
+        font-juliamono
+        font-adobe-source-han-sans))
 
 (define dmenu-packages
-  (list "dmenu"
-        "rofi"))
+  (list dmenu                         ; suckless
+        rofi))                        ; xdisorg
 
 (define gpg-packages
-  (list "pinentry-gtk2"
-        "gnupg"))
+  (list pinentry-gtk2
+        pinentry-qt5
+        gnupg))
 
 (define terminator-packages
-  (list "terminator"))
+  ;; gnome
+  (list terminator))
 
 (define printer-packages
-  (list "system-config-printer"))
+  ;; gnome
+  (list system-config-printer))
 
+;; trash-cli?
 (define x11-packages
-  ;; trash-cli?
-  (list "xset"
-        "xrdb"
-        "xhost"
-        "xss-lock"
-        "xscreensaver"
-        "xrandr"
-        "arandr"
-        "autorandr"))
+  ;; xorg
+  (list xset
+        xrdb
+        xhost
+        xrandr
+        ;; xdisorg
+        xss-lock
+        xscreensaver
+        arandr
+        autorandr))
 
 (define desktop-packages
-  (list "xdg-utils"
-        "xdg-user-dirs"
-        "libinput"))
+  (list xdg-utils
+        xdg-user-dirs
+        libinput))
 
 (define fcitx5-packages
-  (list "fcitx5"
-        "anthy"
-        "fcitx5-anthy"
-        "fcitx5-configtool"
-        "fcitx5-chinese-addons"
-        "fcitx5-material-color-theme"
-        "fcitx5-gtk"
-        "fcitx5-gtk4"
-        "fcitx5-qt"))
+  (list fcitx5
+        anthy
+        fcitx5-anthy
+        fcitx5-configtool
+        fcitx5-chinese-addons
+        fcitx5-material-color-theme
+        fcitx5-gtk
+        fcitx5-gtk4
+        fcitx5-qt))
 
 (define wayland-environment
   ;; on guix system, agreety will set XDG_SESSION_TYPE
@@ -136,8 +170,6 @@
     ;; necessary on a per-app basis or for the entire wm session,
     ("SDL_VIDEODRIVER" . "wayland")
     ("SDL_IM_MODULE" . "fcitx")))
-
-
 
 ;; TODO: refactor env-vars into records & services
 ;;
@@ -164,11 +196,10 @@
 ;;** Universal
 
 (define-public %dc-env-universal
+  ;; ("LITERAL_VALUE" . ,(literal-string "${abc}"))
   `(("SHELL" . ,(file-append bash "/bin/bash"))
     ("LESSHISTFILE" . "$XDG_CACHE_HOME/.lesshst")
-    ("_JAVA_AWT_WM_NONREPARENTING" . #t)
-    ;; ("LITERAL_VALUE" . ,(literal-string "${abc}"))
-    ))
+    ("_JAVA_AWT_WM_NONREPARENTING" . #t)))
 
 ;;** Applications
 
@@ -276,9 +307,9 @@
 ;;  - in order to bundle together extensions of different types
 
 
-(define dc-gpg-agent-configruation
+(define dc-gpg-agent-configuration
   (home-gpg-agent-configuration
-   (pinentry-program (file-append pinentry-gtk2 "/bin/pinentry-gtk-2"))
+   ;; (pinentry-program (file-append pinentry-gtk2 "/bin/pinentry-gtk-2"))
    (ssh-support? #t)
    (default-cache-ttl 60)
    (default-cache-ttl-ssh 60)

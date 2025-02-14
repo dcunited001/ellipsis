@@ -53,7 +53,6 @@
   - [[#devtools][devtools]]
   - [[#devdebug][devdebug]]
   - [[#netdebug][netdebug]]
-  - [[#yubikey][Yubikey]]
   - [[#xdg-1][XDG]]
   - [[#xkb][XKB]]
   - [[#languages-1][Languages]]
@@ -1260,7 +1259,6 @@ export JULIA_LOAD_PATH="$_LANG/.julia:"
 
 This configuration is intended to be used on archlinux.
 
-
 #+begin_src sh :tangle .config/direnv/direnvrc :shebang #!/bin/sh
 
 # The guix package for julia creates ./bin/julia,
@@ -2378,23 +2376,6 @@ if [ -f $HOME/.profile ]; then . $HOME/.profile; fi
   ))
 #+end_src
 
-**** TODO consider moving yubikey deps to devtools
-
-But if nothing propagates a python environment in the "devtools" profile,
-i'd like to keep it that way
-
-#+begin_src scheme
-;;** yubikey
-  "yubikey-personalization"
-  "yubikey-manager-qt"
-  "python-yubikey-manager"
-  ;; "libyubikey"
-  "yubico-piv-tool"
-  ;; "yubico-pam"
-  ;; "pam-u2f"
-  "libu2f-host"
-#+end_src
-
 ** devdebug
 
 #+begin_src scheme :tangle ".config/guix/manifests/devdebug.scm"
@@ -2445,24 +2426,6 @@ i'd like to keep it that way
  '(
    "arp-scan"
    ))
-#+end_src
-
-** Yubikey
-
-#+begin_src scheme :tangle ".config/guix/manifests/yubikey.scm"
-(specifications->manifest
- '("yubikey-personalization"
-   "yubikey-manager-qt"
-   "python-yubikey-manager"
-   ;; "libyubikey"
-   "yubico-piv-tool"
-   ;; "yubico-pam"
-   ;; "pam-u2f"
-   "libu2f-host"
-   "pinentry-tty"
-   ;; "opensc" ;;?
-   )
- )
 #+end_src
 
 ** XDG
