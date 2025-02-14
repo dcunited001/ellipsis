@@ -1,0 +1,73 @@
+#!/bin/sh
+#_vscode_path=/data/mr/frc/3939/VSCode-linux-x64/bin
+#_vscode=/data/mr/frc/3939/VSCode-linux-x64/bin/code
+guix_manifest=~/.dotfiles/.config/guix/manifests/crshell.scm
+
+guix_profile=$GUIX_EXTRA/crshell/crshell
+sharepath="/data"
+
+while getopts :Z:p:m:A:P:X: OPT; do
+    case $OPT in
+        Z|+Z)
+            search_paths=1
+            ;;
+        m|+m)
+            guix_manifest="$OPTARG"
+            ;;
+        p|+p)
+            guix_profile="$OPTARG"
+            ;;
+	P|+P)
+            # TODO: find a better way to specify --options
+            paths="$OPTARG"
+            ;;
+        A|+A)
+            appdir="$OPTARG"
+            ;;
+        X|+X)
+            # TODO: provide a way to append these
+            sharepath="$OPTARG"
+	    ;;
+	--)
+            break
+            ;;
+        *)
+            echo "usage: `basename $0` [+-Z ARG} [+-p ARG}  [--] ARGS..."
+            echo "-p \$guix_profile/link"
+	    echo "-m \$guix_manifest"
+	    echo "-P /path_1:/path_n (colon-separated)"
+	    echo "-A \$appdir (the appdir for an appimage"
+	    echo "-X \$sharepath (forwarded as -S $sharepath to guix shell, default: /data)"i
+	    echo ""
+	    echo "guix shell cannot do -CNF with a manifest..."
+	    echo "so creating a profile prevents GC and loads faster"
+            exit 2
+    esac
+done
+shift `expr $OPTIND - 1`
+OPTIND=1
+
+export PATH="$paths:$PATH"
+
+#_lens_path=/tmp/lens/squashfs-root
+#export PATH="$_lens_path:$PATH"
+#export APPDIR=$_lens_path
+
+# inside guix manifest, need to unpack with `./Synthesis.AppImage --appimage-extract`
+# then rename and correct permissions, then the same guix shell manifest will run it.
+
+# TODO: maybe restrict the --share flags here.
+# TODO: --share /data/...
+# TODO: what in home directory & environment must be accessible?
+guix shell -CNF -m $guix_manifest \
+  --user=dc \
+  --preserve='^XDG_CONFIG_HOME$' --preserve='^PATH$' \
+  --preserve='^DISPLAY$' --preserve='^XAUTHORITY$' --preserve='^DBUS_' \
+  --preserve='^APPDIR' \
+  --share=/run/current-system/profile --share="$HOME"   \
+  --share=/run/user/1000/gdm/Xauthority \
+  --share=/sys/dev --share=/sys/devices --share=/tmp \
+  --share=$sharepath \
+  --expose=/dev/dri --expose=/var/run/dbus \
+  $@
+#  -- $_vscode/code
