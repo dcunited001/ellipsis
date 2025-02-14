@@ -13,15 +13,22 @@
   - [[#disk-mounting][Disk Mounting]]
   - [[#scheduled-tasks][Scheduled Tasks]]
   - [[#user-services][User Services]]
+    - [[#guix][Guix]]
+    - [[#systemd][SystemD]]
 - [[#fonts][Fonts]]
 - [[#themes][Themes]]
   - [[#xsettings][XSettings]]
+    - [[#importing-config][Importing Config]]
   - [[#color-schemes][Color Schemes]]
 - [[#window-management][Window Management]]
   - [[#i3][i3]]
     - [[#setup-xidlehook-to-notify-send-when-idletime-is-about-to-lock-the-computer][setup =xidlehook= to notify-send when idletime is about to lock the computer]]
+  - [[#kde][KDE]]
+    - [[#wayland][Wayland]]
+    - [[#bismuth][Bismuth]]
 - [[#panel][Panel]]
   - [[#polybar][Polybar]]
+    - [[#for-pommel][For pomm.el]]
 - [[#notifications][Notifications]]
   - [[#dunst][Dunst]]
     - [[#dunst-notes][Dunst Notes]]
@@ -33,14 +40,21 @@
   - [[#desktop-entries][Desktop Entries]]
   - [[#restrict-autostart-entries][Restrict Autostart entries]]
   - [[#mime-handlers][MIME Handlers]]
-    - [[#mime-types-fntecosaur][Mime types [fn:tecosaur]]]
+    - [[#emacs-mime-types][Emacs MIME Types]]
+    - [[#mime-types-fntecosaur][MIME Types [fn:tecosaur]]]
 - [[#applications][Applications]]
   - [[#browsers][Browsers]]
     - [[#nyxt][Nyxt]]
   - [[#chat][Chat]]
+    - [[#irc][IRC]]
   - [[#file-managers][File Managers]]
-  - [[#terminals][Terminals]]
-  - [[#password-management][Password Management]]
+  - [[#screenshare][Screenshare]]
+    - [[#via-xwaylandbridge][Via xwaylandbridge]]
+  - [[#meeting][Meeting]]
+  - [[#sound][Sound]]
+    - [[#alsa][ALSA]]
+    - [[#pipewire][Pipewire]]
+    - [[#wireplumber][Wireplumber]]
   - [[#audio-device-control][Audio Device Control]]
   - [[#media-players][Media Players]]
     - [[#mpv][mpv]]
@@ -54,6 +68,7 @@
   - [[#printing][Printing]]
   - [[#system][System]]
 - [[#desktop-profiles][Desktop Profiles]]
+  - [[#xdg-profile][XDG Profile]]
   - [[#desktop-profile][Desktop Profile]]
   - [[#desktop-bin-profile][Desktop Bin Profile]]
   - [[#i3-profile][i3 Profile]]
@@ -98,59 +113,6 @@ These are defined in [[file:.config/shepherd/init.d][.config/shepherd/init.d]] a
 **** TODO MPD
 
 * Fonts
-
-
-#+begin_src scheme :noweb-ref packages :noweb-sep ""
-;; TODO: decide whether to include these in the fonts profile
-;; - requires updating icon paths in dunst/etc
-
-  ;; Settings Manager
-  "xsettingsd"
-  "dconf" ;; needed for virt-manager
-  ;; gsettings-desktop-schemas
-
-  ;; GTK Themes
-  "arc-icon-theme"
-  "matcha-theme"
-  "hicolor-icon-theme"
-  "gnome-icon-theme"
-  "gnome-backgrounds"
-  "papirus-icon-theme"
-  "breeze-icons"
-#+end_src
-
-Fonts profile
-
-#+begin_src scheme :tangle .config/guix/manifests/fonts.scm :comments none
-(specifications->manifest
- '(
-  ;; Fonts
-  "font-fira-code"
-  "font-jetbrains-mono"
-  "font-iosevka"
-  "font-iosevka-nerd"
-  "font-iosevka-aile"
-  ;; "font-abattis-cantarell"
-  "font-overpass"
-  "font-dejavu"
-  "font-google-noto"
-  "font-gnu-freefont"
-  "font-liberation"
-  "font-awesome"
-  "font-google-material-design-icons"
-  "font-ghostscript"
-  "font-bitstream-vera"
-
-  ;; japanese (CJK)
-  "font-adobe-source-han-sans"
-  "font-wqy-zenhei"
-
-  ;; more fonts
-  "font-juliamono"
-
-  "font-adobe-source-han-sans"
-))
-#+end_src
 
 *.config/fontconfig/fonts.conf*
 
@@ -1780,7 +1742,6 @@ text/x-c;
 text/x-c++
 #+end_example
 
-
 *** MIME Types [fn:tecosaur]
 
 Org mode isn't recognised as it's own mime type by default, but that can easily
@@ -1840,266 +1801,6 @@ Configs are cloned from another repo
 
 "thunar"
 "file-roller"
-
-#+end_src
-
-
-** Terminals
-
-*Guix Packages*
-
-#+begin_src scheme :noweb-ref packages :noweb-sep ""
-
-"alacritty"
-"terminator"
-
-;; terminal
-"alacritty"  ;; alacritty has a problem with screen
-"terminator" ;; profiles, but meh
-"tilix"      ;; written in D
-"byobu" ;; this can launch from VTY (and I can reattach?)
-;; "konsole" ;; i have zero KDE deps and there's like 30
-;; TODO: check out contour, but too many features.
-
-#+end_src
-
-*** Byobu
-
-+ Great profile support: GNU Screen and TMux are implicitly profiles
-+ Great overall: same settings in VTY as in a GUI Terminal.
-
-Choosing a terminal to run byobu in is a bit of a problem: many terminals will
-rebind the keys that byobu wants to set as default. These byobu default keys
-are themselves a problem -- since they differ from GNU Screen's which itself
-conflicts with Emacs.
-
-For the purposes of proving the how of why we cannot have nice things. To
-briefly review -- here's the chain of potential key conflicts:
-
-#+begin_src mermaid :file img/byobu-key-conflicts.svg :results none
-graph TD
-    c1((WM)) --> oh{XTermAppX} --> sq1[Byobu] --> sq2[GNUScreen] --> c3((Emacs</br>Terminal))
-    c2((VTY)) --> d1{Console} --> sq1[Byobu]
-
-classDef orange fill:#b98,stroke:#333,stroke-width:3px
-class oh orange
-#+end_src
-
-Quod erat demonstratum (it's still the best terminal option here)
-
-#+ATTR_HTML: :style width:300px;
-[[file:img/byobu-key-conflicts.svg]]
-
-
-
-*** Tilix
-
-Config is in =~/.config/tilix/=.
-
-+ Supports profiles; unsure of the features
-
-*** Terminator
-
-Good suuport for profiles
-
-*** Contour
-
-Interesting, includes sixel support.
-
-*** Alacritty
-
-Alacritty Features:
-
-|----------------------+---------------------------------------------------+--------+---------------|
-| Feature              | Function                                          | Source | alacritty.yml |
-|----------------------+---------------------------------------------------+--------+---------------|
-| import               | modularly load configs (for iTerm2 profiles/etc)  |        |               |
-|----------------------+---------------------------------------------------+--------+---------------|
-| window.dynamic_title | defaults true. can be locked for i3 scriptability |        |               |
-| window.title/class   |                                                   |        |               |
-|----------------------+---------------------------------------------------+--------+---------------|
-| bell.command         | can be set to notify-send...                      |        |               |
-|----------------------+---------------------------------------------------+--------+---------------|
-
-Alacritty Keys ([[https://github.com/alacritty/alacritty/wiki/Keyboard-mappings][wiki]], [[https://github.com/alacritty/alacritty/blob/master/alacritty.yml#L771-L881][alacritty.yml]])
-
-|-------+------------------------------------------+--------------+---------------|
-| Key   | Function                                 | Source       | alacritty.yml |
-|-------+------------------------------------------+--------------+---------------|
-| C-S-U | Avvy-style "Open URL" with regex hinting | [[https://github.com/alacritty/alacritty/blob/master/alacritty/src/config/ui_config.rs][ui_config.rs]] | [[https://github.com/alacritty/alacritty/blob/master/alacritty.yml#L483-L527][config]]        |
-|       |                                          |              |               |
-|-------+------------------------------------------+--------------+---------------|
-
-Alacritty config:
-
-#+begin_src yaml :tangle .config/alacritty/alacritty.yml :noweb yes
-env:
-  TERM: xterm-256color
-
-shell:
-  program: <<get-setting(name="alacritty/shell-program")>>
-
-#shell:
-#  program: /bin/sh
-#  args:
-#    - --login
-
-window:
-  dimensions:
-    columns: 100
-    lines: 30
-
-  dynamic_padding: true
-  decorations: full
-  dynamic_title: true
-  title: Alacritty
-
-  class:
-    instance: Alacritty
-    general: Alacritty
-
-  decorations_theme_variant: Dark
-
-mouse:
-  hide_when_typing: true
-  #url: #url launcher
-
-#mouse_bindings:
-
-key_bindings:
-  - { key: V,        mods: Control|Shift, action: Paste            }
-  - { key: C,        mods: Control|Shift, action: Copy             }
-  - { key: Insert,   mods: Shift,         action: PasteSelection   }
-  - { key: Key0,     mods: Control,       action: ResetFontSize    }
-  - { key: Equals,   mods: Control,       action: IncreaseFontSize }
-  - { key: Minus,    mods: Control,       action: DecreaseFontSize }
-
-# doesn't work
-#  - { key: Plus,     mods: Control,       action: IncreaseFontSize }
-#  - { key: Underline,    mods: Control,   action: DecreaseFontSize }
-
-cursor:
-  style: Block
-  unfocused_hollow: true
-
-scrolling:
-  history: 10000
-  multiplier: 3
-
-font:
-  size: 12
-  normal:
-    family: "DejaVuSansMono"
-    #family: "JuliaMono"
-    #family: "JuliaMono-Regular"
-  bold:
-    family: "DejaVuSansMono"
-    #family: "JuliaMono"
-    #family: "JuliaMono-Bold"
-  italic:
-    family: "DejaVuSansMono"
-    #family: "JuliaMono"
-    #family: "JuliaMono-Italic"
-  bold_italic:
-    family: "DejaVuSansMono"
-    #family: "JuliaMono"
-    #family: "JuliaMono-BoldItalic"
-    #size: 12
-
-# background_opacity: 1.0
-draw_bold_text_with_bright_colors: true
-save_to_clipboard: true
-live_config_reload: true
-
-# https://github.com/eendroroy/alacritty-theme/tree/master/themes/argonaut.yaml
-colors:
-  # Default colors
-  primary:
-    background: '0x2c2c2c'
-    foreground: '0xd6d6d6'
-
-    dim_foreground:    '0xdbdbdb'
-    bright_foreground: '0xd9d9d9'
-    dim_background:    '0x202020' # not sure
-    bright_background: '0x3a3a3a' # not sure
-
-  # Cursor colors
-  cursor:
-    text:   '0x2c2c2c'
-    cursor: '0xd9d9d9'
-
-  # Normal colors
-  normal:
-    black:   '0x1c1c1c'
-    red:     '0xbc5653'
-    green:   '0x909d63'
-    yellow:  '0xebc17a'
-    blue:    '0x7eaac7'
-    magenta: '0xaa6292'
-    cyan:    '0x86d3ce'
-    white:   '0xcacaca'
-
-  # Bright colors
-  bright:
-    black:   '0x636363'
-    red:     '0xbc5653'
-    green:   '0x909d63'
-    yellow:  '0xebc17a'
-    blue:    '0x7eaac7'
-    magenta: '0xaa6292'
-    cyan:    '0x86d3ce'
-    white:   '0xf7f7f7'
-
-  # Dim colors
-  dim:
-    black:   '0x232323'
-    red:     '0x74423f'
-    green:   '0x5e6547'
-    yellow:  '0x8b7653'
-    blue:    '0x556b79'
-    magenta: '0x6e4962'
-    cyan:    '0x5c8482'
-    white:   '0x828282'
-#+end_src
-
-**** Clean Profile
-
-To run on Guix System with no profiles loaded.
-
-#+begin_src sh :tangle bin/alaclean :shebang #!/bin/sh
-GUIX_AUTOLOAD_PROFILES=()
-
-exec env GUIX_AUTOLOAD_PROFILES=$GUIX_AUTOLOAD_PROFILES \
-     $GUIX_EXTRA/desktop/desktop/bin/alacritty \
-     --config-file $XDG_CONFIG_HOME/alacritty/alacritty.clean.yml
-#+end_src
-
-#+begin_src yaml :tangle .config/alacritty/alacritty.clean.yml
-import:
-  - .config/alacritty/alacritty.yml
-
-shell:
-  program: /bin/sh
-  args:
-    - --login
-
-window:
-  opacity: 0.9
-
-colors:
-  cursor:
-    cursor: '0x59c959'
-    text: '0x912191'
-#+end_src
-
-** Password Management
-
-*Guix Packages*
-
-#+begin_src scheme :noweb-ref packages :noweb-sep ""
-
-"pwsafe"
-"seahorse"
 
 #+end_src
 
@@ -2167,21 +1868,6 @@ grep -re oneshot /usr/lib/systemd/system | cut -f1 -d':'  | xargs -I '{}' grep -
 #+end_src
 
 Copy the root-owned unit manually
-
-*** Via obs launched with X11 compat
-
-This is not ideal, since it can only
-
-#+begin_src sh :tangle bin/obsshare :shebang #!/bin/bash
-export DISPLAY
-
-obs --platform xcb
-#+end_src
-
-
-***** TODO obs screenshare
-
-** OBS
 
 ** Meeting
 
