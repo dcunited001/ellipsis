@@ -8,7 +8,7 @@ search_paths=0
 
 doomsocket=/run/user/1000/emacs/doom
 
-while getopts :Zp OPT; do
+while getopts :Zps OPT; do
     case $OPT in
         Z|+Z)
             search_paths=1
@@ -16,11 +16,14 @@ while getopts :Zp OPT; do
         p|+p)
             emacs_profile="$OPTARG"
             ;;
-	      --)
+        s)
+            doomsocket="$OPTARG"
+            ;;
+	    --)
             break
 	          ;;
         *)
-            echo "usage: `basename $0` [+-Z ARG} [+-p ARG} [--] ARGS..."
+            echo "usage: `basename $0` [+-Z ARG} [+-p ARG} [-s socket} [--] ARGS..."
             echo "-p profile/link"
             exit 2
     esac

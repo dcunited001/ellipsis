@@ -1829,13 +1829,69 @@ alias @terminator='terminator --title "\$${__title:-TERM}"'
 See [[https://www.gnu.org/software/bash/manual/html_node/Programmable-Completion-Builtins.html][Programmable Completion Builtins]]
 
 #+begin_src sh :tangle .config/sh/rc.d/completions.sh :shebang #!/bin/sh
+# all completions in guix system profile
+# ls  /run/current-system/profile/share/bash-completion/{completions,helpers}
+
+# files: {completions,helpers}
+export GUIX_COMPLETE=/run/current-system/profile/share/bash-completion
+
 bash_completion_guix_system() {
     # this will also source completions in ~/.config/bash_completion
     local __completion="/run/current-system/profile/etc/profile.d/bash_completion.sh"
     if [[ -r "$__completion" ]]; then
         source "$__completion"
     fi
+
+    local guixbcload=(gcc gdb g++ gccgo gdbus gnumake
+                      gpg gpgv gpg2 gpgv2
+
+                      declare
+                      info man local-gen
+
+                      dhclient arp arping host hostname hping*
+                      ip ipcalc ipsec iptables ipv6calc ebtables
+                      ifdown ifquery ifstat ifstatus iftop ifop
+                      nmcli nmap
+
+                      dpkg dpkg-* insmod* kmod
+
+                      kill killall htop
+
+                      chgrp chown chmod groupadd groupdel groupmems groupmod
+                      loginctl ldap* luser*
+
+                      inotify*
+                      ngrep pgrep
+
+                      lsof lsscsi lsusb
+                      hciattach hcitool hciconfig
+                      cpio tar gzip lzip lzma
+
+                      crontab
+
+                      dd dumpe2fs e2freefrag e2label ebtables hd
+                      lvchange lvcreate lvdisplay lvextend lvm lvs
+                      lvremove lvreduce lvrename lvresize lvs
+                      pv pvchange pvcreate pvdisplay pvmove pvremove pvs
+
+                      feh gsettings
+                      curl
+
+                      sqlite3 jq jsonschema
+                      python python3 flake8
+                      java jar javac
+                      lua luac
+                      dot)
+
+    for bc in ${guixbcload[@]}; do
+        # echo $bc: $GUIX_COMPLETE/completions/$bc
+        if [[ -r "$bc" ]]; then
+            source $bc
+        fi
+    done
 }
+
+bash_completion_guix_system
 
 tre() {
     local -a tree_opts=()
@@ -2308,6 +2364,7 @@ if [ -f $HOME/.profile ]; then . $HOME/.profile; fi
 
 ;;** data
   "jq"
+  "python-yq"
   "sqlite"
 
 ;;** file

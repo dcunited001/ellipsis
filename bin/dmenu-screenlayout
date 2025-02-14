@@ -2,5 +2,22 @@
 DMENU=${DMENU:-dmenu}
 prompt=xrandr
 
-layout=$(ls "$HOME/.screenlayout" | ${DMENU} -p $prompt)
+host="$(hostname)"
+layout_profiles="$HOME/.screenlayout"
+layout=$(ls "$layout_profiles" | grep "$host" | ${DMENU} -p $prompt)
+
+# tv_layout="$(echo -n "$layout")"
+# or: echo -n "$layout" | grep "tv" && xset s noblank
+
+# prevent screen from timing out
+if [[ "$layout" =~ "tv" ]]; then
+  xset s noblank
+else
+  xset s blank
+fi
+
+# but ensure that xlock runs
+xset s 600 600
+
+# TODO: modify default xrandr arguments (is source kosher here?)
 source $HOME/.screenlayout/$layout
