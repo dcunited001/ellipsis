@@ -1,0 +1,12 @@
+#!/bin/sh
+
+# TODO: maybe find a better way to get this
+
+# TODO: convert these commands into 2+ ways to get a list of packages
+
+
+# guix shell -L ~/.dotfiles -m ~/.emacs.g/emacs-g.scm --export-manifest | sed -e 's/.*"\(.*\)".*/\1/g' | sort > /tmp/emacs-g-pkg
+# guix graph --type=reverse-package emacs-magit | grep emacs | sed -e 's/.*\(emacs-.*\)@.*/\1/g' | sort > /tmp/magit-dependants
+# comm -12 /tmp/emacs-g-pkg /tmp/magit-dependants
+
+echo fdsa

@@ -1,0 +1,3 @@
+#!/bin/sh
+# TODO: args?
+recsel -P dependencies <(guix search guile-next) <(guix search emacs-next-pgtk$) | sed -e 's/ /\n/g' | sort -u

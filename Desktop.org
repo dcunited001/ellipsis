@@ -2191,7 +2191,6 @@ obs --platform xcb
 
 *** ALSA
 
-
 *** Pipewire
 
 *** Wireplumber
@@ -2486,25 +2485,10 @@ flatpak override --user $CURA_APP --filesystem=$CURA_HOME
 *.config/guix/manifests/desktop.scm:*
 
 #+begin_src scheme :tangle .config/guix/manifests/desktop.scm :noweb yes :comments none
-(use-modules (guix transformations)
-             (ellipsis packages gnupg))
-
-;; this returns a procedure
-(define transform-gnupg
-  (options->transformation
-   '((with-graft . "gnupg=gnupg2.4"))))
-
-(concatenate-manifests
- (list
-  (specifications->manifest
+(specifications->manifest
    '(
      <<packages>>
      ))
-
-  (packages->manifest
-   (list gnupg2.4
-         (transform-gnupg
-          (specification->package "flatpak"))))))
 #+end_src
 
 This command emits a Guix manifest that's very close, including the graft.
