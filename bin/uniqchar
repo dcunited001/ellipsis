@@ -1,0 +1,20 @@
+#!/bin/sh
+# via https://stackoverflow.com/questions/387623/find-unique-characters-in-a-file
+_print_usage() {
+  echo "usage: `basename $0` [FILE]"
+  echo 
+  echo 'uniqchar <(echo "foo bar baz qux gus") | hexdump -C'
+  echo 
+  echo '00000000  61 62 66 67 6f 71 72 73  75 78 7a                 |abfgoqrsuxz|'
+  echo '0000000b'
+  echo
+  echo 
+}
+
+
+[[ $# -ne 1 ]] && _print_usage && exit 1
+
+sed -e "s/./\0\n/g" $1 \
+  | sort -u 
+#  | sed -E "s/[\n]([^\n])/\1/g"
+#  | while read c; do echo -n "$c" ; done
