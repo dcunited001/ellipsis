@@ -36,7 +36,6 @@
   - [[#java][Java]]
   - [[#node][Node]]
   - [[#graphql][GraphQL]]
-  - [[#graphviz][Graphviz]]
   - [[#python][Python]]
   - [[#julia][Julia]]
   - [[#matlab][Matlab]]
@@ -896,13 +895,6 @@ use_guix_profile -m $GUIX_EXTRA/nodejs/nodejs
 
 ***** TODO finalize on =use_guixs=
 ***** TODO how to designate the default graphql schema file for the above?
-
-** Graphviz
-
-#+begin_src sh :tangle .config/sh/profile.d/graphviz.sh :shebang #!/bin/sh
-export GRAPHVIZ_DOT=$HOME/.guix-extra-profiles/desktop/desktop/bin/dot
-[[ -e $GRAPHVIZ_DOT ]] || GRAPHVIZ_DOT=/usr/bin/dot
-#+end_src
 
 ** Python
 
