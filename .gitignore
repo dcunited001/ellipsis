@@ -45,9 +45,6 @@ skel-images/**/*
 # XDG
 .config/user-dirs.dirs
 
-# alacritty
-.config/alacritty/*
-
 # fontconfig
 .config/fontconfig/**
 fonts/**
