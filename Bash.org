@@ -38,7 +38,6 @@
   - [[#graphql][GraphQL]]
   - [[#python][Python]]
   - [[#julia][Julia]]
-  - [[#matlab][Matlab]]
 - [[#profile][Profile]]
   - [[#profile-1][=.profile=]]
 - [[#tools][Tools]]
@@ -1289,43 +1288,6 @@ use julia_system
 #watch_file /home/dc/.config/direnv/direnvrc
 #+end_src
 
-** Matlab
-
-Completing the Arch package install is only necessary if you want it installed
-via Pacman. It requires =libxcrypt-compat= and =freetype=
-
-#+begin_src sh :tangle .config/sh/profile.d/matlab.sh :shebang #!/bin/sh
-#alias matlab=
-export MATLAB_HOME=/flatpak/matlab
-#export MATLAB_HOME=$_LANG/matlab
-export MATLAB_VERSION=R2022a
-export MATLAB_ARCH=glnxa64
-export MATLAB_PATH=$MATLAB_HOME/$MATLAB_VERSION/bin
-export MATLAB_JAVA=$MATLAB_HOME/$MATLAB_VERSION/sys/java/jre/glnxa64/jre
-
-export PATH=$MATLAB_PATH:$PATH
-
-function matlab_open() {
-    if [ "${MATLAB_INTEL_OVERRIDE}" = "yes" ] ; then
-        # exec env MESA_LOADER_DRIVER_OVERRIDE=i965 GTK_PATH=/usr/lib/gtk-2.0 matlab -desktop;
-        env MESA_LOADER_DRIVER_OVERRIDE=i965 GTK_PATH=/usr/lib/gtk-2.0 progl matlab -desktop;
-    else
-        # exec env GTK_PATH=/usr/lib/gtk-2.0 matlab -desktop;
-        env GTK_PATH=/usr/lib/gtk-2.0 progl matlab -desktop;
-    fi
-}
-
-function matlab_open_mesa() {
-    if [ "${MATLAB_INTEL_OVERRIDE}" = "yes" ] ; then
-        # exec env MESA_LOADER_DRIVER_OVERRIDE=i965 GTK_PATH=/usr/lib/gtk-2.0 matlab -desktop;
-        env MESA_LOADER_DRIVER_OVERRIDE=i965 GTK_PATH=/usr/lib/gtk-2.0 matlab -desktop;
-    else
-        # exec env GTK_PATH=/usr/lib/gtk-2.0 matlab -desktop;
-        env GTK_PATH=/usr/lib/gtk-2.0 matlab -desktop;
-    fi
-}
-#+end_src
-
 * Profile
 :PROPERTIES:
 :header-args+: :comments link :mkdirp yes
@@ -2410,13 +2372,6 @@ if [ -f $HOME/.profile ]; then . $HOME/.profile; fi
 
 ;;** network
   "bind:utils"
-
-  ;; matlab installer is broken if /bin/pwd doesn't exist
-  ;; - it accounts for legacy_unix and BSD and 8 levels of links
-  ;;   (for continuous integration?)
-  ;; - ... and i think it checks for modifications
-  ;; - i tried strace and gdb/disassembly ... nothing
-  ;; - the zip file also doesn't unpack correctly
 
 ;;** octave
   "octave"
