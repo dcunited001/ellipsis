@@ -7,6 +7,7 @@
   #:use-module (gnu system)
   #:use-module (gnu system nss)
   #:use-module (gnu system setuid)
+  #:use-module (gnu system privilege)
 
   #:use-module (nongnu packages linux)
   #:use-module (nongnu system linux-initrd)
@@ -185,6 +186,11 @@
     ;;   ("tty3" . ,(file-append font-terminus
     ;;                           "/share/consolefonts/ter-132n"))) ; for HDPI
 
+    (privileged-programs
+     (append (list (privileged-program
+                    (program (file-append (specification->package "swaylock")))
+                    (setuid? #t)))
+             %dc-privileged-programs))
 
     (services
      (append
@@ -192,8 +198,8 @@
         ;; (delete console-font-service-type)
         (delete login-service-type)
         (delete mingetty-service-type))
-      (list
 
+      (list
        (service colord-service-type)
        %dc-extra-file-env
        %dc-extra-file-ld-linux
@@ -233,27 +239,16 @@
            ;;     (command (file-append bash "/bin/bash"))
            ;;     (command-args '("-l")))))
            (greetd-terminal-configuration (terminal-vt "6"))
-                 (greetd-terminal-configuration (terminal-vt "7"))
+           (greetd-terminal-configuration (terminal-vt "7"))
            (greetd-terminal-configuration (terminal-vt "8"))
            ;; (greetd-terminal-configuration
-                 ;;   (terminal-vt "9")
-                 ;;   (default-session-command (file-append bash "/bin/bash")))
-                 ))))
+           ;;   (terminal-vt "9")
+           ;;   (default-session-command (file-append bash "/bin/bash")))
+           ))))
 
        %dc-nonguix-substitutes-service
 
        polkit-wheel-service
-       (simple-service
-        'mount-setuid-helpers
-        setuid-program-service-type
-        (map (lambda (program)
-               (setuid-program
-                (program program)))
-             (list (file-append nfs-utils "/sbin/mount.nfs")
-                   (file-append ntfs-3g "/sbin/mount.ntfs-3g")
-                   (file-append
-                    (specification->package "swaylock")
-                    "/bin/swaylock"))))
 
        %dc-ntp-service
        %dc-network-manager-service
@@ -274,15 +269,14 @@
                 (elogind-configuration
                  (handle-lid-switch-external-power 'suspend)))
 
-       ;; TODO: equivalent?
-       (dbus-service)
-       ;; (service dbus-root-service-type)
+       (service dbus-root-service-type)
 
        ;; Manage the fontconfig cache
        fontconfig-file-system-service
 
        (service thermald-service-type)
        %kharis-tlp-service
+       %dc-auditd-service
        %dc-ras-daemon-service
        %kharis-earlyoom-service
        %kharis-gpm-service
@@ -299,6 +293,8 @@
        (udev-rules-service 'yubikey yubikey-personalization)
 
        %dc-docker-service
+       %dc-containerd-service
+       %dc-oci-container-service
        %dc-libvirt-service
        %dc-virtlog-service
 

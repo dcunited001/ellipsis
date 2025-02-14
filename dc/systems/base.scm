@@ -38,6 +38,18 @@
   (plain-file "nntpserver.conf"
               "news.gmane.io"))
 
+;; defaults to: mount,umount,fusermount,fusermount3,sudoedit,sudo,su,sg
+;;   ping6,ping,newgidmap,newuidmap,newgrp,chfn,passwd
+;; adds: mount.nfs, swaylock
+(define-public %dc-privileged-programs
+  (append (list (privileged-program
+                 (program (file-append nfs-utils "/sbin/mount.nfs")))
+                ;; (setuid? #t)
+                (privileged-program
+                 (program (file-append ntfs-3g "/sbin/mount.ntfs-3g"))))
+                ;; (setuid? #t)
+          %default-privileged-programs))
+
 (define-public %dc-nntp-service
   ;; for GNUS
   (simple-service 'nntp-config etc-service-type
@@ -56,10 +68,18 @@
          (remove (lambda (g) (equal? (user-group-name g) "users"))
                  %base-groups)))
 
+(define-public %dc-containerd-service
+  (service containerd-service-type
+           (containerd-configuration)))
+
 (define-public %dc-docker-service
   (service docker-service-type
            (docker-configuration
             (enable-proxy? #f))))
+
+;; runs docker commands under "oci-container" user, has "docker" group
+(define-public %dc-oci-container-service
+  (service oci-container-service-type (list)))
 
 (define-public %dc-libvirt-service
   (service libvirt-service-type
@@ -201,6 +221,10 @@
            (network-manager-configuration
             (vpn-plugins
              (list network-manager-openvpn)))))
+
+;; TODO: auditd-configuration: %default-auditd-configuration-directory
+(define-public %dc-auditd-service
+  (service auditd-service-type))
 
 ;; rasdaemon-service/type, rasdaemon-configuration
 ;;

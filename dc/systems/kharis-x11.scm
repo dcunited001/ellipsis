@@ -7,6 +7,7 @@
   #:use-module (gnu system)
   #:use-module (gnu system nss)
   #:use-module (gnu system setuid)
+  #:use-module (gnu system privilege)
 
   #:use-module (nongnu packages linux)
   #:use-module (nongnu system linux-initrd)
@@ -16,7 +17,6 @@
 
   #:use-module (ellipsis services vpn)
   #:use-module (ellipsis home config))
-
 
 ;; TODO: add pam_tmpdir module to pam-services
 ;;   - https://www.debian.org/doc/manuals/securing-debian-manual/ch04s11.en.html
@@ -178,6 +178,8 @@ EndSection
                       %dc-desktop-packages
                       %base-packages))
 
+    (privileged-programs %dc-privileged-programs)
+
     (services
      (append
       ;; (modify-services %base-services)
@@ -203,14 +205,6 @@ EndSection
                  ;; (using-setuid? #f)
                  (using-pam? #t)))
        (simple-service 'mtp udev-service-type (list libmtp))
-       (simple-service
-        'mount-setuid-helpers
-        setuid-program-service-type
-        (map (lambda (program)
-               (setuid-program
-                (program program)))
-             (list (file-append nfs-utils "/sbin/mount.nfs")
-                   (file-append ntfs-3g "/sbin/mount.ntfs-3g"))))
        gdm-file-system-service
        (simple-service 'network-manager-applet
                        profile-service-type
@@ -250,6 +244,7 @@ EndSection
 
        (service thermald-service-type)
        %kharis-tlp-service
+       %dc-auditd-service
        %dc-ras-daemon-service
        %kharis-earlyoom-service
        %kharis-gpm-service
@@ -277,6 +272,9 @@ EndSection
        (udev-rules-service 'yubikey yubikey-personalization)
 
        %dc-docker-service
+       %dc-containerd-service
+       %dc-oci-container-service
+
        %dc-libvirt-service
        %dc-virtlog-service
 
