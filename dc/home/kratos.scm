@@ -51,8 +51,7 @@
    ;; printer-packages
    ;; terminator-packages
    ;; udiskie-packages
-   (list keepassxc
-         pwsafe)
+   (list keepassxc pwsafe)
    guile-packages))
 
 (define kratos-xdg-user-directories
@@ -124,7 +123,8 @@ no-allow-loopback-pinentry")))
        (service home-dotfiles-service-type
                 (home-dotfiles-configuration
                  (source-directory ".")
-                 (directories (list %dotfiles-directory)))))
+                 ;; for now, link files from ~/.dotfiles/.gh/df ... path will change
+                 (directories (list (string-append %dotfiles-directory "/df"))))))
       (list dc-channels-service)
       %base-home-services))))
 

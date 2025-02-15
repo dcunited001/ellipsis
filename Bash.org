@@ -72,7 +72,6 @@ this as much as possible, at least for myself, so the paths/etc work like
 
 *** Paths
 
-+ _DF :: path to dotfiles
 + _DATA :: path to data mount
 
 #+begin_quote
@@ -82,7 +81,6 @@ Changing the variables above requires evaluating the block below.
 #+end_quote
 
 #+name: bash-env-bindings
-| _DF         | $HOME/.dotfiles            |
 | _DATA       | /data                      |
 | _LANG       | /data/lang                 |
 | _ECTO       | /data/ecto                 |
@@ -102,7 +100,6 @@ Changing the variables above requires evaluating the block below.
 
 #+RESULTS: bash-env-bindings_GEN
 #+begin_example
-export _DF=$HOME/.dotfiles
 export _DATA=/data
 export _LANG=/data/lang
 export _ECTO=/data/ecto
@@ -119,7 +116,6 @@ export DOOMDIR=$HOME/.doom.d
 
 #+RESULTS: bash-env-bindings_CALL
 #+begin_example
-export _DF=$HOME/.dotfiles
 export _DATA=/data
 export _ECTO=/data/ecto
 export _REPO=/data/repo

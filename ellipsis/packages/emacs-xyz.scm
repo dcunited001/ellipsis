@@ -10,6 +10,7 @@
   #:use-module (gnu packages emacs-xyz)
   #:use-module (srfi srfi-1))
 
+;; TODO: PURGE: emacs-docker-tmp
 (define-public emacs-docker-tmp
   (package
     (inherit emacs-docker)
@@ -17,7 +18,6 @@
     (propagated-inputs
      (modify-inputs (package-propagated-inputs emacs-docker)
        (delete "emacs-docker-tramp")))))
-
 
 ;; for now on guix, this requires shimming js--treesit-sentence-nodes
 ;;
