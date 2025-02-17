@@ -34,11 +34,17 @@
 
   #:use-module (srfi srfi-1))
 
+;;; use modules
+;;;; use-package-modules
 (use-package-modules gnupg password-utils)
 
+;;;; use-service-modules
+
+;;; config
 (define %host-name "kratos")
 (define %xdg "/data/xdg")
 
+;;;; packages
 (define home-packages
   (append
    gpg-packages
@@ -54,6 +60,7 @@
    (list keepassxc pwsafe)
    guile-packages))
 
+;;;; XDG
 (define kratos-xdg-user-directories
   ;; TODO: ensure XDG_CONFIG_HOME is set (see .xdg_shim.eg.sh)
   (home-xdg-user-directories-configuration
@@ -65,6 +72,9 @@
    (desktop (string-append %xdg "/Desktop"))
    (publicshare (string-append %xdg "/Public"))
    (templates (string-append %xdg "/Templates"))))
+
+;;; service config
+;;;; GPG
 
 ;; TODO: gpg-agent: reopen configuration instead of defining a new one
 (define kratos-gpg-agent-configuration
@@ -84,11 +94,16 @@ no-allow-loopback-pinentry")))
 (define kratos-alacritty-service
   (alacritty-service-type dc-alacritty-xdg-files))
 
+;;; environment config
 (define kratos-wayland-environment-variables
   (simple-service 'wayland-environment-variables
                   home-environment-variables-service-type
                   wayland-environment))
 
+;;; application config
+;;;; alacritty
+
+;;;; mpv
 (define (kratos-home-environment)
   (home-environment
     (packages home-packages)

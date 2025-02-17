@@ -942,9 +942,16 @@ Guix channel.")
 
 ;; fixes issues navigating by lispy outline, but with advice below,
 ;; +el-outline-regexp no longer overrides lispy-outline-level
-(setq-hook! 'emacs-lisp-mode-hook
-  +emacs-lisp-outline-regexp ";;\\(?:;[^#]\\|\\*+\\)"
-  outline-regexp +emacs-lisp-outline-regexp)
+;;
+;; protesilaos: "organize your init file with outline-minor-mode"
+;;
+;; https://www.youtube.com/watch?v=Dkoy3NrLN9g ... dammit
+;;
+;; (setq-hook! 'emacs-lisp-mode-hook
+;;   +emacs-lisp-outline-regexp ";;\\(?:;[^#]\\|\\*+\\)"
+;;   outline-regexp +emacs-lisp-outline-regexp)
+;;
+;; although it doesn't seem to highligh faces of comments.
 
 (use-package! prism
   :commands prism-mode prism-whitespace-mode
