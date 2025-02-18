@@ -3,6 +3,7 @@
 (define-module (dc home kratos)
   #:use-module (dc home config)
   #:use-module (dc home common)
+  #:use-module (dc home services)
   #:use-module (dc home services alacritty)
 
   #:use-module (gnu home services desktop)
@@ -91,9 +92,6 @@ no-allow-mark-trusted
 no-allow-emacs-pinentry
 no-allow-loopback-pinentry")))
 
-(define kratos-alacritty-service
-  (alacritty-service-type dc-alacritty-xdg-files))
-
 ;;; environment config
 (define kratos-wayland-environment-variables
   (simple-service 'wayland-environment-variables
@@ -102,8 +100,24 @@ no-allow-loopback-pinentry")))
 
 ;;; application config
 ;;;; alacritty
+(define kratos-alacritty-service
+  (alacritty-service-type dc-alacritty-xdg-files))
 
 ;;;; mpv
+(define kratos-mpv-configuration
+  (home-mpv-configuration
+   ;; (input-conf '())
+   (mpv-conf '((global ((vo . gpu)
+                        (hwdec . vaapi)
+                        (profile . gpu-hq)
+                        (scale . ewa_lanczossharp)
+                        (cscale . ewa_lanczossharp)))))))
+
+(define kratos-application-services
+  ;; NOTE: not really sure this a great pattern
+  (list (service kratos-alacritty-service dc-alacritty-xdg-files)
+        dc-zathura-config))
+
 (define (kratos-home-environment)
   (home-environment
     (packages home-packages)
@@ -112,7 +126,7 @@ no-allow-loopback-pinentry")))
       (list
        (simple-service 'dc-shell-profile
                        home-shell-profile-service-type
-                       (list ""))
+                       (list))
        (simple-service 'gtk-environment-variables
                        home-environment-variables-service-type
                        gtk-environment)
@@ -130,9 +144,10 @@ no-allow-loopback-pinentry")))
                                      "/home/dc/.guix-home-test/.bash_logout"
                                      "bash_logout")))))
 
-       ;; NOTE: not really sure this a great pattern
-       (service kratos-alacritty-service dc-alacritty-xdg-files)
        (service home-xdg-user-directories-service-type kratos-xdg-user-directories)
+
+       ;; (simple-service 'kratos-home-mpv-service home-mpv-service-type)
+       (service home-mpv-service-type kratos-mpv-configuration)
 
        ;; NOTE: stowing this will likely conflict (unless abcdw's power level is over 9,000,000)
        (service home-dotfiles-service-type
@@ -140,6 +155,7 @@ no-allow-loopback-pinentry")))
                  (source-directory ".")
                  ;; for now, link files from ~/.dotfiles/.gh/df ... path will change
                  (directories (list (string-append %dotfiles-directory "/df"))))))
+      kratos-application-services
       (list dc-channels-service)
       %base-home-services))))
 

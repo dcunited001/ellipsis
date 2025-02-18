@@ -1,0 +1,15 @@
+import:
+  - .config/alacritty/alacritty.yml
+
+shell:
+  program: /bin/sh
+  args:
+    - --login
+
+window:
+  opacity: 0.9
+
+colors:
+  cursor:
+    cursor: '0x59c959'
+    text: '0x912191'

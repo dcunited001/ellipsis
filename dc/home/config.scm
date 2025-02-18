@@ -6,7 +6,8 @@
   #:use-module (guix channels)
 
   #:export (%home
-            %dotfiles-directory))
+            %dotfiles-directory
+            %files-directory))
 
 (define %home
   (and=> (getenv "HOME")
@@ -14,6 +15,11 @@
            home)))
 
 (define %dotfiles-directory
-  (string-append %home "/.dotfiles"))
+  (string-append %home "/.dotfiles" "/.gh"))
+
+(define %files-directory
+  (string-append %home "/.dotfiles" "/.gh/f"))
+
+(define %data-directory "/data")
 
 ;;; config.scm ends here
