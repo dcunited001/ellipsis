@@ -319,11 +319,6 @@
 
 ;;** Window Managers
 
-;;*** i3
-
-(define-public %dc-env-i3
-  '(("XDG_CURRENT_DESKTOP" . "i3")))
-
 ;;*** Sway
 
 ;; override with specifics

@@ -119,7 +119,7 @@ no-allow-loopback-pinentry")))
 (define kratos-application-services
   ;; NOTE: not really sure this a great pattern
   (list (service kratos-alacritty-service dc-alacritty-xdg-files)
-        dc-zathura-config))
+        dc-zathura-service))
 
 (define (kratos-home-environment)
   (home-environment
