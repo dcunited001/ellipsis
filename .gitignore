@@ -11,9 +11,10 @@
 .config/polybar
 
 # bash
-.bashrc
-.bash_profile
-.profile
+/.bashrc
+/.bash_profile
+/.bash_logout
+/.profile
 
 # .config/sh
 .config/sh/*.sh

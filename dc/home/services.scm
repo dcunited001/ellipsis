@@ -15,7 +15,9 @@
 
   #:use-module (guix gexp)
   #:use-module (srfi srfi-1)
-  #:export (dc-inputrc-configuration
+  #:export (%dc-base-environment
+            dc-inputrc-configuration
+            dc-bash-configuration
             dc-zathura-service))
 
 ;;; Commentary:
@@ -24,6 +26,30 @@
 ;;;
 ;;; Code:
 
+;; =============================================
+;;; Environments
+
+;; basically, merge
+
+(define (alist-append-uniq . rest)
+  (fold
+   (lambda (el li)
+     (assoc-set! li (car el) (cdr el)))
+   '() (apply append rest)))
+
+;; (or (and (assoc)))
+;; (acons (car el) (cdr el) li)
+
+(define %dc-base-environment
+  (alist-append-uniq
+
+   wayland-environment
+   gtk-environment))
+
+;; =============================================
+;;; Shells
+
+;; ---------------------------------------------
 ;;; Readline
 ;;
 ;; bind '"\e/":dabbrev-expand'
@@ -44,6 +70,40 @@
     '( ;; ("colored-completion-prefix" . #t)
       ("bell-style" . "visible")))))
 
+;; ---------------------------------------------
+;;; Bash
+
+(define dc-bash-configuration
+  (home-bash-configuration
+   ;; (aliases '())
+   ;; TODO: colors.sh and prompt.sh (probably throw the prompt away)
+   (environment-variables
+    '(("RESTORE" . "$(echo -en '\001\033[0m\002')")
+      ("RED" . "$(echo -en '\001\033[00;31m\002')")
+      ("YELLOW" . "$(echo -en '\001\033[00;33m\002')")
+      ("LGREEN" . "$(echo -en '\001\033[01;32m\002')")
+      ("LYELLOW" . "$(echo -en '\001\033[01;33m\002')")
+      ("LCYAN" . "$(echo -en '\001\033[01;36m\002')")))
+   (bashrc (list (local-file (string-append %dotfiles-directory "/.bashrc") "bashrc")
+                 (local-file (string-append %dotfiles-directory "/bash/rc/aliases.sh"))
+                 (local-file (string-append %dotfiles-directory "/bash/rc/functions.sh"))
+                 ;;                  "
+                 ;; if [ \"$TERM\" = \"dumb\" ]; then
+                 ;;   PS1='$ '
+                 ;; else
+                 ;;   PS1=\"${LYELLOW}\A ${LGREEN}\u${RED}@${LCYAN}\h ${RED}:: ${YELLOW}\w\"
+                 ;;   PS1+=\"${RESTORE}\"
+                 ;; fi
+                 ;; "
+                 ))
+   (bash-profile (list (local-file (string-append %dotfiles-directory "/.bash_profile") "bash_profile")))
+   (bash-logout (list (local-file (string-append %dotfiles-directory "/.bash_logout") "bash_logout")))))
+
+;; =============================================
+;;; Applications
+;;
+
+;; ---------------------------------------------
 ;;; Zathura
 ;;
 ;; TODO: HOME: zathura: after deciding on a PDF reader, extend XDG mime/desktop
@@ -51,4 +111,6 @@
   (simple-service
    'dc-zathura-service
    home-xdg-configuration-files-service-type
-   (list `("zathura/zathurarc" ,(local-file (string-append %files-directory "/.config/zathura/zathurarc"))))))
+   (list `("zathura/zathurarc"
+           ,(local-file (string-append %files-directory "/.config/zathura/zathurarc"))))))
+

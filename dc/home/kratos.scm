@@ -134,19 +134,9 @@ no-allow-loopback-pinentry")))
                        home-environment-variables-service-type
                        gtk-environment)
        (service home-gpg-agent-service-type kratos-gpg-agent-configuration)
+       (service home-bash-service-type dc-bash-configuration)
        (service home-inputrc-service-type dc-inputrc-configuration)
-       (service home-bash-service-type
-                (home-bash-configuration
-                 ;; (aliases '())
-                 (bashrc (list (local-file
-                                "/home/dc/.guix-home-test/.bashrc"
-                                "bashrc")))
-                 (bash-profile (list (local-file
-                                      "/home/dc/.guix-home-test/.bash_profile"
-                                      "bash_profile")))
-                 (bash-logout (list (local-file
-                                     "/home/dc/.guix-home-test/.bash_logout"
-                                     "bash_logout")))))
+
 
        (service home-xdg-user-directories-service-type kratos-xdg-user-directories)
 
