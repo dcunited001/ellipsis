@@ -134,6 +134,7 @@ no-allow-loopback-pinentry")))
                        home-environment-variables-service-type
                        gtk-environment)
        (service home-gpg-agent-service-type kratos-gpg-agent-configuration)
+       (service home-inputrc-service-type dc-inputrc-configuration)
        (service home-bash-service-type
                 (home-bash-configuration
                  ;; (aliases '())
