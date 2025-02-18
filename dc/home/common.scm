@@ -21,16 +21,26 @@
   #:use-module (rde serializers ini)
   #:use-module (srfi srfi-1)
 
-  #:export (udiskie-packages
+  #:export (essential-packages
             guile-packages
+            yubikey-packages
+            udiskie-packages
             gtk-packages
             gtk-theme-packages
             fontconfig-packages
-            gpg-packages
+            fontapp-packages
             dmenu-packages
+            gpg-packages
             terminator-packages
             printer-packages
+            hardware-packages
             x11-packages
+            dbus-packages
+
+            gstreamer-packages
+            notification-packages
+            image-viewer-packages
+
             desktop-packages
             fcitx5-packages
 
@@ -45,12 +55,22 @@
             dc-channels-service))
 
 (use-package-modules bash guile guile-xyz gnupg security-token
-                     fonts ghostscript
-                     suckless freedesktop xorg xdisorg fcitx5 anthy
-                     kde-frameworks gtk gnome gnome-xyz)
+                     fonts fontutils ghostscript admin shellutils
+                     linux image-viewers video gstreamer
+                     suckless freedesktop libcanberra
+                     xorg xdisorg fcitx5 anthy
+                     kde-frameworks glib gtk gnome gnome-xyz)
 
 (define guile-packages
   (list guile-next guile-ares-rs glibc-locales))
+
+(define essential-packages
+  (list tree                            ; admin
+
+
+        ))
+
+;; "gst-plugins-ugly"
 
 (define yubikey-packages
   ;; libyubikey yubico-pam pam-u2f
@@ -105,8 +125,15 @@
         font-juliamono
         font-adobe-source-han-sans))
 
+(define fontapp-packages
+  (list
+
+   ;; GUI
+   gucharmap                             ; gnome (unicode picker)
+   fontmanager))
+
 (define dmenu-packages
-  (list dmenu                         ; suckless
+  (list dmenu                           ; suckless
         rofi))                        ; xdisorg
 
 (define gpg-packages
@@ -122,6 +149,9 @@
   ;; gnome
   (list system-config-printer))
 
+(define hardware-packages
+  (list brightnessctl))
+
 ;; trash-cli?
 (define x11-packages
   ;; xorg
@@ -129,16 +159,52 @@
         xrdb
         xhost
         xrandr
+        xinput
+
+        ;; compton                         ; compton
+        ;;"redshift"
+
         ;; xdisorg
+        scrot
         xss-lock
         xscreensaver
+        xwallpaper
         arandr
         autorandr))
+
+(define dbus-packages
+  (list xdg-dbus-proxy                       ; glib (for flatpak)
+        xdg-desktop-portal))
+
+(define gstreamer-packages
+  (list gstreamer
+        gst-plugins-base
+        gst-plugins-good
+        gst-plugins-bad
+        gst-libav
+
+        ;; testing video devices, but it lacks qv4l2, thus guvcview
+        v4l-utils
+        guvcview
+
+        intel-vaapi-driver
+        libva-utils))
+
+(define notification-packages
+  (list libnotify
+        libcanberra
+        sound-theme-freedesktop))
 
 (define desktop-packages
   (list xdg-utils
         xdg-user-dirs
-        libinput))
+        libinput
+
+        ;; shellutils
+        trash-cli))
+
+(define image-viewer-packages
+  (list feh))
 
 (define fcitx5-packages
   (list fcitx5
@@ -166,7 +232,7 @@
     ;; potential necessary for styling/theming
     ("QT_QPA_PLATFORMTHEME" . "qt5ct")
     ("QT_WAYLAND_FORCE_DPI" . "physical")
-    ("QT_WAYLAND_DISABLE_WINDOWDECORATION" . "1")
+    ("QT_WAYLAND_DISABLE_WINDOWDECORATION" . #t)
 
     ;; necessary on a per-app basis or for the entire wm session,
     ("SDL_VIDEODRIVER" . "wayland")
@@ -216,7 +282,7 @@
 
 (define-public %dc-env-x11
   ;; this seems to fix alacritty HiDPI
-  '(("WINIT_X11_SCALE_FACTOR=1")))
+  '(("WINIT_X11_SCALE_FACTOR" . #t)))
 
 ;;*** Wayland
 
@@ -227,15 +293,15 @@
     ;; potential necessary for styling/theming
     ("QT_QPA_PLATFORMTHEME" . "qt5ct")
     ("QT_WAYLAND_FORCE_DPI" . "physical")
-    ("QT_WAYLAND_DISABLE_WINDOWDECORATION" . "1")
+    ("QT_WAYLAND_DISABLE_WINDOWDECORATION" . #t)
     ;; firefox in wayland
-    ("MOZ_ENABLE_WAYLAND" . "1")
+    ("MOZ_ENABLE_WAYLAND" . #t)
     ;; fix for firefox (already running but not responding)
-    ;; ("MOZ_DBUS_REMOTE" . "1")
+    ;; ("MOZ_DBUS_REMOTE" . #t)
 
     ;; disables accessibility??
     ;; http://library.gnome.org/devel/accessibility-devel-guide/stable/gad-how-it-works.html.en
-    ;; ("NO_AT_BRIDGE" . "1")
+    ;; ("NO_AT_BRIDGE" . #t)
 
     ;; this can prevent programs from starting (e.g. chromium and electron
     ;; apps).  therefore, this should be set per app instead of globally.
@@ -249,11 +315,6 @@
     ))
 ;;** Toolkits
 
-;;*** GTK
-
-(define-public %dc-env-gtk
-  '(("GTK2_RC_FILES" . "$HOME/.gtkrc-2.0")))
-
 ;;*** QT
 
 ;;** Window Managers
@@ -261,18 +322,18 @@
 ;;*** i3
 
 (define-public %dc-env-i3
-  '(("XDG_CURRENT_DESKTOP=i3")))
+  '(("XDG_CURRENT_DESKTOP" . "i3")))
 
 ;;*** Sway
 
 ;; override with specifics
 (define-public %dc-env-sway
-  '(("XDG_CURRENT_DESKTOP=sway")))
+  '(("XDG_CURRENT_DESKTOP" . "sway")))
 
 ;;*** KDE
 
 (define-public %dc-env-kde
-  '(("XDG_CURRENT_DESKTOP=KDE")))
+  '(("XDG_CURRENT_DESKTOP" . "KDE")))
 
 ;;** Applications
 

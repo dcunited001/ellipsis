@@ -58,14 +58,10 @@
   - [[#audio-device-control][Audio Device Control]]
   - [[#media-players][Media Players]]
     - [[#mpv][mpv]]
-    - [[#codecs-and-drivers][Codecs and Drivers]]
-  - [[#image-viewers-and-editors][Image Viewers and Editors]]
-  - [[#document-readers][Document Readers]]
   - [[#syncthing][Syncthing]]
   - [[#flatpak][Flatpak]]
     - [[#fontconfig-fix][Fontconfig fix]]
     - [[#permissions-fix][Permissions fix]]
-  - [[#printing][Printing]]
   - [[#system][System]]
 - [[#desktop-profiles][Desktop Profiles]]
   - [[#xdg-profile][XDG Profile]]
@@ -1938,36 +1934,6 @@ keep-open
 
 #+end_src
 
-*** Codecs and Drivers
-
-*Guix Packages*
-
-#+begin_src scheme :noweb-ref packages :noweb-sep ""
-
-"gstreamer"
-"gst-plugins-base"
-"gst-plugins-good"
-"gst-plugins-bad"
-;; "gst-plugins-ugly"
-"gst-libav"
-"intel-vaapi-driver"
-"libva-utils"
-
-;; testing video devices, but it lacks qv4l2, thus guvcview
-"v4l-utils"
-"guvcview"
-
-#+end_src
-
-** Image Viewers and Editors
-
-*Guix Packages*
-
-#+begin_src scheme :noweb-ref packages :noweb-sep ""
-"feh"
-"scrot"
-#+end_src
-
 ** Syncthing
 
 *Guix Packages*
@@ -2043,16 +2009,6 @@ flatpak override --user $CURA_APP --filesystem=$CURA_HOME
 #flatpak permission-set # this is a dynamic permission
 #+end_src
 
-** Printing
-
-*Guix Packages*
-
-#+begin_src scheme :noweb-ref packages :noweb-sep ""
-
-"system-config-printer"
-
-#+end_src
-
 ** System
 
 #+begin_src scheme :noweb-ref packages :noweb-sep ""
@@ -2066,35 +2022,6 @@ flatpak override --user $CURA_APP --filesystem=$CURA_HOME
 
 #+begin_src scheme :noweb-ref packages :noweb-sep ""
 
-      "xdg-utils"
-      "xdg-user-dirs"
-
-      "libinput"
-      "xinput"
-
-      ;; tools for themes/icons: yad, yad-settings, yad-tools yad-icon-browser
-      "yad"
-
-      "xset"
-      "xrdb"
-      "xhost"
-      "xss-lock"
-      "xscreensaver"
-
-      "xrandr"
-      "arandr"
-      "autorandr"
-
-      "trash-cli"
-
-      "xwallpaper"
-
-      ;; notifications
-      ;; sounds: .guix-extra-profiles/xdg/xdg/share/sounds
-      "libnotify"  ; For notify-send
-      "libcanberra"
-      "sound-theme-freedesktop"
-
       ;; flatpak needs to be transformed
       ;; "flatpak"
       "xdg-desktop-portal"
@@ -2106,10 +2033,6 @@ flatpak override --user $CURA_APP --filesystem=$CURA_HOME
       "shared-mime-info"   ;; for mimes
 
       "compton"
-      ;;"redshift"
-      "gucharmap"
-      "fontmanager"
-      "brightnessctl"
 
       ;; audio device control
       "alsa-utils"
@@ -2117,17 +2040,6 @@ flatpak override --user $CURA_APP --filesystem=$CURA_HOME
 
       ;; chat
       "weechat"
-
-      "fcitx5"
-      "anthy"
-      "fcitx5-anthy"
-      "fcitx5-configtool"
-      "fcitx5-chinese-addons"
-      "fcitx5-material-color-theme"
-      "fcitx5-gtk"
-      "fcitx5-gtk4"
-      "fcitx5-qt"
-
 #+end_src
 
 

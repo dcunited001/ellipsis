@@ -48,6 +48,7 @@
 ;;;; packages
 (define home-packages
   (append
+   essential-packages
    gpg-packages
    desktop-packages
    fontconfig-packages
@@ -58,6 +59,8 @@
    ;; printer-packages
    ;; terminator-packages
    ;; udiskie-packages
+   yubikey-packages
+   notification-packages
    (list keepassxc pwsafe)
    guile-packages))
 
