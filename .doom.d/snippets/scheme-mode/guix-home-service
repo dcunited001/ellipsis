@@ -1,0 +1,70 @@
+# -*- mode: snippet -*-
+# name: guix-home-service-module
+# key: g§hmod
+# con  dition: t
+# --
+;;; Copyright © `(nth 5 (decode-time))` `user-full-name` <`user-mail-address`>
+
+(define-module (dc home services `(file-name-base (buffer-name))`)
+  #:use-module (dc home common)
+  #:use-module (dc home config)
+
+  #:use-module (gnu home services)
+  #:use-module (gnu packages)
+  #:use-module (gnu services base)
+  #:use-module (gnu services configuration)
+  #:use-module (gnu services shepherd)
+  #:use-module (gnu services)
+  #:use-module (gnu)
+
+  #:use-module (guix gexp)
+  #:use-module (srfi srfi-1)
+  #:export (`(file-name-base (buffer-name))`-service-type))
+
+;;; Commentary:
+;;;
+;;; This module provides a service definition for the `(file-name-base (buffer-name))` service.
+;;;
+;;; Code:
+
+;;; Packages
+
+;; (use-package-modules ...)
+(define (add-`(file-name-base (buffer-name))`-packages config)
+  (list))
+
+;;; XDG Files
+
+(define (add-`(file-name-base (buffer-name))`-xdg-files config)
+  (list \`("`(file-name-base (buffer-name))`" ,(local-file (string-append %dotfiles-directory "/.config/`(file-name-base (buffer-name))`") #:recursive? #t))))
+
+;;; Shepherd Service
+
+(define (`(file-name-base (buffer-name))`-shepherd-service config)
+  (list
+   (shepherd-service
+    (provision '(`(file-name-base (buffer-name))`))
+    (documentation "Run `(file-name-base (buffer-name))`.")
+    (requirement '())
+    (start #~(make-forkexec-constructor
+              (list "cmd" "arg1" "arg2")))
+    (respawn? #f)
+    (stop #~(make-kill-destructor)))))
+
+;;; Guix Home Service
+
+(define `(file-name-base (buffer-name))`-service-type
+  (service-type
+   (name 'dc-home-`(file-name-base (buffer-name))`)
+   (extensions
+    (list
+     (service-extension home-profile-service-type
+                        add-`(file-name-base (buffer-name))`-packages)
+     (service-extension home-xdg-configuration-files-service-type
+                        add-`(file-name-base (buffer-name))`-xdg-files)
+     (service-extension home-shepherd-service-type
+                        `(file-name-base (buffer-name))`-shepherd-service)))
+   (default-value '())
+   (description "Runs `(file-name-base (buffer-name)) Daemon`")))
+
+;;; `(file-name-base (buffer-name))`.scm ends here

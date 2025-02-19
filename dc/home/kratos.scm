@@ -4,6 +4,7 @@
   #:use-module (dc home config)
   #:use-module (dc home common)
   #:use-module (dc home services)
+  #:use-module (dc home services i3)
   #:use-module (dc home services alacritty)
 
   #:use-module (gnu home services desktop)
@@ -136,6 +137,7 @@ no-allow-loopback-pinentry")))
        (service home-gpg-agent-service-type kratos-gpg-agent-configuration)
        (service home-bash-service-type dc-bash-configuration)
        (service home-inputrc-service-type dc-inputrc-configuration)
+       (service i3-service-type)
 
 
        (service home-xdg-user-directories-service-type kratos-xdg-user-directories)
