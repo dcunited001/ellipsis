@@ -15,10 +15,10 @@
            home)))
 
 (define %dotfiles-directory
-  (string-append %home "/.dotfiles" "/.gh"))
+  (string-append %home "/.dotfiles" "/gh"))
 
 (define %files-directory
-  (string-append %home "/.dotfiles" "/.gh/f"))
+  (string-append %home "/.dotfiles" "/gh/f"))
 
 (define %data-directory "/data")
 

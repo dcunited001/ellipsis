@@ -48,7 +48,7 @@ for profile in $__profiles; do
     echo
 
     mkdir -p $profilePath
-    guix package -L $__ellipsis_channel \
+    guix package -L $__ellipsis_channel/gh \
          --manifest=$manifestPath \
          --profile="$profilePath/$profileName" \
          --substitute-urls="$__substitute_urls" \

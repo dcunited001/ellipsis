@@ -1,0 +1,93 @@
+set $preferredTerminalEmulator /usr/bin/alacritty
+set $preferredBrowser /usr/bin/firefox
+set $preferredFileManager /usr/bin/thunar
+set $preferredMailClient /usr/bin/geary
+set $preferredTextEditor /usr/bin/emacsclient -c
+set $preferredScreenCaptureTool /usr/bin/flameshot gui
+
+font pango: source code pro 10
+
+# lock with i3exit
+set $supere_system (l)ock, (e)xit, switch_(u)ser, (s)uspend, (h)ibernate, (r)eboot, (Shift+s)hutdown
+bindsym $super+shift+e mode "$supere_system"
+mode "$supere_system" {
+    bindsym l exec --no-startup-id i3exit lock, mode "default"
+    bindsym s exec --no-startup-id i3exit suspend, mode "default"
+    bindsym u exec --no-startup-id i3exit switch_user, mode "default"
+    bindsym e exec --no-startup-id i3exit logout, mode "default"
+    bindsym h exec --no-startup-id i3exit hibernate, mode "default"
+    bindsym r exec --no-startup-id i3exit reboot, mode "default"
+    bindsym Shift+s exec --no-startup-id i3exit shutdown, mode "default"
+
+    # exit system mode: "Enter" or "Escape"
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
+}
+
+
+# start dmenu (a program launcher)
+bindsym $super+Shift+d exec i3-dmenu-desktop --dmenu="dmenu -i -fn 'Noto Sans:size=20'"
+
+bindsym $super+t exec xfce4-terminal
+
+# Lock screen
+bindsym $super+l exec i3lock -i $lockScreenWallpaper
+
+exec --no-startup-id ~/.fehbg
+# exec --no-startup-id xsettingsd &
+#exec --no-startup-id pasystray
+exec --no-startup-id conky
+exec --no-startup-id conky -c ~/.config/conky/conky-shcts
+# exec --no-startup-id copyq
+# exec --no-startup-id dunst
+exec --no-startup-id dex -a -s /etc/xdg/autostart/:~/.config/autostart/
+exec --no-startup-id redshift
+exec --no-startup-id desktop-items
+exec --no-startup-id pamac-tray
+exec --no-startup-id /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
+exec --no-startup-id xfce4-power-manager
+exec_always --no-startup-id ff-theme-util
+exec_always --no-startup-id setcursor
+#exec_always --no-startup-id ${HOME}/.config/polybar/launch.sh
+exec_always --no-startup-id numlockx on
+exec blueberry-tray
+exec --no-startup-id java -Xmx1024m -jar "/opt/xdman/xdman.jar" -m
+
+exec --no-startup-id pamac-tray
+exec --no-startup-id /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
+
+exec --no-startup-id redshift
+exec --no-startup-id desktop-items
+
+# TODO exec_always --no-startup-id fcitx5 -d
+
+# # ===========
+# # TODO: move to a script for manjaro/nonguix systems
+# # ===========
+
+# # an xfce file manager (lighter than thunar)
+# # NOTE: manjaro:
+# bindsym $super+F3 exec pcmanfm
+# exec --no-startup-id xautolock -time 10 -locker blurlock
+# bindsym $super+q exec --no-startup-id blurlock
+
+# # NOTE: fedora
+# # bindsym $super+q exec "loginctl lock-session"
+
+# # autostart tools (most of these end up in the tray)
+# # in fedora:
+# # exec --no-startup-id /usr/libexec/polkit-gnome-authentication-agent-1
+# exec --no-startup-id /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
+# exec --no-startup-id nitrogen --restore; sleep 1; picom -b
+# exec --no-startup-id xfce4-power-manager
+# exec --no-startup-id blueman-applet
+
+# # ===== manjaro specific =====
+# # exec --no-startup-id manjaro-hello
+# exec --no-startup-id pamac-tray
+# exec --no-startup-id clipit
+# exec_always --no-startup-id sbxkb
+# exec --no-startup-id start_conky_maia
+# exec --no-startup-id start_conky_green
+# exec_always --no-startup-id ff-theme-util
+# exec_always --no-startup-id fix_xcursor

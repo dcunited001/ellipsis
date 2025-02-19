@@ -1783,7 +1783,6 @@ Configs are cloned from another repo
 
 #+end_src
 
-
 *** IRC
 
 
@@ -2057,7 +2056,7 @@ flatpak override --user $CURA_APP --filesystem=$CURA_HOME
 This command emits a Guix manifest that's very close, including the graft.
 
 #+begin_example sh
-guix shell -L ~/.dotfiles -m ~/.config/guix/manifests/desktop.scm --export-manifest
+guix shell -L ~/.dotfiles/gh -m ~/.config/guix/manifests/desktop.scm --export-manifest
 #+end_example
 
 ** Desktop Bin Profile

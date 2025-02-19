@@ -31,7 +31,7 @@ while [ "$1" != "" ]; do
     esac
 done
 
-__ellipsis_channel=$HOME/.dotfiles
+__ellipsis_channel=$HOME/.dotfiles/gh
 __substitute_urls=${__substitute_urls:-https://ci.guix.gnu.org https://bordeaux.guix.gnu.org https://substitutes.nonguix.org}
 
 # not sure on sudo -E, sudo -i or no option

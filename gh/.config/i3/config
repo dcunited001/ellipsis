@@ -1,0 +1,387 @@
+set $super Mod4
+set $alt Mod1
+
+set $rofi-theme gruvbox-dark
+set $rofi-icons Papirus-Dark
+set $rofi-drun-theme gruvbox-dark
+set $rofi-drun-icons Papirus-Dark
+set $rofi-file-theme sidebar
+set $rofi-file-icons Papirus-Dark
+
+### Wallpaper: ###
+# - You need to specify homescreen wallpaper using azote
+
+set $lockScreenWallpaper /data/xdg/Wallpapers/anime/blood-blockade-wallpaper.jpg
+
+include garuda.shim
+
+### Applications: ###
+
+
+###########################################
+### Commonly Used Application Keybinds: ###
+###########################################
+
+bindsym $super+F1 exec $preferredBrowser;focus
+bindsym $super+F2 exec $preferredMailClient;focus
+bindsym $super+F3 exec $preferredFileManager;focus
+bindsym $super+F4 exec $preferredTextEditor;focus
+
+###########################################
+### AUTOSTART
+###########################################
+
+# NetworkManager is the most popular way to manage wireless networks on Linux,
+# and nm-applet is a desktop environment-independent system tray GUI for it.
+exec --no-startup-id nm-applet
+#exec_always --no-startup-id fcitx5 -d
+#exec_always --no-startup-id syncthing-gtk
+
+###########################################
+### KEYBINDINGS
+###########################################
+
+# Screen brightness controls
+bindsym XF86MonBrightnessUp exec "xbacklight -inc 10; notify-send 'brightness up'"
+bindsym XF86MonBrightnessDown exec "xbacklight -dec 10; notify-send 'brightness down'"
+
+# Use pactl to adjust volume in PulseAudio.
+set $refresh_i3status killall -SIGUSR1 i3status
+bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +10% && $refresh_i3status
+bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -10% && $refresh_i3status
+bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle && $refresh_i3status
+bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute @DEFAULT_SOURCE@ toggle && $refresh_i3status
+
+# music control
+bindsym XF86AudioNext exec playerctl next
+bindsym XF86AudioPrev exec playerctl prev
+bindsym XF86AudioPlay exec playerctl toggle
+bindsym XF86AudioStop exec playerctl stop
+
+# Use Mouse+$super to drag floating windows to their wanted position
+floating_modifier $super
+
+# start a terminal
+bindsym $super+Return exec $preferredTerminalEmulator
+
+# kill focused window
+bindsym $super+Shift+q kill
+
+# start dmenu (a program launcher)
+#bindsym $super+Shift+d exec dmenu_run
+#bindsym $super+d exec --no-startup-id j4-dmenu-desktop
+
+bindsym $super+d exec "rofi -show run -show-icons -icon-theme $rofi-icons -theme $rofi-theme"
+
+bindsym $super+z exec "rofi -show drun -show-icons -icon-theme $rofi-drun-icons -theme $rofi-drun-theme"
+
+bindsym $super+shift+z exec "rofi -show filebrowser -show-icons -icon-theme $rofi-file-icons -theme $rofi-file-theme"
+
+bindsym Print exec --no-startup-id i3-scrot
+bindsym $super+Print --release exec --no-startup-id i3-scrot -w
+bindsym $super+Shift+Print --release exec --no-startup-id i3-scrot -s
+
+# There also is the (new) i3-dmenu-desktop which only displays applications
+# shipping a .desktop file. It is a wrapper around dmenu, so you need that
+# installed.
+# bindsym $super+d exec --no-startup-id i3-dmenu-desktop
+
+bindsym $super+m exec --no-startup-id dmenu-screenlayout
+
+# change focus
+# bindsym $super+j focus left
+# bindsym $super+k focus down
+# bindsym $super+l focus up
+# bindsym $super+semicolon focus right
+
+# alternatively, you can use the cursor keys:
+bindsym $super+Left focus left
+bindsym $super+Down focus down
+bindsym $super+Up focus up
+bindsym $super+Right focus right
+
+# move focused window
+# bindsym $super+Shift+j move left
+# bindsym $super+Shift+k move down
+# bindsym $super+Shift+l move up
+# bindsym $super+Shift+semicolon move right
+
+# alternatively, you can use the cursor keys:
+bindsym $super+Shift+Left move left
+bindsym $super+Shift+Down move down
+bindsym $super+Shift+Up move up
+bindsym $super+Shift+Right move right
+
+# split orientation
+bindsym $super+h split h;exec notify-send 'tile horizontally'
+bindsym $super+v split v;exec notify-send 'tile vertically'
+
+# enter fullscreen mode for the focused container
+bindsym $super+f fullscreen toggle
+
+# change container layout (stacked, tabbed, toggle split)
+bindsym $super+s layout stacking
+bindsym $super+w layout tabbed
+bindsym $super+e layout toggle split
+
+# toggle tiling / floating
+bindsym $super+Shift+space floating toggle
+
+# change focus between tiling / floating windows
+bindsym $super+space focus mode_toggle
+
+# focus the parent container
+bindsym $super+a focus parent
+
+# focus the child container
+#bindsym $super+d focus child
+
+###########################################
+### WORKSPACES
+###########################################
+
+# Define names for default workspaces for which we configure key bindings later on.
+# We use variables to avoid repeating the names in multiple places.
+set $ws1 "1"
+set $ws2 "2"
+set $ws3 "Emacs"
+set $ws4 "4"
+set $ws5 "5"
+set $ws6 "6"
+set $ws7 "7"
+set $ws8 "Krita"
+set $ws9 "IRC"
+set $ws10 "Mail"
+
+workspace $ws1 output eDP
+workspace $ws2 output eDP
+workspace $ws3 output eDP
+
+# back and forth?
+workspace_auto_back_and_forth yes
+bindsym $super+b workspace back_and_forth
+bindsym $super+Shift+b move container to workspace back_and_forth; workspace back_and_forth
+
+bindsym $super+Ctrl+Left workspace prev
+bindsym $super+Ctrl+Right workspace next
+
+# switch to workspace
+bindsym $super+1 workspace number $ws1
+bindsym $super+2 workspace number $ws2
+bindsym $super+3 workspace $ws3
+bindsym $super+4 workspace number $ws4
+bindsym $super+5 workspace number $ws5
+bindsym $super+6 workspace number $ws6
+bindsym $super+7 workspace number $ws7
+bindsym $super+8 workspace $ws8
+bindsym $super+9 workspace $ws9
+bindsym $super+0 workspace $ws10
+
+# move focused container to workspace
+bindsym $super+Shift+1 move container to workspace number $ws1
+bindsym $super+Shift+2 move container to workspace number $ws2
+bindsym $super+Shift+3 move container to workspace $ws3
+bindsym $super+Shift+4 move container to workspace number $ws4
+bindsym $super+Shift+5 move container to workspace number $ws5
+bindsym $super+Shift+6 move container to workspace number $ws6
+bindsym $super+Shift+7 move container to workspace number $ws7
+bindsym $super+Shift+8 move container to workspace $ws8
+bindsym $super+Shift+9 move container to workspace $ws9
+bindsym $super+Shift+0 move container to workspace $ws10
+
+for_window [urgent=latest] focus
+
+bindsym $super+Shift+minus move scratchpad
+bindsym $super+minus scratchpad show
+
+###########################################
+### LOCKING
+###########################################
+
+# reload the configuration file
+bindsym $super+Shift+c reload
+
+# restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
+bindsym $super+Shift+r restart
+
+# exit i3 (logs you out of your X session)
+#bindsym $super+Shift+e exec "i3-nagbar -t warning -m 'Do you really want to exit i3? This will end your X session.' -B 'Yes, exit i3' 'i3-msg exit'"
+
+###########################################
+### RESIZE
+###########################################
+
+set $resizeX 5
+set $resizeY 5
+
+# resize window (you can also use the mouse for that)
+mode "resize" {
+        # These bindings trigger as soon as you enter the resize mode
+
+        # bindsym j resize shrink width $resizeX px or $resizeX ppt
+        # bindsym k resize grow height $resizeY px or $resizeY ppt
+        # bindsym l resize shrink height $resizeY px or $resizeY ppt
+        # bindsym semicolon resize grow width $resizeX px or $resizeX ppt
+
+        # same bindings, but for the arrow keys
+        bindsym Left resize shrink width $resizeX px or $resizeX ppt
+        bindsym Down resize grow height $resizeY px or $resizeY ppt
+        bindsym Up resize shrink height $resizeY px or $resizeY ppt
+        bindsym Right resize grow width $resizeX px or $resizeX ppt
+
+        # back to normal: Enter or Escape or $super+r
+        bindsym Return mode "default"
+        bindsym Escape mode "default"
+        bindsym $super+r mode "default"
+}
+
+bindsym $super+r mode "resize"
+
+###########################################
+### BAR
+###########################################
+
+# start either i3bar or polybar (defaults to polybar)
+include i3bar.conf
+
+###########################################
+### APPLICATION CONFIG
+###########################################
+
+# Open applications on specific workspaces
+# assign [class="Thunderbird"] $ws1
+
+# Window Roles
+for_window [window_role="pop-up"] floating enable
+for_window [window_role="task_dialog"] floating enable
+for_window [title="Preferences$"] floating enable
+
+# linux installer
+# for_window [class="calamares"] floating enable border normal
+for_window [class="Clipgrab"] floating enable
+for_window [title="File Transfer*"] floating enable
+for_window [class="fpakman"] floating enable
+for_window [class="Galculator"] floating enable border pixel 1
+for_window [class="GParted"] floating enable border normal
+for_window [title="i3_help"] floating enable sticky enable border normal
+for_window [class="Lightdm-settings"] floating enable
+for_window [class="Lxappearance"] floating enable sticky enable border normal
+for_window [title="MuseScore: Play Panel"] floating enable
+for_window [class="Nitrogen"] floating enable sticky enable border normal
+for_window [class="Oblogout"] fullscreen enable
+for_window [class="octopi"] floating enable
+for_window [title="About Pale Moon"] floating enable
+for_window [class="qt5ct"] floating enable sticky enable border normal
+for_window [class="Qtconfig-qt4"] floating enable sticky enable border normal
+for_window [class="Simple-scan"] floating enable border normal
+for_window [class="(?i)System-config-printer.py"] floating enable border normal
+for_window [class="Skype"] floating enable border normal
+for_window [class="Timeset-gui"] floating enable border normal
+for_window [class="(?i)virtualbox"] floating enable border normal
+for_window [class="Xfburn"] floating enable
+
+for_window [class="Syncthing GTK"] floating enable
+for_window [class="ykman-gui yubikey manager"] floating enable, sticky enable
+for_window [class="Pwsafe" instance="pwsafe"] floating enable, sticky enable
+for_window [class="Gnuplot" instance="gnuplot"] floating enable
+# FIXME: for_window [id="org.fcitx.fcitx5-config-qt"] floating enable
+# FIXME: for_window [id="fcitx5-qt5-fcgui-wrapper"] floating enable
+# FIXME: for_window [id="gnome-calculator"] floating enable
+
+# Manjaro Helpers
+for_window [class="Manjaro-hello"] floating enable
+for_window [class="Manjaro Settings Manager"] floating enable border normal
+
+# Garuda Defaults
+assign [class=URxvt] 1
+for_window [class="bauh"] floating enable
+for_window [class="Garuda Settings Manager"] floating enable border normal
+for_window [class="garuda-welcome"] floating enable
+for_window [class="Pamac-updater"] floating enable
+for_window [class="Pamac-manager"] floating enable
+for_window [class="azote"] floating enable sticky enable border normal
+for_window [class="Timeshift-gtk"] floating enable border normal
+# for_window [class="(?i)virtualbox"] floating enable border normal
+for_window [class="keepassxc"] floating enable
+for_window [class=Viewnior|feh|Audacious|File-roller|Lxappearance|Lxtask|Pavucontrol|upgrade2ultimate.sh] floating enable
+for_window [class=URxvt|firedragon|Geany|Evince|Soffice|libreoffice*|mpv|Ghb|Xfburn|Gimp*|Inkscape|Vlc|Lxappearance|Audacity] focus
+for_window [class=Xfburn|GParted|System-config-printer.py|Lxtask|Pavucontrol|Exo-helper*|Lxrandr|Arandr] focus
+
+# WM Configs
+for_window [instance=".arandr-real"] floating enable
+for_window [title="alsamixer"] floating enable border pixel 1
+
+# File Managers
+for_window [class="Thunar"] floating enable
+
+# Productivity (Mail/Calendar)
+#for_window [class="Thunderbird"] floating enable
+assign [class="Thunderbird"] $ws10
+
+# Terminals (to encourage vterm/etc)
+for_window [class="Alacritty"] floating enable
+
+# Zoom
+for_window [instance="zoom"] floating enable, sticky enable
+for_window [instance="zoom"] inhibit_idle fullscreen
+
+# Steam
+for_window [class="Steam" title="^Steam Guard.*"] floating enable
+for_window [class="Steam" title="^Steam - News.*"] floating enable
+for_window [class="Steam" title="^Friends List"] floating enable
+for_window [class="Steam" title="^Steam Login"] floating enable
+
+# Krita
+for_window [class="krita"] floating enable
+for_window [class="krita"] move container to workspace $ws8
+for_window [class="krita" title="^Configure.*"] floating enable
+
+# IRC
+assign [class=quassel] $ws9
+assign [class=discord] $ws9
+#for_window [class=quassel] floating disable
+#for_window [class=quassel] move container to workspace $ws9
+for_window [class=konversation title="^Quassel IRC -"] floating disable
+for_window [class=konversation] floating enable
+for_window [class=konversation] move container to workspace $ws9
+for_window [class=konversation window_role="^MainWindow"] floating disable
+
+# Anki
+for_window [class="Anki"] floating enable
+for_window [class="Anki" title="^Add"] floating enable
+for_window [class="Anki" title="^Preferences"] floating enable
+for_window [class="Anki" title="^Browse.*"] floating disable
+for_window [class="Anki" title="^Anki Main"] floating disable
+# Anki Main is the name of the Anki Profile (switch profiles, rename)
+
+# RDP
+
+for_window [class="org.remmina.Remmina" title="Remmina Remote Desktop Client"] floating enable
+
+# Xev
+for_window [title="Event Tester"] floating enable
+
+# VNC
+
+focus_on_window_activation focus
+
+# jump to apps
+bindsym $super+Control+e [class="Emacs"] focus
+bindsym $super+Control+d [conmark="dev"] focus
+
+# Marks
+bindsym $super+Control+shift+d mark dev
+
+smart_gaps on
+smart_borders on
+
+default_border pixel 3
+gaps inner 7
+gaps outer 0
+hide_edge_borders both
+  
+###########################################
+### AUTOSTART USER APPS
+###########################################
+# TODO: needs startup id but neither works. launch a task with sleep 10?
+exec --no-startup-id flatpak --user run org.mozilla.Thunderbird
