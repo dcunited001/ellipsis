@@ -1303,7 +1303,13 @@ the result is the same")
 ;;***** Tramp
 ;; TODO: TRAMP: check that guix emacs build prepends to tramp-remote-path
 (use-package tramp :demand t
-  :config (require 'tramp-container)
+  :config
+  (require 'tramp-container)
+  (cl-dolist (p '("~/.guix-profile/bin"
+                  "~/.guix-profile"
+                  "/run/current-system/profile/bin"
+                  "/run/current-system/profile/sbin"))
+    (add-to-list 'tramp-remote-path p))
   :custom (tramp-default-method "ssh"))
 
 ;;** Data
