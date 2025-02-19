@@ -1,4 +1,3 @@
-# [[file:../../../Bash.org::*Aliases][Aliases:1]]
 #* alias @ALIAS
 
 #** color @ALIAS
@@ -18,6 +17,16 @@ if [ "$TERM" != "dumb" ]; then
     # no color
 fi
 
+#* docs @ALIAS
+alias imacs='emacs -f info-standalone --eval="(load-theme (intern \"wombat\"))"'
+manhtml() {
+    [[ -z "$1" ]] && echo "Requires man page name" && return 1
+    man -Thtml "$1" \
+        | sed -e 's/margin-top: 1em//g' \
+        | sed -E 's/(<br>|<hr>)//g' \
+        | sed -E 's/<a href="#.*>//g'
+}
+
 #* ps @ALIAS
 
 # pgrep -u $UID
@@ -36,15 +45,32 @@ alias psnice='ps -o pid,comm,nice' # $pid
 
 alias ptrgb="pstree -C age -pT"
 
-#*renice @alias
+#* renice @alias
 # alias renoice="renice --priority 15 $(pgrep emacs-29)"
 
-#* grep @ALIAS
+#* shell @ALIAS
+
+#** redirect @ALIAS
+alias wordcat="tee >(xargs -n1 cat) | wc -w"
+
+#** curl @ALIAS
+
+# use with parameter expansion: echo -e https://fdsa.com/path/to/{0,1,2,3,4,5}.jpg | curlist -o
+
+# curl --remote-name-all --output-dir /data/xdg/Documents/cheatsheets/lisp/folding/ -K <( ... )
+# <(echo -e https://page.com/path/to/{4,5,6,7,8,9,10,11}.jpg | sed -e 's/ /\n/g' | sed -E 's/^(.*)$/url="\1"/g')
+
+#* data
+alias tyxy="tidy --quiet yes --tidy-mark no --vertical-space yes -indent -xml"
+
+#** jqyq @ALIAS
+
+#** grep @ALIAS
 alias grepnobin="grep -I"
 
-#* s--ystem @ALIAS
+#* system @ALIAS
 
-#* updates @ALIAS
+#** updates @ALIAS
 alias grubup="sudo update-grub"
 alias upd='/usr/bin/update'
 
@@ -62,12 +88,18 @@ alias tarnow='tar -acf '
 alias untar='tar -zxvf '
 alias wget='wget -c '
 
-#* systemd @ALIAS
+#* services @ALIAS
+#** systemd @ALIAS
 alias jctl="journalctl -p 3 -xb"
 alias jctlu="journalctl --user -u"
 alias sysu='systemctl --user'
+# also: systemd-search-shared
 alias sysupath='systemd-path user-shared'
 alias sysdpath='systemd-path system-shared'
+# sysu cat doom
+# sysu show -p Type $doom
+# sysu show -vp Type $doom # only values
+# alias sysed='systemctl --user edit --drop-in=$overridename $svc'
 
 #* pkg
 #** pacman @ALIAS
@@ -100,26 +132,38 @@ alias gkg='git stack'
 alias gksy='git stack sync'
 alias gkcfg='git stack --dump-config -'
 
+# passes NUL byte to xargs, needs to be function
+# alias gitls_bydate='git ls-tree -r --name-only HEAD -z | TZ=UTC xargs -0n1 -I_ git --no-pager log -1 --date=iso-local --format="%ad _" -- _ | sort'
+
+#** git-stack @ALIAS
+alias gkg='git stack'
+alias gksy='git stack sync'
+alias gkcfg='git stack --dump-config -'
+
 # TODO: ascii git tree
 # git log --graph --pretty=format:'%Cred%h%Creset%n %d' --abbrev-commit --decorate -n32 --all HEAD~
 
 # Advanced command-not-found hook
 # source /usr/share/doc/find-the-command/ftc.bash
 
-#* git-stack @ALIAS
-alias emacs-debug-wayland='WAYLAND_DEBUG=1 emacs --fg-daemon > $HOME/.cache/log/emacs.wayland.`date +%Y-%m%d-%H%M`.log 2>&1'
+# alias emacs-debug-wayland='WAYLAND_DEBUG=1 emacs --fg-daemon > $HOME/.cache/log/emacs.wayland.`date +%Y-%m%d-%H%M`.log 2>&1'
 
 alias nodenpm_lsparse="npm ls -g --parseable | grep node_modules | sed -e 's/.*node_modules\///g'"
-# Aliases:1 ends here
 
-# [[file:../../../Bash.org::*Window Control][Window Control:1]]
-#* window-mgmt @ALIAS
-alias @terminator='terminator --title "\$${__title:-TERM}"'
-# Window Control:1 ends here
-
-# [[file:../../../Bash.org::*File Listing][File Listing:2]]
 #* tree @ALIAS
 
 # nevermind, --prune removes empty subdirectories not containing -P $pattern
 alias treef='tree --prune -aP'
-# File Listing:2 ends here
+
+#* guix @ALIAS
+
+alias gsl="guix shell -L $HOME/.dotfiles"
+alias gskl="guix shell --keep-failed -L $HOME/.dotfiles"
+alias gbl="guix build -L $HOME/.dotfiles"
+alias gbkl="guix build --keep-failed -L $HOME/.dotfiles"
+
+#* window-mgmt @ALIAS
+#
+# TODO: aliases: remove window-mgmt alises
+#
+alias @terminator='terminator --title "\$${__title:-TERM}"'

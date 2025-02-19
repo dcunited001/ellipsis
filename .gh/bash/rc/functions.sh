@@ -1,4 +1,13 @@
-# [[file:../../../Bash.org::*Git Repo][Git Repo:1]]
+
+diffpair() {
+    [[ $# -gt 1 ]] || return 1;
+    globbed=$2
+    prefix=$1
+
+    for f in $globbed; do diff $prefix/$f $f; done
+}
+
+
 # clear all the fat fingers, so sync happens without dired
 repo_reset_repos() {
     [[ -z "$1" ]] && \
@@ -21,7 +30,6 @@ repo_reset_repos() {
 # alias rprr=repo_reset_repos
 # Git Repo:1 ends here
 
-# [[file:../../../Bash.org::*File Listing][File Listing:1]]
 tre() {
     local -a tree_opts=()
     local -a tree_args=()
@@ -39,4 +47,3 @@ tre() {
     echo ${tree_opts[@]}
     echo ${tree_args[@]}
 }
-# File Listing:1 ends here

@@ -419,13 +419,6 @@ Misc guix utils
 
 Guix aliases
 
-#+begin_src sh :tangle .config/sh/profile.d/guix-aliases.sh :shebang #!/bin/sh
-alias gsl="guix shell -L $HOME/.dotfiles"
-alias gskl="guix shell --keep-failed -L $HOME/.dotfiles"
-alias gbl="guix build -L $HOME/.dotfiles"
-alias gbkl="guix build --keep-failed -L $HOME/.dotfiles"
-#+end_src
-
 *** On Arch
 **** Load Guile for Emacs-Guix
 
@@ -1633,25 +1626,6 @@ alias emacs-debug-wayland='WAYLAND_DEBUG=1 emacs --fg-daemon > $HOME/.cache/log/
 alias nodenpm_lsparse="npm ls -g --parseable | grep node_modules | sed -e 's/.*node_modules\///g'"
 #+end_src
 
-***** TODO: script to diff active aliases against standard aliases
-
-so i can dump them to a temp file to process later
-
-**** Window Control
-
-Aliases that set titles/classes when launching ... so i can actually get a
-window manager to do window manager things.
-
-The =@= character seems to be okay to overload... but apparently =${@:3}= gets
-you [[https://www.gnu.org/software/bash/manual/bash.html#Shell-Parameter-Expansion][slice on positional parameters]] and arrays.
-
-#+begin_src sh :tangle .config/sh/rc.d/aliases.sh :shebang #!/bin/sh
-#* window-mgmt @ALIAS
-alias @terminator='terminator --title "\$${__title:-TERM}"'
-#+end_src
-
-... This doesn't work very well with KRunner or dmenu
-
 *** Functions
 
 **** Completion
@@ -1664,64 +1638,6 @@ See [[https://www.gnu.org/software/bash/manual/html_node/Programmable-Completion
 
 # files: {completions,helpers}
 export GUIX_COMPLETE=/run/current-system/profile/share/bash-completion
-
-bash_completion_guix_system() {
-    # this will also source completions in ~/.config/bash_completion
-    local __completion="/run/current-system/profile/etc/profile.d/bash_completion.sh"
-    if [[ -r "$__completion" ]]; then
-        source "$__completion"
-    fi
-
-    local guixbcload=(gcc gdb g++ gccgo gdbus gnumake
-                      gpg gpgv gpg2 gpgv2
-
-                      declare
-                      info man local-gen
-
-                      dhclient arp arping host hostname hping*
-                      ip ipcalc ipsec iptables ipv6calc ebtables
-                      ifdown ifquery ifstat ifstatus iftop ifop
-                      nmcli nmap
-
-                      dpkg dpkg-* insmod* kmod
-
-                      kill killall htop
-
-                      chgrp chown chmod groupadd groupdel groupmems groupmod
-                      loginctl ldap* luser*
-
-                      inotify*
-                      ngrep pgrep
-
-                      lsof lsscsi lsusb
-                      hciattach hcitool hciconfig
-                      cpio tar gzip lzip lzma
-
-                      crontab
-
-                      dd dumpe2fs e2freefrag e2label ebtables hd
-                      lvchange lvcreate lvdisplay lvextend lvm lvs
-                      lvremove lvreduce lvrename lvresize lvs
-                      pv pvchange pvcreate pvdisplay pvmove pvremove pvs
-
-                      feh gsettings
-                      curl
-
-                      sqlite3 jq jsonschema
-                      python python3 flake8
-                      java jar javac
-                      lua luac
-                      dot)
-
-    for bc in ${guixbcload[@]}; do
-        # echo $bc: $GUIX_COMPLETE/completions/$bc
-        if [[ -r "$bc" ]]; then
-            source $bc
-        fi
-    done
-}
-
-bash_completion_guix_system
 
 tre() {
     local -a tree_opts=()
@@ -1742,20 +1658,6 @@ tre() {
 }
 #+end_src
 
-
-**** Aliases
-
-simple functions for simple man
-
-#+begin_src sh :tangle .config/sh/rc.d/functions.sh
-  diffpair() {
-    [[ $# -gt 1 ]] || return 1;
-    globbed=$2
-    prefix=$1
-
-    for f in $globbed; do diff $prefix/$f $f; done
-  }
-#+end_src
 
 **** Git Repo
 
