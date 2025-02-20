@@ -56,7 +56,6 @@ DisplayPort-2 DisplayPort-1 HDMI-A-0 Width 3840x2160=498
 
 [MainWindow]
 MenuBar=Disabled
-ToolBarsMovable=Disabled
 
 [Open-with settings]
 CompletionMode=1
@@ -64,9 +63,6 @@ History=mesh,ema
 
 [PreviewSettings]
 Plugins=audiothumbnail,directorythumbnail,fontthumbnail,imagethumbnail,jpegthumbnail,kraorathumbnail,gsthumbnail,rawthumbnail,svgthumbnail,ffmpegthumbs
-
-[Search]
-What=Content
 
 [ViewPropertiesDialog]
 3 screens: Height=334

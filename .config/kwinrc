@@ -16,6 +16,9 @@ Name_4=Misc
 Number=4
 Rows=1
 
+[EdgeBarrier]
+EdgeBarrier=32
+
 [Effect-Zoom]
 ZoomFactor=0.9999999999999998
 
@@ -109,7 +112,7 @@ ShowTabBox=false
 padding=4
 
 [Tiling][1029d820-f73b-5369-8221-b4095e1ae1f2]
-tiles={"layoutDirection":"horizontal","tiles":[{"width":0.50078125},{"layoutDirection":"vertical","tiles":[{"height":0.5652777777777778},{"height":0.43472222222222223}],"width":0.1738281250000001},{"width":0.32539062499999993}]}
+tiles={"layoutDirection":"horizontal","tiles":[{"width":0.37109375},{"layoutDirection":"vertical","tiles":[{"height":0.5458333333333333},{"height":0.4541666666666667}],"width":0.251953125},{"width":0.376953125}]}
 
 [Tiling][1de74c2c-7c31-57ed-b159-16fc6eee9612]
 tiles={"layoutDirection":"horizontal","tiles":[{"width":0.25},{"width":0.5},{"width":0.25}]}
@@ -132,11 +135,17 @@ tiles={"layoutDirection":"horizontal","tiles":[{"width":0.28857421874999994},{"w
 [Tiling][94ffe885-ea3c-5b75-868d-849720a2ac04]
 tiles={"layoutDirection":"vertical","tiles":[{"height":0.803125},{"height":0.19687500000000002}]}
 
+[Tiling][aa978cb6-e290-5496-822b-81bdcc3c7db8]
+tiles={"layoutDirection":"horizontal","tiles":[{"width":0.25},{"width":0.5},{"width":0.25}]}
+
 [Tiling][c0c32115-6c0c-5e98-bf49-7e6b63b3835d]
 tiles={"layoutDirection":"horizontal","tiles":[{"width":0.25},{"width":0.5},{"width":0.25}]}
 
 [Tiling][ce8dac1e-46fa-524d-946b-a5a8ef55b651]
 tiles={"layoutDirection":"vertical","tiles":[{"height":0.4979166666666667},{"height":0.5020833333333332}]}
+
+[Tiling][d6bee2ed-4c4d-525b-a213-bbe9c844e4e7]
+tiles={"layoutDirection":"horizontal","tiles":[{"width":0.25},{"width":0.5},{"width":0.25}]}
 
 [Tiling][d81b23e8-5f17-54d3-bdaa-46738b248d04]
 tiles={"layoutDirection":"horizontal","tiles":[{"width":0.3057291666666685},{"width":0.34088541666666294},{"width":0.35338541666666357}]}
@@ -152,6 +161,9 @@ tiles={"layoutDirection":"horizontal","tiles":[{"width":0.5203125},{"width":0.47
 
 [Tiling][ff2699f4-391b-5bbb-85ec-8649845b5b4b]
 tiles={"layoutDirection":"horizontal","tiles":[{"width":0.4869791666666667},{"width":0.5130208333333333}]}
+
+[Wayland]
+InputMethod=/usr/share/applications/fcitx5-wayland-launcher.desktop
 
 [Windows]
 BorderlessMaximizedWindows=true
