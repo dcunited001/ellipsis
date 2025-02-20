@@ -2,30 +2,34 @@
 emacs_profile_name="doomemacs"
 emacs_profile=$GUIX_EXTRA/$emacs_profile_name/$emacs_profile_name
 
-doomsocket=/run/user/1000/emacs/doom
+emacs_socket_path=/run/user/1000/emacs
+emacs_socket_name=doom
 
-while getopts :p OPT; do
+_print_usage() {
+    echo "usage: `basename $0` [-p ARG} [-s socket} [--] ARGS..."
+    echo "-p profile/link"
+}
+
+while getopts :p:s: OPT; do
     case $OPT in
-        p|+p)
-            emacs_profile="$OPTARG"
-            ;;
-        --)
-            break
-            ;;
-        *)
-            echo "usage `basename $0` [+-p ARG} [--] ARGS..."
-            echo "-p profile/link"
-            exit 2
+        p) emacs_profile="$OPTARG" ;;
+        s) emacs_socket_name="$OPTARG" ;;
+        --) break ;;
+        *) _print_usage && exit 2
     esac
 done
 shift `expr $OPTIND - 1`
 OPTIND=1
 
-if [[ ! -S "$doomsocket" ]]; then
+emacs_socket="$emacs_socket_path/$emacs_socket_name"
+if [[ ! -S "$emacs_socket" ]]; then
     # TODO: fix icons on guix
-    notify-send -a "doomclient" -i vim \
+    notify-send -a "`basename $0`" -i vim \
                 "Doom Emacs" \
-                "<b>doomkill</b> requires a running server"
+                "<b>`basename $0` </b> requires a running server"
+    echo "`basename $0` requires a running server when specifying a socket"
+    exit 2
+else
+    guix shell -p $emacs_profile --\
+        emacsclient --socket="$emacs_socket_name" -e "(kill-emacs)"
 fi
-
-guix shell -p $emacs_profile -- emacsclient --socket=$doomsocket -e "(kill-emacs)"
