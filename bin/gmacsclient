@@ -1,34 +1,34 @@
 #!/bin/sh
-# either set DEBUG_EMACS=1 (unset completely to avoid)
-# or pass full path with -p
+# either set DEBUG_EMACS=1 (unset completely to avoid) .. or pass full path with -p
 emacs_profile_name="emacs-g${DEBUG_EMACS+-debug}"
 emacs_profile=$GUIX_EXTRA/$emacs_profile_name/$emacs_profile_name
-search_paths=0
-
-# TODO: add parameter to specify socket?
+emacs_socket_path=/run/user/1000/emacs
+emacs_socket_name=gmacs
 
 _print_usage() {
-#    echo "usage: `basename $0` [-Z ARG} [-p ARG}  [--] ARGS..."
-    echo "usage: `basename $0` [-p ARG}  [--] ARGS..."
+    echo "usage: `basename $0` [-p ARG} [-s socket} [--] ARGS..."
     echo "-p profile/link"
 }
 
-while getopts p OPT; do
+while getopts :p:s: OPT; do
     case $OPT in
-        # Z)
-        #     search_paths=1
-        #     ;;
-        p)
-            emacs_profile="$OPTARG"
-            ;;
-	      --)
-	          break
-	          ;;
-        *)
-            _print_usage && exit 2
+        p) emacs_profile="$OPTARG" ;;
+        s) emacs_socket_name="$OPTARG" ;;
+        --) break ;;
+        *) _print_usage && exit 2
     esac
 done
 shift `expr $OPTIND - 1`
 OPTIND=1
 
-guix shell -E "^EMAIL$" -p $emacs_profile -- emacsclient -c "$@"
+# TODO: fix icons on guix
+emacs_socket="$emacs_socket_path/$emacs_socket_name"
+if [ ! -S "$emacs_socket_path/$emacs_socket_name" ]; then
+    notify-send -a "`basename $0`" -i emacs \
+                "Gmacs" \
+                "<b>`basename $0`</b> requires a running server when specifying a socket"
+    echo "`basename $0` requires a running server when specifying a socket"
+    exit 2
+else
+    guix shell -p $emacs_profile -- emacsclient -c --socket="$emacs_socket_name" "$@"
+fi

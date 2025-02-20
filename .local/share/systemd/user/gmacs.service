@@ -20,7 +20,7 @@ ExecStart=/bin/bash -c \
                           -E 'EMACS_SOURCE' \
                           -E 'GUIX_SOURCE' \
                           -p $GUIX_EXTRA/emacs-g/emacs-g -- \
-                          emacs --fg-daemon --init-directory=$HOME/.emacs.g --debug-init"
+                          emacs --fg-daemon=gmacs --init-directory=$HOME/.emacs.g --debug-init"
 #ExecStartPre=/bin/bash -c "notify-send 'Starting Emacs Service...'"
 #ExecStartPost=/bin/bash -c "notify-send 'Emacs Service Started Successfully'"
 

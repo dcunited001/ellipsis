@@ -16,9 +16,9 @@
   :depends-on ("cl-dot"
                ;; "invader"
                )
-;; (define-nyxt-user-system-and-load nyxt-user/invader-proxy
-;;     :depends-on ("invader")
-)
+  ;; (define-nyxt-user-system-and-load nyxt-user/invader-proxy
+  ;;     :depends-on ("invader")
+  )
 ;;** Profiles
 
 ;; to start an alternate configuration (this is easier)
@@ -31,10 +31,9 @@
 ;;** Browser
 
 (define-configuration browser
-  ((restore-session-on-startup-p nil)
-   (theme theme:+dark-theme+ :doc "Setting dark theme."))
-  ;;((restore-session-on-startup-p :never-restore))
-  )
+    ((restore-session-on-startup-p nil)
+     (theme theme:+dark-theme+ :doc "Setting dark theme.")))
+;;((restore-session-on-startup-p :never-restore))
 
 ;;** UI
 
@@ -42,7 +41,7 @@
 
 ;; when results only present a single source, hide it
 (define-configuration prompt-buffer
-  ((hide-single-source-header-p t)))
+    ((hide-single-source-header-p t)))
 
 ;;*** Editor
 
@@ -70,9 +69,9 @@
 ;;** Keys
 
 (define-configuration input-buffer
-                      ((override-map
-                        (let ((map (make-keymap "override-map")))
-                          (define-key map "f1 f5" 'execute-command "C-space" 'nothing)))))
+    ((override-map
+      (let ((map (make-keymap "override-map")))
+        (define-key map "f1 f5" 'execute-command "C-space" 'nothing)))))
 
 ;;** Bookmarks
 
@@ -92,12 +91,12 @@
   ;; (:web-buffer :prompt-buffer :editor-buffer)
   "Sets emacs-mode and mouse/noob bindings everywhere."
   ((default-modes 
-     `(:dc/noob-mode 
-       :emacs-mode 
-       force-https-mode 
-       reduce-tracking-mode
+    `(:dc/noob-mode
+      :emacs-mode
+      force-https-mode
+      reduce-tracking-mode
 
-       ,@%slot-value%))))
+      ,@%slot-value%))))
 
 ;; create window with buffer from CLI
 ;; nyxt --remote --quit --eval '(make-window (make-buffer :url "https://en.wikipedia.org/wiki/Tomato"))

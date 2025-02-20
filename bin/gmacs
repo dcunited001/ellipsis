@@ -1,15 +1,19 @@
 #!/bin/sh
 export GUIX_SOURCE=$_ECTO/guix/guix
 export EMACS_SOURCE=$_ECTO/emacs/emacs/src
+export EMACSDIR=$HOME/.emacs.g
 
 # either set DEBUG_EMACS=1 (unset completely to avoid)
 # or pass full path with -p
 emacs_profile_name="emacs-g${DEBUG_EMACS+-debug}"
-emacs_profile=$GUIX_EXTRA/$emacs_profile_name/$emacs_profile_name
+emacs_profile="$GUIX_EXTRA/$emacs_profile_name/$emacs_profile_name"
+emacs_socket_name=gmacs
+# emacs_socket_path=/run/user/1000/emacs # unused
+# emacs_socket=$emacs_socket_path/$emacs_socket_name # unused
 search_paths=0
 
 _print_usage() {
-    echo "usage: `basename $0` [-Z ARG} [-p ARG}  [--] ARGS..."
+    echo "usage: `basename $0` [-Z} [-p ARG} [-s socket} [--] ARGS..."
     echo "-p profile/link"
 }
 
@@ -25,19 +29,13 @@ _print_initfile_warning() {
 
 [[ -f "$HOME/.emacs" ]] && _print_initfile_warning
 
-while getopts :Zp OPT; do
+while getopts :Zp:s: OPT; do
     case $OPT in
-        Z)
-            search_paths=1
-            ;;
-        p)
-            emacs_profile="$OPTARG"
-            ;;
-	      --)
-            break
-	          ;;
-        ,*)
-            _print_usage && exit 2
+        Z) search_paths=1 ;;
+        p) emacs_profile="$OPTARG" ;;
+        s) emacs_socket_name="$OPTARG" ;;
+        --) break ;;
+        *) _print_usage && exit 2
     esac
 done
 shift `expr $OPTIND - 1`
@@ -46,7 +44,6 @@ OPTIND=1
 if [ 0 -lt "$search_paths" ]; then
     guix shell -p $emacs_profile --search-paths
 else
-    # echo "$@"
-    # echo guix shell -p $emacs_profile -- emacs $@
-    guix shell -p $emacs_profile -- emacs "$@"
+    guix shell -p $emacs_profile -- \
+        emacs --fg-daemon="$emacs_socket_name" "$@"
 fi
