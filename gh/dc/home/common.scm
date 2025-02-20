@@ -66,8 +66,6 @@
 
 (define essential-packages
   (list tree                            ; admin
-
-
         ))
 
 ;; "gst-plugins-ugly"
@@ -225,6 +223,9 @@
 (define gtk-environment
   '(("GTK2_RC_FILES" . "$HOME/.gtkrc-2.0")))
 
+(define dev-environment
+  '(("" . "$HOME/.gtkrc-2.0")))
+
 (define wayland-kde-environment
   ;; necessary for sway
   `(("XDG_CURRENT_DESKTOP" . "KDE")
@@ -363,6 +364,16 @@
 ;; services that do more than one thing need to be defined privately as service-type
 ;;  - in order to bundle together extensions of different types
 
+;; (define home-zsh-service-type
+;;   (service-type (name 'home-zsh)
+;;                 (extensions
+;;                  (list (service-extension home-files-service-type add-zsh-dot-configuration)
+;;                        (service-extension home-xdg-configuration-files-service-type add-zsh-xdg-configuration)
+;;                        (service-extension home-profile-service-type add-zsh-packages)))
+;;                 (compose identity)
+;;                 (extend home-zsh-extensions)
+;;                 (default-value (home-zsh-configuration))
+;;                 (description "Install and configure Zsh.")))
 
 (define dc-gpg-agent-configuration
   (home-gpg-agent-configuration

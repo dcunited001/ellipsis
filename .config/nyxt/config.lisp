@@ -10,12 +10,15 @@
 ;;   &rest args
 ;;   &key depends-on components &allow-other-keys)
 
+(reset-asdf-registries)
 (define-nyxt-user-system-and-load nyxt-user/basic-config
-  :components ("status" "search-engines" "keys"))
-;; (reset-asdf-registries)
+  :components ("status" "search-engines" "keys")
+  :depends-on ("cl-dot"
+               ;; "invader"
+               )
 ;; (define-nyxt-user-system-and-load nyxt-user/invader-proxy
-;;     :depends-on ("invader"))
-
+;;     :depends-on ("invader")
+)
 ;;** Profiles
 
 ;; to start an alternate configuration (this is easier)
@@ -28,7 +31,10 @@
 ;;** Browser
 
 (define-configuration browser
-  ((restore-session-on-startup-p :never-restore)))
+  ((restore-session-on-startup-p nil)
+   (theme theme:+dark-theme+ :doc "Setting dark theme."))
+  ;;((restore-session-on-startup-p :never-restore))
+  )
 
 ;;** UI
 
@@ -85,22 +91,34 @@
 (define-configuration buffer
   ;; (:web-buffer :prompt-buffer :editor-buffer)
   "Sets emacs-mode and mouse/noob bindings everywhere."
-  ;; ((default-modes `(:emacs-mode :dc/noob-mode ,@%slot-value%)))
-  ((default-modes `(:dc/noob-mode :emacs-mode ,@%slot-value%))))
+  ((default-modes 
+     `(:dc/noob-mode 
+       :emacs-mode 
+       force-https-mode 
+       reduce-tracking-mode
 
+       ,@%slot-value%))))
+
+;; create window with buffer from CLI
+;; nyxt --remote --quit --eval '(make-window (make-buffer :url "https://en.wikipedia.org/wiki/Tomato"))
 
 ;;*** Default Modes
-
-;;  reduce-tracking-mode
-;;  no-procrastinate-mode
+;; added
 ;;  force-https-mode
 ;;  emacs-mode
+;;  reduce-tracking-mode
+
+;; already enabled
+;;  hint-mode
+
+
+;; TODO: add to default modes
+;;  no-procrastinate-mode
 ;;  bookmark-frequent-visits-mode
 ;;  certificate-exception-mode
 ;;  autofill-mode
 ;;  spell-check-mode
 ;;  search-buffer-mode
-;;  hint-mode
 ;;  document-mode
 ;;  password-mode
 ;;  bookmark-mode

@@ -1376,6 +1376,29 @@ the result is the same")
       "M-b" #'embark-bindings-in-keymap
       "M-m" #'consult-minor-mode-menu)
 
+;; "<" #'help-go-back
+;; ">" #'help-go-forward
+;; "<XF86Back>" #'help-go-back
+;; "<XF86Forward>" #'help-go-forward
+;; "<backtab>" #'backward-button
+;; "?" #'describe-mode
+;; "C-c C-b" #'help-go-back
+;; "C-c C-c" #'help-follow-symbol
+;; "C-c C-f" #'help-go-forward
+;; "DEL" #'scroll-down-command
+;; "I" #'help-goto-lispref-info
+;; "S-SPC" #'scroll-down-command
+;; "c" #'help-customize
+;; "g" #'revert-buffer
+;; "h" #'describe-mode
+;; "i" #'help-goto-info
+;; "l" #'help-go-back
+;; "n" #'forward-button
+;; "o" #'link-hint-open-link
+;; "p" #'backward-button
+;; "q" #'quit-window
+;; "r" #'help-go-forward
+;; "s" #'help-view-source
 
 ;;** Search Map
 

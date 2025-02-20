@@ -221,24 +221,25 @@ Some other code is needed in =config.lisp= in order to add =tailor-mode= to
  ((default-modes `(tailor:tailor-mode ,@%slot-default%))))
 #+end_src
 
+
 * Tasks
 
-* nyxt
+** nyxt
 
-** TODO checkout Nyxt packages
+*** TODO checkout Nyxt packages
 + [ ] [[https://github.com/aartaka/nx-search-engines][aartaka/nx-search-engines]] (contains completion for many [[https://github.com/aartaka/nx-search-engines/blob/master/search-engines.lisp][search engines]])
 + [ ] [[https://github.com/aartaka/nx-kaomoji][aartaka/nx-kaomoji]]
 
-** Try emitting graphviz from Nyxt using [[https://github.com/michaelw/cl-dot/blob/master/package.lisp][cl-dot]]
+*** Try emitting graphviz from Nyxt using [[https://github.com/michaelw/cl-dot/blob/master/package.lisp][cl-dot]]
 
-** TODO review [[https://github.com/migalmoreno/nx-tailor][migalmoreno/nx-tailor]] source
+*** TODO review [[https://github.com/migalmoreno/nx-tailor][migalmoreno/nx-tailor]] source
 
 
-** TODO Configure & Try features
+*** TODO Configure & Try features
 
 Maybe purchase the [[https://nyxt.atlas.engineer/extension/invader.org][invader theme]]
 
-*** Automation
+** Automation
 
 + scripting nyxt :: run with --headless, --no-socket and etc
 + extracting content :: using lisp or javascript

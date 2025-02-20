@@ -8,7 +8,13 @@ emacs_profile_name="emacs-g${DEBUG_EMACS+-debug}"
 emacs_profile=$GUIX_EXTRA/$emacs_profile_name/$emacs_profile_name
 search_paths=0
 
+_print_usage() {
+    echo "usage: `basename $0` [-Z ARG} [-p ARG}  [--] ARGS..."
+    echo "-p profile/link"
+}
+
 _print_initfile_warning() {
+    echo ""
     echo "You have a ~/.emacs file (probably custom.el)."
     echo ""
     echo "That will be very confusing."
@@ -21,19 +27,17 @@ _print_initfile_warning() {
 
 while getopts :Zp OPT; do
     case $OPT in
-        Z|+Z)
+        Z)
             search_paths=1
             ;;
-        p|+p)
+        p)
             emacs_profile="$OPTARG"
             ;;
 	      --)
             break
 	          ;;
-        *)
-            echo "usage: `basename $0` [+-Z ARG} [+-p ARG}  [--] ARGS..."
-            echo "-p profile/link"
-            exit 2
+        ,*)
+            _print_usage && exit 2
     esac
 done
 shift `expr $OPTIND - 1`
@@ -43,6 +47,6 @@ if [ 0 -lt "$search_paths" ]; then
     guix shell -p $emacs_profile --search-paths
 else
     # echo "$@"
-    echo guix shell -p $emacs_profile -- emacs $@
-    guix shell -p $emacs_profile -- emacs $@
+    # echo guix shell -p $emacs_profile -- emacs $@
+    guix shell -p $emacs_profile -- emacs "$@"
 fi

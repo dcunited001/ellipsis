@@ -258,7 +258,7 @@ kubemacs
     bir = bisect reset
 
 # ---------------------------------------------
-benmetzger
+# benmetzger
 	
 [alias]
     unadd = reset HEAD

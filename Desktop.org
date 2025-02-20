@@ -19,9 +19,6 @@
 - [[#themes][Themes]]
   - [[#xsettings][XSettings]]
     - [[#importing-config][Importing Config]]
-  - [[#color-schemes][Color Schemes]]
-- [[#window-management][Window Management]]
-  - [[#i3][i3]]
     - [[#setup-xidlehook-to-notify-send-when-idletime-is-about-to-lock-the-computer][setup =xidlehook= to notify-send when idletime is about to lock the computer]]
   - [[#kde][KDE]]
     - [[#wayland][Wayland]]
@@ -206,27 +203,6 @@ Gtk/FontName "Fira Sans,  10"
 Gtk/CursorThemeSize 24
 Gtk/CursorThemeName "Sweet-cursors"
 #+end_example
-
-** Color Schemes
-
-* Window Management
-
-+ example configs:
-  + [[file:/data/ecto/x.files/benmezger/dotfiles/dot_config/i3/config::bindsym Return mode "default"][benmezger]]
-
-** i3
-
-*Guix Packages*
-
-#+begin_src scheme :noweb-ref i3packages :noweb-sep ""
-
-"i3-gaps"
-"i3status"
-"i3lock"
-"j4-dmenu-desktop"
-#+end_src
-
-I will probably move this to shepherd, but for now it is where it is.
 
 #+begin_src scheme :noweb-ref i3packages :noweb-sep ""
 ;; TODO: move this to shepherd?

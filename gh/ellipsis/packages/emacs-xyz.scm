@@ -70,3 +70,27 @@
 ;;                (site-lisp (string-append out "/share/emacs/site-lisp"))
 ;;                (libdir (string-append site-lisp "/x509-mode-" version)))
 ;;           (copy-file "keyword.txt"))))))
+
+;; TODO: PURGE: emacs-repo-no-magit
+;; TODO: use guix-transform on magit instead
+(define-public emacs-repo-no-magit
+  (package
+    (inherit emacs-repo)
+    (name "emacs-repo-no-magit")
+    (version "0.3.0")
+    (source (origin
+              (method git-fetch)
+              (uri (git-reference
+                    (url "https://github.com/snogge/repo-el")
+                    (commit version)))
+              (file-name (git-file-name name version))
+              (sha256
+               (base32
+                "0y8j3hf5r69fxj2vsbaxwr9qdchddn53w25xzmxv1kfh6hbagzv3"))))
+    (build-system emacs-build-system)
+    (native-inputs
+     (list emacs-el-mock emacs-ert-runner emacs-magit))
+    (propagated-inputs
+     (list emacs-f))
+    (home-page "https://github.com/snogge/repo-el")
+    (license license:gpl3+)))
