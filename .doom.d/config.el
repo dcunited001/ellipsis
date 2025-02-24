@@ -193,7 +193,7 @@ Guix channel.")
                  "q" #'activities-suspend
                  "b" #'activities-switch
                  "t" #'activities-tabs-mode))
-  :hook (doom-init-ui-hook . #'activities-tabs-mode))
+  :hook (doom-init-ui-hook . (lambda () (activities-tabs-mode +1))))
 
 ;; phew, I can jump to a window on KDE without using my eyes
 (defun dc/tab-names (&optional tabs)
@@ -360,6 +360,7 @@ Guix channel.")
   (global-set-key [remap other-window] #'aw-show-dispatch-help)
   (map! :map ctl-x-map "C-o" #'ace-window))
 
+;; TODO buf-move-up: keybinds are not set until used
 (use-package! buffer-move
   :commands buf-move-up buf-move-down buf-move-left buf-move-right
   :config
@@ -970,17 +971,17 @@ Guix channel.")
   (add-to-list 'geiser-implementations-alist '(((regexp "\\.scm$") guile)))
   :custom
   ;; TODO: PKG: project.el -- maybe update to geiser-repl-project-root
-  (geiser-repl-current-project-function
-   #'projectile-project-root)
-  (geiser-repl-add-project-paths t)
+  (geiser-repl-current-project-function #'projectile-project-root)
   (geiser-repl-add-project-paths
-   t "`guix-load-path' seems to append using `add-to-list', so whether the
+   nil
+   "`guix-load-path' seems to append using `add-to-list', so whether the
 .dotfiles channel is added via that or `geiser-repl-add-project-paths',
-the result is the same")
-  (geiser-debug-treat-ansi-colors
-   'colors "Requires guile-colorized (ice-9 colorized)")
+the result is the same, unless the project's guile modules are not at
+the root")
+  (geiser-debug-treat-ansi-colors 'colors "Requires guile-colorized (ice-9 colorized)")
   (geiser-default-implementation 'guile)
   (geiser-repl-highlight-output-p t))
+
 (use-package! geiser-guile
   :defer t
   :config
@@ -988,6 +989,15 @@ the result is the same")
   (add-to-list 'geiser-guile-manual-lookup-nodes "Guile Reference")
   (add-to-list 'geiser-guile-manual-lookup-nodes "Guile Library")
   (add-to-list 'geiser-guile-manual-lookup-nodes "Guix"))
+
+;; don't change these (or move the files). geiser will not indicate whatsover
+;; (not even in logs) that something is wrong. it won't compile a module you
+;; switch to (a clue).  it also won't recognize %load-path.
+;;
+;; (geiser-guile-init-file nil)
+;;
+;; (geiser-guile-load-init-file nil)
+
 (use-package! geiser-racket :defer t)   ; req. for lispy? even with master?
 
 ;;**** Arei
@@ -1211,7 +1221,8 @@ the result is the same")
 ;; use-package.
 ;;
 
-(setopt guix-load-path (expand-file-name ".dotfiles" (getenv "HOME")))
+(setopt guix-load-path '((expand-file-name ".dotfiles/gh" (getenv "HOME"))))
+
 ;; TODO: GUIX: maybe set guix-load-compiled-path
 ;; see [[file:~/.emacs.doom/.local/straight/repos/emacs-guix/elisp/guix-repl.el::defun guix-repl-guile-args]]
 

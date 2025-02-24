@@ -17,35 +17,38 @@
 
 
      ;; altered to ensure that guix load path is set for the
-     (eval . (let ((root-dir-unexpanded (locate-dominating-file
-                                         default-directory ".dir-locals.el")))
-               ;; While Guix should in theory always have a .dir-locals.el
-               ;; (we are reading this file, after all) there seems to be a
-               ;; strange problem where this code "escapes" to some other buffers,
-               ;; at least vc-mode.  See:
-               ;;   https://lists.gnu.org/archive/html/guix-devel/2020-11/msg00296.html
-               ;; Upstream report: <https://bugs.gnu.org/44698>
-               ;; Hence the following "when", which might otherwise be unnecessary;
-               ;; it prevents causing an error when root-dir-unexpanded is nil.
-               (when root-dir-unexpanded
-                 (let* ((root-dir (file-local-name (expand-file-name root-dir-unexpanded)))
-                        ;; Workaround for bug https://issues.guix.gnu.org/43818.
-                        (root-dir* (directory-file-name root-dir))
-                        ;; TODO: guix-pulled-profile doesn't exist before
-                        ;; guix.el repl runs
-                        (guix-pr (or (and (bound-and-true-p guix-pulled-profile))
-                                     (expand-file-name ".config/guix/current" (getenv "HOME"))))
-                        (guix-lp (expand-file-name "share/guile/site/3.0"
-                                                   guix-pr))
-                        (guix-lcp (expand-file-name "lib/guile/3.0/site-ccache"
-                                                    guix-pr)))
-                   (unless (boundp 'geiser-guile-load-path)
-                     (defvar geiser-guile-load-path '()))
-                   (make-local-variable 'geiser-guile-load-path)
-                   (require 'cl-lib)
-                   (cl-dolist (pathdir (list guix-lp guix-lcp root-dir*))
-                     (cl-pushnew pathdir geiser-guile-load-path
-                                 :test #'string-equal))))))))
+     (eval
+      . (let ((root-dir-unexpanded (locate-dominating-file
+                                    default-directory ".dir-locals.el")))
+          ;; While Guix should in theory always have a .dir-locals.el
+          ;; (we are reading this file, after all) there seems to be a
+          ;; strange problem where this code "escapes" to some other buffers,
+          ;; at least vc-mode.  See:
+          ;;   https://lists.gnu.org/archive/html/guix-devel/2020-11/msg00296.html
+          ;; Upstream report: <https://bugs.gnu.org/44698>
+          ;; Hence the following "when", which might otherwise be unnecessary;
+          ;; it prevents causing an error when root-dir-unexpanded is nil.
+          (when root-dir-unexpanded
+            (let* ((root-dir (file-local-name (expand-file-name root-dir-unexpanded)))
+                   ;; FOR MODULES IN ~/.dotfiles/gh
+                   (module-root-dir (file-local-name (expand-file-name "gh" root-dir-unexpanded)))
+                   ;; Workaround for bug https://issues.guix.gnu.org/43818.
+                   (root-dir* (directory-file-name module-root-dir))
+                   ;; TODO: guix-pulled-profile doesn't exist before
+                   ;; guix.el repl runs
+                   (guix-pr (or (and (bound-and-true-p guix-pulled-profile))
+                                (expand-file-name ".config/guix/current" (getenv "HOME"))))
+                   (guix-lp (expand-file-name "share/guile/site/3.0"
+                                              guix-pr))
+                   (guix-lcp (expand-file-name "lib/guile/3.0/site-ccache"
+                                               guix-pr)))
+              (unless (boundp 'geiser-guile-load-path)
+                (defvar geiser-guile-load-path '()))
+              (make-local-variable 'geiser-guile-load-path)
+              (require 'cl-lib)
+              (cl-dolist (pathdir (list guix-lp guix-lcp root-dir*))
+                (cl-pushnew pathdir geiser-guile-load-path
+                            :test #'string-equal))))))))
 
  (shell-mode
   (eval . (add-hook 'shell-mode-hook 'guix-build-log-minor-mode)))

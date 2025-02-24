@@ -1,13 +1,10 @@
 # daviwil/dotfiles scripts
 
-# .bin scripts
-.bin/emacs-network
-
 # generally exclude all
-.local/bin
-.local/lib
-.local/share
-.local/state
+/.local/bin
+/.local/lib
+/.local/share
+/.local/state
 .config/polybar
 
 # bash
@@ -22,12 +19,12 @@
 .config/sh/rc.d/*.sh
 
 # direnv
-.config/direnv/eg
-.config/guix/shell-authorized-directories
+/.config/direnv/eg
+/.config/guix/shell-authorized-directories
 
 # /etc/skel to diff from various distros
-skel-images/**/*
-!skel-images/.gitkeep
+/skel-images/**/*
+!/skel-images/.gitkeep
 
 # Sway
 .config/sway/config
