@@ -27,11 +27,12 @@ done
 
 
 __ellipsis_channel=$HOME/.dotfiles/gh
+__dc_channel=$HOME/.dotfiles/dc
 __substitute_urls=${__substitute_urls:-https://ci.guix.gnu.org https://bordeaux.guix.gnu.org https://substitutes.nonguix.org}
 
 notify-send -i important "GUIX (Channels)" "Updating Guix"
 
-guix pull -L $__ellipsis_channel \
+guix pull -L $__ellipsis_channel -L $__dc_channel \
      --verbosity="${verbosity:-1}" \
      --channels=$HOME/.config/guix/base-channels.scm \
      --substitute-urls="$__substitute_urls" \

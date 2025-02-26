@@ -157,10 +157,11 @@ alias treef='tree --prune -aP'
 
 #* guix @ALIAS
 
-alias gsl="guix shell -L $HOME/.dotfiles"
-alias gskl="guix shell --keep-failed -L $HOME/.dotfiles"
-alias gbl="guix build -L $HOME/.dotfiles"
-alias gbkl="guix build --keep-failed -L $HOME/.dotfiles"
+# TODO update load path for guix aliases (or remove)
+# alias gsl="guix shell -L $HOME/.dotfiles"
+# alias gskl="guix shell --keep-failed -L $HOME/.dotfiles"
+# alias gbl="guix build -L $HOME/.dotfiles"
+# alias gbkl="guix build --keep-failed -L $HOME/.dotfiles"
 
 #* window-mgmt @ALIAS
 #

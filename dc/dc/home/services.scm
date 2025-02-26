@@ -73,6 +73,8 @@
 ;; ---------------------------------------------
 ;;; Bash
 
+;; TODO: bat-service https://github.com/hiecaq/guix-config?tab=readme-ov-file#bat
+
 (define dc-bash-configuration
   (home-bash-configuration
    ;; (aliases '())
@@ -120,6 +122,14 @@
    home-xdg-configuration-files-service-type
    (list `("zathura/zathurarc"
            ,(local-file (string-append %files-directory "/.config/zathura/zathurarc"))))))
+
+;; =============================================
+;;; Diffoscope/Reprotest
+;;
+(use-package-modules diffoscope)
+(define dc-diffoscope-packages (list diffoscope reprotest))
+
+;; TODO diffoscope setup (req. service?)
 
 ;; =============================================
 ;;; Garuda Readline:

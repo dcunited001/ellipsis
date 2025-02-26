@@ -4,11 +4,7 @@
 
 (define dc-aliases
   '(("cleanup" . "sudo pacman -Rns `pacman -Qtdq`")
-    ("diff" . "diff --color=auto")
-    ("dir" . "dir --color=auto")
-    ("egrep" . "egrep --color=auto")
     ("emacs-debug-wayland" . "WAYLAND_DEBUG=1 emacs --fg-daemon > $HOME/.cache/log/emacs.wayland.`date +%Y-%m%d-%H%M`.log 2>&1")
-    ("fgrep" . "fgrep --color=auto")
     ("fixpacman" . "sudo rm /var/lib/pacman/db.lck")
     ("gkcfg" . "git stack --dump-config -")
     ("gkg" . "git stack")
@@ -17,8 +13,6 @@
     ("gpgk" . "gpg-connect-agent killagent /bye")
     ("gpgrel" . "gpg-connect-agent reloadagent /bye")
     ("gpguptty" . "gpg-connect-agent updatestartuptty /bye")
-    ("grep" . "grep --color=auto")
-    ("grepnobin" . "grep -I")
     ("grubup" . "sudo update-grub")
     ("hw" . "hwinfo --short")
     ("iotopa" . "iotop -oa")

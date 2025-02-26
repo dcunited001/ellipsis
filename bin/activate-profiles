@@ -32,7 +32,8 @@ if [ -z "$__profiles" ]; then
     __profiles="$HOME/.config/guix/manifests/*.scm"
 fi
 
-__ellipsis_channel=$HOME/.dotfiles
+__ellipsis_channel=$HOME/.dotfiles/ellipsis
+__dc_channel=$HOME/.dotfiles/dc
 __substitute_urls=${__substitute_urls:-https://ci.guix.gnu.org https://bordeaux.guix.gnu.org https://substitutes.nonguix.org}
 
 for profile in $__profiles; do
@@ -48,7 +49,7 @@ for profile in $__profiles; do
     echo
 
     mkdir -p $profilePath
-    guix package -L $__ellipsis_channel/gh \
+    guix package -L $__ellipsis_channel  -L $__dc_channel \
          --manifest=$manifestPath \
          --profile="$profilePath/$profileName" \
          --substitute-urls="$__substitute_urls" \

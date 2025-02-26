@@ -8,6 +8,7 @@
   #:use-module (gnu home services)
 
   #:use-module (gnu packages base)
+  #:use-module (gnu packages guile-xyz)
   #:use-module (gnu packages)
 
   #:use-module (gnu services)
@@ -136,7 +137,7 @@
 
 (define gpg-packages
   (list pinentry-gtk2
-        pinentry-qt5
+        pinentry-qt
         gnupg))
 
 (define terminator-packages

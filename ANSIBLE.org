@@ -127,7 +127,7 @@ export ANSIBLE_CONFIG=$ANSIBLE_HOME/ansible.cfg
 export EDITOR=vi
 PATH_add bin
 
-use_guixs --search-paths -L $HOME/.dotfiles/gh -m manifest.scm
+use_guixs --search-paths -L $HOME/.dotfiles/ellipsis -m manifest.scm
 # use_guix_manifest manifest.scm
 
 # ansible binaries are in .venv
@@ -1248,7 +1248,8 @@ generally needs to be provided ahead of time, unless stowed somewhere.
 
 #+begin_src sh :eval no
 guixpkg=$(guix pack --relocatable --system=x86_64-linux --compression=gzip --save-provenance \
-      -L $HOME/.dotfiles/gh -m $SECRETS_HOME/.config/guix/manifests/ansible-usb.scm \
+      -L $HOME/.dotfiles/ellipsis \
+      -m $SECRETS_HOME/.config/guix/manifests/ansible-usb.scm \
       -S bin=bin)
 if [ ! -e $SECRETS_HOME/pkg ]; then
     mkdir -p $SECRETS_HOME/pkg

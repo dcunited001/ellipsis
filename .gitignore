@@ -19,6 +19,7 @@
 .config/sh/rc.d/*.sh
 
 # direnv
+/.envrc
 /.config/direnv/eg
 /.config/guix/shell-authorized-directories
 

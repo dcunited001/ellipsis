@@ -47,7 +47,9 @@ for profile in $__profiles; do
   echo
 
   __ellipsis_channel=$HOME/.dotfiles/gh
-  guix package -L $__ellipsis_channel \
+  __dc_channel=$HOME/.dotfiles/dc
+
+  guix package -L $__ellipsis_channel  -L $__dc_channel \
        --profile="$profilePath/$profileName" \
        --manifest="$HOME/.config/guix/manifests/$profileName.scm" \
        --substitute-urls="$__substitute_urls" \

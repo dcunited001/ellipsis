@@ -292,9 +292,8 @@ shell --help-transform= for more information.
        shroud-nox))
 #+end_src
 
-The =shroud-nox= package is in another module. Either update profile with
-=guix home --load-path=/home/dc/.dotfiles/gh= or pull the definition into the
-manifest.
+The =shroud-nox= package is in another module, so use =-L= when invoking guix
+commands.
 
 ** Portable GPG
 
