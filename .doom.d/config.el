@@ -846,6 +846,11 @@ Guix channel.")
   ;; TODO :custom ob-mermaid-cli-path "~/.nix-profile/bin/mmdc"
   (use-package! ob-mermaid :defer t))
 
+;;**** Wiktionary
+
+;; TODO: https://github.com/umanwizard/emacs-wiktionary
+
+
 ;;* Programming
 ;;
 ;;** Tree Sitter
@@ -939,6 +944,18 @@ Guix channel.")
  lsp-completion-show-kind t             ; doom default
  )
 
+(after! lsp-mode
+  (advice-add 'lsp! :override #'ignore))
+
+;; i'm starting way too much of this for random config files
+;;
+;; TODO: re-enable lsp-mode for specific modes
+;;
+;; (def-project-mode! doom-ecto-projects-mode
+;;   :match (rx-to-string (string-join (list dc/ecto-path) "/"))
+;;   :on-enter (remove-hook! ... #'lsp!))
+
+
 ;;** Lisp
 
 ;; fixes issues navigating by lispy outline, but with advice below,
@@ -982,8 +999,12 @@ the root")
   (geiser-default-implementation 'guile)
   (geiser-repl-highlight-output-p t))
 
+;; req. for lispy? even with master?
+(use-package! geiser-racket :defer t :after geiser)
+
 (use-package! geiser-guile
   :defer t
+  :after geiser
   :config
   (add-to-list 'geiser-guile-manual-lookup-nodes "Geiser")
   (add-to-list 'geiser-guile-manual-lookup-nodes "Guile Reference")
@@ -998,16 +1019,49 @@ the root")
 ;;
 ;; (geiser-guile-load-init-file nil)
 
-(use-package! geiser-racket :defer t)   ; req. for lispy? even with master?
+;; TODO: flycheck-guile: fix load path (probably just use .envrc)
+;;
+;; if `geiser-repl-add-project-paths', it prepends only "." onto
+;; `geiser-guile-load-path' and doesn't permit injecting anything else. this
+;; results in zero information being displayed if modules aren't loaded
+
+(use-package! flycheck-guile
+  :defer t
+  :after geiser-guile
+  :config (add-to-list 'flycheck-disabled-checkers 'guile))
 
 ;;**** Arei
+
+;; TODO: manage GUILE_LOAD_PATH for arei? it's incorrect on arch profile for
+;; now (and being loaded from .envrc)
 
 ;; the arei package hooks itself already. .dir-locals.el may need an update.
 ;;
 ;; run guile-ares-rs server externally, then connect using sesman-start
 (use-package! arei :defer t)
 
-;; TODO: manage GUILE_LOAD_PATH for arei? it's incorrect on arch for now
+;; ---------------------------------------------
+;;
+;; NOTE: guix.el defines a separate `guix-scheme-mode', but if the geiser
+;; packages are activated start, it may override variables like
+;; auto-mode-alist. `guix-scheme-mode' runs `guix-pretty-print-buffer', but
+;; this doesn't directly depend on geiser. most guix.el functionality relies
+;; on a separate repl AFAIK (the global functionality like popup does, can't
+;; remember about project-specific repls). `geiser-mode' will not activate: it
+;; activation function tests `(eq major-mode 'scheme-mode)'
+;;
+;; so, there may be some issues with guix.el where it pulls Geiser
+;; functionality back into scheme-mode (i think maybe it's okay). i would try,
+;; but i'd rather just have something consistent.
+;;
+;; file-local variables could help force guix-scheme-mode ... but only in your
+;; own projects.
+;;
+;; otherwise, one could just set up set-{repl,eval,lookup}-handlers! for
+;; `guix-scheme-mode' and point these at arel.el functionality.
+;;
+;; https://github.com/doomemacs/doomemacs/blob/master/modules/lang/scheme/config.el#L18
+;; ---------------------------------------------
 
 ;;*** Lispy
 ;; lispy-outline: "^[ 	]*;;;\\(;*\\**\\) [^ 	\n]"
@@ -1229,6 +1283,9 @@ the root")
 ;; TODO: defer guix?
 (use-package! guix
   :init (require 'ffap))
+
+(after! guix
+  (setopt guix-devel-ffap-patch-directories (flatten-list (list guix-pulled-profile "patches"))))
 
 ;; NOTE: guix-load-path needs to be done outside of use-package! or hook for
 ;; some reasons -- e.g. guix-repl.el isn't loaded by use-package, where
