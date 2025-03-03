@@ -10,6 +10,11 @@
 #+property: header-args:scheme :tangle-mode (identity #o644) :mkdirp yes :comments link
 #+options: toc:nil
 
+#+begin_quote
+Originally from Aug 22, 2022 (probably slightly earlier) and last updated May
+2023 ... I do wish i had seen the NIST docs on x509 much earlier.
+#+end_quote
+
 No, not everything is in this file. These docs are meant to help me be more
 flexible, agile and quick with my processes. You can expect these GPG/SSH/CERT
 files to contain intentional omissions (hence the name dcunited001/ellipsis) ...
