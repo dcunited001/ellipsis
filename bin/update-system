@@ -46,7 +46,7 @@ sudo -E guix system -L $__ellipsis_channel -L $__dc_channel \
      $@
 
 if [ $? -eq 0 ]; then
-    notify-send -i "${I_SUCCESS:-success}" "GUIX Update $(hostname) failed" "Update to ${__os}"
+    notify-send -i "checkmark" "GUIX Update $(hostname) failed" "Update to ${__os}"
 else
-    notify-send -i "${I_ERROR:-error}" "GUIX Update $(hostname) finished" "Update to ${__os}"
+    notify-send -i "error" "GUIX Update $(hostname) finished" "Update to ${__os}"
 fi

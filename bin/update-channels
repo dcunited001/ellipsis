@@ -41,7 +41,7 @@ status=$?
 
 if [ $status -eq 0 ]; then
     guix describe --format=channels > ~/.config/guix/channels.scm
-    notify-send -i "${I_SUCCESS:-checkmark}" "GUIX (Channels)" "Update Complete"
+    notify-send -i "checkmark" "GUIX (Channels)" "Update Complete"
 else
-    notify-send -i "${I_FAIL:-error}" "GUIX (Channels)" "Update Failed"
+    notify-send -i "error" "GUIX (Channels)" "Update Failed"
 fi
