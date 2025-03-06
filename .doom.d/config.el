@@ -257,6 +257,10 @@ Guix channel.")
 ;; (global-auto-revert-mode 1)
 
 ;;*** Bufler
+(after! bufler
+  (set-popup-rules!
+    '(("^\\*Bufler" :side right :vslot -5 :slot -5 :width 80 :select t :quit t))))
+
 ;;**** Bufler defauto-groups
 ;;**** Bufler defgroups
 ;;**** Bufler package
@@ -272,6 +276,11 @@ Guix channel.")
 ;; corresponding to the parsed current symbol at point
 ;;
 ;; (hi-lock-regexp-okay (find-tag-default-as-symbol-regexp))
+
+;;*** Undo
+(use-package! undo-tree
+  :defer t
+  :custom (undo-tree-auto-save-history nil))
 
 ;;** UI
 
@@ -1297,6 +1306,7 @@ the root")
   ;; will also load geiser/guile at start. (require 'guix-ui) is necessary,
   ;; otherwise guix-pulled-profile doesn't exist
   (add-to-list 'auto-mode-alist (cons (dc/guix-scheme-mode-regexp (expand-file-name ".dotfiles" (getenv "HOME"))) 'guix-scheme-mode))
+  (add-hook 'guix-scheme-mode-hook 'prism-mode)
   (setopt guix-devel-ffap-patch-directories (flatten-list (list guix-pulled-profile "patches"))))
 
 ;; guix-pulled-profile won't be bound until after guix loads
@@ -1534,8 +1544,10 @@ the root")
 ;; FIXME: the hook gets set. the code works, but it doesn't run
 (add-hook! 'server-mode-hook
            ;; (when server-mode) ;; still doesn't run
-           (alert (format "Loaded Emacs Server\n\nConfig: %s\nSocket: %s" doom-user-dir
-                          (expand-file-name server-name server-socket-dir)) :title "Doom:"))
+           (alert (format "Loaded Emacs Server\n\nConfig: %s\nSocket: %s"
+                          doom-user-dir
+                          (expand-file-name server-name server-socket-dir))
+                  :title "Doom:"))
 
 ;; Place your private configuration here! Remember, you do not need to run 'doom
 ;; sync' after modifying this file!
