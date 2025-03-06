@@ -34,7 +34,9 @@
   #:use-module (rde home services video)
   #:use-module (rde serializers ini)
 
-  #:use-module (srfi srfi-1))
+  #:use-module (srfi srfi-1)
+
+  #:export (kratos-home-environment))
 
 ;;; use modules
 ;;;; use-package-modules
@@ -140,7 +142,8 @@ no-allow-loopback-pinentry")))
        (service i3-service-type)
 
 
-       (service home-xdg-user-directories-service-type kratos-xdg-user-directories)
+       (service home-xdg-user-directories-service-type
+                kratos-xdg-user-directories)
 
        ;; (simple-service 'kratos-home-mpv-service home-mpv-service-type)
        (service home-mpv-service-type kratos-mpv-configuration)
@@ -155,7 +158,7 @@ no-allow-loopback-pinentry")))
       (list dc-channels-service)
       %base-home-services))))
 
-(kratos-home-environment)
+;; (kratos-home-environment)
 
 ;; potentially necessary for some steam tweaks
 ;; ("SDL_DYNAMIC_API" . "/usr/lib/libSDL2-2.0.so")

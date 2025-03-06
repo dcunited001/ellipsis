@@ -1042,9 +1042,11 @@ the root")
 
 ;; ---------------------------------------------
 ;;
+;; I'm using `guix-scheme-mode' for now, which relies on an absolute regexp
+;;
 ;; NOTE: guix.el defines a separate `guix-scheme-mode', but if the geiser
-;; packages are activated start, it may override variables like
-;; auto-mode-alist. `guix-scheme-mode' runs `guix-pretty-print-buffer', but
+;; packages are activated after guix.el, it may override that entry in
+;; `auto-mode-alist'. `guix-scheme-mode' runs `guix-pretty-print-buffer', but
 ;; this doesn't directly depend on geiser. most guix.el functionality relies
 ;; on a separate repl AFAIK (the global functionality like popup does, can't
 ;; remember about project-specific repls). `geiser-mode' will not activate: it
@@ -1201,6 +1203,7 @@ the root")
 
 ;;** Ghub
 ;;** Forge
+;; (use-package)
 
 (after! forge
   (map! :map forge-topic-mode-map
@@ -1275,17 +1278,29 @@ the root")
 ;; use-package.
 ;;
 
-(setopt guix-load-path '((expand-file-name ".dotfiles/gh" (getenv "HOME"))))
+(defun dc/guix-scheme-mode-regexp (path)
+  (rx (and (literal path) "/" (+ any) ".scm")))
+
+(setopt guix-load-path '((expand-file-name ".dotfiles/ellipsis" (getenv "HOME"))
+                         (expand-file-name ".dotfiles/dc" (getenv "HOME"))))
 
 ;; TODO: GUIX: maybe set guix-load-compiled-path
 ;; see [[file:~/.emacs.doom/.local/straight/repos/emacs-guix/elisp/guix-repl.el::defun guix-repl-guile-args]]
 
 ;; TODO: defer guix?
 (use-package! guix
-  :init (require 'ffap))
-
-(after! guix
+  :demand t
+  :init (require 'ffap)
+  :config
+  (require 'guix-ui)
+  ;; demand for now, for `guix-pulled-profile' and `guix-scheme-mode'. this
+  ;; will also load geiser/guile at start. (require 'guix-ui) is necessary,
+  ;; otherwise guix-pulled-profile doesn't exist
+  (add-to-list 'auto-mode-alist (cons (dc/guix-scheme-mode-regexp (expand-file-name ".dotfiles" (getenv "HOME"))) 'guix-scheme-mode))
   (setopt guix-devel-ffap-patch-directories (flatten-list (list guix-pulled-profile "patches"))))
+
+;; guix-pulled-profile won't be bound until after guix loads
+;; :config ...
 
 ;; NOTE: guix-load-path needs to be done outside of use-package! or hook for
 ;; some reasons -- e.g. guix-repl.el isn't loaded by use-package, where
@@ -1348,6 +1363,14 @@ the root")
   :custom (terraform-format-on-save t))
 
 ;;**** ContainerD
+
+;; to configure for either docker/podman, customize:
+;;
+;; - docker-{command,compose-command,container-tramp-method}
+;; - dockerfile-mode-command
+;;
+;; https://www.rahuljuliato.com/posts/emacs-docker-podman
+;;
 
 (use-package! docker
   :commands docker
