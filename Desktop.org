@@ -20,17 +20,12 @@
   - [[#xsettings][XSettings]]
     - [[#importing-config][Importing Config]]
     - [[#setup-xidlehook-to-notify-send-when-idletime-is-about-to-lock-the-computer][setup =xidlehook= to notify-send when idletime is about to lock the computer]]
-  - [[#kde][KDE]]
-    - [[#wayland][Wayland]]
-    - [[#bismuth][Bismuth]]
 - [[#panel][Panel]]
   - [[#polybar][Polybar]]
     - [[#for-pommel][For pomm.el]]
 - [[#notifications][Notifications]]
   - [[#dunst][Dunst]]
     - [[#dunst-notes][Dunst Notes]]
-- [[#input][Input]]
-  - [[#fcitx5][FCITX5]]
 - [[#launchers][Launchers]]
 - [[#display-management][Display Management]]
 - [[#xdg][XDG]]
@@ -40,21 +35,14 @@
     - [[#emacs-mime-types][Emacs MIME Types]]
     - [[#mime-types-fntecosaur][MIME Types [fn:tecosaur]]]
 - [[#applications][Applications]]
-  - [[#browsers][Browsers]]
-    - [[#nyxt][Nyxt]]
   - [[#chat][Chat]]
     - [[#irc][IRC]]
   - [[#file-managers][File Managers]]
-  - [[#screenshare][Screenshare]]
-    - [[#via-xwaylandbridge][Via xwaylandbridge]]
   - [[#meeting][Meeting]]
   - [[#sound][Sound]]
     - [[#alsa][ALSA]]
     - [[#pipewire][Pipewire]]
     - [[#wireplumber][Wireplumber]]
-  - [[#audio-device-control][Audio Device Control]]
-  - [[#media-players][Media Players]]
-    - [[#mpv][mpv]]
   - [[#syncthing][Syncthing]]
   - [[#flatpak][Flatpak]]
     - [[#fontconfig-fix][Fontconfig fix]]
@@ -62,13 +50,8 @@
   - [[#system][System]]
 - [[#desktop-profiles][Desktop Profiles]]
   - [[#xdg-profile][XDG Profile]]
-  - [[#desktop-profile][Desktop Profile]]
-  - [[#desktop-bin-profile][Desktop Bin Profile]]
-  - [[#i3-profile][i3 Profile]]
-  - [[#browsers-1][Browsers]]
 - [[#notes][Notes]]
   - [[#bluetooth-setup][Bluetooth Setup]]
-- [[#footnotes][Footnotes]]
 
 * System Settings
 
@@ -868,129 +851,6 @@ bindsym $super+q exec "loginctl lock-session"
 
 *** TODO setup =xidlehook= to notify-send when idletime is about to lock the computer
 
-** KDE
-
-*** Wayland
-
-#+begin_src sh :tangle bin/q-wayland :shebang #!/bin/sh
-qdbus org.kde.KWin /KWin org.kde.KWin.showDebugConsole
-#+end_src
-
-*** Bismuth
-
-These lists may not be current, especially if I don't easily automate their
-creation.
-
-**** Float
-
-krunner, kded, polkit, plasmashell
-
-# +name: kde-bismuth-float-by-class
-
-systemsettings
-yakuake
-spectacle
-Conky
-zoom
-pwsafe
-keepassxc
-Clipgrab
-fpakman
-Galculator
-Manjaro-hello
-garuda-welcome
-mpv
-Xfburn
-Lxtask
-Pavucontrol
-Exo-helper*
-Lxrandr
-Arandr
-Viewnior
-feh
-Audacious
-File-roller
-Lxappearance
-Timeshift-gtk
-kwin_rules_dialog
-
-# +name: kde-bismuth-float-by-title
-
-alsamixer
-Event Tester
-Speedbar
-
-# +name: kde-bismuth-float-by-role
-
-quake
-task_dialog
-pop-up
-
-**** Ignore
-
-# +name: kde-bismuth-ignore-by-class
-
-(?i)virtualbox
-GParted
-Lxappearance
-Nitrogen
-Oblogout
-octopi
-Skype
-Xfburn
-qt5ct
-Gnuplot
-Timeset-gui
-Lightdm-settings
-Qtconfig-qt4
-Simple-scan
-Pamac-updater
-Pamac-manager
-azote
-GParted
-Thunar
-alacritty
-Anki
-ykman-gui
-syncthing-gtk
-dolphin
-freecad
-tk
-toplevel
-kcalcmanjaro-settings-manager
-garuda-settings-manager
-fcitx5-config-qt
-
-# +name: kde-bismuth-ignore-by-title
-
-Preferences
-Configure Krita
-- Krita$
-Remmina
-Steam - News
-Friends List
-Steam Guard.*
-Steam Login
-Blender Preferences
-Btrfs Assistant
-Timer
-PipeControl
-AXON
-+X+Z
-+Y+Z
-+X+Y
--2D-
--Y+Z
-PERS
-
-
-***** TODO make these =2c x n= tables and autogen strings to supply to bismouth
-
-+ odd columns: class/title
-+ even columns: even /short/ desc
-+ used =C-u M-|= to generate with =sed -e 's/,/\n/g'=
-+ create functions =dc/redelimit[-as-table]= for similar data
-
 * Panel
 
 ** Polybar
@@ -1545,30 +1405,6 @@ dispatch on:
   - Close notification :: =close = ctrl+space=
   - Close all notifications :: =close_all = ctrl+shift+space=
 
-* Input
-
-
-** FCITX5
-
-+ Both =fcitx5-gtk= and =fcitx5-gtk4= are needed
-
-#+begin_src scheme :tangle .config/guix/manifests/fcitx5.scm
-;;
-;; Note: Moved to the XDG profile
-;;
-(specifications->manifest
- '(
-   "fcitx5"
-   "anthy"
-   "fcitx5-anthy"
-   "fcitx5-configtool"
-   "fcitx5-chinese-addons"
-   "fcitx5-material-color-theme"
-   "fcitx5-gtk"
-   "fcitx5-gtk4"
-   "fcitx5-qt"
-   ))
-#+end_src
 
 * Launchers
 
@@ -1735,21 +1571,6 @@ One simply needs to refresh their mime database
 
 * Applications
 
-** Browsers
-
-*Guix Packages*
-
-#+begin_src scheme :noweb-ref packages :noweb-sep ""
-
-"icecat"
-"nyxt"
-
-#+end_src
-
-*** Nyxt
-
-Configs are cloned from another repo
-
 ** Chat
 
 #+begin_src scheme :noweb-ref packages :noweb-sep ""
@@ -1760,7 +1581,6 @@ Configs are cloned from another repo
 #+end_src
 
 *** IRC
-
 
 **** Quassel
 
@@ -1775,71 +1595,6 @@ Configs are cloned from another repo
 
 #+end_src
 
-
-** Screenshare
-
-*** Via xwaylandbridge
-
-Great, it works! On KDE only :(
-
-**** Check Permissions
-
-***** As a user oneshot
-
-#+begin_src conf :tangle .local/share/systemd/user/xwaylandvideobridge-check-permissions.service
-[Unit]
-Description=Check permissions on /usr/bin/xwaylandvideobridge
-After=graphical-session.target
-
-[Service]
-Type=oneshot
-# TODO: fix xwaylandvideobridge check: returns x86-64 only when sysd runs it
-#ExecStart=/bin/sh -c 'echo $(stat -L -c "%a" /usr/bin/xwaylandvideobridge)'
-ExecStart=/bin/sh -c 'if [ 0 -ne $(stat -L -c "%a" /usr/bin/xwaylandvideobridge | rev | cut -b1) ]; then notify-send Permissions "Anybody can run /usr/bin/xwayland"; else notify-send Permissions "Only you can run /usr/bin/xwayland"; fi'
-RemainAfterExit=no
-
-# just count on systemd logging the error: it includes better information and
-# should fail exactly as is
-#ExecStart=sh -c 'if [ -e /usr/bin/xwaylandvideobridge ]; then chgrp 1000 /usr/bin/xwaylandvideobridge; chmod 550 /usr/bin/xwaylandvideobridge; else echo File Not Found: /usr/bin/xwaylandvideobridge; fi'
-
-[Install]
-WantedBy=graphical-session.target
-#+end_src
-
-***** As a system oneshot
-
-Ensure only my user can start =xwaylandvideobridge=
-
-#+begin_src conf :tangle /tmp/xwaylandvideobridge-change-permissions.service
-[Unit]
-Description=Change permissions on /usr/bin/xwaylandvideobridge
-After=graphical.target
-
-[Service]
-Type=oneshot
-ExecStart=/bin/sh -c 'chgrp $(id -u dc) /usr/bin/xwaylandvideobridge && chmod 750 /usr/bin/xwaylandvideobridge'
-RemainAfterExit=no
-
-# just count on systemd logging the error: it includes better information and
-# should fail exactly as is
-#ExecStart=sh -c 'if [ -e /usr/bin/xwaylandvideobridge ]; then chgrp 1000 /usr/bin/xwaylandvideobridge; chmod 550 /usr/bin/xwaylandvideobridge; else echo File Not Found: /usr/bin/xwaylandvideobridge; fi'
-
-[Install]
-WantedBy=multi-user.target
-#+end_src
-
-From root, =notify-send= needs =DISPLAY= and =DBUS_SESSION_BUS_ADDRESS=. This
-[[https://github.com/VTimofeenko/root-notify-send/blob/main/root-notify-send][root-notify-send]] script could be used instead, but I don't feel like scripting
-it into an install.
-
-Check how to set =WantedBy= since I can't ever remember.
-
-#+begin_src sh
-grep -re oneshot /usr/lib/systemd/system | cut -f1 -d':'  | xargs -I '{}' grep -e Wanted '{}'
-#+end_src
-
-Copy the root-owned unit manually
-
 ** Meeting
 
 ***** TODO configure zoom
@@ -1851,63 +1606,6 @@ Copy the root-owned unit manually
 *** Pipewire
 
 *** Wireplumber
-
-** Audio Device Control
-
-*Guix Packages*
-
-#+begin_src scheme :noweb-ref packages :noweb-sep ""
-
-#+end_src
-
-** Media Players
-
-*** mpv
-
-[[https://mpv.io/][mpv]] is a simple yet powerful video player.  Paired with [[http://ytdl-org.github.io/youtube-dl/][youtube-dl]] it can even stream YouTube videos.  [[https://github.com/hoyon/mpv-mpris][mpv-mpris]] allows playback control via [[https://github.com/altdesktop/playerctl][playerctl]].
-
-*.config/mpv/mpv.conf*
-
-#+begin_src conf :tangle .config/mpv/mpv.conf :noweb yes :comments none
-
-# Configure playback quality
-vo=gpu
-hwdec=vaapi
-profile=gpu-hq
-scale=ewa_lanczossharp
-cscale=ewa_lanczossharp
-
-# Start the window in the upper right screen corner
-geometry=22%-30+20
-
-# Save video position on quit
-save-position-on-quit
-
-# Enable control by MPRIS
-script=~/.guix-extra-profiles/desktop/desktop/lib/mpris.so
-
-# Limit the resolution of YouTube videos
-ytdl=yes
-ytdl-format=bestvideo[height<=?720]+bestaudio/best
-
-# When playing audio files, display the album art
-audio-display=attachment
-
-# Keep the player open after the file finishes
-keep-open
-
-#+end_src
-
-*Guix Packages*
-
-#+begin_src scheme :noweb-ref packages :noweb-sep ""
-
-"mpv"
-"mpv-mpris"
-"youtube-dl"
-"playerctl"
-
-#+end_src
 
 ** Syncthing
 
@@ -2017,51 +1715,6 @@ flatpak override --user $CURA_APP --filesystem=$CURA_HOME
       "weechat"
 #+end_src
 
-
-** Desktop Profile
-
-*.config/guix/manifests/desktop.scm:*
-
-#+begin_src scheme :tangle .config/guix/manifests/desktop.scm :noweb yes :comments none
-(specifications->manifest
-   '(
-     <<packages>>
-     ))
-#+end_src
-
-This command emits a Guix manifest that's very close, including the graft.
-
-#+begin_example sh
-guix shell -L ~/.dotfiles/ellipsis -L ~/.dotfiles/dc -m ~/.config/guix/manifests/desktop.scm --export-manifest
-#+end_example
-
-** Desktop Bin Profile
-
-** i3 Profile
-
-*.config/guix/manifests/i3.scm:*
-
-#+begin_src scheme :tangle .config/guix/manifests/i3.scm :noweb yes :comments none
-
-(specifications->manifest
- '(
-   <<i3packages>>
-))
-
-#+end_src
-
-** Browsers
-
-#+begin_src scheme :tangle .config/guix/manifests/browsers.scm :comments none
-
-(specifications->manifest
-'(
-"ungoogled-chromium"
-"firefox"
-))
-
-#+end_src
-
 * Notes
 
 ** Bluetooth Setup
@@ -2082,7 +1735,3 @@ as DW currently does in Guix, you'll need to enter these commands at the
   connect 04:52:C7:5E:5C:A8
 
 #+end_src
-
-* Footnotes
-
-[fn:tecosaur] tecosaur [[https://github.com/tecosaur/emacs-config][emacs config]]

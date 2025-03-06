@@ -1,1 +1,0 @@
-(specifications->manifest '("pwsafe"))

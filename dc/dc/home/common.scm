@@ -128,7 +128,7 @@
   (list
 
    ;; GUI
-   gucharmap                             ; gnome (unicode picker)
+   gucharmap                            ; gnome (unicode picker)
    fontmanager))
 
 (define dmenu-packages
@@ -172,7 +172,7 @@
         autorandr))
 
 (define dbus-packages
-  (list xdg-dbus-proxy                       ; glib (for flatpak)
+  (list xdg-dbus-proxy                  ; glib (for flatpak)
         xdg-desktop-portal))
 
 (define gstreamer-packages
@@ -224,9 +224,6 @@
 (define gtk-environment
   '(("GTK2_RC_FILES" . "$HOME/.gtkrc-2.0")))
 
-(define dev-environment
-  '(("" . "$HOME/.gtkrc-2.0")))
-
 (define wayland-kde-environment
   ;; necessary for sway
   `(("XDG_CURRENT_DESKTOP" . "KDE")
@@ -262,6 +259,25 @@
 ;; TODO: services that extend home-mcron-service-type?
 
 ;;* Env
+;;
+;;** File Paths
+
+;; TODO remove most of these _DF vars
+(define-public %dc-dotfiles-env-service
+  (simple-service
+   'dc-dotfiles-env-service
+   home-environment-variables-service-type
+   '(("_ECTO" . "/data/ecto")
+     ("_REPO" . "/data/repo")
+     ("_LANG" . "/data/lang")
+     ("_STEAM" . "/flatpak/steam")
+     ("_WALLPAPERS" . "/data/xdg/Wallpapers/anime")
+     ("DOOMDIR" . "$HOME/.doom.d"))))
+
+;; ("_DATA" . "/data")
+;; ("_GUIX" . "/gnu")
+;; ("_FLATPAK" . "/flatpak")
+
 ;;** Universal
 
 (define-public %dc-env-universal
@@ -274,13 +290,19 @@
 
 ;; - MAIL gets interpreted as the default for mutt's spoolfile
 ;; - MAIL is supposed to point to system mail account https://askubuntu.com/a/474982
-(define-public %dc-env-applications
-  '(("MAIL" . "geary")
-    ("EMAIL" . "aionfork@gmail.com")    ; interpreted by emacs.
-    ("BROWSER" . "firefox")
-    ("VISUAL" . "doomclient -- -c")
-    ("EDITOR" . "doomclient -- -nw")
-    ("ALTERNATE_EDITOR" . "vim")))
+(define-public %dc-apps-env-service
+  (simple-service
+   'dc-apps-env-service
+   home-environment-variables-service-type
+   '(("MAIL" . "geary")
+     ("EMAIL" . "aionfork@gmail.com")   ; interpreted by emacs.
+     ("BROWSER" . "firefox")
+     ("VISUAL" . "doomclient -- -c")
+     ("EDITOR" . "doomclient -- -nw")
+     ("ALTERNATE_EDITOR" . "vim"))))
+
+;;** Development
+
 
 ;;** Display Servers
 ;;*** X11

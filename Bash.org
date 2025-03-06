@@ -11,15 +11,10 @@
 #+options: toc:nil
 
 * Table Of Contents :TOC_2_gh:
-- [[#environment][Environment]]
-  - [[#org-variables][Org Variables]]
   - [[#profile-hooks][Profile Hooks]]
-  - [[#shepherd][Shepherd]]
   - [[#guix][Guix]]
-  - [[#nix][Nix]]
   - [[#podman][Podman]]
   - [[#docker][Docker]]
-  - [[#kaggle][Kaggle]]
 - [[#hardware][Hardware]]
 - [[#languages][Languages]]
   - [[#java][Java]]
@@ -30,82 +25,9 @@
   - [[#profile-1][=.profile=]]
 - [[#shells][Shells]]
   - [[#rc][RC]]
-- [[#environment-1][Environment]]
+- [[#environment][Environment]]
   - [[#devtools][devtools]]
   - [[#xdg][XDG]]
-
-* Environment
-:PROPERTIES:
-:header-args+: :comments link :mkdirp yes
-:END:
-
-** Org Variables
-
-These are intended to be a list of system-specific variables that enable some
-portability: for me, across systems or networks. The idea is to containerize
-this as much as possible, at least for myself, so the paths/etc work like
-[[https://12factor.net/config][12Factor config vars]] or Helm values.
-
-*** Paths
-
-+ _DATA :: path to data mount
-
-#+begin_quote
-Note: getting this to tangle properly requires =C-c C-v C-t=.
-
-Changing the variables above requires evaluating the block below.
-#+end_quote
-
-#+name: bash-env-bindings
-| _DATA       | /data                      |
-| _LANG       | /data/lang                 |
-| _ECTO       | /data/ecto                 |
-| _REPO       | /data/repo                 |
-| _STEAM      | /flatpak/steam             |
-| _AGENDA     | /flatpak/agenda            |
-| _GUIX       | /gnu                       |
-| _WALLPAPERS | /data/xdg/Wallpapers/anime |
-| _FLATPAK    | /flatpak                   |
-| DOOMDIR     | $HOME/.doom.d              |
-
-#+name: bash-env-bindings_GEN
-#+begin_src emacs-lisp :tangle no :var bindings=bash-env-bindings :results output :exports none
-(mapcar #'(lambda (row)
-           (princ (format "export %s=%s\n" (cl-first row) (cl-second row)))) bindings)
-#+end_src
-
-#+RESULTS: bash-env-bindings_GEN
-#+begin_example
-export _DATA=/data
-export _LANG=/data/lang
-export _ECTO=/data/ecto
-export _REPO=/data/repo
-export _STEAM=/flatpak/steam
-export _GUIX=/gnu
-export _WALLPAPERS=/data/xdg/Wallpapers/anime
-export _FLATPAK=/flatpak
-export DOOMDIR=$HOME/.doom.d
-#+end_example
-
-#+name: bash-env-bindings_CALL
-#+call: bash-env-bindings_GEN()
-
-#+RESULTS: bash-env-bindings_CALL
-#+begin_example
-export _DATA=/data
-export _ECTO=/data/ecto
-export _REPO=/data/repo
-export _STEAM=/steam
-export _GUIX=/gnu
-export _WALLPAPERS=/data/xdg/Wallpapers/anime
-export _FLATPAK=/flatpak
-export _FLATPAK_NAME=flexpak
-export DOOMDIR=$HOME/.doom.d
-#+end_example
-
-*** Create Paths
-
-Once paths are set in your profile, you will need to do something like:
 
 ** Profile Hooks
 
@@ -148,40 +70,6 @@ unset $__script
 # unset $__scripts
 #+end_src
 
-
-** Shepherd
-
-Guix Home is definitely the way to manage services for your desktop. However, if
-you simply use Guix Home, it's very likely you'll never use multiple shepherd
-processes, which is yes complicated but also one of the advantages IMO.
-
-**** TODO finish Misc shepherd utils
-
-#+begin_src sh :tangle .config/sh/profile.d/shepherd-util.sh :shebang #!/bin/sh
-sherpid() {
-    #local log=
-    #local cfg=
-    local pidfile=
-    local sock=
-    #local rflag=
-
-    #--long-options pidfile::,sock::,logfile:,config:,r:
-    echo "parsing"
-    while getopts "p::s::l:c:r:" opt; do
-        case "$opt" in
-            p) pidfile=$opt;;
-            s) sock=$opt;;
-            l) log=$opt;;
-            c) cfg=$opt;;
-            r) rflag=$opt;;
-            ?) usage;;
-        esac
-
-        echo $pidfile $sock $log $cfg $rflag
-    done
-
-}
-#+end_src
 
 ** Guix
 
@@ -275,7 +163,7 @@ so no need to set =-c= in $GUIX_BUILD_OPTIONS
 # export GUIX_BUILD_OPTIONS="-c6"
 
 # never again, wxPython ... never again
-GUIX_AUTOLOAD_PROFILES=(arch-pwsafe academic arch-devtools nyxt k8s)
+GUIX_AUTOLOAD_PROFILES=(academic arch-devtools nyxt k8s)
 if [ -z "$GUIX_ARCH_LOADED" ]; then
     guix_arch_load ${GUIX_AUTOLOAD_PROFILES[@]}
     export GUIX_ARCH_LOADED=${GUIX_AUTOLOAD_PROFILES[@]}
@@ -290,13 +178,6 @@ Add to =~/.config/sh/_load_profile.d.sh= _in this order_
 + guile-arch.sh
 + guix-arch-support.sh
 + guix-arch.sh
-
-** Nix
-
-It seems I'm more likely to encounter this on programming projects/teams.
-
-*** On Arch
-
 
 ** Podman
 
@@ -327,29 +208,9 @@ paths to exist.
 
 Test with =docker pull docker.io/netbootxyz/netbootxyz=
 
-** Kaggle
-
 * Hardware
 
-On Guix and Arch
-
-#+begin_src sh :tangle bin/ncpu-threads :shebang #!/bin/sh
-ls -d /sys/devices/system/cpu/cpu* | grep -E "/cpu[0-9]+$" | wc -l
-#+end_src
-
-On Arch:
-
-#+begin_src sh :tangle bin/ncpu-threads-arch :shebang #!/bin/sh
-ls -al /sys/class/cpuid/cpu* | wc -l
-#+end_src
-
-Typically, I'd only like to commit half threads to anything
-
 #+begin_src sh :tangle .profile :shebang #!/bin/sh
-if [[ ! -d "$HOME/bin" ]]; then
-    echo "Move ~/bin to ~/bin !!"
-fi
-
 export PATH=$HOME/.local/bin:$HOME/bin:$PATH
 export DISTRO="$(grep -e '^ID=' /etc/os-release | sed -e 's/^ID=//g')"
 
