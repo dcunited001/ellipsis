@@ -272,11 +272,14 @@
 
 ;;** Applications
 
+;; - MAIL gets interpreted as the default for mutt's spoolfile
+;; - MAIL is supposed to point to system mail account https://askubuntu.com/a/474982
 (define-public %dc-env-applications
   '(("MAIL" . "geary")
+    ("EMAIL" . "aionfork@gmail.com")    ; interpreted by emacs.
     ("BROWSER" . "firefox")
-    ("VISUAL" . "emacsclient -c")
-    ("EDITOR" . "emacsclient")
+    ("VISUAL" . "doomclient -- -c")
+    ("EDITOR" . "doomclient -- -nw")
     ("ALTERNATE_EDITOR" . "vim")))
 
 ;;** Display Servers
@@ -342,6 +345,10 @@
     ("GTK_IM_MODULE" . "fcitx")
     ("SDL_IM_MODULE" . "fcitx")
     ("XMODIFIERS" . "@im=fcitx")))
+
+;; for guix, fix to load from ~/.guix-profile
+;;
+;; export FCITX_ADDON_DIRS=$GUIX_EXTRA/fcitx5/fcitx5/lib:$FCITX_ADDON_DIRS
 
 ;; (define* (dc-env-universal #:optional
 ;;          (env-vars %env-universal))

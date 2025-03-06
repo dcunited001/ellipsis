@@ -14,25 +14,15 @@
 - [[#environment][Environment]]
   - [[#org-variables][Org Variables]]
   - [[#profile-hooks][Profile Hooks]]
-  - [[#apps][Apps]]
-  - [[#xdg][XDG]]
-  - [[#flatpak][Flatpak]]
-  - [[#steam--proton][Steam & Proton]]
   - [[#shepherd][Shepherd]]
   - [[#guix][Guix]]
   - [[#nix][Nix]]
-  - [[#fcitx5][FCITX5]]
-  - [[#gtk][GTK]]
-  - [[#qt][QT]]
-  - [[#emacs][Emacs]]
-  - [[#amd-rocm][AMD ROCm]]
   - [[#podman][Podman]]
   - [[#docker][Docker]]
   - [[#kaggle][Kaggle]]
 - [[#hardware][Hardware]]
 - [[#languages][Languages]]
   - [[#java][Java]]
-  - [[#node][Node]]
   - [[#graphql][GraphQL]]
   - [[#python][Python]]
   - [[#julia][Julia]]
@@ -40,7 +30,6 @@
   - [[#profile-1][=.profile=]]
 - [[#tools][Tools]]
   - [[#vs-codium][VS Codium]]
-  - [[#screen][Screen]]
 - [[#shells][Shells]]
   - [[#rc][RC]]
   - [[#bash][Bash]]
@@ -51,12 +40,9 @@
   - [[#devtools][devtools]]
   - [[#devdebug][devdebug]]
   - [[#netdebug][netdebug]]
-  - [[#xdg-1][XDG]]
+  - [[#xdg][XDG]]
   - [[#xkb][XKB]]
   - [[#languages-1][Languages]]
-- [[#tui][TUI]]
-  - [[#env][Env]]
-  - [[#apps-1][Apps]]
 
 * Environment
 :PROPERTIES:
@@ -143,43 +129,13 @@ Once paths are set in your profile, you will need to do something like:
 
 ** Profile Hooks
 
-+ =.config/sh/=
-  - These scripts are not managed by =git= or =stow=
-  - _before_profile.d.sh :: remaps values before =profile.d/*.sh= scripts run
-  - _load_profile.d.sh :: a list of scripts loaded by =*profile=
-  - _after_profile.d.sh :: remaps values after =_load_profile.d.sh= has run
-+ =.config/sh/profile.d/=
-  - These scripts are managed by =git= and =stow=.
-
 **** Default Scripts
-
-Manually copy. Stow deploys, but to no effect (no need to mess with =.stowrc= etc.)
-
-#+begin_src sh :tangle .config/sh/_before_profile.eg.sh :shebang #!/bin/sh
-# This is the default _before_profile.d.sh script
-#+end_src
-
-Note: Guix extra profiles should be loaded first in this list of
-scripts. Running them with a wildcard or in any order is possible, but
-it is assumed that the sequence is structured.
-
-+ Using this approach with Guix profiles where the WM dependencies are
-  loaded separeately should enable a user to choose between multiple
-  window managers, as long as the login manager or display manager can
-  set the list of =extra_guix_profiles= before loading the profile.
-  - these scripts and the Guix Profiles would need to be tweaked to do
-    so, as well as how wayland/x11-related packages are grouped.
-  - In this way, a user can configure both X11 and Wayland-based window
-    managers on the same system without having the package dependencies
-    affect one another.
 
 #+begin_src sh :tangle .config/sh/_load_profile.eg.sh :shebang #!/bin/sh
 # This is the default _load_profile.d.sh script
 
 __scripts=(
     "guix.sh"
-    "mail.sh"
-    "email.sh"
     "apps.sh"
     "xdg.sh"
     "gtk.sh"
@@ -215,122 +171,6 @@ done
 unset $__script
 # unset $__scripts
 #+end_src
-
-** Apps
-
-#+begin_src sh :tangle .config/sh/profile.d/apps.sh :shebang #!/bin/sh
-export MAIL=geary
-export BROWSER=firefox
-
-# TODO: update to use terminal emacsclient
-export VISUAL="doomclient --"
-export EDITOR="doomclient -- -nw"
-export ALTERNATE_EDITOR=vim
-#+end_src
-
-** XDG
-
-#+begin_src sh :tangle .config/sh/profile.d/xdg.sh :shebang #!/bin/sh
-export WINIT_X11_SCALE_FACTOR=1
-#+end_src
-
-
-**** TODO collect list of pacman packages installed explicitly
-** Flatpak
-
-Install =flatseal=
-
-Here, flatpak will be configured to use a custom installation on another
-partition at =/flatpak/$USER=. To keep the flatpak app state on the same
-partition, link =$HOME/.var= to =$FLATPAK_USER_VAR=.
-
-#+begin_src sh :tangle .config/sh/profile.d/flatpak.sh :shebang #!/bin/sh
-alias flatagenda="flatpak --installation=agenda"
-alias flatsteam="flatpak --installation=steam"
-
-export XDG_DATA_DIRS="/flatpak/dc/.local/share/flatpak/exports/share:${XDG_DATA_DIRS}"
-# TODO move this to the guix package?
-export XDG_DATA_DIRS="/flatpak/steam/.local/flatpak/exports/share:${XDG_DATA_DIRS}"
-export XDG_DATA_DIRS="/flatpak/agenda/.local/flatpak/exports/share:${XDG_DATA_DIRS}"
-
-export FLATPAK_USER_DIR=/flatpak/$(id -un)/.local/share/flatpak
-
-# this is another variable for convenience (this var isn't used by flatpak)
-export FLATPAK_USER_VAR=/flatpak/$(id -un)/.var
-
-# Custom installations need to be configured here
-# - /flatpak/steam :: $FLATPAK_CONFIG_DIR/installations.d/steam.conf
-# export FLATPAK_CONFIG_DIR=/flatpak/.config/flatpak
-export FLATPAK_CONFIG_DIR=/etc/flatpak
-
-#+end_src
-
-*** The Goal
-
-After creating & mounting a =/flatpak= disk, syncthing can push centrally
-updates to new flatpak installations to =/flatpak/syncpak123=:
-
-+ Here they can be managed via =flatpak --installation /flatpak/syncpak123= on
-  the server where flatpak is hosted
-  - or, more carefully, managed from some of the local servers, assuming a consistent flatpak environment on the syncthing clients.
-  - these clients (or the client disk permissions) should set some of the
-    syncthing permissions to read only.
-  - on the client, =XDG_CONFIG_DIR= is always read after =XDG_CONFIG_HOME=, so
-    for any app, its configs can be transparently overridden, without affecting the synced flatpak installations.
-+ Then the custom flatpak installations can be linked into the local system via
-  =stow=, where a few modifications to =XDG= vars will pick them up.
-
-This method has not been tested yet. However, since they are plain binaries, then they should be syncable.
-
-** Steam & Proton
-
-+ [[See ][PC Gaming Wiki]] describes Steam Library & Game Data locations
-
-#+begin_src sh :tangle .config/sh/profile.d/steam.sh :shebang #!/bin/sh
-export STEAM_DIR=$_STEAM/.var/app/com.valvesoftware.Steam/.steam
-export FLATPAK_STEAM_VAR=/flatpak/steam/.var
-
-# log with PROTON_LOG=1
-export PROTON_LOG_DIR=$_STEAM/log/proton
-export PROTON_CRASH_REPORT_DIR=$_STEAM/log/proton-crash
-
-alias run_steam="flatpak --installation=steam run com.valvesoftware.Steam"
-#+end_src
-
-Run with =FLATPAK_CONFIG_DIR=/etc/flatpak flatpak --installation=steam run com.valvesoftware.Steam=
-
-Or simply =flatpak --installation=steam run com.valvesoftware.Steam=
-
-*** Setup
-
-+ Add =steam.sh= to =~/.config/sh/_load_profile.d.sh=
-
-#+begin_src sh :tangle no :eval no
-mkdir -p $_STEAM $FLATPAK_STEAM_VAR/com.valvesoftware.Steam
-
-# because flatpak steam will try to symlink /flatpak/dc/.var/com.valvesoftware.Steam/.var to ~/.var (which is very confusing)
-ln -s /flatpak/steam/.var/app/com.valvesoftware.Steam /flatpak/dc/.var/com.valvesoftware.Steam
-
-# ensure that FLATPAK_CONFIG_DIR is defined and that the steam flatpak install exists
-flatpak --installations
-
-flatpak --installation=steam remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
-flatpak --installation=steam remote-add --if-not-exists flathub-beta https://flathub.org/beta-repo/flathub-beta.flatpakrepo
-
-flatpak --installation=steam install flathub com.valvesoftware.Steam
-flatpak --installation=steam install flathub com.valvesoftware.Steam.CompatibilityTool.Proton
-#+end_src
-
-**** Issues
-
-+ After invoking for the first time, if this link shows up, remove it
-  - =rm /flatpak/steam/.var/app/com.valvesoftware.Steam/.var=
-+ Flatpak steam will ignore =STEAM_DIR= anyways...
-  - it will put the steam library within the steam install under
-    =/flatpak/steam/.var/app/com.valvesoftware.Steam/.var=
-
-
-***** TODO consider creating ./flatpak/installations.d/steam.conf
 
 
 ** Shepherd
@@ -373,9 +213,6 @@ sherpid() {
 by the login/display manager, but not exported.
 
 #+begin_src sh :tangle .config/sh/profile.d/guix.sh :shebang #!/bin/sh
-alias guix-all-profiles='find /gnu/store -maxdepth 1 -type d -name "*profile" -exec ls -al \{\} +'
-alias guix-main="$HOME/.config/guix/current/bin/guix"
-
 # TODO fix for non-guix-systems
 # GUIX_PROFILE="$HOME/.guix-profile"
 # . "$GUIX_PROFILE/etc/profile"
@@ -410,58 +247,12 @@ for i in ${GUIX_AUTOLOAD_PROFILES[@]}; do
 done
 #+end_src
 
-
-Misc guix utils
-
-#+begin_src sh :tangle .config/sh/profile.d/guix-utils.sh :shebang #!/bin/sh
-
-#+end_src
-
-Guix aliases
-
 *** On Arch
-**** Load Guile for Emacs-Guix
-
-Emacs guix needs a consistent guile environment (See [[https://github.com/alezost/guix.el#important-note-for-non-guix-system-users][this note]]).
-
-+ =GUILE_LOAD_PATH= should be defined properly and should include guix modules.
-+ So, =guix package -i guix guile= to install guix and guile into the user
-  profile but reload the current profile afterwards.
-+ And finally, =emacs-guix= should work as expected on a foreign distro
-  - also, running =doom purge= when moving emacs packages between guix and
-    doom's straight is essential. any shared dependencies will likely be brought
-    in from doom (not guix)
-  - in other words ... you kinda must pick a team (or micromanage your
-    =EMACSLOADPATH=)
-
-#+begin_src sh :tangle .config/sh/profile.d/guile-arch.sh :shebang #!/bin/bash
-export GUIX_EXTRA=$HOME/.guix-extra-profiles
-# source "$HOME/.guix-profile/etc/profile"
-# source "$HOME/.config/guix/current/etc/profile"
-# export GUILE_LOAD_PATH=$HOME/.guix-profile/share/guile/site/3.0:$GUILE_LOAD_PATH
-# export GUILE_LOAD_COMPILED_PATH=$HOME/.guix-profile/lib/guile/3.0/site-ccache:$HOME/.guix-profile/share/guile/site/3.0:$GUILE_LOAD_COMPILED_PATH
-#+end_src
-
-***** Note on =/etc/profile.d/guix.sh= from AUR
-
-AUR guix-install sets this up in /etc/profile.d/guix.sh.
-
-#+begin_example sh :eval no
-if [ -z "$GUIX_LOCPATH" ]; then
-    GUIX_PROFILE=$HOME/.guix-profile
-    source "$GUIX_PROFILE/etc/profile"
-    export GUIX_LOCPATH=$HOME/.guix-profile/lib/locale
-fi
-#+end_example
-
-+ It will load =_GUIX_PROFILE= first (the current profile), then load
-  =.guix-profile/etc/profile=, if it exists.
-+ If you haven't installed anything that requires setting =PATH=, no path
-  modifications will be visible (confusing!)
-
 **** Load Guix Profiles
 
 #+begin_src sh :tangle .config/sh/profile.d/guix-arch-support.sh :shebang #!/bin/bash
+export GUIX_EXTRA=$HOME/.guix-extra-profiles
+
 guix_arch_load() {
     local profiles=""
 
@@ -499,7 +290,6 @@ guix_arch_load() {
 }
 
 export -f guix_arch_load
-
 #+end_src
 
 The default is -c0, which uses as many cores as possible for each build agent,
@@ -529,122 +319,8 @@ Add to =~/.config/sh/_load_profile.d.sh= _in this order_
 
 It seems I'm more likely to encounter this on programming projects/teams.
 
-#+begin_src sh :tangle .config/sh/profile.d/nix-arch.sh :shebang #!/bin/bash
-# add your main nix-profile to paths
-export PATH=$HOME/.nix-profile/bin:$PATH
-export XDG_DATA_DIRS=$HOME/.nix-profile/share:$XDG_DATA_DIRS
-
-# TODO add potential for other Nix profiles
-#+end_src
-
-Then add =nix-arch.sh= to =~/.config/sh/profile.d= preferably before =guix-arch.sh=.
-
-After setup, happily build the free [[https://github.com/hmemcpy/milewski-ctfp-pdf][Category Theory For Programmers PDF]]. This
-requires adding the following.
-
-#+begin_src nix :tangle .config/nix/nix.conf :mkdirp yes :comments none
-extra-experimental-features = nix-command flakes
-#+end_src
-
 *** On Arch
 
-Install Nix and setup the groups. Configure =~/.config/nix/nix.conf= if necessary.
-
-#+begin_example shell
-yay -Syu nix
-
-# to allow user access to the nix build daemon
-sudo usermod -G nix-build
-
-echo "max-jobs = auto" | sudo tee -a /etc/nix/nix.conf
-#+end_example
-
-Ensure that the =nix-ademon= service is running or just enable it.
-
-#+begin_example shell
-# to make fedora a tolerable daily driver. run with sudo to add channel to root
-nix-channel --add https://nixos.org/channels/nixpkgs-unstable
-
-# requires sudo to create /nix/store
-nix-channel --update
-#+end_example
-
-Now nix should build and =direnv allow= should run flakes right.
-
-** FCITX5
-
-According to =fcitx5-diagnose= these need to be set to =fcitx= NOT =fcitx5=.
-
-#+begin_src sh :tangle .config/sh/profile.d/fcitx5.sh :shebang #!/bin/sh
-# export QT_IM_MODULE=fcitx
-# export GTK_IM_MODULE=fcitx
-# export SDL_IM_MODULE=fcitx
-# export XMODIFIERS="@im=fcitx"
-#+end_src
-
-If fcitx5 is being loaded by a guix profile that doesn't update =XDG_DATA_DIRS=, then that variable needs to be updated as well
-
-#+begin_src sh :tangle .config/sh/profile.d/fcitx5-guix.sh :shebang #!/bin/sh
-export FCITX_ADDON_DIRS=$GUIX_EXTRA/fcitx5/fcitx5/lib:$FCITX_ADDON_DIRS
-#export FCITX_CONFIG_HOME=
-#export FCITX_DATA_DIRS=
-#export XDG_DATA_DIRS=$GUIX_EXTRA/fcitx5/fcitx5/share:$XDG_DATA_DIRS
-#+end_src
-
-** GTK
-
-#+begin_src sh :tangle .config/sh/profile.d/gtk.sh :shebang #!/bin/sh
-# GTK
-export GTK2_RC_FILES="$HOME/.gtkrc-2.0"
-
-#export GDK_BACKEND=wayland             # this can prevent programs from starting (e.g. chromium and electron apps). therefore, this should be set per app instead of globally.
-#+end_src
-
-** QT
-
-#+begin_src sh :tangle .config/sh/profile.d/qt.sh :shebang #!/bin/sh
-
-# Qt
-#export QT_QPA_PLATFORMTHEME="qt5ct"
-#export QT_QPA_PLATFORM=wayland
-#export QT_WAYLAND_FORCE_DPI=physical
-#export QT_WAYLAND_DISABLE_WINDOWDECORATION=1
-
-alias qutebrowser='QTWEBENGINE_CHROMIUM_FLAGS=\"--disable-seccomp-filter-sandbox\" qutebrowser'
-alias anki='QTWEBENGINE_CHROMIUM_FLAGS=\"--disable-seccomp-filter-sandbox\" anki'
-
-#+end_src
-
-**** TODO remove aliases aboves after fix for [[https://issues.guix.gnu.org/52993][Guix #52993]] is fixed
-
-** Emacs
-
-#+begin_src sh :tangle .config/sh/profile.d/emacs.sh :shebang #!/bin/sh
-
-export ORG_DIRECTORY=/data/org
-#export ORG_AGENDA_ROOT=
-#export ORG_ROAM_ROOT
-
-# TODO this error handling is not working
-# cp: cannot stat '"/home/dc/.emacs.g/emacs-g.scm"': No such file or directory
-gmacsupdate() {
-  local gmacsprofile=$(emacsclient -e '(expand-file-name "emacs-g.scm" dc/emacs-d)' -a "Couldn't fetch 'user-emacs-directory from emacs server")
-  local status=$?
-  [[ $status -ne 0 ]] || [[ -e $gmacsprofile ]] && return 1;
-  cp $gmacsprofile $XDG_CONFIG_HOME/guix/manifests/
-  echo updating emacs-g profile
-  update-profiles emacs-g
-
-  return 0
-}
-
-#+end_src
-
-** AMD ROCm
-
-
-Ensure user is added to =video= and =render= groups. Probably just use the ROCm
-docker images.
 
 ** Podman
 
@@ -676,30 +352,6 @@ paths to exist.
 Test with =docker pull docker.io/netbootxyz/netbootxyz=
 
 ** Kaggle
-
-#+begin_src sh :tangle .config/sh/kaggle.sh
-kacomp() {
-    if [ $# = 0 ]; then
-        echo Requires search parameter
-        return 1
-    else
-        kaggle c list | grep $1 | cut -f1 -d' ' | rev | cut -f-1 -d'/' | rev
-    fi
-}
-
-# doesn't work at the moment, but the discussion tabs sure take up 150 MB of RAM
-# google owns kaggle and wants you to use TF Lite, but can't quite seem to
-# return the favor
-#
-# (no offense, Kaggle, but i fucking hate javascript for the same reason that
-#  google might want you to use TF Lite ... it's funny how that works)
-kacomp_set() {
-    kaggle_comp="$(kacomp $1)"
-    [[ -z $kaggle_comp ]] && return 1
-    kaggle config set -n competition -v $kaggle_comp
-}
-#+end_src
-
 
 * Hardware
 
@@ -736,13 +388,6 @@ export NCPU
 #+end_src
 
 * Languages
-:PROPERTIES:
-:header-args+: :comments link :mkdirp yes
-:END:
-
-#+begin_src sh :tangle no
-
-#+end_src
 
 ** Java
 
@@ -772,37 +417,6 @@ export ECLIPSE_HOME=${_LANG}/.eclipse/eclipse
 # TODO: provide JAVA_PATH/etc and exec eclipse 
 #+end_src
 
-** Node
-
-Install =nodejs= profile.
-
-*** NVM
-
-This is an old config
-
-#+begin_src sh :tangle .config/sh/profile.d/node-arch.sh :shebang #!/bin/sh
-[[ -f /usr/share/nvm/init-nvm.sh ]] && source /usr/share/nvm/init-nvm.sh
-#+end_src
-
-*** On Arch
-
-#+begin_src sh :tangle .config/sh/profile.d/node-arch.sh :shebang #!/bin/sh
-# npm install -g # bins go here
-export NPM_CONFIG_PREFIX=$HOME/.npm-global
-export PATH=$NPM_CONFIG_PREFIX/bin:$PATH
-# export NPM_CONFIG_USERCONFIG=$HOME/.npmrc # default
-# export NPM_CONFIG_GLOBALCONFIG=/usr/lib/node_modules/npm/npmrc # but it's not listed under `npm config ls -l`
-#+end_src
-
-*** On Guix
-
-#+begin_src sh :tangle .config/sh/profile.d/node-guix.sh :shebang #!/bin/sh
-# npm install -g # bins go here
-export NPM_CONFIG_PREFIX=$HOME/.npm-global
-export PATH=$NPM_CONFIG_PREFIX/bin:$PATH
-# export NPM_CONFIG_USERCONFIG=$HOME/.npmrc # default
-# export NPM_CONFIG_GLOBALCONFIG=$NODE_PROFILE/lib/node_modules/npm/npmrc # default
-#+end_src
 
 ** GraphQL
 
@@ -1246,23 +860,8 @@ is invoked as =sh=, then it will source =.profile= anyways.
 export DOTS_CFG_SHELL=$XDG_CONFIG_HOME/sh
 export DOTS_PROFILE_D=$DOTS_CFG_SHELL/profile.d
 
-[[ -f $DOTS_CFG_SHELL/icons.sh ]] && source $DOTS_CFG_SHELL/icons.sh
-
 # Profile
-[[ -f $DOTS_CFG_SHELL/_before_profile.d.sh ]] && source $DOTS_CFG_SHELL/_before_profile.d.sh
 [[ -f $DOTS_CFG_SHELL/_load_profile.d.sh ]] && source $DOTS_CFG_SHELL/_load_profile.d.sh
-#+end_src
-
-#+begin_src sh :tangle .profile :shebang #!/bin/sh
-export MOZ_DBUS_REMOTE=1                # fixes firefox is already running, but is not responding
-# disables accessibility
-export NO_AT_BRIDGE=1
-#+end_src
-
-*** After Profile.d
-
-#+begin_src sh :tangle .profile :shebang #!/bin/sh
-[[ -f $DOTS_CFG_SHELL/_after_profile.d.sh ]] && source $DOTS_CFG_SHELL/_after_profile.d.sh
 #+end_src
 
 *** Source =.bashrc=
@@ -1365,94 +964,6 @@ didn't override.
 I would recommend avoiding Flatpak unless you know the CLI well. It adds
 another layer of indirection in managing shell profiles for tasks.
 
-** Screen
-
-+ GNU [[https://www.gnu.org/software/screen/manual/screen.html#toc-Regions-1][manual]]
-
-#+begin_src sh :tangle .screenrc
-startup_message off
-defmousetrack on
-
-term screen-256color
-#term xterm-256color
-#term rxvt-unicode-256color
-
-# enable bold colors (shouldn't be req.)
-# attrcolor b ".I"
-
-# when available: use x-scrolling mechanism
-# termcapinfo xterm*|rxvt*|kterm*|Eterm* ti@:te@
-
-# remove window/proc number from name in windowlist (C-a ")
-windowlist string "%4n %h%=%f"
-# windowlist string "%4n %t%=%f" # default
-
-# index windows starting at 1
-bind c screen 1
-bind ^c screen 1
-bind 0 select 10
-screen 1
-
-# should fix issues where text editor's don't properly reset the window
-altscreen on
-
-hardstatus off
-hardstatus alwayslastline
-hardstatus string '%{= kG}[ %{G}%H %{g}][%= %{= kw}%?%-Lw%?%{r}(%{W}%n*%f%t%?(%u)%?%{r})%{w}%?%+Lw%?%?%= %{g}][%{B} %m-%d %{W} %c %{g}]'
-
-# TODO: dynamic titles for screen windows:
-# https://www.gnu.org/software/screen/manual/screen.html#Dynamic-Titles
-#+end_src
-
-#+RESULTS:
-
-*** Notes
-
-+ Screen runs =C-a := commands in the context of the =env= that first started
-  screen.
-+ The =.screenrc= details should be shared in common for most systems, then you
-  make changes and reload with =C-a :source ~/.screenrc= without spawning new
-  processes.
-+ Window customizations (splitting and assignment) do not survive detaching from
-  a session, so window layout scripts ideally should avoid commands resulting in
-  side-effects, so they are simple to re-source.
-  - running =C-a :layout save $layout= will associate the current layout to the
-    screen session, restoring it on reattach.
-+ Archlinux [[https://bbs.archlinux.org/viewtopic.php?id=55618][discussion with user screenrc's]]
-
-*** Scripts
-
-+ These scripts can be included with =C-a :source /home/dc/.screen/layout.rc=.
-+ Running =C-a :layout dump /home/dc/.screen/123.layout.screenrc= will save the
-  current layout to a file.
-
-**** Window arrangement for servers
-
-Start =ssh-agent= before launching the screen session.
-
-Then, source:
-
-#+begin_src sh :tangle .screen/remote.layout.screenrc
-split
-split -h
-#+end_src
-
-Also, it may be possible to add =source ~/.screenrc= at the top, include the =ssh-agent= startup in the =.screenrc= and start with =screen -c .screen/remotelayout.screenrc=.
-
-***** TODO complete after grokking GNU screen [[https://www.gnu.org/software/screen/manual/screen.html#Layout][regions/layouts]]
-
-**** Start processes for web development
-
-**** Setup SSH/GPG for a Yubikey
-
-Useful to have a common =GPG_TTY= with more control over sharing ... though this
-may cause problems with email clients or other programs. If it does, then some
-issues could lead to pin lockouts.
-
-So maybe it's only useful for controlling access to =ssh-agent=, though there's
-probably a better way to set that up without problems (e.g. every
-console/program has SSH/GPG agent vars/access)
-
 * Shells
 :PROPERTIES:
 :header-args+: :comments link :mkdirp yes
@@ -1468,7 +979,7 @@ shopt -s histappend
 
 [[ "$TERM" == "dumb" ]] || export TERM="xterm-256color"
 
-# RC
+export INSIDE_TRAMP="${INSIDE_EMACS/*tramp*/tramp}"
 export DOTS_RC_D=$DOTS_CFG_SHELL/rc.d
 [[ -f $DOTS_CFG_SHELL/_before_rc.d.sh ]] && source $DOTS_CFG_SHELL/_before_rc.d.sh
 [[ -f $DOTS_CFG_SHELL/_load_rc.d.sh ]] && source $DOTS_CFG_SHELL/_load_rc.d.sh
@@ -1481,9 +992,7 @@ export DOTS_RC_D=$DOTS_CFG_SHELL/rc.d
 
 #** color @ALIAS
 
-# unless dumbterm
 if [ "$TERM" != "dumb" ]; then
-    # commandline color by default
     alias ls='ls --color=auto'
     alias dir='dir --color=auto'
     alias egrep='egrep --color=auto'
@@ -1492,8 +1001,6 @@ if [ "$TERM" != "dumb" ]; then
     alias grep='grep --color=auto'
     alias vdir='vdir --color=auto'
     alias screen='screen -h 2000'
-# else
-    # no color
 fi
 
 #* docs @ALIAS
@@ -1581,6 +1088,10 @@ alias sysdpath='systemd-path system-shared'
 # alias sysed='systemctl --user edit --drop-in=$overridename $svc'
 
 #* pkg
+#** guix @ALIAS
+alias guix_all_profiles='find /gnu/store -maxdepth 1 -type d -name "*profile" -exec ls -al \{\} +'
+alias guix_main="$HOME/.config/guix/current/bin/guix"
+
 #** pacman @ALIAS
 alias fixpacman="sudo rm /var/lib/pacman/db.lck"
 alias rmpkg="sudo pacman -Rdd"
@@ -1702,17 +1213,6 @@ find_dirs_with_ext() {
 }
 #+end_src
 
-**** IPC
-
-#+begin_src sh :tangle .config/sh/rc.d/functions.sh
-# from https://git.aweirdimagination.net/perelman/kill-child-jobs/src/branch/master/bash.sh
-# set -e # um no
-
-kill_child_jobs() {
-    # From https://unix.stackexchange.com/a/544167
-    while kill %% 2>/dev/null; do sleep 0; done
-}
-#+end_src
 **** File Listing
 
 #+begin_src sh :tangle .config/sh/rc.d/functions.sh
@@ -2153,47 +1653,3 @@ utils in the environment, but this is split out anyways...
 ** Languages
 
 Manifests for language environments
-
-* TUI
-
-** Env
-
-This section should configure scripts and a guix profile intended to be loaded
-in a terminal-only interface.
-
-#+begin_src scheme :tangle .config/guix/manifests/tui-env.scm
-(specifications->manifest
- '(
-   ;"htop"
-   ;"lnav"
-   ))
-#+end_src
-
-** Apps
-
-#+begin_src scheme :tangle .config/guix/manifests/tui-apps.scm
-(specifications->manifest
- '(
-   ;"lnav"
-   ))
-#+end_src
-
-*** Htop
-
-*** LNAV
-
-+ [[https://docs.lnav.org/en/latest/formats.html][Docs]]
-  - The =$HOME/.config/lnav/= directory should exist before =.dotfiles= is stowed.
-  - It contains state, history, views and usage data.
-  - Only the configs/formats should be added to git.
-+ [[https://docs.lnav.org/en/latest/formats.html][New Formats]] can be installed into =$HOME/.config/lnav/formats/installed=
-  - from files: =lnav -i myformat.json=
-  - from a repository
-  - from the [[https://github.com/tstack/lnav-config][extra]] repository: =lnav -i extra=
-+ Custom formats can be added into =$HOME/.dotfiles/.config/lnav/formats/=
-+ New Configs can be installed into =$HOME/.config/lnav/configs/installed/=
-+ Custom configs can be added into =$HOME/.dotfiles/.config/lnav/configs/=
-
-#+begin_src sh :results output :exports none
-lnav -i extra
-#+end_src
