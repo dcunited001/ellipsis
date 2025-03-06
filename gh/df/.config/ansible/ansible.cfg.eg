@@ -1,0 +1,94 @@
+[tags]
+
+[defaults]
+nocows=1
+
+# * inventory
+inventory=inventory.yml
+# module_args=
+
+# * playbooks
+
+# * facts
+#fact_path=tmp/facts.d
+
+# ** tmp
+# local_tmp={{ ANSIBLE_HOME ~ "/tmp" }}
+
+# * logs
+stdout_callback=yaml
+# bin_ansible_callbacks=True
+
+# ** logs: options
+
+# ** logs: ansible validation
+
+# ** logs: yaml validation
+
+# ** logs: jinja2 validation
+
+# * auth
+
+# ** vault
+vault_password_file=.bin/vaultgpgpass
+
+# ** connection
+transport=ssh
+
+# * roles & collections
+
+# * modules & module_utils
+
+# * plugins
+
+# ** filters
+filter_plugins=plugins/filter
+
+# ** group vars:
+
+# ** plugin paths
+# lookup_plugins={{ ANSIBLE_HOME ~ "/plugins/lookup:/usr/share/ansible/plugins/lookup" }}
+
+# * [defaults]
+
+[privilege_escalation]
+
+
+[persistent_connection]
+
+
+[connection]
+
+
+[ssh_connection]
+
+# for multiplexed SSH connections (ssh can reconnect for 5 minutes)
+ssh_args=-o ControlMaster=auto -o ControlPersist=300
+control_path=%(directory)s/ansible-ssh-%%r@%%h:%%p
+control_path_dir=.ssh/sockets
+
+[colors]
+
+
+[selinux]
+
+
+[diff]
+
+
+[galaxy]
+
+display_progress=True
+
+
+[inventory]
+
+any_unparsed_is_failed=True
+
+[netconf_connection]
+
+
+[paramiko_connection]
+
+
+[jinja2]

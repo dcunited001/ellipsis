@@ -1,0 +1,15 @@
+[general]
+import = ["/home/dc/.dotfiles/gh/.config/alacritty/.config/alacritty/alacritty.yml"]
+
+[terminal]
+[terminal.shell]
+args = ["--login"]
+program = "/bin/sh"
+
+[window]
+opacity = 0.9
+title = "Alacritty (clean)"
+
+[colors.cursor]
+cursor = "0x59c959"
+text = "0x912191"

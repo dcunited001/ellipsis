@@ -381,29 +381,6 @@
                   home-environment-variables-service-type
                   %dc-env-universal))
 
-(define-public dc-nix-fontconfig-service
-  (simple-service
-   'nix-fontconfig
-   home-fontconfig-service-type
-   (list "~/.nix-profile/share/fonts"
-         '(alias
-           (family "monospace")
-           (prefer
-            (family "Liberation Mono"))))))
-
-;; services that do more than one thing need to be defined privately as service-type
-;;  - in order to bundle together extensions of different types
-
-;; (define home-zsh-service-type
-;;   (service-type (name 'home-zsh)
-;;                 (extensions
-;;                  (list (service-extension home-files-service-type add-zsh-dot-configuration)
-;;                        (service-extension home-xdg-configuration-files-service-type add-zsh-xdg-configuration)
-;;                        (service-extension home-profile-service-type add-zsh-packages)))
-;;                 (compose identity)
-;;                 (extend home-zsh-extensions)
-;;                 (default-value (home-zsh-configuration))
-;;                 (description "Install and configure Zsh.")))
 
 (define dc-gpg-agent-configuration
   (home-gpg-agent-configuration

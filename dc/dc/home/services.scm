@@ -42,7 +42,6 @@
 
 (define %dc-base-environment
   (alist-append-uniq
-
    wayland-environment
    gtk-environment))
 
@@ -97,11 +96,11 @@
       ("LCYAN" . "$(echo -en '\001\033[01;36m\002')")))
    (bashrc (list
             dc-bashrc-noninteractive-return
-            (local-file (string-append %dotfiles-directory "/.bashrc") "bashrc")
+            (local-file (string-append %files-directory "/.bashrc") "bashrc")
             (local-file
-             (string-append %dotfiles-directory "/bash/rc/aliases.sh"))
+             (string-append %files-directory "/bash/rc/aliases.sh"))
             (local-file
-             (string-append %dotfiles-directory "/bash/rc/functions.sh"))
+             (string-append %files-directory "/bash/rc/functions.sh"))
             ;;                  "
             ;; if [ \"$TERM\" = \"dumb\" ]; then
             ;;   PS1='$ '
@@ -113,11 +112,11 @@
             ))
    (bash-profile
     (list
-     (local-file (string-append %dotfiles-directory "/.bash_profile")
+     (local-file (string-append %files-directory "/.bash_profile")
                  "bash_profile")))
    (bash-logout
     (list
-     (local-file (string-append %dotfiles-directory "/.bash_logout")
+     (local-file (string-append %files-directory "/.bash_logout")
                  "bash_logout")))))
 
 ;; ---------------------------------------------

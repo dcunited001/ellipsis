@@ -85,9 +85,6 @@ export GUIX_LOCPATH=$HOME/.guix-profile/lib/locale
 
 # -c cores -m jobs
 export GUIX_BUILD_OPTIONS="-c$NCPU"
-
-export GUIX_DEVTOOLS=$GUIX_EXTRA/devtools/devtools
-export GUIX_DEVDEBUG=$GUIX_EXTRA/devdebug/devdebug
 export GUIX_EXTRA=$HOME/.guix-extra-profiles
 
 #+end_src
@@ -656,9 +653,14 @@ This configuration is intended to be used on archlinux.
 
 #+begin_src sh :tangle .config/direnv/direnvrc :shebang #!/bin/sh
 
+
+
 # The guix package for julia creates ./bin/julia,
 # which is a wrapper for ./bin/.julia-real
 use_julia_system() {
+    export JULIA_SHELL=/bin/sh
+    export JULIA_EDITOR="$EDITOR"
+
     # These auto-expand empty entries, but =JULIA_LOAD_PATH= can't be set if empty.
     export JULIA_DEPOT_PATH="$_LANG/.julia:"
     export JULIA_LOAD_PATH="$_LANG/.julia:"
@@ -672,13 +674,6 @@ use_julia_system() {
 
     alias pluto='julia --project=nb --threads=auto -e "using Pluto; Pluto.run(port=4321)"'
 }
-#+end_src
-
-Julia .envrc template:
-
-#+begin_src sh :tangle .config/direnv/.julia.envrc
-use julia_system
-#watch_file /home/dc/.config/direnv/direnvrc
 #+end_src
 
 * Profile

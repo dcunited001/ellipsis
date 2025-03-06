@@ -154,7 +154,6 @@ no-allow-loopback-pinentry")))
       (service home-dotfiles-service-type
                (home-dotfiles-configuration
                 (source-directory ".")
-                ;; for now, link files from ~/.dotfiles/.gh/df ... path will change
                 (directories (list (string-append %dotfiles-directory "/df"))))))
      kratos-application-services
      (list dc-channels-service)

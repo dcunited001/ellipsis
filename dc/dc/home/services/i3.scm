@@ -31,7 +31,10 @@
 ;;; XDG Files
 
 (define (add-i3-xdg-files config)
-  (list `("i3" ,(local-file (string-append %dotfiles-directory "/.config/i3") #:recursive? #t))))
+  (list
+   `("i3"
+     ,(local-file (string-append %files-directory "/.config/i3") #:recursive?
+                  #t))))
 
 ;;; Shepherd Service
 

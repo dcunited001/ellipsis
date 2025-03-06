@@ -24,9 +24,12 @@
 
 (define (dc-alacritty-xdg-files config)
   (list `("alacritty/alacritty.yml"
-          ,(local-file (string-append %dotfiles-directory "/.config/alacritty/alacritty.yml")))
+          ,(local-file
+            (string-append %files-directory "/.config/alacritty/alacritty.yml")))
         `("alacritty/alacritty-clean.yml"
-          ,(local-file (string-append %dotfiles-directory "/.config/alacritty/alacritty.clean.yml")))))
+          ,(local-file
+            (string-append %files-directory
+                           "/.config/alacritty/alacritty.clean.yml")))))
 
 (define (add-alacritty-packages config)
   (list alacritty))

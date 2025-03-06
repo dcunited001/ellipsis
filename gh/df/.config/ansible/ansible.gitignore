@@ -1,0 +1,50 @@
+# ansible logs/misc
+/tmp
+*.bak
+/.log
+*.log
+*ansible-navigator.log
+/.misc
+
+# secrets
+*vault.yml
+
+# ansible facts/results
+.facts
+*.facts.yml
+*-artifact-*.json
+
+# galaxy content/logs
+/galaxy_token
+/galaxy_cache
+/collections
+
+# galaxy plugins
+/plugins/lookup/pfsense.py
+
+# non-galaxy collections
+/roles/rwxd.subuid_subgid
+
+# editor
+/.vscode
+
+# ee builds
+/ee/build/_build
+
+# TODO: packer
+
+# should contain only autogen stuff
+#/.bin
+#/.local
+/.config/ansible
+
+# python
+/.venv
+__pycache__
+
+# python env (on guix)
+/.genv
+
+# env
+.envrc
+.dir-locals.el
