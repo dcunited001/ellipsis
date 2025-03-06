@@ -28,21 +28,11 @@
   - [[#julia][Julia]]
 - [[#profile][Profile]]
   - [[#profile-1][=.profile=]]
-- [[#tools][Tools]]
-  - [[#vs-codium][VS Codium]]
 - [[#shells][Shells]]
   - [[#rc][RC]]
-  - [[#bash][Bash]]
-  - [[#zsh][Zsh]]
-  - [[#scripts][Scripts]]
 - [[#environment-1][Environment]]
-  - [[#main][main]]
   - [[#devtools][devtools]]
-  - [[#devdebug][devdebug]]
-  - [[#netdebug][netdebug]]
   - [[#xdg][XDG]]
-  - [[#xkb][XKB]]
-  - [[#languages-1][Languages]]
 
 * Environment
 :PROPERTIES:
@@ -113,16 +103,6 @@ export _FLATPAK_NAME=flexpak
 export DOOMDIR=$HOME/.doom.d
 #+end_example
 
-#+begin_src sh :tangle .profile :noweb yes :comments none :results none :exports none :shebang #!/bin/sh
-<<bash-env-bindings_CALL()>>
-
-# not setting gpg tty for now
-#GPG_TTY="$(tty)"
-#export GPG_TTY
-#+end_src
-
-#+RESULTS:
-
 *** Create Paths
 
 Once paths are set in your profile, you will need to do something like:
@@ -136,10 +116,6 @@ Once paths are set in your profile, you will need to do something like:
 
 __scripts=(
     "guix.sh"
-    "apps.sh"
-    "xdg.sh"
-    "gtk.sh"
-    "qt.sh"
     "emacs.sh"
     "java.sh"
     "julia.sh"
@@ -864,106 +840,6 @@ export DOTS_PROFILE_D=$DOTS_CFG_SHELL/profile.d
 [[ -f $DOTS_CFG_SHELL/_load_profile.d.sh ]] && source $DOTS_CFG_SHELL/_load_profile.d.sh
 #+end_src
 
-*** Source =.bashrc=
-
-Try to source =.bashrc=. If the shell is non-interactive, =.bashrc= will return
-
-#+begin_src sh :tangle .profile :shebang #!/bin/sh
-[[ -f $HOME/.bashrc ]] && source $HOME/.bashrc
-#+end_src
-
-* Tools
-:PROPERTIES:
-:header-args+: :comments link :mkdirp yes
-:END:
-
-** VS Codium
-
-Note the flatpak configuration instructions in [[github:flathub/com.vscodium.codium][flathub/com.vscodium.codium]]
-
-The =vscodium= flatpak comes with a standard development environment and has a
-python bundled inside.
-
-*** Configuration
-
-+ User config is in =./User/settings.json=. You could symlink or sync online.
-+ Workspace configurations are in =./User/workspacestorage=
-
-*** Environment
-
-**** On Guix
-
-If =~/.pyenv= exists, VSCode will think you have =pyenv=.
-
-***** Shell Profile
-
-Ensure =terminal.integrated.profiles.linux= includes a profile that injects
-=GUIX_AUTOLOAD_PROFILES=. The set of profiles should include one that contains
-=direnv= and other tools.
-
-On Guix System, VSCode forks from a login profile -- but from before the
-=.xsession= script runs. Set up a terminal profile like the following to run
-your =.profile= logic like it's a login shell, which will also load =.bashrc=.
-This sources the =~/.config/sh/profile.d/guix.sh= script, which should load a
-custom set of profiles.
-
-#+begin_src json
-
-"bash": {
-  "path": "bash",
-  "icon": "terminal-bash",
-  "env": {
-    "GUIX_AUTOLOAD_PROFILES": "(desktop fonts mon devtools academic pythondev)"
-  },
-  "args": ["-l"]
-}
-#+end_src
-
-The value for =GUIX_AUTOLOAD_PROFILES= gets interpreted as an array.
-
-**** Direnv in VSCode
-
-The [[github:direnv/direnv-vscode][direnv/direnv-vscode]] plugin only works for:
-
-+ integrated terminals
-+ custom tasks of type =shell=
-+ environment variable substitutions like =${env:VAR}=
-
-This really doesn't jive with how I'm loading environments, unless I'm working
-in a Docker container.
-
-+ It's not really clear how extensions run commands -- though I just don't
-  know what VSCode does. There are logs somewhere. This probably appears in
-  the VSCode browser tools.
-+ If =python.terminal.activateEnvironment= is on, it's available for tasks,
-  but gets loaded twice for shells.
-
-For extensions whose configuration depends on Guix manifests:
-
-+ If I were to open =*.hcl= files for packer or terraform, then the editor
-  won't be integrated. And why use Guix? Why containerize your dependencies
-  and pin versions?
-+ If I use a Guix profile with a link -- =guix shell -p= instead of =guix
-  shell -m= then I should be able to guarantee that I at least have a
-  consistent path to reference binaries for in =settings.json= for
-  project-specific configurations -- but there's a chance this would differ
-  from system to system and it impairs sharing project settings.
-
-Vim users working with Nix flakes would encounter many similar issues when
-they cross-over to VSCode, though maybe Nix has better tooling.
-
-**** In Flatpak
-
-Config will be in =$FLATPAK_USER_VAR/app/vscodium.codium/config/VSCodium=
-which has the structure of the standard Chrome-based electron app.
-
-VSCodium spawns from the environment, so when it runs the =/bin/bash= from
-inside it's flatpak, it still has the parent environment that =flatpak run=
-didn't override.
-
-I would recommend avoiding Flatpak unless you know the CLI well. It adds
-another layer of indirection in managing shell profiles for tasks.
-
 * Shells
 :PROPERTIES:
 :header-args+: :comments link :mkdirp yes
@@ -971,21 +847,6 @@ another layer of indirection in managing shell profiles for tasks.
 
 ** RC
 
-If not running interactively, return
-
-#+begin_src sh :tangle .bashrc :shebang #!/bin/sh
-[[ $- != *i* ]] && return
-shopt -s histappend
-
-[[ "$TERM" == "dumb" ]] || export TERM="xterm-256color"
-
-export INSIDE_TRAMP="${INSIDE_EMACS/*tramp*/tramp}"
-export DOTS_RC_D=$DOTS_CFG_SHELL/rc.d
-[[ -f $DOTS_CFG_SHELL/_before_rc.d.sh ]] && source $DOTS_CFG_SHELL/_before_rc.d.sh
-[[ -f $DOTS_CFG_SHELL/_load_rc.d.sh ]] && source $DOTS_CFG_SHELL/_load_rc.d.sh
-#+end_src
-
-*** Aliases
 
 #+begin_src sh :tangle .config/sh/rc.d/aliases.sh :shebang #!/bin/sh
 #* alias @ALIAS
@@ -1137,111 +998,6 @@ alias emacs-debug-wayland='WAYLAND_DEBUG=1 emacs --fg-daemon > $HOME/.cache/log/
 alias nodenpm_lsparse="npm ls -g --parseable | grep node_modules | sed -e 's/.*node_modules\///g'"
 #+end_src
 
-*** Functions
-
-**** Completion
-
-See [[https://www.gnu.org/software/bash/manual/html_node/Programmable-Completion-Builtins.html][Programmable Completion Builtins]]
-
-#+begin_src sh :tangle .config/sh/rc.d/completions.sh :shebang #!/bin/sh
-# all completions in guix system profile
-# ls  /run/current-system/profile/share/bash-completion/{completions,helpers}
-
-# files: {completions,helpers}
-export GUIX_COMPLETE=/run/current-system/profile/share/bash-completion
-
-tre() {
-    local -a tree_opts=()
-    local -a tree_args=()
-
-    while [ "$#" -gt 0 ]; do
-        if [[ "$1" = "--" ]]; then
-            shift 1
-            tree_opts=$@
-            break;
-        fi
-        tree_args+=($1)
-        shift 1
-    done
-
-    echo ${tree_opts[@]}
-    echo ${tree_args[@]}
-}
-#+end_src
-
-
-**** Git Repo
-
-#+begin_src sh :tangle .config/sh/rc.d/functions.sh
-# clear all the fat fingers, so sync happens without dired
-repo_reset_repos() {
-    [[ -z "$1" ]] && \
-        printf "quoted glob pattern: \$1\nargs to git reset \$@" && \
-        return 1
-
-    local _pattern=$1
-    shift 1
-
-    # pattern is optional .... oh
-    if [[ $# -gt 0 ]]; then
-        # which is probably why there's no explicit command for this
-        repo forall $_pattern -c git reset $@
-    else
-        repo forall $_pattern -c git reset --hard
-    fi
-
-}
-
-# alias rprr=repo_reset_repos
-#+end_src
-
-
-**** Find
-
-#+begin_src sh :tangle .config/sh/rc.d/functions.sh
-find_dirs_with_ext() {
-    [[ -z "$1" ]] && \
-        printf "requires quoted regexp pattern for sed -E (e.g. '.*\.scm')" && return 1
-
-    local _pattern=$1
-    shift 1
-
-    find . -name "*.scm" -type f -print \
-        | sed -E 's/^(.*\/)'"$_pattern"'/\1/g' \
-        | sort | uniq \
-        | tree --fromfile .
-}
-#+end_src
-
-**** File Listing
-
-#+begin_src sh :tangle .config/sh/rc.d/functions.sh
-tre() {
-    local -a tree_opts=()
-    local -a tree_args=()
-
-    while [ "$#" -gt 0 ]; do
-        if [[ "$1" = "--" ]]; then
-            shift 1
-            tree_opts=$@
-            break;
-        fi
-        tree_args+=($1)
-        shift 1
-    done
-
-    echo ${tree_opts[@]}
-    echo ${tree_args[@]}
-}
-#+end_src
-
-#+begin_src sh :tangle .config/sh/rc.d/aliases.sh :shebang #!/bin/sh
-#* tree @ALIAS
-
-# nevermind, --prune removes empty subdirectories not containing -P $pattern
-alias treef='tree --prune -aP'
-#+end_src
-
 *** Shell Prompt
 
 Update PS1 according to [[https://github.com/direnv/direnv/wiki/PS1][direnv wiki]]
@@ -1317,27 +1073,9 @@ PS_INFO="${PS_INFO}${LGREEN}[ foo ]${RESTORE} "
 [[ -n "$(declare -F ps_update)" ]] && psnew="$(ps_update $PS_INFO)"
 #+end_example
 
-*** GPG/SSH
-
-#+begin_src sh :tangle .bashrc :shebang #!/bin/sh
-unset SSH_AGENT_PID
-if [ "${gnupg_SSH_AUTH_SOCK_by:-0}" -ne $$ ]; then
-  export SSH_AUTH_SOCK="$(gpgconf --list-dirs agent-ssh-socket)"
-fi
-#+end_src
-
-*** Direnv
-
-Load at end of =.bashrc=
-
-#+begin_src sh :tangle .bashrc :shebang #!/bin/sh
-[[ -e "$(command -v direnv)" ]] && eval "$(direnv hook bash)"
-#+end_src
-
 Reload =direnvrc= with =direnv reload=
 
 **** Guix Direnv
-
 
 Add =use guixs= to direnv capabilities in =.envrc=. Thanks [[https://sr.ht/~abcdw/rde/][abcdw/RDE]].
 
@@ -1398,29 +1136,7 @@ use_guixs_cached() {
 }
 #+end_src
 
-** Bash
-
-+ GNU [[https://www.gnu.org/software/bash/manual/bash.html][manual]]
-
-*** =.bash_profile=
-
-In case an installation automatically creates =.bash_profile=
-
-#+begin_src sh :tangle .bash_profile :shebang #!/bin/sh
-if [ -f $HOME/.profile ]; then . $HOME/.profile; fi
-#+end_src
-
-** Zsh
-
-** Scripts
-
 * Environment
-
-** main
-
-#+begin_src sh
-
-#+end_src
 
 ** devtools
 
@@ -1564,58 +1280,6 @@ if [ -f $HOME/.profile ]; then . $HOME/.profile; fi
   ))
 #+end_src
 
-** devdebug
-
-#+begin_src scheme :tangle ".config/guix/manifests/devdebug.scm"
-(specifications->manifest
-    '(
-      "gdb"
-      "patchelf"
-      "ltrace"
-      "strace"
-      ;; "ftrace"
-      ;; "uftrace"
-      "traceroute"
-      "sysprof"
-      ;; "perf"
-      ;; "bpftrace"
-      ;; "elfutils"
-
-      ;; "kernelshark"
-      ;; "traceshark"
-      ;; "babeltrace"
-      ;; "tracecompass"
-
-      ;; "hddtemp"
-      ;; "lmsensors"
-
-      "gparted"
-      "mmc-utils"
-      "f3"
-
-      ;; i2c needs a guix service, which requires a kernel module
-      ;; - see guix system OS declarations
-      "i2c-tools"
-      "ddcutil"
-      "ddcui"
-
-      "tcpdump"
-
-      "inotify-tools"
-      "netcat"
-      "socat"
-      ))
-#+end_src
-
-** netdebug
-
-#+begin_src scheme :tangle ".config/guix/manifests/netdebug.scm"
-(specifications->manifest
- '(
-   "arp-scan"
-   ))
-#+end_src
-
 ** XDG
 
 I can't really imagine a desktop/terminal context where I wouldn't want XDG
@@ -1629,27 +1293,3 @@ utils in the environment, but this is split out anyways...
 + gucharmap :: unicode character map (GTK)
 + fontmanager :: provides GTK tools to aid configuration of fonts
 + brightnessctl :: lightweight brightness control tool
-
-** XKB
-
-#+begin_src scheme :tangle .config/guix/manifests/xkb.scm
-(specifications->manifest
- '(
-   "xkb"
-   "xkbcomp"
-   "xkeyboard-config"
-   "setxkbmap"
-
-   "xev"
-   "xkb-switch"
-   "xkblayout"
-   "xkbutils"
-   "xkbprint"
-
-   ;; "xkbevd"
-   ))
-#+end_src
-
-** Languages
-
-Manifests for language environments

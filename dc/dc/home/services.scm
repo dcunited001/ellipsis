@@ -50,6 +50,10 @@
 ;;; Shells
 
 ;; ---------------------------------------------
+;;; .profile
+
+
+;; ---------------------------------------------
 ;;; Readline
 ;;
 ;; bind '"\e/":dabbrev-expand'
@@ -75,6 +79,11 @@
 
 ;; TODO: bat-service https://github.com/hiecaq/guix-config?tab=readme-ov-file#bat
 
+(define dc-bashrc-noninteractive-return
+  ;; should be first
+  (plain-file "bashrc-noninteractive-return"
+              "[[ $- != *i* ]] && return"))
+
 (define dc-bash-configuration
   (home-bash-configuration
    ;; (aliases '())
@@ -86,20 +95,30 @@
       ("LGREEN" . "$(echo -en '\001\033[01;32m\002')")
       ("LYELLOW" . "$(echo -en '\001\033[01;33m\002')")
       ("LCYAN" . "$(echo -en '\001\033[01;36m\002')")))
-   (bashrc (list (local-file (string-append %dotfiles-directory "/.bashrc") "bashrc")
-                 (local-file (string-append %dotfiles-directory "/bash/rc/aliases.sh"))
-                 (local-file (string-append %dotfiles-directory "/bash/rc/functions.sh"))
-                 ;;                  "
-                 ;; if [ \"$TERM\" = \"dumb\" ]; then
-                 ;;   PS1='$ '
-                 ;; else
-                 ;;   PS1=\"${LYELLOW}\A ${LGREEN}\u${RED}@${LCYAN}\h ${RED}:: ${YELLOW}\w\"
-                 ;;   PS1+=\"${RESTORE}\"
-                 ;; fi
-                 ;; "
-                 ))
-   (bash-profile (list (local-file (string-append %dotfiles-directory "/.bash_profile") "bash_profile")))
-   (bash-logout (list (local-file (string-append %dotfiles-directory "/.bash_logout") "bash_logout")))))
+   (bashrc (list
+            dc-bashrc-noninteractive-return
+            (local-file (string-append %dotfiles-directory "/.bashrc") "bashrc")
+            (local-file
+             (string-append %dotfiles-directory "/bash/rc/aliases.sh"))
+            (local-file
+             (string-append %dotfiles-directory "/bash/rc/functions.sh"))
+            ;;                  "
+            ;; if [ \"$TERM\" = \"dumb\" ]; then
+            ;;   PS1='$ '
+            ;; else
+            ;;   PS1=\"${LYELLOW}\A ${LGREEN}\u${RED}@${LCYAN}\h ${RED}:: ${YELLOW}\w\"
+            ;;   PS1+=\"${RESTORE}\"
+            ;; fi
+            ;; "
+            ))
+   (bash-profile
+    (list
+     (local-file (string-append %dotfiles-directory "/.bash_profile")
+                 "bash_profile")))
+   (bash-logout
+    (list
+     (local-file (string-append %dotfiles-directory "/.bash_logout")
+                 "bash_logout")))))
 
 ;; ---------------------------------------------
 ;;; Base Shell Services
@@ -121,7 +140,15 @@
    'dc-zathura-service
    home-xdg-configuration-files-service-type
    (list `("zathura/zathurarc"
-           ,(local-file (string-append %files-directory "/.config/zathura/zathurarc"))))))
+           ,(local-file
+             (string-append %files-directory "/.config/zathura/zathurarc"))))))
+
+(define dc-screenrc-service
+  (simple-service
+   'dc-screenrc-service
+   home-files-service-type
+   (list `(".screenrc"
+           ,(local-file (string-append %files-directory "/.screenrc"))))))
 
 ;; =============================================
 ;;; Diffoscope/Reprotest

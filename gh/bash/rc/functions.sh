@@ -1,4 +1,3 @@
-
 diffpair() {
     [[ $# -gt 1 ]] || return 1;
     globbed=$2
@@ -28,7 +27,6 @@ repo_reset_repos() {
 }
 
 # alias rprr=repo_reset_repos
-# Git Repo:1 ends here
 
 tre() {
     local -a tree_opts=()
@@ -46,4 +44,20 @@ tre() {
 
     echo ${tree_opts[@]}
     echo ${tree_args[@]}
+}
+
+# this is simpler
+# locate '/data/ecto/x.files/**/*.sh' | xargs grep -e 'EMAIL'
+
+find_dirs_with_ext() {
+    [[ -z "$1" ]] && \
+        printf "requires quoted regexp pattern for sed -E (e.g. '.*\.scm')" && return 1
+
+    local _pattern=$1
+    shift 1
+
+    find . -name "*.scm" -type f -print \
+        | sed -E 's/^(.*\/)'"$_pattern"'/\1/g' \
+        | sort | uniq \
+        | tree --fromfile .
 }
