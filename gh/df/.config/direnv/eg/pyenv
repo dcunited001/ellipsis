@@ -1,0 +1,11 @@
+# [[file:../../../Bash.org::*Direnv: =layout pyenv $python_version=][Direnv: =layout pyenv $python_version=:1]]
+# -*- mode: sh; -*-
+[[ -f ".python-version" ]] && pyversion=$(head .python-version) || pyversion="3.10.11"
+[[ -f ".python-virtualenv" ]] && pvenv=$(head .python-virtualenv) || pvenv=$(basename $PWD)
+
+#use python ${pyversion}
+
+# Create the virtualenv if not yet done (just depend on .python-version for this)
+layout virtualenv ${pyversion} ${pvenv}
+layout activate ${pvenv}-${pyversion}
+# Direnv: =layout pyenv $python_version=:1 ends here

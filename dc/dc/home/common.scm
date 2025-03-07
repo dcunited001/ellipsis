@@ -280,11 +280,15 @@
 
 ;;** Universal
 
-(define-public %dc-env-universal
-  ;; ("LITERAL_VALUE" . ,(literal-string "${abc}"))
-  `(("SHELL" . ,(file-append bash "/bin/bash"))
-    ("LESSHISTFILE" . "$XDG_CACHE_HOME/.lesshst")
-    ("_JAVA_AWT_WM_NONREPARENTING" . #t)))
+;; ("LITERAL_VALUE" . ,(literal-string "${abc}"))
+(define-public %dc-env-universal-service
+  (simple-service
+   'dc-env-universal-service
+   home-environment-variables-service-type
+   `(("SHELL" . ,(file-append bash "/bin/bash"))
+     ;; TODO: ensure XDG_CACHE_HOME gets set
+     ("LESSHISTFILE" . "$XDG_CACHE_HOME/.lesshst")
+     ("_JAVA_AWT_WM_NONREPARENTING" . #t))))
 
 ;;** Applications
 

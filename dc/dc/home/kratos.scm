@@ -126,6 +126,12 @@ no-allow-loopback-pinentry")))
         dc-zathura-service
         dc-screenrc-service))
 
+(define kratos-environment-services
+  ;; NOTE: not really sure this a great pattern
+  (list %dc-env-universal-service
+        %dc-dotfiles-environment-service
+        %dc-apps-env-service))
+
 (define (kratos-home-environment)
   (home-environment
    (packages home-packages)
@@ -143,14 +149,14 @@ no-allow-loopback-pinentry")))
       (service home-inputrc-service-type dc-inputrc-configuration)
       (service i3-service-type)
 
-
       (service home-xdg-user-directories-service-type
                kratos-xdg-user-directories)
 
       ;; (simple-service 'kratos-home-mpv-service home-mpv-service-type)
       (service home-mpv-service-type kratos-mpv-configuration)
 
-      ;; NOTE: stowing this will likely conflict (unless abcdw's power level is over 9,000,000)
+      ;; NOTE: stowing this will likely conflict
+      ;;   (unless abcdw's power level is over 9,000,000)
       (service home-dotfiles-service-type
                (home-dotfiles-configuration
                 (source-directory ".")

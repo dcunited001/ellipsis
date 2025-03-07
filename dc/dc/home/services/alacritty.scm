@@ -23,13 +23,13 @@
 ;;; Code:
 
 (define (dc-alacritty-xdg-files config)
-  (list `("alacritty/alacritty.yml"
-          ,(local-file
-            (string-append %files-directory "/.config/alacritty/alacritty.yml")))
-        `("alacritty/alacritty-clean.yml"
-          ,(local-file
-            (string-append %files-directory
-                           "/.config/alacritty/alacritty.clean.yml")))))
+  (list
+   `("alacritty/alacritty.toml"
+     ,(local-file
+       (string-append %files-directory "/.config/alacritty/alacritty.toml")))
+   `("alacritty/alacritty-clean.toml"
+     ,(local-file
+       (string-append %files-directory "/.config/alacritty/alacritty.clean.toml")))))
 
 (define (add-alacritty-packages config)
   (list alacritty))

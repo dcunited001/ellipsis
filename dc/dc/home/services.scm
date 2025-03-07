@@ -18,7 +18,8 @@
   #:export (%dc-base-environment
             dc-inputrc-configuration
             dc-bash-configuration
-            dc-zathura-service))
+            dc-zathura-service
+            dc-screenrc-service))
 
 ;;; Commentary:
 ;;;
@@ -50,7 +51,10 @@
 
 ;; ---------------------------------------------
 ;;; .profile
-
+(define dc-shell-profile-service
+  (simple-service 'dc-shell-profile
+                  home-shell-profile-service-type
+                  (list )))
 
 ;; ---------------------------------------------
 ;;; Readline
@@ -87,29 +91,16 @@
   (home-bash-configuration
    ;; (aliases '())
    ;; TODO: colors.sh and prompt.sh (probably throw the prompt away)
-   (environment-variables
-    '(("RESTORE" . "$(echo -en '\001\033[0m\002')")
-      ("RED" . "$(echo -en '\001\033[00;31m\002')")
-      ("YELLOW" . "$(echo -en '\001\033[00;33m\002')")
-      ("LGREEN" . "$(echo -en '\001\033[01;32m\002')")
-      ("LYELLOW" . "$(echo -en '\001\033[01;33m\002')")
-      ("LCYAN" . "$(echo -en '\001\033[01;36m\002')")))
-   (bashrc (list
-            dc-bashrc-noninteractive-return
-            (local-file (string-append %files-directory "/.bashrc") "bashrc")
-            (local-file
-             (string-append %files-directory "/bash/rc/aliases.sh"))
-            (local-file
-             (string-append %files-directory "/bash/rc/functions.sh"))
-            ;;                  "
-            ;; if [ \"$TERM\" = \"dumb\" ]; then
-            ;;   PS1='$ '
-            ;; else
-            ;;   PS1=\"${LYELLOW}\A ${LGREEN}\u${RED}@${LCYAN}\h ${RED}:: ${YELLOW}\w\"
-            ;;   PS1+=\"${RESTORE}\"
-            ;; fi
-            ;; "
-            ))
+   (bashrc
+    (list
+     dc-bashrc-noninteractive-return
+     (local-file (string-append %files-directory "/.bashrc") "bashrc")
+     (local-file (string-append %files-directory "/bash/rc/colors.sh"))
+     (local-file (string-append %files-directory "/bash/rc/aliases.sh"))
+     (local-file (string-append %files-directory "/bash/rc/functions.sh"))
+     ;; (local-file (string-append %files-directory "/bash/rc/completions.sh"))
+     (local-file (string-append %files-directory "/bash/rc/git-prompt.sh"))
+     (local-file (string-append %files-directory "/bash/rc/prompt.sh"))))
    (bash-profile
     (list
      (local-file (string-append %files-directory "/.bash_profile")
@@ -147,7 +138,7 @@
    'dc-screenrc-service
    home-files-service-type
    (list `(".screenrc"
-           ,(local-file (string-append %files-directory "/.screenrc"))))))
+           ,(local-file (string-append %files-directory "/.screenrc") "screenrc")))))
 
 ;; =============================================
 ;;; Diffoscope/Reprotest

@@ -1,0 +1,9 @@
+# [[file:../../../Bash.org::*Direnv: \[\[https:/github.com/direnv/direnv/wiki/Python#poetry\]\[layout poetry\]\]][Direnv: [[https://github.com/direnv/direnv/wiki/Python#poetry][layout poetry]]:1]]
+layout poetry
+
+local venvname=$(echo "$VIRTUAL_ENV" | rev | cut -d'/' -f2- | rev)
+PS_INFO="${PS_INFO} <${GREEN}$(pyenv version-name) ${WHITE}poetry: ${YELLOW}${venvname}${WHITE}> ::${RESTORE}"
+
+# TODO setting the prompt doesn't quite work
+export PS1="${PS_INFO}\n${PS_PROMPT}"
+# Direnv: [[https://github.com/direnv/direnv/wiki/Python#poetry][layout poetry]]:1 ends here
