@@ -5,6 +5,7 @@
   #:use-module (gnu home services fontutils)
   #:use-module (gnu home services gnupg)
   #:use-module (gnu home services guix)
+  #:use-module (gnu home services mcron)
   #:use-module (gnu home services)
 
   #:use-module (gnu packages base)
@@ -224,6 +225,10 @@
 (define gtk-environment
   '(("GTK2_RC_FILES" . "$HOME/.gtkrc-2.0")))
 
+;; #+begin_src sh :tangle bin/q-wayland :shebang #!/bin/sh
+;; qdbus org.kde.KWin /KWin org.kde.KWin.showDebugConsole
+;; #+end_src
+
 (define wayland-kde-environment
   ;; necessary for sway
   `(("XDG_CURRENT_DESKTOP" . "KDE")
@@ -385,6 +390,25 @@
                   home-environment-variables-service-type
                   %dc-env-universal))
 
+;; =============================================
+;;; Mcron
+(define dc-mcron-service
+  (simple-service
+   'dc-mcron-service
+   home-mcron-service-type
+   (home-mcron-configuration
+    (jobs
+     ;; updates guix
+     '((job "24 5,16 */5 * *" "$HOME/.config/guix/current/bin/guix pull"))))))
+
+(define dc-mcron-job-bgcycle
+  (job
+   '(next-minute-from
+     (next-minute (range 0 1440 5)))
+   "setbg $_WALLPAPERS"))
+
+;; =============================================
+;;; GPG
 
 (define dc-gpg-agent-configuration
   (home-gpg-agent-configuration
@@ -400,6 +424,9 @@ no-allow-mark-trusted
 no-allow-emacs-pinentry
 no-allow-loopback-pinentry")))
 
+;; =============================================
+;;; Channels
+;;;
 (define dc-channels-service
   (simple-service
    'dc-channels

@@ -161,8 +161,11 @@ no-allow-loopback-pinentry")))
                (home-dotfiles-configuration
                 (source-directory ".")
                 (directories (list (string-append %dotfiles-directory "/df"))))))
+
      kratos-application-services
-     (list dc-channels-service)
+     (list
+      dc-mcron-service
+      dc-channels-service)
      %base-home-services))))
 
 ;; (kratos-home-environment)
