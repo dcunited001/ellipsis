@@ -249,6 +249,11 @@ Guix channel.")
 ;;*** Xref
 ;;*** Grep
 
+;;**** Ripgrep
+(defvar dc/ripgrep-args "--hidden -g \"!/po\""
+  "Args for ripgrep commands. Could be configured in ~/.ripgreprc or
+.{git,rg,}ignore files.")
+
 ;;** Buffers
 (setopt global-auto-revert-non-file-buffers t
         auto-revert-verbose nil)
@@ -488,6 +493,10 @@ Guix channel.")
 ;;*** Consult
 (use-package! consult-org-roam
   :after (org-roam consult)
+  :config
+  (unless (string-match dc/ripgrep-args consult-ripgrep-args)
+    (setq consult-ripgrep-args
+          (string-join (list consult-ripgrep-args dc/ripgrep-args) " ")))
   :custom
   (consult-org-roam-grep-func #'consult-ripgrep)
   (consult-org-roam-buffer-narrow-key consult-narrow-key)

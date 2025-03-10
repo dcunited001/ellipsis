@@ -1,136 +1,16 @@
-#!/bin/sh
-# [[file:../../Bash.org::*Direnv: =layout pyenv $python_version=][Direnv: =layout pyenv $python_version=:2]]
-# use a certain pyenv version
-use_python() {
-    if [ -n "$(which pyenv)" ]; then
-        local pyversion=$1
-        pyenv local ${pyversion}
-    fi
-}
-
-layout_virtualenv() {
-    local pyversion=$1
-    local pvenv=$2
-    if [ -n "$(which pyenv virtualenv)" ]; then
-        pyenv virtualenv --force --quiet ${pyversion} ${pvenv}-${pyversion}
-    fi
-    pyenv local --unset
-}
-
-layout_activate() {
-    if [ -n "$(which pyenv)" ]; then
-        source $(pyenv root)/versions/$1/bin/activate
-    fi
-}
-# Direnv: =layout pyenv $python_version=:2 ends here
-
-# [[file:../../Bash.org::*Direnv: \[\[https:/github.com/direnv/direnv/wiki/Python#poetry\]\[layout poetry\]\]][Direnv: [[https://github.com/direnv/direnv/wiki/Python#poetry][layout poetry]]:2]]
-# TODO: either use_poetry() or....
-# ensure pyenv version
-
-layout_poetry() {
-    PYPROJECT_TOML="${PYPROJECT_TOML:-pyproject.toml}"
-    if [[ ! -f "$PYPROJECT_TOML" ]]; then
-        log_status "No pyproject.toml found. Executing \`poetry init\` to create a \`$PYPROJECT_TOML\` first."
-        poetry init
-    fi
-
+# just use `layout python3` and `layout uv` for now
+layout_uv() {
     if [[ -d ".venv" ]]; then
-        log_status "Setting VIRTUAL_ENV=\$(pwd)/.venv"
         VIRTUAL_ENV="$(pwd)/.venv"
-    else
-        log_status "Setting VIRTUAL_ENV=\$(poetry env info --path 2)/.venv"
-        VIRTUAL_ENV=$(poetry env info --path 2>/dev/null ; true)
     fi
 
     if [[ -z $VIRTUAL_ENV || ! -d $VIRTUAL_ENV ]]; then
-        log_status "No virtual environment exists. Executing \`poetry install\` to create one."
-        poetry install
-        VIRTUAL_ENV=$(poetry env info --path)
+        log_status "No virtual environment exists. Executing \`uv venv\` to create one."
+        uv venv
+        VIRTUAL_ENV="$(pwd)/.venv"
     fi
 
     PATH_add "$VIRTUAL_ENV/bin"
-    export POETRY_ACTIVE=1
+    export UV_ACTIVE=1  # or VENV_ACTIVE=1
     export VIRTUAL_ENV
 }
-
-#layout_vpoetry() {
-#    echo foo
-#}
-# Direnv: [[https://github.com/direnv/direnv/wiki/Python#poetry][layout poetry]]:2 ends here
-
-# [[file:../../Bash.org::*Julia][Julia:2]]
-# The guix package for julia creates ./bin/julia,
-# which is a wrapper for ./bin/.julia-real
-use_julia_system() {
-    # These auto-expand empty entries, but =JULIA_LOAD_PATH= can't be set if empty.
-    export JULIA_DEPOT_PATH="$_LANG/.julia:"
-    export JULIA_LOAD_PATH="$_LANG/.julia:"
-    export JULIA_PATH="$_LANG/julia"
-    export JULIA_VERSION="1.7.3"
-
-    export JULIA_BIN="$JULIA_PATH/bin/julia-$JULIA_VERSION/bin/julia"
-    export JULIA_LIB="$JULIA_PATH/bin/julia-$JULIA_VERSION/lib/julia"
-
-    PATH_add "$JULIA_PATH/bin"
-
-    alias pluto='julia --project=nb --threads=auto -e "using Pluto; Pluto.run(port=4321)"'
-}
-# Julia:2 ends here
-
-# [[file:../../Bash.org::*Guix Direnv][Guix Direnv:1]]
-# when using guix environment in a project, the downloaded environment
-# will be cached in ./.guix-profile. delete it to update the profile
-#
-# https://github.com/direnv/direnv/wiki/GNU-Guix
-use_guix() {
-  local cache_dir="$(direnv_layout_dir)/.guix-profile"
-  if [[ -e "$cache_dir/etc/profile" ]]; then
-    # shellcheck disable=SC1091
-    source "$cache_dir/etc/profile"
-  else
-    mkdir -p "$(direnv_layout_dir)"
-    eval "$(guix environment --root="$cache_dir" "$@" --search-paths)"
-  fi
-}
-
-# NOTE: if arguments like -L need to be passed to guix shell,
-#   just use this one
-use_guixs() {
-  eval "$(guix shell "$@" --search-paths)"
-}
-
-use_guix_profile() {
-  [[ $# -lt 1 ]] && echo "use_guix_profile requires argument" && return 1;
-  local profile_path=$1
-  shift 1
-  [[ ! -e $profile_path ]] && echo "use_guix_profile requires extant profile path" && return 1;
-
-  eval "$(guix shell -p "$profile_path" --search-paths)"
-}
-
-use_guix_manifest() {
-  [[ $# -lt 1 ]] && echo "use_guix_manifest requires argument" && return 1;
-
-  local manifest_file=$1
-  shift 1
-
-  [[ ! -e $manifest_file ]] && echo "use_guix_manifest requires extant manifest file" && return 1;
-
-  eval "$(guix shell -m "$manifest_file" --search-paths)"
-}
-
-# NOTE need to install the profile with `guix environment --root`
-# - then it's available to use with guix shell?
-use_guixs_cached() {
-  echo "$(direnv_layout_dir)"
-  local cache_dir="$(direnv_layout_dir)/.guix-profile"
-  if [[ -e "$cache_dir/etc/profile" ]]; then
-    # shellcheck disable=SC1091
-    source "$cache_dir/etc/profile"
-  else
-    mkdir -p "$(direnv_layout_dir)"
-    eval "$(guix shell --root="$cache_dir" "$@" --search-paths)"
-  fi
-}
-# Guix Direnv:1 ends here

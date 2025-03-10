@@ -124,7 +124,8 @@ no-allow-loopback-pinentry")))
   ;; NOTE: not really sure this a great pattern
   (list (service kratos-alacritty-service dc-alacritty-xdg-files)
         dc-zathura-service
-        dc-screenrc-service))
+        dc-screenrc-service
+        (service home-mpv-service-type kratos-mpv-configuration)))
 
 (define kratos-environment-services
   ;; NOTE: not really sure this a great pattern
@@ -151,9 +152,6 @@ no-allow-loopback-pinentry")))
 
       (service home-xdg-user-directories-service-type
                kratos-xdg-user-directories)
-
-      ;; (simple-service 'kratos-home-mpv-service home-mpv-service-type)
-      (service home-mpv-service-type kratos-mpv-configuration)
 
       ;; NOTE: stowing this will likely conflict
       ;;   (unless abcdw's power level is over 9,000,000)
