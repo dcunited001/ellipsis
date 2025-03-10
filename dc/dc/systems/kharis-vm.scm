@@ -12,8 +12,7 @@
   #:use-module (nongnu system linux-initrd)
 
   #:use-module (dc systems base)
-  #:use-module (dc systems kharis)
-  #:use-module (ellipsis home config))
+  #:use-module (dc systems kharis))
 
 
 (use-service-modules guix admin sysctl pm nix avahi dbus cups

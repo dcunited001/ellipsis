@@ -15,8 +15,7 @@
   #:use-module (dc systems base)
   #:use-module (dc systems kharis)
 
-  #:use-module (ellipsis services vpn)
-  #:use-module (ellipsis home config))
+  #:use-module (ellipsis services vpn))
 
 ;; TODO: add pam_tmpdir module to pam-services
 ;;   - https://www.debian.org/doc/manuals/securing-debian-manual/ch04s11.en.html

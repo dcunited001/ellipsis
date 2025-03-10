@@ -135,36 +135,36 @@ no-allow-loopback-pinentry")))
 
 (define (kratos-home-environment)
   (home-environment
-   (packages home-packages)
-   (services
-    (append
-     (list
-      (simple-service 'kratos-shell-profile
-                      home-shell-profile-service-type
-                      (list))
-      (simple-service 'gtk-environment-variables
-                      home-environment-variables-service-type
-                      gtk-environment)
-      (service home-gpg-agent-service-type kratos-gpg-agent-configuration)
-      (service home-bash-service-type dc-bash-configuration)
-      (service home-inputrc-service-type dc-inputrc-configuration)
-      (service i3-service-type)
+    (packages home-packages)
+    (services
+     (append
+      (list
+       (simple-service 'kratos-shell-profile
+                       home-shell-profile-service-type
+                       (list))
+       (simple-service 'gtk-environment-variables
+                       home-environment-variables-service-type
+                       gtk-environment)
+       (service home-gpg-agent-service-type kratos-gpg-agent-configuration)
+       (service home-bash-service-type dc-bash-configuration)
+       (service home-inputrc-service-type dc-inputrc-configuration)
+       (service i3-service-type)
 
-      (service home-xdg-user-directories-service-type
-               kratos-xdg-user-directories)
+       (service home-xdg-user-directories-service-type
+                kratos-xdg-user-directories)
 
-      ;; NOTE: stowing this will likely conflict
-      ;;   (unless abcdw's power level is over 9,000,000)
-      (service home-dotfiles-service-type
-               (home-dotfiles-configuration
-                (source-directory ".")
-                (directories (list (string-append %dotfiles-directory "/df"))))))
+       ;; NOTE: stowing this will likely conflict
+       ;;   (unless abcdw's power level is over 9,000,000)
+       (service home-dotfiles-service-type
+                (home-dotfiles-configuration
+                 (source-directory ".")
+                 (directories (list (string-append %dotfiles-directory "/df"))))))
 
-     kratos-application-services
-     (list
-      dc-mcron-service
-      dc-channels-service)
-     %base-home-services))))
+      kratos-application-services
+      (list
+       dc-mcron-service
+       dc-channels-service)
+      %base-home-services))))
 
 ;; (kratos-home-environment)
 

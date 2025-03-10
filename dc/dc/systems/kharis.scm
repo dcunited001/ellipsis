@@ -12,8 +12,7 @@
   #:use-module (nongnu packages linux)
   #:use-module (nongnu system linux-initrd)
 
-  #:use-module (dc systems base)
-  #:use-module (ellipsis home config))
+  #:use-module (dc systems base))
 
 (use-service-modules guix admin sysctl pm nix avahi dbus cups
                      desktop linux mcron networking ssh ;; xorg?

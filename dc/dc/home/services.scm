@@ -4,6 +4,8 @@
   #:use-module (dc home common )
   #:use-module (dc home config)
 
+  #:use-module (ellipsis utils)
+
   #:use-module (gnu home services shells)
   #:use-module (gnu home services)
   #:use-module (gnu packages)
@@ -26,20 +28,6 @@
 ;;; This module provides a service definition for the services service.
 ;;;
 ;;; Code:
-
-;; =============================================
-;;; Environments
-
-;; basically, merge
-
-(define (alist-append-uniq . rest)
-  (fold
-   (lambda (el li)
-     (assoc-set! li (car el) (cdr el)))
-   '() (apply append rest)))
-
-;; (or (and (assoc)))
-;; (acons (car el) (cdr el) li)
 
 (define %dc-base-environment
   (alist-append-uniq
@@ -147,51 +135,3 @@
 (define dc-diffoscope-packages (list diffoscope reprotest))
 
 ;; TODO diffoscope setup (req. service?)
-
-;; =============================================
-;;; Garuda Readline:
-;;
-;; - Guix System seems to draw it's inputrc bindings from readline defaults
-;; - Garuda patches readline defaults with this:
-;;
-;; - both consistently use the \e escape syntax, but home-inputrc-service-type
-;;   replaces this with "M-" meta syntax
-;;
-;; ---------------------------------------------
-;;
-;; # do not bell on tab-completion
-;; # set bell-style none
-
-;; set meta-flag on
-;; set input-meta on
-;; set convert-meta off
-;; set output-meta on
-
-;; $if mode=emacs
-
-;; # for linux console and RH/Debian xterm
-;; "\e[1~": beginning-of-line
-;; "\e[4~": end-of-line
-;; "\e[5~": beginning-of-history
-;; "\e[6~": end-of-history
-;; "\e[7~": beginning-of-line
-;; "\e[3~": delete-char
-;; "\e[2~": quoted-insert
-;; "\e[5C": forward-word
-;; "\e[5D": backward-word
-;; "\e\e[C": forward-word
-;; "\e\e[D": backward-word
-;; "\e[1;5C": forward-word
-;; "\e[1;5D": backward-word
-
-;; # for rxvt
-;; "\e[8~": end-of-line
-
-;; # for non RH/Debian xterm, can't hurt for RH/DEbian xterm
-;; "\eOH": beginning-of-line
-;; "\eOF": end-of-line
-
-;; # for freebsd console
-;; "\e[H": beginning-of-line
-;; "\e[F": end-of-line
-;; $endif
