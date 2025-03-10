@@ -106,8 +106,10 @@
               (greetd-wlgreet-sway-session
                ;; TODO background
                (sway-configuration
-                (plain-file "sway-greet.conf" (string-append
-                                               "output * bg /data/xdg/Wallpapers/" %host-name "-greetd.jpg fill\n"))))))
+                (plain-file "sway-greet.conf"
+                            (string-append
+                             "output * bg /data/xdg/Wallpapers/"
+                             %host-name "-greetd.jpg fill\n"))))))
 
            ;; Set up remaining TTYs for terminal use
            (greetd-terminal-configuration
@@ -126,12 +128,12 @@
            ;;     (command (file-append bash "/bin/bash"))
            ;;     (command-args '("-l")))))
            (greetd-terminal-configuration (terminal-vt "6"))
-	         (greetd-terminal-configuration (terminal-vt "7"))
+	       (greetd-terminal-configuration (terminal-vt "7"))
            (greetd-terminal-configuration (terminal-vt "8"))
            ;; (greetd-terminal-configuration
-	         ;;   (terminal-vt "9")
-	         ;;   (default-session-command (file-append bash "/bin/bash")))
-	         ))))
+	       ;;   (terminal-vt "9")
+	       ;;   (default-session-command (file-append bash "/bin/bash")))
+	       ))))
 
        (simple-service
         'add-nonguix-substitutes
@@ -141,8 +143,11 @@
           (append (list "https://substitutes.nonguix.org")
                   %default-substitute-urls))
          (authorized-keys
-          (append (list (plain-file "nonguix.pub" "(public-key (ecc (curve Ed25519) (q #C1FD53E5D4CE971933EC50C9F307AE2171A2D3B52C804642A7A35F84F3A4EA98#)))"))
-                  %default-authorized-guix-keys))))
+          (append
+           (list
+            (plain-file "nonguix.pub"
+                        "(public-key (ecc (curve Ed25519) (q #C1FD53E5D4CE971933EC50C9F307AE2171A2D3B52C804642A7A35F84F3A4EA98#)))"))
+           %default-authorized-guix-keys))))
 
        polkit-wheel-service
        (simple-service

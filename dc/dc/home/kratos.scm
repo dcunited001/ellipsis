@@ -127,11 +127,18 @@ no-allow-loopback-pinentry")))
         dc-screenrc-service
         (service home-mpv-service-type kratos-mpv-configuration)))
 
+(define kratos-environment-variables-service
+  (simple-service
+   'kratos-environment-variables-service
+   home-environment-variables-service-type
+   '(("GTK2_RC_FILES" . "$HOME/.gtkrc-2.0"))))
+
 (define kratos-environment-services
   ;; NOTE: not really sure this a great pattern
   (list %dc-env-universal-service
         %dc-dotfiles-environment-service
-        %dc-apps-env-service))
+        %dc-apps-env-service
+        kratos-environment-variables-service))
 
 (define (kratos-home-environment)
   (home-environment
@@ -142,9 +149,6 @@ no-allow-loopback-pinentry")))
        (simple-service 'kratos-shell-profile
                        home-shell-profile-service-type
                        (list))
-       (simple-service 'gtk-environment-variables
-                       home-environment-variables-service-type
-                       gtk-environment)
        (service home-gpg-agent-service-type kratos-gpg-agent-configuration)
        (service home-bash-service-type dc-bash-configuration)
        (service home-inputrc-service-type dc-inputrc-configuration)

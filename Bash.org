@@ -15,7 +15,6 @@
   - [[#guix][Guix]]
   - [[#podman][Podman]]
   - [[#docker][Docker]]
-- [[#hardware][Hardware]]
 - [[#languages][Languages]]
   - [[#java][Java]]
   - [[#graphql][GraphQL]]
@@ -204,22 +203,6 @@ paths to exist.
 
 Test with =docker pull docker.io/netbootxyz/netbootxyz=
 
-* Hardware
-
-#+begin_src sh :tangle .profile :shebang #!/bin/sh
-export PATH=$HOME/.local/bin:$HOME/bin:$PATH
-export DISTRO="$(grep -e '^ID=' /etc/os-release | sed -e 's/^ID=//g')"
-
-# can't add functions to .bash_profile: only .bashrc
-export NTHREADS="$(ncpu-threads)"
-if [[ -n "$NTHREADS" ]]; then
-    NCPU="$((NTHREADS / 2))"
-else
-    NCPU="4"
-fi
-export NCPU
-#+end_src
-
 * Languages
 
 ** Java
@@ -277,11 +260,6 @@ On Guix Systems, add the =nodejs= profile to the project or ensure that it's in
 will be a separate node build, but its =npm install -g= binaries will still go
 in =.node_modules=
 
-#+begin_src sh
-#or use_guix_manifest -m $XDG_CONFIG_HOME/guix/manifests/nodejs.scm
-use_guix_profile -m $GUIX_EXTRA/nodejs/nodejs
-#+end_src
-
 ***** TODO finalize on =use_guixs=
 ***** TODO how to designate the default graphql schema file for the above?
 
@@ -335,14 +313,6 @@ If =.bash_profile= does not exist, =.profile= will be sourced instead. When bash
 is invoked as =sh=, then it will source =.profile= anyways.
 
 *** Before Profile.d
-
-#+begin_src sh :tangle .profile :shebang #!/bin/sh
-export DOTS_CFG_SHELL=$XDG_CONFIG_HOME/sh
-export DOTS_PROFILE_D=$DOTS_CFG_SHELL/profile.d
-
-# Profile
-[[ -f $DOTS_CFG_SHELL/_load_profile.d.sh ]] && source $DOTS_CFG_SHELL/_load_profile.d.sh
-#+end_src
 
 * Shells
 :PROPERTIES:

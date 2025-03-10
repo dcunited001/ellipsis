@@ -47,9 +47,7 @@
             fcitx5-packages
 
             ;; environments
-            gtk-environment
             wayland-environment
-            wayland-kde-environment
 
             ;; services
             dc-gpg-agent-configuration
@@ -69,8 +67,6 @@
 (define essential-packages
   (list tree                            ; admin
         ))
-
-;; "gst-plugins-ugly"
 
 (define yubikey-packages
   ;; libyubikey yubico-pam pam-u2f
@@ -222,18 +218,16 @@
   '(("XDG_SESSION_TYPE" . "wayland")
     ("QT_QPA_PLATFORM" . "wayland-egl")))
 
-(define gtk-environment
-  '(("GTK2_RC_FILES" . "$HOME/.gtkrc-2.0")))
-
 ;; #+begin_src sh :tangle bin/q-wayland :shebang #!/bin/sh
 ;; qdbus org.kde.KWin /KWin org.kde.KWin.showDebugConsole
 ;; #+end_src
 
 (define wayland-kde-environment
-  ;; necessary for sway
   `(("XDG_CURRENT_DESKTOP" . "KDE")
+    ("XDG_SESSION_TYPE" . "wayland")
 
     ;; potential necessary for styling/theming
+    ("QT_QPA_PLATFORM" . "wayland-egl")
     ("QT_QPA_PLATFORMTHEME" . "qt5ct")
     ("QT_WAYLAND_FORCE_DPI" . "physical")
     ("QT_WAYLAND_DISABLE_WINDOWDECORATION" . #t)

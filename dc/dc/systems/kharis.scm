@@ -33,38 +33,6 @@
 
 ;; TODO: in (ellipsis home utils), read these from (string-append %host-name ".json")
 
-(define-public %_df
-  (or (getenv "_df")
-      (dc-default-path %home ".dotfiles")))
-
-(define-public %_data
-  (or (getenv "_data") "/data"))
-(define-public %_lang
-  (or (getenv "_lang")
-      (dc-default-path %_data "lang")))
-(define-public %_ecto
-  (or (getenv "_ecto")
-      (dc-default-path %_data "ecto")))
-(define-public %_repo
-  (or (getenv "_repo")
-      (dc-default-path %_data "repo")))
-
-(define-public %_flatpak
-  (or (getenv "_flatpak") "/flatpak"))
-(define-public %_steam
-  (or (getenv "_steam")
-      (dc-default-path %_flatpak "steam")))
-(define-public %_agenda
-  (or (getenv "_agenda")
-      (dc-default-path %_flatpak  "agenda")))
-(define-public %_wallpapers
-  (or (getenv "_wallpapers")
-      (dc-default-path %_data "xdg/Wallpapers/anime")))
-
-(define-public %DOOMDIR
-  (or (getenv "DOOMDIR")
-      (dc-default-path ".doom.d")))
-
 (define %host-name "kharis")
 
 ;; system-specific users should go here
@@ -74,7 +42,7 @@
   (keyboard-layout
    "us" "altgr-intl"
    #:model "pc105"
-         ;; see gitlab.freedesktop.org/xkeyboard-config/xkeyboard-config/-/issue/344
+   ;; see gitlab.freedesktop.org/xkeyboard-config/xkeyboard-config/-/issue/344
    #:options '("caps:ctrl_modifier"
                ;; "ctrl:swapcaps_hyper" ; in 1.3.0 (hyper as Mod3)
                ;; "ctrl:hyper_capscontrol" ; in 1.5.0 (hyper as Mod4)
@@ -218,8 +186,10 @@
               (greetd-wlgreet-sway-session
                ;; TODO background
                (sway-configuration
-                (plain-file "sway-greet.conf" (string-append
-                                               "output * bg /data/xdg/Wallpapers/" %host-name "-greetd.jpg fill\n"))))))
+                (plain-file "sway-greet.conf"
+                            (string-append
+                             "output * bg /data/xdg/Wallpapers/"
+                             %host-name "-greetd.jpg fill\n"))))))
 
            ;; Set up remaining TTYs for terminal use
            (greetd-terminal-configuration
@@ -376,7 +346,7 @@
                    %base-file-systems))
 
     (swap-devices (list (swap-space
-                         (target (file-system-label "kharisSwap"))
-                         (dependencies mapped-devices))))))
+                          (target (file-system-label "kharisSwap"))
+                          (dependencies mapped-devices))))))
 
 system
