@@ -36,6 +36,67 @@
 
 ;; =============================================
 ;;; Shells
+;;;
+
+(define add-shell-aliases
+  (fold
+   (lambda (el acc) (append acc (cdr el)))
+   '((shell .
+      (("pathtr" . "tr '\\'':'\\'' '\\''\\n'\\''")
+       ("shitbin" . "echo -e \"\\033c\"")))
+     (defaultcmd .
+       (("wget" . "wget -c ")))
+     ;; emacs, info-standalone
+     (emacs .
+            (("imacs"
+              . "emacs -f info-standalone --eval=\"(load-theme (intern \\\"wombat\\\"))\"")))
+     (text  .
+            (("wordcat" . "tee >(xargs -n1 cat) | wc -w")))
+     (git . (("gkcfg" . "git stack --dump-config -")
+             ("gkg" . "git stack")
+             ("gksy" . "git stack sync")))
+     (gnupg .
+            (("gpga" . "gpg --armor")
+             ("gpgk" . "gpg-connect-agent killagent /bye")
+             ("gpguptty" . "gpg-connect-agent updatestartuptty /bye")
+             ("gpgrel" . "gpg-connect-agent reloadagent /bye")))
+     (hardware . (("hw" . "hwinfo --short")
+                  ("iotopa" . "iotop -oa")
+                  ("grubup" . "sudo update-grub")))
+     (archive . (("tarnow" . "tar -acf ")
+                 ("untar" . "tar -zxvf ")))
+     ;; alias renoice="renice --priority 15 $(pgrep emacs-29)"
+     (process . (("ps_nice" . "ps axo pid,comm,nice,cls --sort=-nice")
+                 ("ps_pri" . "ps -eo pri k +pri h | uniq -c")
+                 ("psid" . "ps -opid,uid,command h")
+                 ("psmem" . "ps auxf | sort -nr -k 4")
+                 ("psmem10" . "ps auxf | sort -nr -k 4 | head -10")
+                 ("psnice" . "ps -o pid,comm,nice")
+                 ("pspri"
+                  . "ps -eo pid,tid,class,rtprio,ni,pri,psr,pcpu,stat,wchan:14,comm k pri")
+                 ("ptrgb" . "pstree -C age -pT")))
+     (tree . (("treef" . "tree --prune -aP")))
+     (jq . (("jqr" . "jq -r ")
+            ("jqrj" . "jq -rj ")))
+     (node . (("nodenpm_lsparse"
+               . "npm ls -g --parseable | grep node_modules | sed -e '\\''s/.*node_modules\\///g'\\''")))
+     (html . (("tyxy"
+               . "tidy --quiet yes --tidy-mark no --vertical-space yes -indent -xml"))))))
+
+;; ???
+;; ("vdir" . "vdir --color=auto")
+
+;; sysu cat doom
+;; sysu show -p Type $doom
+;; sysu show -vp Type $doom # only values
+;; alias sysed='systemctl --user edit --drop-in=$overridename $svc'
+;;
+(define add-systemd-aliases
+  '(("jctlu" . "journalctl --user -u")
+    ("jctlb" . "journalctl -p 3 -xb")
+    ("sysu" . "systemctl --user")
+    ("sysdpath" . "systemd-path system-shared")
+    ("sysupath" . "systemd-path user-shared")))
 
 ;; ---------------------------------------------
 ;;; .profile
@@ -89,6 +150,9 @@
      ;; (local-file (string-append %files-directory "/bash/rc/completions.sh"))
      (local-file (string-append %files-directory "/bash/rc/git-prompt.sh"))
      (local-file (string-append %files-directory "/bash/rc/prompt.sh"))))
+   (aliases
+    (append add-shell-aliases
+            add-systemd-aliases))
    (bash-profile
     (list
      (local-file (string-append %files-directory "/.bash_profile")

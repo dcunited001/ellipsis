@@ -20,7 +20,6 @@
   - [[#graphql][GraphQL]]
   - [[#julia][Julia]]
 - [[#profile][Profile]]
-  - [[#profile-1][=.profile=]]
 - [[#shells][Shells]]
   - [[#rc][RC]]
 - [[#environment][Environment]]
@@ -223,6 +222,8 @@ export _JAVA_AWT_WM_NONREPARENTING=1
 export ECLIPSE_HOME=${_LANG}/.eclipse/eclipse
 #+end_src
 
+#+RESULTS:
+
 *** Eclipse
 
 For Guix, eclipse should basically just require an OpenJDK
@@ -278,9 +279,6 @@ export JULIA_LOAD_PATH="$_LANG/.julia:"
 This configuration is intended to be used on archlinux.
 
 #+begin_src sh :tangle .config/direnv/direnvrc :shebang #!/bin/sh
-
-
-
 # The guix package for julia creates ./bin/julia,
 # which is a wrapper for ./bin/.julia-real
 use_julia_system() {
@@ -303,24 +301,10 @@ use_julia_system() {
 #+end_src
 
 * Profile
-:PROPERTIES:
-:header-args+: :comments link :mkdirp yes
-:END:
-
-** =.profile=
-
-If =.bash_profile= does not exist, =.profile= will be sourced instead. When bash
-is invoked as =sh=, then it will source =.profile= anyways.
-
-*** Before Profile.d
 
 * Shells
-:PROPERTIES:
-:header-args+: :comments link :mkdirp yes
-:END:
 
 ** RC
-
 
 #+begin_src sh :tangle .config/sh/rc.d/aliases.sh :shebang #!/bin/sh
 #* alias @ALIAS
@@ -428,7 +412,6 @@ alias guix_all_profiles='find /gnu/store -maxdepth 1 -type d -name "*profile" -e
 alias guix_main="$HOME/.config/guix/current/bin/guix"
 
 #** pacman @ALIAS
-alias fixpacman="sudo rm /var/lib/pacman/db.lck"
 alias rmpkg="sudo pacman -Rdd"
 alias cleanup='sudo pacman -Rns `pacman -Qtdq`'
 alias rip="expac --timefmt='%Y-%m-%d %T' '%l\t%n %v' | sort | tail -200 | nl"

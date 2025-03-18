@@ -5,6 +5,7 @@
   #:use-module (dc home common)
   #:use-module (dc home services)
   #:use-module (dc home services i3)
+  #:use-module (dc home services screen)
   #:use-module (dc home services alacritty)
 
   #:use-module (gnu home services desktop)
@@ -124,7 +125,7 @@ no-allow-loopback-pinentry")))
   ;; NOTE: not really sure this a great pattern
   (list (service kratos-alacritty-service dc-alacritty-xdg-files)
         dc-zathura-service
-        dc-screenrc-service
+        screen-service-type
         (service home-mpv-service-type kratos-mpv-configuration)))
 
 (define kratos-environment-variables-service
