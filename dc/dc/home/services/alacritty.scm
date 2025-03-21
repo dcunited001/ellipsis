@@ -24,6 +24,18 @@
 
 (define (dc-alacritty-xdg-files config)
   (list
+   `("alacritty/input.default.toml"
+     ,(local-file
+       (string-append %files-directory "/.config/alacritty/input.default.toml")))
+   `("alacritty/font.default.toml"
+     ,(local-file
+       (string-append %files-directory "/.config/alacritty/font.default.toml")))
+   `("alacritty/window.default.toml"
+     ,(local-file
+       (string-append %files-directory "/.config/alacritty/window.default.toml")))
+   `("alacritty/colors.default.toml"
+     ,(local-file
+       (string-append %files-directory "/.config/alacritty/colors.default.toml")))
    `("alacritty/alacritty.toml"
      ,(local-file
        (string-append %files-directory "/.config/alacritty/alacritty.toml")))
