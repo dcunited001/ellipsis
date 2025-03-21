@@ -8,6 +8,8 @@
   #:use-module (dc home services screen)
   #:use-module (dc home services alacritty)
 
+  #:use-module (ellipsis utils)
+
   #:use-module (gnu home services desktop)
   #:use-module (gnu home services dotfiles)
   #:use-module (gnu home services gnupg)
@@ -82,7 +84,88 @@
    (publicshare (string-append %xdg "/Public"))
    (templates (string-append %xdg "/Templates"))))
 
-;;; service config
+;; =============================================
+;;; Environment
+
+(define (kratos-env-base env-defaults)
+  (define env-wayland
+    '(("XDG_SESSION_TYPE" . "wayland")
+      ("QT_QPA_PLATFORM" . "wayland-egl")))
+
+  (define env-apps
+    '(("EMAIL" . "aionfork@gmail.com")  ; interpreted by emacs.
+      ("BROWSER" . "firefox")
+      ("VISUAL" . "doomclient -- -c")
+      ("EDITOR" . "doomclient -- -nw")
+      ("ALTERNATE_EDITOR" . "vim")))
+
+  (define env-paths
+    '(("_ECTO" . "/data/ecto")
+      ("_REPO" . "/data/repo")
+      ("_LANG" . "/data/lang")
+      ("_STEAM" . "/flatpak/steam")
+      ("_WALLPAPERS" . "/data/xdg/Wallpapers/anime")
+      ("DOOMDIR" . "$HOME/.doom.d")))
+
+  ;; TODO remove most of these _DF vars
+
+  ;; ("_DATA" . "/data")
+  ;; ("_GUIX" . "/gnu")
+  ;; ("_FLATPAK" . "/flatpak")
+
+  (define moz-env
+    '(("MOZ_ENABLE_WAYLAND" . #t)       ; firefox wayland
+      ("MOZ_DBUS_REMOTE" . #t)))
+
+  (define qt-env
+    '(("XDG_SESSION_TYPE" . "wayland")
+      ("QT_QPA_PLATFORM" . "wayland-egl")
+      ;; potential necessary for styling/theming
+      ("QT_QPA_PLATFORMTHEME" . "qt5ct")
+      ("QT_WAYLAND_FORCE_DPI" . "physical")
+      ("QT_WAYLAND_DISABLE_WINDOWDECORATION" . #t)))
+
+  ;; GDK_BACKEND may interfere with program startup (e.g. chromium and
+  ;; electron apps). maybe set per app instead of globally.
+
+  (define env-gtk
+    '(("GTK2_RC_FILES" . "$HOME/.gtkrc-2.0")
+      ("GDK_BACKEND" . "wayland")
+      ;; disables accessibility?
+      ("NO_AT_BRIDGE" . #t)))
+
+  ;; SDL_VIDEODRIVER may interfere with startup of old sdl games
+
+  (define env-sdl
+    '(("SDL_VIDEODRIVER" . "wayland")   ; override per-app for old SDL games
+      ("SDL_DYNAMIC_API" . "/usr/lib/libSDL2-2.0.so")))
+                                        ; steam tweaks
+  (define env-xdg
+    '(("XDG_CURRENT_DESKTOP" . "KDE")))
+
+  (alist-append-uniq
+   env-defaults
+   env-wayland
+   env-apps
+   env-paths
+   env-gtk
+   env-xdg))
+
+;; ---------------------------------------------
+;;;; Environment Base Service
+
+;; This environment service should register first
+
+(define kratos-env-base-service
+  (simple-service
+   'kratos-env-base-service
+   home-environment-variables-service-type
+   (kratos-env-base %dc-env-base)))
+
+;; =============================================
+;;; Services
+
+;; ---------------------------------------------
 ;;;; GPG
 
 ;; TODO: gpg-agent: reopen configuration instead of defining a new one
@@ -100,13 +183,9 @@ no-allow-mark-trusted
 no-allow-emacs-pinentry
 no-allow-loopback-pinentry")))
 
-;;; environment config
-(define kratos-wayland-environment-variables
-  (simple-service 'wayland-environment-variables
-                  home-environment-variables-service-type
-                  wayland-environment))
+;; =============================================
+;;; Applications
 
-;;; application config
 ;;;; alacritty
 (define kratos-alacritty-service
   (alacritty-service-type dc-alacritty-xdg-files))
@@ -128,18 +207,10 @@ no-allow-loopback-pinentry")))
         screen-service-type
         (service home-mpv-service-type kratos-mpv-configuration)))
 
-(define kratos-environment-variables-service
-  (simple-service
-   'kratos-environment-variables-service
-   home-environment-variables-service-type
-   '(("GTK2_RC_FILES" . "$HOME/.gtkrc-2.0"))))
 
-(define kratos-environment-services
-  ;; NOTE: not really sure this a great pattern
-  (list %dc-env-universal-service
-        %dc-dotfiles-environment-service
-        %dc-apps-env-service
-        kratos-environment-variables-service))
+
+;; =============================================
+;;; Home Configuration
 
 (define (kratos-home-environment)
   (home-environment

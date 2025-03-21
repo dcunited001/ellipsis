@@ -213,28 +213,10 @@
         fcitx5-gtk4
         fcitx5-qt))
 
-(define wayland-environment
-  ;; on guix system, agreety will set XDG_SESSION_TYPE
-  '(("XDG_SESSION_TYPE" . "wayland")
-    ("QT_QPA_PLATFORM" . "wayland-egl")))
-
 ;; #+begin_src sh :tangle bin/q-wayland :shebang #!/bin/sh
 ;; qdbus org.kde.KWin /KWin org.kde.KWin.showDebugConsole
 ;; #+end_src
 
-(define wayland-kde-environment
-  `(("XDG_CURRENT_DESKTOP" . "KDE")
-    ("XDG_SESSION_TYPE" . "wayland")
-
-    ;; potential necessary for styling/theming
-    ("QT_QPA_PLATFORM" . "wayland-egl")
-    ("QT_QPA_PLATFORMTHEME" . "qt5ct")
-    ("QT_WAYLAND_FORCE_DPI" . "physical")
-    ("QT_WAYLAND_DISABLE_WINDOWDECORATION" . #t)
-
-    ;; necessary on a per-app basis or for the entire wm session,
-    ("SDL_VIDEODRIVER" . "wayland")
-    ("SDL_IM_MODULE" . "fcitx")))
 
 ;; TODO: refactor env-vars into records & services
 ;;
@@ -245,124 +227,48 @@
 
 ;; ==[ old notes ]===========================================
 
-;; TODO: home-files-service-type
-;; files to copy into /gnu/store
-
-;; TODO: home-xdg-configuration-files-service-type
-;; files to generate for /gnu/store
-
-;; TODO: home-symlink-manager-service-type
-
 ;; TODO: kitnil/dotfiles/dotfiles/guixsd/modules/home/services/ansible.scm
 
-;; TODO: services that extend home-mcron-service-type?
-
-;;* Env
-;;
-;;** File Paths
-
-;; TODO remove most of these _DF vars
-(define-public %dc-dotfiles-env-service
-  (simple-service
-   'dc-dotfiles-env-service
-   home-environment-variables-service-type
-   '(("_ECTO" . "/data/ecto")
-     ("_REPO" . "/data/repo")
-     ("_LANG" . "/data/lang")
-     ("_STEAM" . "/flatpak/steam")
-     ("_WALLPAPERS" . "/data/xdg/Wallpapers/anime")
-     ("DOOMDIR" . "$HOME/.doom.d"))))
-
-;; ("_DATA" . "/data")
-;; ("_GUIX" . "/gnu")
-;; ("_FLATPAK" . "/flatpak")
-
-;;** Universal
-
-;; ("LITERAL_VALUE" . ,(literal-string "${abc}"))
-(define-public %dc-env-universal-service
-  (simple-service
-   'dc-env-universal-service
-   home-environment-variables-service-type
-   `(("SHELL" . ,(file-append bash "/bin/bash"))
-     ;; TODO: ensure XDG_CACHE_HOME gets set
-     ("LESSHISTFILE" . "$XDG_CACHE_HOME/.lesshst")
-     ("_JAVA_AWT_WM_NONREPARENTING" . #t))))
-
-;;** Applications
+;; =============================================
+;;; Env
 
 ;; - MAIL gets interpreted as the default for mutt's spoolfile
 ;; - MAIL is supposed to point to system mail account https://askubuntu.com/a/474982
-(define-public %dc-apps-env-service
-  (simple-service
-   'dc-apps-env-service
-   home-environment-variables-service-type
-   '(("MAIL" . "geary")
-     ("EMAIL" . "aionfork@gmail.com")   ; interpreted by emacs.
-     ("BROWSER" . "firefox")
-     ("VISUAL" . "doomclient -- -c")
-     ("EDITOR" . "doomclient -- -nw")
-     ("ALTERNATE_EDITOR" . "vim"))))
 
-;;** Development
+(define-public %dc-env-base
+  `(("SHELL" . ,(file-append bash "/bin/bash"))
+    ("MAIL" . "geary")
+    ("LESSHISTFILE" . "$XDG_CACHE_HOME/.lesshst")
+    ("_JAVA_AWT_WM_NONREPARENTING" . #t)))
 
+(define %dc-env-wayland
+  ;; on guix system, agreety will set XDG_SESSION_TYPE
+  '(("XDG_SESSION_TYPE" . "wayland")
+    ("QT_QPA_PLATFORM" . "wayland-egl")))
 
-;;** Display Servers
-;;*** X11
+;; ("LITERAL_VALUE" . ,(literal-string "${abc}"))
+
+;; TODO: ensure XDG_CACHE_HOME gets set
+
+;;;; Display Servers
+;;;;; X11
 
 (define-public %dc-env-x11
   ;; this seems to fix alacritty HiDPI
   '(("WINIT_X11_SCALE_FACTOR" . #t)))
 
-;;*** Wayland
+;;;;; Wayland
 
 (define-public %dc-env-wayland
-  `( ;; necessary for wayland
-    ("XDG_SESSION_TYPE" . "wayland")
+  `(("XDG_SESSION_TYPE" . "wayland")
     ("QT_QPA_PLATFORM" . "wayland-egl")
-    ;; potential necessary for styling/theming
     ("QT_QPA_PLATFORMTHEME" . "qt5ct")
     ("QT_WAYLAND_FORCE_DPI" . "physical")
-    ("QT_WAYLAND_DISABLE_WINDOWDECORATION" . #t)
-    ;; firefox in wayland
-    ("MOZ_ENABLE_WAYLAND" . #t)
-    ;; fix for firefox (already running but not responding)
-    ;; ("MOZ_DBUS_REMOTE" . #t)
+    ("QT_WAYLAND_DISABLE_WINDOWDECORATION" . #t)))
 
-    ;; disables accessibility??
-    ;; http://library.gnome.org/devel/accessibility-devel-guide/stable/gad-how-it-works.html.en
-    ;; ("NO_AT_BRIDGE" . #t)
+;;;; Applications
 
-    ;; this can prevent programs from starting (e.g. chromium and electron
-    ;; apps).  therefore, this should be set per app instead of globally.
-    ("GDK_BACKEND" . "wayland")
-    ;; this can prevent programs from starting old sdl games. therefore, this
-    ;; should be set per app instead of globally.
-
-    ;; ("SDL_VIDEODRIVER" . "wayland") ; decide on per-app
-
-    ;; ("SDL_DYNAMIC_API" . "/usr/lib/libSDL2-2.0.so") ; steam tweaks
-    ))
-;;** Toolkits
-
-;;*** QT
-
-;;** Window Managers
-
-;;*** Sway
-
-;; override with specifics
-(define-public %dc-env-sway
-  '(("XDG_CURRENT_DESKTOP" . "sway")))
-
-;;*** KDE
-
-(define-public %dc-env-kde
-  '(("XDG_CURRENT_DESKTOP" . "KDE")))
-
-;;** Applications
-
-;;*** FCITX
+;;;;; FCITX
 
 ;; does this even work in wayland?
 (define-public fcitx-environment
@@ -374,15 +280,6 @@
 ;; for guix, fix to load from ~/.guix-profile
 ;;
 ;; export FCITX_ADDON_DIRS=$GUIX_EXTRA/fcitx5/fcitx5/lib:$FCITX_ADDON_DIRS
-
-;; (define* (dc-env-universal #:optional
-;;          (env-vars %env-universal))
-;;
-;; doesn't make sense. ensure load order, override with subsequent servic
-(define-public dc-env-universal-service
-  (simple-service 'dc-env-universal
-                  home-environment-variables-service-type
-                  %dc-env-universal))
 
 ;; =============================================
 ;;; Mcron
