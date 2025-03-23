@@ -20,8 +20,7 @@
   #:export (%dc-base-environment
             dc-inputrc-configuration
             dc-bash-configuration
-            dc-zathura-service
-            dc-screenrc-service))
+            dc-zathura-service))
 
 ;;; Commentary:
 ;;;
@@ -184,13 +183,6 @@
    (list `("zathura/zathurarc"
            ,(local-file
              (string-append %files-directory "/.config/zathura/zathurarc"))))))
-
-(define dc-screenrc-service
-  (simple-service
-   'dc-screenrc-service
-   home-files-service-type
-   (list `(".screenrc"
-           ,(local-file (string-append %files-directory "/.screenrc") "screenrc")))))
 
 ;; =============================================
 ;;; Diffoscope/Reprotest
