@@ -23,7 +23,7 @@
 
 (define-public sops
   (let* ((bin-platform "linux.amd64")
-         (bin-version "3.8.1")
+         (bin-version "3.9.4")
          (bin-name (string-append "sops-v" bin-version "." bin-platform)))
     (package
       (name "sops")
@@ -35,7 +35,7 @@
                       "v" version "/" bin-name))
                 (sha256
                  (base32
-                  "15qnh4hi15i8689gnwbrkypirn624hqm48nnw34jf8cpc7xhggyn"))))
+                  "11afdrifjla52ck884bs84fbjfmbpdad0pc9mn17kpkiqhmy722l"))))
       (build-system copy-build-system)
       (arguments
        (list
@@ -48,7 +48,8 @@
                            #:include-regexp ("sops.*$")))
         #:modules '((guix build copy-build-system)
                     (guix build utils)  ; for find-file
-                    (srfi srfi-26))     ; for cut, a swappier curry
+                    (srfi srfi-26))
+                                        ; for cut, a swappier curry
 
         #:phases
         #~(modify-phases %standard-phases
@@ -159,8 +160,10 @@ Key Vault, age, and PGP.")
     (native-inputs
      (list go))
     (home-page "https://smallstep.com/cli/")
-    (synopsis "A zero trust swiss army knife for working with X509, OAuth, JWT, OATH, OTP, etc")
-    (description "step is an easy-to-use CLI tool for building, operating, and automating Public Key Infrastructure (PKI) systems and workflows. It's the client counterpart to the step-ca online Certificate Authority (CA). You can use it for many common crypto and X.509 operations—either independently, or with an online CA.")
+    (synopsis
+     "A zero trust swiss army knife for working with X509, OAuth, JWT, OATH, OTP, etc")
+    (description
+     "step is an easy-to-use CLI tool for building, operating, and automating Public Key Infrastructure (PKI) systems and workflows. It's the client counterpart to the step-ca online Certificate Authority (CA). You can use it for many common crypto and X.509 operations—either independently, or with an online CA.")
     (license license:asl2.0)))
 
 ;; TODO: remove command/certificate/remote_test.go (connects to remote server)
@@ -169,7 +172,7 @@ Key Vault, age, and PGP.")
 (define-public step-cli-bin
   (package
     (name "step-cli-bin")
-    (version "0.28.2")
+    (version "0.28.6")
     (source (origin
               (method url-fetch)
               (uri (string-append
@@ -177,19 +180,21 @@ Key Vault, age, and PGP.")
                     "v" version "/step_linux_" version "_amd64.tar.gz"))
               (sha256
                (base32
-                "1imqqzb3n783ilwf5y3vacvix1n0llfj62q7632fx081v73z6219"))))
+                "0f3k7bz9ypyhp9dzq3l62aac2qr1c2957667g6i4ppgpvvnqw78c"))))
     (build-system copy-build-system)
     (inputs
      (list coreutils pcsc-lite))
     (home-page "https://smallstep.com/cli/")
-    (synopsis "(prebuilt) A zero trust swiss army knife for working with X509, OAuth, JWT, OATH, OTP, etc")
-    (description "step is an easy-to-use CLI tool for building, operating, and automating Public Key Infrastructure (PKI) systems and workflows. It's the client counterpart to the step-ca online Certificate Authority (CA). You can use it for many common crypto and X.509 operations—either independently, or with an online CA.")
+    (synopsis
+     "(prebuilt) A zero trust swiss army knife for working with X509, OAuth, JWT, OATH, OTP, etc")
+    (description
+     "step is an easy-to-use CLI tool for building, operating, and automating Public Key Infrastructure (PKI) systems and workflows. It's the client counterpart to the step-ca online Certificate Authority (CA). You can use it for many common crypto and X.509 operations—either independently, or with an online CA.")
     (license license:asl2.0)))
 
 (define-public step-ca-bin
   (package
     (name "step-ca-bin")
-    (version "0.28.1")
+    (version "0.28.3")
     (source (origin
               (method url-fetch)
               (uri (string-append
@@ -197,7 +202,7 @@ Key Vault, age, and PGP.")
                     "v" version "/step-ca_linux_" version "_amd64.tar.gz"))
               (sha256
                (base32
-                "01q5m0y0rh7w5lzhrwgy5ks44dfkg7f608qyc08gw62lrql5cj3m"))))
+                "0vpsxqp2fd38r8k689370364bsj5crajs2npz7bhchsgn7k7lx70"))))
     (build-system copy-build-system)
     (arguments
      (list
@@ -206,21 +211,23 @@ Key Vault, age, and PGP.")
      (list coreutils pcsc-lite))
     (home-page "https://smallstep.com/certificates/")
     (synopsis "(prebuilt) Open-Source Certificate Authority & PKI Toolkit")
-    (description "A private certificate authority (X.509 & SSH) & ACME server for secure automated certificate management, so you can use TLS everywhere & SSO for SSH.")
+    (description
+     "A private certificate authority (X.509 & SSH) & ACME server for secure automated certificate management, so you can use TLS everywhere & SSO for SSH.")
     (license license:asl2.0)))
 
 (define-public step-kms-plugin-bin
   (package
     (name "step-kms-plugin-bin")
-    (version "0.11.8")
+    (version "0.12.3-rc19")
     (source (origin
               (method url-fetch)
               (uri (string-append
                     "https://github.com/smallstep/step-kms-plugin/releases/download/"
-                    "v" version "/step-kms-plugin_" version "_linux_amd64.tar.gz"))
+                    "v" version "/step-kms-plugin_" version
+                    "_linux_amd64.tar.gz"))
               (sha256
                (base32
-                "1w69d14q14apzb99xpl2ddjn583dz62lfsklyskqxzdh9vzk0aml"))))
+                "1vn0z3bjrf5h5amll2xa39nppxn6ggdxfk6mnvyqsgy1083rmnxm"))))
     (build-system binary-build-system)
     ;; (build-system copy-build-system)
     (inputs `((,gcc "lib")
@@ -246,5 +253,6 @@ Key Vault, age, and PGP.")
 
     (home-page "https://smallstep.com/certificates/")
     (synopsis "(prebuilt) Open-Source Certificate Authority & PKI Toolkit")
-    (description "A private certificate authority (X.509 & SSH) & ACME server for secure automated certificate management, so you can use TLS everywhere & SSO for SSH.")
+    (description
+     "A private certificate authority (X.509 & SSH) & ACME server for secure automated certificate management, so you can use TLS everywhere & SSO for SSH.")
     (license license:asl2.0)))
