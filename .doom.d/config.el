@@ -1,9 +1,9 @@
 ;;; $DOOMDIR/config.el -*- lexical-binding: t; mode: emacs-lisp -*-
-;;* Basics
+;;; Basics
 
 (require 'a)
 
-;;** System Identification
+;;;; System Identification
 (defvar dw/is-guix-system (and (eq system-type 'gnu/linux)
                                (with-temp-buffer
                                  (insert-file-contents "/etc/os-release")
@@ -20,14 +20,14 @@
 (defconst NATIVECOMP  (featurep 'native-compile))
 (defconst DBUS_FOUND (not (null (getenv "DBUS_SESSION"))))
 
-;;* Emacs
+;;; Emacs
 
-;;** User
+;;;; User
 
 (setq-default user-full-name "David Conner"
               user-mail-address (or (getenv "EMAIL") "noreply@te.xel.io"))
 
-;;** Paths
+;;;; Paths
 
 ;; see doom-{emacs,core,data,docs,env,user,etc,cache,modules,...}-dir
 ;; (defvar dc/emacs-d (expand-file-name "~/.emacs.g/") "TODO: docs.")
@@ -36,7 +36,7 @@
 ;; (defvar dc/emacs-doom-modules (expand-file-name "doom/modules" dc/emacs-d))
 ;; (defvar dc/emacs-modules (expand-file-name "modules" dc/emacs-d) "TODO: docs.")
 
-;;*** Project Paths
+;;;;; Project Paths
 
 (defvar dc/ecto-path (or (getenv "_ECTO") (expand-file-name "~/ecto"))
   "Directory where git-repo projects are checked out.")
@@ -47,7 +47,7 @@
 contains config under ./.lang to encourage native and portable
 12factor language configs, when not container.")
 
-;;*** Guix/Geiser Paths
+;;;;; Guix/Geiser Paths
 
 (defvar dc/guix-checkout-path (getenv "GUIX_SOURCE")
   "Directory containing a guix checkout. The .dir-locals.el in Guix
@@ -67,7 +67,7 @@ Guix channel.")
   :modes '(emacs-lisp-mode)
   :on-enter (setq-local buffer-read-only t))
 
-;;*** Load Path
+;;;;; Load Path
 
 (add-to-list 'load-path (expand-file-name ".dotfiles/.emacs.d/lisp" (getenv "HOME")))
 (require 'dw-settings)
@@ -76,13 +76,13 @@ Guix channel.")
 ;; TODO no-littering?
 ;;\\(?:;[^#]\\|\\*+\\)
 
-;;** Use Package
+;;;; Use Package
 
 (setopt use-package-enable-imenu-support t)
 
-;;** Keymaps (Emacs Native)
+;;;; Keymaps (Emacs Native)
 
-;;*** Unbind Globally
+;;;;; Unbind Globally
 
 (defun dc/unbind-keys (key-names &optional keymap)
   (seq-do (lambda (key)
@@ -91,34 +91,34 @@ Guix channel.")
               (unbind-key key)))
           key-names))
 
-;;**** Unbind 2C-mode
+;;;;;; Unbind 2C-mode
 
 ;; This mode's global bindings are also bound on C-x 6 {2,s,RET}
 (dc/unbind-keys '("<f2> 2" "<f2> b" "<f2> s" "<f2> <f2>"))
 
-;;**** Unbind fullscreen
+;;;;;; Unbind fullscreen
 
 ;; toggle-frame-fullscreen is setting bad state in the parameters to restore
 ;; and won't toggle back. on f10, KDE just moves focus to emacs' menus
 (dc/unbind-keys '("<f10>" "M-<f10>" "<f11>"))
 
-;;**** Unbind kmacro
+;;;;;; Unbind kmacro
 ;;
 ;; - `kmacro-start-macro-or-insert-macro' not doubly mapped
 ;; - `kmacro-end-or-call-macro' via `C-x e'
 ;;
 (dc/unbind-keys '("<f3>" "<f4>"))
 
-;; ;;**** Unbind completion-at-point (for cape)
+;; ;;;;;; Unbind completion-at-point (for cape)
 
 ;; (dc/unbind-keys '("C-M-i"))
 
-;;*** Global
+;;;;; Global
 
 (global-set-key (kbd "C-<prior>") #'tab-bar-switch-to-tab)
 (global-set-key (kbd "C-<next>") #'tab-bar-switch-to-recent-tab)
 
-;;*** Help Map (native)
+;;;;; Help Map (native)
 
 (map! :map 'help-map
       "M-k" #'describe-keymap
@@ -128,7 +128,7 @@ Guix channel.")
 ;; :prefix ("<f1>" . "NATIVEHELP")
 ;; "f" #'describe-function
 
-;;*** Quick Map (native) <f1> <f2>
+;;;;; Quick Map (native) <f1> <f2>
 
 ;; this is a bit tough to determine how to get it to be a separate keymap. you
 ;; can't (map! :map help-map "<f2>" 'dc/quick-map)
@@ -165,17 +165,17 @@ Guix channel.")
   "M-l h" #'apropos-local-variable
   "M-l H" #'array-display-local-variables)
 
-;;* Projects
+;;; Projects
 ;;
-;;** Project.el
+;;;; Project.el
 ;;
-;;*** Projectile
+;;;;; Projectile
 
 (use-package! projectile
   :custom (projectile-project-search-path `((,dc/repo-path . 1)
                                             (,dc/ecto-path . 3))))
 
-;;*** Activities
+;;;;; Activities
 (use-package! activities
   :demand t
   :config
@@ -206,11 +206,11 @@ Guix channel.")
           (:eval (string-join (dc/tab-names) " «─┼─» "))
           " «─╢ ♠︎ %b ♥︎")))
 
-;;* Interface
+;;; Interface
 ;;
-;;** Basics
+;;;; Basics
 ;;
-;;*** Tooltips
+;;;;; Tooltips
 
 (add-hook! 'doom-init-ui-hook
   (progn
@@ -218,15 +218,15 @@ Guix channel.")
     (scroll-bar-mode -1)
     (tool-bar-mode -1)))
 
-;;*** Menus
-;;*** Date & Time
-;;*** Mouse
+;;;;; Menus
+;;;;; Date & Time
+;;;;; Mouse
 
-;;** Casual
+;;;; Casual
 
 ;; TODO: PKG recent-rgrep https://github.com/kickingvegas/recent-rgrep
 
-;;*** Calc Mode For The Plebs
+;;;;; Calc Mode For The Plebs
 (use-package! casual-suite
   :config
   (map! "C-o" #'casual-editkit-main-tmenu
@@ -245,34 +245,34 @@ Guix channel.")
         :map org-agenda-mode-map "C-o" #'casual-agenda-tmenu
         :map symbol-overlay-map "C-o" #'casual-symbol-overlay-tmenu))
 
-;;** Search
-;;*** Xref
-;;*** Grep
+;;;; Search
+;;;;; Xref
+;;;;; Grep
 
-;;**** Ripgrep
+;;;;;; Ripgrep
 (defvar dc/ripgrep-args "--hidden -g \"!/po\""
   "Args for ripgrep commands. Could be configured in ~/.ripgreprc or
 .{git,rg,}ignore files.")
 
-;;** Buffers
+;;;; Buffers
 (setopt global-auto-revert-non-file-buffers t
         auto-revert-verbose nil)
 
 ;; TODO: decide on global-auto-revert-mode
 ;; (global-auto-revert-mode 1)
 
-;;*** Bufler
+;;;;; Bufler
 (after! bufler
   (set-popup-rules!
     '(("^\\*Bufler" :side right :vslot -5 :slot -5 :width 80 :select t :quit t))))
 
-;;**** Bufler defauto-groups
-;;**** Bufler defgroups
-;;**** Bufler package
+;;;;;; Bufler defauto-groups
+;;;;;; Bufler defgroups
+;;;;;; Bufler package
 
-;;** Editor
+;;;; Editor
 
-;;*** Highlighting
+;;;;; Highlighting
 
 ;; call unhighlight-regexp, it lists the regexps corresponding to the current
 ;; highlights
@@ -282,12 +282,12 @@ Guix channel.")
 ;;
 ;; (hi-lock-regexp-okay (find-tag-default-as-symbol-regexp))
 
-;;*** Undo
+;;;;; Undo
 (use-package! undo-tree
   :defer t
   :custom (undo-tree-auto-save-history nil))
 
-;;** UI
+;;;; UI
 
 (setq display-line-numbers-type nil)
 
@@ -295,7 +295,7 @@ Guix channel.")
 ;; doom--setq-outline-regexp-for-emacs-lisp-mode-h
 ;; doom--setq-tab-width-for-emacs-lisp-mode-h
 
-;;** Dired
+;;;; Dired
 
 (setq dired-omit-files "^.DS_Store\\'\\|^.project\\(?:ile\\)?\\'\\|^.\\(svn\\)\\'\\|^.ccls-cache\\'\\|\\(?:\\.js\\)?\\.meta\\'\\|\\.\\(?:elc\\|o\\|pyo\\|swp\\|class\\)\\'")
 
@@ -303,12 +303,12 @@ Guix channel.")
 ;;   - dirvish is somewhat responsible for this
 (dirvish-override-dired-mode -1)
 
-;;*** Recentf
+;;;;; Recentf
 
 (after! recentf
   (add-to-list 'recentf-exclude (rx (and line-start "/gnu/store"))))
 
-;;** Alerts
+;;;; Alerts
 (require 'notifications)
 (use-package! alert
   :demand t
@@ -316,7 +316,7 @@ Guix channel.")
   (alert-default-style 'libnotify)
   (alert-log-level 'normal))
 
-;;** Confirmations
+;;;; Confirmations
 
 (setq dired-deletion-confirmer 'y-or-n-p
       dired-confirm-shell-command 'y-or-n-p
@@ -346,7 +346,7 @@ Guix channel.")
       ;; smerge-mode is lazy loaded, default: t
       smerge-change-buffer-confirm t)
 
-;;** Font
+;;;; Font
 
 ;; (setopt doom-font (font-spec :family "Noto Sans Mono" :size 12 :weight 'normal)
 ;;       doom-serif-font (font-spec :family "Noto Serif" :size 12 :weight 'normal))
@@ -360,13 +360,13 @@ Guix channel.")
 ;; doom-big-font
 ;; doom-variable-pitch-font
 
-;;** Theme
+;;;; Theme
 (use-package ef-themes
   :defer t
   :init (setopt doom-theme nil)
   :hook (doom-init-ui-hook . (lambda () (ef-themes-load-random 'dark))))
 
-;;** Windows
+;;;; Windows
 (use-package! ace-window
   :commands ace-window aw-show-dispatch-help
   :config
@@ -391,10 +391,10 @@ Guix channel.")
 ;;   :after '(split-window-below split-window-right)
 ;;   (consult-buffer))
 
-;;** Tabs Windows
+;;;; Tabs Windows
 
-;;** Completion
-;;*** Vertico
+;;;; Completion
+;;;;; Vertico
 
 ;; Doom defaults
 
@@ -405,7 +405,7 @@ Guix channel.")
 
 ;; NOTE: vertico--remote-p checks if path is remote (tramp)
 
-;;**** vertico-multiform-{categories,commands}
+;;;;;; vertico-multiform-{categories,commands}
 (after! vertico-multiform
   (cl-dolist
       (vrt-cat
@@ -450,7 +450,7 @@ Guix channel.")
                         (consult-flymake reverse)))
     (add-to-list 'vertico-multiform-commands vrt-cmd)))
 
-;;*** Corfu
+;;;;; Corfu
 
 (setq corfu-auto-delay 0.5
       corfu-auto-prefix 3
@@ -464,7 +464,7 @@ Guix channel.")
 
       corfu-preview-current nil)
 
-;;*** Orderless
+;;;;; Orderless
 
 ;; TODO: CONF: look into `orderless-style-dispatchers'
 
@@ -490,7 +490,7 @@ Guix channel.")
 
 ;; `completion-category-defaults' is set to nil in doom's vertico/corfu modules
 
-;;*** Consult
+;;;;; Consult
 (use-package! consult-org-roam
   :after (org-roam consult)
   :config
@@ -504,35 +504,35 @@ Guix channel.")
 
 ;; TODO: CONF: consult-org-roam: (consult-customize ...) & (consult-org-roam-mode)
 
-;;*** Marginalia
+;;;;; Marginalia
 ;; regex to prevent things from popping on screen
 ;; (setq marginalia-censor-variables nil)
 ;; TODO: CONF: extend `marginalia-annotator-registry'
 
-;;*** Cape
+;;;;; Cape
 
 (after! capf
   (map! :map dc/quick-map "SPC" #'cape-prefix-map))
 
-;;*** Embark
+;;;;; Embark
 
 
-;;* Org
+;;; Org
 
 ;; + Structure via https://tecosaur.github.io/emacs-config
 ;; + my old config was mostly porting in Doom's org behavior, so there was a
 ;;   lot of duplication there
 
-;;** Packages
+;;;; Packages
 
 (setopt org-directory "/data/org")
 
-;;*** Org, itself
+;;;;; Org, itself
 
 
-;;*** Visuals
+;;;;; Visuals
 
-;;**** org-modern
+;;;;;; org-modern
 ;; TODO: PKG: configure org-modern? (later)
 (use-package! org-modern
   :hook (org-mode . org-modern-mode)
@@ -554,20 +554,20 @@ Guix channel.")
           ("KILL" :inverse-video t :inherit +org-todo-cancel)
           ("NO"   :inverse-video t :inherit +org-todo-cancel))))
 
-;;**** org-appear
+;;;;;; org-appear
 ;; TODO: PKG: configure org-appear tweaks? (later)
 ;; https://tecosaur.github.io/emacs-config/config.html#emphasis-markers
 
-;;*** Extras
+;;;;; Extras
 ;; TODO: PKG: consider org-glossary
 
-;;**** Importing with pandoc
+;;;;;; Importing with pandoc
 ;; TODO: PKG: configure org-pandoc-import
 
-;;**** Recipes
+;;;;;; Recipes
 ;; TODO: PKG: configure org-chef (+ capture)
 
-;;** Behavior
+;;;; Behavior
 
 ;; from tecosaur
 (setq org-use-property-inheritance t
@@ -604,25 +604,130 @@ Guix channel.")
 ;; (setq org-list-demote-modify-bullet
 ;;       '(("+" . "-") ("-" . "+") ("*" . "+") ("1." . "a.")))
 
-;;*** Citation
 
-;;**** Citar
 
-;; TODO: PKG: citar: expect to manage citar-bibliography as list
-;; TODO: PKG: citar: set/manage citar-library-paths, citar-notes-paths
+;;;;; Citation
 
-;;**** Zotero
+;; Doom's biblio uses citar/oc in lieu of most of bibtex. we still want
+;; the `bibtex-autokey' properties to set consistently though (i think)
+
+;; ---------------------------------------------
+;;;;;; org-ref and DOI Utils
+
+;; - org-ref-pdf: extracts bibtex from a PDF file. requires pdftotext
+;; - org-ref-url-utils: drag-n-drop webpage from browser onto bibtex buffer to add bibtex entry
+;;   may not be reliable
+
+(use-package! bibtex-completion
+  :defer t
+  :after citar)
+
+(use-package! org-ref
+  :defer t
+  :after citar)
+
+(after! '(org-ref bibtex-completion)
+  (require 'org-ref-core)
+  (require 'org-ref-utils)
+  (require 'org-ref-url-utils)
+  (require 'doi-utils)
+  (require 'org-ref-arxiv)
+  (require 'org-ref-pubmed)
+  (require 'org-ref-scifinder)
+  (require 'org-ref-isbn))
+
+;;;;;; Biblio.el
+
+;; (use-package! biblio) ;; doesn't really autokey
+
+;;;;;; Citar
+
+(use-package! citar
+  :defer t
+  :config
+  (let* ((roam-notes (expand-file-name "roam/noter" org-directory))
+         (xdg-docs (xdg-user-dir "DOCUMENTS"))
+         ;; these need to end in a slash (doi-utils will rename the file incorrectly)
+         (lib-paths '("articles/" "books/" "collections/" "doi/" "texts/"))
+         (lib-paths (mapcar (lambda (f) (expand-file-name f xdg-docs))
+                            lib-paths))
+         (bib-files '("articles.bib" "books.bib" "collections.bib" "doi.bib" "texts.bib"))
+         (bib-files (mapcar (lambda (f) (expand-file-name f roam-notes))
+                            bib-files)))
+    
+    ;; oc needs `citar-bibliography' to set `org-cite-global-bibliography'
+    ;; doi-utils needs `bibtex-completion-*'
+    (setq bibtex-completion-bibliography bib-files
+          bibtex-completion-library-path lib-paths
+          bibtex-completion-notes-path (list roam-notes)
+          citar-bibliography bib-files
+          citar-library-paths lib-paths
+          citar-notes-paths (list roam-notes)
+          citar-org-roam-subdir (file-name-base roam-notes)))
+
+  :custom
+  (bibtex-autokey-year-length 4)
+  (bibtex-autokey-names 2)
+  (bibtex-autokey-names-stretch 1)
+  (bibtex-autokey-name-year-separator "-")
+  (bibtex-autokey-year-title-separator "-")
+  (bibtex-autokey-titleword-separator "-")
+  (bibtex-autokey-titlewords 3)
+  ;; (remove colon from default: [.!?:;]\|--)
+  (bibtex-autokey-title-terminators "[.!?;]\\|--")
+  (bibtex-autokey-titlewords-stretch 1)
+  (bibtex-autokey-titleword-length 5)
+  :hook
+  (latex-mode-hook . citar-capf-setup)
+  (org-mode-hook . citar-capf-setup))
+
+(defun dc/citar-get-citekey-files (citekey)
+  (gethash citekey
+           (citar--get-resources citekey
+                                 (mapcar (lambda (source)
+                                           (plist-get source :items))
+                                         citar-file-sources))))
+
+(use-package! citar-org-roam
+  :defer t
+  :after '(citar org-roam)
+  :custom
+  (citar-org-roam-note-title-template "${title} - ${author}")
+  (citar-org-roam-capture-template-key "nc")
+
+  :config
+  (add-to-list
+   'org-roam-capture-templates
+   `("nc" "Note: Citar" plain "%?" :unnarrowed t
+     :target
+     (file+head
+      "noter/${citar-citekey}.org"
+      ;; NOTE: The NOTER_DOCUMENT must be under a heading
+      "#+title: (${citar-date}) ${note-title}.
+#+created: %U
+#+last_modified: %U
+
++ file :: ${citar-citekey}.pdf
+
+* Notes
+:PROPERTIES:
+# :NOTER_DOCUMENT: %(dc/citar-get-citekey-files \"%{citar-citekey}\")
+:END:
+"
+      ;; (citar-org-roam-mode)
+      ))))
+
+;;;;;; Zotero
 ;; TODO: PKG: oc-csl, renders/exports citations with Zotoro CSL styles (req. download)
 
 ;; - doom imports citation
 
 ;; (after! oc (setq org-cite-export-processors '((t csl))))
-;; TODO: CONF: oc: org-cite-export-processors ;; => ((latex biblatex) (t csl))
 ;; TODO: CONF: org-ref => org-cite https://tecosaur.github.io/emacs-config/config.html#citation,code--7
 
-;;*** cdlatex
+;;;;; cdlatex
 
-;;*** Org Agenda
+;;;;; Org Agenda
 ;; start with empty org-agenda-files
 (setq org-agenda-files '()
 
@@ -674,7 +779,7 @@ Guix channel.")
                                           (0.5 . org-upcoming-deadline)
                                           (0.0 . org-upcoming-distant-deadline)))
 
-;;*** Org Super Agenda
+;;;;; Org Super Agenda
 
 (use-package! org-super-agenda
   :commands org-super-agenda-mode
@@ -697,20 +802,20 @@ Guix channel.")
     (org-clock-auto-clockout-insinuate)))
 
 
-;;**** org-clock sounds
+;;;;;; org-clock sounds
 ;; (and (file-exists-p dc/emacs-sound-theme-path)
 ;;      (setq-default org-clock-sound (expand-file-name "complete.oga"
 ;;                                                      dc/emacs-sound-theme-path)))
 
 
-;;*** Capture
+;;;;; Capture
 
-;;*** Roam
+;;;;; Roam
 
-;;*** Snippets
+;;;;; Snippets
 
-;;** Visuals
-;;*** Font Display
+;;;; Visuals
+;;;;; Font Display
 
 (add-hook 'org-mode-hook #'+org-pretty-mode)
 
@@ -730,10 +835,10 @@ Guix channel.")
 (setq org-fontify-quote-and-verse-blocks t
       doom-themes-org-fontify-special-tags nil)
 
-;;*** Reduced Text Indent
+;;;;; Reduced Text Indent
 ;; TODO: CONF: ORG: reduced text indent (maybe configure this later)
 
-;;*** Symbols
+;;;;; Symbols
 
 (setq org-ellipsis " ▾"
       org-priority-default ?A
@@ -747,7 +852,7 @@ Guix channel.")
 
 ;; TODO: consider +ligatures-extra-symbols (req config. org-modern)
 
-;;*** Latex Fragments
+;;;;; Latex Fragments
 
 (after! org
   (setq org-highlight-latex-and-related '(native script-entities))
@@ -758,18 +863,18 @@ Guix channel.")
 
 
 
-;;**** Latex Fragments (extras)
+;;;;;; Latex Fragments (extras)
 
 ;; TODO: CONF: org/latex: auto-preview
 ;; (add-hook 'org-mode-hook #'org-latex-preview-auto-mode)
 
 ;; also: https://tecosaur.github.io/emacs-config/config.html#prettier-rendering
 
-;;*** Org Plot
+;;;;; Org Plot
 
 ;; TODO: CONF: org-plot preamble: https://tecosaur.github.io/emacs-config/config.html#org-plot
 
-;;** Roam
+;;;; Roam
 
 ;; TODO: CONF: org-roam-dailies-capture-templates (req. dc/read-template ... & paths)
 ;;  - need to fix paths in ~/.emacs.g
@@ -815,14 +920,14 @@ Guix channel.")
                                    "#+TAGS: ") "\n")
                    ("Roam" "Docs" "Resources" "Issues" "Projects"))))))
 
-;;*** Roam UI
+;;;;; Roam UI
 
-;;*** Noter
+;;;;; Noter
 ;; TODO: PKG: org-noter (req. determining cd/aca-notes-path)
 
-;;** Exports
+;;;; Exports
 
-;;*** General
+;;;;; General
 
 ;; to match the LaTeX article's five levels
 (setq org-export-headline-levels 5)
@@ -831,19 +936,19 @@ Guix channel.")
   (require 'ox-extra)
   (ox-extras-activate '(ignore-headlines)))
 
-;;**** Acronym Formatting
+;;;;;; Acronym Formatting
 
-;;*** HTML
+;;;;; HTML
 
-;;*** LaTeX
+;;;;; LaTeX
 
-;;*** Beamer
+;;;;; Beamer
 
-;;*** Reveal
+;;;;; Reveal
 
-;;** Babel
+;;;; Babel
 
-;;*** Google Translate
+;;;;; Google Translate
 
 (defun google-translate--search-tkk ()
   (list 430675 2721866130))
@@ -864,14 +969,14 @@ Guix channel.")
   ;; TODO :custom ob-mermaid-cli-path "~/.nix-profile/bin/mmdc"
   (use-package! ob-mermaid :defer t))
 
-;;**** Wiktionary
+;;;;;; Wiktionary
 
 ;; TODO: https://github.com/umanwizard/emacs-wiktionary
 
 
-;;* Programming
+;;; Programming
 ;;
-;;** Tree Sitter
+;;;; Tree Sitter
 
 (setq treesit-extra-load-path
       (list (expand-file-name ".local/lib/tree-sitter" (getenv "HOME")))
@@ -885,7 +990,7 @@ Guix channel.")
            unless (treesit-language-available-p lang-key)
            do (treesit-install-language-grammar lang-key)))
 
-;;** LSP
+;;;; LSP
 
 ;; M-x lsp-describe-sessions
 ;; M-x lsp-workspace-show-log
@@ -900,7 +1005,7 @@ Guix channel.")
 ;; TODO: ponder deeply the deepest unasked questions of the cosmos
 ;; TODO: CONF: per-project `lsp-diagnostics-provider'? fly{check,make}
 
-;;*** LSP Default Functionality
+;;;;; LSP Default Functionality
 
 ;; See: https://emacs-lsp.github.io/lsp-mode/tutorials/how-to-turn-of
 ;;
@@ -974,7 +1079,7 @@ Guix channel.")
 ;;   :on-enter (remove-hook! ... #'lsp!))
 
 
-;;** Lisp
+;;;; Lisp
 
 ;; fixes issues navigating by lispy outline, but with advice below,
 ;; +el-outline-regexp no longer overrides lispy-outline-level
@@ -994,11 +1099,15 @@ Guix channel.")
   :config
   (map! :map doom-leader-toggle-map "M-p" #'prism-mode))
 
-;;*** Emacs Lisp
+;;;;; Emacs Lisp
 
-;;*** Scheme
+;;;;; Common Lisp
+(use-package sly :defer t
+  :custom (inferior-lisp-program '("guix" "shell" "sbcl" "--" "sbcl")))
 
-;;**** Geiser
+;;;;; Scheme
+
+;;;;;; Geiser
 
 (use-package! geiser
   :defer t
@@ -1048,7 +1157,7 @@ the root")
   :after geiser-guile
   :config (add-to-list 'flycheck-disabled-checkers 'guile))
 
-;;**** Arei
+;;;;;; Arei
 
 ;; TODO: manage GUILE_LOAD_PATH for arei? it's incorrect on arch profile for
 ;; now (and being loaded from .envrc)
@@ -1083,7 +1192,7 @@ the root")
 ;; https://github.com/doomemacs/doomemacs/blob/master/modules/lang/scheme/config.el#L18
 ;; ---------------------------------------------
 
-;;*** Lispy
+;;;;; Lispy
 ;; lispy-outline: "^[ 	]*;;;\\(;*\\**\\) [^ 	\n]"
 ;;   doom: "^;;\\(?:;[^#]\\|\\*+\\)"
 (use-package! lispy
@@ -1105,9 +1214,9 @@ the root")
 ;; this should get you between 80% to -20% there.
 
 
-;;** Web
+;;;; Web
 
-;;*** HTML
+;;;;; HTML
 
 ;;TODO Web: ensure emmet-mode is configured
 
@@ -1122,7 +1231,7 @@ the root")
     ;; aphelia: prettier instead of prettier-html, so it relies on .prettierrc
     (add-to-list 'apheleia-mode-alist `(,webml . prettier))))
 
-;;*** Tailwind
+;;;;; Tailwind
 
 ;; see https://emacs-lsp.github.io/lsp-mode/page/faq/#i-have-multiple-language-servers-registered-for-language-foo-which-one-will-be-used-when-opening-a-project
 
@@ -1133,14 +1242,14 @@ the root")
               lsp-tailwindcss-major-modes nil))
 
 
-;;*** Astro
+;;;;; Astro
 
 (use-package astro-ts-mode
   :mode "\\.astro\\'")
 
-;;** Scripting
+;;;; Scripting
 
-;;*** Shell
+;;;;; Shell
 
 (use-package! flymake-shellcheck
   :commands flymake-shellcheck-load
@@ -1155,20 +1264,20 @@ the root")
 ;; TODO: per-project vterm
 ;; https://github.com/doomemacs/doomemacs/blob/master/modules/term/vterm/autoload.el
 
-;;** Compiled Langs
+;;;; Compiled Langs
 
 (use-package! zig-mode
   ;; :custom (lsp-zig-zls-executable . "~/.fdsa")
   :defer t)
 
-;;** Functional Langs
+;;;; Functional Langs
 
-;;** Other Langs
+;;;; Other Langs
 
-;;** Compile
+;;;; Compile
 
 
-;;*** Compile Multi
+;;;;; Compile Multi
 ;;
 ;; TODO: CONF: set a default compile-multi-config
 ;; - use a function to parse out targets from makefile
@@ -1186,8 +1295,8 @@ the root")
   :after (compile-multi embark)
   :config (compile-multi-embark-mode +1))
 
-;;* VCS
-;;** Git
+;;; VCS
+;;;; Git
 (use-package! git-link
   :commands git-link git-link-commit git-link-homepage
   :config (map! :leader
@@ -1195,9 +1304,9 @@ the root")
                 "v M-g c" #'git-link-commit
                 "v M-g h" #'git-link-homepage))
 
-;;** Diff
-;;*** Patches
-;;*** Smerge
+;;;; Diff
+;;;;; Patches
+;;;;; Smerge
 (after! hydra
   (require 'smerge-mode)
   (defhydra dw/smerge-panel ()
@@ -1208,9 +1317,9 @@ the root")
     ("l" (smerge-keep-lower) "keep lower")
     ("q" nil "quit" :exit t)))
 
-;;*** Emerge
+;;;;; Emerge
 ;;
-;;** Magit
+;;;; Magit
 
 (after! magit
   (use-package! magit-todos
@@ -1219,8 +1328,8 @@ the root")
   ;; magit-tbdiff commands interfaced via a transient
   (use-package! magit-tbdiff))
 
-;;** Ghub
-;;** Forge
+;;;; Ghub
+;;;; Forge
 ;; (use-package)
 
 (after! forge
@@ -1239,30 +1348,30 @@ the root")
                  "s" #'forge-edit-topic-state
                  "t" #'forge-edit-topic-title)))
 
-;;** Forges
-;;*** Sourcehut
-;;*** Repo
+;;;; Forges
+;;;;; Sourcehut
+;;;;; Repo
 
-;;* Tools
+;;; Tools
 
-;;** Auth
+;;;; Auth
 ;;
-;;*** epa
+;;;;; epa
 (require 'epg)
 
-;;*** pinentry
+;;;;; pinentry
 
 (setopt epg-user-id user-mail-address)
 ;; (setopt epg-pinentry-mode nil) ; cancel/ask/loopback
 ;; (setq epg-debug t)
 
-;;*** auth-source-pass
+;;;;; auth-source-pass
 ;; via doom
 
-;;** Docs
+;;;; Docs
 ;; (external docs: dash/tldr)
 
-;;*** Info
+;;;;; Info
 (use-package! info :defer t)
 (use-package! info+
   :commands info
@@ -1279,18 +1388,18 @@ the root")
   (add-hook 'emacs-startup-hook #'Info-breadcrumbs-in-mode-line-mode)
   (add-hook 'emacs-startup-hook #'Info-persist-history-mode +1))
 
-;;** Systems
+;;;; Systems
 
-;;*** Emacs
+;;;;; Emacs
 ;; via tecosaur (open elp/etrace output in flamegraphs)
 ;;
 ;; open in: speedscope https://www.speedscope.app/ or chrome://tracing
 (use-package! etrace :after elp)
 
-;;*** Arch
+;;;;; Arch
 (use-package! aurel :defer t)
 
-;;*** Guix
+;;;;; Guix
 ;;
 ;; guix.el gets built into the guix profile for doomemacs, so it doesn't need
 ;; use-package.
@@ -1326,7 +1435,7 @@ the root")
 ;; guix-load-path is defined. it looks like it's intended to be managed by
 ;; GUILE_LOAD_PATH, (setq guix-load-path ...) or in .dir-locals.el
 
-;;**** recutils: manipulate guix cli output
+;;;;;; recutils: manipulate guix cli output
 (use-package! rec-mode
   :defer t
   :config
@@ -1334,9 +1443,9 @@ the root")
   (require 'ob-rec)
   (dc/org-babel-do-load-languages))
 
-;;*** Nix
+;;;;; Nix
 
-;;*** Unix
+;;;;; Unix
 
 (use-package! elf-mode
   :commands elf-mode
@@ -1355,14 +1464,14 @@ the root")
   :init (map! :map dc/quick-map "p" #'proced)
   :config (map! :map proced-mode-map "sh" #'proced-sort-header))
 
-;;*** Linux
+;;;;; Linux
 (use-package! repology
   :commands repology
   :init (map! :map dc/quick-map "r" #'repology))
 (use-package! dts-mode :defer t)
 (use-package! archive-rpm :defer t)
 
-;;** Services
+;;;; Services
 
 ;; TODO: DAEMONS.EL: setup keybindings (daemons-systemd-toggle-user)
 (use-package! daemons
@@ -1375,13 +1484,13 @@ the root")
   :config (map! :leader "oj" #'journalctl))
 
 
-;;*** Network
+;;;;; Network
 ;; password-store.el? pass.el?
 (use-package! terraform-mode
   :defer t
   :custom (terraform-format-on-save t))
 
-;;**** ContainerD
+;;;;;; ContainerD
 
 ;; to configure for either docker/podman, customize:
 ;;
@@ -1395,13 +1504,13 @@ the root")
   :commands docker
   :config (map! :map dc/quick-map "d" #'docker))
 
-;;**** Terraform/HCL
+;;;;;; Terraform/HCL
 
-;;**** ContainerD
+;;;;;; ContainerD
 
-;;**** K8S
+;;;;;; K8S
 
-;;**** SSH
+;;;;;; SSH
 
 (use-package! ssh-config-mode)
 
@@ -1410,7 +1519,7 @@ the root")
   ;; :hook (x509-mode-hook . (lambda () (call-interactively 'x509-dwim)))
   :mode (rx "." (| "pem" "cer" "der" "crt" "crl") eos))
 
-;;***** Tramp
+;;;;;;; Tramp
 ;; TODO: TRAMP: check that guix emacs build prepends to tramp-remote-path
 (use-package tramp :demand t
   :config
@@ -1422,37 +1531,37 @@ the root")
     (add-to-list 'tramp-remote-path p))
   :custom (tramp-default-method "ssh"))
 
-;;** Data
-;;*** Structure
+;;;; Data
+;;;;; Structure
 
-;;**** XML
+;;;;;; XML
 (require 'dom)
 (use-package! esxml :demand t)
 
-;;**** Protobuf
+;;;;;; Protobuf
 (use-package! protobuf :defer t)
-;;*** Database
+;;;;; Database
 
-;;*** API
+;;;;; API
 (use-package! graphql :after ghub)
 
-;;*** Visualization
+;;;;; Visualization
 ;; gnu plot, graphviz/plot, d2, mermaid, plantuml
-;;** Misc
+;;;; Misc
 
-;;* Applications
+;;; Applications
 
-;;* Social
+;;; Social
 
-;;** Pastebin
+;;;; Pastebin
 
 (use-package! 0x0 :defer t :init (require 'dc-0x0))
 (after! 0x0
   (setopt 0x0-servers (dc/0x0-retention-policy)))
 
-;;** Open Source
+;;;; Open Source
 ;;
-;;*** Debbugs
+;;;;; Debbugs
 (use-package! debbugs
   :commands debbugs-gnu-bugs debbugs-gnu-guix-search debbugs-gnu-search debbugs-gnu-package
   :custom (debbugs-gnu-default-packages '("guix-patches" "guix"))
@@ -1464,15 +1573,15 @@ the root")
                          "Gs" #'debbugs-gnu-search
                          "Gp" #'debbugs-gnu-package)))
 
-;;* Keymaps
+;;; Keymaps
 
 ;; TODO: move setup for <f1> <f2> map to after use-package (and after! which-key?)
 
 ;;NOTE: some of these may need to be hooked (after! ...)
 
-;;** Global Remaps
+;;;; Global Remaps
 
-;;** Help Map
+;;;; Help Map
 
 (map! :map 'help-map
 
@@ -1510,7 +1619,7 @@ the root")
 ;; "r" #'help-go-forward
 ;; "s" #'help-view-source
 
-;;** Search Map
+;;;; Search Map
 
 (map! :map 'search-map
       "d" #'consult-find
@@ -1532,7 +1641,7 @@ the root")
       ;; Isearch integration
       "e" #'consult-isearch-history)
 
-;;** Search Map
+;;;; Search Map
 (map! :map 'goto-map
       "a" #'consult-org-agenda
       "e" #'consult-compile-error
@@ -1626,7 +1735,8 @@ the root")
 
 ;; (server-start)
 
-;;* GC Settings
+;;; GC Settings
+
 ;; updating tables in org mode is extremely slow with vc-gutter and gcmh
 ;; defaults
 ;; (setq gcmh-low-cons-threshold (* 4 (expt 2 20))

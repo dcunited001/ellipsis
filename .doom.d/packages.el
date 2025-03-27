@@ -170,7 +170,36 @@
 (package! org-modern)
 (package! org-super-agenda)
 
+;; - doi-utils => org-ref-utils
+;; - nist-webook => org-ref-utils
+;; - org-ref-arxiv => org-ref-utils
+;; - org-ref-url-utils => doi-utils
+;; - org-ref-pdf => 'pdf-tools 
+;; - org-ref-isbn => 'bibtex-completion
+
+(package! org-ref
+  :recipe (:type git :flavor git :inherit nil
+           :host github :repo "jkitchin/org-ref" :branch "master"
+           :files (:defaults
+                   "org-ref-utils.el"
+                   "org-ref-url-utils.el"
+                   "doi-utils.el"
+                   "nist-webook.el"
+                   "org-ref-arxiv.el"
+                   "org-ref-bibtex.el"
+                   "org-ref-isbn.el"
+                   "org-ref-pubmed.el"
+                   "org-ref-scifinder.el"
+                   "org-ref-scopus.el"
+                   "org-ref.bib"
+                   "citeproc")))
+
+(package! bibtex-completion)
+
+;; (package! biblio.el)
+
 ;; the doom module will pull in cfw.* packages
+
 (package! org-gcal)
 
 ;;** Babel
