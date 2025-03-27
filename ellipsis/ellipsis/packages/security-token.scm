@@ -45,13 +45,13 @@
 
 (define-public age-plugin-yubikey-bin
   (let* ((bin-platform "x86_64-linux")
-         (bin-version "0.4.0")
+         (bin-version "0.5.0")
          (bin-name (string-append "age-plugin-yubikey-v"
                                   bin-version "-" bin-platform
                                   ".tar.gz")))
     (package
       (name "age-plugin-yubikey-bin")
-      (version "0.4.0")
+      (version "0.5.0")
       (source (origin
                 (method url-fetch)
                 (uri (string-append
@@ -59,7 +59,7 @@
                       "/releases/download/" "v" version "/" bin-name))
                 (sha256
                  (base32
-                  "0is0sgycnm9ymb1ayk8rrppz67v97js5i352wjxrm2kkkipmk258"))))
+                  "1hxja5ziy4c1cf1wdhinr42bsbq8laq3swnhfdnya6y87yhkb6q1"))))
       (build-system binary-build-system)
       (inputs `((,gcc "lib")
                 ,gcc-toolchain
@@ -69,8 +69,8 @@
        (list
         #:patchelf-plan ''(("age-plugin-yubikey"
                             ("pcsc-lite" "gcc" "gcc-toolchain"))
-                          ;; #:include "age-plugin-yubikey"
-                          )
+                           ;; #:include "age-plugin-yubikey"
+                           )
         #:install-plan ''(("age-plugin-yubikey" "bin/")
                           ;; #:include "age-plugin-yubikey"
                           )))

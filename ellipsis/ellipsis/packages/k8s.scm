@@ -25,12 +25,14 @@
   (let* ((jar-version "1.2.0")
          (jar-name (string-append "helm-chartmap-" jar-version ".jar"))
          (jar-namespace "com.melahn.helm-chartmap")
-         (jar-source "https://oss.sonatype.org/service/local/repositories/releases/content")
+         (jar-source
+          "https://oss.sonatype.org/service/local/repositories/releases/content")
          (jar-url (string-join
                    (list jar-source
                          (string-replace-substring jar-namespace "." "/")
                          jar-version
-                         jar-name) "/")))
+                         jar-name)
+                   "/")))
     (package
       (name "helm-chartmap-jar")
       (version jar-version)
@@ -52,7 +54,8 @@
               (lambda* (#:key outputs #:allow-other-keys)
                 (with-directory-excursion
                     (string-append #$output "/share/java")
-                  (symlink (car (find-files "." "helm-chartmap")) "helm-chartmap.jar"))))
+                  (symlink (car (find-files "." "helm-chartmap"))
+                           "helm-chartmap.jar"))))
 
             (add-after 'make-symlink 'make-wrapper
               (lambda* (#:key inputs outputs #:allow-other-keys)
@@ -73,7 +76,7 @@
 
 (define-public k0s-bin
   (let* ((bin-platform "amd64")
-         (bin-version "1.29.3")
+         (bin-version "1.32.2")
          (bin-name (string-append "k0s-v" bin-version
                                   "+k0s.0-"
                                   bin-platform)))
@@ -91,7 +94,7 @@
                       "v" version "+k0s.0/" bin-name))
                 (sha256
                  (base32
-                  "1kpch019kjd939wlq92v3fayh8dzand76ac65i2cjpzi5ync880k"))))
+                  "0brzwjkhlqa2k955nciy6hqdszlhm6g1yhzs5jzkdg73xas2mim4"))))
 
       (build-system copy-build-system)
       (arguments
@@ -100,7 +103,8 @@
                            #:include-regexp ("k0s-.*$")))
         #:modules '((guix build copy-build-system)
                     (guix build utils)  ; for find-file
-                    (srfi srfi-26))     ; for cut, a swappier curry
+                    (srfi srfi-26))
+                                        ; for cut, a swappier curry
 
         #:phases
         #~(modify-phases %standard-phases
