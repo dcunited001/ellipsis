@@ -1408,8 +1408,8 @@ the root")
 (defun dc/guix-scheme-mode-regexp (path)
   (rx (and (literal path) "/" (+ any) ".scm")))
 
-(setopt guix-load-path '((expand-file-name ".dotfiles/ellipsis" (getenv "HOME"))
-                         (expand-file-name ".dotfiles/dc" (getenv "HOME"))))
+(setopt guix-load-path (list (expand-file-name ".dotfiles/ellipsis" (getenv "HOME"))
+                             (expand-file-name ".dotfiles/dc" (getenv "HOME"))))
 
 ;; TODO: GUIX: maybe set guix-load-compiled-path
 ;; see [[file:~/.emacs.doom/.local/straight/repos/emacs-guix/elisp/guix-repl.el::defun guix-repl-guile-args]]

@@ -110,6 +110,199 @@ This is mostly a reimplementation of the Nix image from [[github:drduh/YubiKey-G
 
 + [[https://gnupg.org/aegypten2][gnupg.org/aegypten2]] has an architectural overview of how GnuPG interacts with system services (it's a bit old)
 
+**** Multiboot USB
+
++ [[https://guix.gnu.org/manual/en/html_node/Initial-RAM-Disk.html][Guix: Initial RAM Disk]] documents the boot arguments
+
+*** Grub Config
+
+#+begin_example conf
+for isofile in $isopath/guix-gpg-*.iso; do
+  if [ -e "$isofile" ]; then
+    regexp --set=isoname "$isopath/(.*)" "$isofile"
+    submenu "$isoname ->" "$isofile" {
+      iso_path="$2"
+      loopback loop "$iso_path"
+      menuentry "Start Guix GPG USB" {
+        search --fs-uuid --set "1970-01-01-09-41-59-29" root
+        # bootoptions="root=31393730-3031-3031-3039-343135393239"
+        bootoptions="root=$root gnu.system=/gnu/store/wzxv66d1iviqxax88vkfnxfc9zppxim7-system gnu.load=/gnu/store/wzxv66d1iviqxax88vkfnxfc9zppxim7-system/boot modprobe.blacklist=radeon"
+        linux (loop)/gnu/store/lq7rpl835igf983766fm8xbb6knvdrs8-linux-libre-6.13.7/bzImage $bootoptions
+        initrd (loop)/gnu/store/yvf65kvmi5xcw1ydw033nca69zyr05f2-raw-initrd/initrd.cpio.gz
+      }
+    }
+  fi
+done
+
+#+end_example
+
+*** Passing UUID to the boot args
+
+Mounting the ISO as =loop0=, then running =sudo blkid | grep loop0= clears up the
+=grub.cfg= on the Guix GPG ISO.
+
+#+begin_example
+/dev/loop0: BLOCK_SIZE="2048" UUID="1970-01-01-09-41-59-29" LABEL="GUIX_IMAGE" TYPE="iso9660" PTTYPE="dos"
+#+end_example
+
+Unless [[https://www.gnu.org/software/grub/manual/grub/grub.html#search][Grub's =search= command]] is given =--set=$arg=, Grub's =search --fs-uuid
+--set 1970-01-01-09-41-59-29= command will set =root=$UUID=, where the =1970= date
+is the +label+ ... UUID?
+
+The label that gets output by =guix system image ...= can be configured in the
+file systems declaration. Searching by (unique) label allows multiple Guix
+images to remain on the Multiboot USB.
+
+Unfortunately, if this label/uuid are on the =(loop)= device, idk whether it
+will be visible to grub
+
+***** TODO set the usb-gpg ISO's file system label (and rebuild... no time)
+
+**** The Guile bootstrapping script
+
+The boot script looks like this.
+
++ Grub needs to hint the Root UUID to the boot script
++ If you get stuck at the boot prompt, it makes [[https://git.savannah.nongnu.org/cgit/gash/gash-utils.git/tree/gash/commands][the commands in gash-utils]]
+  available to you ... but running them is tough. I think you can jump to a
+  shell, but i'm not sure.
+
+#+begin_src scheme
+(eval-when
+    (expand load eval)
+  (let ((extensions '())
+        (prepend (lambda (items lst)
+                   (let loop
+                       ((items items)
+                        (lst lst))
+                     (if (null? items)
+                         lst
+                         (loop
+                          (cdr items)
+                          (cons (car items) (delete (car items) lst))))))))
+    (set! %load-path
+          (prepend
+           (cons "/gnu/store/jsxgc979x79h81kzqz9n6cpf5pk4z262-module-import"
+                 (map
+                  (lambda (extension)
+                    (string-append extension "/share/guile/site/" (effective-version)))
+                  extensions))
+           %load-path))
+    (set! %load-compiled-path
+          (prepend
+           (cons "/gnu/store/3nsmbfp3k3baymic9in9cbzl39hvqzq9-module-import-compiled"
+                 (map
+                  (lambda (extension)
+                    (string-append extension "/lib/guile/" (effective-version) "/site-ccache"))
+                  extensions))
+           %load-compiled-path))))
+
+(begin (begin
+         (use-modules (guix build utils))
+         (letrec-syntax
+             ((fail-safe
+               (syntax-rules
+                 ()
+                 ((_ exp rest \...)
+                  (begin
+                    (catch 'system-error (lambda () exp) (const #f))
+                    (fail-safe rest \...)))
+                 ((_) #t))))
+           (fail-safe
+            (delete-file "/etc/group.lock")
+            (delete-file "/etc/passwd.lock")
+            (delete-file "/etc/.pwd.lock")
+            (setenv "GUIX_LOCPATH" "/gnu/store/pxnrbpc30m5qsr8jqx86a9m42mzn25ni-glibc-utf8-locales-2.39/lib/locale")
+            (setlocale LC_CTYPE "en_US.utf8")
+            (delete-file-recursively "/tmp")
+            (delete-file-recursively "/var/run")
+            (delete-file-recursively "/run")
+            (mkdir "/tmp" 1023)
+            (chmod "/tmp" 1023)
+            (mkdir "/var/run" 493)
+            (chmod "/var/run" 493)
+            (mkdir "/run" 493)
+            (chmod "/var/run" 493))))
+       (primitive-load "/gnu/store/n7mafj2sb3cv6rhjych05xbpyk72h6w8-activate.scm")
+       (begin
+         (false-if-exception (delete-file "/run/booted-system"))
+         (symlink (canonicalize-path "/run/current-system") "/run/booted-system")
+         (let loop
+             ((fd 3))
+           (when (< fd 1024)
+             (false-if-exception
+              (let ((flags (fcntl fd F_GETFD)))
+                (when (zero? (logand flags FD_CLOEXEC))
+                  (fcntl fd F_SETFD (logior FD_CLOEXEC flags)))))
+             (loop (+ fd 1))))
+         (execl "/gnu/store/40y4x85jm7rjng3nqvfw5k6kl4pskcpv-shepherd-1.0.3/bin/shepherd" "shepherd" "--config" "/gnu/store/0bv0rbk0b8c2q9anzy4v0dn55b9in2a4-shepherd.conf")))
+#+end_src
+
+After some setup, this hits the =activate-scm= script
+
+#+begin_src scheme
+(eval-when
+    (expand load eval)
+  (let ((extensions '())
+        (prepend (lambda (items lst)
+                   (let
+                       loop
+                     ((items items) (lst lst))
+                     (if (null? items)
+                         lst
+                         (loop
+                          (cdr items)
+                          (cons (car items)
+                                (delete (car items) lst))))))))
+    (set!
+     %load-path
+     (prepend
+      (cons "/gnu/store/sr0fp8j0pnwzdk7mr1r456nj6c2nvsds-module-import"
+            (map (lambda (extension) (string-append extension "/share/guile/site/" (effective-version))) extensions))
+      %load-path))
+    (set!
+     %load-compiled-path
+     (prepend
+      (cons "/gnu/store/s06kbqb22c9gc9sk0yqar46xqi9ppibm-module-import-compiled"
+            (map (lambda (extension) (string-append extension "/lib/guile/" (effective-version) "/site-ccache")) extensions))
+      %load-compiled-path))))
+(begin
+  (use-modules
+   (gnu build activation)
+   (guix build utils))
+  (mkdir-p "/var/run")
+  (close-port (open-file "/var/run/utmpx" "a0"))
+  (mkdir-p "/var/log")
+  (close-port (open-file "/var/log/wtmp" "a0"))
+  (activate-current-system)
+  (for-each
+   primitive-load
+   (quote
+    ("/gnu/store/pr405l9lskx3wcrcw3rv8lqdk6s9hpny-activate-service.scm"
+     "/gnu/store/sxmh40vks5pc3sjgyfffpmhzdvpc81wk-activate-service.scm"
+     "/gnu/store/yfmxjc5lnvs75w5yyyklrzn31nh251cf-activate-service.scm"
+     "/gnu/store/47wh2ap9rzc880xljdfghc2bzjdwfjwq-activate-service.scm"
+     "/gnu/store/g5icfavv444vslxh08imb4ianyq7rp9w-activate-service.scm"
+     "/gnu/store/h5zczhskz5amyqxgbyl89n5c7k5yakvx-activate-service.scm"
+     "/gnu/store/y20mivw68g41lgh1wbd3g3yxvk22w615-activate-service.scm"
+     "/gnu/store/sw1khycx69m8hy6r833m1yk6n4wn8lrs-activate-service.scm"
+     "/gnu/store/y8w3vxajxdmm22hw1r5314dk0xsqq678-activate-service.scm"))))
+#+end_src
+
+Checking the activation scripts didn't yield any hardcoded disk labels. The
+scripts at the end, in order:
+
++ (activate-firmware ...) :: lib/firmware
++ (activate-modprobe ...) :: and ptrace-attach
++ (activate-etc ...) :: 
++ (activate-users+groups ... ) :: sets up users/groups
++ (activate-privileged-programs ... ) :: libcap; set bits 
++ (activate-special-files ... ) :: sets up =/bin/sh= and =/bin/env=
++ sets up =ncsd= and =resolve.conf=
++ sets up ACL for archive imports ([[https://guix.gnu.org/manual/en/html_node/Substitute-Server-Authorization.html][authorizes guix substitutes]] to be imported
+  into the store)
++ sets up ccid/pcsc
+
 *** Tasks
 
 **** TODO resolve need to use nonguix when generating USB images for laptops requiring non-free firmware

@@ -98,6 +98,16 @@ guess since no one customizes anything and the GUI does most of it for them.
 *** Scute: PCKS#11 with =gpg-agent=
 + [[https://www.gnupg.org/documentation/manuals/scute.pdf][Scute manual]]
 
+*** OpenSC: SCDaemon Alternative
+
+[[https://github.com/alonbl/gnupg-pkcs11-scd][alonbl/gnupg-pkcs11-scd]] (link via [[https://docs.digicert.com/en/software-trust-manager/code-signing/sign-with-third-party-signing-tools/gpg-signing/install-gpg-tools/gnupg-pkcs11-scd.html][DigiCert Software Trust Manager (docs)]] which
+has their own proprietary alternative to this)
+
++ example configuration in [[https://github.com/OpenSC/OpenSC/wiki/GnuPG-and-OpenSC][OpenSC/OpenSC/wiki/GnuPG-and-OpenSC]]
+  - this uses OpenSC instead of SCDaemon
++ Wiki pages: [[https://github.com/OpenSC/OpenSC/wiki/Using-OpenSC][Using OpenSC]], [[https://github.com/OpenSC/OpenSC/wiki/Using-OpenSC][Overview]]
+  
+
 *** Kleopatra
 
 + [[https://www.reddit.com/r/yubikey/comments/p1zvac/signature_public_key_not_found_locally/][Signature Public Key not found locally]] for me, it's my encryption
@@ -1181,6 +1191,22 @@ Compare lines with =FIPS 140-2 successes/failures=. It should be very close to 1
 #+begin_src sh :eval no
 cat /dev/random | rngtest -c 1000
 #+end_src
+
+* System Time
+
+When using =usb-gpg-tools= in the [[https://github.com/dcunited001/ellipsis/tree/master/ellipsis/ellipsis][ellipsis channel]], esp. if airgapped, you need
+to ensure the system time is correct. If the battery's been empty for long
+periods of time, the =LocalRTC= time resets/drifts. This affects the results of
+most crypto & signing operations. In the past, i've manually set the time with
+=timedatectl=, which seemed to work. Booting a different network-connected Linux
+ISO will persist on reboot.
+
+To fix this:
+
++ use a Linux ISO and connect NTP to update time in the booted Linux.
++ check with =date= and =timedatectl show=
++ when it's correct, use =timedatectl --adjust-system-clock= to be sure (i don't
+  think this writes)
 
 * Backups
 

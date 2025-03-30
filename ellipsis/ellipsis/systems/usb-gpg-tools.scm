@@ -82,7 +82,7 @@
                  (bootloader grub-efi-bootloader)
                  (targets "/dev/sda")))
     (file-systems (cons (file-system
-                          (device (file-system-label "root"))
+                          (device (file-system-label "usb-gpg-disk"))
                           (mount-point "/")
                           (type "ext4"))
                         %base-file-systems))
@@ -158,7 +158,7 @@
                    openssl
 
                    pcsc-lite
-                   gnupg2.4
+                   gnupg
 
                    ccid
                    yubico-piv-tool
@@ -176,8 +176,6 @@
                    ;; shroud-nox
 
                    le-certs
-                   nss-certs
-
                    gnutls
 
                    ;; NOTE: step-kms-plugin should work if ldd discovers
