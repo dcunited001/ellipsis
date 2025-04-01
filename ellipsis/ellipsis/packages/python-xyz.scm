@@ -4,6 +4,7 @@
   #:use-module (gnu packages check)
   #:use-module (gnu packages python-xyz)
   #:use-module (gnu packages python-check)
+  #:use-module (gnu packages imagemagick)
   #:use-module (guix build-system pyproject)
   #:use-module (guix build-system python)
 
@@ -16,6 +17,14 @@
   #:use-module (guix packages)
   #:use-module (guix utils)
   #:use-module (srfi srfi-1))
+
+;; from: https://github.com/engstrand-config/farg/tree/main/farg/packages.scm
+(define-public python-pywal-imagemagick
+  (package
+    (inherit python-pywal)
+    (name "python-pywal-imagemagick")
+    (input '())
+    (propagated-inputs (list imagemagick))))
 
 ;; TODO: missing tests directory, convert from pypi url to clone from git
 
