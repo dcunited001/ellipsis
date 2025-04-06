@@ -314,7 +314,18 @@ Guix channel.")
   :demand t
   :custom
   (alert-default-style 'libnotify)
-  (alert-log-level 'normal))
+  (alert-log-level 'normal)
+  :config
+  (map! :map dc/quick-map
+        (:prefix ("a" . "ALERT")
+                 "o" #'alert--log-open-log
+                 "M-c" #'alert--log-clear-log
+                 "d" #'alert--log-enable-debugging
+                 "D" #'alert--log-disable-debugging
+                 "l" #'alert--log-disable-logging
+                 "L" #'alert--log-enable-logging
+                 "m" #'alert--log-enable-messaging
+                 "M" #'alert--log-disable-messaging)))
 
 ;;;; Confirmations
 
@@ -364,7 +375,13 @@ Guix channel.")
 (use-package ef-themes
   :defer t
   :init (setopt doom-theme nil)
-  :hook (doom-init-ui-hook . (lambda () (ef-themes-load-random 'dark))))
+  :hook (doom-init-ui-hook . (lambda () (ef-themes-load-random 'dark)))
+  :config
+  (map! :map dc/quick-map
+        (:prefix ("t" . "THEME")
+                 "r" #'ef-themes-load-random
+                 "s" #'ef-themes-select
+                 "t" #'ef-themes-toggle)))
 
 ;;;; Windows
 (use-package! ace-window
@@ -1259,7 +1276,9 @@ the root")
   :defer t
   :custom
   (vterm-max-scrollback 1000)
-  (vterm-set-bold-hightbright t))
+  (vterm-set-bold-hightbright t)
+  :config
+  (map! :map dc/quick-map "M-v" #'vterm))
 
 ;; TODO: per-project vterm
 ;; https://github.com/doomemacs/doomemacs/blob/master/modules/term/vterm/autoload.el
@@ -1353,6 +1372,14 @@ the root")
 ;;;;; Repo
 
 ;;; Tools
+
+;;;; Direnv
+(use-package! envrc
+  :config
+  (map! :map dc/quick-map
+        (:prefix ("E" . "ENVRC")
+                 "r" #'envrc-reload-all
+                 "g" #'envrc-global-mode)))
 
 ;;;; Auth
 ;;
@@ -1529,6 +1556,16 @@ the root")
                   "/run/current-system/profile/bin"
                   "/run/current-system/profile/sbin"))
     (add-to-list 'tramp-remote-path p))
+  (map! :map dc/quick-map
+        (:prefix ("T" . "TRAMP")
+                 "b" #'tramp-cleanup-all-buffers
+                 "c" #'tramp-cleanup-connection
+                 "C" #'tramp-cleanup-this-connection
+                 "M-c" #'tramp-cleanup-all-connections
+                 "M" #'tramp-compat-set-file-modes
+                 "d" #'tramp-setup-debug-buffer
+                 ;; TODO check tramp-completion-use-auth-sources
+                 "g" #'tramp-crypt-add-directory))
   :custom (tramp-default-method "ssh"))
 
 ;;;; Data
@@ -1555,7 +1592,19 @@ the root")
 
 ;;;; Pastebin
 
-(use-package! 0x0 :defer t :init (require 'dc-0x0))
+(use-package! 0x0
+  :defer t
+  :init
+  (require 'dc-0x0)
+  :config
+  (map! :map dc/quick-map
+        (:prefix ("0" . "0x0")
+                 "-" #'0x0-dwim
+                 "t" #'0x0-upload-text
+                 "f" #'0x0-upload-file
+                 "k" #'0x0-upload-kill-ring
+                 "p" #'0x0-popup
+                 "u" #'0x0-shorten-uri)))
 (after! 0x0
   (setopt 0x0-servers (dc/0x0-retention-policy)))
 

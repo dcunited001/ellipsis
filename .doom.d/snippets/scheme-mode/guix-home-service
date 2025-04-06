@@ -1,7 +1,7 @@
 # -*- mode: snippet -*-
 # name: guix-home-service-module
 # key: g§hmod
-# con  dition: t
+# condition: t
 # --
 ;;; Copyright © `(nth 5 (decode-time))` `user-full-name` <`user-mail-address`>
 
