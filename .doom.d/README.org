@@ -55,12 +55,13 @@ The Guix manifest environment at =.config/guix/manifests/doomemacs.scm= mainly
 just specifies =emacs-pgtk=, the basic Doom deps and =openjdk= so it's in the
 path for my Guix System laptop.
 
-#+begin_src scheme :tangle ../.config/guix/manifests/doomemacs.scm
+#+begin_src scheme
 (specifications->manifest
  '("openjdk"
    "emacs-next-pgtk"
    "ripgrep"
    "guile-ares-rs"
+   "d2-bin" ;; in ./ellipsis/ellipsis/packages/golang.scm
    "fd"))
 #+end_src
 

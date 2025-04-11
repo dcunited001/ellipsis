@@ -24,9 +24,7 @@ while [ "$1" != "" ]; do
     esac
 done
 
-
-
-__ellipsis_channel=$HOME/.dotfiles/gh
+__ellipsis_channel=$HOME/.dotfiles/ellipsis
 __dc_channel=$HOME/.dotfiles/dc
 __substitute_urls=${__substitute_urls:-https://ci.guix.gnu.org https://bordeaux.guix.gnu.org https://substitutes.nonguix.org}
 

@@ -262,9 +262,25 @@ Guix channel.")
 ;; (global-auto-revert-mode 1)
 
 ;;;;; Bufler
-(after! bufler
-  (set-popup-rules!
-    '(("^\\*Bufler" :side right :vslot -5 :slot -5 :width 80 :select t :quit t))))
+
+;; The bufler-workspace-set doesn't conflict with activities.el per se, but I
+;; like that window title isn't restricted to the project path (
+
+(use-package bufler
+  :demand t
+  :bind
+  (("C-x M-b M-b" . #'bufler-sidebar)
+   ("C-x M-b b" . #'bufler-workspace-set)
+   ("C-x M-b <SPC>" . #'bufler-workspace-switch-buffer)
+   ("C-x M-b M-<SPC>" . #'bufler-switch-buffer)
+   ("C-x M-b g" . #'bufler-list)))
+
+;; Use prefix to control *Bufler* sidebar placement
+;; 
+;; (after! bufler
+;;   (set-popup-rules!
+;;     '(("^\\*Bufler" :side top :vslot -5 :slot -5 :width 80 :select t :quit t)))
+;;   (map! :map doom-leader-toggle-map "b" #'bufler-sidebar))
 
 ;;;;;; Bufler defauto-groups
 ;;;;;; Bufler defgroups
@@ -281,6 +297,18 @@ Guix channel.")
 ;; corresponding to the parsed current symbol at point
 ;;
 ;; (hi-lock-regexp-okay (find-tag-default-as-symbol-regexp))
+(use-package! highlight-symbol
+  :demand t
+  :custom (highlight-symbol-delay 0.5)
+  :hook ((scheme-mode emacs-lisp-mode conf-mode syslog-mode) . highlight-symbol-mode)
+  :config (map! :map doom-leader-toggle-map "M-h" #'highlight-symbol-mode))
+
+;;;;; Follow
+
+;; very useful when used with highlight-symbol. also native with no deps
+(use-package! follow
+  :demand t
+  :bind ((:map doom-leader-toggle-map ("M-f" . #'follow-mode))))
 
 ;;;;; Undo
 (use-package! undo-tree
@@ -394,11 +422,11 @@ Guix channel.")
 ;; TODO buf-move-up: keybinds are not set until used
 (use-package! buffer-move
   :commands buf-move-up buf-move-down buf-move-left buf-move-right
-  :config
-  (map! "<C-S-up>" #'buf-move-up
-        "<C-S-down>" #'buf-move-down
-        "<C-S-left>" #'buf-move-left
-        "<C-S-right>" #'buf-move-right))
+  :bind (("C-x M-b h" . #'buf-move-left)
+         ("C-x M-b j" . #'buf-move-down)
+         ("C-x M-b k" . #'buf-move-up)
+         ("C-x M-b l" . #'buf-move-right)))
+
 
 ;; from tecosaur: ask for buffer after basic window splits
 ;;
@@ -1323,6 +1351,10 @@ the root")
                 "v M-g c" #'git-link-commit
                 "v M-g h" #'git-link-homepage))
 
+(use-package! git-timemachine
+  :defer t
+  :bind ((:map doom-leader-toggle-map ("G" . #'git-timemachine-toggle))))
+
 ;;;; Diff
 ;;;;; Patches
 ;;;;; Smerge
@@ -1466,9 +1498,7 @@ the root")
 (use-package! rec-mode
   :defer t
   :config
-  (add-to-list 'dc/org-babel-load-languages '(rec . t))
-  (require 'ob-rec)
-  (dc/org-babel-do-load-languages))
+  (require 'ob-rec))
 
 ;;;;; Nix
 
@@ -1583,7 +1613,13 @@ the root")
 (use-package! graphql :after ghub)
 
 ;;;;; Visualization
+
 ;; gnu plot, graphviz/plot, d2, mermaid, plantuml
+(use-package! d2-mode
+  :defer t
+  ;; must be in path
+  :custom (d2-location "d2"))
+
 ;;;; Misc
 
 ;;; Applications

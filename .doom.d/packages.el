@@ -23,7 +23,7 @@
 ;; visual-fill-column?
 
 ;;** Highlighting
-;; highlight-symbol?
+(package! highlight-symbol)
 
 ;;** Bookmarks
 (package! burly)
