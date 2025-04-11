@@ -1,4 +1,3 @@
 #!/bin/sh
-
-# something like this:
-grep -L -re ":PROPERTIES:" $ORG_DIRECTORY/roam/**/*.org
+orgdir="${ORG_DIRECTORY:-/data/org}"
+grep -L -e ":PROPERTIES:" $orgdir/roam/**/*.org
