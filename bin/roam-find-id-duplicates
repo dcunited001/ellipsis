@@ -1,0 +1,9 @@
+#!/bin/sh
+orgdir="${ORG_DIRECTORY:-/data/org}"
+# 1. find matches
+# 2. rev|sort|rev because UUID is just as uniq backwards
+# 3. remove extraneous details
+# 4. uniq -d to list duplicates
+grep --include="*.org" -n -re '^:ID: ' /data/org/roam |\
+    rev | sort | rev | sed -e 's/^.*:\s\+//' |\
+    uniq -d
