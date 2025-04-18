@@ -54,6 +54,8 @@
 
             dc-channels-service))
 
+;; =============================================
+;;; Packages
 (use-package-modules bash guile guile-xyz gnupg security-token
                      fonts fontutils ghostscript admin shellutils
                      linux image-viewers video gstreamer
@@ -240,11 +242,6 @@
     ("MAIL" . "geary")
     ("LESSHISTFILE" . "$XDG_CACHE_HOME/.lesshst")
     ("_JAVA_AWT_WM_NONREPARENTING" . #t)))
-
-(define %dc-env-wayland
-  ;; on guix system, agreety will set XDG_SESSION_TYPE
-  '(("XDG_SESSION_TYPE" . "wayland")
-    ("QT_QPA_PLATFORM" . "wayland-egl")))
 
 ;; ("LITERAL_VALUE" . ,(literal-string "${abc}"))
 

@@ -1633,6 +1633,8 @@ flatpak install --user flathub com.zulip.Zulip
 flatpak install --user flathub org.kde.konversation
 flatpak install --user flathub org.quassel_irc.QuasselClient
 flatpak install --user flathub us.zoom.Zoom
+flatpak install --user flathub org.gnome.design.IconLibrary
+# flatpak install --user flathub org.gnome.design.AppIconPreview
 
 # media
 flatpak install --user flathub com.obsproject.Studio

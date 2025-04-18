@@ -17,8 +17,7 @@
 
   #:use-module (guix gexp)
   #:use-module (srfi srfi-1)
-  #:export (%dc-base-environment
-            dc-inputrc-configuration
+  #:export (dc-inputrc-configuration
             dc-bash-configuration
             dc-zathura-service))
 
@@ -27,11 +26,6 @@
 ;;; This module provides a service definition for the services service.
 ;;;
 ;;; Code:
-
-(define %dc-base-environment
-  (alist-append-uniq
-   wayland-environment
-   gtk-environment))
 
 ;; =============================================
 ;;; Shells

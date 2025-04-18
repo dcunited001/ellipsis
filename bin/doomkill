@@ -30,6 +30,6 @@ if [[ ! -S "$emacs_socket" ]]; then
     echo "`basename $0` requires a running server when specifying a socket"
     exit 2
 else
-    guix shell -p $emacs_profile --\
+    guix shell -L $HOME/.dotfiles/ellipsis -p $emacs_profile --\
         emacsclient --socket="$emacs_socket_name" -e "(kill-emacs)"
 fi

@@ -62,8 +62,8 @@ export EMACS=$emacs_profile/bin/emacs
 # -E "^EMAIL$" -E '^EMACSDIR$' -E '^DOOMDIR$' -E '^EMACS$'
 
 if [ 0 -lt "$search_paths" ]; then
-    guix shell -p $emacs_profile --search-paths
+    guix shell -L $HOME/.dotfiles/ellipsis -p $emacs_profile --search-paths
 else
-    guix shell -p $emacs_profile -- \
+    guix shell -L $HOME/.dotfiles/ellipsis -p $emacs_profile -- \
         emacs --init-directory=$EMACSDIR --fg-daemon="$emacs_socket_name" "$@"
 fi

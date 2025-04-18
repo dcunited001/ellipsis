@@ -427,6 +427,10 @@ Guix channel.")
          ("C-x M-b k" . #'buf-move-up)
          ("C-x M-b l" . #'buf-move-right)))
 
+;; :config (map! "<C-S-up>" #'buf-move-up
+;;       "<C-S-down>" #'buf-move-down
+;;       "<C-S-left>" #'buf-move-left
+;;       "<C-S-right>" #'buf-move-right)
 
 ;; from tecosaur: ask for buffer after basic window splits
 ;;
@@ -1477,6 +1481,12 @@ the root")
 (use-package! guix
   :demand t
   :init (require 'ffap)
+  :bind ((:map dc/quick-map
+               ("g <SPC>" . #'guix)
+               ("gX" . #'guix-extended-command)
+               ("gh" . #'guix-hash)
+               ("gsb" . #'guix-switch-to-buffer)
+               ("gsr" . #'guix-switch-to-repl)))
   :config
   (require 'guix-ui)
   ;; demand for now, for `guix-pulled-profile' and `guix-scheme-mode'. this
