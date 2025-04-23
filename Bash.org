@@ -15,6 +15,9 @@
   - [[#graphql][GraphQL]]
   - [[#python][Python]]
   - [[#julia][Julia]]
+- [[#distros][Distros]]
+  - [[#general][General]]
+  - [[#arch][Arch]]
 - [[#profile][Profile]]
   - [[#devtools][devtools]]
   - [[#xdg][XDG]]
@@ -284,6 +287,27 @@ use_julia_system() {
     alias pluto='julia --project=nb --threads=auto -e "using Pluto; Pluto.run(port=4321)"'
 }
 #+end_src
+
+* Distros
+** General
+*** Locate
+
+Ensure these paths exist in =/etc/updatedb.conf=
+
+Add the following to =PRUNEPATHS=:
+
++ /.snapshots :: BTRFS snapshots
++ /gnu/store :: Guix store
++ /nix/store :: Nix store
++ TODO: add directories for containers
+
+The syntax is very specific: no newlines for any variable.
+
++ PRUNE_BIND_MOUNTS
++ PRUNEFS
++ PRUNENAMES
+
+** Arch
 
 * Profile
 
