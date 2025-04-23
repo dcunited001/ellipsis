@@ -67,10 +67,11 @@ fonts/**
 
 # guix
 .config/guix/channels.scm
-.config/guix/base-channels.scm
 #.config/guix/systems/base-system.scm
 #.config/guix/systems/*.scm
 .config/guix/systems/install.scm
+.config/guix/current
+.config/guix/gpg
 .config/guix/manifests
 !.config/guix/manifests/.gitkeep
 !.config/guix/manifests/academic.scm
