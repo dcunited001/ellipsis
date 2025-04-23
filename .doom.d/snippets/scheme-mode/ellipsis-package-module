@@ -1,0 +1,39 @@
+# -*- mode: snippet -*-
+# name: ellipsis-package-module
+# key: e§pkgmod
+# condition: t                          
+# --
+;;; Copyright © `(nth 5 (decode-time))` `user-full-name` <`user-mail-address`>
+
+
+(define-module (ellipsis package `(file-name-base (buffer-name))`)
+  #:use-module ((guix licenses) #:prefix license:)
+  #:use-module (guix gexp)
+  #:use-module (guix utils)
+  #:use-module (guix download)
+  #:use-module (guix git-download)
+
+  ;; #:use-module (guix build-system go)
+  ;; #:use-module (guix build-system python)
+  ;; #:use-module (guix build-system pyproject)
+
+  #:use-module (gnu packages)
+  #:use-module (gnu packages base)
+  #:use-module (gnu)
+
+  #:use-module (guix gexp)
+  #:use-module (srfi srfi-1)
+  #:export (`(file-name-base (buffer-name))`-service-type))
+
+;;; Commentary:
+;;;
+;;; This module provides packages for `(file-name-base (buffer-name))`.
+;;;
+;;;
+;;; Code:
+
+;;; Packages
+
+$0
+
+;;; `(file-name-base (buffer-name))`.scm ends here

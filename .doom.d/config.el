@@ -1630,6 +1630,10 @@ the root")
   ;; must be in path
   :custom (d2-location "d2"))
 
+(use-package! plantuml-mode
+  :defer t
+  :custom (plantuml-indent-level 2))
+
 ;;;; Misc
 
 ;;; Applications

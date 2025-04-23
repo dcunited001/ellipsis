@@ -1,0 +1,65 @@
+# -*- mode: snippet -*-
+# name: guix-service-module
+# key: g§mod
+# condition: t                          
+# --
+;;; Copyright © `(nth 5 (decode-time))` `user-full-name` <`user-mail-address`>
+
+
+(define-module (ellipsis services `(file-name-base (buffer-name))`)
+  ;;#:use-module (ellipsis common)
+  ;;#:use-module (ellipsis config)
+
+  #:use-module (gnu home services)
+  #:use-module (gnu packages)
+  #:use-module (gnu services base)
+  #:use-module (gnu services configuration)
+  #:use-module (gnu services shepherd)
+  #:use-module (gnu services)
+  #:use-module (gnu)
+
+  #:use-module (guix gexp)
+  #:use-module (srfi srfi-1)
+  #:export (`(file-name-base (buffer-name))`-service-type))
+
+;;; Commentary:
+;;;
+;;; This module provides a service definition for the `(file-name-base (buffer-name))` service.
+;;;
+;;; SERVICE_DESCRTIPTION
+;;;
+;;; Code:
+
+;;; Packages
+
+;; (use-package-modules ...)
+(define-public %`(file-name-base (buffer-name))`-packages
+  (list))
+
+(define-record-type* <`(file-name-base (buffer-name))`-configuration>
+  `(file-name-base (buffer-name))`-configuration make-`(file-name-base (buffer-name))`-configuration
+  `(file-name-base (buffer-name))`-configuration?
+  (uid `(file-name-base (buffer-name))`-configuration-uid ;string
+       (default "`(file-name-base (buffer-name))`"))
+  (gid `(file-name-base (buffer-name))`-configuration-gid ;string
+       (default "`(file-name-base (buffer-name))`")))
+
+(define (`(file-name-base (buffer-name))`-activation config)
+  "Return the activation gexp for CONFIG."
+  #~(begin
+      (use-modules (guix build utils))
+      ))
+
+;;; Service Files
+
+(define `(file-name-base (buffer-name))`-service-type
+  (service-type
+   (name '`(file-name-base (buffer-name))`)
+   (extensions
+    (list (service-extension activation-service-type
+                             `(file-name-base (buffer-name))`-activation)))
+   (default-value (`(file-name-base (buffer-name))`-configuration))
+   (description
+    "Run the `(file-name-base (buffer-name))`.")))
+
+;;; `(file-name-base (buffer-name))`.scm ends here
