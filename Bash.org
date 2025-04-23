@@ -13,6 +13,7 @@
   - [[#docker][Docker]]
 - [[#languages][Languages]]
   - [[#graphql][GraphQL]]
+  - [[#python][Python]]
   - [[#julia][Julia]]
 - [[#profile][Profile]]
   - [[#devtools][devtools]]
@@ -226,6 +227,27 @@ in =.node_modules=
 
 ***** TODO finalize on =use_guixs=
 ***** TODO how to designate the default graphql schema file for the above?
+
+
+** Python
+
+
+*** Pyenv
+Removed from arch.
+
+Building for pyenv
+
+#+begin_example sh
+version=$1
+
+mjobs=$((NTHREADS - 2))
+
+env PYTHON_CONFIGURE_OPTS='--enable-optimizations --with-lto' \
+PYTHON_CFLAGS='-march=native -mtune=native' \
+PYTHON_MAKE_OPTS="-j$mjobs" \
+MAKE_OPTS="-j$mjobs" \
+pyenv install $version 2>&1 > ~/src/log/python-build-$version.log
+#+end_example
 
 ** Julia
 

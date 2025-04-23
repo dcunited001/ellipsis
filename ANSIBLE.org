@@ -1156,23 +1156,15 @@ This doesn't really work, though it's unclear why.
 **** Using =yq= to transform output
 
 To transform =firewalld_info= results into yaml, you could also use =jq= and
-=yq=. Both are straight python libraries, which is much better than having node
-dependencies... which unfortunately, my system makes a bit difficult to work
-with, since tools like =nvm= and =pyenv= expect =lib64= to link right on the
-system (I still haven't had enough time to figure this out).
+=yq=.
 
 #+begin_src sh
-ansible centos --ask-vault-password -e@vault.yml -b -m ansible.posix.firewalld_info > /tmp/firewalld_info.json
+fw_info="$(mktemp)"
+ansible centos -b -m ansible.posix.firewalld_info \
+    --ask-vault-password -e@vault.yml > $fw_info
+
+cat $fw_info | yq -y . > /tmp/firewalld.yml
 #+end_src
-
-Yes, I need to get in there and clean up the YAML. The command =yq . -y= is how
-you get =jq= to do absolutely nothing with the output.
-
-#+begin_src sh
-# this feels wrong
-cat /tmp/firewalld_info.json | yq -y . > /tmp/firewalld.yml
-#+end_src
-
 
 
 *** TODO ansible facts metadata
