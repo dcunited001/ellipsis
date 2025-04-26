@@ -157,11 +157,11 @@ EndSection
         (needed-for-boot? #f)
         (dependencies mapped-devices))
 
-      (file-system
-        (device (file-system-label "Steam"))
-        (mount-point "/flatpak/steam")
-        (type "ext4")
-        (needed-for-boot? #f))
+      ;; (file-system
+      ;;   (device (file-system-label "Steam"))
+      ;;   (mount-point "/flatpak/steam")
+      ;;   (type "ext4")
+      ;;   (needed-for-boot? #f))
 
       ;; /boot/efi needs to be enumerated here
       ;;   in addition to the (bootloader...) declaration
@@ -181,8 +181,6 @@ EndSection
 
     (services
      (append
-      ;; (modify-services %base-services)
-      ;; %base-services
       (modify-services %base-services
         (guix-service-type
          config => (guix-configuration
@@ -212,11 +210,6 @@ EndSection
        ;; accountsservice-service was missing in kharis.scm
        (service accountsservice-service-type)
        (service colord-service-type)
-
-       ;; x11-socket-directory-service-type:
-       ;; stands for libxcb when using xwayland
-
-       ;; (service x11-socket-directory-service-type)
 
        ;; TODO: add pipewire
        ;; (service pulseaudio-service-type)

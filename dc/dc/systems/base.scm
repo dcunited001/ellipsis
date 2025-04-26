@@ -6,22 +6,26 @@
   #:use-module (gnu system)
   #:use-module (gnu system nss)
   #:use-module (gnu system setuid)
+  #:use-module (json)
+  #:use-module (json builder)
+
   ;; #:use-module (nongnu packages linux)
   ;; #:use-module (nongnu system linux-initrd)
 
   ;; #:use-module (nongnu services vpn)
   #:use-module (nongnu packages vpn))
 
-(use-service-modules guix admin sysctl pm nix
-                     avahi dbus cups desktop linux
-                     mcron networking xorg ssh
-                     docker audio virtualization)
+(use-service-modules guix admin sysctl pm nix avahi dbus cups
+                     desktop linux mcron networking xorg ssh
+                     docker audio virtualization
+                     containers)
 
 (use-package-modules nfs certs shells ssh tls gnupg security-token acl
                      bash emacs emacs-xyz gnome networking libusb
                      texinfo fonts cups audio xorg xdisorg linux file-systems
                      version-control package-management freedesktop rsync
-                     cryptsetup hardware guile vim golang golang-crypto)
+                     cryptsetup hardware guile vim golang golang-crypto
+                     containers)
 
 ;; guile-xyz: guile-fibers
 
@@ -47,7 +51,7 @@
                 ;; (setuid? #t)
                 (privileged-program
                  (program (file-append ntfs-3g "/sbin/mount.ntfs-3g"))))
-                ;; (setuid? #t)
+          ;; (setuid? #t)
           %default-privileged-programs))
 
 (define-public %dc-nntp-service
@@ -63,10 +67,28 @@
          (user-group (name "plugdev") (system? #t))
          (user-group (name "yubikey") (system? #t))
          (user-group (name "fuse") (system? #t))
+         (user-group (name "cgroup") (system? #t))
          (user-group (name "users") (id 1100))
          (user-group (name "dc") (id 1000))
          (remove (lambda (g) (equal? (user-group-name g) "users"))
                  %base-groups)))
+
+;; TODO: maybe define suid elsewhere.
+;; rootless-podman extends the subids-service-type
+(define-public %dc-subid-range
+  (subid-range (name "dc") (start 10001000) (range 65536)))
+
+;; define the rest with subids extensions
+(define-public %dc-subid-service-type
+  (service subid-servic-type
+           (subids-configuration
+            (subgids %dc-subid-range)
+            (subuids %dc-subid-range))))
+
+(define-public %dc-rootless-podman-service
+  (service rootless-podman-service-type
+           (rootless-podman-configuration
+            )))
 
 (define-public %dc-containerd-service
   (service containerd-service-type
@@ -106,14 +128,23 @@
 ;; see man limits.conf
 ;; or https://baeldung.com/linux/error-too-many-open-files/
 (define-public %dc-pam-limits-service
-  ;; TODO: (service pam-limits-service-type
   (service pam-limits-service-type
            (list
             (pam-limits-entry "@realtime" 'both 'rtprio 99)
             (pam-limits-entry "@realtime" 'both 'nice -19)
             (pam-limits-entry "@realtime" 'both 'memlock 'unlimited))))
 
-;; TODO: this won't have environment vars set (for ssh)
+;; (operating-system-file
+;;  (file-append
+;;   (local-file "." "systems-dir" #:recursive? #t)
+;;   (string-append
+;;    "/root/.config/guix/systems/" %host-name ".scm")))
+
+(define %dc-unattended-upgrade-configuration
+  (unattended-upgrade-configuration
+   (schedule "30 2 * * 0")
+   (system-expiration (* 6 7 24 3600))))
+
 (define-public %dc-unattended-upgrade-service-type
   (service
    unattended-upgrade-service-type
@@ -141,8 +172,11 @@
      (append (list "https://substitutes.nonguix.org")
              %default-substitute-urls))
     (authorized-keys
-     (append (list (plain-file "nonguix.pub" "(public-key (ecc (curve Ed25519) (q #C1FD53E5D4CE971933EC50C9F307AE2171A2D3B52C804642A7A35F84F3A4EA98#)))"))
-             %default-authorized-guix-keys)))))
+     (append
+      (list
+       (plain-file "nonguix.pub"
+                   "(public-key (ecc (curve Ed25519) (q #C1FD53E5D4CE971933EC50C9F307AE2171A2D3B52C804642A7A35F84F3A4EA98#)))"))
+      %default-authorized-guix-keys)))))
 
 (define-public %dc-extra-file-env
   (extra-special-file "/usr/bin/env"
@@ -158,8 +192,10 @@
   (extra-special-file
    "/etc/flatpak/installations.d"
    (file-union "installations.d"
-               `(("steam.conf" ,(local-file "flatpak/installations.d/steam.conf"))
-                 ("agenda.conf" ,(local-file "flatpak/installations.d/agenda.conf"))))))
+               `
+               (("steam.conf" ,(local-file "flatpak/installations.d/steam.conf"))
+                ("agenda.conf"
+                 ,(local-file "flatpak/installations.d/agenda.conf"))))))
 
 ;; add libvirt & docker to the users who need it
 (define-public %dc-my-groups
@@ -176,6 +212,7 @@
     ;; TODO: configure udev for group
     "yubikey" ;; yubikey (udev)
     "plugdev" ;; libu2f-host (udev)
+    "cgroup"
     "users"))
 
 (define-public (dc-user my-groups)

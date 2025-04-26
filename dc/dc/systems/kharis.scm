@@ -12,11 +12,14 @@
   #:use-module (nongnu packages linux)
   #:use-module (nongnu system linux-initrd)
 
+  #:use-module (ellipsis packages python-xyz)
+
   #:use-module (dc systems base))
 
 (use-service-modules guix admin sysctl pm nix avahi dbus cups
                      desktop linux mcron networking ssh ;; xorg?
-                     security-token docker audio virtualization)
+                     security-token docker audio virtualization
+                     containers)
 
 (use-package-modules nfs certs shells ssh tls gnupg security-token
                      bash emacs emacs-xyz gnome networking libusb
@@ -24,8 +27,7 @@
                      version-control package-management freedesktop rsync
                      cryptsetup hardware guile vim golang golang-crypto)
 
-;; not sure what and=> is, but accepts (value procedure)
-;; and seems to return a default for the maybe? or Some<T> pattern
+;; (and=> (getenv "HOME") (lambda (home) (string-append home home)))
 (define-public %home
   (and=> (getenv "HOME")
          (lambda (home)
@@ -35,8 +37,26 @@
 
 (define %host-name "kharis")
 
+;; jhash=$(echo jupyter-lab | sha256sum | head -c8)
+;; echo $((0x$jhash % 1000)) # probably a bad idea all around
+(define %kharis-service-users
+  `((jupyter-lab ,(user-account (name "jupyter-lab") (groups))))
+  )
+
+;;;  can still download astral-uv from guix, but the paths just need to be
+;;;  compat with the runtime... though i haven't actually read
+;;;  astral-sh/python-build-standalone
+;;;
+;;; as long as i can connect to a Jupyter-lab kernel runtime from emacs, then
+;;; that's fine.
+
 ;; system-specific users should go here
-(define %dc-users '())
+(define %kharis-users
+  (append
+   (list (dc-user
+          (cons* "libvirt" "docker" %dc-my-groups)))
+   %kharis-service-users
+   %base-user-accounts))
 
 (define-public %kharis-shell-keyboard
   (keyboard-layout
@@ -96,6 +116,12 @@
             (prefer-regexp "syncthing|firefox")
             (show-debug-messages? #t))))
 
+;; TODO: this won't work without a gexp.  it may not be a great idea
+;; (define-public %kharis-upgrade-configuration
+;;   (unattended-upgrade-configuration
+;;    (inherit %dc-unattended-upgrade-configuration)
+;;    (channels #~(@ (guix describe) (current-channels)))))
+
 (define system
   (operating-system
     (host-name %host-name)
@@ -121,11 +147,7 @@
     ;; TODO: check whether I need to add my own user
     ;; - not showing up in /etc/group on kharis
     (groups %dc-base-groups)
-    (users (append (list (dc-user (cons* "libvirt"
-                                         "docker"
-                                         %dc-my-groups)))
-                   %dc-users
-                   %base-user-accounts))
+    (users %kharis-users)
 
     ;; kharis would only need xf86-video-amdgpu for xorg
     ;; - otherwise the driver is included in the kernel
@@ -140,8 +162,6 @@
     ;;
     ;; - kanji are easier to arrange in a grid, though switching between
     ;; single/double-width characters are another thing
-    ;;
-    ;;
 
     ;; "Install the given fonts on the specified ttys (fonts are per virtual
     ;; console on GNU/Linux).  The value of this service is a list of tty/font
@@ -163,14 +183,12 @@
      (append
       (modify-services %base-services
         ;; (delete console-font-service-type)
-        (delete login-service-type)
+        (delete agetty-service-type)
         (delete mingetty-service-type))
 
       (list
-       (service colord-service-type)
        %dc-extra-file-env
        %dc-extra-file-ld-linux
-       (dc-extra-file-flatpak)
 
        (service
         greetd-service-type
@@ -179,8 +197,11 @@
          (terminals
           (list
            ;; TTY1 is the graphical login screen for Sway
+           ;; Set up remaining TTYs for terminal use
+
+           (greetd-terminal-configuration (terminal-vt "1"))
            (greetd-terminal-configuration
-            (terminal-vt "1")
+            (terminal-vt "2")
             (terminal-switch #t)
             (default-session-command
               (greetd-wlgreet-sway-session
@@ -190,23 +211,15 @@
                             (string-append
                              "output * bg /data/xdg/Wallpapers/"
                              %host-name "-greetd.jpg fill\n"))))))
-
-           ;; Set up remaining TTYs for terminal use
+           ;; default: /bin/bash -l
            (greetd-terminal-configuration
-            (terminal-vt "2")
+            (terminal-vt "3")
             (default-session-command
               (greetd-agreety-session
                (command (file-append bash "/bin/bash"))
                (command-args '("-l")))))
-           (greetd-terminal-configuration (terminal-vt "3"))
            (greetd-terminal-configuration (terminal-vt "4"))
            (greetd-terminal-configuration (terminal-vt "5"))
-           ;; (greetd-terminal-configuration
-           ;;  (terminal-vt "5")
-           ;;  (default-session-command
-           ;;    (greetd-wlgreet-session
-           ;;     (command (file-append bash "/bin/bash"))
-           ;;     (command-args '("-l")))))
            (greetd-terminal-configuration (terminal-vt "6"))
            (greetd-terminal-configuration (terminal-vt "7"))
            (greetd-terminal-configuration (terminal-vt "8"))
@@ -219,30 +232,48 @@
 
        polkit-wheel-service
 
+       ;; networking
        %dc-ntp-service
        %dc-network-manager-service
-
        (service wpa-supplicant-service-type)
        (service modem-manager-service-type)
+       %dc-nntp-service
+       %kharis-openssh-service
+
+       ;; (service zerotier-one-service-type)
+
+       ;; peripherals
+       (service usb-modeswitch-service-type)
        (service bluetooth-service-type
                 (bluetooth-configuration
                  (auto-enable? #t)))
-       (service usb-modeswitch-service-type)
+       (service fprintd-service-type)
+       (service pcscd-service-type)
+       ;; connect phone to laptop
+       ;; (simple-service 'mtp udev-service-type (list libmtp))
 
        (service avahi-service-type)
        (service udisks-service-type)
        (service upower-service-type)
+       (service accountsservice-service-type)
        (service geoclue-service-type)
        (service polkit-service-type)
        (service elogind-service-type
                 (elogind-configuration
                  (handle-lid-switch-external-power 'suspend)))
-
        (service dbus-root-service-type)
 
-       ;; Manage the fontconfig cache
-       fontconfig-file-system-service
+       ;; print/scan
+       (service sane-service-type)
+       (service cups-pk-helper-service-type)
+       %dc-cups-service
+       (service colord-service-type)
 
+       ;; desktop
+       fontconfig-file-system-service
+       (service x11-socket-directory-service-type)
+
+       ;; hardware
        (service thermald-service-type)
        %kharis-tlp-service
        %dc-auditd-service
@@ -250,31 +281,28 @@
        %kharis-earlyoom-service
        %kharis-gpm-service
 
-       %dc-nntp-service
-       %kharis-openssh-service
-
-       ;; for yubikey
-       (service pcscd-service-type)
-
        ;; testing removing the fido2 functionality to restore yubikey
        (udev-rules-service 'fido2 libfido2 #:groups '("plugdev"))
        (udev-rules-service 'u2f libu2f-host #:groups '("plugdev"))
        (udev-rules-service 'yubikey yubikey-personalization)
 
+       ;; containers
        %dc-docker-service
        %dc-containerd-service
        %dc-oci-container-service
+       %dc-rootless-podman-service
+
+       ;; vm's
        %dc-libvirt-service
-       %dc-virtlog-service
+       %dc-virtlog-service ;; printing
 
-       ;; scanning
-       (service sane-service-type)
-
-       ;; printing
-       (service cups-pk-helper-service-type)
-       %dc-cups-service
-
+       ;; (service sysctl-service-type) ; configure kernel params @ boot
        %dc-pam-limits-service
+
+       ;; enable pipewire via guix home instead
+       ;; (service pulseaudio-service-type)
+       (service alsa-service-type)
+
 
        ;; Add udev rules for a few packages
        (udev-rules-service 'pipewire-add-udev-rules pipewire)
@@ -328,12 +356,6 @@
                      (type "ext4")
                      (needed-for-boot? #f)
                      (dependencies mapped-devices))
-
-                   (file-system
-                     (device (file-system-label "Steam"))
-                     (mount-point "/flatpak/steam")
-                     (type "ext4")
-                     (needed-for-boot? #f))
 
                    ;; /boot/efi needs to be enumerated here
                    ;;   in addition to the (bootloader...) declaration

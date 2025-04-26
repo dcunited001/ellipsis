@@ -1,0 +1,271 @@
+;;* Module
+;;
+;; TODO: Fix GDM. it's missing a window manager
+;;
+(define-module (ellipsis systems nonguix-install-amd)
+  #:use-module (srfi srfi-1)
+  #:use-module (gnu)
+  #:use-module (gnu system)
+  #:use-module (gnu system nss)
+  #:use-module (gnu system pam)
+
+  ;;** Basic Packages
+  #:use-module (gnu packages version-control)
+  #:use-module (gnu packages package-management) ;; TODO: remove?
+  #:use-module (gnu packages vim)
+  ;; #:use-module (gnu packages curl)
+  #:use-module (gnu packages emacs)
+  #:use-module (gnu packages linux)
+  #:use-module (gnu packages mtools) ;; for msdos file systems
+  #:use-module (gnu packages file-systems)
+  #:use-module (gnu packages rsync)
+  #:use-module (gnu packages acl)
+  #:use-module (gnu packages hardware)
+
+
+  ;; AGE keygen
+  #:use-module (gnu packages golang)
+  #:use-module (gnu packages golang-crypto)
+
+  ;;** PGP Packages
+  #:use-module (gnu packages gnupg)
+  #:use-module (gnu packages security-token)
+
+  ;;** PGP Services
+  #:use-module (gnu services authentication)
+  #:use-module (gnu services security-token)
+
+  #:use-module (nongnu packages linux)
+  #:use-module (nongnu system linux-initrd)
+  #:use-module (nongnu packages vpn)
+
+  #:use-module (ellipsis packages gnupg)
+  #:use-module (ellipsis packages tls)
+  #:use-module (ellipsis packages emacs-xyz)
+  #:use-module (ellipsis packages password-utils)
+  #:use-module (ellipsis packages security-token)
+
+  ;; get a list of channels
+  #:use-module (guix describe)
+
+  ;; gnutls packages
+  #:use-module (gnu packages tls)
+
+  ;; certbot/letsencrypt packages
+  ;; #:use-module (gnu services certbot)
+
+  #:export (usb-gpg-tools))
+
+;; networking is [probably] needed for loopback
+(use-service-modules networking ssh security-token
+                     desktop linux mcron networking)
+(use-package-modules wget screen password-utils vim emacs emacs-xyz networking
+                     linux time mtools lsof file-systems disk version-control
+                     ssh gnupg cryptsetup security-token tls certs libusb
+                     golang golang-crypto)
+
+(define %my-user "dc")
+(define %my-channels (current-channels))
+
+(define %system-groups
+  (cons* (user-group (name "realtime") (system? #t))
+         ;; created by service
+         ;; (user-group (system? #t) (name "docker"))
+         (user-group (name "plugdev") (system? #t))
+         (user-group (name "yubikey") (system? #t))
+         (user-group (name "fuse") (system? #t))
+         (user-group (name "cgroup") (system? #t))
+         (user-group (name "users") (id 1100))
+         (user-group (name "dc") (id 1000))
+         (remove (lambda (g) (equal? (user-group-name g) "users"))
+                 %base-groups)))
+
+(define %my-groups
+  '("wheel"  ;; sudo
+    "netdev" ;; network devices
+    "kvm"
+    "tty"
+    "input"
+    "fuse"
+    "realtime" ;; Enable RT scheduling
+    "lp"       ;; control bluetooth and cups
+    "audio"    ;; control audio
+    "video"    ;; control video
+    ;; TODO: configure udev for group
+    "yubikey" ;; yubikey (udev)
+    "plugdev" ;; libu2f-host (udev)
+    "users"))
+
+(define-public %kharis-shell-keyboard
+  (keyboard-layout
+   "us" "altgr-intl"
+   #:model "pc105"
+   ;; see gitlab.freedesktop.org/xkeyboard-config/xkeyboard-config/-/issue/344
+   #:options '("caps:ctrl_modifier"
+               ;; "ctrl:swapcaps_hyper" ; in 1.3.0 (hyper as Mod3)
+               ;; "ctrl:hyper_capscontrol" ; in 1.5.0 (hyper as Mod4)
+               "lv3:ralt_alt"
+               "lv3:menu_switch")))
+
+;;** Image
+(define usb-gpg-tools
+  (operating-system
+    (host-name "usbgpgtool")
+    (timezone "America/New_York")
+    (locale "en_US.UTF-8")
+
+    (keyboard-layout %kharis-shell-keyboard)
+
+    ;; to install on a system with just BIOS (e.g. a VM)
+    (bootloader (bootloader-configuration
+                 (bootloader grub-efi-bootloader)
+                 (targets "/dev/sda")))
+    (file-systems (cons (file-system
+                          (device (file-system-label "usb-gpg-disk"))
+                          (mount-point "/")
+                          (type "ext4"))
+                        %base-file-systems))
+
+    ;; NONFREE
+    ;; (kernel linux)
+    (firmware (cons* linux-firmware
+                     amd-microcode
+                     ;; realtek-firmware
+                     %base-firmware))
+
+    (kernel-arguments '("modprobe.blacklist=radeon"
+                        ;; "quiet" ;; .....
+                        ;; "net.iframes=0"
+                        ))
+
+    ;; TODO: users/groups (autologin to tty
+
+    (groups %system-groups)
+    (users (append (list
+                    (user-account
+                     (uid 1000)
+                     (name %my-user)
+                     (comment "Default User")
+                     (group "dc")
+                     (supplementary-groups %my-groups)))
+                   %base-user-accounts))
+
+    ;; misc packages:
+    ;; f3: test flash storage
+    ;; paperkey: print keys to paper
+    ;; certdata2pem: convert between cert formats
+    ;; datefudge: mock system time to set arbitrary cert start times
+    ;; exfat-utils: work with FAT disks
+    ;; pwsafe: manage passwords
+
+    (packages
+     (append (list lvm2
+                   cryptsetup
+                   dosfstools
+                   ntfs-3g
+                   exfat-utils
+                   fuse-exfat
+                   f3
+                   acl
+                   hwinfo
+                   lsof
+
+                   wget
+                   git
+                   stow
+                   vim
+                   rsync
+
+                   screen
+                   emacs-no-x-toolkit
+                   emacs-x509-mode ;; very helpful for certs
+                   emacs-better-defaults
+                   ;; emacs-with-profile
+                   emacs-auto-complete
+                   emacs-hydra
+                   emacs-modus-themes
+                   emacs-dash
+                   emacs-lispy
+                   emacs-geiser
+                   emacs-geiser-guile
+                   emacs-ac-geiser
+                   emacs-guix
+                   emacs-yasnippet
+                   emacs-yasnippet-snippets
+
+                   ;; req. to seed /dev/random with entropy from yubikey
+                   rng-tools
+
+                   screen
+                   openssh
+                   openssl
+
+                   pcsc-lite
+                   gnupg
+
+                   zerotier
+
+                   ccid
+                   yubico-piv-tool
+                   yubikey-personalization
+                   python-yubikey-manager
+                   libu2f-host
+                   opensc
+                   hidapi ;; HID Devices for FIDO/OTP
+
+                   pinentry-tty
+                   paperkey
+                   datefudge
+
+                   ;; TODO: remove shroud-nox?
+                   ;; shroud-nox
+
+                   le-certs
+                   gnutls
+                   tunctl
+                   bridge-utils
+                   iptables-nft
+
+                   ;; NOTE: step-kms-plugin should work if ldd discovers
+                   ;; pscscd via rpath
+                   step-kms-plugin-bin
+                   step-ca-bin
+                   step-cli-bin
+
+                   certdata2pem
+                   ;; desec-certbot-hook
+
+                   sops
+                   age
+                   age-keygen
+                   age-plugin-yubikey-bin)
+             %base-packages))
+
+    (services
+     (append (list
+              (service pcscd-service-type)
+
+              ;; testing removing the fido2 functionality to restore yubikey
+              (udev-rules-service 'fido2 libfido2 #:groups '("plugdev"))
+              (udev-rules-service 'u2f libu2f-host #:groups '("plugdev"))
+              (udev-rules-service 'yubikey yubikey-personalization))
+
+             (modify-services %desktop-services
+               (guix-service-type
+                config => (guix-configuration
+                           (inherit config)
+                           (channels %my-channels)
+                           (guix (guix-for-channels %my-channels))
+                           (substitute-urls
+                            (append (list "https://substitutes.nonguix.org")
+                                    %default-substitute-urls))
+                           (authorized-keys
+                            (append
+                             (list
+                              (plain-file "nonguix.pub"
+                                          "(public-key (ecc (curve Ed25519) (q #C1FD53E5D4CE971933EC50C9F307AE2171A2D3B52C804642A7A35F84F3A4EA98#)))"))
+                             %default-authorized-guix-keys)))))))))
+
+;; TODO: add gnupg service if configuration file is in place
+
+usb-gpg-tools
