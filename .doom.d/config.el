@@ -1128,6 +1128,13 @@ Guix channel.")
 ;;   :on-enter (remove-hook! ... #'lsp!))
 
 
+;;;; Sesman
+(use-package! sesman
+  :defer t
+  :config
+  (set-popup-rules!
+    '(("^\\*sesman" :side bottom :vslot -5 :slot -5 :width 80 :select t :quit t))))
+
 ;;;; Lisp
 
 ;; fixes issues navigating by lispy outline, but with advice below,
@@ -1214,7 +1221,13 @@ the root")
 ;; the arei package hooks itself already. .dir-locals.el may need an update.
 ;;
 ;; run guile-ares-rs server externally, then connect using sesman-start
-(use-package! arei :defer t)
+(use-package! arei
+  :defer t
+  :config
+  (set-popup-rules!
+    '(("^\\*arei:" :side bottom :vslot -5 :slot -5 :width 80 :select t :quit t)))
+
+  )
 
 ;; ---------------------------------------------
 ;;

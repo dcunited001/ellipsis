@@ -113,9 +113,9 @@
   ;; ("_GUIX" . "/gnu")
   ;; ("_FLATPAK" . "/flatpak")
 
-  (define moz-env
-    '(("MOZ_ENABLE_WAYLAND" . #t)       ; firefox wayland
-      ("MOZ_DBUS_REMOTE" . #t)))
+  (define julia-env
+    '(("JULIA_SHELL" . "/bin/sh")
+      ("JULIA_EDITOR" . "$EDITOR")))
 
   (define qt-env
     '(("XDG_SESSION_TYPE" . "wayland")

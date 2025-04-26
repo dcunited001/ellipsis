@@ -10,6 +10,7 @@
 
   #:use-module (gnu packages base)
   #:use-module (gnu packages golang)
+  #:use-module (gnu packages golang-xyz)
   #:use-module (gnu packages tls)
   #:use-module (gnu packages security-token)
   ;; #:use-module (gnu packages gcc)
@@ -18,11 +19,11 @@
 
 (define-public d2-bin
   (let* ((bin-platform "linux-amd64")
-         (bin-version "0.6.5")
+         (bin-version "0.6.9")
          (bin-name (string-append "d2-v" bin-version "-" bin-platform ".tar.gz")))
     (package
       (name "d2-bin")
-      (version "0.6.5")
+      (version "0.6.9")
       (source (origin
                 (method url-fetch)
                 (uri (string-append
@@ -30,7 +31,7 @@
                       "v" version "/" bin-name))
                 (sha256
                  (base32
-                  "0d57h4r06q5jsl8mwb02zpjkdwdj12gfrivqafv3fcr6mwcjjw0p"))))
+                  "0hzlyyjzzdv8fna0z6c6jska81a27bn496namij0bnm2bc3afwjv"))))
 
       (build-system copy-build-system)
       (arguments
