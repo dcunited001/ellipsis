@@ -14,34 +14,54 @@
   #:use-module (guix build-system copy)
   #:use-module (nonguix build-system binary)
 
-  #:use-module (gnu packages base)
-  #:use-module (gnu packages gcc)
-  #:use-module (gnu packages commencement)
-  #:use-module (gnu packages pkg-config)
-  #:use-module (gnu packages security-token)
+  #:use-module (gnu)
+  #:use-module (gnu packages)
 
   #:use-module (gnu packages golang)
 
-  ;; python packages
-  ;; #:use-module (guix build-system python)
-  ;; #:use-module (guix build-system pyproject)
-  ;; #:use-module (gnu packages python-build)
-  ;; #:use-module (gnu packages python-crypto)
-  ;; #:use-module (gnu packages python-xyz)
-
-  ;; python-pyusb
-  ;; #:use-module (gnu packages libusb)
-
-  ;; python-mock
-  ;; #:use-module (gnu packages check)
-  ;; #:use-module (gnu packages swig)
-  ;; #:use-module (gnu packages pkg-config)
-
-  ;; python-fido2: public-suffix-list
-  ;; #:use-module (gnu packages dns)
-  ;; #:use-module (gnu packages security-token)
-
   #:use-module (srfi srfi-1))
+
+(use-package-modules base gcc commencement m4 autotools pkg-config perl
+                     networking
+                     security-token tls hardware)
+
+;; watchexec -p -e '*.scm' -- guix build -L $HOME/.dotfiles/ellipsis libtpms
+
+
+;; https://github.com/NixOS/nixpkgs/blob/1750f3c1c89488e2ffdd47cab9d05454dddfb734/pkgs/by-name/li/libtpms/package.nix#L43
+
+(define-public libtpms
+  (package
+    (name "libtpms")
+    (version "0.10.0")
+    (source (origin
+              (method git-fetch)
+              (uri (git-reference
+                    (url "https://github.com/stefanberger/libtpms")
+                    (commit (string-append "v" version))))
+              (file-name (git-file-name name version))
+              (sha256
+               (base32
+                "0nawrc09ahmb1hcxw58v79bwbm8v7xprg9r8nm78nl3wh9fkzav0"))))
+    (build-system gnu-build-system)
+    (native-inputs (list m4 autoconf automake libtool pkg-config perl socat))
+    (inputs (list openssl tpm2-tss))
+    (arguments
+     (list
+      #:phases #~(modify-phases %standard-phases
+                   (delete 'check))
+      #:configure-flags
+      #~(list "--with-tpm2"
+              "--with-openssl")))
+
+    (home-page "https://github/stefanberger/libtpms")
+    (synopsis
+     "The libtpms library provides software emulation of a Trusted Platform Module (TPM 1.2 and TPM 2.0)")
+    (description "Libtpms is a library that targets the integration of TPM functionality
+into hypervisors, primarily into Qemu. Libtpms provides a very narrow
+public API for this purpose so that integration is possible. Only the
+minimum of necessary APIs are made publicly available.")
+    (license license:bsd-3)))
 
 (define-public age-plugin-yubikey-bin
   (let* ((bin-platform "x86_64-linux")
