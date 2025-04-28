@@ -21,14 +21,17 @@
 
   #:use-module (srfi srfi-1))
 
-(use-package-modules base gcc commencement m4 autotools pkg-config perl
-                     networking
-                     security-token tls hardware)
+;; perl: pod2man for libtpms & swtpm
+;; python: swtpm
+;; gnome: json-glib for swtpm
+;; tcl: expect
+(use-package-modules base gcc glib commencement m4 autotools pkg-config perl
+                     tcl
+                     linux networking python gnome tls security-token hardware)
 
 ;; watchexec -p -e '*.scm' -- guix build -L $HOME/.dotfiles/ellipsis libtpms
 
 
-;; https://github.com/NixOS/nixpkgs/blob/1750f3c1c89488e2ffdd47cab9d05454dddfb734/pkgs/by-name/li/libtpms/package.nix#L43
 
 (define-public libtpms
   (package
@@ -44,8 +47,9 @@
                (base32
                 "0nawrc09ahmb1hcxw58v79bwbm8v7xprg9r8nm78nl3wh9fkzav0"))))
     (build-system gnu-build-system)
-    (native-inputs (list m4 autoconf automake libtool pkg-config perl socat))
+    (native-inputs (list m4 autoconf automake libtool pkg-config perl))
     (inputs (list openssl tpm2-tss))
+    
     (arguments
      (list
       #:phases #~(modify-phases %standard-phases

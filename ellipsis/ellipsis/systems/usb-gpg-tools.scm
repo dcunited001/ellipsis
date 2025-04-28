@@ -10,6 +10,7 @@
   #:use-module (ellipsis packages emacs-xyz)
   #:use-module (ellipsis packages password-utils)
   #:use-module (ellipsis packages security-token)
+  #:use-module (ellipsis packages golang-crypto)
 
   #:export (usb-gpg-tools))
 
@@ -28,7 +29,8 @@
 (use-package-modules wget screen password-utils vim emacs emacs-xyz ; curl
                      package-management                             ; remove?
                      linux time mtools lsof file-systems disk version-control
-                     ssh gnupg cryptsetup security-token tls certs libusb)
+                     ssh gnupg cryptsetup security-token tls certs libusb
+                     golang-crypto)
 
 (define %my-user "dc")
 
