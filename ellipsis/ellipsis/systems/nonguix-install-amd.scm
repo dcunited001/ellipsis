@@ -9,32 +9,6 @@
   #:use-module (gnu system nss)
   #:use-module (gnu system pam)
 
-  ;;** Basic Packages
-  #:use-module (gnu packages version-control)
-  #:use-module (gnu packages package-management) ;; TODO: remove?
-  #:use-module (gnu packages vim)
-  ;; #:use-module (gnu packages curl)
-  #:use-module (gnu packages emacs)
-  #:use-module (gnu packages linux)
-  #:use-module (gnu packages mtools) ;; for msdos file systems
-  #:use-module (gnu packages file-systems)
-  #:use-module (gnu packages rsync)
-  #:use-module (gnu packages acl)
-  #:use-module (gnu packages hardware)
-
-
-  ;; AGE keygen
-  #:use-module (gnu packages golang)
-  #:use-module (gnu packages golang-crypto)
-
-  ;;** PGP Packages
-  #:use-module (gnu packages gnupg)
-  #:use-module (gnu packages security-token)
-
-  ;;** PGP Services
-  #:use-module (gnu services authentication)
-  #:use-module (gnu services security-token)
-
   #:use-module (nongnu packages linux)
   #:use-module (nongnu system linux-initrd)
   #:use-module (nongnu packages vpn)
@@ -51,20 +25,19 @@
   ;; gnutls packages
   #:use-module (gnu packages tls)
 
-  ;; certbot/letsencrypt packages
-  ;; #:use-module (gnu services certbot)
-
-  #:export (usb-gpg-tools))
+  #:export (nonguix-install-amd))
 
 ;; networking is [probably] needed for loopback
-(use-service-modules networking ssh security-token
+(use-service-modules networking ssh security-token authentication
                      desktop linux mcron networking)
-(use-package-modules wget screen password-utils vim emacs emacs-xyz networking
-                     linux time mtools lsof file-systems disk version-control
+(use-package-modules curl wget rsync vim emacs emacs-xyz
+                     wm freedesktop xdisorg fontutils fonts
+                     networking linux time mtools acl hardware
+                     package-management
+                     lsof file-systems disk version-control
                      ssh gnupg cryptsetup security-token tls certs libusb
-                     golang golang-crypto)
+                     screen password-utils golang golang-crypto)
 
-(define %my-user "dc")
 (define %my-channels (current-channels))
 
 (define %system-groups
@@ -144,7 +117,8 @@
     (users (append (list
                     (user-account
                      (uid 1000)
-                     (name %my-user)
+                     (name "dc")
+                     (password "dc1234321")
                      (comment "Default User")
                      (group "dc")
                      (supplementary-groups %my-groups)))
@@ -170,30 +144,11 @@
                    hwinfo
                    lsof
 
+                   curl
                    wget
                    git
                    stow
-                   vim
                    rsync
-
-                   screen
-                   emacs
-                   emacs-x509-mode ;; very helpful for certs
-                   emacs-better-defaults
-                   ;; emacs-with-profile
-                   emacs-auto-complete
-                   emacs-hydra
-                   emacs-modus-themes
-                   emacs-dash
-                   emacs-lispy
-                   emacs-geiser
-                   emacs-geiser-guile
-                   emacs-ac-geiser
-                   emacs-guix
-                   emacs-yasnippet
-                   emacs-yasnippet-snippets
-
-                   sway
 
                    ;; req. to seed /dev/random with entropy from yubikey
                    rng-tools
@@ -237,11 +192,55 @@
                    certdata2pem
                    ;; desec-certbot-hook
 
+                   tpm2-tss
                    sops-bin
                    age
                    age-keygen
                    age-plugin-tpm-bin
-                   age-plugin-yubikey-bin)
+                   age-plugin-yubikey-bin
+
+                   screen
+                   vim
+                   emacs
+                   emacs-x509-mode ;; very helpful for certs
+                   emacs-better-defaults
+                   ;; emacs-with-profile
+                   emacs-auto-complete
+                   emacs-hydra
+                   emacs-modus-themes
+                   emacs-dash
+                   emacs-lispy
+                   emacs-geiser
+                   emacs-geiser-guile
+                   emacs-ac-geiser
+                   emacs-guix
+                   emacs-yasnippet
+                   emacs-yasnippet-snippets
+
+                   sway
+                   xdg-desktop-portal
+
+                   hyprland
+                   hyprlock
+                   hypridle
+                   grimblast
+                   hyprcursor
+                   xdg-desktop-portal-hyprland
+
+                   fontconfig
+                   font-google-roboto
+                   font-google-noto-emoji
+                   font-recursive
+                   font-microsoft-cascadia
+                   font-victor-mono
+                   font-jetbrains-mono
+                   font-intel-one-mono
+                   font-adwaita
+                   font-liberation
+                   font-dejavu
+                   font-awesome
+                   font-fira-code
+                   font-google-noto)
              %base-packages))
 
     (services

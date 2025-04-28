@@ -1,4 +1,4 @@
-;;* Module
+;;; Module
 (define-module (ellipsis systems usb-gpg-tools-amd)
   #:use-module (gnu)
   #:use-module (gnu system)
@@ -14,7 +14,11 @@
   #:use-module (nongnu packages linux)
   #:use-module (nongnu system linux-initrd))
 
-;;** Image
+;; This system containes other nonfree software built from patched binaries,
+;; but it includes a patched kernel from nonguix and includes
+;; Intel/AMD microcode.
+
+;;;; Image
 (define usb-gpg-tools-amd
   (operating-system
     (inherit usb-gpg-tools)

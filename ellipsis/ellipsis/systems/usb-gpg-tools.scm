@@ -1,31 +1,9 @@
-;;* Module
+;;; Module
 (define-module (ellipsis systems usb-gpg-tools)
   #:use-module (gnu)
   #:use-module (gnu system)
   #:use-module (gnu system nss)
   #:use-module (gnu system pam)
-
-  ;;** Basic Packages
-  #:use-module (gnu packages version-control)
-  #:use-module (gnu packages package-management) ;; TODO: remove?
-  #:use-module (gnu packages vim)
-  ;; #:use-module (gnu packages curl)
-  #:use-module (gnu packages emacs)
-  #:use-module (gnu packages linux)
-  #:use-module (gnu packages mtools) ;; for msdos file systems
-  #:use-module (gnu packages file-systems)
-
-  ;; AGE keygen
-  #:use-module (gnu packages golang)
-  #:use-module (gnu packages golang-crypto)
-
-  ;;** PGP Packages
-  #:use-module (gnu packages gnupg)
-  #:use-module (gnu packages security-token)
-
-  ;;** PGP Services
-  #:use-module (gnu services authentication)
-  #:use-module (gnu services security-token)
 
   #:use-module (ellipsis packages gnupg)
   #:use-module (ellipsis packages tls)
@@ -33,22 +11,22 @@
   #:use-module (ellipsis packages password-utils)
   #:use-module (ellipsis packages security-token)
 
-  ;; gnutls packages
-  #:use-module (gnu packages tls)
+  #:export (usb-gpg-tools))
 
-  ;; certbot/letsencrypt packages
-  ;; #:use-module (gnu services certbot)
+;; This system does contain nonfree software built from patched binaries, but
+;; it includes LinuxLibre and does not include Intel/AMD microcode.
 
-  #:export (usb-gpg-tools)
+;;;; AGE keygen: golang golang-crypto
+;;;; PGP Packages: gnupg security-token
+;;;; PGP Services: authentication security-token
 
-  ;;NONFREE
-  ;; #:use-module (nongnu packages linux)
-  ;; #:use-module (nongnu system linux-initrd)
-  )
+;; certbot/letsencrypt packages
+;; #:use-module (gnu services certbot)
 
 ;; networking is [probably] needed for loopback
-(use-service-modules networking ssh security-token)
-(use-package-modules wget screen password-utils vim emacs emacs-xyz
+(use-service-modules networking ssh security-token authentication)
+(use-package-modules wget screen password-utils vim emacs emacs-xyz ; curl
+                     package-management                             ; remove?
                      linux time mtools lsof file-systems disk version-control
                      ssh gnupg cryptsetup security-token tls certs libusb)
 
@@ -70,7 +48,7 @@
                 ;; (auto-login %my-user)
                 (login-pause? #t)))))
 
-;;** Image
+;;;; Image
 (define usb-gpg-tools
   (operating-system
     (host-name "usbgpgtool")
@@ -108,6 +86,13 @@
                                              "tty"
                                              "plugdev"))))
                    %base-user-accounts))
+
+
+
+    ;; TODO:  add YK UDev Rules?
+    ;; (udev-rules-service 'fido2 libfido2 #:groups '("plugdev"))
+    ;; (udev-rules-service 'u2f libu2f-host #:groups '("plugdev"))
+    ;; (udev-rules-service 'yubikey yubikey-personalization)
 
     ;; misc packages:
     ;; f3: test flash storage
@@ -187,11 +172,18 @@
                    certdata2pem
                    ;; desec-certbot-hook
 
+                   age
                    sops-bin
                    age-keygen
                    age-plugin-tpm-bin
                    age-plugin-yubikey-bin)
              %base-packages))
+
+    ;; age
+
+    ;; acl
+    ;; hwinfo
+    ;; libfido2 ;; included as dependency
 
     (services
      (append (list
