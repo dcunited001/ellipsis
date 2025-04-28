@@ -44,8 +44,10 @@
        (list
         #:install-plan #~'(("." "bin/" #:include ("age-plugin-tpm")))))
       (home-page "https://github.com/Foxboron/age-plugin-tpm")
-      (synopsis "")
-      (description "")
+      (synopsis "TPM 2.0 plugin for age")
+      (description
+       "age-plugin-tpm is a plugin for age clients like age and rage, which
+enables files to be encrypted to age identities sealed by the TPM.")
       (license license:expat))))
 
 (define-public ssh-tpm-agent-bin
@@ -70,9 +72,16 @@
        (list coreutils pcsc-lite))
       (native-inputs
        (list go))
-      (home-page "https://smallstep.com/cli/")
-      (synopsis
-       "A zero trust swiss army knife for working with X509, OAuth, JWT, OATH, OTP, etc")
-      (description
-       "step is an easy-to-use CLI tool for building, operating, and automating Public Key Infrastructure (PKI) systems and workflows. It's the client counterpart to the step-ca online Certificate Authority (CA). You can use it for many common crypto and X.509 operations—either independently, or with an online CA.")
-      (license license:asl2.0))))
+      (home-page "https://github.com/Foxboron/ssh-agent-tpm")
+      (synopsis "An ssh-agent that fetches keys from a TPM")
+      (description "ssh-tpm-agent is a ssh-agent compatible agent that allows
+keys to be created by the Trusted Platform Module (TPM) for authentication
+towards ssh servers.
+
+TPM sealed keys are private keys created inside the Trusted Platform
+Module (TPM) and sealed in .tpm suffixed files. They are bound to the hardware
+they are produced on and can't be transferred to other machines.
+
+This allows you to utilize a native client instead of having to side load
+existing PKCS11 libraries into the ssh-agent and/or ssh client.")
+      (license license:expat))))

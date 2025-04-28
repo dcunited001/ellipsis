@@ -18,6 +18,7 @@
   #:use-module (ellipsis packages emacs-xyz)
   #:use-module (ellipsis packages password-utils)
   #:use-module (ellipsis packages security-token)
+  #:use-module (ellipsis packages golang-crypto)
 
   ;; get a list of channels
   #:use-module (guix describe)
@@ -29,7 +30,7 @@
 
 ;; networking is [probably] needed for loopback
 (use-service-modules networking ssh security-token authentication
-                     desktop linux mcron networking)
+                     desktop sddm linux mcron networking)
 (use-package-modules curl wget rsync vim emacs emacs-xyz
                      wm freedesktop xdisorg fontutils fonts
                      networking linux time mtools acl hardware
@@ -118,7 +119,7 @@
                     (user-account
                      (uid 1000)
                      (name "dc")
-                     (password "dc1234321")
+                     (password (crypt "dc1234321" "$6$abc"))
                      (comment "Default User")
                      (group "dc")
                      (supplementary-groups %my-groups)))
@@ -251,6 +252,9 @@
               (udev-rules-service 'fido2 libfido2 #:groups '("plugdev"))
               (udev-rules-service 'u2f libu2f-host #:groups '("plugdev"))
               (udev-rules-service 'yubikey yubikey-personalization))
+
+             (list (service gnome-desktop-service-type)
+                   (service plasma-desktop-service-type))
 
              (modify-services %desktop-services
                (guix-service-type
