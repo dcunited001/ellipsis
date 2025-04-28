@@ -67,6 +67,84 @@ public API for this purpose so that integration is possible. Only the
 minimum of necessary APIs are made publicly available.")
     (license license:bsd-3)))
 
+;; https://github.com/stefanberger/swtpm/blob/9bdd62d1e96b5723920ffe9f09325d1ddad66905/configure.ac#L512-L522
+
+;; also from swtpm Dockerfile "softhsm or certtool are crashing the pkcs11 test case"
+;; also from swtpm Dockerfile --with-cuse https://man.archlinux.org/man/swtpm_cuse.8.en
+
+;; so many
+
+(define-public swtpm
+  (package
+    (name "swtpm")
+    (version "0.10.0")
+    (source (origin
+              (method git-fetch)
+              (uri (git-reference
+                    (url "https://github.com/stefanberger/swtpm")
+                    (commit (string-append "v" version))))
+              (file-name (git-file-name name version))
+              (sha256
+               (base32
+                "1kbxps7kmkd6dnnfv1rzz83bm6ks4pls4lcz0k9y92g0la2m6jk4"))))
+    (build-system gnu-build-system)
+    (native-inputs
+     (list m4 autoconf automake libtool pkg-config expect socat perl python
+           net-tools which))
+    (inputs
+     (list libtpms openssl libtasn1 glib json-glib gnutls fuse libseccomp))
+    (arguments
+     (list
+      #:tests? #f
+      #:configure-flags
+      #~(list "--with-openssl"
+              "--localstatedir=/var"
+              ;; "--with-cuse" ;; "could not get cflags for libfuse"
+              "--without-selinux")
+      #:make-flags
+      #~(list
+         (string-append "CC=" #$(cc-for-target))
+         (string-append "PKG_CONFIG=" #$(pkg-config-for-target)))
+      #:phases
+      #~(modify-phases %standard-phases
+          ;; this may not be an exhaustive list. i just grepped the *.log
+          ;; files in ./tests for "port"
+
+          (add-after 'unpack 'patch-source
+            (lambda* (#:key inputs outputs #:allow-other-keys)
+              (let ((certtool (assoc-ref inputs "gnutls"))
+                    (out (assoc-ref outputs "out")))
+                ;; (substitute* "configure.ac"
+                ;;   (("^install-data-local") "do-not-execute:"))
+                (substitute* "samples/Makefile.am"
+                  (("^install-data-local:") "do-not-execute:"))
+                (substitute* "src/swtpm_localca/swtpm_localca.c"
+                  ;; the top is only used when __APPLE__
+                  (("#define CERTTOOL_NAME \"gnutls-certtool\"")
+                   (string-append
+                    "#define CERTTOOL_NAME \""
+                    (search-input-file inputs "bin/certtool") "\""))
+                  (("#define CERTTOOL_NAME \"certtool\"")
+                   (string-append
+                    "#define CERTTOOL_NAME \""
+                    (search-input-file inputs "bin/certtool") "\"")))))))))
+    (home-page "https://github/stefanberger/swtpm")
+    (synopsis
+     "Libtpms-based TPM emulator with socket, character device, and Linux CUSE interface")
+    (description "The SWTPM package provides TPM emulators with different
+front-end interfaces to libtpms. TPM emulators provide socket
+interfaces (TCP/IP and Unix) and the Linux CUSE interface for the creation of
+multiple native /dev/vtpm* devices.
+
+The SWTPM package also provides several tools for using the TPM emulator,
+creating certificates for a TPM, and simulating the manufacturing of a TPM by
+creating a TPM's EK and platform certificates etc.
+
+Please read the READMEs in the individual tool's directory under src/.
+
+Please consult the Wiki for information about swtpm")
+    (license license:bsd-3)))
+
 (define-public age-plugin-yubikey-bin
   (let* ((bin-platform "x86_64-linux")
          (bin-version "0.5.0")
@@ -101,34 +179,6 @@ minimum of necessary APIs are made publicly available.")
       (description
        "age-plugin-yubikey is a plugin for age clients like age and rage, which enables files to be encrypted to age identities stored on YubiKeys.")
       (license license:expat))))
-
-(define-public age-plugin-tpm-bin
-  (let* ((platform "linux-amd64"))
-    (package
-      (name "age-plugin-tpm-bin")
-      (version "0.3.0")
-      (source (origin
-                (method url-fetch)
-                (uri (string-append
-                      "https://github.com/Foxboron/age-plugin-tpm/releases/download/v"
-                      version "/" "age-plugin-tpm" "-v" version "-" platform
-                      ".tar.gz"))
-                (sha256
-                 (base32
-                  "0x1kx2c77nkg7ivzlrvvzjwg7fp22kpqp597yrpw7f1y926dzr2j"))))
-      (build-system binary-build-system)
-      (inputs `((,gcc "lib")
-                ,gcc-toolchain
-                ,pcsc-lite))
-      (propagated-inputs (list))
-      (arguments
-       (list
-        #:install-plan #~'(("." "bin/" #:include ("age-plugin-tpm")))))
-      (home-page "https://github.com/Foxboron/age-plugin-tpm")
-      (synopsis "")
-      (description "")
-      (license license:expat))))
-
 
 ;; NOTE: it builds: no idea whether it works
 ;; (define-public go-github-com-go-piv-piv-go

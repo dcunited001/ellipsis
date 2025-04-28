@@ -14,6 +14,8 @@
 
   #:export (usb-gpg-tools))
 
+(use-modules (guix utils))
+
 ;; This system does contain nonfree software built from patched binaries, but
 ;; it includes LinuxLibre and does not include Intel/AMD microcode.
 
@@ -174,6 +176,8 @@
                    certdata2pem
                    ;; desec-certbot-hook
 
+                   tpm2-tss
+                   ssh-agent-tpm-bin
                    age
                    sops-bin
                    age-keygen
