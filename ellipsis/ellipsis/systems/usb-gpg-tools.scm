@@ -187,8 +187,9 @@
                    certdata2pem
                    ;; desec-certbot-hook
 
-                   sops
+                   sops-bin
                    age-keygen
+                   age-plugin-tpm-bin
                    age-plugin-yubikey-bin)
              %base-packages))
 

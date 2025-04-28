@@ -22,6 +22,15 @@
 
 ;;; Emacs
 
+;;;; fix hash-table-contains-p missing
+(unless (fboundp 'hash-table-contains-p)
+  (defsubst hash-table-contains-p (key table)
+    "Return non-nil if TABLE has an element with KEY."
+    (declare (side-effect-free t)
+             (important-return-value t))
+    (let ((missing (make-symbol "missing")))
+      (not (eq (gethash key table missing) missing)))))
+
 ;;;; User
 
 (setq-default user-full-name "David Conner"

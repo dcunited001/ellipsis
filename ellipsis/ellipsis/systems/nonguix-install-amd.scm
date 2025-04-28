@@ -108,7 +108,7 @@
                "lv3:menu_switch")))
 
 ;;** Image
-(define usb-gpg-tools
+(define nonguix-install-amd
   (operating-system
     (host-name "usbgpgtool")
     (timezone "America/New_York")
@@ -177,7 +177,7 @@
                    rsync
 
                    screen
-                   emacs-no-x-toolkit
+                   emacs
                    emacs-x509-mode ;; very helpful for certs
                    emacs-better-defaults
                    ;; emacs-with-profile
@@ -192,6 +192,8 @@
                    emacs-guix
                    emacs-yasnippet
                    emacs-yasnippet-snippets
+
+                   sway
 
                    ;; req. to seed /dev/random with entropy from yubikey
                    rng-tools
@@ -269,4 +271,4 @@
 
 ;; TODO: add gnupg service if configuration file is in place
 
-usb-gpg-tools
+nonguix-install-amd
