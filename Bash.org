@@ -421,7 +421,7 @@ The syntax is very specific: no newlines for any variable.
   "age"
   "pass-age"
   "age-plugin-yubikey-bin"
-  "sops"
+  "sops-bin"
 
 ;;** compression
   "zip"

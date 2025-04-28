@@ -21,12 +21,12 @@
 
   #:use-module (srfi srfi-1))
 
-(define-public sops
+(define-public sops-bin
   (let* ((bin-platform "linux.amd64")
-         (bin-version "3.9.4")
+         (bin-version "3.10.2")
          (bin-name (string-append "sops-v" bin-version "." bin-platform)))
     (package
-      (name "sops")
+      (name "sops-bin")
       (version bin-version)
       (source (origin
                 (method url-fetch)
@@ -35,7 +35,7 @@
                       "v" version "/" bin-name))
                 (sha256
                  (base32
-                  "11afdrifjla52ck884bs84fbjfmbpdad0pc9mn17kpkiqhmy722l"))))
+                  "0f8pf0p6z74lsm1zfs1rvkgcfpvnq7dq9j2ddr2b1m3v4d2gic3r"))))
       (build-system copy-build-system)
       (arguments
        (list
@@ -44,13 +44,11 @@
         ;; otherwise, should be double-quoted
         ;; #:install-plan ''(("sops" "bin/"))
         ;; nothing i try here seemed to work until i added 'make-symlink
-        #:install-plan ''(("." "bin/"
-                           #:include-regexp ("sops.*$")))
+        #:install-plan #~'(("." "bin/" #:include-regexp ("sops.*$")))
         #:modules '((guix build copy-build-system)
                     (guix build utils)  ; for find-file
                     (srfi srfi-26))
                                         ; for cut, a swappier curry
-
         #:phases
         #~(modify-phases %standard-phases
             (add-after 'unpack 'make-executable
@@ -110,7 +108,34 @@ Key Vault, age, and PGP.")
 ;; this requires building step-cli "using CGO"
 ;; make bootstrap && make build GOFLAGS=""
 
-
+(define-public ssh-tpm-agent-bin
+  (let ((platform "linux-amd64"))
+    (package
+      (name "ssh-tpm-agent-bin")
+      (version "0.8.0")
+      (source
+       (origin
+         (method url-fetch)
+         (uri (string-append
+               "https://github.com/Foxboron/ssh-tpm-agent/releases/download/v"
+               version "/" "ssh-tpm-agent" "-v" version "-" platform ".tar.gz"))
+         (sha256
+          (base32
+           "137i088jd4s13vyrv9mlqfaf3x2vzl5xr070xzdsma74f7qw9sv1"))))
+      (build-system binary-build-system)
+      (arguments
+       (list
+        #:install-plan #~'(("." "bin/" #:include-regexp ("ssh-tpm-")))))
+      (inputs
+       (list coreutils pcsc-lite))
+      (native-inputs
+       (list go))
+      (home-page "https://smallstep.com/cli/")
+      (synopsis
+       "A zero trust swiss army knife for working with X509, OAuth, JWT, OATH, OTP, etc")
+      (description
+       "step is an easy-to-use CLI tool for building, operating, and automating Public Key Infrastructure (PKI) systems and workflows. It's the client counterpart to the step-ca online Certificate Authority (CA). You can use it for many common crypto and X.509 operations—either independently, or with an online CA.")
+      (license license:asl2.0))))
 
 ;; (define-public step-ca
 ;;   (package
@@ -136,7 +161,6 @@ Key Vault, age, and PGP.")
 ;;     (synopsis "Open-Source Certificate Authority & PKI Toolkit")
 ;;     (description "A private certificate authority (X.509 & SSH) & ACME server for secure automated certificate management, so you can use TLS everywhere & SSO for SSH.")
 ;;     (license license:asl20)))
-
 
 ;; go depends on gccgo
 ;; TODO: maybe finish trying to package this. it doesn't build
@@ -229,7 +253,6 @@ Key Vault, age, and PGP.")
                (base32
                 "1vn0z3bjrf5h5amll2xa39nppxn6ggdxfk6mnvyqsgy1083rmnxm"))))
     (build-system binary-build-system)
-    ;; (build-system copy-build-system)
     (inputs `((,gcc "lib")
               ,gcc-toolchain
               ,softhsm

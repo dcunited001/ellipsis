@@ -67,14 +67,40 @@
       (propagated-inputs (list))
       (arguments
        (list
-        #:patchelf-plan ''(("age-plugin-yubikey"
-                            ("pcsc-lite" "gcc" "gcc-toolchain"))
-                           ;; #:include "age-plugin-yubikey"
-                           )
-        #:install-plan ''(("age-plugin-yubikey" "bin/")
-                          ;; #:include "age-plugin-yubikey"
-                          )))
-      (home-page "")
+        #:patchelf-plan #~'(("age-plugin-yubikey"
+                             ("pcsc-lite" "gcc" "gcc-toolchain"))
+                            ;; #:include "age-plugin-yubikey"
+                            )
+        #:install-plan #~'(("age-plugin-yubikey" "bin/"))))
+      (home-page "https://github.com/str4d/age-plugin-yubikey")
+      (synopsis "YubiKey plugin for age")
+      (description
+       "age-plugin-yubikey is a plugin for age clients like age and rage, which enables files to be encrypted to age identities stored on YubiKeys.")
+      (license license:expat))))
+
+(define-public age-plugin-tpm-bin
+  (let* ((platform "linux-amd64"))
+    (package
+      (name "age-plugin-tpm-bin")
+      (version "0.3.0")
+      (source (origin
+                (method url-fetch)
+                (uri (string-append
+                      "https://github.com/Foxboron/age-plugin-tpm/releases/download/v"
+                      version "/" "age-plugin-tpm" "-v" version "-" platform
+                      ".tar.gz"))
+                (sha256
+                 (base32
+                  "0x1kx2c77nkg7ivzlrvvzjwg7fp22kpqp597yrpw7f1y926dzr2j"))))
+      (build-system binary-build-system)
+      (inputs `((,gcc "lib")
+                ,gcc-toolchain
+                ,pcsc-lite))
+      (propagated-inputs (list))
+      (arguments
+       (list
+        #:install-plan #~'(("." "bin/" #:include ("age-plugin-tpm")))))
+      (home-page "https://github.com/Foxboron/age-plugin-tpm")
       (synopsis "")
       (description "")
       (license license:expat))))
