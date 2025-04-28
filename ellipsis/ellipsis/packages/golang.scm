@@ -17,6 +17,34 @@
 
   #:use-module (srfi srfi-1))
 
+
+(define-public go-github-com-jfeliu007-goplantuml
+  (package
+    (name "go-github-com-jfeliu007-goplantuml")
+    (version "1.6.2")
+    (source
+     (origin
+       (method git-fetch)
+       (uri (git-reference
+             (url "https://github.com/jfeliu007/goplantuml")
+             (commit (string-append "v" version))))
+       (file-name (git-file-name name version))
+       (sha256
+        (base32 "1qp3jnkb1zb0a2vfndcbxs9ixm0z4m3w79kjn7bfxv9n1fmq0w1s"))))
+    (build-system go-build-system)
+    (arguments
+     (list
+      #:import-path "github.com/jfeliu007/goplantuml/cmd/goplantuml"
+      #:unpack-path "github.com/jfeliu007/goplantuml"))
+    (propagated-inputs (list go-github-com-spf13-afero))
+    (home-page "https://github.com/jfeliu007/goplantuml")
+    (synopsis "GoPlantUML V2")
+    (description
+     "@code{PlantUML} Class Diagram Generator for golang projects.  Generates class
+diagram text compatible with plantuml with the information of all structures and
+interfaces as well as the relationship among them.")
+    (license license:expat)))
+
 (define-public d2-bin
   (let* ((bin-platform "linux-amd64")
          (bin-version "0.6.9")

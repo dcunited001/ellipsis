@@ -29,10 +29,6 @@
                      tcl
                      linux networking python gnome tls security-token hardware)
 
-;; watchexec -p -e '*.scm' -- guix build -L $HOME/.dotfiles/ellipsis libtpms
-
-
-
 (define-public libtpms
   (package
     (name "libtpms")
@@ -65,14 +61,8 @@
 into hypervisors, primarily into Qemu. Libtpms provides a very narrow
 public API for this purpose so that integration is possible. Only the
 minimum of necessary APIs are made publicly available.")
+    ;; the TPM 2.0 code has a slightly different license
     (license license:bsd-3)))
-
-;; https://github.com/stefanberger/swtpm/blob/9bdd62d1e96b5723920ffe9f09325d1ddad66905/configure.ac#L512-L522
-
-;; also from swtpm Dockerfile "softhsm or certtool are crashing the pkcs11 test case"
-;; also from swtpm Dockerfile --with-cuse https://man.archlinux.org/man/swtpm_cuse.8.en
-
-;; so many
 
 (define-public swtpm
   (package
@@ -107,9 +97,6 @@ minimum of necessary APIs are made publicly available.")
          (string-append "PKG_CONFIG=" #$(pkg-config-for-target)))
       #:phases
       #~(modify-phases %standard-phases
-          ;; this may not be an exhaustive list. i just grepped the *.log
-          ;; files in ./tests for "port"
-
           (add-after 'unpack 'patch-source
             (lambda* (#:key inputs outputs #:allow-other-keys)
               (let ((certtool (assoc-ref inputs "gnutls"))
