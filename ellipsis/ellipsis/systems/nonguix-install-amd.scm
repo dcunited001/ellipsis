@@ -1,6 +1,8 @@
 ;;* Module
 ;;
-;; TODO: Fix GDM. it's missing a window manager
+;; TODO: herd can't query service status or restart services. installation
+;; needs to occur at login. sshd rejects connections (can't restart service
+;; after IP address assignment). GDM doesnt permit login.
 ;;
 (define-module (ellipsis systems nonguix-install-amd)
   #:use-module (srfi srfi-1)
@@ -30,7 +32,7 @@
 
 ;; networking is [probably] needed for loopback
 (use-service-modules networking ssh security-token authentication
-                     desktop sddm linux mcron networking)
+                     desktop linux mcron networking xorg)
 (use-package-modules curl wget rsync vim emacs emacs-xyz
                      wm freedesktop xdisorg fontutils fonts
                      networking linux time mtools acl hardware
@@ -97,15 +99,21 @@
     (file-systems (cons (file-system
                           (device (file-system-label "usb-gpg-disk"))
                           (mount-point "/")
-                          (type "ext4"))
+                          (type "btrfs")
+                          (flags '(no-atime))
+                          (options "space_cache=v2"))
                         %base-file-systems))
 
     ;; NONFREE
-    ;; (kernel linux)
-    (firmware (cons* linux-firmware
-                     amd-microcode
-                     ;; realtek-firmware
-                     %base-firmware))
+    (kernel linux)
+    ;; linux-firmware contains everything anyways (amd-microcode and
+    ;; amdgpu-firmware are redundant)
+    ;; https://gitlab.com/nonguix/nonguix/-/issues/327
+    (firmware (cons* ;; linux-firmware
+               amd-microcode
+               amdgpu-firmware
+               realtek-firmware
+               %base-firmware))
 
     (kernel-arguments '("modprobe.blacklist=radeon"
                         ;; "quiet" ;; .....
@@ -247,16 +255,39 @@
     (services
      (append (list
               (service pcscd-service-type)
+              (service openssh-service-type
+                       (openssh-configuration
+                        (openssh openssh-sans-x)
+                        (port-number (string->number
+                                      (or (getenv "_OPENSSH_PORT") "22")))
+                        (password-authentication? #f)
+                        (allow-agent-forwarding? #f)
+                        (allow-tcp-forwarding? #t)
+                        (accepted-environment '("COLORTERM"))
+                        (authorized-keys
+                         `(("dc"
+                            ,(local-file
+                              (string-append (getenv "HOME")
+                                             "/.ssh/authorized_keys")))))))
 
               ;; testing removing the fido2 functionality to restore yubikey
               (udev-rules-service 'fido2 libfido2 #:groups '("plugdev"))
               (udev-rules-service 'u2f libu2f-host #:groups '("plugdev"))
               (udev-rules-service 'yubikey yubikey-personalization))
 
-             (list (service gnome-desktop-service-type)
-                   (service plasma-desktop-service-type))
+             ;; dbus complains about the name of plasma's notification
+             ;;
+             ;; service "should've been named
+             ;; 'org.freedesktop.Notifications' or something
+             ;;
+             ;; (service plasma-desktop-service-type)
+             (list (service gnome-desktop-service-type))
 
              (modify-services %desktop-services
+               (gdm-service-type
+                config => (gdm-configuration
+                           (inherit config)
+                           (wayland? #t)))
                (guix-service-type
                 config => (guix-configuration
                            (inherit config)
