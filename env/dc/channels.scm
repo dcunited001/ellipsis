@@ -5,13 +5,23 @@
 (define my-channels
   (list (channel
          (name 'guix)
-         (url "https://git.savannah.gnu.org/git/guix.git")
+         (url "https://codeberg.org/guix/guix-mirror.git")
          (commit "ea874d0b3f8cd7539f03c0ea3e1b5184fe4d4132")
          (introduction
           (make-channel-introduction
            "9edb3f66fd807b096b48283debdcddccfea34bad"
            (openpgp-fingerprint
             "BBB0 2DDF 2CEA F6A8 0D1D  E643 A2A0 6DF2 A33A 54FA"))))
+        (channel
+         (name 'sops-guix)
+         (url "https://github.com/fishinthecalculator/sops-guix")
+         (branch "main")
+         (commit "8c91903af984dad9998cfcf597e9aa873af6d4d1")
+         (introduction
+          (make-channel-introduction
+           "0bbaf1fdd25266c7df790f65640aaa01e6d2dbc9"
+           (openpgp-fingerprint
+            "8D10 60B9 6BB8 292E 829B  7249 AED4 1CC1 93B7 01E2"))))
         (channel
          (name 'gocix)
          (url "https://github.com/fishinthecalculator/gocix")
