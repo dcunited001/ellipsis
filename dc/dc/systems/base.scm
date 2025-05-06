@@ -68,6 +68,7 @@
          (user-group (name "yubikey") (system? #t))
          (user-group (name "fuse") (system? #t))
          (user-group (name "cgroup") (system? #t))
+         (user-group (name "seat") (system? #t))
          (user-group (name "users") (id 1100))
          (user-group (name "dc") (id 1000))
          (remove (lambda (g) (equal? (user-group-name g) "users"))
