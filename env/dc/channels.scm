@@ -6,7 +6,7 @@
   (list (channel
          (name 'guix)
          (url "https://git.savannah.gnu.org/git/guix.git")
-         (commit "4e79ec48af8173f0f2a86fa2c8f971dc8234b941")
+         (commit "ea874d0b3f8cd7539f03c0ea3e1b5184fe4d4132")
          (introduction
           (make-channel-introduction
            "9edb3f66fd807b096b48283debdcddccfea34bad"
@@ -16,7 +16,7 @@
          (name 'gocix)
          (url "https://github.com/fishinthecalculator/gocix")
          ;; (branch "main")
-         (commit "5c86899314e4befadb1f7ef4e03f54414a7cb276")
+         (commit "4a58b1273e4970661c0edaff35ac80e4483ac847")
          (introduction
           (make-channel-introduction
            "cdb78996334c4f63304ecce224e95bb96bfd4c7d"
@@ -25,7 +25,7 @@
         (channel
          (name 'nonguix)
          (url "https://gitlab.com/nonguix/nonguix")
-         (commit "f05b33d75491a6418e7f0b3575207c5c2b2ef8f1")
+         (commit "6c497a883d8d517987071f91a8423c4a59d6f6ff")
          (introduction
           (make-channel-introduction
            "897c1a470da759236cc11798f4e0a5f7d4d59fbc"
@@ -34,7 +34,7 @@
         (channel
          (name 'rde)
          (url "https://git.sr.ht/~abcdw/rde")
-         (commit "7648a495767990d625cd0ca242cd634aa39bcc58")
+         (commit "bfe0605f72161d2648b194316a89de2902217ff7")
          (introduction
           (make-channel-introduction
            "257cebd587b66e4d865b3537a9a88cccd7107c95"
