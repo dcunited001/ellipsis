@@ -51,6 +51,7 @@
          (user-group (name "yubikey") (system? #t))
          (user-group (name "fuse") (system? #t))
          (user-group (name "cgroup") (system? #t))
+         (user-group (name "seat") (system? #t)) ; needed for greetd without gdm
          (user-group (name "users") (id 1100))
          (user-group (name "dc") (id 1000))
          (remove (lambda (g) (equal? (user-group-name g) "users"))
@@ -113,6 +114,51 @@
         font-awesome
         font-fira-code
         font-google-noto))
+
+(define %base-desktop-services
+  (remove (lambda (service)
+            (memq (service-kind service)
+                  (list gdm-service-type sddm-service-type)))
+          %desktop-services))
+
+;; NOTE: this doesn't set up ~/.ssh/authorized_keys
+(define openssh-conf
+  (openssh-configuration
+   (openssh openssh-sans-x)
+   (port-number (string->number
+                 (or (getenv "_OPENSSH_PORT") "22")))
+   (password-authentication? #f)
+   (allow-agent-forwarding? #f)
+   (allow-tcp-forwarding? #t)
+   (accepted-environment '("COLORTERM"))
+   (authorized-keys
+    `(("dc"
+       ,(local-file
+         (string-append (getenv "HOME")
+                        "/.ssh/authorized_keys")))))))
+
+(define greetd-conf
+  (greetd-configuration
+   (greeter-supplementary-groups (list "video" "input" "seat"))
+   (terminals
+    (list
+     (greetd-terminal-configuration (terminal-vt "1"))
+     (greetd-terminal-configuration (terminal-vt "2"))
+     (greetd-terminal-configuration (terminal-vt "3"))
+     (greetd-terminal-configuration (terminal-vt "4"))
+     (greetd-terminal-configuration (terminal-vt "5"))
+     (greetd-terminal-configuration (terminal-vt "6"))
+     (greetd-terminal-configuration
+      (terminal-vt "7")
+      (terminal-switch #t)
+      (default-session-command
+        (greetd-wlgreet-sway-session
+         (sway-configuration
+          (plain-file "sway-greet.conf"
+                      (string-append
+                       "output * bg /data/xdg/Wallpapers/"
+                       %host-name "-greetd.jpg fill\n"))))))
+     (greetd-terminal-configuration (terminal-vt "8"))))))
 
 ;;;; Image
 (define nonguix-install-amd
@@ -204,20 +250,7 @@
     (services
      (append (list
               (service pcscd-service-type)
-              (service openssh-service-type
-                       (openssh-configuration
-                        (openssh openssh-sans-x)
-                        (port-number (string->number
-                                      (or (getenv "_OPENSSH_PORT") "22")))
-                        (password-authentication? #f)
-                        (allow-agent-forwarding? #f)
-                        (allow-tcp-forwarding? #t)
-                        (accepted-environment '("COLORTERM"))
-                        (authorized-keys
-                         `(("dc"
-                            ,(local-file
-                              (string-append (getenv "HOME")
-                                             "/.ssh/authorized_keys")))))))
+              (service openssh-service-type openssh-conf)
 
               ;; testing removing the fido2 functionality to restore yubikey
               (udev-rules-service 'fido2 libfido2 #:groups '("plugdev"))
@@ -232,11 +265,16 @@
              ;; (service plasma-desktop-service-type)
              (list (service gnome-desktop-service-type))
 
-             (modify-services %desktop-services
-               (gdm-service-type
-                config => (gdm-configuration
-                           (inherit config)
-                           (wayland? #t)))
+             (modify-services base-desktop-services
+               (delete agetty-service-type)
+               (delete mingetty-service-type)
+
+               ;; consoles are mingetty
+               ;; (gdm-service-type
+               ;;  config => (gdm-configuration
+               ;;             (inherit config)
+               ;;             (wayland? #t)))
+
                (guix-service-type
                 config => (guix-configuration
                            (inherit config)
