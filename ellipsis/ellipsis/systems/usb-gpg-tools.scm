@@ -28,13 +28,74 @@
 
 ;; networking is [probably] needed for loopback
 (use-service-modules networking ssh security-token authentication)
-(use-package-modules wget screen password-utils vim emacs emacs-xyz ; curl
-                     package-management                             ; remove?
+(use-package-modules wget curl screen password-utils vim emacs emacs-xyz
+                     package-management ; remove?
                      linux time mtools lsof file-systems disk version-control
                      ssh gnupg cryptsetup security-token tls certs libusb
                      golang-crypto)
 
 (define %my-user "dc")
+
+(define-public %ugt-packages-cli
+  (list lsof git stow vim screen tmux))
+
+;; TODO: enable local networking for usb-gpg-tools
+(define-public %ugt-packages-net
+  (list tunctl bridge-utils iptables-nft))
+
+(define-public %ugt-packages-net-plus
+  (list wget curl rsync))
+
+(define-public %ugt-packages-hardware
+  (list lvm2 cryptsetup dosfstools ntfs-3g exfat-utils fuse-exfat f3
+        acl hwinfo rng-tools))
+
+(define-public %ugt-packages-age
+  (list age age-keygen age-plugin-tpm-bin age-plugin-yubikey-bin))
+
+(define-public %ugt-packages-tls
+  ;; desec-certbot-hook
+  (list openssh openssl le-certs gnutls certdata2pem))
+
+(define-public %ugt-packages-smartcard
+  ;; hidapi: HID Devices for FIDO/OTP
+  (list ccid pcsc-lite opensc pinentry-tty hidapi libu2f-host libfido2))
+
+(define-public %ugt-packages-yubikey
+  (list yubico-piv-tool yubikey-personalization python-yubikey-manager))
+
+;; NOTE: step-kms-plugin should work if ldd discovers
+;; pscscd via rpath
+
+(define-public %ugt-packages-step
+  (list step-kms-plugin-bin step-ca-bin step-cli-bin))
+
+(define-public %ugt-packages-gnupg
+  (list gnupg paperkey datefudge))
+
+(define-public %ugt-packages-secrets
+  (list sops-bin))
+
+(define-public %ugt-packages-tpm
+  (list tpm2-tss ssh-agent-tpm-bin))
+
+(define-public %ugt-packages-emacs
+  ;; still needs either emacs or emacs-no-x-toolkit
+  (list
+   emacs-x509-mode
+   emacs-better-defaults
+   ;; emacs-with-profile
+   emacs-auto-complete
+   emacs-hydra
+   emacs-modus-themes
+   emacs-dash
+   emacs-lispy
+   emacs-geiser
+   emacs-geiser-guile
+   emacs-ac-geiser
+   emacs-guix
+   emacs-yasnippet
+   emacs-yasnippet-snippets))
 
 (define %my-services
   (modify-services
@@ -107,89 +168,25 @@
     ;; pwsafe: manage passwords
 
     (packages
-     (append (list lvm2
-                   cryptsetup
-                   dosfstools
-                   ntfs-3g
-                   exfat-utils
-                   fuse-exfat
-                   f3
+     (append
 
-                   lsof
+      %ugt-packages-cli
+      %ugt-packages-net
+      %ugt-packages-net-plus
+      %ugt-packages-hardware
+      %ugt-packages-age
+      %ugt-packages-tls
+      %ugt-packages-smartcard
+      %ugt-packages-yubikey
+      %ugt-packages-step
+      %ugt-packages-gnupg
+      %ugt-packages-secrets
+      %ugt-packages-tpm
 
-                   wget
-                   git
-                   stow
-                   vim
+      emacs-no-x-toolkit
+      %ugt-packages-emacs
 
-                   screen
-                   emacs-no-x-toolkit
-                   emacs-x509-mode ;; very helpful for certs
-                   emacs-better-defaults
-                   ;; emacs-with-profile
-                   emacs-auto-complete
-                   emacs-hydra
-                   emacs-modus-themes
-                   emacs-dash
-                   emacs-lispy
-                   emacs-geiser
-                   emacs-geiser-guile
-                   emacs-ac-geiser
-                   emacs-guix
-                   emacs-yasnippet
-                   emacs-yasnippet-snippets
-
-                   ;; req. to seed /dev/random with entropy from yubikey
-                   rng-tools
-
-                   screen
-                   openssh
-                   openssl
-
-                   pcsc-lite
-                   gnupg
-
-                   ccid
-                   yubico-piv-tool
-                   yubikey-personalization
-                   python-yubikey-manager
-                   libu2f-host
-                   opensc
-                   hidapi ;; HID Devices for FIDO/OTP
-
-                   pinentry-tty
-                   paperkey
-                   datefudge
-
-                   ;; TODO: remove shroud-nox?
-                   ;; shroud-nox
-
-                   le-certs
-                   gnutls
-
-                   ;; NOTE: step-kms-plugin should work if ldd discovers
-                   ;; pscscd via rpath
-                   step-kms-plugin-bin
-                   step-ca-bin
-                   step-cli-bin
-
-                   certdata2pem
-                   ;; desec-certbot-hook
-
-                   tpm2-tss
-                   ssh-agent-tpm-bin
-                   age
-                   sops-bin
-                   age-keygen
-                   age-plugin-tpm-bin
-                   age-plugin-yubikey-bin)
-             %base-packages))
-
-    ;; age
-
-    ;; acl
-    ;; hwinfo
-    ;; libfido2 ;; included as dependency
+      %base-packages))
 
     (services
      (append (list

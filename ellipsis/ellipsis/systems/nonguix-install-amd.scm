@@ -1,4 +1,4 @@
-;;* Module
+;;; Module
 ;;
 ;; TODO: herd can't query service status or restart services. installation
 ;; needs to occur at login. sshd rejects connections (can't restart service
@@ -83,7 +83,38 @@
                "lv3:ralt_alt"
                "lv3:menu_switch")))
 
-;;** Image
+(define wayland-packages
+  (list grimblast
+        xdg-desktop-portal))
+
+(define sway-packages
+  (list sway
+        swaylock))
+
+(define hyprland-packages
+  (list hyprland
+        hyprlock
+        hypridle
+        hyprcursor
+        xdg-desktop-portal-hyprland))
+
+(define font-packages
+  (list fontconfig
+        font-google-roboto
+        font-google-noto-emoji
+        font-recursive
+        font-microsoft-cascadia
+        font-victor-mono
+        font-jetbrains-mono
+        font-intel-one-mono
+        font-adwaita
+        font-liberation
+        font-dejavu
+        font-awesome
+        font-fira-code
+        font-google-noto))
+
+;;;; Image
 (define nonguix-install-amd
   (operating-system
     (host-name "usbgpgtool")
@@ -142,115 +173,33 @@
     ;; pwsafe: manage passwords
 
     (packages
-     (append (list lvm2
-                   cryptsetup
-                   dosfstools
-                   ntfs-3g
-                   exfat-utils
-                   fuse-exfat
-                   f3
-                   acl
-                   hwinfo
-                   lsof
+     (append
 
-                   curl
-                   wget
-                   git
-                   stow
-                   rsync
+      %ugt-packages-cli
+      %ugt-packages-net
+      %ugt-packages-net-plus
+      %ugt-packages-hardware
+      %ugt-packages-age
+      %ugt-packages-tls
+      %ugt-packages-smartcard
+      %ugt-packages-yubikey
+      %ugt-packages-step
+      %ugt-packages-gnupg
+      %ugt-packages-secrets
+      %ugt-packages-tpm
 
-                   ;; req. to seed /dev/random with entropy from yubikey
-                   rng-tools
+      emacs
+      %ugt-packages-emacs
 
-                   screen
-                   openssh
-                   openssl
+      wayland-packages
+      sway-packages
+      hyprland-packages
+      font-packages
 
-                   pcsc-lite
-                   gnupg
+      (list
+       zerotier)
 
-                   zerotier
-
-                   ccid
-                   yubico-piv-tool
-                   yubikey-personalization
-                   python-yubikey-manager
-                   libu2f-host
-                   opensc
-                   hidapi ;; HID Devices for FIDO/OTP
-
-                   pinentry-tty
-                   paperkey
-                   datefudge
-
-                   ;; TODO: remove shroud-nox?
-                   ;; shroud-nox
-
-                   le-certs
-                   gnutls
-                   tunctl
-                   bridge-utils
-                   iptables-nft
-
-                   ;; NOTE: step-kms-plugin should work if ldd discovers
-                   ;; pscscd via rpath
-                   step-kms-plugin-bin
-                   step-ca-bin
-                   step-cli-bin
-
-                   certdata2pem
-                   ;; desec-certbot-hook
-
-                   tpm2-tss
-                   sops-bin
-                   age
-                   age-keygen
-                   age-plugin-tpm-bin
-                   age-plugin-yubikey-bin
-
-                   screen
-                   vim
-                   emacs
-                   emacs-x509-mode ;; very helpful for certs
-                   emacs-better-defaults
-                   ;; emacs-with-profile
-                   emacs-auto-complete
-                   emacs-hydra
-                   emacs-modus-themes
-                   emacs-dash
-                   emacs-lispy
-                   emacs-geiser
-                   emacs-geiser-guile
-                   emacs-ac-geiser
-                   emacs-guix
-                   emacs-yasnippet
-                   emacs-yasnippet-snippets
-
-                   sway
-                   xdg-desktop-portal
-
-                   hyprland
-                   hyprlock
-                   hypridle
-                   grimblast
-                   hyprcursor
-                   xdg-desktop-portal-hyprland
-
-                   fontconfig
-                   font-google-roboto
-                   font-google-noto-emoji
-                   font-recursive
-                   font-microsoft-cascadia
-                   font-victor-mono
-                   font-jetbrains-mono
-                   font-intel-one-mono
-                   font-adwaita
-                   font-liberation
-                   font-dejavu
-                   font-awesome
-                   font-fira-code
-                   font-google-noto)
-             %base-packages))
+      %base-packages))
 
     (services
      (append (list
