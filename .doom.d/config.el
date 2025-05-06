@@ -1025,7 +1025,7 @@ Guix channel.")
 (after! ob
   (use-package! ob-translate :defer t)
   ;; TODO :custom ob-mermaid-cli-path "~/.nix-profile/bin/mmdc"
-  (use-package! ob-mermaid :defer t))
+  (use-package! ob-mermaid :defer t :custom (ob-mermaid-cli-path "mmdc")))
 
 ;;;;;; Wiktionary
 
@@ -1647,6 +1647,7 @@ the root")
 ;;;;; Visualization
 
 ;; gnu plot, graphviz/plot, d2, mermaid, plantuml
+
 (use-package! d2-mode
   :defer t
   ;; must be in path
@@ -1655,6 +1656,10 @@ the root")
 (use-package! plantuml-mode
   :defer t
   :custom (plantuml-indent-level 2))
+
+(use-package! mermaid-mode
+  :defer t
+  :custom (mermaid-mmdc-location "~/.npm-global/bin/mmdc"))
 
 ;;;; Misc
 
