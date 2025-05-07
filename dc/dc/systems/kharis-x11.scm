@@ -221,7 +221,6 @@ EndSection
 
        %dc-extra-file-env
        %dc-extra-file-ld-linux
-       (dc-extra-file-flatpak)
 
        polkit-wheel-service
 
@@ -235,11 +234,11 @@ EndSection
        (service usb-modeswitch-service-type)
 
        (service thermald-service-type)
-       %kharis-tlp-service
+       (service tlp-service-type %kharis-tlp-conf)
        %dc-auditd-service
        %dc-ras-daemon-service
-       %kharis-earlyoom-service
-       %kharis-gpm-service
+       (services earlyoom-service-type %kharis-earlyoom-conf)
+       (services earlyoom-service-type %kharis-gpm-conf)
 
        (service avahi-service-type)
        (service udisks-service-type)
@@ -254,8 +253,7 @@ EndSection
        fontconfig-file-system-service
 
        %dc-nntp-service
-       %kharis-openssh-service
-
+       (service openssh-service-type %kharis-openssh-conf)
        (service zerotier-one-service-type)
 
        (service pcscd-service-type)

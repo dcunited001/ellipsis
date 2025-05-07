@@ -40,8 +40,7 @@
 ;; jhash=$(echo jupyter-lab | sha256sum | head -c8)
 ;; echo $((0x$jhash % 1000)) # probably a bad idea all around
 (define %kharis-service-users
-  `((jupyter-lab ,(user-account (name "jupyter-lab") (groups))))
-  )
+  `((jupyter-lab ,(user-account (name "jupyter-lab") (groups)))))
 
 ;;;  can still download astral-uv from guix, but the paths just need to be
 ;;;  compat with the runtime... though i haven't actually read
@@ -69,58 +68,86 @@
                "lv3:ralt_alt"
                "lv3:menu_switch")))
 
-(define-public %kharis-tlp-service
-  (service tlp-service-type
-           (tlp-configuration
-            (cpu-boost-on-ac? #t)
-            (tlp-default-mode "AC") ;; this is the default
-            (sound-power-save-on-bat 0)
-            (nmi-watchdog? #t)
-            (cpu-scaling-min-freq-on-bat 1700000)
-            (cpu-scaling-max-freq-on-bat 2100000)
-            (cpu-scaling-min-freq-on-ac 2100000)
-            (cpu-scaling-max-freq-on-ac 2100000)
-            (wifi-pwr-on-bat? #t))))
+(define-public %kharis-tlp-conf
+  (tlp-configuration
+   (cpu-boost-on-ac? #t)
+   (tlp-default-mode "AC") ;; this is the default
+   (sound-power-save-on-bat 0)
+   (nmi-watchdog? #t)
+   (cpu-scaling-min-freq-on-bat 1700000)
+   (cpu-scaling-max-freq-on-bat 2100000)
+   (cpu-scaling-min-freq-on-ac 2100000)
+   (cpu-scaling-max-freq-on-ac 2100000)
+   (wifi-pwr-on-bat? #t)))
 
-(define-public %kharis-openssh-service
-  (service openssh-service-type
-           (openssh-configuration
-            (openssh openssh-sans-x)
-            (port-number (string->number
-                          (or (getenv "_OPENSSH_PORT") "22")))
-            (password-authentication? #f)
-            (allow-agent-forwarding? #f)
-            (allow-tcp-forwarding? #t)
-            (accepted-environment '("COLORTERM"))
-            (authorized-keys
-             `(("dc" ,(local-file ".ssh/dc.authorized_keys")))))))
+(define-public %kharis-openssh-conf
+  (openssh-configuration
+   (openssh openssh-sans-x)
+   (port-number (string->number
+                 (or (getenv "_OPENSSH_PORT") "22")))
+   (password-authentication? #f)
+   (allow-agent-forwarding? #f)
+   (allow-tcp-forwarding? #t)
+   (accepted-environment '("COLORTERM"))
+   (authorized-keys
+    `(("dc" ,(local-file ".ssh/dc.authorized_keys"))))))
 
 ;; to have mouse at console (more annoying than anything tbh)
-(define-public %kharis-gpm-service
-  (service gpm-service-type
-           (gpm-configuration
-            ;; defaults, should work for IBM trackpoints
-            (options '("-m" "/dev/input/mice" "-t" "ps2")))))
+(define-public %kharis-gpm-conf
+  (gpm-configuration
+   ;; defaults, should work for IBM trackpoints
+   (options '("-m" "/dev/input/mice" "-t" "ps2"))))
 
 ;; TODO: (send-notification-command "a/herd/service/or/root/script")
 ;; logs: /var/log/earlyoom
-(define-public %kharis-earlyoom-service
-  (service earlyoom-service-type
-           (earlyoom-configuration
-            (minimum-available-memory 10) ;; default
+(define-public %kharis-earlyoom-conf
+  (earlyoom-configuration
+   (minimum-available-memory 10) ;; default
 
-            ;; noswap, but both mem/swap
-            ;; must be below threshold for
-            ;; oom to act
-            (minimum-free-swap 1)
-            (prefer-regexp "syncthing|firefox")
-            (show-debug-messages? #t))))
+   ;; noswap, but both mem/swap
+   ;; must be below threshold for
+   ;; oom to act
+   (minimum-free-swap 1)
+   (prefer-regexp "syncthing|firefox")
+   (show-debug-messages? #t)))
 
 ;; TODO: this won't work without a gexp.  it may not be a great idea
 ;; (define-public %kharis-upgrade-configuration
 ;;   (unattended-upgrade-configuration
 ;;    (inherit %dc-unattended-upgrade-configuration)
 ;;    (channels #~(@ (guix describe) (current-channels)))))
+
+(define-public %kharis-greetd-conf
+  (greetd-configuration
+   (greeter-supplementary-groups (list "video" "input"))
+   (terminals
+    (list
+     ;; TTY7 is the graphical login screen for Sway
+     ;; Set up remaining TTYs for terminal use
+     (greetd-terminal-configuration (terminal-vt "1"))
+     (greetd-terminal-configuration (terminal-vt "2"))
+     ;; `/bin/bash -l` is the default for greetd
+     (greetd-terminal-configuration
+      (terminal-vt "3")
+      (default-session-command
+        (greetd-agreety-session
+         (command (file-append bash "/bin/bash"))
+         (command-args '("-l")))))
+     (greetd-terminal-configuration (terminal-vt "4"))
+     (greetd-terminal-configuration (terminal-vt "5"))
+     (greetd-terminal-configuration (terminal-vt "6"))
+     (greetd-terminal-configuration
+      (terminal-vt "7")
+      (terminal-switch #t)
+      (default-session-command
+        (greetd-wlgreet-sway-session
+         ;; TODO background
+         (sway-configuration
+          (plain-file "sway-greet.conf"
+                      (string-append
+                       "output * bg /data/xdg/Wallpapers/"
+                       %host-name "-greetd.jpg fill\n"))))))
+     (greetd-terminal-configuration (terminal-vt "8"))))))
 
 (define system
   (operating-system
@@ -130,7 +157,7 @@
 
     (kernel linux)
     (firmware (cons* linux-firmware
-                     amd-microcode
+                     ;; amd-microcode
                      ;; realtek-firmware
                      %base-firmware))
 
@@ -189,45 +216,7 @@
       (list
        %dc-extra-file-env
        %dc-extra-file-ld-linux
-
-       (service
-        greetd-service-type
-        (greetd-configuration
-         (greeter-supplementary-groups (list "video" "input"))
-         (terminals
-          (list
-           ;; TTY1 is the graphical login screen for Sway
-           ;; Set up remaining TTYs for terminal use
-
-           (greetd-terminal-configuration (terminal-vt "1"))
-           (greetd-terminal-configuration
-            (terminal-vt "2")
-            (terminal-switch #t)
-            (default-session-command
-              (greetd-wlgreet-sway-session
-               ;; TODO background
-               (sway-configuration
-                (plain-file "sway-greet.conf"
-                            (string-append
-                             "output * bg /data/xdg/Wallpapers/"
-                             %host-name "-greetd.jpg fill\n"))))))
-           ;; default: /bin/bash -l
-           (greetd-terminal-configuration
-            (terminal-vt "3")
-            (default-session-command
-              (greetd-agreety-session
-               (command (file-append bash "/bin/bash"))
-               (command-args '("-l")))))
-           (greetd-terminal-configuration (terminal-vt "4"))
-           (greetd-terminal-configuration (terminal-vt "5"))
-           (greetd-terminal-configuration (terminal-vt "6"))
-           (greetd-terminal-configuration (terminal-vt "7"))
-           (greetd-terminal-configuration (terminal-vt "8"))
-           ;; (greetd-terminal-configuration
-           ;;   (terminal-vt "9")
-           ;;   (default-session-command (file-append bash "/bin/bash")))
-           ))))
-
+       (service greetd-service-type %kharis-greetd-conf)
        %dc-nonguix-substitutes-service
 
        polkit-wheel-service
@@ -238,7 +227,7 @@
        (service wpa-supplicant-service-type)
        (service modem-manager-service-type)
        %dc-nntp-service
-       %kharis-openssh-service
+       (service openssh-service-type %kharis-openssh-conf)
 
        ;; (service zerotier-one-service-type)
 
@@ -275,11 +264,11 @@
 
        ;; hardware
        (service thermald-service-type)
-       %kharis-tlp-service
+       (service tlp-service-type %kharis-tlp-conf)
        %dc-auditd-service
        %dc-ras-daemon-service
-       %kharis-earlyoom-service
-       %kharis-gpm-service
+       (service earlyoom-service-type %kharis-earlyoom-conf)
+       (service gpm-service-type %kharis-gpm-conf)
 
        ;; testing removing the fido2 functionality to restore yubikey
        (udev-rules-service 'fido2 libfido2 #:groups '("plugdev"))
@@ -302,7 +291,6 @@
        ;; enable pipewire via guix home instead
        ;; (service pulseaudio-service-type)
        (service alsa-service-type)
-
 
        ;; Add udev rules for a few packages
        (udev-rules-service 'pipewire-add-udev-rules pipewire)
