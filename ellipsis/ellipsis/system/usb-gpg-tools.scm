@@ -1,5 +1,5 @@
 ;;; Module
-(define-module (ellipsis systems usb-gpg-tools)
+(define-module (ellipsis system usb-gpg-tools)
   #:use-module (srfi srfi-1)
   #:use-module (gnu)
   #:use-module (gnu system)
@@ -151,7 +151,7 @@
 
 ;; guix system -L ~/.dotfiles/ellipsis -L ~/.dotfiles/dc \
 ;; image --image-type=iso9660 \
-;; -e '(@@ (ellipsis systems usb-gpg-tools) usb-gpg-tools)'
+;; -e '(@@ (ellipsis system usb-gpg-tools) usb-gpg-tools)'
 (define usb-gpg-tools
   (operating-system
     (host-name "usbgpgtool")
@@ -210,7 +210,7 @@
 
 ;; guix system -L ~/.dotfiles/ellipsis -L ~/.dotfiles/dc \
 ;; image --image-type=iso9660 \
-;; -e '(@@ (ellipsis systems usb-gpg-tools) usb-gpg-tools-amd)'
+;; -e '(@@ (ellipsis system usb-gpg-tools) usb-gpg-tools-amd)'
 
 (define usb-gpg-tools-amd
   (operating-system

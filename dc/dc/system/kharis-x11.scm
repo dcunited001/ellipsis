@@ -1,5 +1,5 @@
 ;;* Module: kharis-x11
-(define-module (dc systems kharis-x11)
+(define-module (dc system kharis-x11)
   #:use-module (srfi srfi-1)
   #:use-module (ice-9 format)
 
@@ -12,8 +12,8 @@
   #:use-module (nongnu packages linux)
   #:use-module (nongnu system linux-initrd)
 
-  #:use-module (dc systems base)
-  #:use-module (dc systems kharis)
+  #:use-module (dc system base)
+  #:use-module (dc system kharis)
 
   #:use-module (ellipsis services vpn))
 
