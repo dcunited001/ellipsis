@@ -15,6 +15,7 @@
   #:use-module (ellipsis packages tls)
 
   #:use-module (guix gexp)
+  #:use-module (guix records)
   #:use-module (srfi srfi-1)
   #:export (yubikey-udev-rules))
 
@@ -29,9 +30,11 @@
 ;;;
 
 (define-public (yubikey-udev-rules)
-  ;; needs plugdev
-  (udev-rules-service 'fido2 libfido2)
-  (udev-rules-service 'u2f libu2f-host)
-  (udev-rules-service 'yubikey yubikey-personalization))
+  ;; needs plugdev, but warns if multiple instantiations create using #:groups
+  (list
+   (udev-rules-service 'fido2 libfido2)
+   (udev-rules-service 'u2f libu2f-host)
+   (udev-rules-service 'yubikey yubikey-personalization)))
+
 
 ;;; security-token.scm ends here

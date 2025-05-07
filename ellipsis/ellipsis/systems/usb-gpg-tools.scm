@@ -1,5 +1,6 @@
 ;;; Module
 (define-module (ellipsis systems usb-gpg-tools)
+  #:use-module (srfi srfi-1)
   #:use-module (gnu)
   #:use-module (gnu system)
   #:use-module (gnu system nss)
@@ -11,8 +12,13 @@
   #:use-module (ellipsis packages password-utils)
   #:use-module (ellipsis packages security-token)
   #:use-module (ellipsis packages golang-crypto)
+  #:use-module (ellipsis services security-token)
 
-  #:export (usb-gpg-tools))
+  #:use-module (nongnu packages linux)
+  #:use-module (nongnu system linux-initrd)
+
+  #:export (usb-gpg-tools
+            usb-gpg-tools-amd))
 
 (use-modules (guix utils))
 
@@ -26,15 +32,38 @@
 ;; certbot/letsencrypt packages
 ;; #:use-module (gnu services certbot)
 
-;; networking is [probably] needed for loopback
+;; networking is needed for loopback and maybe other use cases
+
+;; TODO: add gnupg service if configuration file is in place
+
 (use-service-modules networking ssh security-token authentication)
-(use-package-modules wget curl screen password-utils vim emacs emacs-xyz
+(use-package-modules wget curl screen password-utils vim tmux emacs emacs-xyz
                      package-management ; remove?
-                     linux time mtools lsof file-systems disk version-control
+                     networking linux hardware rsync acl
+                     time mtools lsof file-systems disk version-control
                      ssh gnupg cryptsetup security-token tls certs libusb
                      golang-crypto)
 
-(define %my-user "dc")
+(define %ugt-my-groups
+  '("wheel" "users" "tty" "dialout"
+    "input" "video" "audio" "netdev" "lp"
+    ;; "kmem" "disk" "floppy" "cdrom" "tape" "kvm"
+    "fuse" "yubikey" "plugdev"))
+
+(define %ugt-system-groups
+  (cons*
+   (user-group (name "plugdev") (system? #t))
+   (user-group (name "yubikey") (system? #t))
+   (user-group (name "fuse") (system? #t))
+   ;; (user-group (name "seat") (system? #t))
+   %base-groups))
+
+(define %ugt-default-user
+  (user-account
+   (name "dc")
+   (comment "Default User")
+   (group "users")
+   (supplementary-groups %ugt-my-groups)))
 
 (define-public %ugt-packages-cli
   (list lsof git stow vim screen tmux))
@@ -48,7 +77,10 @@
 
 (define-public %ugt-packages-hardware
   (list lvm2 cryptsetup dosfstools ntfs-3g exfat-utils fuse-exfat f3
-        acl hwinfo rng-tools))
+        acl hwinfo rng-tools hw-probe))
+
+(define-public %ugt-packages-i2c
+  (list i2c-tools ddcci-driver-linux ddcutil))
 
 (define-public %ugt-packages-age
   (list age age-keygen age-plugin-tpm-bin age-plugin-yubikey-bin))
@@ -77,7 +109,7 @@
   (list sops-bin))
 
 (define-public %ugt-packages-tpm
-  (list tpm2-tss ssh-agent-tpm-bin))
+  (list tpm2-tss ssh-tpm-agent-bin))
 
 (define-public %ugt-packages-emacs
   ;; still needs either emacs or emacs-no-x-toolkit
@@ -97,23 +129,29 @@
    emacs-yasnippet
    emacs-yasnippet-snippets))
 
-(define %my-services
-  (modify-services
-      %base-services
+(define %ugt-services
+  (append
+   (list
+    (service pcscd-service-type))
+   (yubikey-udev-rules)
 
-    (agetty-service-type
-     config => (agetty-configuration
-                (inherit config)
-                (login-pause? #t)
-                (timeout 30)))
+   (modify-services %base-services
+     (agetty-service-type
+      config => (agetty-configuration
+                 (inherit config)
+                 (login-pause? #t)
+                 (timeout 30)))
 
-    (mingetty-service-type
-     config => (mingetty-configuration
-                (inherit config)
-                ;; (auto-login %my-user)
-                (login-pause? #t)))))
+     (mingetty-service-type
+      config => (mingetty-configuration
+                 (inherit config)
+                 (login-pause? #t))))))
 
 ;;;; Image
+
+;; guix system -L ~/.dotfiles/ellipsis -L ~/.dotfiles/dc \
+;; image --image-type=iso9660 \
+;; -e '(@@ (ellipsis systems usb-gpg-tools) usb-gpg-tools)'
 (define usb-gpg-tools
   (operating-system
     (host-name "usbgpgtool")
@@ -124,40 +162,19 @@
     (bootloader (bootloader-configuration
                  (bootloader grub-efi-bootloader)
                  (targets "/dev/sda")))
+
     (file-systems (cons (file-system
                           (device (file-system-label "usb-gpg-disk"))
                           (mount-point "/")
                           (type "ext4"))
                         %base-file-systems))
-
-    ;; NONFREE
-    ;; (kernel linux)
-
     (kernel-arguments '("modprobe.blacklist=radeon"
                         ;; "quiet" ;; .....
                         ;; "net.iframes=0"
                         ))
-
-    ;; TODO: users/groups (autologin to tty
-
-    (groups (append (list (user-group (name "plugdev") (system? #t)))
-                    %base-groups))
-    (users (append (list
-                    (user-account
-                     (name %my-user)
-                     (comment "Default User")
-                     (group "users")
-                     (supplementary-groups '("wheel"
-                                             "tty"
-                                             "plugdev"))))
+    (groups %ugt-system-groups)
+    (users (append (list %ugt-default-user)
                    %base-user-accounts))
-
-
-
-    ;; TODO:  add YK UDev Rules?
-    ;; (udev-rules-service 'fido2 libfido2 #:groups '("plugdev"))
-    ;; (udev-rules-service 'u2f libu2f-host #:groups '("plugdev"))
-    ;; (udev-rules-service 'yubikey yubikey-personalization)
 
     ;; misc packages:
     ;; f3: test flash storage
@@ -174,6 +191,7 @@
       %ugt-packages-net
       %ugt-packages-net-plus
       %ugt-packages-hardware
+      %ugt-packages-i2c
       %ugt-packages-age
       %ugt-packages-tls
       %ugt-packages-smartcard
@@ -183,18 +201,33 @@
       %ugt-packages-secrets
       %ugt-packages-tpm
 
-      emacs-no-x-toolkit
+      (list emacs-no-x-toolkit)
       %ugt-packages-emacs
 
       %base-packages))
 
-    (services
-     (append (list
-              ;; (dhcp-client-service-type)
-              (service pcscd-service-type))
+    (services %ugt-services)))
 
-             %my-services))))
+;; guix system -L ~/.dotfiles/ellipsis -L ~/.dotfiles/dc \
+;; image --image-type=iso9660 \
+;; -e '(@@ (ellipsis systems usb-gpg-tools) usb-gpg-tools-amd)'
 
-;; TODO: add gnupg service if configuration file is in place
+(define usb-gpg-tools-amd
+  (operating-system
+    (inherit usb-gpg-tools)
+    (host-name "usbgpgtools-amd")
+    (timezone "America/New_York")
+    (locale "en_US.UTF-8")
 
-usb-gpg-tools
+    ;; NONFREE
+    (kernel linux)
+    (firmware (cons* ;; linux-firmware
+               amd-microcode
+               amdgpu-firmware
+               realtek-firmware
+               %base-firmware))
+
+    (kernel-arguments '("modprobe.blacklist=radeon"
+                        ;; "quiet" ;; .....
+                        ;; "net.iframes=0"
+                        ))))

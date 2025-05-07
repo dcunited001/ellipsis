@@ -13,6 +13,7 @@
   #:use-module (nongnu system linux-initrd)
 
   #:use-module (ellipsis packages python-xyz)
+  #:use-module (ellipsis services security-token)
 
   #:use-module (dc systems base))
 
@@ -126,13 +127,7 @@
      ;; Set up remaining TTYs for terminal use
      (greetd-terminal-configuration (terminal-vt "1"))
      (greetd-terminal-configuration (terminal-vt "2"))
-     ;; `/bin/bash -l` is the default for greetd
-     (greetd-terminal-configuration
-      (terminal-vt "3")
-      (default-session-command
-        (greetd-agreety-session
-         (command (file-append bash "/bin/bash"))
-         (command-args '("-l")))))
+     (greetd-terminal-configuration (terminal-vt "3"))
      (greetd-terminal-configuration (terminal-vt "4"))
      (greetd-terminal-configuration (terminal-vt "5"))
      (greetd-terminal-configuration (terminal-vt "6"))
@@ -269,11 +264,7 @@
        %dc-ras-daemon-service
        (service earlyoom-service-type %kharis-earlyoom-conf)
        (service gpm-service-type %kharis-gpm-conf)
-
-       ;; testing removing the fido2 functionality to restore yubikey
-       (udev-rules-service 'fido2 libfido2 #:groups '("plugdev"))
-       (udev-rules-service 'u2f libu2f-host #:groups '("plugdev"))
-       (udev-rules-service 'yubikey yubikey-personalization)
+       (yubikey-udev-rules)
 
        ;; containers
        %dc-docker-service

@@ -68,10 +68,6 @@ enables files to be encrypted to age identities sealed by the TPM.")
       (arguments
        (list
         #:install-plan #~'(("." "bin/" #:include-regexp ("ssh-tpm-")))))
-      (inputs
-       (list coreutils pcsc-lite))
-      (native-inputs
-       (list go))
       (home-page "https://github.com/Foxboron/ssh-agent-tpm")
       (synopsis "An ssh-agent that fetches keys from a TPM")
       (description "ssh-tpm-agent is a ssh-agent compatible agent that allows

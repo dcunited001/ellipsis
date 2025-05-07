@@ -7,6 +7,7 @@
 (define-module (ellipsis systems nonguix-install-amd)
   #:use-module (srfi srfi-1)
   #:use-module (gnu)
+  #:use-module (gnu services sddm)
   #:use-module (gnu system)
   #:use-module (gnu system nss)
   #:use-module (gnu system pam)
@@ -21,6 +22,8 @@
   #:use-module (ellipsis packages password-utils)
   #:use-module (ellipsis packages security-token)
   #:use-module (ellipsis packages golang-crypto)
+  #:use-module (ellipsis systems common)
+  #:use-module (ellipsis systems usb-gpg-tools)
 
   ;; get a list of channels
   #:use-module (guix describe)
@@ -41,37 +44,19 @@
                      ssh gnupg cryptsetup security-token tls certs libusb
                      screen password-utils golang golang-crypto)
 
+(define %host-name "nonguix-install")
 (define %my-channels (current-channels))
-
-(define %system-groups
-  (cons* (user-group (name "realtime") (system? #t))
-         ;; created by service
-         ;; (user-group (system? #t) (name "docker"))
-         (user-group (name "plugdev") (system? #t))
-         (user-group (name "yubikey") (system? #t))
-         (user-group (name "fuse") (system? #t))
-         (user-group (name "cgroup") (system? #t))
-         (user-group (name "seat") (system? #t)) ; needed for greetd without gdm
-         (user-group (name "users") (id 1100))
-         (user-group (name "dc") (id 1000))
-         (remove (lambda (g) (equal? (user-group-name g) "users"))
-                 %base-groups)))
+(define %my-system-groups
+  (append (map (lambda (g) (user-group (name g) (system? #t)))
+               (list "realtime" "render" "yubikey" "fuse" "cgroup" "seat"))
+          %base-groups))
 
 (define %my-groups
-  '("wheel"  ;; sudo
-    "netdev" ;; network devices
-    "kvm"
-    "tty"
-    "input"
-    "fuse"
-    "realtime" ;; Enable RT scheduling
-    "lp"       ;; control bluetooth and cups
-    "audio"    ;; control audio
-    "video"    ;; control video
-    ;; TODO: configure udev for group
-    "yubikey" ;; yubikey (udev)
-    "plugdev" ;; libu2f-host (udev)
-    "users"))
+  '("wheel" "users" "tty" "dialout"
+    "input" "video" "audio" "netdev" "lp"
+    ;; "kmem" "disk" "floppy" "cdrom" "tape" "kvm"
+    "fuse" "realtime" "yubikey" "plugdev"
+    "docker" "cgroup"))
 
 (define-public %kharis-shell-keyboard
   (keyboard-layout
@@ -91,6 +76,9 @@
 (define sway-packages
   (list sway
         swaylock))
+
+(define cage-packages
+  (list cage))
 
 (define hyprland-packages
   (list hyprland
@@ -137,6 +125,12 @@
          (string-append (getenv "HOME")
                         "/.ssh/authorized_keys")))))))
 
+(define %wlgreet-sway-conf
+  (plain-file "sway-greet.conf"
+              (string-append
+               "output * bg /data/xdg/Wallpapers/"
+               %host-name "-greetd.jpg fill\n")))
+
 (define greetd-conf
   (greetd-configuration
    (greeter-supplementary-groups (list "video" "input" "seat"))
@@ -151,13 +145,17 @@
      (greetd-terminal-configuration
       (terminal-vt "7")
       (terminal-switch #t)
+      (extra-shepherd-requirement '(seatd))
       (default-session-command
         (greetd-wlgreet-sway-session
-         (sway-configuration
-          (plain-file "sway-greet.conf"
-                      (string-append
-                       "output * bg /data/xdg/Wallpapers/"
-                       %host-name "-greetd.jpg fill\n"))))))
+         (sway-configuration %wlgreet-sway-conf))))
+     (greetd-terminal-configuration
+      (terminal-vt "8")
+      (extra-shepherd-requirement '(seatd))
+      (default-session-command
+        (greetd-gtkgreet-sway-session
+         (command (greetd-user-session
+                   (xdg-session-type "wayland"))))))
      (greetd-terminal-configuration (terminal-vt "8"))))))
 
 ;;;; Image
@@ -199,7 +197,7 @@
 
     ;; TODO: users/groups (autologin to tty
 
-    (groups %system-groups)
+    (groups %my-system-groups)
     (users (append (list
                     (user-account
                      (uid 1000)
@@ -291,5 +289,3 @@
                              %default-authorized-guix-keys)))))))))
 
 ;; TODO: add gnupg service if configuration file is in place
-
-nonguix-install-amd
