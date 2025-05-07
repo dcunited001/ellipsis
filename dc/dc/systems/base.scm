@@ -6,6 +6,7 @@
   #:use-module (gnu system)
   #:use-module (gnu system nss)
   #:use-module (gnu system setuid)
+  #:use-module (ellipsis systems common)
   #:use-module (json)
   #:use-module (json builder)
 
@@ -42,6 +43,12 @@
   (plain-file "nntpserver.conf"
               "news.gmane.io"))
 
+(define-public %dc-nntp-service
+  ;; for GNUS
+  (simple-service 'nntp-config etc-service-type
+                  (list `("nntpserver"
+                          ,%dc-nntpserver))))
+
 ;; defaults to: mount,umount,fusermount,fusermount3,sudoedit,sudo,su,sg
 ;;   ping6,ping,newgidmap,newuidmap,newgrp,chfn,passwd
 ;; adds: mount.nfs, swaylock
@@ -54,16 +61,30 @@
           ;; (setuid? #t)
           %default-privileged-programs))
 
-(define-public %dc-nntp-service
-  ;; for GNUS
-  (simple-service 'nntp-config etc-service-type
-                  (list `("nntpserver"
-                          ,%dc-nntpserver))))
+;; =============================================
+;; see Other System Groups: https://wiki.debian.org/SystemGroups
+;; ---------------------------------------------
+;; included with %base-groups
+;;
+;; kmem: direct access to system's memory (via /dev/mem, /dev/port; formerly /dev/kmem)
+;; kvm: direct access to /dev/kvm
+;; kmem: ?
+;; ---------------------------------------------
+;; realtime: enables RT scheduling
+;; plugdev: FIDO/U2F, libu2f-host (udev)
+;; yubikey: access to yubikey devices (udev)
+;; docker: control docker daemon (user-group gets created via account-service-type)
+;; cgroup: control cgroups (for rootless podman)
+;; libvirt: control virtd
+;; fuse: mount filesystems w/o root
+;; ---------------------------------------------
+
+;; TODO: is kvm group required for libvirt-only access to VMs?
+;; TODO: add libvirt & docker to the users who need it
 
 (define-public %dc-base-groups
   (cons* (user-group (name "realtime") (system? #t))
-         ;; created by service
-         ;; (user-group (system? #t) (name "docker"))
+         (user-group (name "render") (system? #t))
          (user-group (name "plugdev") (system? #t))
          (user-group (name "yubikey") (system? #t))
          (user-group (name "fuse") (system? #t))
@@ -74,22 +95,38 @@
          (remove (lambda (g) (equal? (user-group-name g) "users"))
                  %base-groups)))
 
+(define %dc-my-groups
+  ;; "kmem"
+  '("wheel" "users" "tty" "dialout"
+    "input" "video" "audio" "netdev" "lp"
+    ;; "disk" "floppy" "cdrom" "tape" "kvm"
+    "fuse" "realtime" "yubikey" "plugdev"
+    "libvirt" "docker" "cgroup"))
+
+(define-public (dc-user my-groups)
+  (user-account
+   (uid 1000)
+   (name "dc")
+   (comment "David Conner")
+   (group "dc")
+   (home-directory "/home/dc")
+   (supplementary-groups my-groups)))
+
 ;; TODO: maybe define suid elsewhere.
 ;; rootless-podman extends the subids-service-type
 (define-public %dc-subid-range
-  (subid-range (name "dc") (start 10001000) (range 65536)))
+  (subid-range (name "dc") (start 1000000) (range 65536)))
 
 ;; define the rest with subids extensions
 (define-public %dc-subid-service-type
-  (service subid-servic-type
+  (service subid-service-type
            (subids-configuration
             (subgids %dc-subid-range)
             (subuids %dc-subid-range))))
 
 (define-public %dc-rootless-podman-service
   (service rootless-podman-service-type
-           (rootless-podman-configuration
-            )))
+           (rootless-podman-configuration)))
 
 (define-public %dc-containerd-service
   (service containerd-service-type
@@ -187,8 +224,7 @@
   (extra-special-file "/lib64/ld-linux-x86-64.so.2"
                       (file-append glibc "/lib/ld-linux-x86-64.so.2")))
 
-;; these files are not in the repo and will need to be added if the function is
-;; added to a system
+;; TODO: remove dc-extra-file-flatpak from systems
 (define-public (dc-extra-file-flatpak)
   (extra-special-file
    "/etc/flatpak/installations.d"
@@ -197,33 +233,6 @@
                (("steam.conf" ,(local-file "flatpak/installations.d/steam.conf"))
                 ("agenda.conf"
                  ,(local-file "flatpak/installations.d/agenda.conf"))))))
-
-;; add libvirt & docker to the users who need it
-(define-public %dc-my-groups
-  '("wheel"  ;; sudo
-    "netdev" ;; network devices
-    "kvm"
-    "tty"
-    "input"
-    "fuse"
-    "realtime" ;; Enable RT scheduling
-    "lp"       ;; control bluetooth and cups
-    "audio"    ;; control audio
-    "video"    ;; control video
-    ;; TODO: configure udev for group
-    "yubikey" ;; yubikey (udev)
-    "plugdev" ;; libu2f-host (udev)
-    "cgroup"
-    "users"))
-
-(define-public (dc-user my-groups)
-  (user-account
-   (uid 1000)
-   (name "dc")
-   (comment "David Conner")
-   (group "dc")
-   (home-directory "/home/dc")
-   (supplementary-groups my-groups)))
 
 ;; use with (udev-rules-service %udev-backlight-rule)
 (define-public %dc-backlight-udev
@@ -278,7 +287,6 @@
 (define-public %dc-i2c-packages
   (list i2c-tools
         hw-probe
-        ddcci-driver-linux
         ddcutil
         ;; ddcui
         ))
