@@ -4,7 +4,7 @@
 ;; needs to occur at login. sshd rejects connections (can't restart service
 ;; after IP address assignment). GDM doesnt permit login.
 ;;
-(define-module (ellipsis systems nonguix-install-amd)
+(define-module (ellipsis system nonguix-install-amd)
   #:use-module (srfi srfi-1)
   #:use-module (gnu)
   #:use-module (gnu services sddm)
@@ -22,8 +22,8 @@
   #:use-module (ellipsis packages password-utils)
   #:use-module (ellipsis packages security-token)
   #:use-module (ellipsis packages golang-crypto)
-  #:use-module (ellipsis systems common)
-  #:use-module (ellipsis systems usb-gpg-tools)
+  #:use-module (ellipsis system accounts)
+  #:use-module (ellipsis system usb-gpg-tools)
 
   ;; get a list of channels
   #:use-module (guix describe)
@@ -46,9 +46,11 @@
 
 (define %host-name "nonguix-install")
 (define %my-channels (current-channels))
+
 (define %my-system-groups
   (append (map (lambda (g) (user-group (name g) (system? #t)))
-               (list "realtime" "render" "yubikey" "fuse" "cgroup" "seat"))
+               (list "realtime" "render" "plugdev" "yubikey" "fuse" "cgroup"
+                     "docker" "seat"))
           %base-groups))
 
 (define %my-groups
@@ -204,7 +206,7 @@
                      (name "dc")
                      (password (crypt "dc1234321" "$6$abc"))
                      (comment "Default User")
-                     (group "dc")
+                     (group "users")
                      (supplementary-groups %my-groups)))
                    %base-user-accounts))
 
@@ -232,7 +234,7 @@
       %ugt-packages-secrets
       %ugt-packages-tpm
 
-      emacs
+      (list emacs)
       %ugt-packages-emacs
 
       wayland-packages
@@ -251,8 +253,8 @@
               (service openssh-service-type openssh-conf)
 
               ;; testing removing the fido2 functionality to restore yubikey
-              (udev-rules-service 'fido2 libfido2 #:groups '("plugdev"))
-              (udev-rules-service 'u2f libu2f-host #:groups '("plugdev"))
+              (udev-rules-service 'fido2 libfido2)
+              (udev-rules-service 'u2f libu2f-host)
               (udev-rules-service 'yubikey yubikey-personalization))
 
              ;; dbus complains about the name of plasma's notification
@@ -263,7 +265,7 @@
              ;; (service plasma-desktop-service-type)
              (list (service gnome-desktop-service-type))
 
-             (modify-services base-desktop-services
+             (modify-services %base-desktop-services
                (delete agetty-service-type)
                (delete mingetty-service-type)
 
