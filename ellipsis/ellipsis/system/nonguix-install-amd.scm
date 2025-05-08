@@ -242,7 +242,10 @@
      (append %el-extra-files-svc
              (list (service gnome-desktop-service-type)
                    (service greetd-service-type %greetd-conf)
-                   (service seatd-service-type))
+                   (service seatd-service-type)
+                   (simple-service 'add-nonguix-substitutes
+                                   guix-service-type
+                                   el-nonguix-chan-subs))
 
              (list
               (service pcscd-service-type)
@@ -271,6 +274,6 @@
                ;;             (inherit config)
                ;;             (wayland? #t)))
 
-               (guix-service-type config => (el-nonguix-chan config)))))))
+               )))))
 
 ;; TODO: add gnupg service if configuration file is in place

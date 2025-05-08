@@ -4,6 +4,8 @@
   #:use-module (ice-9 format)
   #:use-module (gnu)
   #:use-module (gnu system)
+  #:use-module (gnu services)
+  #:use-module (gnu services base)
 
   #:export (%el-extra-files-svc))
 
@@ -19,9 +21,8 @@
                    #:model "pc105"
                    #:options '("caps:ctrl_modifier")))
 
-(define-public (el-nonguix-chan guix-chan)
-  (guix-configuration
-   (inherit guix-chan)
+(define-public el-nonguix-chan-subs
+  (guix-extension
    (substitute-urls
     (append (list "https://substitutes.nonguix.org")
             %default-substitute-urls))

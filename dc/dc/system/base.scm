@@ -7,6 +7,8 @@
   #:use-module (gnu system nss)
   #:use-module (gnu system setuid)
   #:use-module (ellipsis system accounts)
+  #:use-module (ellipsis system common)
+
   #:use-module (json)
   #:use-module (json builder)
 
@@ -199,17 +201,7 @@
 (define-public %dc-nonguix-substitutes-service
   (simple-service
    'add-nonguix-substitutes
-   guix-service-type
-   (guix-extension
-    (substitute-urls
-     (append (list "https://substitutes.nonguix.org")
-             %default-substitute-urls))
-    (authorized-keys
-     (append
-      (list
-       (plain-file "nonguix.pub"
-                   "(public-key (ecc (curve Ed25519) (q #C1FD53E5D4CE971933EC50C9F307AE2171A2D3B52C804642A7A35F84F3A4EA98#)))"))
-      %default-authorized-guix-keys)))))
+   guix-service-type el-nonguix-chan-subs))
 
 ;; TODO: remove dc-extra-file-flatpak from systems
 (define-public (dc-extra-file-flatpak)
