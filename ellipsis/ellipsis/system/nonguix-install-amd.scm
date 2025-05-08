@@ -61,17 +61,6 @@
     "fuse" "realtime" "yubikey" "plugdev"
     "docker" "cgroup"))
 
-(define-public %kharis-shell-keyboard
-  (keyboard-layout
-   "us" "altgr-intl"
-   #:model "pc105"
-   ;; see gitlab.freedesktop.org/xkeyboard-config/xkeyboard-config/-/issue/344
-   #:options '("caps:ctrl_modifier"
-               ;; "ctrl:swapcaps_hyper" ; in 1.3.0 (hyper as Mod3)
-               ;; "ctrl:hyper_capscontrol" ; in 1.5.0 (hyper as Mod4)
-               "lv3:ralt_alt"
-               "lv3:menu_switch")))
-
 (define wayland-packages
   (list grimblast
         xdg-desktop-portal))
@@ -168,7 +157,7 @@
     (timezone "America/New_York")
     (locale "en_US.UTF-8")
 
-    (keyboard-layout %kharis-shell-keyboard)
+    (keyboard-layout %el-altgr-kbd)
 
     ;; to install on a system with just BIOS (e.g. a VM)
     (bootloader (bootloader-configuration

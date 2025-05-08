@@ -34,11 +34,6 @@
   ;; so gstreamer can hook into a virtual video device
   (list v4l2loopback-linux-module))
 
-(define-public %dc-default-shell-keyboard
-  (keyboard-layout "us" "altgr-intl"
-                   #:model "pc105"
-                   #:options '("caps:escape")))
-
 (define-public %dc-nntpserver
   (plain-file "nntpserver.conf"
               "news.gmane.io"))

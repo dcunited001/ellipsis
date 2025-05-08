@@ -13,3 +13,8 @@
                        (file-append coreutils "/bin/env"))
    (extra-special-file "/lib64/ld-linux-x86-64.so.2"
                        (file-append glibc "/lib/ld-linux-x86-64.so.2"))))
+
+(define-public %el-altgr-kbd
+  (keyboard-layout "us" "altgr-intl"
+                   #:model "pc105"
+                   #:options '("caps:ctrl_modifier")))
