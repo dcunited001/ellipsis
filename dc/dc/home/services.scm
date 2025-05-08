@@ -56,6 +56,8 @@
      (hardware . (("hw" . "hwinfo --short")
                   ("iotopa" . "iotop -oa")
                   ("grubup" . "sudo update-grub")))
+     (disk .  (("dfs" . "df -h | tail -n+2 | sort -nk5")
+               ("dfsh" . "df -sh | tail -n+2 | sort -nk5")))
      (archive . (("tarnow" . "tar -acf ")
                  ("untar" . "tar -zxvf ")))
      ;; alias renoice="renice --priority 15 $(pgrep emacs-29)"
