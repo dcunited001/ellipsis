@@ -51,12 +51,12 @@
 (define %my-system-groups
   (append (map (lambda (g) (user-group (name g) (system? #t)))
                (list "realtime" "render" "plugdev" "yubikey" "fuse" "cgroup"
-                     "docker" "seat"))
+                     "docker" ;; "seat"
+                     ))
           %base-groups))
-
 (define %my-groups
   '("wheel" "users" "tty" "dialout"
-    "input" "video" "audio" "netdev" "lp"
+    "input" "seat" "video" "audio" "netdev" "lp"
     ;; "kmem" "disk" "floppy" "cdrom" "tape" "kvm"
     "fuse" "realtime" "yubikey" "plugdev"
     "docker" "cgroup"))
@@ -123,7 +123,7 @@
                "output * bg /data/xdg/Wallpapers/"
                %host-name "-greetd.jpg fill\n")))
 
-(define greetd-conf
+(define %greetd-conf
   (greetd-configuration
    (greeter-supplementary-groups (list "video" "input" "seat"))
    (terminals
@@ -140,15 +140,16 @@
       (extra-shepherd-requirement '(seatd))
       (default-session-command
         (greetd-wlgreet-sway-session
-         (sway-configuration %wlgreet-sway-conf))))
+         (sway-configuration %wlgreet-sway-conf)
+         (command (greetd-user-session
+                   (xdg-session-type "wayland"))))))
      (greetd-terminal-configuration
       (terminal-vt "8")
       (extra-shepherd-requirement '(seatd))
       (default-session-command
         (greetd-gtkgreet-sway-session
          (command (greetd-user-session
-                   (xdg-session-type "wayland"))))))
-     (greetd-terminal-configuration (terminal-vt "8"))))))
+                   (xdg-session-type "wayland"))))))))))
 
 ;;;; Image
 (define nonguix-install-amd
@@ -239,6 +240,10 @@
 
     (services
      (append %el-extra-files-svc
+             (list (service gnome-desktop-service-type)
+                   (service greetd-service-type %greetd-conf)
+                   (service seatd-service-type))
+
              (list
               (service pcscd-service-type)
               (service openssh-service-type openssh-conf)
@@ -254,11 +259,11 @@
              ;; 'org.freedesktop.Notifications' or something
              ;;
              ;; (service plasma-desktop-service-type)
-             (list (service gnome-desktop-service-type))
 
              (modify-services %base-desktop-services
                (delete agetty-service-type)
                (delete mingetty-service-type)
+               (delete elogind-service-type)
 
                ;; consoles are mingetty
                ;; (gdm-service-type
@@ -266,19 +271,6 @@
                ;;             (inherit config)
                ;;             (wayland? #t)))
 
-               (guix-service-type
-                config => (guix-configuration
-                           (inherit config)
-                           (channels %my-channels)
-                           (guix (guix-for-channels %my-channels))
-                           (substitute-urls
-                            (append (list "https://substitutes.nonguix.org")
-                                    %default-substitute-urls))
-                           (authorized-keys
-                            (append
-                             (list
-                              (plain-file "nonguix.pub"
-                                          "(public-key (ecc (curve Ed25519) (q #C1FD53E5D4CE971933EC50C9F307AE2171A2D3B52C804642A7A35F84F3A4EA98#)))"))
-                             %default-authorized-guix-keys)))))))))
+               (guix-service-type config => (el-nonguix-chan config)))))))
 
 ;; TODO: add gnupg service if configuration file is in place

@@ -54,8 +54,7 @@
 ;; system-specific users should go here
 (define %kharis-users
   (append
-   (list (dc-user
-          (cons* "libvirt" "docker" %dc-my-groups)))
+   (list (dc-user (cons* "seat" %dc-my-groups)))
    %kharis-service-users
    %base-user-accounts))
 
@@ -121,7 +120,7 @@
 
 (define-public %kharis-greetd-conf
   (greetd-configuration
-   (greeter-supplementary-groups (list "video" "input"))
+   (greeter-supplementary-groups (list "video" "input" "seat"))
    (terminals
     (list
      ;; TTY7 is the graphical login screen for Sway
@@ -135,9 +134,12 @@
      (greetd-terminal-configuration
       (terminal-vt "7")
       (terminal-switch #t)
+      (extra-shepherd-requirement '(seatd))
       (default-session-command
         (greetd-wlgreet-sway-session
          ;; TODO background
+         (command (greetd-user-session
+                   (xdg-session-type "wayland")))
          (sway-configuration
           (plain-file "sway-greet.conf"
                       (string-append
@@ -207,12 +209,14 @@
       (modify-services %base-services
         ;; (delete console-font-service-type)
         (delete agetty-service-type)
-        (delete mingetty-service-type))
+        (delete mingetty-service-type)
+        (delete elogind-service-type))
 
       %el-extra-files-svc
 
       (list
        (service greetd-service-type %kharis-greetd-conf)
+       (service seatd-service-type)
        %dc-nonguix-substitutes-service
 
        polkit-wheel-service
