@@ -216,11 +216,10 @@ EndSection
        ;; (service alsa-service-type)
        )
 
+      %el-extra-files-svc
+
       (list
        %dc-nonguix-substitutes-service
-
-       %dc-extra-file-env
-       %dc-extra-file-ld-linux
 
        polkit-wheel-service
 

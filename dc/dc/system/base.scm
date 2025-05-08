@@ -216,14 +216,6 @@
                    "(public-key (ecc (curve Ed25519) (q #C1FD53E5D4CE971933EC50C9F307AE2171A2D3B52C804642A7A35F84F3A4EA98#)))"))
       %default-authorized-guix-keys)))))
 
-(define-public %dc-extra-file-env
-  (extra-special-file "/usr/bin/env"
-                      (file-append coreutils "/bin/env")))
-
-(define-public %dc-extra-file-ld-linux
-  (extra-special-file "/lib64/ld-linux-x86-64.so.2"
-                      (file-append glibc "/lib/ld-linux-x86-64.so.2")))
-
 ;; TODO: remove dc-extra-file-flatpak from systems
 (define-public (dc-extra-file-flatpak)
   (extra-special-file

@@ -23,6 +23,7 @@
   #:use-module (ellipsis packages security-token)
   #:use-module (ellipsis packages golang-crypto)
   #:use-module (ellipsis system accounts)
+  #:use-module (ellipsis system common)
   #:use-module (ellipsis system usb-gpg-tools)
 
   ;; get a list of channels
@@ -248,7 +249,8 @@
       %base-packages))
 
     (services
-     (append (list
+     (append %el-extra-files-svc
+             (list
               (service pcscd-service-type)
               (service openssh-service-type openssh-conf)
 

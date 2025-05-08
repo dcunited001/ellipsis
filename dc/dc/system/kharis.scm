@@ -209,9 +209,9 @@
         (delete agetty-service-type)
         (delete mingetty-service-type))
 
+      %el-extra-files-svc
+
       (list
-       %dc-extra-file-env
-       %dc-extra-file-ld-linux
        (service greetd-service-type %kharis-greetd-conf)
        %dc-nonguix-substitutes-service
 
