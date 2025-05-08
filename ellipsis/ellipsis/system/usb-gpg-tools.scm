@@ -80,7 +80,8 @@
         acl hwinfo rng-tools hw-probe))
 
 (define-public %ugt-packages-i2c
-  (list i2c-tools ddcci-driver-linux ddcutil))
+  (list ;; ddcci-driver-linux
+   i2c-tools ddcutil))
 
 (define-public %ugt-packages-age
   (list age age-keygen age-plugin-tpm-bin age-plugin-yubikey-bin))
