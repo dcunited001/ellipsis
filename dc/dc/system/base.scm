@@ -1,4 +1,4 @@
-(define-module (dc systems base)
+(define-module (dc system base)
   #:use-module (srfi srfi-1)
   #:use-module (guix gexp)
   #:use-module (guix channels)
@@ -6,7 +6,7 @@
   #:use-module (gnu system)
   #:use-module (gnu system nss)
   #:use-module (gnu system setuid)
-  #:use-module (ellipsis systems common)
+  #:use-module (ellipsis system accounts)
   #:use-module (json)
   #:use-module (json builder)
 

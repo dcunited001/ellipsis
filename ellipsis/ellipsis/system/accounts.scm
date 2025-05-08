@@ -1,4 +1,4 @@
-;;; Module: common
+;;; Module: accounts
 (define-module (ellipsis system accounts)
   #:use-module (srfi srfi-1)
   #:use-module (ice-9 format)

@@ -1,5 +1,5 @@
 ;;* Module: kharis
-(define-module (dc systems kharis)
+(define-module (dc system kharis)
   #:use-module (srfi srfi-1)
   #:use-module (ice-9 format)
 
@@ -14,8 +14,9 @@
 
   #:use-module (ellipsis packages python-xyz)
   #:use-module (ellipsis services security-token)
+  #:use-module (ellipsis system common)
 
-  #:use-module (dc systems base))
+  #:use-module (dc system base))
 
 (use-service-modules guix admin sysctl pm nix avahi dbus cups
                      desktop linux mcron networking ssh ;; xorg?
