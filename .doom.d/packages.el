@@ -73,7 +73,7 @@
 ;; `geiser-guile-load-path' has
 ;; `$EMACSDIR/.local/straight/repos/emacs-guix/scheme'
 ;;
-(package! guix)
+(package! guix :recipe (:host codeberg :repo "guix/emacs-guix"))
 
 ;;** Nix
 

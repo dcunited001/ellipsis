@@ -42,7 +42,7 @@
  (channel
   (name 'rde)
   (url "https://git.sr.ht/~abcdw/rde")
-  (commit "7648a495767990d625cd0ca242cd634aa39bcc58")
+  (commit "bf8f628c4deb9acc94e261db80d301048ea1f0a2")
   (introduction
    (make-channel-introduction
     "257cebd587b66e4d865b3537a9a88cccd7107c95"
