@@ -37,7 +37,7 @@
 ;; networking is [probably] needed for loopback
 (use-service-modules networking ssh security-token authentication
                      desktop linux mcron networking xorg)
-(use-package-modules curl wget rsync vim emacs emacs-xyz
+(use-package-modules curl wget rsync vim emacs emacs-xyz guile-xyz
                      wm freedesktop xdisorg fontutils fonts
                      networking linux time mtools acl hardware
                      package-management
@@ -54,6 +54,7 @@
                      "docker" ;; "seat"
                      ))
           %base-groups))
+
 (define %my-groups
   '("wheel" "users" "tty" "dialout"
     "input" "seat" "video" "audio" "netdev" "lp"
@@ -94,6 +95,36 @@
         font-awesome
         font-fira-code
         font-google-noto))
+
+(define emacs-packages
+  (list emacs-x509-mode
+        emacs-better-defaults
+        ;; emacs-with-profile
+        emacs-auto-complete
+        emacs-a
+        emacs-hydra
+        emacs-modus-themes
+        emacs-dash
+        emacs-lispy
+        emacs-geiser
+        emacs-geiser-guile
+        emacs-ac-geiser
+        emacs-guix
+        emacs-yasnippet
+        emacs-yasnippet-snippets
+
+        ;; added "nice to have" packages, which should not normally be
+        ;; installed for root
+        emacs-cape
+        emacs-consult
+        emacs-consult-dir
+        ;; emacs-consult-flycheck
+        emacs-corfu
+        emacs-corfu-terminal
+        emacs-embark
+        emacs-marginalia
+        emacs-orderless
+        emacs-vertico))
 
 (define %base-desktop-services
   (remove (lambda (service)
@@ -226,7 +257,9 @@
       %ugt-packages-tpm
 
       (list emacs)
-      %ugt-packages-emacs
+      guile-colorized                   ; req. for (ice-9 colorized)
+      emacs-packages
+
 
       wayland-packages
       sway-packages
