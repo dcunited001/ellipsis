@@ -7,7 +7,7 @@
 ;; ... before running it as root, copy to /root/.emacs.console, otherwise it
 ;; will clutter with root-owned cache files.
 ;;
-;; Requires these packages:
+;; Requires these packages (everything is :demand t ... bc it's just simpler)
 ;;
 ;; (define emacs-packages
 ;;   (list emacs-x509-mode
