@@ -27,7 +27,7 @@
       (version (string-append "1.4.0-" (string-take commit 7)))
       (source
        (git-checkout
-        (url "https://git.savannah.gnu.org/git/guix.git")
+        (url "https://codeberg.org/guix/guix-mirror.git")
         (commit commit)))
       (arguments
        (substitute-keyword-arguments (package-arguments guix)
