@@ -39,10 +39,12 @@
 (use-service-modules networking ssh security-token authentication)
 (use-package-modules wget curl screen password-utils vim tmux emacs emacs-xyz
                      package-management ; remove?
-                     networking linux hardware rsync acl
+                     networking linux hardware rsync acl admin diffoscope
                      time mtools lsof file-systems disk version-control
                      ssh gnupg cryptsetup security-token tls certs libusb
                      golang-crypto)
+
+
 
 (define %ugt-my-groups
   '("wheel" "users" "tty" "dialout"
@@ -58,6 +60,7 @@
    ;; (user-group (name "seat") (system? #t))
    %base-groups))
 
+;; TODO %ugt-default-user set to 1000:1000 to be consistent
 (define %ugt-default-user
   (user-account
    (name "dc")
@@ -75,9 +78,13 @@
 (define-public %ugt-packages-net-plus
   (list wget curl rsync))
 
+(define-public %ugt-packages-data
+  (list jq yq jc))
+
 (define-public %ugt-packages-hardware
   (list lvm2 cryptsetup dosfstools ntfs-3g exfat-utils fuse-exfat f3
-        acl hwinfo rng-tools hw-probe))
+        acl hwinfo rng-tools hw-probe dmi-decode fiano du-dust diffoscope))
+;; fiano: uefi image utils; du-dust: diskonaut
 
 (define-public %ugt-packages-i2c
   (list ;; ddcci-driver-linux
@@ -188,6 +195,7 @@
     (packages
      (append
 
+      %ugt-packages-data
       %ugt-packages-cli
       %ugt-packages-net
       %ugt-packages-net-plus

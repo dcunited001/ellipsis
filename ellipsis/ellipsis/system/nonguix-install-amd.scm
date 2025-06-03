@@ -32,7 +32,8 @@
   ;; gnutls packages
   #:use-module (gnu packages tls)
 
-  #:export (nonguix-install-amd))
+  #:export (nonguix-install
+            nonguix-install-amd))
 
 ;; networking is [probably] needed for loopback
 (use-service-modules networking ssh security-token authentication
@@ -47,7 +48,6 @@
 
 (define %host-name "nonguix-install")
 (define %my-channels (current-channels))
-
 (define %my-system-groups
   (append (map (lambda (g) (user-group (name g) (system? #t)))
                (list "realtime" "render" "plugdev" "yubikey" "fuse" "cgroup"
@@ -61,6 +61,20 @@
     ;; "kmem" "disk" "floppy" "cdrom" "tape" "kvm"
     "fuse" "realtime" "yubikey" "plugdev"
     "docker" "cgroup"))
+
+(define %my-user-name "dc")
+(define %my-user-groups
+  (list
+   (user-group (name %my-user-name) (id 1000))
+   (user-group (name "users") (id 1100))))
+
+(define %my-user (user-account
+                  (uid 1000)
+                  (name %my-user-name)
+                  (password (crypt "dc1234321" "$6$abc"))
+                  (comment "Default User")
+                  (group "dc")
+                  (supplementary-groups (cons* "users" %my-groups))))
 
 (define wayland-packages
   (list grimblast
@@ -183,9 +197,10 @@
                    (xdg-session-type "wayland"))))))))))
 
 ;;;; Image
-(define nonguix-install-amd
+
+(define nonguix-install
   (operating-system
-    (host-name "usbgpgtool")
+    (host-name "nonguix-install")
     (timezone "America/New_York")
     (locale "en_US.UTF-8")
 
@@ -203,17 +218,6 @@
                           (options "space_cache=v2"))
                         %base-file-systems))
 
-    ;; NONFREE
-    (kernel linux)
-    ;; linux-firmware contains everything anyways (amd-microcode and
-    ;; amdgpu-firmware are redundant)
-    ;; https://gitlab.com/nonguix/nonguix/-/issues/327
-    (firmware (cons* ;; linux-firmware
-               amd-microcode
-               amdgpu-firmware
-               realtek-firmware
-               %base-firmware))
-
     (kernel-arguments '("modprobe.blacklist=radeon"
                         ;; "quiet" ;; .....
                         ;; "net.iframes=0"
@@ -222,15 +226,7 @@
     ;; TODO: users/groups (autologin to tty
 
     (groups %my-system-groups)
-    (users (append (list
-                    (user-account
-                     (uid 1000)
-                     (name "dc")
-                     (password (crypt "dc1234321" "$6$abc"))
-                     (comment "Default User")
-                     (group "users")
-                     (supplementary-groups %my-groups)))
-                   %base-user-accounts))
+    (users (append (list %my-user) %base-user-accounts))
 
     ;; misc packages:
     ;; f3: test flash storage
@@ -256,10 +252,11 @@
       %ugt-packages-secrets
       %ugt-packages-tpm
 
-      (list emacs)
-      guile-colorized                   ; req. for (ice-9 colorized)
-      emacs-packages
+      (list emacs
+            ;; req. for (ice-9 colorized)
+            guile-colorized)
 
+      emacs-packages
 
       wayland-packages
       sway-packages
@@ -310,3 +307,17 @@
                )))))
 
 ;; TODO: add gnupg service if configuration file is in place
+
+(define nonguix-install-amd
+  (operating-system
+    (inherit nonguix-install)
+    (host-name "nonguix-install-amd")
+    (kernel linux)
+    ;; linux-firmware contains everything anyways (amd-microcode and
+    ;; amdgpu-firmware are redundant)
+    ;; https://gitlab.com/nonguix/nonguix/-/issues/327
+    (firmware (cons* ;; linux-firmware
+               amd-microcode
+               amdgpu-firmware
+               realtek-firmware
+               %base-firmware))))
