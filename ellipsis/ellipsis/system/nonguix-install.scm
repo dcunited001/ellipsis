@@ -4,7 +4,7 @@
 ;; needs to occur at login. sshd rejects connections (can't restart service
 ;; after IP address assignment). GDM doesnt permit login.
 ;;
-(define-module (ellipsis system nonguix-install-amd)
+(define-module (ellipsis system nonguix-install)
   #:use-module (srfi srfi-1)
   #:use-module (gnu)
   #:use-module (gnu services sddm)
@@ -225,7 +225,7 @@
 
     ;; TODO: users/groups (autologin to tty
 
-    (groups %my-system-groups)
+    (groups (append %my-user-groups %my-system-groups))
     (users (append (list %my-user) %base-user-accounts))
 
     ;; misc packages:
@@ -306,8 +306,9 @@
 
                )))))
 
+;; guix system -L ./ellipsis -L ./dc image --image-type=iso9660 \
+;; -e '(@@ (ellipsis systems nonguix-install) nonguix-install-amd)'
 ;; TODO: add gnupg service if configuration file is in place
-
 (define nonguix-install-amd
   (operating-system
     (inherit nonguix-install)

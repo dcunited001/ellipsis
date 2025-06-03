@@ -32,19 +32,18 @@
 ;; certbot/letsencrypt packages
 ;; #:use-module (gnu services certbot)
 
+;; TODO: add gnupg service? if configuration file is in place
+
 ;; networking is needed for loopback and maybe other use cases
-
-;; TODO: add gnupg service if configuration file is in place
-
 (use-service-modules networking ssh security-token authentication)
+
+;; web: jq yq
 (use-package-modules wget curl screen password-utils vim tmux emacs emacs-xyz
                      package-management ; remove?
                      networking linux hardware rsync acl admin diffoscope
-                     time mtools lsof file-systems disk version-control
+                     time mtools lsof file-systems disk version-control web
                      ssh gnupg cryptsetup security-token tls certs libusb
                      golang-crypto)
-
-
 
 (define %ugt-my-groups
   '("wheel" "users" "tty" "dialout"
@@ -83,7 +82,7 @@
 
 (define-public %ugt-packages-hardware
   (list lvm2 cryptsetup dosfstools ntfs-3g exfat-utils fuse-exfat f3
-        acl hwinfo rng-tools hw-probe dmi-decode fiano du-dust diffoscope))
+        acl hwinfo rng-tools hw-probe dmidecode fiano du-dust diffoscope))
 ;; fiano: uefi image utils; du-dust: diskonaut
 
 (define-public %ugt-packages-i2c
@@ -141,7 +140,7 @@
   (append
    (list
     (service pcscd-service-type))
-   (yubikey-udev-rules)
+   yubikey-udev-rules
 
    (modify-services %base-services
      (agetty-service-type
