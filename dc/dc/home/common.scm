@@ -110,10 +110,12 @@
         font-google-noto
         font-gnu-freefont
         font-liberation
-        font-awesome
-        font-google-material-design-icons
         font-ghostscript                ; ghostscript
         font-bitstream-vera
+
+        ;; waybar icons
+        font-awesome
+        font-google-material-design-icons
 
         ;; japanese (CJK)
         font-adobe-source-han-sans
