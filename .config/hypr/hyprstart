@@ -1,0 +1,25 @@
+#!/bin/sh
+
+# on garuda: /usr/local/bin/hyprstart sources this before launching
+# https://gitlab.com/garuda-linux/themes-and-settings/settings/garuda-hyprland-settings/-/blob/main/usr/local/bin/hyprstart
+
+# on guix: $HOME/bin/hyprstart-guix sources this
+# after setting HYPRLAND_CONFIG=$HOME/.config/hypr/hyprland.conf
+cd ~
+
+export HYPRLAND_CONFIG="${HYPRLAND_CONFIG:-$HOME/.config/hypr.garuda/hyprland.conf}"
+
+#cursor size
+export XCURSOR_SIZE=24
+
+EDITOR="$(command -v doomclient)"
+if [ -x "$EDITOR" ]; then
+    export EDITOR
+else
+  export EDITOR=neovim
+fi
+
+#browser
+export BROWSER=firefox
+export TERM=alacritty
+export MAIL=thunderbird # this is the spool

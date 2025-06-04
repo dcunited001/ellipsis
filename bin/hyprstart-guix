@@ -1,0 +1,89 @@
+#!/bin/sh
+
+# From Garuda Linux ... temporary (yes, terrible)
+# https://gitlab.com/garuda-linux/themes-and-settings/settings/garuda-hyprland-settings/-/blob/main/usr/local/bin/hyprstart?ref_type=heads
+
+export HYPRLAND_CONFIG="${HYPRLAND_CONFIG:-$HOME/.config/hypr/hyprland.guix.conf}"
+hyprland_dir="$(dirname $HYPRLAND_CONFIG)"
+[[ -d "$hyprland_dir" ]] && [[ -f "$HYPRLAND_CONFIG" ]] || unset HYPRLAND_CONFIG
+
+# regexp-replace: export \([A-Z_]+\)=\(.*\) → export \1="${\1:-\2}"
+# ... but I'd rather which things are unset
+
+# Session
+export GTK2_RC_FILES="${GTK2_RC_FILES:-$HOME/.gtkrc-2.0}"
+export XDG_SESSION_TYPE="${XDG_SESSION_TYPE:-wayland}"
+export XDG_SESSION_DESKTOP="${XDG_SESSION_DESKTOP:-hyprland}"
+
+# uncomment it if you want it intentionally,otherwise not needed
+# export XDG_CURRENT_DESKTOP="${XDG_CURRENT_DESKTOP:-hyprland}"
+
+# GTK
+echo "
+MOZ_ENABLE_WAYLAND=$MOZ_ENABLE_WAYLAND
+MOZ_DBUS_REMOTE=$MOZ_DBUS_REMOTE
+MOZ_WAYLAND_USE_VAAPI=$MOZ_WAYLAND_USE_VAAPI
+GDK_BACKEND=$GDK_BACKEND
+CLUTTER_BACKEND=$CLUTTER_BACKEND
+ECORE_EVAS_ENGINE=$ECORE_EVAS_ENGINE
+ELM_ENGINE=$ELM_ENGINE
+_JAVA_AWT_WM_NONREPARENTING=$_JAVA_AWT_WM_NONREPARENTING
+NO_AT_BRIDGE=$NO_AT_BRIDGE
+BEMENU_BACKEND=$BEMENU_BACKEND
+SDL_VIDEODRIVER=$SDL_VIDEODRIVER
+QT_QPA_PLATFORM=$QT_QPA_PLATFORM
+" > $hyprland_dir/.hyprenv.guix.log
+
+# Session
+export GTK2_RC_FILES="${GTK2_RC_FILES:-$HOME/.gtkrc-2.0}"
+export XDG_SESSION_TYPE="${XDG_SESSION_TYPE:-wayland}"
+export XDG_SESSION_DESKTOP="${XDG_SESSION_DESKTOP:-hyprland}"
+
+# uncomment it if you want it intentionally,otherwise not needed
+# export XDG_CURRENT_DESKTOP="${XDG_CURRENT_DESKTOP:-hyprland}"
+
+# GTK
+export MOZ_ENABLE_WAYLAND=1     # only start firefox in wayland mode and no other GTK apps
+export MOZ_DBUS_REMOTE=1        # fixes firefox is already running, but is not responding
+export MOZ_WAYLAND_USE_VAAPI=1
+export GDK_BACKEND=wayland,x11  # GTK: Use wayland if available. If not: try x11, then any other GDK backend.
+
+# clutter
+#export CLUTTER_BACKEND=wayland
+# this can prevent programs from starting. therefore, this should be set per app instead of globally.
+
+# elementary
+export ECORE_EVAS_ENGINE=wayland-egl
+export ELM_ENGINE=wayland_egl
+
+# java
+export _JAVA_AWT_WM_NONREPARENTING=1
+export NO_AT_BRIDGE=1
+export BEMENU_BACKEND=wayland
+
+# sdl
+export SDL_VIDEODRIVER=wayland
+# this can prevent programs from starting old sdl games. therefore, this should be set per app instead of globally.
+
+# Qt
+export QT_QPA_PLATFORM=wayland
+
+echo "
+MOZ_ENABLE_WAYLAND=$MOZ_ENABLE_WAYLAND
+MOZ_DBUS_REMOTE=$MOZ_DBUS_REMOTE
+MOZ_WAYLAND_USE_VAAPI=$MOZ_WAYLAND_USE_VAAPI
+GDK_BACKEND=$GDK_BACKEND
+CLUTTER_BACKEND=$CLUTTER_BACKEND
+ECORE_EVAS_ENGINE=$ECORE_EVAS_ENGINE
+ELM_ENGINE=$ELM_ENGINE
+_JAVA_AWT_WM_NONREPARENTING=$_JAVA_AWT_WM_NONREPARENTING
+NO_AT_BRIDGE=$NO_AT_BRIDGE
+BEMENU_BACKEND=$BEMENU_BACKEND
+SDL_VIDEODRIVER=$SDL_VIDEODRIVER
+QT_QPA_PLATFORM=$QT_QPA_PLATFORM
+" >> $hyprland_dir/.hyprenv.guix.log
+
+hyprstart="$HOME/.config/hypr/hyprstart"
+[ -x $hyprstart ] && . $hyprstart
+
+exec Hyprland

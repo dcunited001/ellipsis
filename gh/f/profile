@@ -1,4 +1,3 @@
-#!/bin/sh
 export XDG_CONFIG_HOME=$HOME/.config
 export _WALLPAPERS=/data/xdg/Wallpapers/anime
 export PATH=$HOME/.local/bin:$HOME/bin:$PATH
