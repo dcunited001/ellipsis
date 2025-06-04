@@ -239,6 +239,7 @@ Guix channel.")
 
 ;;;;; Calc Mode For The Plebs
 (use-package! casual-suite
+  :defer t
   :config
   (map! "C-o" #'casual-editkit-main-tmenu
         :map goto-map "M-g" #'casual-avy-tmenu
@@ -335,6 +336,13 @@ Guix channel.")
 ;; doom--setq-tab-width-for-emacs-lisp-mode-h
 
 ;;;; Dired
+
+(defun dc/dired-quit-window (&optional dont-kill window)
+  (interactive "P")
+  (call-interactively #'quit-window (not dont-kill) window))
+(use-package! dired
+  :defer t
+  :config (map! :map dired-mode-map [remap quit-window] #'dc/dired-quit-window))
 
 (setq dired-omit-files "^.DS_Store\\'\\|^.project\\(?:ile\\)?\\'\\|^.\\(svn\\)\\'\\|^.ccls-cache\\'\\|\\(?:\\.js\\)?\\.meta\\'\\|\\.\\(?:elc\\|o\\|pyo\\|swp\\|class\\)\\'")
 
@@ -1461,7 +1469,7 @@ the root")
 ;;;;; Info
 (use-package! info :defer t)
 (use-package! info+
-  :commands info
+  :after info
   :custom
   (Info-breadcrumbs-depth 4)
   (Info-breadcrumbs-depth-internal 6)
@@ -1472,8 +1480,9 @@ the root")
   ;; TODO: (Info-apropos-manuals (dc/Info-manuals))
 
   :config
-  (add-hook 'emacs-startup-hook #'Info-breadcrumbs-in-mode-line-mode)
-  (add-hook 'emacs-startup-hook #'Info-persist-history-mode +1))
+  ;; these would never run as emacs-startup-hook
+  (Info-breadcrumbs-in-mode-line-mode)
+  (Info-persist-history-mode +1))
 
 ;;;; Systems
 
@@ -1576,6 +1585,10 @@ the root")
 
 
 ;;;;; Network
+(use-package! pcap-mode :defer t)                ; req tshark from wireshark cli
+(use-package! nftables-mode :defer t)
+(use-package! yang-mode :defer t)
+
 ;; password-store.el? pass.el?
 (use-package! terraform-mode
   :defer t
@@ -1633,6 +1646,8 @@ the root")
   :custom (tramp-default-method "ssh"))
 
 ;;;; Data
+(use-package! jinja2-mode :defer t)
+
 ;;;;; Structure
 
 ;;;;;; XML

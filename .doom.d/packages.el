@@ -14,6 +14,7 @@
 
 ;; casual-suite will install casual-{avy,symbol-overlay}, in addition to
 ;; casual-{agenda,bookmarks,calc,calendar,dired,editkit,ibuffer,info,isearch,re-builder}
+(package! casual :pin "f478f82a9cf11402688186181ca8e96a60476261")
 (package! casual-suite)
 (package! ef-themes)
 ;; pomm
@@ -89,6 +90,10 @@
 (package! systemd-mode)
 
 ;;** Network
+(package! pcap-mode)
+(package! nftables-mode)
+(package! yang-mode)
+
 ;;*** ContainerD
 
 ;;*** Terraform/HCL
