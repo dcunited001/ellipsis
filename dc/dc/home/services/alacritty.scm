@@ -58,7 +58,7 @@
      ;; packages
      (service-extension home-profile-service-type add-alacritty-packages)
      (service-extension home-xdg-configuration-files-service-type xdg-files)))
-   ;; (default-value '())
+   (default-value '())
    (description "Runs alacritty")))
 
 ;;; alacritty.scm ends here

@@ -18,6 +18,7 @@
   #:use-module (guix gexp)
   #:use-module (srfi srfi-1)
   #:export (dc-inputrc-configuration
+            dc-shell-profile-configuration
             dc-bash-configuration
             dc-zathura-service))
 
@@ -34,6 +35,7 @@
 (define add-shell-aliases
   (fold
    (lambda (el acc) (append acc (cdr el)))
+   '()
    '((shell .
       (("pathtr" . "tr '\\'':'\\'' '\\''\\n'\\''")
        ("shitbin" . "echo -e \"\\033c\"")))
@@ -81,11 +83,17 @@
 ;; ???
 ;; ("vdir" . "vdir --color=auto")
 
+(define dc-home-shell-aliases-service
+  (simple-service 'dc-home-bash-aliases
+                  home-bash-service-type
+                  (home-bash-extension
+                   (aliases add-shell-aliases))))
+
 ;; sysu cat doom
 ;; sysu show -p Type $doom
 ;; sysu show -vp Type $doom # only values
 ;; alias sysed='systemctl --user edit --drop-in=$overridename $svc'
-;;
+
 (define add-systemd-aliases
   '(("jctlu" . "journalctl --user -u")
     ("jctlb" . "journalctl -p 3 -xb")
@@ -127,7 +135,7 @@
 
 (define dc-bashrc-noninteractive-return
   ;; should be first
-  (plain-file "bashrc-noninteractive-return"
+  (plain-file "bashrc_noninteractive_return"
               "[[ $- != *i* ]] && return"))
 
 ;; Generic bash configuration
@@ -143,12 +151,10 @@
     (list
      (plain-file "bash_profile" "\
 if [ -f ~/.profile ] ; then source ~/.profile; fi
-if [ -f ~/.bashrc ]    ; then source ~/.bashrc; fi")
-     (local-file (string-append %files-directory "/.bash_profile")
-                 "bash_profile")))
+if [ -f ~/.bashrc ]    ; then source ~/.bashrc; fi")))
    (bash-logout
     (list
-     (local-file (string-append %files-directory "/.bash_logout")
+     (local-file (string-append %files-directory "/bash/bash_logout")
                  "bash_logout")))))
 
 ;; ---------------------------------------------
@@ -157,6 +163,10 @@ if [ -f ~/.bashrc ]    ; then source ~/.bashrc; fi")
 ;; (define %dc-base-shell-services
 ;;   (list (service home-bash-service-type dc-bash-configuration)
 ;;         (service home-inputrc-service-type dc-inputrc-configuration)))
+
+(define dc-shell-profile-configuration
+  (list (local-file (string-append %files-directory "/profile")
+                    "profile")))
 
 ;; =============================================
 ;;; Applications

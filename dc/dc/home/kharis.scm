@@ -27,6 +27,7 @@
 
   #:use-module (dc home config)
   #:use-module (dc home common)
+  #:use-module (dc home services)
   #:use-module (dc home services alacritty)
 
   #:use-module (srfi srfi-1))
@@ -34,8 +35,7 @@
 (define %host-name "kharis")
 
 (define %kharis-environment
-  `(("SHELL" . ,(file-append bash "/bin/bash"))
-    ("MAIL" . "geary")
+  `(("MAIL" . "geary")
     ("LESSHISTFILE" . "$XDG_CACHE_HOME/.lesshst")
     ("_JAVA_AWT_WM_NONREPARENTING" . #t)
 
@@ -69,25 +69,26 @@
     ("NO_AT_BRIDGE" . #t)))
 
 (define home-manifest
-  (specifications->packages
-   (append
-    x11-packages
-    gpg-packages
-    desktop-packages
-    gtk-packages
-    gtk-theme-packages
-    fontconfig-packages
-    dmenu-packages
-    fcitx5-packages
-    printer-packages
-    terminator-packages
-    udiskie-packages
+  (append
+   x11-packages
+   gpg-packages
+   desktop-packages
+   gtk-packages
+   gtk-theme-packages
+   fontconfig-packages
+   dmenu-packages
+   fcitx5-packages
+   printer-packages
+   terminator-packages
+   udiskie-packages
+   (specifications->packages
     (list "guile-next"
           "guile-ares-rs"
           "glibc-locales"
           "guile-colorized"
 
           "xsettingsd"
+
           "dconf"
 
           "keepassxc"))))
@@ -98,31 +99,38 @@
             ;; TODO: HOME: KHARIS: batsignal notifications icon (requires gexp?)
             (full-level 98))))
 
-(define (kharis-home-environment)
+(define kharis-alacritty-service-type
+  (alacritty-service-type dc-alacritty-xdg-files))
+
+;;(define (kharis-home-environment) ...?)
+(define-public kharis-home-environment
   (home-environment
+    (packages home-manifest)
     (services
      (append
       (list
        ;; (simple-service 'wayland-environment-variables
        ;;                 home-environment-variables-service-type
        ;;                 wayland-environment)
+       ;; (simple-service 'gtk-environment-variables
+       ;;                 home-environment-variables-service-type
+       ;;                 gtk-environment)
+
        (simple-service 'kharis-environment-variables
                        home-environment-variables-service-type
                        %kharis-environment)
        (simple-service 'dc-shell-profile
                        home-shell-profile-service-type
-                       (list ""))
-       (simple-service 'gtk-environment-variables
-                       home-environment-variables-service-type
-                       gtk-environment)
+                       dc-shell-profile-configuration)
+       (service home-bash-service-type
+                dc-bash-configuration)
        (service home-gpg-agent-service-type dc-gpg-agent-configuration)
-       dc-bash-configuration
-       dc-home-shell-aliases-service
        ;; dc-home-systemd-aliases-service
 
        kharis-batsignal-service
        ;; NOTE: not really sure this a great pattern
-       (service (alacritty-service-type dc-alacritty-xdg-files))
+       ;; (service alacritty-service-type dc-alacritty-xdg-files)
+       (service kharis-alacritty-service-type)
 
        (service home-dotfiles-service-type
                 (home-dotfiles-configuration

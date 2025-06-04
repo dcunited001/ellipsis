@@ -280,6 +280,12 @@
 
 ;; =============================================
 ;;; Mcron
+(define dc-mcron-job-bgcycle
+  '(job
+    '(next-minute-from
+      (next-minute (range 0 1440 5)))
+    "setbg $_WALLPAPERS"))
+
 (define dc-mcron-service
   (simple-service
    'dc-mcron-service
@@ -287,13 +293,8 @@
    (home-mcron-configuration
     (jobs
      ;; updates guix
-     '((job "24 5,16 */5 * *" "$HOME/.config/guix/current/bin/guix pull"))))))
-
-(define dc-mcron-job-bgcycle
-  (job
-   '(next-minute-from
-     (next-minute (range 0 1440 5)))
-   "setbg $_WALLPAPERS"))
+     `(,dc-mcron-job-bgcycle
+       (job "24 5,16 */5 * *" "$HOME/.config/guix/current/bin/guix pull"))))))
 
 ;; =============================================
 ;;; GPG
@@ -328,14 +329,6 @@ no-allow-loopback-pinentry")))
        "257cebd587b66e4d865b3537a9a88cccd7107c95"
        (openpgp-fingerprint
         "2841 9AC6 5038 7440 C7E9  2FFA 2208 D209 58C1 DEB0"))))
-    (channel
-     (name 'guixrus)
-     (url "https://git.sr.ht/~whereiseveryone/guixrus")
-     (introduction
-      (make-channel-introduction
-       "7c67c3a9f299517bfc4ce8235628657898dd26b2"
-       (openpgp-fingerprint
-        "CD2D 5EAA A98C CB37 DA91  D6B0 5F58 1664 7F8B E551"))))
     (channel
      (name 'nonguix)
      (url "https://gitlab.com/nonguix/nonguix")
