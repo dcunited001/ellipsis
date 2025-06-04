@@ -93,12 +93,11 @@
     ("sysdpath" . "systemd-path system-shared")
     ("sysupath" . "systemd-path user-shared")))
 
-;; ---------------------------------------------
-;;; .profile
-(define dc-shell-profile-service
-  (simple-service 'dc-shell-profile
-                  home-shell-profile-service-type
-                  (list )))
+(define dc-home-systemd-aliases-service
+  (simple-service 'dc-home-bash-aliases
+                  home-bash-service-type
+                  (home-bash-extension
+                   (aliases add-systemd-aliases))))
 
 ;; ---------------------------------------------
 ;;; Readline
@@ -131,25 +130,20 @@
   (plain-file "bashrc-noninteractive-return"
               "[[ $- != *i* ]] && return"))
 
+;; Generic bash configuration
+
 (define dc-bash-configuration
   (home-bash-configuration
-   ;; (aliases '())
-   ;; TODO: colors.sh and prompt.sh (probably throw the prompt away)
+   (aliases add-shell-aliases)
    (bashrc
     (list
-     dc-bashrc-noninteractive-return
-     (local-file (string-append %files-directory "/.bashrc") "bashrc")
-     (local-file (string-append %files-directory "/bash/rc/colors.sh"))
-     (local-file (string-append %files-directory "/bash/rc/aliases.sh"))
-     (local-file (string-append %files-directory "/bash/rc/functions.sh"))
-     ;; (local-file (string-append %files-directory "/bash/rc/completions.sh"))
-     (local-file (string-append %files-directory "/bash/rc/git-prompt.sh"))
-     (local-file (string-append %files-directory "/bash/rc/prompt.sh"))))
-   (aliases
-    (append add-shell-aliases
-            add-systemd-aliases))
+     ;; needs to be sourced first
+     dc-bashrc-noninteractive-return))
    (bash-profile
     (list
+     (plain-file "bash_profile" "\
+if [ -f ~/.profile ] ; then source ~/.profile; fi
+if [ -f ~/.bashrc ]    ; then source ~/.bashrc; fi")
      (local-file (string-append %files-directory "/.bash_profile")
                  "bash_profile")))
    (bash-logout

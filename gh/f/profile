@@ -1,0 +1,15 @@
+#!/bin/sh
+export XDG_CONFIG_HOME=$HOME/.config
+export _WALLPAPERS=/data/xdg/Wallpapers/anime
+export PATH=$HOME/.local/bin:$HOME/bin:$PATH
+export DISTRO="$(grep -e '^ID=' /etc/os-release | sed -e 's/^ID=//g')"
+
+# can't add functions to .bash_profile: only .bashrc
+export NTHREADS="$(ncpu-threads)"
+if [[ -n "$NTHREADS" ]]; then
+    NCPU="$((NTHREADS / 2))"
+else
+    NCPU="4"
+fi
+export NCPU
+

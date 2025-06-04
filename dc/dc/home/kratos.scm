@@ -107,12 +107,6 @@
       ("_WALLPAPERS" . "/data/xdg/Wallpapers/anime")
       ("DOOMDIR" . "$HOME/.doom.d")))
 
-  ;; TODO remove most of these _DF vars
-
-  ;; ("_DATA" . "/data")
-  ;; ("_GUIX" . "/gnu")
-  ;; ("_FLATPAK" . "/flatpak")
-
   (define julia-env
     '(("JULIA_SHELL" . "/bin/sh")
       ("JULIA_EDITOR" . "$EDITOR")))
