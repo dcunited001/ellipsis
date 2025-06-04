@@ -9,6 +9,8 @@
   #:use-module (gnu system setuid)
   #:use-module (gnu system privilege)
 
+  #:use-module (guix describe)
+
   #:use-module (nongnu packages linux)
   #:use-module (nongnu system linux-initrd)
 
@@ -80,6 +82,8 @@ EndSection
    (modules (append (list xf86-input-wacom)
                     %default-xorg-modules))
    (extra-config (list %kharis-libinput-config))))
+
+(define kharis-channels (current-channels))
 
 (define system
   (operating-system
@@ -219,7 +223,11 @@ EndSection
       %el-extra-files-svc
 
       (list
-       %dc-nonguix-substitutes-service
+       (service guix-service-type
+                (el-guix-configuration %kharis-channels))
+
+       (simple-service 'add-nonguix-substitutes
+                       guix-service-type el-nonguix-chan-subs)
 
        polkit-wheel-service
 

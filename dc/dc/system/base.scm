@@ -198,11 +198,6 @@
     ;;    "/root/.config/guix/systems/" %host-name ".scm")))
     (system-expiration (* 6 7 24 3600)))))
 
-(define-public %dc-nonguix-substitutes-service
-  (simple-service
-   'add-nonguix-substitutes
-   guix-service-type el-nonguix-chan-subs))
-
 ;; TODO: remove dc-extra-file-flatpak from systems
 (define-public (dc-extra-file-flatpak)
   (extra-special-file

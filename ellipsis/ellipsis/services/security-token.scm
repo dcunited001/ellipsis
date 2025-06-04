@@ -29,7 +29,7 @@
 ;;; yubikey-udev-rules
 ;;;
 
-(define-public (yubikey-udev-rules)
+(define-public yubikey-udev-rules
   ;; needs plugdev, but warns if multiple instantiations create using #:groups
   (list
    (udev-rules-service 'fido2 libfido2)

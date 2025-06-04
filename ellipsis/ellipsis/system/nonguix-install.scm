@@ -63,6 +63,7 @@
     "docker" "cgroup"))
 
 (define %my-user-name "dc")
+(define %my-user-pass "dc1234321")
 (define %my-user-groups
   (list
    (user-group (name %my-user-name) (id 1000))
@@ -71,9 +72,9 @@
 (define %my-user (user-account
                   (uid 1000)
                   (name %my-user-name)
-                  (password (crypt "dc1234321" "$6$abc"))
+                  (password (crypt %my-user-pass "$6$abc"))
                   (comment "Default User")
-                  (group "dc")
+                  (group %my-user-name)
                   (supplementary-groups (cons* "users" %my-groups))))
 
 (define wayland-packages
@@ -93,52 +94,6 @@
         hypridle
         hyprcursor
         xdg-desktop-portal-hyprland))
-
-(define font-packages
-  (list fontconfig
-        font-google-roboto
-        font-google-noto-emoji
-        font-recursive
-        font-microsoft-cascadia
-        font-victor-mono
-        font-jetbrains-mono
-        font-intel-one-mono
-        font-adwaita
-        font-liberation
-        font-dejavu
-        font-awesome
-        font-fira-code
-        font-google-noto))
-
-(define emacs-packages
-  (list emacs-x509-mode
-        emacs-better-defaults
-        ;; emacs-with-profile
-        emacs-auto-complete
-        emacs-a
-        emacs-hydra
-        emacs-modus-themes
-        emacs-dash
-        emacs-lispy
-        emacs-geiser
-        emacs-geiser-guile
-        emacs-ac-geiser
-        emacs-guix
-        emacs-yasnippet
-        emacs-yasnippet-snippets
-
-        ;; added "nice to have" packages, which should not normally be
-        ;; installed for root
-        emacs-cape
-        emacs-consult
-        emacs-consult-dir
-        ;; emacs-consult-flycheck
-        emacs-corfu
-        emacs-corfu-terminal
-        emacs-embark
-        emacs-marginalia
-        emacs-orderless
-        emacs-vertico))
 
 (define %base-desktop-services
   (remove (lambda (service)
@@ -162,6 +117,7 @@
          (string-append (getenv "HOME")
                         "/.ssh/authorized_keys")))))))
 
+;; TODO fix background
 (define %wlgreet-sway-conf
   (plain-file "sway-greet.conf"
               (string-append
@@ -239,29 +195,33 @@
     (packages
      (append
 
-      %ugt-packages-cli
-      %ugt-packages-net
-      %ugt-packages-net-plus
-      %ugt-packages-hardware
-      %ugt-packages-age
-      %ugt-packages-tls
-      %ugt-packages-smartcard
-      %ugt-packages-yubikey
-      %ugt-packages-step
-      %ugt-packages-gnupg
-      %ugt-packages-secrets
-      %ugt-packages-tpm
+      %el-profile-pkgs-cli
+      %el-profile-pkgs-net
+      %el-profile-pkgs-net-plus
+      %el-profile-pkgs-data
+      %el-profile-pkgs-fs
+      %el-profile-pkgs-hardware
+      %el-profile-pkgs-age
+      %el-profile-pkgs-tls
+      %el-profile-pkgs-smartcard
+      %el-profile-pkgs-yubikey
+      %el-profile-pkgs-step
+      %el-profile-pkgs-gnupg
+      %el-profile-pkgs-secrets
+      %el-profile-pkgs-tpm
 
       (list emacs
             ;; req. for (ice-9 colorized)
             guile-colorized)
 
-      emacs-packages
+      %el-profile-pkgs-terminal-emacs
+      %el-profile-pkgs-consult-emacs
 
       wayland-packages
       sway-packages
       hyprland-packages
-      font-packages
+      (list fontconfig)
+      %el-profile-pkgs-font
 
       (list
        zerotier)
@@ -270,12 +230,11 @@
 
     (services
      (append %el-extra-files-svc
+             ;; gnome req. font-abattis-cantarell, which req. python-ufo2ft
+             ;; ... which requires jupyter which requires python-pyzmq ...
              (list (service gnome-desktop-service-type)
                    (service greetd-service-type %greetd-conf)
-                   (service seatd-service-type)
-                   (simple-service 'add-nonguix-substitutes
-                                   guix-service-type
-                                   el-nonguix-chan-subs))
+                   (service seatd-service-type))
 
              (list
               (service pcscd-service-type)
@@ -304,7 +263,21 @@
                ;;             (inherit config)
                ;;             (wayland? #t)))
 
-               )))))
+               (guix-service-type
+                config => (guix-configuration
+                           (inherit config)
+                           (guix (guix-for-channels %my-channels))
+                           (authorize-key? #t)
+                           (authorized-keys
+                            (cons* %nonguix-chan-key
+                                   %default-authorized-guix-keys))
+                           (substitute-urls
+                            '("https://ci.guix.gnu.org"
+                              "https://substitutes.nonguix.org"
+                              "https://bordeaux.guix.gnu.org"))
+                           (channels %my-channels)
+                           (extra-options '("--max-jobs=6"
+                                            "--cores=0")))))))))
 
 ;; guix system -L ./ellipsis -L ./dc image --image-type=iso9660 \
 ;; -e '(@@ (ellipsis systems nonguix-install) nonguix-install-amd)'

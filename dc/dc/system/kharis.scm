@@ -9,6 +9,8 @@
   #:use-module (gnu system setuid)
   #:use-module (gnu system privilege)
 
+  #:use-module (guix describe)
+
   #:use-module (nongnu packages linux)
   #:use-module (nongnu system linux-initrd)
 
@@ -147,6 +149,8 @@
                        %host-name "-greetd.jpg fill\n"))))))
      (greetd-terminal-configuration (terminal-vt "8"))))))
 
+(define kharis-channels (current-channels))
+
 (define system
   (operating-system
     (host-name %host-name)
@@ -217,7 +221,12 @@
       (list
        (service greetd-service-type %kharis-greetd-conf)
        (service seatd-service-type)
-       %dc-nonguix-substitutes-service
+
+       (service guix-service-type
+                (el-guix-configuration %kharis-channels))
+
+       (simple-service 'add-nonguix-substitutes
+                       guix-service-type el-nonguix-chan-subs)
 
        polkit-wheel-service
 
@@ -352,7 +361,7 @@
                    %base-file-systems))
 
     (swap-devices (list (swap-space
-                          (target (file-system-label "kharisSwap"))
-                          (dependencies mapped-devices))))))
+                         (target (file-system-label "kharisSwap"))
+                         (dependencies mapped-devices))))))
 
 system
