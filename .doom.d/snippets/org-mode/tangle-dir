@@ -1,0 +1,27 @@
+# -*- mode: snippet -*-
+# name: tangle-dir
+# uuid: tangle-dir
+# key: <td
+# condition: t
+# --
+
+# doesn't work (could also just use library-of-babel)
+# :PROPERTIES:
+# :header-args:grep+: :tangle-dir (or (bound-and-true-p -tangle-dir-) (setq-local -tangle-dir- (make-temp-dir "grep" t)))
+# :END:
+
+#+begin_src emacs-lisp
+(setq-local -tangle-dir-
+            (or (bound-and-true-p -tangle-dir-)
+                (setq-local -tangle-dir-
+                            ;; (expand-file-name "path" (getenv "_ECTO"))
+                            (make-temp-file "${1:prefix}" t))))
+
+(defun -out- (f)
+  "Expand :tangle path with a default `-tangle-dir-'."
+  (expand-file-name f (or (bound-and-true-p -tangle-dir-) ".")))
+#+end_src
+
+#+begin_src ${2:mode} :tangle (-out- "${3:file}")
+$0
+#+end_src

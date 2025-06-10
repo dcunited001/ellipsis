@@ -1,0 +1,28 @@
+# -*- mode: snippet -*-
+# name: src-shell-guix-session
+# uuid: src-shell-guix-session
+# key: <sgsh
+# condition: t
+# --
+
+* Babel :noexport:
+
+#+name: $1Path
+#+begin_src emacs-lisp :eval query
+(setq-local $1-path (or (bound-and-true-p $1-path)
+                          (read-string "`(capitalize-word $1)` path: " (make-temp-file "$1-" t))))
+#+end_src
+
+start a session
+
+#+header: :dir $1Path
+#+begin_src sh :session *guix-$1* :results silent :eval query :async yes
+pkgs=($2)
+guix shell -L \$HOME/.dotfiles/ellipsis -L \$HOME/.dotfiles/dc \${pkgs[@]}
+#+end_src
+
+test session
+
+#+begin_src sh :session *guix-$1* :results silent :eval query
+$0
+#+end_src

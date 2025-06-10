@@ -1,0 +1,9 @@
+# -*- mode: snippet -*-
+# name: read-array
+# uuid: read-array
+# key: ®a
+# condition: t
+# --
+# DAMIT
+read a b c d < <(echo -e "1 2 3 4") \
+  && echo $a $b $c $d

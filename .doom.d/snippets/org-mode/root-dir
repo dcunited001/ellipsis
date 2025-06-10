@@ -1,0 +1,24 @@
+# -*- mode: snippet -*-
+# name: root-dir
+# uuid: root-dir
+# key: <rd
+# condition: t
+# --
+
+:PROPERTIES:
+:header-args:$2+: :dir (or (bound-and-true-p -root-dir-) (-root-dir-set-))
+:END:
+
+#+begin_src emacs-lisp
+(defun -root-dir-set- ()
+  (setq-local -root-dir-
+              (read-string "${1:$(capitalize yas-text)} path (default: mktemp): "
+                           (make-temp-file "${1:prefix}-" t))))
+
+(defun -dir- (f)
+  (expand-file-name f (or (bound-and-true-p -root-dir-) ".")))
+#+end_src
+
+#+begin_src ${2:mode}
+$0
+#+end_src

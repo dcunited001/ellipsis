@@ -1,0 +1,11 @@
+# -*- mode: snippet -*-
+# name: xml-repo-project
+# uuid: xml-repo-project
+# key: ®p
+# condition: t
+# --
+<project path="${1:$(car (split-string yas-text "/"))}/${2:dotfiles}"
+         name="$1"
+         groups="$0"
+         revision="refs/heads/${3:master}"
+         ${4:$$(yas-choose-value '("" "remote=\"github\"" "remote=\"gitlab\"" "remote=\"codeberg\"" "remote=\"savannah\""))} />
