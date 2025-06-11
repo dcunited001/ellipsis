@@ -5,7 +5,6 @@
 /.local/lib
 /.local/share
 /.local/state
-.config/polybar
 
 # bash
 /.bashrc
@@ -34,6 +33,7 @@
 
 # i3
 .config/i3
+.config/polybar
 
 # X11
 .xinitrc
@@ -127,10 +127,6 @@ fonts/**
 
 # KDE
 .config/spectaclerc
-
-# python
-.bin/pynv-install-py
-.bin/pynv-install-poetry
 
 ## pyenv
 .python-version

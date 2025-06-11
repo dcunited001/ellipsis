@@ -45,6 +45,8 @@
     - [[#wireplumber][Wireplumber]]
   - [[#syncthing][Syncthing]]
   - [[#flatpak][Flatpak]]
+    - [[#apps][Apps]]
+    - [[#to-build][To Build]]
     - [[#fontconfig-fix][Fontconfig fix]]
     - [[#permissions-fix][Permissions fix]]
   - [[#system][System]]
@@ -1487,17 +1489,17 @@ x-scheme-handler/ircs=org.kde.konversation.desktop;
 x-scheme-handler/zoommtg=us.zoom.Zoom.desktop;
 
 # Emacs and text files
-text/english=gmacsclient.desktop;
-text/plain=gmacsclient.desktop;
-text/org=gmacsclient.desktop;
-x-scheme-handler/file=gmacsclient.desktop;
-application/x-shellscript=gmacsclient.desktop;
-application/log=gmacsclient.desktop;
-text/x-makefile=gmacsclient.desktop;
-text/x-c++hdr=gmacsclient.desktop;
-text/x-c++src=gmacsclient.desktop;
-text/x-chdr=gmacsclient.desktop;
-text/x-csrc=gmacsclient.desktop;
+text/english=doomclient.desktop;
+text/plain=doomclient.desktop;
+text/org=doomclient.desktop;
+x-scheme-handler/file=doomclient.desktop;
+application/x-shellscript=doomclient.desktop;
+application/log=doomclient.desktop;
+text/x-makefile=doomclient.desktop;
+text/x-c++hdr=doomclient.desktop;
+text/x-c++src=doomclient.desktop;
+text/x-chdr=doomclient.desktop;
+text/x-csrc=doomclient.desktop;
 
 # Email & Calendar
 application/rss+xml=org.mozilla.Thunderbird.desktop;
@@ -1529,7 +1531,7 @@ x-scheme-handler/unknown=nyxt.desktop;
 
 *** Emacs MIME Types
 
-MIME types declared in the =gmacsclient.desktop= file:
+MIME types declared in the =doomclient.desktop= file:
 
 #+begin_example
 text/org;
@@ -1622,42 +1624,80 @@ The =.stglobalignore= patterns are from [[https://codeberg.org/iNeedADoctor/Sync
 
 ** Flatpak
 
-#+begin_example sh
+Setup remotes:
 
+#+begin_example sh
 flatpak remote-add --user --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
 flatpak remote-add --user --if-not-exists flathub-beta https://flathub.org/beta-repo/flathub-beta.flatpakrepo
-
-# chat
-flatpak install --user flathub com.discordapp.Discord
-flatpak install --user flathub com.zulip.Zulip
-flatpak install --user flathub org.kde.konversation
-flatpak install --user flathub org.quassel_irc.QuasselClient
-flatpak install --user flathub us.zoom.Zoom
-flatpak install --user flathub org.gnome.design.IconLibrary
-# flatpak install --user flathub org.gnome.design.AppIconPreview
-
-# media
-flatpak install --user flathub com.obsproject.Studio
-flatpak install --user flathub org.videolan.VLC
-
-# creative
-flatpak install --user flathub org.blender.Blender
-flatpak install --user flathub org.kde.Krita
-flatpak install --user flathub org.freecadweb.FreeCAD
-flatpak install --user flathub com.ultimaker.cura
-
-# misc
-# texlive needs to be installed before anki for latex
-flatpak --user install flathub org.freedesktop.Sdk.Extension.texlive
-flatpak --user install flathub net.ankiweb.Anki
-
-# needed for fonts
-flatpak install --user flathub org.gustavoperedo.FontDownloader
-
-# editors
-flatpak install --user com.vscodium.codium
-
 #+end_example
+
+Once apps are installed, [[https://docs.flatpak.org/en/latest/sandbox-permissions.html][review permissions]] using the =flatseal= GUI. Many are
+too open.
+
+*** Apps
+
+The installed application images require:
+
+| 15G  | du -s $FLATPAK_USER_DIR/app/*     |
+| 4.7G | du -s $FLATPAK_USER_DIR           |
+| 26G  | du -s $FLATPAK_USER_VAR/../.local |
+
+huh? idk
+
+| category | flatpakId                          | comment                       |
+|----------+------------------------------------+-------------------------------|
+| chat     | com.discordapp.Discord             |                               |
+|          | org.zulip.Zulip                    |                               |
+|          | org.kde.konversation               |                               |
+|          | org.quassel_irc.QuasselClient      |                               |
+|          | com.slack.Slack                    |                               |
+|          | im.riot.Riot                       | Element chat (via element.io) |
+|          | org.telegram.desktop               |                               |
+| comm     | org.mozilla.Thunderbird            |                               |
+|          | us.zoom.Zoom                       |                               |
+|          | org.jitsi.jitsi-meet               |                               |
+| web      | org.torproject.torbrowser-launcher |                               |
+|          | org.mozilla.firefox                |                               |
+|          | com.vivaldi.Vivaldi                |                               |
+|          | com.opera.Opera                    |                               |
+|          | com.brave.Browser                  |                               |
+| office   | org.libreoffice.LibreOffice        |                               |
+| video    | com.obsproject.Studio              |                               |
+| media    | org.videolan.VLC                   |                               |
+| audio    | org.rncbc.qpwgraph                 |                               |
+| 2d       | org.kde.krita                      |                               |
+|          | org.inkscape.Inkscape              |                               |
+| 3d       | com.ultimaker.cura                 |                               |
+|          | org.freecad.FreeCAD                |                               |
+|          | org.blender.Blender                |                               |
+|          | net.meshlab.MeshLab                |                               |
+| xdg      | org.gnome.design.IconLibrary       | browse icons by id            |
+|          | org.gustavoperedo.FontDownloader   | needed for fonts              |
+|          | org.kde.KStyle.Adwaita             | theme                         |
+| editor   | com.visualstudio.code              |                               |
+|          | com.vscodium.codium                |                               |
+| ops      | io.podman_desktop.PodmanDesktop    |                               |
+| dev      | com.getpostman.Postman             |                               |
+| util     | com.github.tchx84.Flatseal         |                               |
+|          | org.raspberrypi.rpi-imager         |                               |
+|          | org.kde.filelight                  | visualize disk usage          |
+|          | io.missioncenter.MissionCenter     | show perf (cpu, etc)          |
+| sec      | com.bitwarden.desktop              |                               |
+|          | org.keepassxc.KeePassXC            |                               |
+| doc      | org.zealdocs.Zeal                  |                               |
+|          | com.github.mdh34.quickdocs         |                               |
+
+Other
+
+| category | flatpak id                            | comment         |
+|----------+---------------------------------------+-----------------|
+| study    | net.ankiweb.Anki                      |                 |
+|          | org.freedesktop.Sdk.Extension.texlive | needed for anki |
+
+*** To Build
+
++ PathPlanner
++ Orca Slicer
 
 *** Fontconfig fix
 
