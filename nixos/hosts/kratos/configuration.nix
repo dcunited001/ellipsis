@@ -11,6 +11,7 @@
       ../../modules/users/dc.nix
       ../../modules/services/bluetooth.nix
       ../../modules/services/fonts.nix
+      ../../modules/services/guix.nix
       ../../modules/services/nix.nix
       ../../modules/services/openssh.nix
       ../../modules/services/pipewire.nix
