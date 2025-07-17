@@ -1,0 +1,44 @@
+
+
+
+* Misc
+
+** Flake
+
+not using flakes for systems right now. doing so basically requires updating
+system configurations at the same time as =home-manager= rebuilds
+
+#+begin_src nix
+{
+  description = "Ellipsis NixOS Systems";
+  inputs = {
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-25.05";
+    nix-flatpak = {
+      url = "github:gmodena/nix-flatpak?ref=latest";
+      inputs.nixpkgs.follow = "nixpkgs";
+    };
+  };
+
+  # nixosConfigurations.<hostname>.config.system.build.toplevel
+  # must be a derivation. can output:
+  #
+  # - modules: modules to build for output
+  # - system: build for arch
+  # - specialArgs: pass to system input
+  #
+  # nixosConfigurations.<hostname> is a fixed interface (config needs to go
+  # into the modules listed
+
+  # https://nixos.wiki/wiki/Flakes#Output_schema
+  # <system> = [ "$arch" ]
+  
+  outputs = {
+    nixpkgs,
+      nix-flatpak,
+      ...
+  }@inputs {
+    # system = [ "x86_64-linux" ];
+    # 
+  };
+}
+#+end_src
