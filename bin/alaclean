@@ -1,6 +1,0 @@
-#!/bin/sh
-GUIX_AUTOLOAD_PROFILES=()
-
-exec env GUIX_AUTOLOAD_PROFILES=$GUIX_AUTOLOAD_PROFILES \
-     $GUIX_EXTRA/desktop/desktop/bin/alacritty \
-     --config-file $XDG_CONFIG_HOME/alacritty/alacritty.clean.yml

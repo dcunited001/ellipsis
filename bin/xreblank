@@ -1,3 +1,0 @@
-#!/bin/sh
-# xset dpms 0 0 0 && xset -dpms && xset s off && xset s noblank
-xset dpms 600 600 600 && xset s blank

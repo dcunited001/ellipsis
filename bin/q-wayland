@@ -1,2 +1,0 @@
-#!/bin/sh
-qdbus org.kde.KWin /KWin org.kde.KWin.showDebugConsole

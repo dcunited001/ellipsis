@@ -1,9 +1,0 @@
-#!/bin/sh
-export GUIX_SOURCE="$_ECTO/guix/guix"
-export EMACS_SOURCE="$_ECTO/emacs/emacs/src"
-export EMACS_SCIMAX="$HOME/.emacs.scimax"
-export SCIMAX_PROFILE="$GUIX_EXTRA/scimax/scimax"
-
-guix shell -E "^EMAIL$" \
-     -p "$SCIMAX_PROFILE" -- \
-     emacsclient -c "$@"
