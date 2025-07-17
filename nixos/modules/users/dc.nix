@@ -78,7 +78,10 @@
       # HYPR
       waybar
       hypridle
-      gnumake
+      eww
+
+      nwg-bar
+      nwg-drawer
     ];
   };
 }
