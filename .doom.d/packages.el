@@ -14,7 +14,7 @@
 
 ;; casual-suite will install casual-{avy,symbol-overlay}, in addition to
 ;; casual-{agenda,bookmarks,calc,calendar,dired,editkit,ibuffer,info,isearch,re-builder}
-(package! casual :pin "f478f82a9cf11402688186181ca8e96a60476261")
+(package! casual)
 (package! casual-suite)
 (package! ef-themes)
 ;; pomm
@@ -108,6 +108,13 @@
 ;;** Magit
 (package! magit-todos)
 (package! magit-tbdiff)
+
+;; TODO: remove once doom re-pins forge or specifies ghub
+(package! ghub)
+(package! gogs)
+(package! glab)
+(package! buck)
+(package! gtea)
 
 ;;* Programming
 
@@ -223,6 +230,7 @@
 (package! ssh-config-mode)
 
 ;;** Data
+(package! jinja2-mode)
 
 ;;*** Structure
 

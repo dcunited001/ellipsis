@@ -342,7 +342,11 @@ Guix channel.")
   (call-interactively #'quit-window (not dont-kill) window))
 (use-package! dired
   :defer t
-  :config (map! :map dired-mode-map [remap quit-window] #'dc/dired-quit-window))
+  :config
+  (map! :map dired-mode-map [remap quit-window] #'dc/dired-quit-window)
+  ;; ... dired is built to omit .go files
+  ;;(setq dired-omit-extensions (delete ".go" dired-omit-extensions))
+  )
 
 (setq dired-omit-files "^.DS_Store\\'\\|^.project\\(?:ile\\)?\\'\\|^.\\(svn\\)\\'\\|^.ccls-cache\\'\\|\\(?:\\.js\\)?\\.meta\\'\\|\\.\\(?:elc\\|o\\|pyo\\|swp\\|class\\)\\'")
 
@@ -956,7 +960,7 @@ Guix channel.")
       org-roam-db-gc-threshold most-positive-fixnum
       org-roam-mode-section-functions #'(org-roam-backlinks-section
                                          org-roam-reflinks-section)
-      org-roam-completion-everywhere nil
+      org-roam-completion-everywhere nil ;; this is getting turned on anyways
       org-roam-capture-templates
       (append
        '(("n" "Note")
@@ -1353,6 +1357,11 @@ the root")
   ;; :custom (lsp-zig-zls-executable . "~/.fdsa")
   :defer t)
 
+(use-package! java-mode
+  ;; but now my smartparens would be dumb... lispy >> smartparens
+  ;; :config (add-to-list 'sp-ignore-modes-list 'java-mode)
+  :defer t)
+
 ;;;; Functional Langs
 
 ;;;; Other Langs
@@ -1672,6 +1681,7 @@ the root")
 
 (use-package! plantuml-mode
   :defer t
+  :mode "\\.puml\\'"
   :custom (plantuml-indent-level 2))
 
 (use-package! mermaid-mode
