@@ -1684,6 +1684,7 @@ huh? idk
 |          | io.missioncenter.MissionCenter     | show perf (cpu, etc)          |
 | sec      | com.bitwarden.desktop              |                               |
 |          | org.keepassxc.KeePassXC            |                               |
+|          | com.yubico.yubioath                |                               |
 | doc      | org.zealdocs.Zeal                  |                               |
 |          | com.github.mdh34.quickdocs         |                               |
 
