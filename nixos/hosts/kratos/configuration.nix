@@ -74,7 +74,7 @@
     # pruneNames = [ ".bzr" ".cache" ".git" ".hg" ".svn" ];
     # pruneFS = [ "looks good" ];
     # extraFlags = []; # arch doesn't pass anything else
-  }
+  };
 
   networking.hostName = "kratos"; # Define your hostname.
   networking.networkmanager.enable = true;  # Easiest to use and most distros use this by default.
