@@ -54,6 +54,10 @@
       emacs
       neovim
 
+      # DATA
+      jq
+      yq
+
       # DEV
       gnumake
       nil # nix lsp
