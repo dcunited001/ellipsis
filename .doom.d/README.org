@@ -51,9 +51,9 @@ Doom Emacs.
 
 * Setup
 
-The Guix manifest environment at =.config/guix/manifests/doomemacs.scm= mainly
-just specifies =emacs-pgtk=, the basic Doom deps and =openjdk= so it's in the
-path for my Guix System laptop.
+The Guix manifest environment at =./manifest.scm= mainly just specifies
+=emacs-pgtk=, the basic Doom deps and =openjdk= so it's in the path for my
+Guix System laptop.
 
 #+begin_src scheme
 (specifications->manifest

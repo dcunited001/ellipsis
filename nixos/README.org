@@ -44,6 +44,151 @@ system configurations at the same time as =home-manager= rebuilds
 #+end_src
 
 
+* Guix
+
+** System Guix
+
+See ./modules/services/guix.nix
+
+=stateDir= forces compilation of guix when the pin changes... but I really
+need the system entirely on one partition.
+
+** User Guix
+
+#+begin_example nix
+{pkgs,...}:
+{
+user.users.dc.packages = [
+  # ...
+  pkgs.guix
+
+  # overrides are bad (this is wrong) ...
+  #   and idk, but if I superstitiously repeat pkgs.foobar,
+  #   then for now, super douple plus good
+  # pkgs.guix.override { stateDir = "/gnu/var"; }
+}
+#+end_example
+
+*** Fix Activation script
+
+See [[https://discourse.nix.org/t/why-does-nixos-not-set-xdg-config-home-by-default/45296][Why does NixOS not set =$XDG_CONFIG_HOME= by default]]
+
+Maybe this occured because I ported in my home directory. I removed
+=~/.profile= to check the environment.
+
+=/nix/profile/bin=
+
+- should be =$XDG_CONFIG_HOME/nix/profile/bin=
+- the link =$XDG_CONFIG_HOME/nix/profile= doesn't exist.
+- i'm not sure whether it's supposed to link to
+  =/nix/var/nix/profiles/per-user/$USER/channels=
+
+=/guix/current/bin=
+
+- same thing: should link to =$XDG_CONFIG_HOME/guix/current/bin=
+- the link =$XDG_CONFIG_HOME/guix/current= /does/ exist
+- the link gets created by the activation script, which never actually
+  creates the =/gnu/var/guix/profiles/per-user/$USER/current-guix=. i
+  set =services.guix.stateDir = /gnu/var= so it's a bit different. that
+  threw me for a loop when debugging.
+
+so for me, I needed to manually create that by running:
+
+#+begin_src sh
+# in bash, fresh login
+$prof=$XDG_CONFIG_HOME/guix/current
+guix package -p $prof -i guix # install the package
+
+# ensure path is right
+
+GUIX_PROFILE=$prof
+source $prof/etc/profile
+
+# now guix pull works
+guix pull
+
+# logout of vty & window manager, login with fresh env
+echo $PATH | tr ':' '\n'
+
+# the profile is still incorrect in the path (since the activation script was created incorrectly...)
+#+end_src
+
+maybe it was my install, idk. the process for =nix= is likely similar. I
+have a feeling once the correct =$PATH= is exported, then a system
+update will allow the nix builder to build correctly
+
+**** Original =$PATH=
+
+testing file exists using =stat $(echo $PATH | tr ":" " ")=
+
+| y   | link points to file that exists |
+| !!! | invalid link                    |
+
+root $PATH
+
+| y   | /run/wrappers/bin                      |
+| !!! | /guix/current/bin                      |
+|     | /root/.guix-home/profile/bin           |
+|     | /root/.guix-profile/bin                |
+|     | /root/.local/share/flatpak/exports/bin |
+| y   | /var/lib/flatpak/exports/bin           |
+|     | /root/.nix-profile/bin                 |
+| !!! | /nix/profile/bin                       |
+|     | /root/.local/state/nix/profile/bin     |
+|     | /etc/profiles/per-user/root/bin        |
+|     | /nix/var/nix/profiles/default/bin      |
+| y   | /run/current-system/sw/bin             |
+
+user $PATH
+
+| y   | /home/$USER/.local/bin                       |
+| y   | /run/wrappers/bin                            |
+| !!! | /guix/current/bin                            |
+|     | /home/$USER/.guix-home/profile/bin           |
+|     | /home/$USER/.guix-profile/bin                |
+| y   | /home/$USER/.local/share/flatpak/exports/bin |
+| y   | /var/lib/flatpak/exports/bin                 |
+|     | /home/$USER/.nix-profile/bin                 |
+| !!! | /nix/profile/bin                             |
+|     | /home/$USER/.local/state/nix/profile/bin     |
+| y   | /etc/profiles/per-user/$USER/bin             |
+|     | /nix/var/nix/profiles/default/bin            |
+| y   | /run/current-system/sw/bin                   |
+
+
+**** User Guix =stateDir= mismatch
+
+#+begin_quote
+This was what I was speculating...
+
+I actually did end up linking =/var/guix -> /gnu/var/guix= instead of creating
+a new subvolume at =/var/guix=. it seems to work.
+#+end_quote
+
+The system has a single store with various GC roots. Usually have two main
+profiles. I don't think installing Guix with =nix home-manager= is going to
+work.
+
++ A symlink seems to work to fix the =stateDir= mismatch between the system &
+  user guix: =sudo ln -s /gnu/var/guix /var/guix=. It seems to work...
+  avoiding the override.
+  - i'm seeing a build failure when updating user's default profile.
+  - using =guix gc --verify={contents,repair}= somewhat frequently probably
+    couldn't hurt. store corruption is the main worry, esp. if sharing between
+    systems...
+  - it also eliminates the recompile of guix (system+user) for at least user
+    (guix is pinned on nix). 
++ I have confidence that the =/var/guix= path is =12-factor= ...
+  - sharing b/w systems is somewhat out of scope for design.
+  - the host can share a store to a hosted VM. CI requires special GC
+    configuration (& other concerns) for storage replication & distributed
+    substitutes. So there are at least two use cases that require decoupling.
+  - I'm mostly curious.
+
+in theory, I can have btrfs subvolumes for /var on guix system the sqlite db
+cache needs to match for both nix/guix systems... probably not a great idea,
+but as long as sqlite cache is in tact, it should work.
+
 
 ** Eww & Yuck
 

@@ -70,7 +70,7 @@
     # prunePaths = [ "/tmp" "/var/tmp" "/var/cache" "/var/lock" "/var/run" "/var/spool"
     #   "/nix/store" "/nix/var/log/nix" ];
     # others: /sys /run
-    prunePaths = [ "/afs" "/gnu" "/net" "/media" "/mnt" "/sfs" "/tmp" "/udev" "/root" "/proc" ];
+    prunePaths = [ "/afs" "/gnu/store" "/net" "/media" "/mnt" "/sfs" "/tmp" "/udev" "/root" "/proc" ];
     pruneBindMounts = true;
     # pruneNames = [ ".bzr" ".cache" ".git" ".hg" ".svn" ];
     # pruneFS = [ "looks good" ];

@@ -57,6 +57,8 @@
       # DATA
       jq
       yq
+      sqlite
+      sqlitebrowser
 
       # DEV
       gnumake
@@ -78,6 +80,8 @@
       # DESKTOP
       # thunar # programs.thunar...
       wofi
+      dex
+      wl-clipboard-rs
 
       # HYPR
       waybar
