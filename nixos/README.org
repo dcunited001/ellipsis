@@ -46,14 +46,91 @@ system configurations at the same time as =home-manager= rebuilds
 
 * Guix
 
+** TL;DR:
+
+idk much about nix really, so i may have borked the install
+
++ if it's possible only partially use =services.guix= and supply your own
+  guix. the executables are designed to be portable anyways.
++ idk about first-order problems, but constructing systemd units with
+  =/var/guix/profiles/...= links /should/ be possible . . .
+  - (thinks very hard, runs into wall anyways)
+
+**** User environment setup for =guix pull=
+
++ don't add =pkgs.guix= to user =.nix-profile= or =users.users.dc.packages=
+  - also don't install =guix= using =nix-home=
++ mainly, ensure that =environment.sessionVariables= defines =XDG_CONFIG_PATH=
+  and other =XDG= vars
+  - nix =home-manager= may also do it, but this doesn't permit the nix
+    builders to modify it for activation scripts (something about PAM and
+    other processes ... something something)
+  - if this is happening, =$PATH= includes =/guix/profile/bin=
+  - =home-manager= is maybe not the place for XDG & some vars (idk)
++ if you run =guix describe= using =pkgs.guix=, it doesn't have repo history.
+  - once you start adding to the store, it may not create links/etc correctly
+    - you should probably start over. i encountered a few errors where =guix=
+      (not =pkgs.guix=) refused to install links.
+  - doing this in the console is easier because you can't have 50 shells with
+    unique environments (env somewhat inherited from WM)
+
+**** Guile environment setup
+
+Setting up a guix profile with a GC root for a project
+
+#+begin_src shell
+guix package  -L ~/.dotfiles/ellipsis -L ~/.dotfiles/dc \
+	 -p .guix-profile -m manifest.scm
+#+end_src
+
+I assumed more guile setup, since =GUILE_LOAD_PATH= wasn't in my env, but
+that's implicit in the =guix= wrapper ... i didn't think i'd need it, but i
+had specified the load path incorrectly (misread module refs in errors)
+
+**** Doom Emacs setup
+
+| DOOMDIR | $HOME/.doom.d | EMACSDIR | $HOME/.emacs.doom |
+
+clear out old =eln= code and =straight=
+
++ install the =.guix-profile with emacs, etc.=
++ =rm -rf $EMACSDIR/.local/{cache/eln,straight}=
++ run =doomup=. see [[https://github.com/dcunited001/ellipsis][scripts in dcunited001/ellipsis]]
+
+**** Problems with =services.guix=
+
++ maybe possible to unpack guix =.tar.gz= to =/gnu/store=
+  - unless the =/gnu/store= exists (also remove =/var/guix/db=, etc
++ it may be possible to bootstrap guix from source instead
+  - see the "Perfect Setup" instructions. This needs some automation to keep
+    it up to date for =guix pull.
++ to restrict access to guix daemons by group membership, the services/etc
+  need customization.
+
+**** Existential problem
+
++ if =pkgs.guix= used by =services.guix= provide an incompatible =guix= or
+  =guix-daemon= (particularly the latter), this may eventually cause problems
+  - releases from =nixpkgs= should keep it reasonably up-to-date (it's
+    pinned). the wrappers & service units likely hardcode the guix/daemon
+    paths
+  - you can easily bump this forward, but your system upgrades must build
+    guix... which is an example of why you may like your system config
+    decoupled from your =home-manager=, depending on wherein the deptree you
+    build/overlay.
+
+    
+
 ** System Guix
 
 See ./modules/services/guix.nix
 
-=stateDir= forces compilation of guix when the pin changes... but I really
-need the system entirely on one partition.
-
++ =stateDir= forces compilation of =pkgs.guix= when the pin changes...
+  - but I really need the system entirely on one partition
+    
 ** User Guix
+
+JUST DON'T DO THIS.
 
 #+begin_example nix
 {pkgs,...}:
@@ -78,8 +155,8 @@ Maybe this occured because I ported in my home directory. I removed
 
 =/nix/profile/bin=
 
-- should be =$XDG_CONFIG_HOME/nix/profile/bin=
-- the link =$XDG_CONFIG_HOME/nix/profile= doesn't exist.
+- should be =$XDG_STATE_HOME/nix/profile/bin=
+- the link =$XDG_STATE_HOME/nix/profile= doesn't exist.
 - i'm not sure whether it's supposed to link to
   =/nix/var/nix/profiles/per-user/$USER/channels=
 
