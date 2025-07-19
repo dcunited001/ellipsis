@@ -1,8 +1,15 @@
 #!/bin/sh
-export EMACSDIR=$HOME/.emacs.doom
-export DOOMDIR=$HOME/.doom.d
+export EMACSDIR="${EMACSDIR:-$HOME/.emacs.doom}"
+export DOOMDIR="${DOOMDIR:-$HOME/.doom.d}"
+GUIX_PROFILE="${GUIX_PROFILE:-$DOOMDIR/.guix-profile}"
+
 export GUIX_SOURCE=$_ECTO/guix/guix
 export EMACS_SOURCE=$_ECTO/emacs/emacs/src
+
+emacs_socket_name=doom
+# emacs_socket_path=/run/user/1000/emacs # unused
+# emacs_socket=$emacs_socket_path/$emacs_socket_name # unused
+search_paths=0
 
 # =============================================
 # NOTE: to use .emacs.doom/bin/doom, you need to set EMACS but using this
@@ -15,7 +22,7 @@ export EMACS_SOURCE=$_ECTO/emacs/emacs/src
 #
 # To install doom emacs, run:
 
-# guix shell -p $emacs_profile -- bin/doom install
+# guix shell -p $GUIX_PROFILE -- bin/doom install
 # export EMACS=$GUIX_EXTRA/doomemacs/doomemacs/bin/emacs
 # export EMACSDIR=$HOME/.emacs.doom
 # export DOOMDIR=$HOME/.doom.d
@@ -23,13 +30,6 @@ export EMACS_SOURCE=$_ECTO/emacs/emacs/src
 # bin/doom install
 #
 # =============================================
-
-emacs_profile_name="doomemacs"
-emacs_profile=$GUIX_EXTRA/$emacs_profile_name/$emacs_profile_name
-emacs_socket_name=doom
-# emacs_socket_path=/run/user/1000/emacs # unused
-# emacs_socket=$emacs_socket_path/$emacs_socket_name # unused
-search_paths=0
 
 _print_usage() {
     echo "usage: `basename $0` [-Z} [-p ARG} [-s socket} [--] ARGS..."
@@ -39,7 +39,7 @@ _print_usage() {
 while getopts :Zp:s: OPT; do
     case $OPT in
         Z) search_paths=1 ;;
-        p) emacs_profile="$OPTARG" ;;
+        p) GUIX_PROFILE="$OPTARG" ;;
         s) emacs_socket_name="$OPTARG" ;;
         --) break ;;
         *) _print_usage && exit 2
@@ -48,22 +48,25 @@ done
 shift `expr $OPTIND - 1`
 OPTIND=1
 
-# NOTE: for now just set EMACS=$emacs_profile/bin/emacs to the linked path
-# if [[ -z "$emacs_profile_bin" ]]; then
-#     export emacs_profile_bin="$(guix shell -p $emacs_profile --search-paths \
+# NOTE: for now just set EMACS=$GUIX_PROFILE/bin/emacs to the linked path
+#
+#  ... idk why?
+#
+# if [[ -z "$guix_profile_emacs" ]]; then
+#     export guix_profile_emacs="$(guix shell -p $GUIX_PROFILE --search-paths \
 #     | grep -e 'export PATH' \
 #     | sed -e 's/export PATH="\(.*\)\${.*$/\1/g')"
 # fi
 
-export EMACS=$emacs_profile/bin/emacs
+export EMACS=$GUIX_PROFILE/bin/emacs
 
 # TODO: add to guix home environment: EMAIL EMACSDIR DOOMDIR EMACS
 # if these are are unset in the shell, then they need to be specified in guix shell
 # -E "^EMAIL$" -E '^EMACSDIR$' -E '^DOOMDIR$' -E '^EMACS$'
 
 if [ 0 -lt "$search_paths" ]; then
-    guix shell -L $HOME/.dotfiles/ellipsis -p $emacs_profile --search-paths
+    guix shell -p $GUIX_PROFILE --search-paths
 else
-    guix shell -L $HOME/.dotfiles/ellipsis -p $emacs_profile -- \
+    guix shell -p $GUIX_PROFILE -- \
         emacs --init-directory=$EMACSDIR --fg-daemon="$emacs_socket_name" "$@"
 fi

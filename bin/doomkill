@@ -1,7 +1,6 @@
 #!/bin/sh
-emacs_profile_name="doomemacs"
-emacs_profile=$GUIX_EXTRA/$emacs_profile_name/$emacs_profile_name
-
+export DOOMDIR="${DOOMDIR:-$HOME/.doom.d}"
+GUIX_PROFILE="${GUIX_PROFILE:-DOOMDIR/.guix-profile}"
 emacs_socket_path=/run/user/1000/emacs
 emacs_socket_name=doom
 
@@ -12,7 +11,7 @@ _print_usage() {
 
 while getopts :p:s: OPT; do
     case $OPT in
-        p) emacs_profile="$OPTARG" ;;
+        p) GUIX_PROFILE="$OPTARG" ;;
         s) emacs_socket_name="$OPTARG" ;;
         --) break ;;
         *) _print_usage && exit 2
@@ -30,6 +29,6 @@ if [[ ! -S "$emacs_socket" ]]; then
     echo "`basename $0` requires a running server when specifying a socket"
     exit 2
 else
-    guix shell -L $HOME/.dotfiles/ellipsis -p $emacs_profile --\
+    guix shell -p $GUIX_PROFILE -- \
         emacsclient --socket="$emacs_socket_name" -e "(kill-emacs)"
 fi

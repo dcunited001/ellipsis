@@ -1,8 +1,7 @@
 #!/bin/sh
-export EMACSDIR=$HOME/.emacs.doom
-export DOOMDIR=$HOME/.doom.d
-export EMACS=$GUIX_EXTRA/doomemacs/doomemacs/bin/emacs
+export EMACSDIR="${EMACSDIR:-$HOME/.emacs.doom}"
+export DOOMDIR="${DOOMDIR:-$HOME/.doom.d}"
+GUIX_PROFILE="${GUIX_PROFILE:-$DOOMDIR/.guix-profile}"
 
 cd $EMACSDIR
-guix shell -L $HOME/.dotfiles/ellipsis -m $HOME/.config/guix/manifests/doomemacs.scm --\
-    bin/doom sync
+guix shell -p $GUIX_PROFILE -- bin/doom sync
