@@ -8,7 +8,7 @@ switchhost:
 	sudo nixos-rebuild switch -I nixos-config=$(NIXOS_HOST_CONFIG)
 
 liverepl:
-	nix repl --file '<nixpkgs/nixos>' -I nixos-config=/etc/nixos/configuration.nix
+	nix repl --file '<nixpkgs/nixos>' -I nixos-config=${NIXOS_HOST_CONFIG}
 
 # nixos-rebuild build -I \
 #   nixos-config=$HOME/.dotfiles/nixos/hosts/kratos/configuration.nix

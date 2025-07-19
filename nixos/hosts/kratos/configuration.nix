@@ -3,7 +3,6 @@
 # https://search.nixos.org/options and in the NixOS manual (`nixos-help`).
 
 { config, lib, pkgs, ... }:
-
 {
   imports =
     [ # Include the results of the hardware scan.
@@ -17,6 +16,7 @@
       ../../modules/services/pipewire.nix
       ../../modules/services/printing.nix
       ../../modules/services/sddm.nix
+      ../../modules/services/xdg.nix
       ../../modules/services/yubikey.nix
       ../../modules/services/zerotierone.nix
     ];
