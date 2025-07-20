@@ -7,6 +7,7 @@
   imports =
     [ # Include the results of the hardware scan.
       ./hardware.nix
+      ./xdg.nix
       ../../modules/users/dc.nix
       ../../modules/services/bluetooth.nix
       ../../modules/services/fonts.nix
@@ -186,11 +187,6 @@
   security.pam.services.hyprlock = {};
   # programs.swaylock.enable = true;
   security.pam.services.swaylock = {};
-
-  xdg.portal = {
-    enable = true;
-    extraPortals = with pkgs; [ xdg-desktop-portal-hyprland ];
-  };
 
   system.copySystemConfiguration = true;
   system.stateVersion = "25.05";

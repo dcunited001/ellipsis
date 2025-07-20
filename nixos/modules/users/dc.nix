@@ -22,6 +22,10 @@
     allowed-users = [ "dc" ];
     trusted-users = [ "dc" ];
   };
+
+  # TODO: nix: move elsewhere once flatpak is setup in home-manager
+  environment.sessionVariables.XDG_DATA_DIRS = [ "$HOME/.local/share/flatpak/exports/share" ];
+
   users.users.dc = {
     uid = 1000;
     group = "dc";
@@ -63,6 +67,8 @@
       # DEV
       gnumake
       nil # nix lsp
+      tmux
+      screen
 
       # TOOLS
       graphviz
@@ -80,16 +86,22 @@
       # DESKTOP
       # thunar # programs.thunar...
       wofi
-      dex
       wl-clipboard-rs
+      dex
+      nwg-bar
+      nwg-drawer
+      swaynotificationcenter
+
+      # DESKTOP DEBUG
+      wev
+
+      # FONTS
+      font-manager
 
       # HYPR
       waybar
       hypridle
       eww
-
-      nwg-bar
-      nwg-drawer
     ];
   };
 }

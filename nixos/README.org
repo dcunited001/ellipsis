@@ -74,29 +74,6 @@ idk much about nix really, so i may have borked the install
   - doing this in the console is easier because you can't have 50 shells with
     unique environments (env somewhat inherited from WM)
 
-**** Guile environment setup
-
-Setting up a guix profile with a GC root for a project
-
-#+begin_src shell
-guix package  -L ~/.dotfiles/ellipsis -L ~/.dotfiles/dc \
-	 -p .guix-profile -m manifest.scm
-#+end_src
-
-I assumed more guile setup, since =GUILE_LOAD_PATH= wasn't in my env, but
-that's implicit in the =guix= wrapper ... i didn't think i'd need it, but i
-had specified the load path incorrectly (misread module refs in errors)
-
-**** Doom Emacs setup
-
-| DOOMDIR | $HOME/.doom.d | EMACSDIR | $HOME/.emacs.doom |
-
-clear out old =eln= code and =straight=
-
-+ install the =.guix-profile with emacs, etc.=
-+ =rm -rf $EMACSDIR/.local/{cache/eln,straight}=
-+ run =doomup=. see [[https://github.com/dcunited001/ellipsis][scripts in dcunited001/ellipsis]]
-
 **** Problems with =services.guix=
 
 + maybe possible to unpack guix =.tar.gz= to =/gnu/store=
@@ -120,6 +97,87 @@ clear out old =eln= code and =straight=
     build/overlay.
 
     
+
+** Doom Emacs setup
+
+| DOOMDIR | $HOME/.doom.d | EMACSDIR | $HOME/.emacs.doom |
+
+clear out old =eln= code and =straight=
+
++ install the =.guix-profile with emacs, etc.=
++ =rm -rf $EMACSDIR/.local/{cache/eln,straight}=
++ run =doomup=. see [[https://github.com/dcunited001/ellipsis][scripts in dcunited001/ellipsis]]
+
+*** Guile environment setup
+
+Setting up a guix profile with a GC root for a project
+
+#+begin_src shell
+guix package  -L ~/.dotfiles/ellipsis -L ~/.dotfiles/dc \
+	 -p .guix-profile -m manifest.scm
+#+end_src
+
+I assumed more guile setup, since =GUILE_LOAD_PATH= wasn't in my env, but
+that's implicit in the =guix= wrapper ... i didn't think i'd need it, but i
+had specified the load path incorrectly (misread module refs in errors)
+
+*** doom.service
+
+Ran into issues here, somewhat because systemd needed a restart.
+
+Either dump the env with =systemctl --user show-environment= or set
+=ExecStart=/bin/sh -c "guix shell -p $DOOMDIR/$GPROFILE -- env | sort
+&& sleep 3"=
+
+...... dammit, this is starting to look like, um, maybe a bad idea --
+emacs may launch quite a few procs. I mean it's not that bad, but it
+will drift. And I don't want to wonder why my wayland sessions
+suddenly crash in 3 months. it's been so much more stable since Sawy
+in 2021.
+
+
+#+begin_example diff
+diff -u /home/$USER/.dotfiles/nixos/systemd.user.env /home/$USER/.dotfiles/nixos/systemd.guix.env
+--- /home/$USER/.dotfiles/nixos/systemd.user.env	2025-07-19 04:26:35.689472526 -0400
++++ /home/$USER/.dotfiles/nixos/systemd.guix.env	2025-07-19 04:29:35.086260723 -0400
+@@ -8,6 +8,7 @@
+ EDITOR=emacsclient -- -nw
+ EMACSDIR=/home/$USER/.emacs.doom
+ EMACS=/home/$USER/.doom.d/.guix-profile/bin/emacs
++EMACSLOADPATH=/gnu/store/2swxcw7ii7gir1kn6rm0xqrp4lr1j77w-profile/share/emacs/site-lisp
+ GDK_BACKEND=wayland
+@@ -15,13 +16,15 @@
+ GPROFILE=.guix-profile
+ GTK_A11Y=none
+ GTK_PATH=/home/$USER/.config/guix/current/lib/gtk-2.0:/home/$USER/.config/guix/current/lib/gtk-3.0:/home/$USER/.config/guix/current/lib/gtk-4.0:/home/$USER/.guix-home/profile/lib/gtk-2.0:/home/$USER/.guix-home/profile/lib/gtk-3.0:/home/$USER/.guix-home/profile/lib/gtk-4.0:/home/$USER/.guix-profile/lib/gtk-2.0:/home/$USER/.guix-profile/lib/gtk-3.0:/home/$USER/.guix-profile/lib/gtk-4.0:/home/$USER/.local/share/flatpak/exports/lib/gtk-2.0:/home/$USER/.local/share/flatpak/exports/lib/gtk-3.0:/home/$USER/.local/share/flatpak/exports/lib/gtk-4.0:/var/lib/flatpak/exports/lib/gtk-2.0:/var/lib/flatpak/exports/lib/gtk-3.0:/var/lib/flatpak/exports/lib/gtk-4.0:/home/$USER/.nix-profile/lib/gtk-2.0:/home/$USER/.nix-profile/lib/gtk-3.0:/home/$USER/.nix-profile/lib/gtk-4.0:/home/$USER/.local/state/nix/profile/lib/gtk-2.0:/home/$USER/.local/state/nix/profile/lib/gtk-3.0:/home/$USER/.local/state/nix/profile/lib/gtk-4.0:/home/$USER/.local/state/nix/profile/lib/gtk-2.0:/home/$USER/.local/state/nix/profile/lib/gtk-3.0:/home/$USER/.local/state/nix/profile/lib/gtk-4.0:/etc/profiles/per-user/$USER/lib/gtk-2.0:/etc/profiles/per-user/$USER/lib/gtk-3.0:/etc/profiles/per-user/$USER/lib/gtk-4.0:/nix/var/nix/profiles/default/lib/gtk-2.0:/nix/var/nix/profiles/default/lib/gtk-3.0:/nix/var/nix/profiles/default/lib/gtk-4.0:/run/current-system/sw/lib/gtk-2.0:/run/current-system/sw/lib/gtk-3.0:/run/current-system/sw/lib/gtk-4.0
+-GUIX_LOCPATH=/home/$USER/.config/guix/current/lib/locale:/home/$USER/.guix-home/profile/lib/locale:/home/$USER/.guix-profile/lib/locale
++GUIX_ENVIRONMENT=/gnu/store/2swxcw7ii7gir1kn6rm0xqrp4lr1j77w-profile
++GUIX_LOCPATH=/home/$USER/.config/guix/current/lib/locale:/home/$USER/.guix-home/profile/lib/locale:/home/$USER/.guix-profile/lib/locale:/gnu/store/j56gxg83w1a50h2bw6531by30kmc277y-glibc-utf8-locales-2.41/lib/locale
++_=/home/$USER/.config/guix/current/bin/guix
+ HOME=/home/dc
+ HYPRLAND_CONFIG=/home/$USER/.dotfiles/.config/hypr/kratos.hyprland.conf
+ HYPRLAND_INSTANCE_SIGNATURE=9958d297641b5c84dcff93f9039d80a5ad37ab00_1752911948_1640879395
+-INFOPATH=/home/$USER/.config/guix/current/info:/home/$USER/.config/guix/current/share/info:/home/$USER/.guix-home/profile/info:/home/$USER/.guix-home/profile/share/info:/home/$USER/.guix-profile/info:/home/$USER/.guix-profile/share/info:/home/$USER/.local/share/flatpak/exports/info:/home/$USER/.local/share/flatpak/exports/share/info:/var/lib/flatpak/exports/info:/var/lib/flatpak/exports/share/info:/home/$USER/.nix-profile/info:/home/$USER/.nix-profile/share/info:/home/$USER/.local/state/nix/profile/info:/home/$USER/.local/state/nix/profile/share/info:/home/$USER/.local/state/nix/profile/info:/home/$USER/.local/state/nix/profile/share/info:/etc/profiles/per-user/$USER/info:/etc/profiles/per-user/$USER/share/info:/nix/var/nix/profiles/default/info:/nix/var/nix/profiles/default/share/info:/run/current-system/sw/info:/run/current-system/sw/share/info
+-INVOCATION_ID=25541bb5e9094e27b3ec6c05b39802e1
+-JOURNAL_STREAM=9:60961
++INFOPATH=/gnu/store/2swxcw7ii7gir1kn6rm0xqrp4lr1j77w-profile/share/info:/home/$USER/.config/guix/current/info:/home/$USER/.config/guix/current/share/info:/home/$USER/.guix-home/profile/info:/home/$USER/.guix-home/profile/share/info:/home/$USER/.guix-profile/info:/home/$USER/.guix-profile/share/info:/home/$USER/.local/share/flatpak/exports/info:/home/$USER/.local/share/flatpak/exports/share/info:/var/lib/flatpak/exports/info:/var/lib/flatpak/exports/share/info:/home/$USER/.nix-profile/info:/home/$USER/.nix-profile/share/info:/home/$USER/.local/state/nix/profile/info:/home/$USER/.local/state/nix/profile/share/info:/home/$USER/.local/state/nix/profile/info:/home/$USER/.local/state/nix/profile/share/info:/etc/profiles/per-user/$USER/info:/etc/profiles/per-user/$USER/share/info:/nix/var/nix/profiles/default/info:/nix/var/nix/profiles/default/share/info:/run/current-system/sw/info:/run/current-system/sw/share/info
++INVOCATION_ID=0ee71ed9d4374f6594d9b668a48b0938
++JOURNAL_STREAM=9:61433
+ LANG=en_US.UTF-8
+ LD_LIBRARY_PATH=/nix/store/0vsc2vbzkhm5cdyg2c9rywdrbh0hycs2-pipewire-1.4.5-jack/lib
+@@ -40,18 +43,17 @@
+-PATH=/run/wrappers/bin:/home/$USER/.config/guix/current/bin:/home/$USER/.guix-home/profile/bin:/home/$USER/.guix-profile/bin:/home/$USER/.local/share/flatpak/exports/bin:/var/lib/flatpak/exports/bin:/home/$USER/.nix-profile/bin:/home/$USER/.local/state/nix/profile/bin:/home/$USER/.local/state/nix/profile/bin:/etc/profiles/per-user/$USER/bin:/nix/var/nix/profiles/default/bin:/run/current-system/sw/bin:/nix/store/m10ngkbjxbj0lqdq6rsyys9h2gj1f27d-util-linux-2.41-bin/bin:/nix/store/bflsjj2cndl8fz690nx8aigf2x3q16d4-newt-0.52.24/bin:/nix/store/7x3jv5lbhc836hczmx642jg8gwwsyvf6-libnotify-0.8.6/bin:/nix/store/0nxvi9r5ymdlr2p24rjj9qzyms72zld1-bash-interactive-5.2p37/bin:/nix/store/ymmaa926pv3f3wlgpw9y1aygdvqi1m7j-systemd-257.6/bin:/nix/store/avhdfiwxm991wgmcgvmhmvgvwn9gavq6-python3-3.12.11-env/bin:/nix/store/gwk546kxw024v371l34sw11zvzqrxhdv-dmenu-5.3/bin:/nix/store/m10ngkbjxbj0lqdq6rsyys9h2gj1f27d-util-linux-2.41-bin/bin:/nix/store/bflsjj2cndl8fz690nx8aigf2x3q16d4-newt-0.52.24/bin:/nix/store/7x3jv5lbhc836hczmx642jg8gwwsyvf6-libnotify-0.8.6/bin:/nix/store/0nxvi9r5ymdlr2p24rjj9qzyms72zld1-bash-interactive-5.2p37/bin:/nix/store/ymmaa926pv3f3wlgpw9y1aygdvqi1m7j-systemd-257.6/bin:/nix/store/avhdfiwxm991wgmcgvmhmvgvwn9gavq6-python3-3.12.11-env/bin:/nix/store/gwk546kxw024v371l34sw11zvzqrxhdv-dmenu-5.3/bin:/nix/store/2gkh9v7wrzjq6ws312c6z6ajwnjvwcmb-binutils-wrapper-2.44/bin:/nix/store/xizrx0pmgjbsx6miwk352nf77jw2rb60-hyprland-qtutils-0.1.4/bin:/nix/store/7gspl5402q53m36mavbq3rxxlh70kqfv-pciutils-3.13.0/bin:/nix/store/9aanvmg69mvcs192ikk7rvs3gw1rgy37-pkgconf-wrapper-2.4.3/bin
++PATH=/gnu/store/2swxcw7ii7gir1kn6rm0xqrp4lr1j77w-profile/bin:/run/wrappers/bin:/home/$USER/.config/guix/current/bin:/home/$USER/.guix-home/profile/bin:/home/$USER/.guix-profile/bin:/home/$USER/.local/share/flatpak/exports/bin:/var/lib/flatpak/exports/bin:/home/$USER/.nix-profile/bin:/home/$USER/.local/state/nix/profile/bin:/home/$USER/.local/state/nix/profile/bin:/etc/profiles/per-user/$USER/bin:/nix/var/nix/profiles/default/bin:/run/current-system/sw/bin:/nix/store/m10ngkbjxbj0lqdq6rsyys9h2gj1f27d-util-linux-2.41-bin/bin:/nix/store/bflsjj2cndl8fz690nx8aigf2x3q16d4-newt-0.52.24/bin:/nix/store/7x3jv5lbhc836hczmx642jg8gwwsyvf6-libnotify-0.8.6/bin:/nix/store/0nxvi9r5ymdlr2p24rjj9qzyms72zld1-bash-interactive-5.2p37/bin:/nix/store/ymmaa926pv3f3wlgpw9y1aygdvqi1m7j-systemd-257.6/bin:/nix/store/avhdfiwxm991wgmcgvmhmvgvwn9gavq6-python3-3.12.11-env/bin:/nix/store/gwk546kxw024v371l34sw11zvzqrxhdv-dmenu-5.3/bin:/nix/store/m10ngkbjxbj0lqdq6rsyys9h2gj1f27d-util-linux-2.41-bin/bin:/nix/store/bflsjj2cndl8fz690nx8aigf2x3q16d4-newt-0.52.24/bin:/nix/store/7x3jv5lbhc836hczmx642jg8gwwsyvf6-libnotify-0.8.6/bin:/nix/store/0nxvi9r5ymdlr2p24rjj9qzyms72zld1-bash-interactive-5.2p37/bin:/nix/store/ymmaa926pv3f3wlgpw9y1aygdvqi1m7j-systemd-257.6/bin:/nix/store/avhdfiwxm991wgmcgvmhmvgvwn9gavq6-python3-3.12.11-env/bin:/nix/store/gwk546kxw024v371l34sw11zvzqrxhdv-dmenu-5.3/bin:/nix/store/2gkh9v7wrzjq6ws312c6z6ajwnjvwcmb-binutils-wrapper-2.44/bin:/nix/store/xizrx0pmgjbsx6miwk352nf77jw2rb60-hyprland-qtutils-0.1.4/bin:/nix/store/7gspl5402q53m36mavbq3rxxlh70kqfv-pciutils-3.13.0/bin:/nix/store/9aanvmg69mvcs192ikk7rvs3gw1rgy37-pkgconf-wrapper-2.4.3/bin
+ PWD=/home/dc
+ QT_QPA_PLATFORM=wayland
+ QTWEBKIT_PLUGIN_PATH=/home/$USER/.config/guix/current/lib/mozilla/plugins/:/home/$USER/.guix-home/profile/lib/mozilla/plugins/:/home/$USER/.guix-profile/lib/mozilla/plugins/:/home/$USER/.local/share/flatpak/exports/lib/mozilla/plugins/:/var/lib/flatpak/exports/lib/mozilla/plugins/:/home/$USER/.nix-profile/lib/mozilla/plugins/:/home/$USER/.local/state/nix/profile/lib/mozilla/plugins/:/home/$USER/.local/state/nix/profile/lib/mozilla/plugins/:/etc/profiles/per-user/$USER/lib/mozilla/plugins/:/nix/var/nix/profiles/default/lib/mozilla/plugins/:/run/current-system/sw/lib/mozilla/plugins/
+-_=/run/current-system/sw/bin/env
+ SDL_VIDEODRIVER=wayland
+ SHELL=/run/current-system/sw/bin/zsh
+-SYSTEMD_EXEC_PID=12911
++SYSTEMD_EXEC_PID=13165
+ TERMINFO_DIRS=/home/$USER/.config/guix/current/share/terminfo:/home/$USER/.guix-home/profile/share/terminfo:/home/$USER/.guix-profile/share/terminfo:/home/$USER/.local/share/flatpak/exports/share/terminfo:/var/lib/flatpak/exports/share/terminfo:/home/$USER/.nix-profile/share/terminfo:/home/$USER/.local/state/nix/profile/share/terminfo:/home/$USER/.local/state/nix/profile/share/terminfo:/etc/profiles/per-user/$USER/share/terminfo:/nix/var/nix/profiles/default/share/terminfo:/run/current-system/sw/share/terminfo
+#+end_example
 
 ** System Guix
 
@@ -203,34 +261,34 @@ testing file exists using =stat $(echo $PATH | tr ":" " ")=
 
 root $PATH
 
-| y   | /run/wrappers/bin                      |
-| !!! | /guix/current/bin                      |
+| y   | /run/wrappers/bin                    |
+| !!! | /guix/current/bin                    |
 |     | /root/.guix-home/profile/bin           |
 |     | /root/.guix-profile/bin                |
 |     | /root/.local/share/flatpak/exports/bin |
-| y   | /var/lib/flatpak/exports/bin           |
+| y   | /var/lib/flatpak/exports/bin         |
 |     | /root/.nix-profile/bin                 |
-| !!! | /nix/profile/bin                       |
+| !!! | /nix/profile/bin                     |
 |     | /root/.local/state/nix/profile/bin     |
-|     | /etc/profiles/per-user/root/bin        |
-|     | /nix/var/nix/profiles/default/bin      |
-| y   | /run/current-system/sw/bin             |
+|     | /etc/profiles/per-user/root/bin      |
+|     | /nix/var/nix/profiles/default/bin    |
+| y   | /run/current-system/sw/bin           |
 
 user $PATH
 
 | y   | /home/$USER/.local/bin                       |
-| y   | /run/wrappers/bin                            |
-| !!! | /guix/current/bin                            |
+| y   | /run/wrappers/bin                          |
+| !!! | /guix/current/bin                          |
 |     | /home/$USER/.guix-home/profile/bin           |
 |     | /home/$USER/.guix-profile/bin                |
 | y   | /home/$USER/.local/share/flatpak/exports/bin |
-| y   | /var/lib/flatpak/exports/bin                 |
+| y   | /var/lib/flatpak/exports/bin               |
 |     | /home/$USER/.nix-profile/bin                 |
-| !!! | /nix/profile/bin                             |
+| !!! | /nix/profile/bin                           |
 |     | /home/$USER/.local/state/nix/profile/bin     |
-| y   | /etc/profiles/per-user/$USER/bin             |
-|     | /nix/var/nix/profiles/default/bin            |
-| y   | /run/current-system/sw/bin                   |
+| y   | /etc/profiles/per-user/$USER/bin           |
+|     | /nix/var/nix/profiles/default/bin          |
+| y   | /run/current-system/sw/bin                 |
 
 
 **** User Guix =stateDir= mismatch
@@ -309,11 +367,11 @@ Widget control
 State
 
 | active-windows | Show active window IDs; outputs =<window_id: <window_name>= |
-| get            | Get the value of a variable if defined                      |
-| list-windows   | List the names of active windows                            |
-| poll           | Update a polling variable using its script                  |
-| state          | Prints the variables used in all currently open window      |
-| update         | Update the value of a variable, in a running eww instance   |
+| get            | Get the value of a variable if defined                    |
+| list-windows   | List the names of active windows                          |
+| poll           | Update a polling variable using its script                |
+| state          | Prints the variables used in all currently open window    |
+| update         | Update the value of a variable, in a running eww instance |
 
 Structure
 
@@ -463,3 +521,20 @@ SCSS
 #+end_src
 
 
+* Crashes: 
+
+** Hyprland/UWSM/SDDM/Emacs
+
+When I shut down doomemacs, hyprland crashes. The only clues are in =sudo
+journalctl -xb -p7=
+
+so it stops the desktop-related targets, then begins shutting hyprland
+down. the first message there:
+
+`wayland-wm@Hyprland.service: State 'stop-sigterm' timed out. Killing`
+
+Hyprland starts klling subprocesses, gets to `eww` and `emacs` where I get
+
+`wayland-wm@Hyprland.service: Failed to kill control
+group/user.slice/user-1000.slice/user@1000.service/session.slice/walyland-wm@Hyprland.service,
+ignoring: Operation not permitted`

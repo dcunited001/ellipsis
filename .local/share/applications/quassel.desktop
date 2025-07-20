@@ -71,7 +71,8 @@ Comment[uk]=Клієнт IRC з центральним ядром
 Comment[zh_CN]=带有中央核心组件的分布式 IRC 客户端
 Icon=quassel
 TryExec=quassel
-Exec=env QT_QPA_PLATFORM=xcb /usr/bin/quassel
+# Exec=env QT_QPA_PLATFORM=xcb quassel
+Exec=quassel
 Categories=Qt;Network;Chat;IRCClient;
 X-DBUS-ServiceName=org.quassel-irc.quassel
 X-AppStream-Ignore=true
