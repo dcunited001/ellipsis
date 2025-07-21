@@ -165,14 +165,13 @@
   # https://wiki.nixos.org/wiki/Hyprland
   programs = {
     uwsm = {
-      enable = true; # withUWSM=true; # does this? looked like it
-      # waylandCompositors = {
-      #   hyprland = {
-      #     prettyName = "hyprland";
-      #     binPath = "/run/current-system/sw/bin/Hyprland";
-      #     comment = "... doesn't allow for options"
-      #   }
-      # }
+      waylandCompositors = {
+        hyprland-debug = {
+          prettyName = "hyprland-debug";
+          binPath = "/run/current-system/sw/bin/Hyprland";
+          comment = "Run Hyprland with env-hyprland-debug";
+        };
+      };
     };
     hyprland = {
       enable = true;

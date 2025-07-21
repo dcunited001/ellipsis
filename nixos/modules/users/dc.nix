@@ -49,10 +49,14 @@
       git-repo
       git-lfs
 
-      # NIX
+      # CLI SHINY
       neofetch
       starship
+
+      # NIX
       nix-search-cli
+      nil # nix lsp
+      nixfmt
 
       # EDITOR
       emacs
@@ -66,9 +70,16 @@
 
       # DEV
       gnumake
-      nil # nix lsp
       tmux
       screen
+
+      # DEV TREE-SITTER
+      # tree-sitter
+      tree-sitter.allGrammars
+
+      # CONTAINERS
+      dive
+      podman-compose
 
       # TOOLS
       graphviz
