@@ -74,8 +74,7 @@
       screen
 
       # DEV TREE-SITTER
-      # tree-sitter
-      tree-sitter.allGrammars
+      tree-sitter
 
       # CONTAINERS
       dive
@@ -113,6 +112,6 @@
       waybar
       hypridle
       eww
-    ];
+    ] ++ pkgs.tree-sitter.allGrammars;
   };
 }
