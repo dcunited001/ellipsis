@@ -4,4 +4,23 @@
    "ripgrep"
    "guile-ares-rs"
    "d2-bin"
-   "fd"))
+   "fd"
+
+   ;; emacs bundles tree-sitter as dep
+   "tree-sitter-bash"
+   "tree-sitter-c"
+   "tree-sitter-clojure"
+   "tree-sitter-cmake"
+   "tree-sitter-cpp"
+   "tree-sitter-css"
+   "tree-sitter-go"
+   "tree-sitter-gomod"
+   "tree-sitter-html"
+   "tree-sitter-java"
+   "tree-sitter-javascript"
+   "tree-sitter-json"
+   "tree-sitter-lua"
+   "tree-sitter-python"
+   "tree-sitter-ruby"
+   "tree-sitter-rust"
+   "tree-sitter-typescript"))
