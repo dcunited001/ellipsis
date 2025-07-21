@@ -18,6 +18,7 @@
       ../../modules/services/printing.nix
       ../../modules/services/ras.nix
       ../../modules/services/sddm.nix
+      ../../modules/services/smartd.nix
       ../../modules/services/xdg.nix
       ../../modules/services/yubikey.nix
       ../../modules/services/zerotierone.nix
@@ -48,13 +49,24 @@
     };
   };
 
-  # TODO: hardware.amdgpu.opencl.enable = true;
-
   # Use latest kernel.
   boot.kernelPackages = pkgs.linuxPackages_latest;
 
-  # hardware.enableAllFirmware = true;
+
+  # ---------------------------------------------
+  # Hardware Support
   hardware.enableRedistributableFirmware = true;
+  # hardware.enableAllFirmware = true;
+
+  # ---------------------------------------------
+  # GPU
+  # TODO: hardware.amdgpu.opencl.enable = true;
+
+  # ---------------------------------------------
+  # Disks
+
+  # ---------------------------------------------
+  # Filesystems
 
   fileSystems = {
     # ... typo: ztsd => zstd
