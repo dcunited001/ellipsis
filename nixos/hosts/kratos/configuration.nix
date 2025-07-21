@@ -16,6 +16,7 @@
       ../../modules/services/openssh.nix
       ../../modules/services/pipewire.nix
       ../../modules/services/printing.nix
+      ../../modules/services/ras.nix
       ../../modules/services/sddm.nix
       ../../modules/services/xdg.nix
       ../../modules/services/yubikey.nix
@@ -46,6 +47,8 @@
       preLVM = true;
     };
   };
+
+  # TODO: hardware.amdgpu.opencl.enable = true;
 
   # Use latest kernel.
   boot.kernelPackages = pkgs.linuxPackages_latest;
