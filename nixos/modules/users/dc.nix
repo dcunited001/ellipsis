@@ -73,9 +73,6 @@
       tmux
       screen
 
-      # DEV TREE-SITTER
-      tree-sitter
-
       # CONTAINERS
       dive
       podman-compose
@@ -112,6 +109,6 @@
       waybar
       hypridle
       eww
-    ] ++ pkgs.tree-sitter.allGrammars;
+    ];
   };
 }
