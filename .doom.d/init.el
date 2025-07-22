@@ -92,7 +92,7 @@
        (latex +cdlatex +latexmk)
        lua ;; TODO: (lua +lsp)
        markdown
-       nix
+       (nix +tree-sitter)
        (org +jupyter +pandoc +pretty +noter +gnuplot +present +roam2) ; +crypt?
        plantuml
        (python +lsp +tree-sitter) ;; TODO: +poetry +pyright +pyenv

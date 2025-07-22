@@ -101,6 +101,11 @@
 ;;*** K8S
 ;;*** SSH
 
+;;** Desktop
+
+;; :repo "Nathan-Melaku/hyprlang-ts-mode"
+(package! hyprlang-ts-mode)
+
 ;;* VCS
 ;;** Git
 (package! git-link)
@@ -126,6 +131,7 @@
 
 (package! lispy :recipe (:host github :repo "abo-abo/lispy"))
 (package! prism)
+(package! yuck-mode)
 
 ;; Arei deps: queue, sesman, arei
 (package! queue)

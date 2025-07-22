@@ -1,5 +1,7 @@
 GUIX_PROFILE=.guix-profile
 MANIFEST=manifest.scm
+CHAN=channels.scm
+CHANLOCK=channels-lock.scm
 
 # from ./doom-set-env (if reconstructing a minimal env is necessary)
 #
@@ -18,10 +20,16 @@ GUIXLOADARGS="-L ${ELCHANNEL} -L ${DCCHANNEL}"
 
 # .guix-profile requires pulling $ELCHANNEL,$DCCHANNEL first
 
+.PHONY: .guix-profile
 .guix-profile:
-	echo guix package ${GUIXLOADARGS} -m ${MANIFEST} -p ${GUIX_PROFILE}
-.guix-profile.lock:
-	echo guix describe -p ${GUIX_PROFILE} --format=channels > .guix-profile.lock
+	guix package -m ${MANIFEST} -p ${GUIX_PROFILE}
+
+#	# not using the dotfiles packages for now
+#	guix package ${GUIXLOADARGS} -m ${MANIFEST} -p ${GUIX_PROFILE}
+
+# .... i thought this would dump the profile's spec (or the manifest in the profile)
+#.guix-profile.lock:
+#	guix describe -p ${GUIX_PROFILE} --format=channels > .guix-profile.lock
 
 # - update profile/lock
 # - clean artifacts; how to clean out ~/.emacs.d? not within dir.

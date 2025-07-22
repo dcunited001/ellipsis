@@ -23,6 +23,7 @@
       ../../modules/services/yubikey.nix
       ../../modules/services/zerotierone.nix
     ];
+  networking.hostName = "kratos";
 
   # https://gist.github.com/Le0xFF/21942ab1a865f19f074f13072377126b
   boot.supportedFilesystems = [ "btrfs" ];
@@ -92,9 +93,6 @@
     # pruneFS = [ "looks good" ];
     # extraFlags = []; # arch doesn't pass anything else
   };
-
-  networking.hostName = "kratos"; # Define your hostname.
-  networking.networkmanager.enable = true;  # Easiest to use and most distros use this by default.
 
   time.timeZone = "America/New_York";
 

@@ -51,7 +51,7 @@
 
       # CLI SHINY
       neofetch
-      starship
+      # starship
 
       # NIX
       nix-search-cli
@@ -73,12 +73,23 @@
       tmux
       screen
 
-      # CONTAINERS
-      dive
-      podman-compose
+      # DEV: DOOM EMACS
+      ripgrep
+      fd
+
+      # LANG: JAVA
+      openjdk
 
       # TOOLS
       graphviz
+      d2
+
+      # TOOLS: CONTAINERS
+      dive
+      podman-compose
+
+      # TOOLS: NETWORK
+      socat
 
       # TERM
       alacritty
@@ -93,22 +104,42 @@
       # DESKTOP
       # thunar # programs.thunar...
       wofi
+      grim
+      slurp
       wl-clipboard-rs
       dex
-      nwg-bar
-      nwg-drawer
+      pavucontrol
+
+      # DESKTOP: NOTIFICATIONS
       swaynotificationcenter
 
-      # DESKTOP DEBUG
+      # DESKTOP: NWG
+      nwg-look
+      nwg-bar
+      nwg-drawer
+      nwg-displays
+
+      # DESKTOP: DEBUG
       wev
+
+      # GTK
+      dconf-editor
+      gsettings-schemas
+      gsettings-qt
+
+      # QT
 
       # FONTS
       font-manager
 
       # HYPR
-      waybar
       hypridle
       eww
+
+      # WAYBAR
+      waybar
+      sysz # fzf for systemd (would handy it earlier)
+      yad # gtk-like dmenu
     ];
   };
 }

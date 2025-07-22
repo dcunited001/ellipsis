@@ -4,11 +4,16 @@
 (require 'a)
 
 ;;;; System Identification
-(defvar dw/is-guix-system (and (eq system-type 'gnu/linux)
-                               (with-temp-buffer
-                                 (insert-file-contents "/etc/os-release")
-                                 (search-forward "ID=guix" nil t))
-                               t))
+(defun is-system? (sysid)
+  (let ((sysID (concat "ID=" sysid)))
+    (and (eq system-type 'gnu/linux)
+         (with-temp-buffer
+           (insert-file-contents "/etc/os-release")
+           (search-forward sysID nil t))
+         t)))
+
+(defvar is-guix-system (is-system? "guix"))
+(defvar is-nix-system (is-system? "nix"))
 
 (defconst IS-MAC      (eq system-type 'darwin))
 (defconst IS-LINUX    (memq system-type '(gnu gnu/linux gnu/kfreebsd berkeley-unix)))
@@ -410,17 +415,34 @@ Guix channel.")
 
 ;;;; Font
 
-;; (setopt doom-font (font-spec :family "Noto Sans Mono" :size 12 :weight 'normal)
-;;       doom-serif-font (font-spec :family "Noto Serif" :size 12 :weight 'normal))
-(if dw/is-guix-system
-    (setopt doom-font (font-spec :family "Iosevka Nerd Font Mono" :size 14 :weight 'normal)
-            doom-serif-font (font-spec :family "Iosevka Nerd Font Mono" :size 14 :weight 'normal))
-  (setopt doom-font (font-spec :family "FiraCode Nerd Font Mono" :size 12 :weight 'normal)
-          doom-serif-font (font-spec :family "SourceCodeVF" :size 12)))
+(cond
+ (is-guix-system
+  (setopt doom-font (font-spec :family "Iosevka Nerd Font Mono" :size 12 :weight 'normal)
+          doom-serif-font (font-spec :family "Iosevka Nerd Font Mono" :size 12 :weight 'normal)))
+ (is-nix-system
+  (setopt doom-font (font-spec :family "Fira Code Nerd Font Mono" :size 11 :weight 'normal)
+          doom-serif-font (font-spec :family "Fira Code Nerd Font Mono" :size 11 :weight 'normal)
+          doom-big-font (font-spec :family "Noto Sans" :size 36 :weight 'normal)
+          doom-emoji-font (font-spec :family "Noto Sans" :weight 'normal)
+          doom-symbol-font (font-spec :family "Noto Sans" :weight 'normal)
+          doom-unicode-font (font-spec :family "Noto Sans" :weight 'normal)
+          doom-variable-pitch-font (font-spec :family "Noto Sans" :weight 'normal)))
+ (t (setopt
+     doom-font (font-spec :family "Noto Sans Mono" :size 12 :weight 'normal)
+     doom-serif-font (font-spec :family "Noto Serif" :size 12 :weight 'normal)
+     doom-big-font (font-spec :family "Noto Sans" :size 36 :weight 'normal)
+     doom-emoji-font (font-spec :family "Noto Sans" :weight 'normal)
+     doom-symbol-font (font-spec :family "Noto Sans" :weight 'normal)
+     doom-unicode-font (font-spec :family "Noto Sans" :weight 'normal)
+     doom-variable-pitch-font (font-spec :family "Noto Sans" :weight 'normal))))
 
-;; doom-symbol-font
-;; doom-big-font
-;; doom-variable-pitch-font
+;; (math ⊕ ⊗) (kana あいうえお) (kanji 一分亜音) (emoji 🇦 ♍ 🌐 💫)
+;;
+;; For japanese characters
+;; - Noto Sans => falls through to Noto Serif CJK JP
+;; - Fira Code Nerd Font => Source Han Serif K
+;;
+;; Unicode, Symbol, Emoji: Should not define font-size
 
 ;;;; Theme
 (use-package ef-themes
@@ -996,6 +1018,10 @@ Guix channel.")
 
 ;;;;; Noter
 ;; TODO: PKG: org-noter (req. determining cd/aca-notes-path)
+;; (use-package! pdf-tools
+;;   :defer t
+;;   automatically check/ask either on first frame or on first PDF
+;;   :config ())
 
 ;;;; Exports
 
@@ -1179,6 +1205,9 @@ Guix channel.")
   (map! :map doom-leader-toggle-map "M-p" #'prism-mode))
 
 ;;;;; Emacs Lisp
+
+;;;;; Yuck
+(use-package! yuck-mode)
 
 ;;;;; Common Lisp
 (use-package sly :defer t
@@ -1619,8 +1648,6 @@ the root")
 
 ;;;;;; Terraform/HCL
 
-;;;;;; ContainerD
-
 ;;;;;; K8S
 
 ;;;;;; SSH
@@ -1689,6 +1716,12 @@ the root")
   :custom (mermaid-mmdc-location "~/.npm-global/bin/mmdc"))
 
 ;;;; Misc
+
+;;;; Desktop
+
+;;;;; Hyprland
+(use-package! hyprland-ts-mode
+  :defer t)
 
 ;;; Applications
 

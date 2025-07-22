@@ -43,7 +43,7 @@
     ("BROWSER" . "firefox")
     ("VISUAL" . "emacsclient -- -c")
     ("EDITOR" . "doomclient -- -nw")
-    ("ALTERNATE_EDITOR" . "vim")
+    ("ALTERNATE_EDITOR" . "nvim")
 
     ;; TODO: set by gtk_greeter
     ;; ("XDG_SESSION_TYPE" . "wayland")

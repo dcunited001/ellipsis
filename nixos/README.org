@@ -1,7 +1,60 @@
 
+* Nix Source
+
+[[https://github.com/search?q=repo%3ANixOS%2Fnixpkgs++pam+path%3A%2F%5Enixos%5C%2Fmodules%5C%2F%2F&type=code&p=2]['PAM/SystemD Env. activation]]
+
++ nixos/modules :: module-list.nix
++ nixos/modules/security :: pam.nix, pam_mount.nix
+  - systemd-confinement.nix
++ nixos/modules/config
+  - ldap.nix
++ nixos/modules/services
+  - cage.nix
++ nixos/modules/services/display-managers
+  - sddm.nix
++ pkgs/desktops
+  - plasma-5/kwallet-pam.nix
++ pkgs/.../pam_u2f.nix
 
 
 * Misc
+
+** Nix Lang
+
+convert attrs to list
+
+#+begin_example nix
+# docs indicate that nix lang seems to preserve order pretty good (req. for hashing)
+let pp = pkgs.tree-sitter.builtGrammars; in { kk = __attrNames pp; vv = __attrValues pp; }
+
+# now, just interleave them. (lib.lists.ziplists does this)
+
+# fortunately: <nixpkgs/lib>.mapAttrsToList
+:i <nixpkgs/lib>
+mapAttrsToList(k: v: [k v]) pkgs.tree-sitter.builtGrammars;
+
+# right-to-left
+:print map(id) (mapAttrsToList(k: v: [k v]) pkgs.tree-sitter.builtGrammars)
+
+# [ ...
+#   [ "tree-sitter-yaml"
+#     «derivation /nix/store/npn8hbc1h866r80kjqzdm82zijkskk8s-tree-sitter-yaml-grammar-0.25.3.drv» ]
+#   [ "tree-sitter-yang"
+#     «derivation /nix/store/gw1bn0hnl9an7i7vr05d5px9xs3v4w7c-tree-sitter-yang-grammar-0.25.3.drv» ]
+#   [ "tree-sitter-zig"
+#     «derivation /nix/store/c0rwhl5ykx85a8b988r3d2ky430bbmml-tree-sitter-zig-grammar-0.25.3.drv»]
+# ]
+#+end_example
+
+Before realizing that the editor assumes to dynamically link with tree-sitter
+& grammar definitions, i tried the following, which variously produced lists
+of mostly derivations, none of which worked.
+
++ [pkgs.tree-sitter.withPlugins (_: pkgs.tree-sitter.allGrammars)];
++ __attrValues pkgs.tree-sitter-grammars;
++ (concat (__attrValues pkgs.tree-sitter.builtGrammars));
++ tree-sitter.allGrammars;
+ (lib.mapAttrsToList(k: v: [k v]) pkgs.tree-sitter.builtGrammars);
 
 ** Flake
 
@@ -42,8 +95,45 @@ system configurations at the same time as =home-manager= rebuilds
   };
 }
 #+end_src
+* ARM
+
+Embedded computers named after fruits bc i guess it's a pacman reference?
+
+** U-Boot
+
+For orange pi 5+ see [[https://github.com/NixOS/nixpkgs/blob/master/pkgs/misc/uboot/default.nix#L495-L506][ubootOrangePi5Plus]], [[https://github.com/NixOS/nixpkgs/blob/master/pkgs/by-name/rk/rkbin/package.nix][rkbin]] and [[https://nixos.wiki/wiki/NixOS_on_ARM][NixOS on ARM]]
+
++ defconfig :: the kernel config profile
++ extraMeta.platforms :: the arm platform
++ BL31 :: the trusted firmware image, espcific to RK3588
++ ROCKCHIP_TPL :: a "TPL blob" to init low-power DDR4/DDR5 ([[https://gitlab.collabora.com/hardware-enablement/rockchip-3588/notes-for-rockchip-3588/-/blob/main/upstream_uboot.md?ref_type=heads][collabora notes]])
++ filesToInstall :: defaults to:
+  - u-boot.itb
+  - idbloader.img
+  - u-boot-rockchip.bin
+  - u-boot-rockchip-spi.bin
+
+#+begin_example nix
+
+#+end_example
 
 
+** hardware.sensor.hddtmp
+
+This may be able to monitor the NVMe drive temperature. Supports: ARM/NVMe?
+
+* HP G845
+
+See [[https://packages.guix.gnu.org/packages/hw-probe/1.6.5/][hw-probe]] results for [[https://linux-hardware.org/?probe=32172c2866][HP 845 G7 on linux-hardware.org]]
+
+#+begin_quote
+The only way I was ever going to find out about hw-probe was by mungning
+through the Guix package lists and descriptions
+#+end_quote
+
++ =hardware.trackpoint.device = "???"=
+
+* Services
 * Guix
 
 ** TL;DR:
@@ -324,6 +414,44 @@ in theory, I can have btrfs subvolumes for /var on guix system the sqlite db
 cache needs to match for both nix/guix systems... probably not a great idea,
 but as long as sqlite cache is in tact, it should work.
 
+* Emacs
+
+** Font Issues
+
+
+
+** Systemd
+
+
+
+* Hyprland
+
+packages
+
+| hyprcursor   | hyprkeys                     | hyprlandPlugins         | hyprlang     | hyprpanel       | hyprshot       | hyprutils           |
+| hyprdim      | hyprland                     | hyprland-protocols      | hyprlauncher | hyprpaper       | hyprsome       | hyprwall            |
+| hypre        | hyprland-activewindow        | hyprland-qt-support     | hyprlock     | hyprpicker      | hyprspace      | hyprwayland-scanner |
+| hyprgraphics | hyprland-autoname-workspaces | hyprland-qtutils        | hyprls       | hyprpolkitagent | hyprsunset     | hypseus-singe       |
+| hyprgui      | hyprland-monitor-attached    | hyprland-workspaces     | hyprnome     | hyprprop        | hyprswitch     | hysteria            |
+| hypridle     | hyprland-per-window-layout   | hyprland-workspaces-tui | hyprnotify   | hyprshade       | hyprsysteminfo | hyx                 |
+
+** Tools
+
+*** Scripts
+
+Tail via =socat=, from wiki
+
+#+begin_src bash
+hyprsock=$XDG_RUNTIME_DIR/hypr/$HYPRLAND_INSTANCE_SIGNATURE/.socket2.sock
+awkProg='/^activewindow>>/{print $3}'
+socat -u "UNIX-CONNECT:$hyprsock" - \
+    | stdbuf -o0 \
+      awk -F '>>|,' $awkProg
+#+end_src
+
+
+** NWG
+
 
 ** Eww & Yuck
 
@@ -522,8 +650,86 @@ SCSS
 
 
 * Crashes: 
+** Hyprland Logs
 
-** Hyprland/UWSM/SDDM/Emacs
+Show the last log. Doesn't work if you started a new =$hsesh=.
+
+#+begin_src shell
+xrd=$XDG_RUNTIME_DIR
+hsesh=$(ls -t $xrd/hypr/ | head -n1)
+cat $xrd/hypr/$hsesh/hyprland.log
+#+end_src
+
+** UWSM =hyprland-debug=
+
+*** Add to =uwsm.programs.waylandCompositors=:
+
+#+begin_example nix
+hyprland-debug = { # this is the key for "~/.config/uwsm/env-$key"
+  prettyName = "hyprland-debug"; # arbitrary
+  binPath = "/run/current-system/sw/bin/Hyprland";
+  comment = "Run Hyprland with env-hyprland-debug";
+};
+#+end_example
+
+Copy =env-hyprland= to =env-hyprland-debug=.
+
+#+begin_example shell
+export HYPRLAND_CONFIG=~/.dotfiles/.config/hypr/kratos.hyprland-debug.conf
+export GDK_BACKEND=wayland     # env = GDK_BACKEND,wayland,x11,*
+export CLUTTER_BACKEND=wayland # env = CLUTTER_BACKEND,wayland
+export SDL_VIDEODRIVER=wayland # env = SDL_VIDEODRIVER,wayland
+export QT_QPA_PLATFORM=wayland # env = QT_QPA_BACKEND,wayland;xcb
+#+end_example
+
+create a =$(host).hyprland.debug.conf= wrapper
+
+#+begin_src conf
+debug {
+  disable_logs=0
+}
+source=./kratos.hyprland.conf
+#+end_src
+
+#+end_src
+
+*** Vars to Debug in UWSM env
+
+And append vars like:
+
+#+begin_example shell
+# tracing
+export HYPRLAND_TRACE=1 # verbose logging
+export HYPRLAND_NO_RT=1 # disable realtime priority (helps timing for trace/etc)
+
+# systemd
+export HYPRLAND_NO_SD_NOTIFY=1 # disables hyprland "sd_notify" calls
+export HYPRLAND_NO_SD_VARS=1   # disables mgmt of vars in sysd/dbus activation env
+
+# maybe load a debug HYPRLAND_CONFIG
+#+end_example
+
+Aquamarine env vars
+
+#+begin_example shell
+# tracing
+export AQ_TRACE=1 # verbose logging (req. hyprland tracing)
+
+# multi-GPU
+export AQ_DRM_DEVICES=/dev/dri/card1: ... # explicit list of GPU
+export AQ_MGPU_NO_EXPLICIT=1 # disable explicit syncing on MGPU
+export AQ_FORCE_LINEAR_BLIT=1 # avoid CPU blitting for MGPU/multi-monitor
+#+end_example
+
+=AQ_FORCE_LINEAR_BLIT=1= for MGPU while splitting monitors across multiple GPU's
+... which is very dumb unless you must -- tell your iGPU wtf to do.
+
++ that may not work with eGPU on Laptop
++ or if gaming on a different GPU than what Hyprland owns
++ TLDR... tell your WM to use ONE device.
+
+
+** Crash in Hyprland/UWSM/SDDM/Emacs
 
 When I shut down doomemacs, hyprland crashes. The only clues are in =sudo
 journalctl -xb -p7=
@@ -538,3 +744,20 @@ Hyprland starts klling subprocesses, gets to `eww` and `emacs` where I get
 `wayland-wm@Hyprland.service: Failed to kill control
 group/user.slice/user-1000.slice/user@1000.service/session.slice/walyland-wm@Hyprland.service,
 ignoring: Operation not permitted`
+
+*** Emacs running Outside of SystemD
+
+Two servers running, closed a client. Compositor crashed
+
+
+
+*** Hyprland startup processes
+
+
+#+begin_example text
+170537 /nix/store/8bk2kzrky5nmyb4nb4kj43pvbkr8dhqg-sddm-unwrapped-0.21.0/libexec/sddm-helper --socket /tmp/sddm-auth-a7dd2e04-96a8-497a-ac00-0a16af8a9495 --id 1 --start /nix/store/nrf3nri5mz5qrcgk34jcfb2l08w7wddj-uwsm-0.21.4/bin/uwsm start -S -F /run/current-system/sw/bin/Hyprland --user dc
+170551 systemctl --user start --wait wayland-wm@Hyprland.service
+170685 /run/current-system/sw/bin/Hyprland
+#+end_src
+
+
