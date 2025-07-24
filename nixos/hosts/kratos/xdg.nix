@@ -7,6 +7,9 @@
     # extraPortals = with pkgs; [ xdg-desktop-portal-hyprland ];
     xdgOpenUsePortal = true; # see nixos/nixpkgs#160923
   };
+
+  # environment # gsettings-desktop-schemas;
+  environment.systemPackages = [ pkgs.gsettings-desktop-schemas ];
 }
 
   # xdg =  {

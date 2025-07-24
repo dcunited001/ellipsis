@@ -56,6 +56,7 @@
       # NIX
       nix-search-cli
       nil # nix lsp
+      nixd
       nixfmt
 
       # EDITOR
@@ -109,6 +110,7 @@
       wl-clipboard-rs
       dex
       pavucontrol
+      gsettings-qt
 
       # DESKTOP: NOTIFICATIONS
       swaynotificationcenter
@@ -118,14 +120,13 @@
       nwg-bar
       nwg-drawer
       nwg-displays
+      nwg-icon-picker
 
       # DESKTOP: DEBUG
       wev
 
       # GTK
       dconf-editor
-      gsettings-schemas
-      gsettings-qt
 
       # QT
 

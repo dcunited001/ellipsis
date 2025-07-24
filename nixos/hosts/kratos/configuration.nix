@@ -133,6 +133,16 @@
     enableSSHSupport = true;
   };
 
+  programs.tmux.enable = true;
+  programs.tmux = {
+    withUtempter = false; # /var/run/utmp (to display connected users)
+    secureSocket = true; # socket in /run instead of /tmp (a little to forward)
+    # tmuxPlugins.copycat, tmuxPlugins.fpp, tmuxPlugins.cpu, tmuxPlugins.cpu
+    plugins = [ pkgs.tmuxPlugins.sessionist pkgs.tmuxPlugins.sysstat ];
+    # defaults
+    shortcut = "b"; # Screen "a"
+  };
+
   # ---------------------------------------------
 
   services.avahi.enable = true;
@@ -147,11 +157,18 @@
   # autojoins networks. does not leave
   # services.zerotierone.enable = true;
 
+  networking.networkmanager.enable = true;
+
   # networking.firewall.enable = false;
   # networking.firewall = {
   #   allowedTCPPorts = [ ... ];
   #   allowedUDPPorts = [ ... ];
   # }
+
+  # TODO: expose TCPDump as config option
+  # TODO: accidentally deleted a networking config here.
+  # tcpdump wrapper granting syscap (user: )
+  programs.tcpdump.enable = true;
 
   # ---------------------------------------------
   # SYSTEM PACKAGES
@@ -163,10 +180,31 @@
     emacs
     wget
     curl
-    hw-probe
-    brightnessctl
+
     uwsm
     # ddcutil # TODO: services.i2c.enable, groups, kernel module
+
+    # SYS ADMIN
+    btop
+    htop
+
+    # TOOLS
+    file
+
+    # TOOLS: NETWORK
+    dnsutils
+
+    # TOOLS: HARDWARE
+    usbutils
+    inxi
+    glxinfo
+    pciutils
+    lm_sensors
+    lshw
+    v4l-utils
+    # hw-probe
+    brightnessctl
+
   ];
 
   # implicit: hyprland zsh
