@@ -50,7 +50,7 @@ nord15 #b48ead
     margin-right: 5px;
     margin-left: 5px;
     padding-bottom:2px;
-   }
+}
 
 window#waybar {
     background:rgba (0, 0, 0, 0.65);
@@ -82,7 +82,7 @@ window#waybar {
 
 
 #clock {
- color:#a3be8c;
+    color:#a3be8c;
 }
 
 #backlight {
@@ -151,19 +151,19 @@ window#waybar {
 }
 
 #idle_inhibitor {
-   color: #ebcb8b;
+    color: #ebcb8b;
 }
 
 #tray {
 }
 
 #custom-launcher{
-        font-size: 20px;
-        background-image: url('/home/dc/.config/waybar/launcher.png');
-        background-position: center;
-        background-repeat: no-repeat;
-        background-size: contain;
-        border-style: hidden;
+    font-size: 20px;
+    background-image: url('/home/dc/.config/waybar/launcher.png');
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: contain;
+    border-style: hidden;
 }
 
 #custom-power{
@@ -176,8 +176,8 @@ window#waybar {
     margin-top:1px;
 }
 #custom-keyboard-layout{
-   color:#d08770;
+    color:#d08770;
 }
 #custom-network_traffic{
-   color:#d08770;
+    color:#d08770;
 }
