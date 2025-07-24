@@ -54,7 +54,6 @@ nord15 #b48ead
 
 window#waybar {
     background:rgba (0, 0, 0, 0.65);
-    border-radius: 20px 20px 20px 20px;
 }
 
 #workspaces button {

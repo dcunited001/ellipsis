@@ -183,6 +183,7 @@
   # ---------------------------------------------
   # SYSTEM PACKAGES
 
+  # TODO: nix: lots of duplicate packages end up being installed
   environment.variables.EDITOR = "vim";
   environment.systemPackages = with pkgs; [
     git
@@ -197,22 +198,40 @@
     # SYS ADMIN
     btop
     htop
+    killall
 
     # TOOLS
     file
+    lsof
+    rng-tools
+
+    # TOOLS: VM
+    qemu
 
     # TOOLS: NETWORK
     dnsutils
+    inetutils
+
+    # TOOLS: DISK
+    du-dust
+    ioping
+    smartmontools
+
+    # TOOLS: FIRMWARE
+    fiano
+    dmidecode
 
     # TOOLS: HARDWARE
+    sysstat
     usbutils
+    hwinfo
     inxi
     glxinfo
     pciutils
     lm_sensors
     lshw
     v4l-utils
-    # hw-probe
+    hw-probe
     brightnessctl
 
   ];

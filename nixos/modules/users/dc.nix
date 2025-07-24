@@ -94,6 +94,7 @@
       # TOOLS
       graphviz
       d2
+      imagemagick
 
       # TOOLS: CONTAINERS
       dive
