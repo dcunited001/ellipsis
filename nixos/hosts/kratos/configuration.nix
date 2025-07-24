@@ -1,28 +1,24 @@
-# Edit this configuration file to define what should be installed on
-# your system. Help is available in the configuration.nix(5) man page, on
-# https://search.nixos.org/options and in the NixOS manual (`nixos-help`).
+{ config, lib, pkgs, ... }: {
+  imports = [ # Include the results of the hardware scan.
+    ./hardware.nix
+    ./xdg.nix
+    #      ./containers.nix
+    ../../modules/users/dc.nix
+    ../../modules/services/bluetooth.nix
+    ../../modules/services/fonts.nix
+    ../../modules/services/guix.nix
+    ../../modules/services/nix.nix
+    ../../modules/services/openssh.nix
+    ../../modules/services/pipewire.nix
+    ../../modules/services/printing.nix
+    ../../modules/services/ras.nix
+    ../../modules/services/sddm.nix
+    ../../modules/services/smartd.nix
+    ../../modules/services/xdg.nix
+    ../../modules/services/yubikey.nix
+    ../../modules/services/zerotierone.nix
+  ];
 
-{ config, lib, pkgs, ... }:
-{
-  imports =
-    [ # Include the results of the hardware scan.
-      ./hardware.nix
-      ./xdg.nix
-      ../../modules/users/dc.nix
-      ../../modules/services/bluetooth.nix
-      ../../modules/services/fonts.nix
-      ../../modules/services/guix.nix
-      ../../modules/services/nix.nix
-      ../../modules/services/openssh.nix
-      ../../modules/services/pipewire.nix
-      ../../modules/services/printing.nix
-      ../../modules/services/ras.nix
-      ../../modules/services/sddm.nix
-      ../../modules/services/smartd.nix
-      ../../modules/services/xdg.nix
-      ../../modules/services/yubikey.nix
-      ../../modules/services/zerotierone.nix
-    ];
   networking.hostName = "kratos";
 
   # https://gist.github.com/Le0xFF/21942ab1a865f19f074f13072377126b
@@ -40,7 +36,7 @@
   #
   # boot.kernelModules # for boot stage-2
   #   - will implicitly have stage-1, with maybe some technical discrepencies
-  boot.initrd.kernelModules = ["cryptd" "btrfs" "zstd"];
+  boot.initrd.kernelModules = [ "cryptd" "btrfs" "zstd" ];
   boot.initrd.luks.devices = {
     luksroot = {
       device = "/dev/disk/by-uuid/d02f163b-d7c6-4e6f-bb55-601e9c39200e"; # UUID
@@ -52,7 +48,6 @@
 
   # Use latest kernel.
   boot.kernelPackages = pkgs.linuxPackages_latest;
-
 
   # ---------------------------------------------
   # Hardware Support
@@ -78,7 +73,8 @@
     "/var/log".options = [ "defaults" "noatime" "compress=zstd" ];
     "/var/cache".options = [ "defaults" "noatime" "compress=zstd" ];
     "/var/tmp".options = [ "defaults" "noatime" "compress=zstd" ];
-    "/home".options = [ "defaults" "noatime" "compress=zstd" "discard=async" "ssd" ];
+    "/home".options =
+      [ "defaults" "noatime" "compress=zstd" "discard=async" "ssd" ];
   };
   services.gvfs.enable = true;
 
@@ -87,7 +83,18 @@
     # prunePaths = [ "/tmp" "/var/tmp" "/var/cache" "/var/lock" "/var/run" "/var/spool"
     #   "/nix/store" "/nix/var/log/nix" ];
     # others: /sys /run
-    prunePaths = [ "/afs" "/gnu/store" "/net" "/media" "/mnt" "/sfs" "/tmp" "/udev" "/root" "/proc" ];
+    prunePaths = [
+      "/afs"
+      "/gnu/store"
+      "/net"
+      "/media"
+      "/mnt"
+      "/sfs"
+      "/tmp"
+      "/udev"
+      "/root"
+      "/proc"
+    ];
     pruneBindMounts = true;
     # pruneNames = [ ".bzr" ".cache" ".git" ".hg" ".svn" ];
     # pruneFS = [ "looks good" ];
@@ -118,7 +125,10 @@
   # ---------------------------------------------
   # DESKTOP stuff
 
-  programs.git = { enable = true; prompt.enable = true; };
+  programs.git = {
+    enable = true;
+    prompt.enable = true;
+  };
   programs.firefox.enable = true;
   programs.thunar.enable = true;
   services.flatpak.enable = true;
@@ -234,9 +244,9 @@
     neovim.enable = true; # defaultEditor = true;
   };
 
-  security.pam.services.hyprlock = {};
+  security.pam.services.hyprlock = { };
   # programs.swaylock.enable = true;
-  security.pam.services.swaylock = {};
+  security.pam.services.swaylock = { };
 
   system.copySystemConfiguration = true;
   system.stateVersion = "25.05";

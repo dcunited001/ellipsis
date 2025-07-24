@@ -1,5 +1,4 @@
-{ pkgs, ... }:
-{
+{ pkgs, ... }: {
   # NOTE .. do not use
 
   services.regreet = {
@@ -15,7 +14,6 @@
     # wayland sessions needed in /usr/share/wayland-sessions
     #
     # but services.displayManager is only compat with SDDM, GDM, etc
-
 
   };
 
@@ -44,5 +42,5 @@
     iconTheme.name = "Adwaita";
     iconTheme.package = pkgs.adwaita-icon-theme;
     cursorTheme.package = pkgs.adwaita-icon-theme;
-  }
+  };
 }

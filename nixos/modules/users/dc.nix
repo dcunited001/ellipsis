@@ -1,5 +1,5 @@
-{ pkgs, ... }:
-{
+{ pkgs, ... }: {
+
   # users.users "already defined" ... damit
   # users.users = let
   #   myUsers = ["dc"];
@@ -16,7 +16,10 @@
   #   ) myUsers);
 
   users.groups = {
-    dc = { name = "dc"; gid = 1000; };
+    dc = {
+      name = "dc";
+      gid = 1000;
+    };
   };
   nix.settings = {
     allowed-users = [ "dc" ];
@@ -24,7 +27,8 @@
   };
 
   # TODO: nix: move elsewhere once flatpak is setup in home-manager
-  environment.sessionVariables.XDG_DATA_DIRS = [ "$HOME/.local/share/flatpak/exports/share" ];
+  environment.sessionVariables.XDG_DATA_DIRS =
+    [ "$HOME/.local/share/flatpak/exports/share" ];
 
   users.users.dc = {
     uid = 1000;
@@ -32,8 +36,14 @@
     extraGroups = [ "wheel" ]; # Enable ‘sudo’ for the user.
     isNormalUser = true;
     # useDefaultShell = true;
-    subUidRanges = [{ startUid = 1000000; count = 65536; }];
-    subGidRanges = [{ startGid = 1000000; count = 65536; }];
+    subUidRanges = [{
+      startUid = 1000000;
+      count = 65536;
+    }];
+    subGidRanges = [{
+      startGid = 1000000;
+      count = 65536;
+    }];
     # keyFiles
     openssh.authorizedKeys.keys = [
       "ecdsa-sha2-nistp384 AAAAE2VjZHNhLXNoYTItbmlzdHAzODQAAAAIbmlzdHAzODQAAABhBGE6wqFapBOKBA2wCTB22nG+GANmh9JXNG54tBajKNu/Fh61ywzilEI6MYLpvolCuS0YWGAgv4h5MHzk45KnWXKJ1NSNTLJ4koa+NvAAHIVXKA19IZ+s6UyX7eyCWLx58w== cardno:19294239"
@@ -110,7 +120,6 @@
       wl-clipboard-rs
       dex
       pavucontrol
-      gsettings-qt
 
       # DESKTOP: NOTIFICATIONS
       swaynotificationcenter
@@ -127,6 +136,7 @@
 
       # GTK
       dconf-editor
+      gsettings-qt
 
       # QT
 

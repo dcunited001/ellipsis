@@ -1,5 +1,4 @@
-{ pkgs, ... }:
-{
+{ pkgs, ... }: {
   # TODO: relocate boolean args to toggle the module
   # - lib.mkIf cfg.guixEnable true ... or something
   # - expose extraArgs
@@ -26,12 +25,15 @@
         r = "https://raw.githubusercontent.com/dcunited001/ellipsis";
         c = "3fc27f4c711ce6507f7a1d6cd4fdcbb4de03a8f7";
         p = "nixos/modules/services/guix";
-      in
-        [
-          (builtins.fetchurl { url = "${r}/${c}/${p}/bordeaux.guix.gnu.org.pub"; })
-          (builtins.fetchurl { url = "${r}/${c}/${p}/berlin.guix.gnu.org.pub"; })
-          (builtins.fetchurl { url = "${r}/${c}/${p}/substitutes.nonguix.org.pub"; })
-        ];
+      in [
+        (builtins.fetchurl {
+          url = "${r}/${c}/${p}/bordeaux.guix.gnu.org.pub";
+        })
+        (builtins.fetchurl { url = "${r}/${c}/${p}/berlin.guix.gnu.org.pub"; })
+        (builtins.fetchurl {
+          url = "${r}/${c}/${p}/substitutes.nonguix.org.pub";
+        })
+      ];
     };
 
     # https://substitutes.nonguix.org/signing-key.pub
@@ -41,10 +43,7 @@
     gc.enable = true;
     gc = {
       dates = "04:15";
-      extraArgs = [
-        "--delete-generations=1m"
-        "--optimize"
-      ];
+      extraArgs = [ "--delete-generations=1m" "--optimize" ];
     };
   };
 }

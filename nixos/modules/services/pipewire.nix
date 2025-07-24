@@ -1,5 +1,4 @@
-{ pkgs, ... }:
-{
+{ pkgs, ... }: {
   services.pipewire = {
     enable = true;
     alsa = {
@@ -19,18 +18,16 @@
       };
     };
     extraConfig.pipewire-pulse."92-low-latency" = {
-      context.modules = [
-        {
-          name = "libpipewire-module-protocol-pulse";
-          args = {
-            pulse.min.req = "256/48000";
-            pulse.default.req = "256/48000";
-            pulse.max.req = "256/48000";
-            pulse.min.quantum = "256/48000";
-            pulse.max.quantum = "256/48000";
-          };
-        }
-      ];
+      context.modules = [{
+        name = "libpipewire-module-protocol-pulse";
+        args = {
+          pulse.min.req = "256/48000";
+          pulse.default.req = "256/48000";
+          pulse.max.req = "256/48000";
+          pulse.min.quantum = "256/48000";
+          pulse.max.quantum = "256/48000";
+        };
+      }];
     };
   };
 }

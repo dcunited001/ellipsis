@@ -1,4 +1,4 @@
-{pkgs, ...}: {
+{ pkgs, ... }: {
   # fontconfig.defaultFonts:
   # + emoji :: Noto Color Emoji
   # + monospace :: DejaVu Sans Mono
@@ -33,9 +33,9 @@
     # pkgs.symbola
     pkgs.terminus_font
 
-    pkgs.source-code-pro   # mono
-    pkgs.source-sans-pro   # sans
-    pkgs.source-serif-pro  # serif
+    pkgs.source-code-pro # mono
+    pkgs.source-sans-pro # sans
+    pkgs.source-serif-pro # serif
 
     # pkgs.overpass
     pkgs.iosevka
