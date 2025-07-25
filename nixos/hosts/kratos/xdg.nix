@@ -6,5 +6,17 @@
     xdgOpenUsePortal = true; # see nixos/nixpkgs#160923
   };
 
-  environment.systemPackages = [ pkgs.gsettings-desktop-schemas ];
+  # run nwg-look and apply. theme files aren't in dotfiles
+  environment.systemPackages = [
+    pkgs.gsettings-desktop-schemas
+    pkgs.nordic
+    pkgs.adwaita-qt
+    pkgs.gnome-themes-extra
+  ];
+
+  qt.enable = true;
+  qt = {
+    platformTheme = "gnome";
+    style = "adwaita";
+  };
 }
