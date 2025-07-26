@@ -11,8 +11,8 @@ import = [
 [terminal]
 # shell = "/bin/bash"
 
-[terminal.shell]
-program = "/bin/bash"
+#[terminal.shell]
+#program = "/bin/bash"
 # shell = "<string>" | { program = "<string>", args = ["<string>",] }
 
 [env]

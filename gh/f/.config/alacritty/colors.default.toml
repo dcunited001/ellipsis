@@ -7,9 +7,9 @@ text = "0x2c2c2c"
 
 [colors.primary]
 background = "0x2c2c2c"
-bright_background = "0x3a3a3a"
+# bright_background = "0x3a3a3a"
 bright_foreground = "0xd9d9d9"
-dim_background = "0x202020"
+# dim_background = "0x202020"
 dim_foreground = "0xdbdbdb"
 foreground = "0xd6d6d6"
 
