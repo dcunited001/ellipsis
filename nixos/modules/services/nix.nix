@@ -22,5 +22,5 @@
   };
   nixpkgs.config.allowUnfree = true;
 
-  environment.systemPackages = [ pkgs.cachix ];
+  environment.systemPackages = [ pkgs.cachix pkgs.nix-tree ];
 }
