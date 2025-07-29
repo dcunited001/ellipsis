@@ -130,6 +130,7 @@
   programs.git = {
     enable = true;
     prompt.enable = true;
+    lfs.enable = true;
   };
   programs.firefox.enable = true;
   programs.thunar.enable = true;

@@ -57,7 +57,6 @@
       # CLI
       tree
       git-repo
-      git-lfs
 
       # CLI SHINY
       neofetch
@@ -65,6 +64,8 @@
 
       # NIX
       nix-search-cli
+      nix-diff
+      nh
       nil # nix lsp
       nixd
       nixfmt
