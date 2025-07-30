@@ -147,11 +147,12 @@
 
       # HYPR
       hypridle
+      hyprpaper
       eww
 
       # WAYBAR
       waybar
-      sysz # fzf for systemd (would handy it earlier)
+      sysz # fzf for systemd
       yad # gtk-like dmenu
     ];
   };
