@@ -81,6 +81,11 @@ Guix channel.")
   :modes '(emacs-lisp-mode)
   :on-enter (setq-local buffer-read-only t))
 
+(def-project-mode! doom-nixos-dotfiles-mode
+  :match (rx-to-string (string-join (list "" (getenv "HOME") ".dotfiles" "nixos" "") "/"))
+  :modes '(nix-mode)
+  :on-enter (add-hook 'nix-mode-local-vars-hook #'lsp! 'append))
+
 ;;;;; Load Path
 
 (add-to-list 'load-path (expand-file-name ".dotfiles/.emacs.d/lisp" (getenv "HOME")))
@@ -1361,6 +1366,12 @@ the root")
 (use-package astro-ts-mode
   :mode "\\.astro\\'")
 
+;;;;; Javascript
+(use-package! websocket :defer t)
+
+;; (defvaralias 'js2-basic-offset 'js-indent-level)
+(use-package! js-mode :defer t :custom (js-indent-level 2))
+
 ;;;; Scripting
 
 ;;;;; Shell
@@ -1582,6 +1593,10 @@ the root")
   (require 'ob-rec))
 
 ;;;;; Nix
+
+;; use these servers on-demand
+(after! lsp-mode
+  (setq lsp-disabled-clients (append lsp-disabled-clients '(nix-nil rnix-lsp))))
 
 ;;;;; Unix
 

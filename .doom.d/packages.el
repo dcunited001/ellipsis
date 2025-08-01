@@ -141,6 +141,7 @@
 
 (package! html-ts-mode :recipe (:host github :repo "mickeynp/html-ts-mode"))
 (package! astro-ts-mode :recipe (:host github :repo "Sorixelle/astro-ts-mode"))
+(package! websocket) ;; :type git (:host github :repo "ahyatt/emacs-websocket")
 
 ;;*** Tailwind
 ;; TODO: add web packages (tailwind, liquid, etc)

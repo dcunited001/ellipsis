@@ -1,0 +1,5 @@
+#!/bin/sh
+export EMACSDIR=$HOME/.emacs.doom
+export EMACS=$DOOMDIR/.guix-profile/bin/emacs
+source <($HOME/bin/doomemacs -Z)
+$EMACS -nw --init-directory=$EMACSDIR

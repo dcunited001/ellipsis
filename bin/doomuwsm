@@ -1,0 +1,84 @@
+#!/bin/sh
+export EMACSDIR="${EMACSDIR:-$HOME/.emacs.doom}"
+export DOOMDIR="${DOOMDIR:-$HOME/.doom.d}"
+GUIX_PROFILE="${GUIX_PROFILE:-$DOOMDIR/.guix-profile}"
+
+export GUIX_SOURCE=$_ECTO/guix/guix
+export EMACS_SOURCE=$_ECTO/emacs/emacs/src
+
+emacs_socket_name=doom
+# emacs_socket_path=/run/user/1000/emacs # unused
+# emacs_socket=$emacs_socket_path/$emacs_socket_name # unused
+search_paths=0
+
+# =============================================
+# NOTE: to use .emacs.doom/bin/doom, you need to set EMACS but using this
+# script may end up recursively calling guix shell
+
+# ... also, saving an envvar file when running the install from within the
+# guix profile will prepend the path (but in my exp. this causes problems)
+
+# ---------------------------------------------
+#
+# To install doom emacs, run:
+
+# guix shell -p $GUIX_PROFILE -- bin/doom install
+# export EMACS=$GUIX_EXTRA/doomemacs/doomemacs/bin/emacs
+# export EMACSDIR=$HOME/.emacs.doom
+# export DOOMDIR=$HOME/.doom.d
+# cd ~/.emacs.doom
+# bin/doom install
+#
+# =============================================
+
+_print_usage() {
+    echo "usage: `basename $0` [-Z} [-p ARG} [-s socket} [--] ARGS..."
+    echo "-p profile/link"
+}
+
+while getopts :Zp:s: OPT; do
+    case $OPT in
+        Z) search_paths=1 ;;
+        p) GUIX_PROFILE="$OPTARG" ;;
+        s) emacs_socket_name="$OPTARG" ;;
+        --) break ;;
+        *) _print_usage && exit 2
+    esac
+done
+shift `expr $OPTIND - 1`
+OPTIND=1
+
+# NOTE: for now just set EMACS=$GUIX_PROFILE/bin/emacs to the linked path
+#
+#  ... idk why?
+#
+# if [[ -z "$guix_profile_emacs" ]]; then
+#     export guix_profile_emacs="$(guix shell -p $GUIX_PROFILE --search-paths \
+#     | grep -e 'export PATH' \
+#     | sed -e 's/export PATH="\(.*\)\${.*$/\1/g')"
+# fi
+
+# TODO: add to guix home environment: EMAIL EMACSDIR DOOMDIR EMACS
+# if these are are unset in the shell, then they need to be specified in guix shell
+# -E "^EMAIL$" -E '^EMACSDIR$' -E '^DOOMDIR$' -E '^EMACS$'
+
+# should exist in ~/.config/uwsm/env-hyprland
+# EMAIL=aionfork@gmail.com
+# SSH_AUTH_SOCK=/run/user/1000/gnupg/S.gpg-agent.ssh
+
+# export EMACS=$HOME/.doom.d/.guix-profile/bin/emacs
+export EMACS=$GUIX_PROFILE/bin/emacs
+export EMACSDIR=$HOME/.emacs.doom
+export DOOMDIR=$HOME/.doom.d
+export GPROFILE="$GUIX_PROFILE"
+
+# EMACSSOCKET=/run/users/1000/emacs/doom
+# EMACS_SOURCE=/data/ecto/emacs/emacs/src
+
+uw_app=uwsmdoom
+uw_desc=
+uw_unit=
+
+uwsm app -s b -t service -a $uw_app -- \
+    guix shell -p $GUIX_PROFILE -- \
+    emacs --init-directory=$EMACSDIR --fg-daemon="$emacs_socket_name" "$@"

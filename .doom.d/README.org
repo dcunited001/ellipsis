@@ -85,6 +85,7 @@ proper environment.
   second emacs server
 + .local/share/applications/doomclient.desktop :: uses the =doomclient=
   wrapper
++ bin/doomuwsm :: run doom as a =uwsm app=
 + bin/doomemacs :: run the doom emacs server, outside of systemd. A socket
   specified by =-- --socket=muh.socket= may need to be managed.
 + bin/doomclient :: run an =emacsclient= that connects to the =doom=
