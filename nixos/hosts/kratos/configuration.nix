@@ -2,6 +2,7 @@
   imports = [ # Include the results of the hardware scan.
     ./hardware.nix
     ./xdg.nix
+    ./fcitx5.nix
     #      ./containers.nix
     ../../modules/users/dc.nix
     ../../modules/services/bluetooth.nix
@@ -145,6 +146,7 @@
   programs.gnupg.agent = {
     enable = true;
     enableSSHSupport = true;
+    pinentryPackage = pkgs.pinentry-qt;
   };
 
   programs.tmux.enable = true;
@@ -220,6 +222,7 @@
     du-dust
     ioping
     smartmontools
+    btrfs-progs
 
     # TOOLS: FIRMWARE
     fiano

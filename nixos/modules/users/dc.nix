@@ -57,6 +57,7 @@
       # CLI
       tree
       git-repo
+      git-stack
 
       # CLI SHINY
       neofetch
@@ -69,6 +70,9 @@
       nil # nix lsp
       nixd
       nixfmt
+      nix-visualize
+      nix-du # visualize /nix/store disk usage
+      # https://github.com/Azeirah/nix-deps-treemap
 
       # EDITOR
       emacs
@@ -77,8 +81,15 @@
       # DATA
       jq
       yq
+      jc
       sqlite
       sqlitebrowser
+
+      # DATA: VIZ
+      d2
+      graphviz
+      plantuml
+      imagemagick
 
       # DEV
       gnumake
@@ -89,13 +100,19 @@
       ripgrep
       fd
 
+      # DEV: CRYPT
+      pass
+      age
+      age-plugin-yubikey
+      # age-plugin-tpm
+      agenix-cli
+      sops
+
       # LANG: JAVA
       openjdk
 
       # TOOLS
-      graphviz
-      d2
-      imagemagick
+      p7zip
 
       # TOOLS: CONTAINERS
       dive
@@ -133,6 +150,15 @@
       nwg-displays
       nwg-icon-picker
 
+      # DESKTOP: KEYBOARD
+      xkbvalidate
+      # xkbcomp
+      # xkbprint # trying to avoid unnecessary X11 deps (? idk)
+      fcitx5-configtool
+
+      # problematic when fcitx5 configured by system:
+      # fcitx5 fcitx5-mozc fcitx5-gtk
+
       # DESKTOP: DEBUG
       wev
 
@@ -148,6 +174,7 @@
       # HYPR
       hypridle
       hyprpaper
+      hyprls
       eww
 
       # WAYBAR
