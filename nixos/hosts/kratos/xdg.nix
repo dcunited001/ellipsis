@@ -16,7 +16,7 @@
 
   qt.enable = true;
   qt = {
-    platformTheme = "gnome";
-    style = "adwaita";
+    platformTheme = "qt5ct"; # gnome,gtk2,kde,kde6,lxqt,qt5ct
+    style = "adwaita-dark";
   };
 }
