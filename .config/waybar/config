@@ -12,8 +12,7 @@
     "modules-center": [ "cpu",
         "memory",
         "clock",
-        "battery",
-        "idle_inhibitor" ],
+        "battery" ],
     "modules-right": [ "custom/tuitray-head",
         "custom/sysz",
         // "custom/lnavlogs",
@@ -28,7 +27,7 @@
     "hyprland/workspaces": {
         "format": "{icon}",
         "on-click": "activate",
-        "all-outputs": true,
+        "all-outputs": false,
         "sort-by-number": true,
         "format-icons": {
             "1": "1",
@@ -51,13 +50,6 @@
         "format": "{}",
         "icon": true,
         "icon-size": 20
-    },
-    "idle_inhibitor": {
-        "format": "{icon}",
-        "format-icons": {
-            "activated": "",
-            "deactivated": "",
-        },
     },
     "tray": {
         "icon-size": 20,
