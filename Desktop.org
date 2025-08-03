@@ -1644,49 +1644,51 @@ The installed application images require:
 
 huh? idk
 
-| category | flatpakId                          | comment                       |
-|----------+------------------------------------+-------------------------------|
-| chat     | com.discordapp.Discord             |                               |
-|          | org.zulip.Zulip                    |                               |
-|          | org.kde.konversation               |                               |
-|          | org.quassel_irc.QuasselClient      |                               |
-|          | com.slack.Slack                    |                               |
-|          | im.riot.Riot                       | Element chat (via element.io) |
-|          | org.telegram.desktop               |                               |
-| comm     | org.mozilla.Thunderbird            |                               |
-|          | us.zoom.Zoom                       |                               |
-|          | org.jitsi.jitsi-meet               |                               |
-| web      | org.torproject.torbrowser-launcher |                               |
-|          | org.mozilla.firefox                |                               |
-|          | com.vivaldi.Vivaldi                |                               |
-|          | com.opera.Opera                    |                               |
-|          | com.brave.Browser                  |                               |
-| office   | org.libreoffice.LibreOffice        |                               |
-| video    | com.obsproject.Studio              |                               |
-| media    | org.videolan.VLC                   |                               |
-| audio    | org.rncbc.qpwgraph                 |                               |
-| 2d       | org.kde.krita                      |                               |
-|          | org.inkscape.Inkscape              |                               |
-| 3d       | com.ultimaker.cura                 |                               |
-|          | org.freecad.FreeCAD                |                               |
-|          | org.blender.Blender                |                               |
-|          | net.meshlab.MeshLab                |                               |
-| xdg      | org.gnome.design.IconLibrary       | browse icons by id            |
-|          | org.gustavoperedo.FontDownloader   | needed for fonts              |
-|          | org.kde.KStyle.Adwaita             | theme                         |
-| editor   | com.visualstudio.code              |                               |
-|          | com.vscodium.codium                |                               |
-| ops      | io.podman_desktop.PodmanDesktop    |                               |
-| dev      | com.getpostman.Postman             |                               |
-| util     | com.github.tchx84.Flatseal         |                               |
-|          | org.raspberrypi.rpi-imager         |                               |
-|          | org.kde.filelight                  | visualize disk usage          |
-|          | io.missioncenter.MissionCenter     | show perf (cpu, etc)          |
-| sec      | com.bitwarden.desktop              |                               |
-|          | org.keepassxc.KeePassXC            |                               |
-|          | com.yubico.yubioath                |                               |
-| doc      | org.zealdocs.Zeal                  |                               |
-|          | com.github.mdh34.quickdocs         |                               |
+| category | flatpakId                                   | comment                       |
+|----------+---------------------------------------------+-------------------------------|
+| chat     | com.discordapp.Discord                      |                               |
+|          | org.zulip.Zulip                             |                               |
+|          | org.kde.konversation                        |                               |
+|          | org.quassel_irc.QuasselClient               |                               |
+|          | com.slack.Slack                             |                               |
+|          | im.riot.Riot                                | Element chat (via element.io) |
+|          | org.telegram.desktop                        |                               |
+| comm     | org.mozilla.Thunderbird                     |                               |
+|          | us.zoom.Zoom                                |                               |
+|          | org.jitsi.jitsi-meet                        |                               |
+| web      | org.torproject.torbrowser-launcher          |                               |
+|          | org.mozilla.firefox                         |                               |
+|          | com.vivaldi.Vivaldi                         |                               |
+|          | com.opera.Opera                             |                               |
+|          | com.brave.Browser                           |                               |
+| office   | org.libreoffice.LibreOffice                 |                               |
+| video    | com.obsproject.Studio                       |                               |
+|          | com.obsproject.Studio.Plugin.GStreamerVaapi |                               |
+|          | com.gnome.Cheese                            |                               |
+| media    | org.videolan.VLC                            |                               |
+| audio    | org.rncbc.qpwgraph                          |                               |
+| 2d       | org.kde.krita                               |                               |
+|          | org.inkscape.Inkscape                       |                               |
+| 3d       | com.ultimaker.cura                          |                               |
+|          | org.freecad.FreeCAD                         |                               |
+|          | org.blender.Blender                         |                               |
+|          | net.meshlab.MeshLab                         |                               |
+| xdg      | org.gnome.design.IconLibrary                | browse icons by id            |
+|          | org.gustavoperedo.FontDownloader            | needed for fonts              |
+|          | org.kde.KStyle.Adwaita                      | theme                         |
+| editor   | com.visualstudio.code                       |                               |
+|          | com.vscodium.codium                         |                               |
+| ops      | io.podman_desktop.PodmanDesktop             |                               |
+| dev      | com.getpostman.Postman                      |                               |
+| util     | com.github.tchx84.Flatseal                  |                               |
+|          | org.raspberrypi.rpi-imager                  |                               |
+|          | org.kde.filelight                           | visualize disk usage          |
+|          | io.missioncenter.MissionCenter              | show perf (cpu, etc)          |
+| sec      | com.bitwarden.desktop                       |                               |
+|          | org.keepassxc.KeePassXC                     |                               |
+|          | com.yubico.yubioath                         |                               |
+| doc      | org.zealdocs.Zeal                           |                               |
+|          | com.github.mdh34.quickdocs                  |                               |
 
 Other
 
