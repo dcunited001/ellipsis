@@ -139,6 +139,8 @@ Guix channel.")
 (global-set-key (kbd "C-M-S-<return>") #'duplicate-line)
 (global-set-key (kbd "C-x M-f") #'find-file-at-point)
 
+(use-package! xkb-mode :defer t)
+
 ;;;;; Help Map (native)
 
 (map! :map 'help-map
@@ -467,6 +469,8 @@ Guix channel.")
   :config
   ;; this logs to messages a bit too often, to engrain the functionality...
   (global-set-key [remap other-window] #'aw-show-dispatch-help)
+  ;; overrides C-x C-o as #'delete-blank-lines (useful, as selecting the
+  ;; interpolating "not s-expression" of blank lines is PITA)
   (map! :map ctl-x-map "C-o" #'ace-window))
 
 ;; TODO buf-move-up: keybinds are not set until used
@@ -1735,8 +1739,21 @@ the root")
 ;;;; Desktop
 
 ;;;;; Hyprland
-(use-package! hyprland-ts-mode
-  :defer t)
+
+;; NOTE: need to :demand t because auto-mode-alist is path-based...
+;;
+;; - but it's tricky because *somehow* conf-mode gets automagically generated
+;;   and shimmed onto auto-mode-alist on top (ughhh...)
+;;
+;; - .dir-locals.el is messy and file-local-variables will simply not load
+;;   mode: hyprlang unless it's loaded.
+;;
+;; - so it looks like file-local-variables & :demand t are needed redundantly
+;;
+;; - mostly :defer t bc it's a custom package and who knows whether it'll
+;;   break ... maybe i can push the tree-sitter-hyprlang upstream, but the
+;;   tests fail
+(use-package! hyprlang-ts-mode :demand t)
 
 ;;; Applications
 

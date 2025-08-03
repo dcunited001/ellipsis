@@ -166,6 +166,9 @@
 ;;**** CMake
 ;; TODO: PKG project-cmake (dep on project.el)
 ;;**** QML
+;;**** XKB
+(package! xkb-mode)
+
 ;;*** Go
 
 ;;** Other Langs

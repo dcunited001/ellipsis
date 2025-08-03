@@ -167,7 +167,7 @@
                  (bootloader grub-efi-bootloader)
                  (targets "/dev/sda")))
     (file-systems (cons (file-system
-                          (device (file-system-label "usb-gpg-disk"))
+                          (device (file-system-label "nonguix-install-disk"))
                           (mount-point "/")
                           (type "btrfs")
                           (flags '(no-atime))

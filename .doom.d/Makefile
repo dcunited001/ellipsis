@@ -14,15 +14,19 @@ CHANLOCK=channels-lock.scm
 # EMACSSOCKET=/run/users/1000/emacs/doom
 
 # TODO: shouldn't be coupled to another project install path
-ELCHANNEL=../ellipsis/ellipsis
-DCCHANNEL=../dc/dc
-GUIXLOADARGS="-L ${ELCHANNEL} -L ${DCCHANNEL}"
+ELCHANNEL=../ellipsis
+DCCHANNEL=../dc
+GUIXPACKAGE=guix package -L ${ELCHANNEL} -L ${DCCHANNEL}
+
+# quoting issues:
+# GUIXLOADARGS="-L ${ELCHANNEL} -L ${DCCHANNEL}"
+# GUIXPACKAGE="guix package ${GUIXLOADARGS}"
 
 # .guix-profile requires pulling $ELCHANNEL,$DCCHANNEL first
 
 .PHONY: .guix-profile
-.guix-profile:
-	guix package -m ${MANIFEST} -p ${GUIX_PROFILE}
+.guix-profile: manifest.scm
+	$(GUIXPACKAGE) -m ${MANIFEST} -p ${GUIX_PROFILE}
 
 #	# not using the dotfiles packages for now
 #	guix package ${GUIXLOADARGS} -m ${MANIFEST} -p ${GUIX_PROFILE}
@@ -34,3 +38,5 @@ GUIXLOADARGS="-L ${ELCHANNEL} -L ${DCCHANNEL}"
 # - update profile/lock
 # - clean artifacts; how to clean out ~/.emacs.d? not within dir.
 
+# grep --include=*Makefile --include=*.mk -C5 -re target /data/ecto/x.files/akagi/dotfiles/
+# grep --include=*Makefile --include=*.mk -C5 -re all: /data/ecto/x.files/akagi/dotfiles/

@@ -58,3 +58,18 @@
 
 (define-public channels-package
   (guix-for-channels my-channels))
+
+;; See ~akagi/guixrc for an example of maintaining GUIXTM profiles
+;;
+;; https://git.sr.ht/~akagi/guixrc/tree/master/item/configs/profiles.mk
+;;
+;; - uses guix.lock (on the profile links) to trigger further make tasks
+;; - maintains two sets of profiles, each with a set of pinned channels-{fdsa}.scm
+
+;; ./src/rde/packages/guix.scm does the same as the above with more granular
+;; control to create (channels-union ...) with a single set of sources.
+;;
+;; https://git.sr.ht/~abcdw/rde/tree/master/src/rde/packages/guix.scm#L6
+;;
+;; - it's only used for development purposes: in Makefiles and referenced
+;;   by other dev modules

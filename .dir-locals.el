@@ -93,8 +93,8 @@
                 "defpsmacro")))))
 
  (scheme-mode
-  (eval . (add-hook 'scheme-mode-hook 'guix-devel-mode))
-  (eval . (add-hook 'scheme-mode-hook 'prism-mode))
+  (eval . (and (featurep 'guix) (add-hook 'scheme-mode-hook 'guix-devel-mode)))
+  (eval . (and (featurep 'prism) (add-hook 'scheme-mode-hook 'prism-mode)))
   (eval . (add-to-list 'ffap-alist '("\\.patch" . guix-devel-ffap-patch)))
 
   (indent-tabs-mode . nil)

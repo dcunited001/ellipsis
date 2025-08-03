@@ -147,6 +147,7 @@
     enable = true;
     enableSSHSupport = true;
     pinentryPackage = pkgs.pinentry-qt;
+    # pinentryFlavor
   };
 
   programs.tmux.enable = true;
@@ -265,6 +266,11 @@
       withUWSM = true; # recommended for most users
       xwayland.enable = true; # Xwayland can be disabled.
     };
+
+    # NOTE: check for uwsm issues
+    # adds only three things: idle+lock pkgs, systemd service + pam auth
+    hyprlock.enable = true;
+
     dconf.enable = true;
     seahorse.enable = true;
     neovim.enable = true; # defaultEditor = true;

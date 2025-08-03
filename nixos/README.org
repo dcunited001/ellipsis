@@ -453,6 +453,28 @@ socat -u "UNIX-CONNECT:$hyprsock" - \
 ** NWG
 
 
+
+** Theme
+
+*** What Icons are available?
+
+From the hyprland shell's environment, run:
+
+#+begin_src shell
+echo $XDG_DATA_DIRS | tr : '\n' \
+    | sed -e 's/$/\/icons/g' \
+    | xargs -n1 ls 2>/dev/null
+#   | xargs -n1 tree -d -L3
+#+end_src
+
+Remove the stderr redirection to see which directories haunt your ricing
+nightmares.
+
+**** Or... There's =nwg-icon-picker= and =yad-icon-browser=
+
++ Both of these require proper setup up gtk theme & XDG icon search path.
++ Both may encounter issues with PAM or UWSM's environment setup.
+
 ** Eww & Yuck
 
 + A little complicated, but so is any event-driven system.

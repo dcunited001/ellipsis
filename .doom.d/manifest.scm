@@ -37,6 +37,9 @@
    "tree-sitter-sway"
    "tree-sitter-typescript"
 
+   ;; from ../ellipsis
+   "ts-hyprlang"
+
    ;; CLI
    "tree-sitter-cli"))
 
