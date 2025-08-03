@@ -1,0 +1,136 @@
+// -*- mode: c++; aphelia-mode: -1 -*-
+partial xkb_symbols "mute_f17" {
+  key<MUTE>{[ F15, F15, XF86AudioMute, XF86AudioMute ]};
+}
+
+partial xkb_symbols "voldown_f18" {
+  key<VOL->{[ F18, F18, XF86AudioLowerVolume, XF86AudioLowerVolume ]};
+}
+
+// key<VOL->{[ XF86AudioLowerVolume  ]};
+// key<VOL+>{[ XF86AudioRaiseVolume  ]};
+// key<FK20>{[ XF86AudioMicMute ]}
+
+// -------------------------------------------------------------------
+// from xkb/symbols/inet:evdev
+// key <MUTE>   {[ XF86AudioMute         ]};
+// key <VOL->   {[ XF86AudioLowerVolume  ]};
+// key <VOL+>   {[ XF86AudioRaiseVolume  ]};
+// key <POWR>   {[ XF86PowerOff          ]};
+// key <STOP>   {[ Cancel                ]};
+// key <AGAI>   {[ Redo                  ]};
+// key <PROP>   {[ SunProps              ]};
+// key <UNDO>   {[ Undo                  ]};
+// key <FRNT>   {[ SunFront              ]};
+// key <COPY>   {[ XF86Copy              ]};
+// key <OPEN>   {[ XF86Open              ]};
+// key <PAST>   {[ XF86Paste             ]};
+// key <FIND>   {[ Find                  ]};
+// key <CUT>    {[ XF86Cut               ]};
+// key <HELP>   {[ Help                  ]};
+// key <LNFD>   {[ Linefeed              ]};
+
+// -------------------------------------------------------------------
+// from srvr_ctrl
+
+// partial function_keys
+// xkb_symbols "fkey2vt" {
+
+//     key.type[group1] = "CTRL+ALT";
+
+//     key <FK01>	{[ F1, F1, F1, F1, XF86_Switch_VT_1 ]};
+//     key <FK02>	{[ F2, F2, F2, F2, XF86_Switch_VT_2 ]};
+//     key <FK03>	{[ F3, F3, F3, F3, XF86_Switch_VT_3 ]};
+//     key <FK04>	{[ F4, F4, F4, F4, XF86_Switch_VT_4 ]};
+//     key <FK05>	{[ F5, F5, F5, F5, XF86_Switch_VT_5 ]};
+//     key <FK06>	{[ F6, F6, F6, F6, XF86_Switch_VT_6 ]};
+//     key <FK07>	{[ F7, F7, F7, F7, XF86_Switch_VT_7 ]};
+//     key <FK08>	{[ F8, F8, F8, F8, XF86_Switch_VT_8 ]};
+//     key <FK09>	{[ F9, F9, F9, F9, XF86_Switch_VT_9 ]};
+//     key <FK10>	{[ F10, F10, F10, F10, XF86_Switch_VT_10 ]};
+//     key <FK11>	{[ F11, F11, F11, F11, XF86_Switch_VT_11 ]};
+//     key <FK12>	{[ F12, F12, F12, F12, XF86_Switch_VT_12 ]};
+// };
+
+
+// -------------------------------------------------------------------
+// HP keys
+
+
+// xkb_symbols "hil" {
+//     include "us(basic)"
+
+//     // A few alphanumeric keys are different
+//     key <TLDE> { [ grave,	asciitilde	]};
+//     key <RTSH> { [ Shift_R	]};
+//     key <LALT> { [ Meta_L	]};
+//     key <RALT> { [ Meta_R	]};
+//     // End alphanumeric section
+
+//     // Begin "Function" section
+//     key <BRK>  { [ Break	]};
+//     key <STOP> { [ Cancel	]};
+//     key <FK01> { [ F1	]	};
+//     key <FK02> { [ F2	]	};
+//     key <FK03> { [ F3	]	};
+//     key <FK04> { [ F4	]	};
+//     key <MENU> { [ Menu	]	};
+//     key <SYST> { [ hpSystem	]};
+//     key <FK05> { [ F5	]	};
+//     key <FK06> { [ F6	]	};
+//     key <FK07> { [ F7	]	};
+//     key <FK08> { [ F8	]	};
+//     key <CLRL> { [ hpClearLine	]};
+//     key <CLR>  { [ Clear	]};
+//     key <FK09> { [ F9	]	};
+//     key <FK10> { [ F10	]	};
+//     key <FK11> { [ F11	]	};
+//     key <FK12> { [ F12	]	};
+//     // End "Function" section
+
+//     // Begin "Editing" section
+//     key <PRSC> { [ Execute, Print	]};
+//     key <INSL> { [ hpInsertLine	]};
+//     key <DELL> { [ hpDeleteLine	]};
+//     key <INSC> { [ hpInsertChar	]};
+//     key <DELC> { [ hpDeleteChar	]};
+//     key <HOME> { [ Home	]	};
+//     key <PGUP> { [ Prior ]	};
+//     key <PGDN> { [ Next ]	};
+//     key <SELE> { [ Select ]	};
+//     key <LEFT> { [ Left	]	};
+//     key <DOWN> { [ Down	]	};
+//     key <UP>   { [ Up	]	};
+//     key <RGHT> { [ Right	]};
+//     // End "Editing" section
+
+//     // Begin "Keypad" section
+//     key <KPMU> { [ KP_Multiply	]};
+//     key <KPDV> { [ KP_Divide	]};
+//     key <KPAD> { [ KP_Add	]};
+//     key <KPSU> { [ KP_Subtract	]};
+
+//     key  <KP7> { [ KP_7	]	};
+//     key  <KP8> { [ KP_8	]	};
+//     key  <KP9> { [ KP_9	]	};
+//     key <KPEN> { [ KP_Enter	]};
+
+//     key  <KP4> { [ KP_4	]	};
+//     key  <KP5> { [ KP_5	]	};
+//     key  <KP6> { [ KP_6	]	};
+//     key <KPSP> { [ KP_Separator	]};
+
+//     key  <KP1> { [ KP_1	]	};
+//     key  <KP2> { [ KP_2	]	};
+//     key  <KP3> { [ KP_3	]	};
+//     key <KPTB> { [ KP_Tab	]};
+
+//     key  <KP0> { [ KP_0	]	};
+//     key <KPDL> { [ KP_Decimal ]	};
+//     // End "Keypad" section
+
+//     modifier_map Shift  	{ Shift_R };
+//     modifier_map Mod1   	{ Meta_L, Meta_R };
+//     modifier_map Mod2   	{ Alt_L };
+//     modifier_map Mod3   	{ Mode_switch };
+// };
