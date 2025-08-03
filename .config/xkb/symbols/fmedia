@@ -1,4 +1,4 @@
-// -*- mode: c++; aphelia-mode: -1 -*-
+// -*- mode: xkb; aphelia-mode: -1 -*-
 partial xkb_symbols "mute_f17" {
   key<MUTE>{[ F15, F15, XF86AudioMute, XF86AudioMute ]};
 }

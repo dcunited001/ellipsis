@@ -1,3 +1,4 @@
+// -*- mode: xkb; aphelia-mode: -1 -*-
 xkb_keycodes "dc_common" {
     // "Function" keys
     <FK01>	= 9;
