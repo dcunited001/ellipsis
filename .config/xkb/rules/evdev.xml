@@ -2,6 +2,27 @@
 <!DOCTYPE xkbConfigRegistry SYSTEM "xkb.dtd">
 <xkbConfigRegistry version="1.1">
   <modelList>
+    <model>
+      <configItem>
+        <name>dc101</name>
+        <description>DC 101-key</description>
+        <vendor>Generic</vendor>
+      </configItem>
+    </model>
+    <model>
+      <configItem>
+        <name>dc102</name>
+        <description>DC 102-key</description>
+        <vendor>Generic</vendor>
+      </configItem>
+    </model>
+    <model>
+      <configItem>
+        <name>dc104</name>
+        <description>DC 104-key</description>
+        <vendor>Generic</vendor>
+      </configItem>
+    </model>
   </modelList>
   <layoutList>
     <layout>

@@ -107,16 +107,19 @@ xkb_keycodes "dc10x" {
     include "dc(dc_common)"
     <ESC>	= 8;
     <AE00>	= 14;
-    <PRSC>	= 87;
-    <SCLK>	= 95;
-    <PAUS>	= 98;
-    <INS>	= 103;
+    <PRSC>	= 87;  // print screen
+    <SCLK>	= 95;  // scroll lock
+    <PAUS>	= 98;  // pause
+    // <INS>	= 103; // insert
+    <RWIN>	= 103; // insert
+
     <HOME>	= 110;
     <PGUP>	= 111;
     <DELE>	= 100;
     <END>	= 101;
     <PGDN>	= 109;
-    <NMLK>	= 118;
+
+    <NMLK>	= 118; // numlock
     <KPDV>	= 119;
     <KPMU>	= 126;
     <KPSU>	= 132;
@@ -125,14 +128,14 @@ xkb_keycodes "dc10x" {
 
     alias <TLDE> = <AE00>;
 
-    indicator 3 = "Caps Lock";
-    indicator 4 = "Scroll Lock";
+    indicator 3 = "Caps Lock";   // LED: Caps
+    indicator 4 = "Scroll Lock"; // LED: Scroll
 };
 
 xkb_keycodes "dc101" {
     include "dc(dc10x)"
     <BKSL>  = 92;
-    indicator 5 = "Num Lock";
+    indicator 5 = "Num Lock";    // LED: Num
 };
 
 
@@ -140,12 +143,12 @@ xkb_keycodes "dc102" {
     include "dc(dc10x)"
     <BKSL>  = 19;
     <AC12>  = 83;
-    indicator 5 = "Num Lock";
+    indicator 5 = "Num Lock";    // LED: Num
 };
 
 xkb_keycodes "dc104" {
     include "dc(dc101)"
     <LWIN>  = 139;
-    <RWIN>  = 140;
+    // <RWIN>  = 140; // <INS> -> <RWIN>
     <MENU>  = 141;
 };

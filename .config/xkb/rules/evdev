@@ -1,3 +1,9 @@
+! $dcmodels = dc101 dc102 dc104
+// dc105 pc104alt
+
+// ! model
+// ^^^ saving this "! model" crashes hyprland ... YAY
+
 ! option = symbols
   underspace:shift_underscore    = +underspace(shift_underscore)
   underspace:altgr_underscore    = +underspace(altgr_underscore)
