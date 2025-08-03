@@ -1,8 +1,13 @@
-{ pkgs, ... }:
-{
+{ pkgs, ... }: {
+
+  services.ratbagd.enable = true;
+  # TODO: restrict ratbagd to users via d-bus policy
+
+  # ---------------------------------------------
+  # services.libinput.mouse = { };
+  # services.libinput.touchpad = { };
+
   # these have the same configuration surface
-  services.libinput.mouse = { };
-  services.libinput.touchpad = { };
 
   # accelPointsFallback = null;
   # accelPointsMotion = null;

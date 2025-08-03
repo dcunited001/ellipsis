@@ -52,7 +52,7 @@
     ];
 
     # home-manager: ~/.nix-profile
-    # these install to: /etc/profiles/per-user/<username>
+    # these install to: /etc/profiles/per-user/$USER
     packages = with pkgs; [
       # CLI
       tree
@@ -67,7 +67,7 @@
       nix-search-cli
       nix-diff
       nh
-      nil # nix lsp
+      # nil # nix lsp
       nixd
       nixfmt
       nix-visualize
@@ -150,10 +150,11 @@
       nwg-displays
       nwg-icon-picker
 
-      # DESKTOP: KEYBOARD
-      xkbvalidate
+      # DESKTOP: INPUT
+      piper
       # xkbcomp
       # xkbprint # trying to avoid unnecessary X11 deps (? idk)
+      xkbvalidate
       fcitx5-configtool
 
       # problematic when fcitx5 configured by system:
@@ -172,7 +173,6 @@
       font-manager
 
       # HYPR
-      hypridle
       hyprpaper
       hyprls
       eww

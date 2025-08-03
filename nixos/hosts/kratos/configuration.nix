@@ -3,6 +3,7 @@
     ./hardware.nix
     ./xdg.nix
     ./fcitx5.nix
+    ./input.nix
     #      ./containers.nix
     ../../modules/users/dc.nix
     ../../modules/services/bluetooth.nix
@@ -29,6 +30,7 @@
   boot.loader = {
     systemd-boot.enable = true;
     systemd-boot.configurationLimit = 15;
+    systemd-boot.consoleMode = "auto";
     efi.canTouchEfiVariables = true;
   };
 

@@ -75,10 +75,14 @@ export GPROFILE="$GUIX_PROFILE"
 # EMACSSOCKET=/run/users/1000/emacs/doom
 # EMACS_SOURCE=/data/ecto/emacs/emacs/src
 
-uw_app=uwsmdoom
-uw_desc=
-uw_unit=
+emacs_socket_path=/run/user/1000/emacs # unused
+emacs_socket=$emacs_socket_path/$emacs_socket_name # unused
 
-uwsm app -s b -t service -a $uw_app -- \
+uw_app=uwsmdoom
+uw_desc="Doom Emacs @ $emacs_socket"
+uw_unit="uwsm-emacs-$emacs_socket_name.service"
+
+uwsm app -s b -t service \
+    -a "$uw_app" -u "$uw_unit" -d "$uw_desc" -- \
     guix shell -p $GUIX_PROFILE -- \
     emacs --init-directory=$EMACSDIR --fg-daemon="$emacs_socket_name" "$@"
