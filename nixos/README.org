@@ -449,11 +449,6 @@ socat -u "UNIX-CONNECT:$hyprsock" - \
       awk -F '>>|,' $awkProg
 #+end_src
 
-
-** NWG
-
-
-
 ** Theme
 
 *** What Icons are available?

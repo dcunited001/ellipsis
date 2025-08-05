@@ -129,6 +129,22 @@ dependencies from the main Guix profile.
 + Install ad-hoc treesitter grammars into =$EMACSDIR/tree-sitter=, where I
   have YAML and QML now.
 
+***** TODO doom has +tree-sitter modules for :doom:treesit:
+
+| agda     |   | haskell    |   | python           | Y |
+| cc       | Y | java       | y | ruby             |   |
+| clojure  | Y | javascript |   | rust             |   |
+| csharp   |   | json       | ? | scala            |   |
+| elixir   |   | julia      |   | sh               | . |
+| elm      |   | lua        | . | swift            |   |
+| erlang   |   | nix        |   | web (css & html) | Y |
+| ess      |   | ocaml      |   | yaml             |   |
+| go       | Y | php        |   | zig              | Y |
+| graphviz |   |            |   |                  |   |
+
+***** TODO add +tree-sitter: yaml? :doom:treesit:
+*-ts-mode needs to be active (treesit-forward-sexp doesnt work anyways)'
+
 ** Consult
 
 + embark-act :: bound to =C-;=. For other relevant keys. [[https://docs.doomemacs.org/v21.12/modules/completion/vertico/#/usage/vertico-keybindings][see here]]

@@ -1753,7 +1753,18 @@ the root")
 ;; - mostly :defer t bc it's a custom package and who knows whether it'll
 ;;   break ... maybe i can push the tree-sitter-hyprlang upstream, but the
 ;;   tests fail
-(use-package! hyprlang-ts-mode :demand t)
+;;
+;; also note: major-mode-remap-alist (not configured by libs AFAIK) and
+;; org-src-lang-modes
+(use-package! hyprlang-ts-mode
+  :demand t
+  :init
+  (after! org-src
+    (add-to-list 'org-src-lang-modes '("hyprlang" . hyprlang-ts)))
+  :config
+  (add-to-list 'major-mode-remap-alist '(hyprlang-mode . hyprlang-ts-mode)))
+
+;; TODO: look into .scm queries used by ts-hyprlang & hyprlang-ts-mode
 
 ;;; Applications
 
