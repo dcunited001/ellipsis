@@ -1,0 +1,6 @@
+// -*- mode: xkb; aphelia-mode: -1 -*-
+
+partial modifier_keys
+xkb_symbols "ins_switch" {
+  key <INS> {[  ISO_Level5_Shift  ], type[group1]="ONE_LEVEL" };
+};

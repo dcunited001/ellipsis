@@ -1,7 +1,8 @@
 ! option = symbols
-  underspace:shift_underscore    = +underspace(shift_underscore)
-  underspace:altgr_underscore    = +underspace(altgr_underscore)
-  
+  underspace:shift_underscore		= +underspace(shift_underscore)
+  underspace:altgr_underscore		= +underspace(altgr_underscore)
+  mylvl5:ins_switch					= +mylevel5(ins_switch)
+
 ! option = symbols
   fmedia:mute_f17       = +fmedia(mute_f17)
   fmedia:voldown_f18    = +fmedia(voldown_f18)

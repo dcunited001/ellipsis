@@ -32,6 +32,18 @@
   <optionList>
     <group allowMultipleSelection="false">
       <configItem>
+        <name>mylvl5</name>
+        <description>Get You A Reboot</description>
+      </configItem>
+      <option>
+        <configItem>
+          <name>mylvl5:ins_switch</name>
+          <description>Insert chooses 5th level</description>
+        </configItem>
+      </option>
+    </group>
+    <group allowMultipleSelection="false">
+      <configItem>
         <name>underspace</name>
         <description>Type Underscore with the Space Bar</description>
       </configItem>
