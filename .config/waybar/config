@@ -9,32 +9,44 @@
     // "custom/launcher",
     "modules-left": [
         "hyprland/workspaces",
+        "custom/spacer",
         "hyprland/submap",
         "hyprland/window"],
-    "modules-center": [ "cpu",
+    "modules-center": [
+        "cpu",
+        "custom/spacer",
         "memory",
+        "custom/spacer",
         "clock",
         "battery" ],
-    "modules-right": [ "custom/tuitray-head",
+    "modules-right": [
+        "custom/spacer",
         "custom/sysz",
         // "custom/lnavlogs",
-        "custom/tuitray-tail",
+        "custom/spacer",
         "network",
+        "custom/spacer",
         "pulseaudio",
+        "custom/spacer",
         "tray",
         "custom/power" ],
-    
-    // Modules configuration
 
+
+    // math scripts
+    // https://www.compart.com/en/unicode/block/U+1D400
+
+    // Modules configuration
     "hyprland/workspaces": {
         "format": "{icon}",
         "on-click": "activate",
         "all-outputs": false,
         "sort-by-number": true,
+        "show-special": true,
+        // "special-visible-only": true,
         "format-icons": {
             "1": "1",
             "2": "2",
-            "3": "3",
+            "3": "3", 
             "4": "4",
             "5": "5",
             "6": "6",
@@ -42,11 +54,19 @@
             "8": "8",
             "9": "9",
             "10": "10",
+            "music": "𝄞",
+            "pass": "🔒",
+            "docs": "𝔻", // 𝅘𝅥𝅯  D doublestruck
+            "roam": "𝕽", // R frankfurt
             "focused": "",
-            "default": "",
+            // "default": "",
             "on-scroll-up": "hyprctl dispatch workspace e+1",
             "on-scroll-down": "hyprctl dispatch workspace e-1",
         },
+    },
+    "custom/spacer": {
+        "format": "⚬",
+        "tooltip": false,
     },
     "hyprland/window": {
         "format": "{}",
@@ -54,10 +74,18 @@
         "icon-size": 20
     },
     "hyprland/submap":{
-        "format": "{}",
+        "format": "鍵 {}",
         "max-length": 12,
         "tooltip": true
     },
+    "custom/tray-head": {
+        "format": "⚬",
+        "tooltip": false,
+    },
+    // "custom/tray-tail": {
+    //     "format": "⚬",
+    //     "tooltip": false,
+    // },
     "tray": {
         "icon-size": 20,
         "spacing": 5
@@ -70,11 +98,11 @@
         // "on-click": "~/.config/waybar/scripts/OCV",
     },
     "cpu": {
-        "format": "{usage}%  ﬙",
+        "format": " {usage}%",
         "on-click": "alacritty -e btop"
     },
     "memory": {
-        "format": " {:>3}%",
+        "format": "田{:>3}%",
         "on-click": "alacritty -e btop"
     },
     "temperature": {
