@@ -51,8 +51,8 @@
 
  (shell-mode
   (eval . (add-hook 'shell-mode-hook 'guix-build-log-minor-mode)))
- (hyprlang-ts-mode
-  (eval . (add-hook 'hyprlang-ts-mode-hook #'lsp)))
+ ;; (hyprlang-ts-mode
+ ;;  (eval . (add-hook 'hyprlang-ts-mode-hook #'lsp)))
 
  (c-mode
   . ((c-file-style . "gnu")))

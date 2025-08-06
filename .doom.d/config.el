@@ -82,9 +82,14 @@ Guix channel.")
   :on-enter (setq-local buffer-read-only t))
 
 (def-project-mode! doom-nixos-dotfiles-mode
-  :match (rx-to-string (string-join (list "" (getenv "HOME") ".dotfiles" "nixos" "") "/"))
+  :match (rx-to-string (string-join (list (getenv "HOME") ".dotfiles" "nixos" "") "/"))
   :modes '(nix-mode)
-  :on-enter (add-hook 'nix-mode-local-vars-hook #'lsp! 'append))
+  :on-enter (add-hook 'nix-mode-local-vars-hook #'lsp 'append))
+
+(def-project-mode! doom-hypr-dotfiles-mode
+  :match (rx-to-string (string-join (list (getenv "HOME") ".dotfiles" ".config" "hypr") "/"))
+  :modes '(hyprlang-ts-mode)
+  :on-enter (add-hook 'hyprlang-ts-mode-hook #'lsp 'append))
 
 ;;;;; Load Path
 
