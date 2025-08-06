@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE xkbConfigRegistry SYSTEM "xkb.dtd">
-<xkbConffdsaigRegistry version="1.1">
+<xkbConfigRegistry version="1.1">
   <layoutList>
     <layout>
       <configItem>

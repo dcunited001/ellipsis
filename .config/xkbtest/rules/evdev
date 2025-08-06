@@ -1,0 +1,36 @@
+! include %S/evdev
+
+! $dcmodels = dc101 dc102 dc104
+
+// dc105 pc104alt
+
+// saving just "! model" will crash hyprland ... YAY
+
+! model 	=	keycodes
+  $dcmodels	=	evdev
+
+
+
+// Rules/MVLO <== map to ==> KcCGST
+
+// File         ::= { "!" (Include | Group | RuleSet) }
+//
+// Include      ::= "include" <ident>
+//
+// Group        ::= GroupName "=" { GroupElement } "\n"
+// GroupName    ::= "$"<ident>
+// GroupElement ::= <ident>
+//
+// RuleSet      ::= Mapping { Rule }
+//
+// Mapping      ::= { Mlvo } "=" { Kccgst } "\n"
+// Mlvo         ::= "model" | "option" | ("layout" | "variant") [ Index ]
+// Index        ::= "[" ({ NumericIndex } | { SpecialIndex }) "]"
+// NumericIndex ::= 1..XKB_MAX_GROUPS
+// SpecialIndex ::= "single" | "first" | "later" | "any"
+// Kccgst       ::= "keycodes" | "symbols" | "types" | "compat" | "geometry"
+//
+// Rule         ::= { MlvoValue } "=" { KccgstValue } "\n"
+// MlvoValue    ::= "*" | "<none>" | "<some>" | "<any>" | GroupName | <ident>
+// KccgstValue  ::= <ident> [ { Qualifier } ]
+// Qualifier    ::= ":" ({ NumericIndex } | "all")
