@@ -1,0 +1,48 @@
+#!/bin/sh
+
+
+select=""
+while getopts :lroenmd OPT; do
+    case $OPT in
+        l|+l) select+=".locked and " ;;
+        r|+r) select+=".release and " ;;
+        # c|+c) select+=".click" ;;
+        # g|+g) select+=".drag" ;;
+        o|+o) select+=".longPress and " ;;
+        e|+e) select+=".repeat and " ;;
+        n|+n) select+=".non_consuming and " ;;
+        m|+m) select+=".mouse and " ;;
+        d|+d) select+=".has_description and " ;;
+        *)
+            echo "usage: `basename $0` [+-lroenmd} [--] modmask...
+
+modmasks:  (1: shift)   (4: ctrl)   (alt: 8)   (64: super)
+
+0  1
+       4  5
+               8  9  12 13
+64 65
+       68 69
+               72 73 76 77
+"
+            exit 2
+    esac
+done
+shift `expr $OPTIND - 1`
+OPTIND=1
+
+[[ $# -lt 1 ]] && echo "requires modmask" && exit 1;
+
+modmask=""
+for m in {0,1,4,5,8,9,12,13,64,65,68,69,72,73,76,77}; do
+    if [[ "$1" == "$m" ]]; then
+        modmask="$1";
+    fi
+done
+
+[[ -z "$modmask" ]] && echo "a valid modmask is required" && exit 1;
+
+set -o pipefail # ... outside of shell?
+hyprctl binds -j | jq '. | map(select('"$select .modmask == $modmask"'))'
+
+# | select(.submap == "" and .modmask == 0) '
