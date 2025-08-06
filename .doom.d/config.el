@@ -873,6 +873,11 @@ Guix channel.")
       ;; org-agenda-tags-column 100 ;; from testing this seems to be a good value
       org-agenda-compact-blocks t)
 
+;; TODO: PKG: org-expiry to add :CREATED: props with auto-expiry
+;;
+;; - org-expiry uses the older (<24.4) advice-add, advice-remove, so needs
+;;   some work
+
 (setq-default org-agenda-span 10
               org-agenda-start-on-weekday nil
               org-agenda-start-day "-3d"
@@ -1761,8 +1766,24 @@ the root")
   :init
   (after! org-src
     (add-to-list 'org-src-lang-modes '("hyprlang" . hyprlang-ts)))
+  (after! lsp-mode
+    (lsp-register-client
+     (make-lsp-client
+      :new-connection (lsp-stdio-connection "hyprls")
+      :major-modes '(hyprlang-ts-mode)
+      :priority -1
+      :server-id 'hyprls)))
   :config
   (add-to-list 'major-mode-remap-alist '(hyprlang-mode . hyprlang-ts-mode)))
+
+;; also set up in .dir-locals.el or in def-project-mode!
+;;
+;; (hyprlang-ts-mode
+;;  (eval . (add-hook 'hyprlang-ts-mode-hook #'lsp)))
+;;
+;; i think that (lsp-register-client ...) does this
+;; (add-to-list 'lsp-language-id-configuration
+;;  '(hyprlang-ts-mode . "hyprlang"))
 
 ;; TODO: look into .scm queries used by ts-hyprlang & hyprlang-ts-mode
 
