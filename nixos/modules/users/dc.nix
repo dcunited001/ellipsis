@@ -138,6 +138,9 @@
       slurp
       wl-clipboard-rs
       dex
+
+      # DESKTOP: AUDIO
+      playerctl
       pavucontrol
 
       # DESKTOP: NOTIFICATIONS
