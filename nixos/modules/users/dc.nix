@@ -178,6 +178,10 @@
       # HYPR
       hyprpaper
       hyprls
+      hyprpolkitagent
+      hyprland-qtutils # for banners/ANR
+
+      # EWW
       eww
 
       # WAYBAR

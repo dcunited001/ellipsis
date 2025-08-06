@@ -9,10 +9,12 @@
 
       settings = {
         no-allow-external-cache = true;
+        no-allow-mark-trusted = true;
         default-cache-ttl = 60;
         max-cache-ttl = 120;
         keep-display = true;
-
+        no-allow-emacs-pinentry = true;
+        no-allow-loopback-pinentry = true;
       };
     };
     dirmngr.enable = false;

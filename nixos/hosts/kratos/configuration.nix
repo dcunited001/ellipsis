@@ -6,6 +6,7 @@
     ./input.nix
     #      ./containers.nix
     ../../modules/users/dc.nix
+    ../../modules/programs/gnupg.nix
     ../../modules/services/bluetooth.nix
     ../../modules/services/fonts.nix
     ../../modules/services/guix.nix
@@ -145,12 +146,6 @@
     enableLsColors = true;
   };
   programs.mtr.enable = true;
-  programs.gnupg.agent = {
-    enable = true;
-    enableSSHSupport = true;
-    pinentryPackage = pkgs.pinentry-qt;
-    # pinentryFlavor
-  };
 
   programs.tmux.enable = true;
   programs.tmux = {
@@ -208,11 +203,13 @@
     btop
     htop
     killall
+    pstree
 
     # TOOLS
     file
     lsof
     rng-tools
+    diffoscope
 
     # TOOLS: VM
     qemu
@@ -220,6 +217,11 @@
     # TOOLS: NETWORK
     dnsutils
     inetutils
+    tunctl
+    bridge-utils
+
+    # TOOLS: CRYPTO
+    certgraph
 
     # TOOLS: DISK
     du-dust
@@ -277,6 +279,9 @@
     seahorse.enable = true;
     neovim.enable = true; # defaultEditor = true;
   };
+
+  # hints electron apps to use wayland
+  environment.sessionVariables.NIXOS_OZONE_WL = "1";
 
   security.pam.services.hyprlock = { };
   # programs.swaylock.enable = true;
