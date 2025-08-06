@@ -1,7 +1,11 @@
 // -*- mode: xkb; aphelia-mode: -1 -*-
+
+// TODO switch altgr => level5, map greek/math to level5, copy neo keyboard
+//
+// - keep level3 mappings
+
 default partial alphanumeric_keys modifier_keys
 xkb_symbols "basic" {
-
     name[Group1]= "English (DC)";
 
     // key <AE00> {       [	    grave,     asciitilde ] };
@@ -58,9 +62,71 @@ xkb_symbols "basic" {
 };
 
 partial alphanumeric_keys
+xkb_symbols "intl" {
+
+    name[Group1]= "English (DC, intl., with dead keys)";
+
+    key <TLDE> { [dead_grave, dead_tilde,         grave,       asciitilde ] };
+    key <AE01> { [	   1,     exclam,    exclamdown,      onesuperior ] };
+    key <AE02> { [	   2,         at,   twosuperior, dead_doubleacute ] };
+    key <AE03> { [	   3, numbersign, threesuperior,      dead_macron ] };
+    key <AE04> { [	   4,     dollar,      currency,         sterling ] };
+    key <AE05> { [	   5,    percent,      EuroSign,     dead_cedilla ] };
+    key <AE06> { [    6, dead_circumflex,    onequarter,      asciicircum ] };
+    key <AE07> { [	   7,  ampersand,       onehalf,	dead_horn ] };
+    key <AE08> { [	   8,   asterisk, threequarters,      dead_ogonek ] };
+    key <AE09> { [	   9,  parenleft, leftsinglequotemark, dead_breve ] };
+    key <AE10> { [	   0, parenright, rightsinglequotemark, dead_abovering ] };
+    key <AE11> { [     minus, underscore,           yen,    dead_belowdot ] };
+    key <AE12> { [     equal,       plus,      multiply,         division ] };
+
+    key <AD01> { [	   q,          Q,    adiaeresis,       Adiaeresis ] };
+    key <AD02> { [	   w,          W,         aring,            Aring ] };
+    key <AD03> { [	   e,          E,        eacute,           Eacute ] };
+    key <AD04> { [	   r,          R,    registered,        trademark ] };
+    key <AD05> { [	   t,          T,         thorn,            THORN ] };
+    key <AD06> { [	   y,          Y,    udiaeresis,       Udiaeresis ] };
+    key <AD07> { [	   u,          U,        uacute,           Uacute ] };
+    key <AD08> { [	   i,          I,        iacute,           Iacute ] };
+    key <AD09> { [	   o,          O,        oacute,           Oacute ] };
+    key <AD10> { [	   p,          P,    odiaeresis,       Odiaeresis ] };
+    key <AD11> { [ bracketleft,  braceleft,  guillemotleft, leftdoublequotemark ] };
+    key <AD12> { [bracketright, braceright, guillemotright, rightdoublequotemark ] };
+
+    key <AC01> { [	   a,          A,        aacute,           Aacute ] };
+    key <AC02> { [	   s,          S,        ssharp,          section ] };
+    key <AC03> { [	   d,          D,           eth,              ETH ] };
+    key <AC04> { [	   f,          F,    ediaeresis,       Ediaeresis ] };
+    key <AC05> { [	   g,          G,             g,                G ] };
+    key <AC06> { [	   h,          H,             h,                H ] };
+    key <AC07> { [	   j,          J,    idiaeresis,       Idiaeresis ] };
+    key <AC08> { [	   k,          K,            oe,               OE ] };
+    key <AC09> { [	   l,          L,        oslash,           Oslash ] };
+    key <AC10> { [ semicolon,      colon,     paragraph,           degree ] };
+    key <AC11> { [dead_acute, dead_diaeresis, apostrophe,        quotedbl ] };
+
+    key <AB01> { [	   z,          Z,            ae,               AE ] };
+    key <AB02> { [	   x,          X, periodcentered,     dead_stroke ] };
+    key <AB03> { [	   c,          C,     copyright,             cent ] };
+    key <AB04> { [	   v,          V,             v,                V ] };
+    key <AB05> { [	   b,          B,             b,                B ] };
+    key <AB06> { [	   n,          N,        ntilde,           Ntilde ] };
+    key <AB07> { [	   m,          M,            mu,        plusminus ] };
+    key <AB08> { [     comma,       less,      ccedilla,         Ccedilla ] };
+    key <AB09> { [    period,    greater, dead_abovedot,       dead_caron ] };
+    key <AB10> { [     slash,   question,  questiondown,        dead_hook ] };
+    key <BKSL> { [ backslash,        bar,       notsign,        brokenbar ] };
+
+    key <LSGT> { [ backslash,   bar,            backslash,      bar ] };
+
+    include "level3(ralt_switch)"
+};
+
+
+partial alphanumeric_keys
 xkb_symbols "alt-intl" {
 
-  include "dc(basic)"
+  include "dc"
   name[Group1]= "English (DC, alt. intl.)";
 
   key <TLDE> { [ dead_grave, dead_tilde,    grave,	      asciitilde    ] };

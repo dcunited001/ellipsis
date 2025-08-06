@@ -1,6 +1,7 @@
 ! include %S/evdev
 
 ! $dcmodels = dc101 dc102 dc104
+! $dclayouts = dc
 
 // dc105 pc104alt
 
@@ -9,7 +10,15 @@
 ! model 	=	keycodes
   $dcmodels	=	evdev
 
+! layout	=	keycodes
+  $dclayouts	=	+aliases(qwerty)
 
+! layout	=	symbols
+  $dclayouts	=	dc+%l%(v)
+
+// NOTE: the above /should/ work, but ./symbols/dc needs to be changed
+// somehow, the us(alt-intl), and us(altgr-intl) import symbol bindings
+// for altgr from another map
 
 // Rules/MVLO <== map to ==> KcCGST
 
