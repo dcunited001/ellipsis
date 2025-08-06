@@ -7,7 +7,7 @@ default partial alphanumeric_keys modifier_keys xkb_symbols "basic" {
 
   key<TLDE>{[grave, asciitilde, dead_grave, dead_tilde]};
 
-  key<AE01>{[exclam, 1, exclamdown, onesuperior]};
+  key<AE01>{[exclam, 1, onesuperior, exclamdown]};
   key<AE02>{[at, 2, twosuperior, dead_doubleacute]};
   key<AE03>{[numbersign, 3, threesuperior, dead_macron]};
   key<AE04>{[dollar, 4, currency, sterling]};
@@ -33,12 +33,12 @@ xkb_symbols "intl" {
   // key <TLDE> {[dead_grave,         dead_tilde,      grave,       asciitilde ]
   // };
 
-  key<AE01>{[exclam, 1, exclamdown, onesuperior]};
+  key<AE01>{[exclam, 1, onesuperior, exclamdown]};
   key<AE02>{[at, 2, twosuperior, dead_doubleacute]};
   key<AE03>{[numbersign, 3, threesuperior, dead_macron]};
   key<AE04>{[dollar, 4, currency, sterling]};
   key<AE05>{[percent, 5, EuroSign, dead_cedilla]};
-  key<AE06>{[dead_circumflex, 6, onequarter, asciicircum]};
+  key<AE06>{[asciicircum, 6, onequarter, dead_circumflex]};
   key<AE07>{[ampersand, 7, onehalf, dead_horn]};
   key<AE08>{[asterisk, 8, threequarters, dead_ogonek]};
   key<AE09>{[parenleft, 9, leftsinglequotemark, dead_breve]};
@@ -55,14 +55,14 @@ xkb_symbols "altgr-intl" {
 
       name[Group1] = "IO Keyboard (AltGr Intl With Dead Keys)";
 
-  key<AE01>{[exclam, 1, exclamdown, onesuperior]};
+  key<AE01>{[exclam, 1, onesuperior, exclamdown]};
   key<AE02>{[at, 2, twosuperior, dead_doubleacute]};
   key<AE03>{[numbersign, 3, threesuperior, dead_macron]};
   key<AE04>{[dollar, 4, currency, sterling]};
   key<AE05>{[percent, 5, EuroSign, dead_cedilla]};
-  key<AE06>{[asciicircum, 6, dead_circumflex, onequarter]};
-  key<AE07>{[ampersand, 7, dead_horn, onehalf]};
-  key<AE08>{[asterisk, 8, dead_ogonek, threequarters]};
+  key<AE06>{[asciicircum, 6, onequarter, dead_circumflex]};
+  key<AE07>{[ampersand, 7, onehalf, dead_horn]};
+  key<AE08>{[asterisk, 8, threequarters, dead_ogonek]};
   key<AE09>{[parenleft, 9, leftsinglequotemark, dead_breve]};
   key<AE10>{[parenright, 0, rightsinglequotemark, dead_abovering]};
 
