@@ -7,7 +7,9 @@
     "spacing": 0,
 
     // "custom/launcher",
-    "modules-left": [ "hyprland/workspaces",
+    "modules-left": [
+        "hyprland/workspaces",
+        "hyprland/submap",
         "hyprland/window"],
     "modules-center": [ "cpu",
         "memory",
@@ -50,6 +52,11 @@
         "format": "{}",
         "icon": true,
         "icon-size": 20
+    },
+    "hyprland/submap":{
+        "format": "{}",
+        "max-length": 12,
+        "tooltip": true
     },
     "tray": {
         "icon-size": 20,
