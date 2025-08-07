@@ -81,16 +81,6 @@ Guix channel.")
   :modes '(emacs-lisp-mode)
   :on-enter (setq-local buffer-read-only t))
 
-(def-project-mode! doom-nixos-dotfiles-mode
-  :match (rx-to-string (string-join (list (getenv "HOME") ".dotfiles" "nixos" "") "/"))
-  :modes '(nix-mode)
-  :on-enter (add-hook 'nix-mode-local-vars-hook #'lsp 'append))
-
-(def-project-mode! doom-hypr-dotfiles-mode
-  :match (rx-to-string (string-join (list (getenv "HOME") ".dotfiles" ".config" "hypr") "/"))
-  :modes '(hyprlang-ts-mode)
-  :on-enter (add-hook 'hyprlang-ts-mode-hook #'lsp 'append))
-
 ;;;;; Load Path
 
 (add-to-list 'load-path (expand-file-name ".dotfiles/.emacs.d/lisp" (getenv "HOME")))
@@ -145,6 +135,14 @@ Guix channel.")
 (global-set-key (kbd "C-x M-f") #'find-file-at-point)
 
 (use-package! xkb-mode :defer t)
+
+;; not working?
+(def-project-mode! doom-xkb-dotfiles-mode
+  :match (rx-to-string `(seq ,(string-join (list (getenv "HOME") ".dotfiles" ".config" ""))
+                         (| "/xkb" "/xkbtest" "/xkbstd")
+                         (| "/keycodes" "/symbols" "/types" "/compat" "/geometry")))
+  ;; :modes '(xkb-mode)
+  :on-enter (xkb-mode))
 
 ;;;;; Help Map (native)
 
@@ -1612,6 +1610,11 @@ the root")
 (after! lsp-mode
   (setq lsp-disabled-clients (append lsp-disabled-clients '(nix-nil rnix-lsp))))
 
+(def-project-mode! doom-nixos-dotfiles-mode
+  :match (rx-to-string (string-join (list (getenv "HOME") ".dotfiles" "nixos" "") "/"))
+  :modes '(nix-mode)
+  :on-enter (add-hook 'nix-mode-local-vars-hook #'lsp 'append))
+
 ;;;;; Unix
 
 (use-package! elf-mode
@@ -1781,11 +1784,16 @@ the root")
   :config
   (add-to-list 'major-mode-remap-alist '(hyprlang-mode . hyprlang-ts-mode)))
 
-;; also set up in .dir-locals.el or in def-project-mode!
+;; set up in .dir-locals.el unless using doom
 ;;
 ;; (hyprlang-ts-mode
 ;;  (eval . (add-hook 'hyprlang-ts-mode-hook #'lsp)))
-;;
+
+(def-project-mode! doom-hypr-dotfiles-mode
+  :match (rx-to-string (string-join (list (getenv "HOME") ".dotfiles" ".config" "hypr") "/"))
+  :modes '(hyprlang-ts-mode)
+  :on-enter (add-hook 'hyprlang-ts-mode-hook #'lsp 'append))
+
 ;; i think that (lsp-register-client ...) does this
 ;; (add-to-list 'lsp-language-id-configuration
 ;;  '(hyprlang-ts-mode . "hyprlang"))
