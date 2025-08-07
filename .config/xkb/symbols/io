@@ -70,26 +70,28 @@ xkb_symbols "altgr-intl" {
   // key <AE12> {[     equal,       plus,      multiply,         division ] };
 };
 
+xkb_symbols "lvl8-altgr-intl" {
+  include "us(altgr-intl)"
+
+  key.type = "EIGHT_LEVEL";
+  name[Group1] = "IO Keyboard (AltGr Intl With Dead Keys)";
+
+  key<AE01>{[exclam,		1,	onesuperior,			exclamdown,			1,2,3,4]};
+  key<AE02>{[at,			2,	twosuperior,			dead_doubleacute,	1,2,3,4]};
+  key<AE03>{[numbersign,	3,	threesuperior,			dead_macron,		1,2,3,4]};
+  key<AE04>{[dollar,		4,	currency,				sterling,			1,2,3,4]};
+  key<AE05>{[percent,		5,	EuroSign, 				dead_cedilla,		1,2,3,4]};
+  key<AE06>{[asciicircum,	6,	onequarter,				dead_circumflex,	1,2,3,4]};
+  key<AE07>{[ampersand,		7,	onehalf,				dead_horn,			1,2,3,4]};
+  key<AE08>{[asterisk,		8,	threequarters,			dead_ogonek,		1,2,3,4]};
+  key<AE09>{[parenleft,		9,	leftsinglequotemark,	dead_breve,			1,2,3,4]};
+  key<AE10>{[parenright,	0,	rightsinglequotemark,	dead_abovering,		1,2,3,4]};
+
+  // key <AE11> {[     minus, underscore,           yen,    dead_belowdot ] };
+  // key <AE12> {[     equal,       plus,      multiply,         division ] };
+};
+
 //key.type = "FOUR_LEVEL";
 //key.type = "EIGHT_LEVEL_ALPHABETIC";
 //key.type = "EIGHT_LEVEL_SEMIALPHABETIC";
 //key.type = "EIGHT_LEVEL_WITH_LEVEL5_LOCK";
-
-// =============================================
-//
-// loading into hyprland requires switching io => us => io
-//
-// but this compiles
-//
-//key.type = "EIGHT_LEVEL";
-//key<AE01>{[exclam,		1,	onesuperior,			exclamdown, 6,7,8,9]};
-//
-// to this:
-//
-// key <AE01>               {
-//	type= "EIGHT_LEVEL",
-// 	symbols[Group1]= [          exclam,               1,     onesuperior,      exclamdown,               6,               7,               8,               9 ]
-// };
-
-// the Level5 (Mod3) is recognized,
-// but it won't emit the latter four characters

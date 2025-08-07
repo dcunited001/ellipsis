@@ -1,0 +1,6 @@
+// -*- mode: xkb; aphelia-mode: -1 -*-
+
+partial modifier_keys
+xkb_symbols "sclk_switch" {
+  key <SCLK> {[  ISO_Level3_Shift  ], type[group1]="ONE_LEVEL" };
+};

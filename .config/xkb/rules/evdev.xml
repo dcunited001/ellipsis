@@ -26,19 +26,38 @@
             <description>IO Keyboard (AltGr Intl With Dead Keys)</description>
           </configItem>
         </variant>
+        <variant>
+          <configItem>
+            <name>lvl8-altgr-intl</name>
+            <shortDescription>io-altgr-intl</shortDescription>
+            <description>IO Keyboard (AltGr Intl With Dead Keys)</description>
+          </configItem>
+        </variant>
       </variantList>
     </layout>
   </layoutList>
   <optionList>
     <group allowMultipleSelection="false">
       <configItem>
+        <name>mylvl3</name>
+        <description>Set ISO_Level3_Shift</description>
+      </configItem>
+      <option>
+        <configItem>
+          <name>mylvl3:sclk_switch</name>
+          <description>Scroll Lock chooses 3th level</description>
+        </configItem>
+      </option>
+    </group>
+    <group allowMultipleSelection="false">
+      <configItem>
         <name>mylvl5</name>
-        <description>Get You A Reboot</description>
+        <description>Set ISO_Level5_Shift</description>
       </configItem>
       <option>
         <configItem>
           <name>mylvl5:ins_switch</name>
-          <description>Insert chooses 5th level</description>
+          <description>Insert chooses 5th level. Get You A Reboot</description>
         </configItem>
       </option>
     </group>
