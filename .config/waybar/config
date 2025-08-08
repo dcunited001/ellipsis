@@ -27,7 +27,9 @@
         // "custom/lnavlogs",
         "custom/spacer",
         "network",
+        "custom/spacer",
         "wireplumber",
+        "wireplumber#source",
         "custom/spacer",
         "pulseaudio",
         "custom/spacer",
@@ -166,19 +168,26 @@
         "on-right-click": "nm-connection-editor"
     },
     "wireplumber": {
-        "format": "{icon} {volume}",
+        "format": "{volume}{icon}",
         "format-icons": ["", "", ""],
         "on-click": "helvum",
-        "on-click-right": "qpwgraph",
-        "format-muted":" muted",
+        "on-click-right": "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle",
+        "format-muted":"µ ",
         "max-volume": 150,
-        "scroll-step": 0.2
+        "scroll-step": 2
+    },
+    "wireplumber#source": {
+      "node-type": "Audio/Source",
+      "format": "{volume}󰍬",
+      "format-muted": "µ 󰍭",
+      "on-click-right": "wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle",
+      "scroll-step": 5,
     },
     "pulseaudio": {
         "scroll-step": 5,
-        "format": "{icon} {volume}%",
+        "format": "{volume}{icon}",
         "format-bluetooth": "{icon} {volume}%",
-        "format-muted":"muted ",
+        "format-muted":"µ ",
         "format-icons": {
             "headphones": "",
             "handsfree": "",

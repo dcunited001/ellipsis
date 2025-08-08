@@ -194,6 +194,10 @@ window#waybar {
     color: #bf616a;
 }
 
+#wireplumber {
+    color: #b48ead;
+}
+
 #pulseaudio {
     color: #b48ead;
 }
@@ -203,6 +207,10 @@ window#waybar {
 }
 
 #wireplumber.muted {
+    color: #bf616a;
+}
+
+#wireplumber#source {
     color: #bf616a;
 }
 
