@@ -10,9 +10,9 @@
     "modules-left": [
         "hyprland/workspaces",
         "custom/spacer",
-        "hyprland/submap",
         "hyprland/window"],
     "modules-center": [
+        "hyprland/submap",
         "cpu",
         "custom/spacer",
         "memory",
@@ -27,6 +27,7 @@
         // "custom/lnavlogs",
         "custom/spacer",
         "network",
+        "wireplumber",
         "custom/spacer",
         "pulseaudio",
         "custom/spacer",
@@ -56,6 +57,7 @@
             "9": "9",
             "10": "10",
             "music": "𝄞",
+            "audio": "󰜟",
             "pass": "🔒",
             "docs": "𝔻", // 𝅘𝅥𝅯  D doublestruck
             "roam": "𝕽", // R frankfurt
@@ -162,6 +164,15 @@
         "tooltip-format-ethernet": " {ifname}\nIP: {ipaddr}\n up: {bandwidthUpBits} down: {bandwidthDownBits}",
         "on-click": "alacritty -e nmtui",
         "on-right-click": "nm-connection-editor"
+    },
+    "wireplumber": {
+        "format": "{icon} {volume}",
+        "format-icons": ["", "", ""],
+        "on-click": "helvum",
+        "on-click-right": "qpwgraph",
+        "format-muted":" muted",
+        "max-volume": 150,
+        "scroll-step": 0.2
     },
     "pulseaudio": {
         "scroll-step": 5,

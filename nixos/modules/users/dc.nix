@@ -142,6 +142,8 @@
       # DESKTOP: AUDIO
       playerctl
       pavucontrol
+      qpwgraph
+      helvum
 
       # DESKTOP: NOTIFICATIONS
       swaynotificationcenter
