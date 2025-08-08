@@ -120,11 +120,11 @@
     },
     "cpu": {
         "format": " {usage}%",
-        "on-click": "alacritty -e btop"
+        "on-click": "alacritty --class 'Alacritty:org.dc.tuitray' -T 'tuitray:btop' -e btop"
     },
     "memory": {
         "format": "田{:>3}%",
-        "on-click": "alacritty -e btop"
+        "on-click": "alacritty --class 'Alacritty:org.dc.tuitray' -T 'tuitray:btop' -e btop"
     },
     "temperature": {
         // "thermal-zone": 2,
@@ -164,7 +164,7 @@
         "format-alt": "{ifname}: {ipaddr}/{cidr}",
         "tooltip-format-wifi": "  {ifname} @ {essid}\nIP: {ipaddr}\nStrength: {signalStrength}%\nFreq: {frequency}MHz\nUp: {bandwidthUpBits} Down: {bandwidthDownBits}",
         "tooltip-format-ethernet": " {ifname}\nIP: {ipaddr}\n up: {bandwidthUpBits} down: {bandwidthDownBits}",
-        "on-click": "alacritty -e nmtui",
+        "on-click": "alacritty --class 'Alacritty:org.dc.tuitray' -T 'tuitray:nmtui' -e nmtui",
         "on-right-click": "nm-connection-editor"
     },
     "wireplumber": {
@@ -217,7 +217,7 @@
         "return-type": "json",
         "exec": "echo '{\"class\": \"tuitray\"}'",
         "format": "制",
-        "on-click": "alacritty -e sysz",
+        "on-click": "alacritty --class 'Alacritty:org.dc.tuitray' -T 'tuitray:sysz' -e sysz",
         //"on-click-right": ""
     },
     "custom/tuitray-head": {
