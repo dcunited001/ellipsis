@@ -113,6 +113,7 @@
 
       # TOOLS
       p7zip
+      unzip
 
       # TOOLS: CONTAINERS
       dive
@@ -134,10 +135,13 @@
       # DESKTOP
       # thunar # programs.thunar...
       wofi
-      grim
-      slurp
       wl-clipboard-rs
       dex
+
+      # DESKTOP: SCREENSHOTS
+      grim
+      slurp
+      grimblast
 
       # DESKTOP: AUDIO
       playerctl

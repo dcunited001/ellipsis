@@ -19,11 +19,15 @@
         "custom/spacer",
         "battery",
         "clock",
-        "custom/spacer",
-        "custom/notification" ],
-    "modules-right": [
-        "custom/spacer",
+        "custom/spacer-head",
         "custom/sysz",
+        "custom/spacer",
+        "custom/notification",
+        "custom/spacer",
+        "custom/yktouch",
+        "custom/spacer-tail"
+    ],
+    "modules-right": [
         // "custom/lnavlogs",
         "custom/spacer",
         "network",
@@ -60,6 +64,7 @@
             "10": "10",
             "music": "𝄞",
             "audio": "󰜟",
+            "tuitray": "",
             "pass": "🔒",
             "docs": "𝔻", // 𝅘𝅥𝅯  D doublestruck
             "roam": "𝕽", // R frankfurt
@@ -73,6 +78,14 @@
         "format": "⚬",
         "tooltip": false,
     },
+    "custom/spacer-head": {
+        "format": " ", // "⚬"
+        "tooltip": false,
+    },
+    "custom/spacer-tail": {
+        "format": " ", // "⚬"
+        "tooltip": false,
+    },
     "hyprland/window": {
         "format": "{}",
         "icon": true,
@@ -82,6 +95,14 @@
         "format": "鍵 {}",
         "max-length": 12,
         "tooltip": true
+    },
+    "custom/yktouch": {
+        // "format": "🔑",
+        "exec": "~/.config/waybar/scripts/yktouch",
+        "return-type": "json"
+        // hmmm
+        // "on-click": "/bin/sh -c 'ykman list' | hyprctl notify 1 1000 rgb(123456) 'font-size:24 ...'"
+        // "on-right-click": "/bin/sh -c 'ykman list' | hyprctl notify 1 1000 rgb(123456) 'font-size:24 ...'"
     },
     "custom/notification": {
         "tooltip": false,
@@ -177,11 +198,11 @@
         "scroll-step": 2
     },
     "wireplumber#source": {
-      "node-type": "Audio/Source",
-      "format": "{volume}󰍬",
-      "format-muted": "µ 󰍭",
-      "on-click-right": "wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle",
-      "scroll-step": 5,
+        "node-type": "Audio/Source",
+        "format": "{volume}󰍬",
+        "format-muted": "µ 󰍭",
+        "on-click-right": "wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle",
+        "scroll-step": 5,
     },
     "pulseaudio": {
         "scroll-step": 5,
@@ -220,15 +241,6 @@
         "on-click": "alacritty --class 'Alacritty:org.dc.tuitray' -T 'tuitray:sysz' -e sysz",
         //"on-click-right": ""
     },
-    "custom/tuitray-head": {
-        "format": "⚬",
-        "tooltip": false,
-    },
-    "custom/tuitray-tail": {
-        "format": "⚬",
-        "tooltip": false,
-    },
-
     "custom/launcher": {
         "format":" ",
         "on-click": "exec nwg-drawer",

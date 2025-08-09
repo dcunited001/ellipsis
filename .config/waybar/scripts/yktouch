@@ -1,0 +1,69 @@
+#!/bin/sh
+
+socket="${XDG_RUNTIME_DIR:-/run/user/$UID}/yubikey-touch-detector.socket"
+ykicon=""
+ykgreen="<span foreground='green'><sup>$ykicon</sup></span>"   # touch request
+ykyellow="<span foreground='yellow'><sup>$ykicon</sup></span>" # normal
+ykpink="<span foreground='pink'><sup>$ykicon</sup></span>"     # before first touch
+ykred="<span foreground='red'><sup>$ykicon</sup></span>"
+
+# how to detect error status?
+
+while true; do
+    touch_reasons=()
+
+    if [ ! -e "$socket" ]; then
+        printf '{"text": "Waiting for YubiKey socket"}\n'
+        while [ ! -e "$socket" ]; do sleep 1; done
+    fi
+    printf "{\"text\": \"$ykpink\"}\n"
+
+    while read -r -n5 cmd; do
+        reason="${cmd:0:3}"
+
+        if [ "${cmd:4:1}" = "1" ]; then
+            touch_reasons+=("$reason")
+        else
+            for i in "${!touch_reasons[@]}"; do
+                if [ "${touch_reasons[i]}" = "$reason" ]; then
+                    unset 'touch_reasons[i]'
+                    break
+                fi
+            done
+        fi
+
+        if [ "${#touch_reasons[@]}" -eq 0 ]; then
+            printf "{\"text\": \"$ykyellow\"}\n"
+            # printf '{"text": ""}\n'
+        else
+            tooltip="YubiKey is waiting for a touch, reasons: ${touch_reasons[*]}"
+            printf "{\"text\": \"$ykgreen ${touch_reasons[*]}\"}\n" "$tooltip"
+        fi
+    done < <(nc -U "$socket")
+
+    sleep 1
+done
+
+# On unplug, decryption/etc succeeds, GPG notifier fails
+# - some process loses socket state
+# - is this a netcat failure? use named file-descriptor?
+# - or service failure? it's probably `nc -U "$socket"`
+# - U2F notifier continues to function
+#
+# gpg-agent[9511]: DBG: agent_card_learn failed: Card removed
+# gpg-agent[9511]: command 'LEARN' failed: Card removed <SCD>
+# gpg-agent[9511]: DBG: agent_card_learn failed: Card removed
+# gpg-agent[9511]: command 'LEARN' failed: Card removed <SCD>
+
+# U2F error (key invalid?)
+#
+# chromium-browser.desktop[123456]: [123456:123456:0809/54321.767890:\
+#   ERROR:components/device_event_log/device_event_log_impl.cc:198] \
+#   [12:34:56.123] FIDO: fido_device_authenticator.cc:1449 \
+#   CTAP error response code 46 received from usb-1050:4040
+# chromium-browser.desktop[123456]: [123456:123456:0809/54321.767890:\
+#   ERROR:components/device_event_log/device_event_log_impl.cc:198] \
+#   [12:34:56.123] FIDO: get_assertion_request_handler.cc:741 \
+#   Failing assertion request due to status 2 from usb-1050:4040
+
+# usb-1050:4040: vendor/model

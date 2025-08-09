@@ -131,9 +131,25 @@ window#waybar {
     margin-right: 2px;
 }
 
+#notification,
+#custom-sysz,
+#custom-yktouch {
+    margin-left: 2px;
+    margin-right: 2px;
+}
+
 #custom-spacer {
     margin-left: 1px;
     margin-right: 1px;
+}
+#custom-spacer-head {
+    margin-left: 16px;
+    margin-right: 1px;
+}
+
+#custom-spacer-tail {
+    margin-left: 1px;
+    margin-right: 16px;
 }
 
 /* -----------------------------------------------------------------------------
@@ -224,6 +240,11 @@ window#waybar {
 
 #idle_inhibitor {
     color: #ebcb8b;
+}
+
+
+#custom-yktouch {
+
 }
 
 #tray {
