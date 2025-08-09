@@ -44,7 +44,9 @@ while true; do
     sleep 1
 done
 
+# ---------------------------------------------
 # On unplug, decryption/etc succeeds, GPG notifier fails
+#
 # - some process loses socket state
 # - is this a netcat failure? use named file-descriptor?
 # - or service failure? it's probably `nc -U "$socket"`
@@ -55,6 +57,9 @@ done
 # gpg-agent[9511]: DBG: agent_card_learn failed: Card removed
 # gpg-agent[9511]: command 'LEARN' failed: Card removed <SCD>
 
+# (only restarting yk-touch-detector service resets GPG; waybar restart doesn't)
+
+# ------------------------------------------------------
 # U2F error (key invalid?)
 #
 # chromium-browser.desktop[123456]: [123456:123456:0809/54321.767890:\

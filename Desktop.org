@@ -1684,6 +1684,8 @@ huh? idk
 |          | org.raspberrypi.rpi-imager                  |                               |
 |          | org.kde.filelight                           | visualize disk usage          |
 |          | io.missioncenter.MissionCenter              | show perf (cpu, etc)          |
+| dbus     | org.freedesktop.Bustle                      | capture dbus events           |
+|          | io.qt.qdbusviewer                           | enumerate/test dbus events    |
 | sec      | com.bitwarden.desktop                       |                               |
 |          | org.keepassxc.KeePassXC                     |                               |
 |          | com.yubico.yubioath                         |                               |

@@ -99,10 +99,10 @@
     "custom/yktouch": {
         // "format": "🔑",
         "exec": "~/.config/waybar/scripts/yktouch",
-        "return-type": "json"
+        "return-type": "json",
+        "on-click-right": "systemctl --user restart yubikey-touch-detector"
         // hmmm
         // "on-click": "/bin/sh -c 'ykman list' | hyprctl notify 1 1000 rgb(123456) 'font-size:24 ...'"
-        // "on-right-click": "/bin/sh -c 'ykman list' | hyprctl notify 1 1000 rgb(123456) 'font-size:24 ...'"
     },
     "custom/notification": {
         "tooltip": false,
