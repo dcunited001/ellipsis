@@ -66,7 +66,19 @@
       # NIX
       nix-search-cli
       nix-diff
-      nh
+
+      ((callPackage <nixpkgs/pkgs/by-name/nh/nh/package.nix>
+        { }).overrideAttrs {
+          src = pkgs.fetchFromGitHub {
+            owner = "nix-community";
+            repo = "nh";
+            # sha1 = "003dd72d3234361c93d5be7ec9766c88e0dd1052";
+            # tag = "v4.1.2";
+            rev = "1b80ec22d3ab66fa806e14cceec3457984226d37";
+            hash = "sha256-v02NsZ589zzPq5xsCxyrG1/ZkFbbMkUthly50QdmYKo=";
+          };
+          env.NH_REV = "1b80ec22d3ab66fa806e14cceec3457984226d37"; # src.rev;
+        })
       # nil # nix lsp
       nixd
       nixfmt
@@ -195,5 +207,6 @@
       sysz # fzf for systemd
       yad # gtk-like dmenu
     ];
+
   };
 }
