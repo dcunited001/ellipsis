@@ -36,6 +36,7 @@
     extraGroups = [ "wheel" ]; # Enable ‘sudo’ for the user.
     isNormalUser = true;
     # useDefaultShell = true;
+    linger = true; # continue running [oci-container] services after logout
     subUidRanges = [{
       startUid = 1000000;
       count = 65536;

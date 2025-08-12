@@ -7,17 +7,18 @@
     #      ./containers.nix
     ../../modules/users/dc.nix
     ../../modules/programs/gnupg.nix
-    ../../modules/services/bluetooth.nix
-    ../../modules/services/fonts.nix
+    ../../modules/desktop/bluetooth.nix
+    ../../modules/desktop/fonts.nix
+    ../../modules/desktop/pipewire.nix
+    ../../modules/desktop/printing.nix
+    ../../modules/desktop/sddm.nix
+    ../../modules/desktop/xdg.nix
+
     ../../modules/services/guix.nix
     ../../modules/services/nix.nix
     ../../modules/services/openssh.nix
-    ../../modules/services/pipewire.nix
-    ../../modules/services/printing.nix
     ../../modules/services/ras.nix
-    ../../modules/services/sddm.nix
     ../../modules/services/smartd.nix
-    ../../modules/services/xdg.nix
     ../../modules/services/yubikey.nix
     ../../modules/services/zerotierone.nix
   ];
@@ -55,6 +56,21 @@
   boot.kernelPackages = pkgs.linuxPackages_zen;
   boot.kernelModules = [ "v4l2loopback" ];
   boot.extraModulePackages = [ config.boot.kernelPackages.v4l2loopback ];
+
+  # ---------------------------------------------
+  # Appimage
+  programs.appimage.enable = true;
+  programs.appimage.binfmt = true;
+
+  # the above is identical, except that will run both appimage v1/v2
+  # boot.binfmt.registrations.appimage = {
+  #   wrapInterpreterInShell = false;
+  #   interpreter = "${pkgs.appimage-run}/bin/appimage-run";
+  #   recognitionType = "magic";
+  #   offset = 0;
+  #   mask = "\\xff\\xff\\xff\\xff\\x00\\x00\\x00\\x00\\xff\\xff\\xff";
+  #   magicOrExtension = "\\x7fELF....AI\\x02";
+  # };
 
   # ---------------------------------------------
   # Hardware Support

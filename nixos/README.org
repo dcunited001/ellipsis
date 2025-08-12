@@ -1,4 +1,22 @@
 
+* Project
+
+** Layout
+
+For now
+
+#+begin_quote
+.
+├── hosts
+│   └── kratos: host-specific config
+├── modules
+│   ├── programs
+│   ├── services: everything here until there's a good reason
+│   │   └── guix: just the pubkeys for subs
+│   └── users
+└── snippets: just random experiments
+#+end_quote
+
 * Nix Source
 
 [[https://github.com/search?q=repo%3ANixOS%2Fnixpkgs++pam+path%3A%2F%5Enixos%5C%2Fmodules%5C%2F%2F&type=code&p=2]['PAM/SystemD Env. activation]]
