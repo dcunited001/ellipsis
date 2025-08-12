@@ -154,6 +154,8 @@
   };
   programs.firefox.enable = true;
   programs.thunar.enable = true;
+
+  # TODO nix: remove once flatpak upgrade service is setup
   services.flatpak.enable = true;
 
   programs.zsh = {
