@@ -4,16 +4,19 @@
     ./xdg.nix
     ./fcitx5.nix
     ./input.nix
+
     #      ./containers.nix
     ../../modules/users/dc.nix
     ../../modules/programs/gnupg.nix
     ../../modules/desktop/bluetooth.nix
     ../../modules/desktop/fonts.nix
+    ../../modules/desktop/hypr.nix
     ../../modules/desktop/pipewire.nix
     ../../modules/desktop/printing.nix
     ../../modules/desktop/sddm.nix
     ../../modules/desktop/xdg.nix
 
+    ../../modules/services/earlyoom.nix
     ../../modules/services/guix.nix
     ../../modules/services/nix.nix
     ../../modules/services/openssh.nix
@@ -76,10 +79,6 @@
   # Hardware Support
   hardware.enableRedistributableFirmware = true;
   # hardware.enableAllFirmware = true;
-
-  # ---------------------------------------------
-  # GPU
-  # TODO: hardware.amdgpu.opencl.enable = true;
 
   # ---------------------------------------------
   # Disks
