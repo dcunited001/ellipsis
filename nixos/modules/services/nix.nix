@@ -16,11 +16,12 @@
     allowed-users = [ "root" "@wheel" "@builders" ];
     trusted-users = [ "@wheel" ]; # root was implicit here
     substituters = [ "https://hyprland.cachix.org" ];
-    trusted-substituters = [ "https://hyprland.cachix.org" ];
-    trusted-public-keys =
-      [ "hyprland.cachix.org-1:a7pgxzMz7+chwVL3/pzj6jIBMioiJM7ypFP8PwtkuGc=" ];
+    trusted-substituters = [ "https://nix-community.cachix.org" ];
+    trusted-public-keys = [
+      "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
+    ];
   };
   nixpkgs.config.allowUnfree = true;
 
-  environment.systemPackages = [ pkgs.cachix pkgs.nix-tree ];
+  environment.systemPackages = [ pkgs.cachix pkgs.nix-tree pkgs.nix-du ];
 }

@@ -80,12 +80,11 @@
           };
           env.NH_REV = "1b80ec22d3ab66fa806e14cceec3457984226d37"; # src.rev;
         })
+
       # nil # nix lsp
       nixd
       nixfmt
       nix-visualize
-      nix-du # visualize /nix/store disk usage
-      # https://github.com/Azeirah/nix-deps-treemap
 
       # EDITOR
       emacs
