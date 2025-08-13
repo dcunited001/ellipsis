@@ -76,10 +76,10 @@ Guix channel.")
 (unless dc/guix-checkout-path (warn "Emacs: source-directory is not set"))
 
 ;; don't accidentally edit doom's straight.el files
-(def-project-mode! doom-straight-read-only-mode
-  :match (rx-to-string (string-join (list "" (f-base doom-emacs-dir) ".local" "straight" "") "/"))
+(def-project-mode! +df-doom-read-only-mode
+  :match (rx-to-string doom-emacs-dir)
   :modes '(emacs-lisp-mode)
-  :on-enter (setq-local buffer-read-only t))
+  :add-hooks (list #'read-only-mode))
 
 ;;;;; Load Path
 
@@ -136,12 +136,20 @@ Guix channel.")
 
 (use-package! xkb-mode :defer t)
 
+
+;; ... LIT ER ALL Y? damit
+
+(defvar +df-xkb-regexp
+  (rx-let ((xdg-config (literal (or (getenv "XDG_CONFIG_HOME")
+                                    (expand-file-name "~/.config"))))
+           (df-xdg-config (literal (expand-file-name "~/.dotfiles/.config"))))
+    (rx bos (and (| xdg-config df-xdg-config)
+                 (| "/xkb" "/xkbtest" "/xkbstd")
+                 (| "/types" "/compat" "/symbols" "/keycodes")))) ;; "/rules"
+  "Regexp to match XKB files for `+df-xkb-dotfiles-mode'.")
 ;; not working?
-(def-project-mode! doom-xkb-dotfiles-mode
-  :match (rx-to-string `(seq ,(string-join (list (getenv "HOME") ".dotfiles" ".config" ""))
-                         (| "/xkb" "/xkbtest" "/xkbstd")
-                         (| "/keycodes" "/symbols" "/types" "/compat" "/geometry")))
-  ;; :modes '(xkb-mode)
+(def-project-mode! +df-xkb-dotfiles-mode
+  :match +df-xkb-regexp
   :on-enter (xkb-mode))
 
 ;;;;; Help Map (native)
@@ -1610,10 +1618,13 @@ the root")
 (after! lsp-mode
   (setq lsp-disabled-clients (append lsp-disabled-clients '(nix-nil rnix-lsp))))
 
-(def-project-mode! doom-nixos-dotfiles-mode
-  :match (rx-to-string (string-join (list (getenv "HOME") ".dotfiles" "nixos" "") "/"))
-  :modes '(nix-mode)
-  :on-enter (add-hook 'nix-mode-local-vars-hook #'lsp 'append))
+(def-project-mode! +df-nixos-mode
+  :match "\\(?:/home/dc/\\.dotfiles/nixos/.*\\.nix\\)"
+  :add-hooks (list #'lsp)
+  :modes '(nix-mode))
+
+
+
 
 ;;;;; Unix
 
@@ -1622,8 +1633,29 @@ the root")
   :magic ("ELF" . 'elf-mode))
 
 (use-package! crontab-mode)
+
+;; this library should fontify when you run `syslog-show-notes'
+;;
+;; for some reason, it doesn't. I've changed the `syslog-notes-files' location because it
+;; doesn't account for the file having been loaded from a .eln build
+;;
+;; my one-line patch to disable the older read-only mode is still necessary, though
+;; maybe that's interfering with the fontification.
+;;
+;; it pulls notes from a lot of manpages, but does some impressive work to
+;; look that up by searching relative to the paths listed in the strace. i
+;; think this tool was intended to be used for deeper kernel development,
+;; judging by that and by the need for a `strace_notes.el' file ... does that
+;; really need to be changed as a variable? apparently so.
 (use-package! syslog-mode
-  :custom (syslog-setup-on-load t)
+  :custom
+  (syslog-setup-on-load t)
+  (syslog-notes-files
+   (let ((dir (file-name-directory
+               (expand-file-name "straight/repos/syslog-mode/strace_notes.el" doom-local-dir))))
+     (list (cons ".*\\.strace" (concat dir "strace_notes.el"))
+           (cons "^strace:" (concat dir "strace_notes.el"))
+           (cons "syslog.*" (concat dir "syslog_notes.el")))))
   :mode "\\(messages\\(\\.[0-9]\\)?\\|SYSLOG\\|\\.s?trace\\)\\'")
 
 ;; ("\\(messages\\(\\.[0-9]\\)?\\|SYSLOG\\|\\.s?trace\\)\\'" . syslog-mode)
@@ -1789,10 +1821,15 @@ the root")
 ;; (hyprlang-ts-mode
 ;;  (eval . (add-hook 'hyprlang-ts-mode-hook #'lsp)))
 
-(def-project-mode! doom-hypr-dotfiles-mode
-  :match (rx-to-string (string-join (list (getenv "HOME") ".dotfiles" ".config" "hypr") "/"))
-  :modes '(hyprlang-ts-mode)
-  :on-enter (add-hook 'hyprlang-ts-mode-hook #'lsp 'append))
+;; (string-match-p df-hypr-rx "/home/dc/.dotfiles/.config/hypr/rules.conf")
+(let* ((df-hypr-path-rx
+        (rx-to-string
+         (string-join (list (getenv "HOME") ".dotfiles" ".config" "hypr") "/")))
+       (df-hypr-rx (concat df-hypr-path-rx "/.*\\.conf")))
+  (def-project-mode! +df-hypr-mode
+    :match   "\\(?:/home/dc/\\.dotfiles/nixos/.*\\.nix\\)"
+    :modes '(hyprlang-ts-mode)
+    :on-enter (add-hook 'hyprlang-ts-mode-hook #'lsp 'append)))
 
 ;; i think that (lsp-register-client ...) does this
 ;; (add-to-list 'lsp-language-id-configuration
