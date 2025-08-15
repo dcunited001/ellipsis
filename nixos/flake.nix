@@ -27,8 +27,12 @@
     let
       # Helpers for producing system-specific outputs
       supportedSystems = [ "x86_64-linux" "aarch64-linux" ];
-      forEachSupportedSystem = f:
+      forAllSupportedSystems = f:
         nixpkgs.lib.genAttrs supportedSystems
+        (system: f { pkgs = import nixpkgs { inherit system; }; });
+
+      forEachSystem = s: f:
+        (nixpkgs.lib.genAttrs s)
         (system: f { pkgs = import nixpkgs { inherit system; }; });
 
       mkModules = path:
@@ -40,6 +44,15 @@
     in {
       # Schemas tell Nix about the structure of your flake's outputs
       schemas = flake-schemas.schemas;
+
+      nixosConfigurations = let sys = [ "x86_64-linux" ];
+      in {
+        kratos = forEachSystem sys (nixpkgs.lib.nixosSystem {
+          system = sys;
+          modules =
+            [ ./hosts/kratos/configuration.nix sops-nix.nixosModules.sops ];
+        });
+      };
 
       # from youngker (his flake has inputs@{ outputs... } though...??
       # user = import ./user.nix;
@@ -54,7 +67,7 @@
       # nixosUserModules = mkModules ./modules/user;
       # hostModules = mkModules ./modules/host;
 
-      homeConfigurations.dc = forEachSupportedSystem ({ pkgs }:
+      homeConfigurations.dc = forAllSupportedSystems ({ pkgs }:
         home-manager.lib.homeManagerConfiguration {
           inherit pkgs;
           modules = [ ./home/dc ];
@@ -67,7 +80,7 @@
           # to pass through arguments to home.nix
         });
 
-      homeConfigurations.dctest = forEachSupportedSystem ({ pkgs }:
+      homeConfigurations.dctest = forAllSupportedSystems ({ pkgs }:
         home-manager.lib.homeManagerConfiguration {
 
           inherit pkgs;
