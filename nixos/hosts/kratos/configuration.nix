@@ -7,6 +7,7 @@
 
     #      ./containers.nix
     ../../modules/users/dc.nix
+    ../../modules/users/dctest.nix
     ../../modules/programs/gnupg.nix
     ../../modules/desktop/bluetooth.nix
     ../../modules/desktop/fonts.nix
