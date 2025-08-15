@@ -1,6 +1,9 @@
 NIXOS_HOST=$(shell hostname)
 NIXOS_HOST_CONFIG=./hosts/$(NIXOS_HOST)/configuration.nix
 
+# youngker has a much better makefile example
+# https://github.com/youngker/nix-config/blob/main/Makefile
+
 buildhost:
 	nixos-rebuild build -I nixos-config=$(NIXOS_HOST_CONFIG)
 

@@ -8,23 +8,23 @@
     #      ./containers.nix
     ../../modules/users/dc.nix
     ../../modules/users/dctest.nix
-    ../../modules/programs/gnupg.nix
-    ../../modules/desktop/bluetooth.nix
-    ../../modules/desktop/fonts.nix
-    ../../modules/desktop/hypr.nix
-    ../../modules/desktop/pipewire.nix
-    ../../modules/desktop/printing.nix
-    ../../modules/desktop/sddm.nix
-    ../../modules/desktop/xdg.nix
+    ../../modules/nixos/programs/gnupg.nix
+    ../../modules/nixos/desktop/bluetooth.nix
+    ../../modules/nixos/desktop/fonts.nix
+    ../../modules/nixos/desktop/hypr.nix
+    ../../modules/nixos/desktop/pipewire.nix
+    ../../modules/nixos/desktop/printing.nix
+    ../../modules/nixos/desktop/sddm.nix
+    ../../modules/nixos/desktop/xdg.nix
 
-    ../../modules/services/earlyoom.nix
-    ../../modules/services/guix.nix
-    ../../modules/services/nix.nix
-    ../../modules/services/openssh.nix
-    ../../modules/services/ras.nix
-    ../../modules/services/smartd.nix
-    ../../modules/services/yubikey.nix
-    ../../modules/services/zerotierone.nix
+    ../../modules/nixos/services/earlyoom.nix
+    ../../modules/nixos/services/guix.nix
+    ../../modules/nixos/services/nix.nix
+    ../../modules/nixos/services/openssh.nix
+    ../../modules/nixos/services/ras.nix
+    ../../modules/nixos/services/smartd.nix
+    ../../modules/nixos/services/yubikey.nix
+    ../../modules/nixos/services/zerotierone.nix
   ];
 
   networking.hostName = "kratos";

@@ -47,6 +47,13 @@
       # # darwinModules = mkModules ./modules/darwin;
       # homeModules = mkModules ./modules/home;
 
+      # this requires extending the module system with a flat interface
+      # - see https://github.com/youngker/nix-config/blob/main/home/linux.nix#L15
+
+      # nixosModules = mkModules ./modules/nixos;
+      # nixosUserModules = mkModules ./modules/user;
+      # hostModules = mkModules ./modules/host;
+
       homeConfigurations.dc = forEachSupportedSystem ({ pkgs }:
         home-manager.lib.homeManagerConfiguration {
           inherit pkgs;
