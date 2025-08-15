@@ -10,9 +10,10 @@
     allowed-users = [ "dctest" ];
     trusted-users = [ "dctest" ];
   };
-  environment.sessionVariables.XDG_DATA_DIRS =
-    [ "$HOME/.local/share/flatpak/exports/share" ];
 
+  # - after creation, /etc/passwd and /etc/shadow exist
+  #   but login is denied (set to prevent blank passwd?)
+  # - this (early) config doesn't result in $XDG_RUNTIME_DIR given `su - dctest``
   users.users.dctest = {
     uid = 1999;
     group = "dctest";

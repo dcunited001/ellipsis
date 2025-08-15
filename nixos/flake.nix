@@ -30,9 +30,22 @@
       forEachSupportedSystem = f:
         nixpkgs.lib.genAttrs supportedSystems
         (system: f { pkgs = import nixpkgs { inherit system; }; });
+
+      mkModules = path:
+        with builtins;
+        listToAttrs (map (name: {
+          inherit name;
+          value = import (path + "/${name}");
+        }) (attrNames (readDir path)));
     in {
       # Schemas tell Nix about the structure of your flake's outputs
       schemas = flake-schemas.schemas;
+
+      # from youngker (his flake has inputs@{ outputs... } though...??
+      # user = import ./user.nix;
+      # nixosModules = mkModules ./modules/nixos;
+      # # darwinModules = mkModules ./modules/darwin;
+      # homeModules = mkModules ./modules/home;
 
       homeConfigurations.dc = forEachSupportedSystem ({ pkgs }:
         home-manager.lib.homeManagerConfiguration {
@@ -51,7 +64,7 @@
         home-manager.lib.homeManagerConfiguration {
 
           inherit pkgs;
-          modules = [ ./home/dc ];
+          modules = [ ./home/dc ]; # TODO: make this "arga-able"
         });
     };
 }
