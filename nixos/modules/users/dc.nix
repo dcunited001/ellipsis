@@ -33,7 +33,7 @@
   users.users.dc = {
     uid = 1000;
     group = "dc";
-    extraGroups = [ "wheel" ]; # Enable ‘sudo’ for the user.
+    extraGroups = [ "wheel" "docker" "podman" ]; # Enable ‘sudo’ for the user.
     isNormalUser = true;
     # useDefaultShell = true;
     linger = true; # continue running [oci-container] services after logout
@@ -65,9 +65,24 @@
       # starship
 
       # NIX
+      fh
+      nvd
+      manix
       nix-search-cli
       nix-diff
+      nixfmt
+      nix-visualize
 
+      # nil # nix lsp
+      nixd
+
+      # TODO: change to use import
+      #
+      # "callPackage destructures `env` and sticks it as derivation: meaning
+      # you don't overrideAttrs on the `env` set. you'll need to override the
+      # NH_REV directly on the `nh` 'derivation attrs'"
+      #
+      # hmmmm
       ((callPackage <nixpkgs/pkgs/by-name/nh/nh/package.nix>
         { }).overrideAttrs {
           src = pkgs.fetchFromGitHub {
@@ -80,11 +95,6 @@
           };
           env.NH_REV = "1b80ec22d3ab66fa806e14cceec3457984226d37"; # src.rev;
         })
-
-      # nil # nix lsp
-      nixd
-      nixfmt
-      nix-visualize
 
       # EDITOR
       emacs
@@ -119,6 +129,9 @@
       # age-plugin-tpm
       agenix-cli
       sops
+
+      # LANG: JAVASCRIPT
+      node2nix
 
       # LANG: JAVA
       openjdk
