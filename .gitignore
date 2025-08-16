@@ -43,6 +43,7 @@
 
 # XDG
 .config/user-dirs.dirs
+.config/__*
 
 # fontconfig
 .config/fontconfig/**
@@ -66,10 +67,7 @@ fonts/**
 .guile
 
 # guix
-.config/guix/channels.scm
-#.config/guix/systems/base-system.scm
-#.config/guix/systems/*.scm
-.config/guix/systems/install.scm
+# .config/guix/channels.scm
 .config/guix/current
 .config/guix/gpg
 .config/guix/manifests
@@ -79,6 +77,9 @@ fonts/**
 !.config/guix/manifests/python.scm
 !.config/guix/manifests/arch-pwsafe.scm
 !.config/guix/manifests/emacs-native-comp.scm
+
+# NixOS
+/.diff
 
 # shepherd
 .config/shepherd/shepherd.log

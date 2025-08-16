@@ -58,7 +58,8 @@
       "Behavior" = {
         "ActiveByDefault" = "True";
         "AltTriggerKeys" = "";
-        "CustomXkbOption" = "caps:ctrl_modifier,lv3:ralt_alt,lv3:menu_switch";
+        "CustomXkbOption" =
+          "lv3:ralt_alt,altwin:menu_win,mylvl5:ins_switch,mylvl3:sclk_switch";
         "ShareInputState" = "All";
         "resetStateWhenFocusIn" = "No";
       };
