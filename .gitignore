@@ -12,6 +12,10 @@
 /.bash_logout
 /.profile
 
+# misc
+/patches
+.scratch
+
 # .config/sh
 .config/sh/*.sh
 .config/sh/profile.d/*.sh
@@ -79,7 +83,7 @@ fonts/**
 !.config/guix/manifests/emacs-native-comp.scm
 
 # NixOS
-/.diff
+.diff
 
 # shepherd
 .config/shepherd/shepherd.log
@@ -140,6 +144,3 @@ fonts/**
 
 .screenlayout/kharis.sh
 .screenlayout/kratos.sh
-
-# patches
-/patches

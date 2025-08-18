@@ -1580,6 +1580,32 @@ the root")
 ;;;; Docs
 ;; (external docs: dash/tldr)
 
+;;;;; Dash
+;;
+;; Dash autodownloads, but built docsets should be in both: (todo pkg/make)
+;;
+;; ~/.var/app/org.zealdocs.Zeal/data/Zeal/Zeal/docsets/*
+;; ~/.emacs.doom/.local/etc/docsets
+
+(use-package! dash-docs
+  :config
+  (set-docsets! '(nix-mode) "nix" "nixos")
+  (set-docsets! '(sh-mode sh-base-mode org-mode) "jq" "Bash")
+  ;; hard to lookup for make
+  (set-docsets! '(makefile-mode) "GNU_Make" "GNU_Coding_Standards"))
+
+;; can set context with [DOCSET FORM]
+;;
+;; (set-docsets! '(js2-mode rjsx-mode) "JavaScript"
+;;   ["React" (eq major-mode 'rjsx-mode)]
+;;   ["TypeScript" (bound-and-true-p tide-mode)])
+
+;;;;; Man
+
+(use-package! man
+  :custom (manual-program (if is-nix-system "/run/current-system/sw/bin/man" "man")))
+
+;; M-x async-shell-command manpath
 ;;;;; Info
 (use-package! info
   :defer t)
