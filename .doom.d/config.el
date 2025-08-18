@@ -1926,6 +1926,9 @@ the root")
 ;;NOTE: some of these may need to be hooked (after! ...)
 
 ;;;; Global Remaps
+(map! :map 'global-map
+      "<f11>" #'maximize-window
+      "S-<f11>" #'balance-windows)
 
 ;;;; Help Map
 
