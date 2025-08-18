@@ -199,6 +199,28 @@ Guix channel.")
   "M-l h" #'apropos-local-variable
   "M-l H" #'array-display-local-variables)
 
+(general-create-definer doc-def
+  :prefix-map 'dc/doc-map
+  :prefix-command 'dc/doc-map)
+(general-define-key
+ :keymaps 'global-map
+ "<f3>" '(:prefix-command dc/doc-map :wk "DOC"))
+(doc-def
+  "<f3>" #'lsp-ui-doc-toggle
+  "<f4>" #'lsp-lens-show)
+
+(general-create-definer lsp-def
+  :prefix-map 'dc/lsp-map
+  :prefix-command 'dc/lsp-map)
+
+(general-define-key
+ :keymaps 'global-map
+ "<f8>" '(:prefix-command dc/lsp-map :wk "LSP"))
+
+(lsp-def
+  "<f7>" #'lsp-ui-peek-enable
+  "<f8>" #'lsp-ui-lsp-toggle
+  "<f9>" #'lsp-lens)
 ;;; Projects
 ;;
 ;;;; Project.el
@@ -214,14 +236,16 @@ Guix channel.")
   :demand t
   :config
   (map! :map dc/quick-map
+        "b" #'activities-switch-buffer ;; prefix: select from other activities
         (:prefix ("@" . "ACTIVITIES")
                  "@" #'activities-list
                  "m" #'activities-mode
                  "k" #'activities-kill
                  "M-k" #'activities-discard
-                 "n" #'activities-define
+                 "n" #'activities-define ;; prefix: redefine default state
                  "M-n" #'activities-new
-                 "r" #'activities-resume
+                 "r" #'activities-resume ;; prefix: restore default state
+                 "R" #'activities-rename
                  "M-r" #'activities-revert
                  "$" #'activities-save-all
                  "q" #'activities-suspend
@@ -565,18 +589,23 @@ Guix channel.")
     (add-to-list 'vertico-multiform-commands vrt-cmd)))
 
 ;;;;; Corfu
+(use-package! corfu
+  :defer t
+  :bind ((:map corfu-map
+               ("C-f" . #'corfu-insert-separator)
+               ("'" . #'corfu-quick-complete)))
+  :config
+  (setq corfu-auto-delay 0.5
+        corfu-auto-prefix 3
 
-(setq corfu-auto-delay 0.5
-      corfu-auto-prefix 3
+        ;; the doom defaults
+        global-corfu-modes '((not erc-mode circe-mode help-mode gud-mode vterm-mode) t)
+        corfu-popupinfo-min-height 5
+        corfu-popupinfo-max-height 15
+        corfu-popupinfo-direction 'right ; default list: '(right left down)
+        corfu-popupinfo-delay '(1.0 0.5)
 
-      ;; the doom defaults
-      global-corfu-modes '((not erc-mode circe-mode help-mode gud-mode vterm-mode) t)
-      corfu-popupinfo-min-height 5
-      corfu-popupinfo-max-height 15
-      corfu-popupinfo-direction 'right  ; default list: '(right left down)
-      corfu-popupinfo-delay '(1.0 0.5)
-
-      corfu-preview-current nil)
+        corfu-preview-current nil))
 
 ;;;;; Orderless
 
@@ -598,9 +627,22 @@ Guix channel.")
 ;; - `affixation-function': function to prepend/append a prefix/suffix.
 ;; See more description of metadata in `completion-metadata'.
 
+(defun dc/match-orderless-literal ()
+  "Components match literally for the rest of the session."
+  (interactive)
+  (setq-local orderless-matching-styles '(orderless-literal)
+              orderless-style-dispatchers nil))
+
 (use-package! orderless
   :custom
-  (read-buffer-completion-ignore-case t))
+  (read-buffer-completion-ignore-case t)
+  :bind ((:map minibuffer-local-map
+               ;; orderless
+               ("C-l" . #'dc/match-components-literally))))
+
+(use-package! consult
+  :bind ((:map global-map
+               ("C-x M-:" . #'consult-complex-command))))
 
 ;; `completion-category-defaults' is set to nil in doom's vertico/corfu modules
 
@@ -1477,6 +1519,9 @@ the root")
 ;;
 ;;;; Magit
 
+(use-package! magit
+  :custom (magit-delete-by-moving-to-trash nil))
+
 (after! magit
   (use-package! magit-todos
     :config (magit-todos-mode 1))
@@ -1536,7 +1581,8 @@ the root")
 ;; (external docs: dash/tldr)
 
 ;;;;; Info
-(use-package! info :defer t)
+(use-package! info
+  :defer t)
 (use-package! info+
   :after info
   :custom
