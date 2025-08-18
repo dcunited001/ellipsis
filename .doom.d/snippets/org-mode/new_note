@@ -1,0 +1,10 @@
+# -*- mode: snippet -*-
+# contributor: David Conner
+# name: org-notes-template
+# key: ___orgnote
+# condition: t
+# --
+#+TITLE:     ${1:untitled document}
+#+AUTHOR:    ${2:`user-full-name`}
+#+EMAIL:     ${3:`user-mail-address`}
+#+DESCRIPTION: notes

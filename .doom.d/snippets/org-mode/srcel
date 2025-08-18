@@ -1,0 +1,9 @@
+# -*- mode: snippet -*-
+# name: srcel
+# key: <el
+# uuid: orgsrc-el
+# group: orgsrc
+# --
+#+BEGIN_SRC emacs-lisp :results vector value :output silent :exports none
+$0
+#+END_SRC

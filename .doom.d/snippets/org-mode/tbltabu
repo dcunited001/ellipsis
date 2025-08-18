@@ -1,0 +1,15 @@
+# -*- mode: snippet -*-
+# name: tbltabu
+# uuid: <tbltabu
+# key: <tbltabu
+# condition: t
+# --
+
+#+LATEX: \taburowcolors[3]2{lightgray..white}
+#+name: ${1}
+#+CAPTION: Work-Energy Theorem Predictions for \(m_{2}=808.3 \unit{g}\)
+#+ATTR_LATEX: :environment tabu :font \footnotesize :placement [h!] :align ${5}
+|       |         ${3} |           ${4} |
+|   ${2}  | \(m_{1} (\unit{g})\) | \(\vec{s} (\unit{m})\) |
+|-------+----------------------+--------------------------+
+|     1 |                1234 |                  4321     |

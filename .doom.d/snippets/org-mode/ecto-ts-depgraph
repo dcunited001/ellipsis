@@ -1,0 +1,15 @@
+# key: <ec-ts-dep
+# name: ecto-ts-depgraph
+# --
+#+attr_html: :width 800px
+#+name: ${2:$(string-replace "/" "-" (file-name-sans-extension yas-text))}
+#+begin_src sh :results output file :file img/${2:$(string-replace "/" "-" (file-name-sans-extension yas-text))}.svg :var ectoroot=(identity ectoroot) :exports both
+base_path=$ectoroot/${1:checkoutPath}
+cd base_path
+ts_dependency_graph --start ${2:graph-start-path} \
+                    --base_path $base_path/${2:$(file-name-directory yas-text)}$0 |\
+                    --graph_folder |\
+   dot -Tsvg
+# --filter __tests__ \
+# --base_path \
+#+end_src

@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# name: atw
+# key: <atw
+# uuid: attrw
+# group: babel
+# --
+#+ATTR_HTML: :width $1

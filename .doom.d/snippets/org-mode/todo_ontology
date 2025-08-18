@@ -1,0 +1,53 @@
+# -*- mode: snippet -*-
+# contributor: David Conner
+# name: todo_ontology
+# key: to
+# condition: t
+# --
+
+** When
+*** Deadline :dl:
+*** Schedule :sch:
+
+** Why
+*** Visibility :vis:
+*** Issues :is:
+*** Goals :go:
+*** Finance :fin:
+
+** How
+*** Automation :auto:
+*** Network :net:
+*** Files :fs:
+*** Devops :do:
+*** Auth :au:
+*** Identity :id:
+*** Dotfiles :df:
+
+** What
+*** Code Index :codex:
+*** 3D :3d:
+*** Design :cad:
+*** Workshop :ws:
+*** Art :art:
+*** Music :mus:
+*** Learn :learn:
+*** Edu :edu:
+
+** Who
+*** Meetups :meet:
+*** Msg :msg:
+*** Events :ev:
+*** Contacts :con:
+To contact
+
+* Notes
+
+** Which
+
+** Wherefore
+*** Existential
+*** Philosophy
+*** Dread
+
+** Whence

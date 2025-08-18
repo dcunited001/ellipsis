@@ -1,0 +1,8 @@
+# -*- mode: snippet -*-
+# name: translation
+# key: <t
+# uuid: <t
+# --
+#+begin_src translate :src $1 :dest $2 :results list
+$0
+#+end_src

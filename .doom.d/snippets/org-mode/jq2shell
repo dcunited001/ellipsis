@@ -1,0 +1,25 @@
+# key: <jq2sh
+# name: jq2shell
+# --
+JQ Query
+
+#+name: ${1:jqvar}
+#+begin_example jq
+$0
+walk(if type == "object" then
+      to_entries
+        | map(. |= if .key == "svg" then {key: "Icon", value: {"@type": "Icon"}} else . end)
+        | map(. += if .key == "@class" then {value: (.value | gsub("\\\\b\\\\sdark:[\\\\w\\\\-:]*\\\\b"; ""))} else . end)
+        | from_entries
+     else .
+    end)
+#+end_example
+
+Bash
+
+#+headers: :var $1=$1 :dir $3
+#+begin_src sh :results output code :wrap src ${2:yaml}
+cat $4 | xq -y "\${$1}"
+
+# tidy -iq --tidy-mark no -w 0 --show-body-only auto --doctype omit -xml |\
+#+end_src

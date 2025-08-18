@@ -1,0 +1,20 @@
+# -*- mode: snippet -*-
+# name: ARGS
+# key: <ARGS
+# uuid: ARGS
+# group:
+# --
+
+ARGS=("$@")
+
+hasflag() {
+  # to set a default: flag=${1:-default}
+  local flag=${1}
+  local _hasflag=0
+  for arg in $ARGS; do
+    if [ $flag = $arg ]; then
+      _hasflag=1
+    fi
+  done
+  echo $_hasflag
+}

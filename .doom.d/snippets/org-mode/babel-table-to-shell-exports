@@ -1,0 +1,21 @@
+# -*- mode: snippet -*-
+# name: babel-table-to-shell-exports
+# uuid: <btblsh
+# key: <btblsh
+# --
+
+#+name: ${1:babel-table-name}
+| NAME   | value |
+
+#+name: $1_GEN
+#+begin_src emacs-lisp :tangle no :var bindings=$1 :results output :exports none
+(mapcar #'(lambda (row)
+            (princ (format "export %s=%s\n" (first row) (second row)))) bindings)
+#+end_src
+
+#+name: $1_CALL
+#+call: $1_GEN()
+
+#+begin_src sh :tangle ${2:filename.sh} :noweb yes :comments none :results ${3:none} :exports ${4:none}
+<<$1_CALL()>>
+#+end_src

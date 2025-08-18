@@ -1,0 +1,15 @@
+# -*- mode: snippet -*-
+# name: jq
+# key: <jq
+# uuid: jq
+# group:
+# --
+#+NAME: $1
+#+HEADERS: :results output silent
+#+BEGIN_SRC jq${2:$$(yas-choose-value '("" " :stdin injq"))}${3:$$(yas-choose-value '("" " :cmd-line -rj"))}
+$0
+
+#. | your | query
+#  | here | @text
+# 1: (if yas-modified-p "#+NAME:") 1
+#+END_SRC
