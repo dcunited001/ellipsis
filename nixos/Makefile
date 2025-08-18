@@ -4,12 +4,15 @@ NIXOS_HOST_CONFIG=./hosts/$(NIXOS_HOST)/configuration.nix
 # youngker has a much better makefile example
 # https://github.com/youngker/nix-config/blob/main/Makefile
 
+.PHONY: buildhost
 buildhost:
 	nixos-rebuild build -I nixos-config=$(NIXOS_HOST_CONFIG)
 
+.PHONY: switchhost
 switchhost:
 	sudo nixos-rebuild switch -I nixos-config=$(NIXOS_HOST_CONFIG)
 
+.PHONY: liverepl
 liverepl:
 	nix repl --file '<nixpkgs/nixos>' -I nixos-config=${NIXOS_HOST_CONFIG}
 
