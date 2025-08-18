@@ -56,7 +56,7 @@
        ;; TODO implement (unless (getenv "DOOMLSP") +eglot)
        
        (lsp +peek)                      ; +peek doesn't do much in the code
-       lookup
+       (lookup +docsets)
        (magit +forge)
        make
        (pass +auth)
