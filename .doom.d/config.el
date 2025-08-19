@@ -146,9 +146,10 @@ Guix channel.")
     (rx bos (and (| xdg-config df-xdg-config)
                  (| "/xkb" "/xkbtest" "/xkbstd")
                  (| "/types" "/compat" "/symbols" "/keycodes")))) ;; "/rules"
-  "Regexp to match XKB files for `+df-xkb-dotfiles-mode'.")
+  "Regexp to match XKB files for `+df-xkb-mode'.")
+
 ;; not working?
-(def-project-mode! +df-xkb-dotfiles-mode
+(def-project-mode! +df-xkb-mode
   :match +df-xkb-regexp
   :on-enter (xkb-mode))
 
@@ -1589,6 +1590,7 @@ the root")
 
 (use-package! dash-docs
   :config
+  (setq dash-docs-browser-func #'browse-url)
   (set-docsets! '(nix-mode) "nix" "nixos")
   (set-docsets! '(sh-mode sh-base-mode org-mode) "jq" "Bash")
   ;; hard to lookup for make
@@ -1873,16 +1875,19 @@ the root")
 ;;
 ;; also note: major-mode-remap-alist (not configured by libs AFAIK) and
 ;; org-src-lang-modes
+
 (use-package! hyprlang-ts-mode
   :demand t
   :init
   (after! org-src
     (add-to-list 'org-src-lang-modes '("hyprlang" . hyprlang-ts)))
   (after! lsp-mode
+    (add-to-list 'lsp-language-id-configuration '(hyprlang-ts-mode . "hyprlang"))
     (lsp-register-client
      (make-lsp-client
       :new-connection (lsp-stdio-connection "hyprls")
       :major-modes '(hyprlang-ts-mode)
+      :language-id "hyprlang"
       :priority -1
       :server-id 'hyprls)))
   :config
@@ -1899,9 +1904,11 @@ the root")
          (string-join (list (getenv "HOME") ".dotfiles" ".config" "hypr") "/")))
        (df-hypr-rx (concat df-hypr-path-rx "/.*\\.conf")))
   (def-project-mode! +df-hypr-mode
-    :match   "\\(?:/home/dc/\\.dotfiles/nixos/.*\\.nix\\)"
+    :match df-hypr-rx
     :modes '(hyprlang-ts-mode)
-    :on-enter (add-hook 'hyprlang-ts-mode-hook #'lsp 'append)))
+    :add-hooks '(lsp)))
+
+;; :on-enter (add-hook 'hyprlang-ts-mode-hook #'lsp 'append)
 
 ;; i think that (lsp-register-client ...) does this
 ;; (add-to-list 'lsp-language-id-configuration

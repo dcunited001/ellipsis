@@ -1689,6 +1689,7 @@ huh? idk
 | sec      | com.bitwarden.desktop                       |                               |
 |          | org.keepassxc.KeePassXC                     |                               |
 |          | com.yubico.yubioath                         |                               |
+| archive  | com.gnome.FileRoller                        |                               |
 | doc      | org.zealdocs.Zeal                           |                               |
 |          | com.github.mdh34.quickdocs                  |                               |
 
