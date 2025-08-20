@@ -55,27 +55,3 @@
       };
     };
 }
-
-#   # Development environments
-#   devShells = forEachSupportedSystem ({ pkgs }: {
-#   default = pkgs.mkShell {
-#     # Pinned packages available in the environment
-#     packages = with pkgs; [
-#       curl
-#       git
-#       jq
-#       wget
-#       nixpkgs-fmt
-#     ];
-
-#     # Environment variables
-#     env = {
-#       FOO = "BAR";
-#     };
-
-#     # A hook run every time you enter the environment
-#     shellHook = ''
-#             fdsa
-#           '';
-#   };
-# });
