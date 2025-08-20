@@ -3,15 +3,11 @@
   # A helpful description of your flake
   description = "dcunited001/ellipsis NixOS";
 
-  # most flakes "provide their functionality through nixpkgs overlays or NixOS
-  # modules... composed onto the top-level flake's nixpkgs input. their own
-  # nixpkgs input is usually irrelevant"
-
   # Flake inputs
   inputs = {
+    nixpkgs.url = "https://flakehub.com/f/NixOS/nixpkgs/*";
     flake-schemas.url =
       "https://flakehub.com/f/DeterminateSystems/flake-schemas/*";
-    nixpkgs.url = "https://flakehub.com/f/NixOS/nixpkgs/*";
     home-manager.url = "github:nix-community/home-manager/release-25.05";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
     disko.url = "github:nix-community/disko";
@@ -22,80 +18,47 @@
   };
 
   # Flake outputs that other flakes can use
-  outputs = { self, flake-schemas, nixpkgs, home-manager, disko, sops-nix
+  outputs = { self, nixpkgs, flake-schemas, home-manager, disko, sops-nix
     , nixos-hardware }:
     let
       # Helpers for producing system-specific outputs
       supportedSystems = [ "x86_64-linux" "aarch64-linux" ];
-      forAllSupportedSystems = f:
+      forEachSupportedSystem = f:
         nixpkgs.lib.genAttrs supportedSystems
         (system: f { pkgs = import nixpkgs { inherit system; }; });
-
-      forEachSystem = s: f:
-        (nixpkgs.lib.genAttrs s)
-        (system: f { pkgs = import nixpkgs { inherit system; }; });
-
-      mkModules = path:
-        with builtins;
-        listToAttrs (map (name: {
-          inherit name;
-          value = import (path + "/${name}");
-        }) (attrNames (readDir path)));
     in {
       # Schemas tell Nix about the structure of your flake's outputs
       schemas = flake-schemas.schemas;
 
-      nixosConfigurations = let sys = [ "x86_64-linux" ];
-      in {
-        kratos = forEachSystem sys (nixpkgs.lib.nixosSystem {
-          system = sys;
+      nixosConfigurations = {
+        kratos = nixpkgs.lib.nixosSystem {
           modules =
             [ ./hosts/kratos/configuration.nix sops-nix.nixosModules.sops ];
-        });
+        };
       };
-
-      # from youngker (his flake has inputs@{ outputs... } though...??
-      # user = import ./user.nix;
-      # nixosModules = mkModules ./modules/nixos;
-      # # darwinModules = mkModules ./modules/darwin;
-      # homeModules = mkModules ./modules/home;
-
-      # this requires extending the module system with a flat interface
-      # - see https://github.com/youngker/nix-config/blob/main/home/linux.nix#L15
-
-      # nixosModules = mkModules ./modules/nixos;
-      # nixosUserModules = mkModules ./modules/user;
-      # hostModules = mkModules ./modules/host;
-
-      homeConfigurations.dc = forAllSupportedSystems ({ pkgs }:
-        home-manager.lib.homeManagerConfiguration {
-          inherit pkgs;
-          modules = [ ./home/dc ];
-
-          # practical without evaluating the nixosSystem?
-          # home-manager.useGlobalPkgs = true;
-          # home-manager.useUserPackages = true;
-
-          # Optionally use extraSpecialArgs
-          # to pass through arguments to home.nix
-        });
-
-      homeConfigurations.dctest = forAllSupportedSystems ({ pkgs }:
-        home-manager.lib.homeManagerConfiguration {
-
-          inherit pkgs;
-          modules = [ ./home/dc ]; # TODO: make this "arga-able"
-        });
     };
 }
 
-# # Development environments
-# devShells = forEachSupportedSystem ({ pkgs }: {
+#   # Development environments
+#   devShells = forEachSupportedSystem ({ pkgs }: {
 #   default = pkgs.mkShell {
 #     # Pinned packages available in the environment
-#     packages = with pkgs; [ curl git jq wget nixpkgs-fmt ];
+#     packages = with pkgs; [
+#       curl
+#       git
+#       jq
+#       wget
+#       nixpkgs-fmt
+#     ];
 
-#     # env = { FOO = "BAR"; }; # Environment variables
-#     # shellHook = ''echo "$FOO"''; # A hook run every time you enter the environment
+#     # Environment variables
+#     env = {
+#       FOO = "BAR";
+#     };
+
+#     # A hook run every time you enter the environment
+#     shellHook = ''
+#             fdsa
+#           '';
 #   };
 # });
