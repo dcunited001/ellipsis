@@ -5,36 +5,53 @@
 
   # Flake inputs
   inputs = {
+    flake-compat.url = "https://flakehub.com/f/edolstra/flake-compat/*";
     nixpkgs.url = "https://flakehub.com/f/NixOS/nixpkgs/*";
-    flake-schemas.url =
-      "https://flakehub.com/f/DeterminateSystems/flake-schemas/*";
     home-manager.url = "github:nix-community/home-manager/release-25.05";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
-    disko.url = "github:nix-community/disko";
-    disko.inputs.nixpkgs.follows = "nixpkgs";
     sops-nix.url = "github:Mic92/sops-nix";
     sops-nix.inputs.nixpkgs.follows = "nixpkgs";
     nixos-hardware.url = "github:nixos/nixos-hardware";
+    disko.url = "github:nix-community/disko";
+    disko.inputs.nixpkgs.follows = "nixpkgs";
+    flake-schemas.url =
+      "https://flakehub.com/f/DeterminateSystems/flake-schemas/*";
   };
 
   # Flake outputs that other flakes can use
-  outputs = { self, nixpkgs, flake-schemas, home-manager, disko, sops-nix
-    , nixos-hardware }:
+  # flake-schemas, disko
+  outputs = inputs@{ self, flake-compat, nixpkgs, home-manager, sops-nix
+    , nixos-hardware, flake-schemas, disko }:
     let
       # Helpers for producing system-specific outputs
       supportedSystems = [ "x86_64-linux" "aarch64-linux" ];
-      forEachSupportedSystem = f:
+
+      # this is intended to support pkgs
+      forAllSupportedSystems = f:
         nixpkgs.lib.genAttrs supportedSystems
         (system: f { pkgs = import nixpkgs { inherit system; }; });
+      forEachSystem = s: f:
+        (nixpkgs.lib.genAttrs s)
+        (system: f { pkgs = import nixpkgs { inherit system; }; });
+
     in {
       # Schemas tell Nix about the structure of your flake's outputs
-      schemas = flake-schemas.schemas;
+      # schemas = flake-schemas.schemas;
 
-      nixosConfigurations = {
-        kratos = nixpkgs.lib.nixosSystem {
-          modules =
-            [ ./hosts/kratos/configuration.nix sops-nix.nixosModules.sops ];
-        };
+      nixosConfigurations.kratos = nixpkgs.lib.nixosSystem {
+        specialArgs = { inherit inputs; };
+        modules =
+          [ ./hosts/kratos/configuration.nix sops-nix.nixosModules.sops ];
+      };
+      nixosConfigurations.anywhere = nixpkgs.lib.nixosSystem {
+        specialArgs = { inherit inputs; };
+        system = "x86_64-linux";
+        modules = [
+          "${nixpkgs}/nixos/modules/profiles/all-hardware.nix"
+          "${nixpkgs}/nixos/modules/installer/cd-dvd/iso-image.nix"
+          ./modules/nixos/services/openssh.nix
+          ./hosts/anywhere/configuration.nix
+        ];
       };
     };
 }
