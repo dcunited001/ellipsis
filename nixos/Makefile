@@ -16,6 +16,10 @@ switchhost:
 liverepl:
 	nix repl --file '<nixpkgs/nixos>' -I nixos-config=${NIXOS_HOST_CONFIG}
 
+# this builds an ISO that can be used to deploy other NixOS images via SSH
+.PHONY: anywhere.x86_64-linux
+anywhere.x86_64-linux:
+	nix build .#nixosConfigurations.anywhere
 # compare systems
 #
 # currentSys=$(readlink /run/current-system)
