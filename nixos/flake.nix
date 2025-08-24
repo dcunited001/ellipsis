@@ -43,15 +43,18 @@
         modules =
           [ ./hosts/kratos/configuration.nix sops-nix.nixosModules.sops ];
       };
-      nixosConfigurations.anywhere = nixpkgs.lib.nixosSystem {
-        specialArgs = { inherit inputs; };
-        system = "x86_64-linux";
-        modules = [
-          "${nixpkgs}/nixos/modules/profiles/all-hardware.nix"
-          "${nixpkgs}/nixos/modules/installer/cd-dvd/iso-image.nix"
-          ./modules/nixos/services/openssh.nix
-          ./hosts/anywhere/configuration.nix
-        ];
+      nixosConfigurations.anywhere = {
+        x86_64-linux = nixpkgs.lib.nixosSystem {
+          system = "x86_64-linux";
+          specialArgs = { inherit inputs; };
+          modules = [
+            "${nixpkgs}/nixos/modules/profiles/all-hardware.nix"
+            "${nixpkgs}/nixos/modules/installer/cd-dvd/iso-image.nix"
+            ./modules/nixos/services/openssh.nix
+            ./hosts/anywhere/configuration.nix
+          ];
+        };
+      };
       };
     };
 }

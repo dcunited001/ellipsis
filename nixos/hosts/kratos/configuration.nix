@@ -305,6 +305,8 @@
   # programs.swaylock.enable = true;
   security.pam.services.swaylock = { };
 
-  system.copySystemConfiguration = true;
   system.stateVersion = "25.05";
+
+  # incompatible with pure flakes. doesn't seem to work anyways
+  # system.copySystemConfiguration = true;
 }

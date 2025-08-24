@@ -141,6 +141,9 @@
   #   networkmanager.enable = lib.mkForce false;
   # };
 
+  # this gives you nmcli and nmtui
+  networking.networkmanager.enable = true;
+
   # Unset history so it's never stored Set GNUPGHOME to an
   # ephemeral location and configure GPG with the guide
 
