@@ -19,7 +19,9 @@ liverepl:
 # this builds an ISO that can be used to deploy other NixOS images via SSH
 .PHONY: anywhere.x86_64-linux
 anywhere.x86_64-linux:
-	nix build .#nixosConfigurations.anywhere
+	nix build .#nixosConfigurations.anywhere.x86_64-linux.config.system.build.isoImage
+#	nix build .#nixosConfigurations.anywhere
+
 # compare systems
 #
 # currentSys=$(readlink /run/current-system)
