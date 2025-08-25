@@ -65,8 +65,9 @@
 # =============================================
 # Commits
 
-[commit]
-  gpgSign = true # in git repository
+#[commit]
+#  gpgSign = true # in git repository
+
 # TODO: [difftool "emacsclient"] with smerge
 
 # =============================================
