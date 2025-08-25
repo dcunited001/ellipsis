@@ -2,6 +2,8 @@
 export PS_INFO=""
 export PS_PROMPT=""
 
+# TODO: use PROMPT_COMMAND and an array of commands mutating the state
+
 PS_GIT=""
 GIT_PS1_SHOWCOLORHINTS=1
 GIT_PS1_DESCRIBE_STYLE=branch

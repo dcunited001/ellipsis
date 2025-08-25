@@ -75,7 +75,7 @@
 ;;;; CLI Tools
 
 (define-public %el-profile-pkgs-cli
-  (list lsof git stow vim screen tmux))
+  (list lsof git stow vim screen tmux diffoscope))
 
 ;; TODO: enable local networking for usb-gpg-tools
 (define-public %el-profile-pkgs-net
@@ -91,7 +91,7 @@
   (list lvm2 cryptsetup dosfstools ntfs-3g exfat-utils fuse-exfat f3 acl))
 
 (define-public %el-profile-pkgs-hardware
-  (list hwinfo rng-tools hw-probe dmidecode fiano du-dust diffoscope))
+  (list hwinfo rng-tools hw-probe dmidecode fiano du-dust))
 ;; fiano: uefi image utils; du-dust: diskonaut
 
 (define-public %el-profile-pkgs-i2c

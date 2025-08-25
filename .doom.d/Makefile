@@ -3,15 +3,7 @@ MANIFEST=manifest.scm
 CHAN=channels.scm
 CHANLOCK=channels-lock.scm
 
-# from ./doom-set-env (if reconstructing a minimal env is necessary)
-#
-# EMAIL=aionfork@gmail.com
-# SSH_AUTH_SOCK=/run/user/1000/gnupg/S.gpg-agent.ssh
-# DOOMDIR=${HOME}.doom.d
-# EMACS=${GUIX_PROFILE}/bin/emacs
-# EMACSDIR=${HOME}/.emacs.doom
-# DOOMLSP=lsp
-# EMACSSOCKET=/run/users/1000/emacs/doom
+GUIXTM=guix time-machine -C channels-lock.scm
 
 # TODO: shouldn't be coupled to another project install path
 ELCHANNEL=../ellipsis
@@ -24,7 +16,6 @@ GUIXPACKAGE=guix package -L ${ELCHANNEL} -L ${DCCHANNEL}
 
 # .guix-profile requires pulling $ELCHANNEL,$DCCHANNEL first
 
-.PHONY: .guix-profile
 .guix-profile: manifest.scm
 	$(GUIXPACKAGE) -m ${MANIFEST} -p ${GUIX_PROFILE}
 
@@ -40,3 +31,15 @@ GUIXPACKAGE=guix package -L ${ELCHANNEL} -L ${DCCHANNEL}
 
 # grep --include=*Makefile --include=*.mk -C5 -re target /data/ecto/x.files/akagi/dotfiles/
 # grep --include=*Makefile --include=*.mk -C5 -re all: /data/ecto/x.files/akagi/dotfiles/
+
+
+# ---------------------------------------------
+# from ./doom-set-env (if reconstructing a minimal env is necessary)
+#
+# EMAIL=aionfork@gmail.com
+# SSH_AUTH_SOCK=/run/user/1000/gnupg/S.gpg-agent.ssh
+# DOOMDIR=${HOME}.doom.d
+# EMACS=${GUIX_PROFILE}/bin/emacs
+# EMACSDIR=${HOME}/.emacs.doom
+# DOOMLSP=lsp
+# EMACSSOCKET=/run/users/1000/emacs/doom

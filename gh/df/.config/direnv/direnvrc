@@ -1,4 +1,8 @@
 # just use `layout python3` and `layout uv` for now
+#
+# TODO: ensure python version is set
+# TODO: copy from ~/.config/direnv/direnvrc
+
 layout_uv() {
     if [[ -d ".venv" ]]; then
         VIRTUAL_ENV="$(pwd)/.venv"

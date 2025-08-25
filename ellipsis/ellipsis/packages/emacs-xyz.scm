@@ -31,8 +31,8 @@
   (let* ((github-repo "https://github.com/xhcoding/qml-ts-mode")
          ;; update version once next release is ready
          (version "0.0.1")
-         (revision "1")
-         (commit "2db1a798cd320d37c6031bc4583199524e24cc0b"))
+         (revision "2")
+         (commit "b80c6663521b4d0083e416e6712ebc02d37b7aec"))
     (package
       (name "emacs-qml-ts-mode")
       (version (git-version version revision commit))
@@ -42,11 +42,13 @@
                       (url github-repo)
                       (commit commit)))
                 (file-name (git-file-name name version))
-                (sha256 (base32 "1rx51ndpllgrkm291qhvnsgz1rj5wjkbr9pvcm1lnw3kb0kw1qbc"))))
+                (sha256
+                 (base32 "079fj4vm8pyjfm62yba8r089rlhy725qm27b3fj4vx25s44vywjr"))))
       (build-system emacs-build-system)
       (home-page github-repo)
       (synopsis "QML major mode using treesit")
-      (description "qml-ts-mode is major-mode for editing Qt Declarative (QML) code.")
+      (description
+       "qml-ts-mode is major-mode for editing Qt Declarative (QML) code.")
       ;; TODO: correct the license (project has none)
       (license license:expat))))
 
