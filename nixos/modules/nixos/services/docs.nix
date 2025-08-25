@@ -6,4 +6,5 @@
   documentation.man.enable = true;
   documentation.man.generateCaches = false;
 
+  # by default, info/doc/dev/nixos are produced, mandoc is not
 }

@@ -20,18 +20,46 @@
     # for users 2 override system defaults (prefer "added")
     # - stops processing on: first find @ highest mimeapps.list precedence
     defaultApplications = {
-      # "x-scheme-handler/mailto" = [ "org.mozilla.Thunderbird.desktop" ];
+      # mail
+      "x-scheme-handler/mailto" = [ "org.mozilla.Thunderbird.desktop" ];
+      "application/calendar+json" = [ "org.mozilla.Thunderbird.desktop" ];
+      "application/calendar+xml" = [ "org.mozilla.Thunderbird.desktop" ];
       "text/calendar" = [ "org.mozilla.Thunderbird.desktop" ];
+
+      # web
       "x-scheme-handler/https" = [ "firefox.desktop" ];
       "application/x-extension-htm" = [ "firefox.desktop" ];
       "application/x-extension-html" = [ "firefox.desktop" ];
       "application/x-extension-shtml" = [ "firefox.desktop" ];
       "application/x-extension-xht" = [ "firefox.desktop" ];
       "application/x-extension-xhtml" = [ "firefox.desktop" ];
+
+      # text
+      "text/org" = [ "doomclient.desktop" ];
+      "text/plain" = [ "doomclient.desktop" ];
     };
 
     # assume the application's .desktop handles adding mimetype claims
-    addedAssociations = { };
+    addedAssociations = {
+      # rss
+      "application/rss+xml" = [
+        "firefox.desktop"
+        "doomclient.desktop"
+        "org.mozilla.Thunderbird.desktop"
+      ];
+
+      # browsers + emacs
+      "x-scheme-handler/file" = [ "firefox.desktop" "doomclient.desktop" ];
+      "image/svg+xml" = [ "firefox.desktop" "doomclient.desktop" ];
+      "text/html" = [ "firefox.desktop" "doomclient.desktop" ];
+
+      # browsers only
+      "application/xhtml+xml" = [ "firefox.desktop" ];
+      "x-scheme-handler/chrome" = [ "firefox.desktop" ];
+
+      # emacs only
+      "application/log" = [ "doomclient.desktop" ];
+    };
 
     # used 2: inhibit .desktop files that claim mimetype
     # - (esp. if distro default)
@@ -54,6 +82,9 @@
       "x-scheme-handler/element" = [ "io.element.Element.desktop" ];
       "x-scheme-handler/slack" = [ "slack.desktop" "Slack.desktop" ];
       # "x-scheme-handler/zoommtg" = ["us.zoom.Zoom.desktop"];
+
+      # things i don't want emacs to open
+      "application/x-shellscript" = [ "doomclient.desktop" ];
     };
   };
 }
