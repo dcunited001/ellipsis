@@ -2,7 +2,7 @@
 live_config_reload = true
 
 import = [
-"./colors.default.toml",
+"../alacritty-theme/themes/github_dark_colorblind.toml",
 "./font.default.toml",
 "./window.default.toml",
 "./input.default.toml"
