@@ -2,6 +2,7 @@
 live_config_reload = true
 
 import = [
+# note: this breaks guix-home
 "../alacritty-theme/themes/github_dark_colorblind.toml",
 "./font.default.toml",
 "./window.default.toml",
