@@ -1,0 +1,7 @@
+/auto-save-list
+/eln-cache
+/elpa
+/etc
+/var
+.emacs.desktop
+.emacs.desktop.lock

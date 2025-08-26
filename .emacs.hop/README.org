@@ -1,0 +1,48 @@
+* .emacs.hop
+
+A minimal =custom.el=-driven emacs config for distro-hopping, now made
+slightly more complicated since I'm sticking to Guix for Doom
+Emacs and um also using Nix... woops.
+
+This config should mostly mirror the settings found in .emacs.console,
+but...
+
+1) doesn't expect dependencies loaded from Guix
+2) instead configures most settings using =custom.el=, sincluding the
+   default packages to install.
+
+** Notes
+
+In any case, it gets me quality of life features like
+=consult-ripgrep=, =tramp= and =magit-status= on new installations...
+
+#+begin_quote
+...or those where I don't yet feel like sorting out the Doom Emacs
+installation. That itself doesn't need Nix or Guix per-se... It's just
+easier when the underlying details have uniformity or at least
+consistency. It also makes less sense when you're not using Emacs as a
+server.
+
+Also, I'm not crippled without vim bindings ... it's nice using the
+default style emacs keybindings instead of =evil-mode=. Because then
+you can pick up emacs anywhere.
+#+end_quote
+
+*** Magit
+
+With regard to =magit=, it seems the keys =4 3 2 1= were chosen the
+way they were... because they complement =n= and =p=. so =M-4 M-3 M-2
+M-1= toggle all the items, and =4 3 2 1= toggle just the one you're
+on. I've known this for awhile... /I've just never been beside someone
+else using it/.
+
+*** Organization
+
+Just copy and paste for now. I may rely on load-path later idk, but
+everything's bundled into my dotfiles... so either both linking and
+path-finding for =load-path= gets messy.
+
+** Problems
+
++ lispy needs to build from a fork to avoid issues with scheme, which
+  isn't configured in this profile.
