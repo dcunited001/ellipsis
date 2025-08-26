@@ -5,3 +5,4 @@
 /var
 .emacs.desktop
 .emacs.desktop.lock
+/custom.el
