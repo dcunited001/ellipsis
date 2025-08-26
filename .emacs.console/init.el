@@ -146,6 +146,9 @@
 
 (use-package corfu
   :demand t
+  :bind ((:map corfu-map
+			   ("C-f" . #'corfu-insert-separator)
+			   ("'" . #'corfu-quick-complete)))
   :custom
   ((tab-always-indent 'complete)
    (text-mode-ispell-word-completion nil))
@@ -391,7 +394,7 @@
 (dc/unbind-keys
  '("<f2> 2" "<f2> b" "<f2> s" "<f2> <f2>"
    "<f10>" "M-<f10>" "<f11>"
-   "<f3>" "<f4"))
+   "<f3>" "<f4>"))
 
 (defun dc/set-bars ()
   (interactive)
