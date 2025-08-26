@@ -10,7 +10,7 @@
 (require 'package)
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
 
-(use-package no-littering)
+(use-package no-littering :demand t)
 
 (use-package ibuffer
   :config
