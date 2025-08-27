@@ -134,6 +134,8 @@
         emacs-better-defaults
         emacs-auto-complete
         emacs-a
+        emacs-no-littering
+        emacs-magit
         emacs-hydra
         emacs-modus-themes
         emacs-dash
