@@ -10,12 +10,12 @@
 
 (indent-tabs-mode -1)
 
-(use-package a :demand t)
-
 (require 'package)
+
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
 
 (use-package no-littering :demand t)
+(use-package a :demand t)
 
 (use-package ibuffer
   :config
@@ -104,17 +104,8 @@
 ;;; Final Setup
 
 ;;;; Keys
-
-(defun dc/unbind-keys (key-names &optional keymap)
-  (seq-do (lambda (key)
-			(if keymap
-				(unbind-key key keymap)
-			  (unbind-key key)))
-		  key-names))
-(dc/unbind-keys
- '("<f2> 2" "<f2> b" "<f2> s" "<f2> <f2>"
-   "<f10>" "M-<f10>" "<f11>"
-   "<f3>" "<f4>"))
+(require 'config-keys-unbind)
+(require 'config-keys)
 
 (defun dc/set-bars ()
   (interactive)

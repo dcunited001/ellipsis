@@ -98,16 +98,9 @@
 
 ;;;; Keys
 
-(defun dc/unbind-keys (key-names &optional keymap)
-  (seq-do (lambda (key)
-            (if keymap
-                (unbind-key key keymap)
-              (unbind-key key)))
-          key-names))
-(dc/unbind-keys
- '("<f2> 2" "<f2> b" "<f2> s" "<f2> <f2>"
-   "<f10>" "M-<f10>" "<f11>"
-   "<f3>" "<f4>"))
+;; NOTE: mind the non/console-specific key mappings!
+(require 'config-keys-unbind)
+(require 'config-keys)
 
 (defun dc/set-bars ()
   (interactive)
@@ -115,9 +108,3 @@
     (menu-bar-mode -1)
     (scroll-bar-mode -1)
     (tool-bar-mode -1)))
-
-;; (use-package tab-bar) ;; just forget compiled lambdas
-(global-set-key (kbd "C-<prior>") 'tab-bar-switch-to-tab)
-(global-set-key (kbd "C-<next>") 'tab-bar-switch-to-recent-tab)
-(global-set-key (kbd "C-M-S-<return>") 'duplicate-line)
-(global-set-key (kbd "C-x M-f") 'find-file-at-point)

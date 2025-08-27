@@ -14,3 +14,6 @@
       ;; startup
       org-startup-folded 'content
       org-startup-indented nil)
+
+;; NOTE: keep org nice and simple!
+(provide 'config-org)
