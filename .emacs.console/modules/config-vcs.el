@@ -4,4 +4,4 @@
                ("C-c v g" . #'magit-status)))
   :custom (magit-delete-by-moving-to-trash nil))
 
-(provide config-vcs)
+(provide 'config-vcs)

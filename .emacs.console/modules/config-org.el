@@ -1,3 +1,7 @@
+;; NOTE: keep org nice and simple!
+
+;; NOTE: C-c C-, for structure templates
+
 (setq org-use-property-inheritance t
       org-log-done t
       org-list-allow-alphabetical t
@@ -15,5 +19,4 @@
       org-startup-folded 'content
       org-startup-indented nil)
 
-;; NOTE: keep org nice and simple!
 (provide 'config-org)

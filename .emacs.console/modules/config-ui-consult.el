@@ -1,5 +1,25 @@
+(defun dc/do-consult-remaps ()
+  "Rip remaps from doom"
+  (let ((cuhdurlist
+         (list (cons [remap bookmark-jump] #'consult-bookmark)
+               (cons [remap goto-line] #'consult-goto-line)
+               (cons [remap imenu] #'consult-imenu)
+               (cons [remap Info-search] #'consult-info)
+               (cons [remap locate] #'consult-locate)
+               (cons [remap load-theme] #'consult-theme)
+               (cons [remap recentf-open-files] #'consult-recent-file)
+               (cons [remap switch-to-buffer] #'consult-buffer)
+               (cons [remap switch-to-buffer-other-window] #'consult-buffer-other-window)
+               (cons [remap switch-to-buffer-other-frame] #'consult-buffer-other-frame)
+               (cons [remap yank-pop] #'consult-yank-pop)
+               )))
+    (mapc (lambda (dur) (global-set-key (car dur) (cdr dur)))
+          cuhdurlist)))
+
 (use-package consult
   :demand t
+  :preface
+  (dc/do-consult-remaps)
   :custom
   ((enable-recursive-minibuffers t)
    (consult-async-min-input 3)
