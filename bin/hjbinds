@@ -1,6 +1,36 @@
 #!/bin/sh
 
-MODMASKS=(0 1 4 5 8 9 12 13 64 65 68 69 72 73 76 77)
+MODBITS=(1 4 8 16 32 64)
+# Value for -M must match a valid mask: ${MODBITS[@]}
+# nevermind... i'd rather have the caller loop the results
+# M|+M) matchmasks=$OPTARG ;;
+
+MODMASKS=(0 1 4 5 8 9 12 13 16 17 20 21 24 25 28 29 32 33 36 37 40 41 44 45 64 65 68 69 72 73 76 77 80 81 84 85 88 89 92 93 96 97 100 101 104 105 108 109)
+
+MODHELP="
+modmasks:
+
+             shift:
+             0  1        ctrl:
+                         4  5         alt:
+                                      8   9   12  13
+    altgr:   16 17
+                         20  21
+                                      24  25  28  29
+    lvl5:    32 33
+                         36 37
+                                      40  41  44  45
+    super:   64 65
+                         68 69
+                                      72  73  76  77
+      A-s:   80 81
+                         84 85
+                                      88  89  92  93
+    A-H-s:   96 97
+                        100 101
+                                      104 105 108 109
+"
+
 [[ "$1" == "--list-mods" ]] && echo "${MODMASKS[@]}" && exit 0
 
 select=""
@@ -18,14 +48,7 @@ while getopts :lroenmd OPT; do
         *)
             echo "usage: `basename $0` [+-lroenmd} [--] modmask...
 
-modmasks:  (1: shift)   (4: ctrl)   (alt: 8)   (64: super)
-
-0  1
-       4  5
-               8  9  12 13
-64 65
-       68 69
-               72 73 76 77
+${MODHELP[@]}
 "
             exit 2
     esac
