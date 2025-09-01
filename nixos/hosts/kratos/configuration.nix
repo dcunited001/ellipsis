@@ -301,6 +301,11 @@
   # hints electron apps to use wayland
   environment.sessionVariables.NIXOS_OZONE_WL = "1";
 
+  # TODO: hypr: move HYPRHOST into a hypr-module? or home-manager?
+  # requires: hyprlang >= 0.6.4 (and hyprutils >= 0.8.1)
+  environment.sessionVariables.HYPRHOST = "kratos";
+  environment.sessionVariables.HYPRHOSTKRATOS = "kratos";
+
   security.pam.services.hyprlock = { };
   # programs.swaylock.enable = true;
   security.pam.services.swaylock = { };

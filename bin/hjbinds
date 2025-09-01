@@ -5,6 +5,12 @@ MODBITS=(1 4 8 16 32 64)
 # nevermind... i'd rather have the caller loop the results
 # M|+M) matchmasks=$OPTARG ;;
 
+# for i in $(hjbinds --list-mods); do
+#   if (( 32 & $i != 0 )); then echo $i; fi;
+# done | tr '\n' ' '
+#
+# => 32 33 36 37 40 41 44 45 96 97 100 101 104 105 108 109
+
 MODMASKS=(0 1 4 5 8 9 12 13 16 17 20 21 24 25 28 29 32 33 36 37 40 41 44 45 64 65 68 69 72 73 76 77 80 81 84 85 88 89 92 93 96 97 100 101 104 105 108 109)
 
 MODHELP="
