@@ -1,0 +1,27 @@
+#!/bin/sh
+dr=/dev/nvme0n1p3 # root of /nix/store and /gnu/store
+bsub=/mnt
+buuid=5782ba8b-ce43-4190-9c03-b4f68abd0a86
+
+# subvolumes: will mount under / afterwards
+bn=nix # @nix
+bg=gnu # @gnu
+
+sudo mkfs.btrfs -f $dr
+bops=defaults,noatime,compress=zstd
+sudo mount -o subvolid=5,$bops $dr $bsub
+
+# create separate subvolumes directly below root
+sudo btrfs subvolume create $bsub@$bn
+sudo btrfs subvolume create $bsub@$bg
+
+sudo umount $bsub
+
+sudo mkdir /$bn
+sudo mkdir /$bg
+sudo mount -o subvol=/@$bn,$bops UUID=$buuid /$bn # /@nix => /nix
+sudo mount -o subvol=/@$bg,$bops UUID=$buuid /$bg # /@gnu => /gnu
+
+# lsblk
+# ├─nvme0n1p3 259:3    0   200G  0 part /gnu
+# │                                     /nix

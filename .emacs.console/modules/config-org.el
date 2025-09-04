@@ -19,4 +19,8 @@
       org-startup-folded 'content
       org-startup-indented nil)
 
+(defun dc/org-babel-do-load-shell ()
+  (add-to-list 'org-babel-load-languages '((shell . t)))
+  (org-babel-do-load-languages))
+
 (provide 'config-org)

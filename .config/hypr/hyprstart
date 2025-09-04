@@ -7,7 +7,7 @@
 # after setting HYPRLAND_CONFIG=$HOME/.config/hypr/hyprland.conf
 cd ~
 
-export HYPRLAND_CONFIG="${HYPRLAND_CONFIG:-$HOME/.config/hypr.garuda/hyprland.conf}"
+export HYPRLAND_CONFIG="${HYPRLAND_CONFIG:-$HOME/.config/hypr/garuda.hyprland.conf}"
 
 #cursor size
 export XCURSOR_SIZE=24
