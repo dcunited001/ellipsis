@@ -6,8 +6,8 @@
     "margin": "0 0 0 0",
     "spacing": 0,
 
-    // "custom/launcher",
     "modules-left": [
+        "custom/launcher",
         "hyprland/workspaces",
         "custom/spacer",
         "hyprland/window"],
@@ -43,7 +43,25 @@
     // math scripts
     // https://www.compart.com/en/unicode/block/U+1D400
 
-    // Modules configuration
+    // =============================================
+    // MODULES CONFIGURATION
+
+    // ---------------------------------------------
+    // HYPRLAND
+    "hyprland/window": {
+        "format": "{}",
+        "icon": true,
+        "icon-size": 20
+    },
+    "hyprland/submap":{
+        "format": "鍵 {}",
+        "max-length": 12,
+        "tooltip": true
+    },
+
+    // ---------------------------------------------
+    // WORKSPACES
+
     "hyprland/workspaces": {
         "format": "{icon}",
         "on-click": "activate",
@@ -54,7 +72,7 @@
         "format-icons": {
             "1": "1",
             "2": "2",
-            "3": "3", 
+            "3": "3",
             "4": "4",
             "5": "5",
             "6": "6",
@@ -78,28 +96,10 @@
             "on-scroll-down": "hyprctl dispatch workspace e-1",
         },
     },
-    "custom/spacer": {
-        "format": "⚬",
-        "tooltip": false,
-    },
-    "custom/spacer-head": {
-        "format": " ", // "⚬"
-        "tooltip": false,
-    },
-    "custom/spacer-tail": {
-        "format": " ", // "⚬"
-        "tooltip": false,
-    },
-    "hyprland/window": {
-        "format": "{}",
-        "icon": true,
-        "icon-size": 20
-    },
-    "hyprland/submap":{
-        "format": "鍵 {}",
-        "max-length": 12,
-        "tooltip": true
-    },
+
+    // ---------------------------------------------
+    // INDICATORS
+
     "custom/yktouch": {
         // "format": "🔑",
         "exec": "~/.config/waybar/scripts/yktouch",
@@ -132,6 +132,11 @@
     //     "format": "⚬",
     //     "tooltip": false,
     // },
+
+
+    //---------------------------------------------
+    // DESKTOP
+
     "tray": {
         "icon-size": 20,
         "spacing": 5
@@ -143,6 +148,16 @@
         "interval": 1
         // "on-click": "~/.config/waybar/scripts/OCV",
     },
+    "custom/launcher": {
+        "format":" ",
+        "on-click": "exec nwg-drawer",
+        "tooltip": false,
+    },
+
+
+    // ---------------------------------------------
+    // PERF
+
     "cpu": {
         "format": " {usage}%",
         "on-click": "alacritty --class 'Alacritty:org.dc.tuitray' -T 'tuitray:btop' -e btop"
@@ -158,13 +173,38 @@
         // "format-critical": "{temperatureC}°C ",
         "format": "{temperatureC}°C "
     },
-    "backlight": {
-        // "device": "acpi_video1",
-        "format": "{icon} {percent: >3}%",
-        "format-icons": ["", ""],
-        "on-scroll-down": "brightnessctl -c backlight set 5%",
-        "on-scroll-up": "brightnessctl -c backlight set +5%"
+
+    // ---------------------------------------------
+    // NET
+
+    "network": {
+        // "interface": "wlp2s0", // (Optional) To force the use of this interface
+        "format": "⚠ Disabled",
+        "format-wifi": " {essid}",
+        "format-linked": "{ifname} (No IP)",
+        "format-ethernet": " {ifname}: {ipaddr}/{cidr}",
+        "format-disconnected": "⚠ Disconnected",
+        "format-alt": "{ifname}: {ipaddr}/{cidr}",
+        "tooltip-format-wifi": "  {ifname} @ {essid}\nIP: {ipaddr}\nStrength: {signalStrength}%\nFreq: {frequency}MHz\nUp: {bandwidthUpBits} Down: {bandwidthDownBits}",
+        "tooltip-format-ethernet": " {ifname}\nIP: {ipaddr}\n up: {bandwidthUpBits} down: {bandwidthDownBits}",
+        "on-click": "alacritty --class 'Alacritty:org.dc.tuitray' -T 'tuitray:nmtui' -e nmtui",
+        "on-right-click": "nm-connection-editor"
     },
+
+    // ---------------------------------------------
+    // POWER
+    "power-profiles-daemon": {
+        "format": "{icon}",
+        "tooltip-format": "Power profile: {profile}\nDriver: {driver}",
+        "tooltip": true,
+        "format-icons": {
+            "default": "",
+            "performance": "",
+            "balanced": "",
+            "power-saver": ""
+        }
+    },
+
     "battery": {
         "states": {
             // "good": 95,
@@ -179,19 +219,18 @@
         //"format": "&#x202b;{icon}&#x202c; {capacity}%",
         //"format-icons": ["ﱉ","ﱊ","ﱌ","ﱍ","ﱋ"]
     },
-    "network": {
-        // "interface": "wlp2s0", // (Optional) To force the use of this interface
-        "format": "⚠ Disabled",
-        "format-wifi": " {essid}",
-        "format-linked": "{ifname} (No IP)",
-        "format-ethernet": " {ifname}: {ipaddr}/{cidr}",
-        "format-disconnected": "⚠ Disconnected",
-        "format-alt": "{ifname}: {ipaddr}/{cidr}",
-        "tooltip-format-wifi": "  {ifname} @ {essid}\nIP: {ipaddr}\nStrength: {signalStrength}%\nFreq: {frequency}MHz\nUp: {bandwidthUpBits} Down: {bandwidthDownBits}",
-        "tooltip-format-ethernet": " {ifname}\nIP: {ipaddr}\n up: {bandwidthUpBits} down: {bandwidthDownBits}",
-        "on-click": "alacritty --class 'Alacritty:org.dc.tuitray' -T 'tuitray:nmtui' -e nmtui",
-        "on-right-click": "nm-connection-editor"
+
+    "backlight": {
+        // "device": "acpi_video1",
+        "format": "{icon} {percent: >3}%",
+        "format-icons": ["", ""],
+        "on-scroll-down": "brightnessctl -c backlight set 5%",
+        "on-scroll-up": "brightnessctl -c backlight set +5%"
     },
+
+    // ---------------------------------------------
+    // AUDIO
+
     "wireplumber": {
         "format": "{volume}{icon}",
         "format-icons": ["", "", ""],
@@ -226,6 +265,9 @@
         "on-click-right": "pavucontrol"
     },
 
+    // ---------------------------------------------
+    //    TUI
+
     //    "custom/docker-tui": // 箱 (box/railcar)
     //    碼頭 (wharf), 碼 (wharf), 裝箱 (shipping container, zh), 澪 (waterway)
     //    通箱 (reusable shipping carton)
@@ -238,6 +280,7 @@
     //  "on-click": "alacritty -e lnav ~/.cache/log",
     //  "on-click-right": "alacritty -e lnav /var/log"
     // }
+
     "custom/sysz": {
         "return-type": "json",
         "exec": "echo '{\"class\": \"tuitray\"}'",
@@ -245,11 +288,23 @@
         "on-click": "alacritty --class 'Alacritty:org.dc.tuitray' -T 'tuitray:sysz' -e sysz",
         //"on-click-right": ""
     },
-    "custom/launcher": {
-        "format":" ",
-        "on-click": "exec nwg-drawer",
+
+    // ---------------------------------------------
+    // SPACERS
+
+    "custom/spacer": {
+        "format": "⚬",
         "tooltip": false,
     },
+    "custom/spacer-head": {
+        "format": " ", // "⚬"
+        "tooltip": false,
+    },
+    "custom/spacer-tail": {
+        "format": " ", // "⚬"
+        "tooltip": false,
+    },
+
 }
 
 // "custom/keyboard-layout": {
