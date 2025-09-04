@@ -33,7 +33,7 @@
   users.users.dc = {
     uid = 1000;
     group = "dc";
-    extraGroups = [ "wheel" "docker" "podman" ]; # Enable ‘sudo’ for the user.
+    extraGroups = [ "wheel" "docker" "podman" "audio" ];
     isNormalUser = true;
     # useDefaultShell = true;
     linger = true; # continue running [oci-container] services after logout

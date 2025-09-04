@@ -76,4 +76,41 @@
       };
     };
   };
+
+  security = {
+    rtkit.enable = true;
+    # requires rtkit and adding user to realtime group
+    pam.loginLimits = [
+      {
+        domain = "@realtime";
+        item = "memlock";
+        type = "-";
+        value = "unlimited";
+      }
+      {
+        domain = "@realtime";
+        item = "rtprio";
+        type = "-";
+        value = "99";
+      }
+      {
+        domain = "@realtime";
+        item = "nofile";
+        type = "soft";
+        value = "99999";
+      }
+      {
+        domain = "@realtime";
+        item = "nofile";
+        type = "hard";
+        value = "99999";
+      }
+      {
+        domain = "@realtime";
+        item = "nice";
+        type = "-";
+        value = "-15";
+      }
+    ];
+  };
 }
