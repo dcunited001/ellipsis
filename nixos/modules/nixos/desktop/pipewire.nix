@@ -82,31 +82,31 @@
     # requires rtkit and adding user to realtime group
     pam.loginLimits = [
       {
-        domain = "@realtime";
+        domain = "@audio";
         item = "memlock";
         type = "-";
         value = "unlimited";
       }
       {
-        domain = "@realtime";
+        domain = "@audio";
         item = "rtprio";
         type = "-";
         value = "99";
       }
       {
-        domain = "@realtime";
+        domain = "@audio";
         item = "nofile";
         type = "soft";
         value = "99999";
       }
       {
-        domain = "@realtime";
+        domain = "@audio";
         item = "nofile";
         type = "hard";
         value = "99999";
       }
       {
-        domain = "@realtime";
+        domain = "@audio";
         item = "nice";
         type = "-";
         value = "-15";
