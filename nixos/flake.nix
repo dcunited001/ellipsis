@@ -7,15 +7,23 @@
   inputs = {
     flake-compat.url = "https://flakehub.com/f/edolstra/flake-compat/*";
     nixpkgs.url = "https://flakehub.com/f/NixOS/nixpkgs/*";
-    home-manager.url = "github:nix-community/home-manager/release-25.05";
-    home-manager.inputs.nixpkgs.follows = "nixpkgs";
-    sops-nix.url = "github:Mic92/sops-nix";
-    sops-nix.inputs.nixpkgs.follows = "nixpkgs";
-    nixos-hardware.url = "github:nixos/nixos-hardware";
+    hardware.url = "github:nixos/nixos-hardware";
     disko.url = "github:nix-community/disko";
     disko.inputs.nixpkgs.follows = "nixpkgs";
     flake-schemas.url =
       "https://flakehub.com/f/DeterminateSystems/flake-schemas/*";
+
+    sops-nix.url = "github:Mic92/sops-nix";
+    sops-nix.inputs.nixpkgs.follows = "nixpkgs";
+
+    # HM
+    home-manager.url = "github:nix-community/home-manager/release-25.05";
+    home-manager.inputs.nixpkgs.follows = "nixpkgs";
+
+    # HJEM
+    hjem.url = "github:feel-co/hjem";
+    hjem.inputs.nixpkgs.follows = "nixpkgs";
+    hjem-impure.url = "github:Rexcrazy804/hjem-impure";
   };
 
   # Flake outputs that other flakes can use
@@ -23,6 +31,11 @@
   outputs = inputs@{ self, flake-compat, nixpkgs, home-manager, sops-nix
     , nixos-hardware, flake-schemas, disko }:
     let
+
+      # extend lib with lib.custom (see flake.nix from EmergentMind/dotfiles)
+      lib = nixpkgs.lib.extend
+        (self: super: { custom = import ./lib { inherit (nixpkgs) lib; }; });
+
       # Helpers for producing system-specific outputs
       supportedSystems = [ "x86_64-linux" "aarch64-linux" ];
 
