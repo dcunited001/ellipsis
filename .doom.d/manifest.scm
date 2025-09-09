@@ -3,6 +3,8 @@
    "emacs-next-pgtk"
    "guile-ares-rs"
 
+   "texlive"
+
    ;; using nix for:
    ;; "ripgrep"
    ;; "fd"
@@ -38,7 +40,7 @@
    "tree-sitter-typescript"
 
    ;; from ../ellipsis
-   "ts-hyprlang"
+   "tree-sitter-hyprlang"
 
    ;; CLI
    "tree-sitter-cli"))
