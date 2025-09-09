@@ -8,18 +8,13 @@
   outputs = { self, nixpkgs, flake-compat, home-manager, sops-nix
     , nixos-hardware, flake-schemas, disko, ... }@inputs:
     let
-      inherit (self) outputs;
-
-      # extend lib with lib.custom (see flake.nix from EmergentMind/dotfiles)
-      lib = nixpkgs.lib.extend
-        (self: super: { custom = import ./lib { inherit (nixpkgs) lib; }; });
 
       # Helpers for producing system-specific outputs
       supportedSystems = [ "x86_64-linux" "aarch64-linux" ];
 
       # this is intended to support pkgs
       forAllSupportedSystems = f:
-        lib.genAttrs supportedSystems
+        nixpkgs.lib.genAttrs supportedSystems
         (system: f { pkgs = import nixpkgs { inherit system; }; });
       forEachSystem = s: f:
         (nixpkgs.lib.genAttrs s)
@@ -30,7 +25,7 @@
       # schemas = flake-schemas.schemas;
 
       nixosConfigurations.kratos = nixpkgs.lib.nixosSystem {
-        specialArgs = { inherit inputs outputs lib; };
+        specialArgs = { inherit inputs; };
 
         modules =
           [ ./hosts/kratos/configuration.nix sops-nix.nixosModules.sops ];

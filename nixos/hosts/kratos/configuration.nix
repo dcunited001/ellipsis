@@ -4,29 +4,29 @@
     ./xdg.nix
     ./fcitx5.nix
     ./input.nix
-    # ./containers
 
-    (map lib.custom.relativeToRoot [
-      "modules/users/dc.nix"
-      "modules/users/dctest.nix"
-      "modules/nixos/programs/gnupg.nix"
-      "modules/nixos/desktop/bluetooth.nix"
-      "modules/nixos/desktop/fonts.nix"
-      "modules/nixos/desktop/hypr.nix"
-      "modules/nixos/desktop/pipewire.nix"
-      "modules/nixos/desktop/printing.nix"
-      "modules/nixos/desktop/sddm.nix"
-      "modules/nixos/desktop/xdg.nix"
-      # modules/nixos/services/containers.nix
-      "modules/nixos/services/earlyoom.nix"
-      "modules/nixos/services/guix.nix"
-      "modules/nixos/services/nix.nix"
-      "modules/nixos/services/openssh.nix"
-      "modules/nixos/services/ras.nix"
-      "modules/nixos/services/smartd.nix"
-      "modules/nixos/services/yubikey.nix"
-      "modules/nixos/services/zerotierone.nix"
-    ])
+    ../../modules/users/dc.nix
+    ../../modules/users/dctest.nix
+    ../../modules/nixos/programs/gnupg.nix
+    ../../modules/nixos/desktop/bluetooth.nix
+    ../../modules/nixos/desktop/fonts.nix
+    ../../modules/nixos/desktop/hypr.nix
+    ../../modules/nixos/desktop/pipewire.nix
+    ../../modules/nixos/desktop/printing.nix
+    ../../modules/nixos/desktop/sddm.nix
+    ../../modules/nixos/desktop/xdg.nix
+
+    # ../../modules/nixos/services/containers.nix
+    ../../modules/nixos/services/earlyoom.nix
+    ../../modules/nixos/services/guix.nix
+    ../../modules/nixos/services/nix.nix
+    ../../modules/nixos/services/openssh.nix
+    ../../modules/nixos/services/ras.nix
+    ../../modules/nixos/services/smartd.nix
+    ../../modules/nixos/services/yubikey.nix
+    ../../modules/nixos/services/zerotierone.nix
+
+    # ./containers.nix
   ];
 
   networking.hostName = "kratos";
