@@ -3,29 +3,6 @@
   # A helpful description of your flake
   description = "dcunited001/ellipsis NixOS";
 
-  # Flake inputs
-  inputs = {
-    flake-compat.url = "https://flakehub.com/f/edolstra/flake-compat/*";
-    nixpkgs.url = "https://flakehub.com/f/NixOS/nixpkgs/*";
-    hardware.url = "github:nixos/nixos-hardware";
-    disko.url = "github:nix-community/disko";
-    disko.inputs.nixpkgs.follows = "nixpkgs";
-    flake-schemas.url =
-      "https://flakehub.com/f/DeterminateSystems/flake-schemas/*";
-
-    sops-nix.url = "github:Mic92/sops-nix";
-    sops-nix.inputs.nixpkgs.follows = "nixpkgs";
-
-    # HM
-    home-manager.url = "github:nix-community/home-manager/release-25.05";
-    home-manager.inputs.nixpkgs.follows = "nixpkgs";
-
-    # HJEM
-    hjem.url = "github:feel-co/hjem";
-    hjem.inputs.nixpkgs.follows = "nixpkgs";
-    hjem-impure.url = "github:Rexcrazy804/hjem-impure";
-  };
-
   # Flake outputs that other flakes can use
   # flake-schemas, disko
   outputs = { self, nixpkgs, flake-compat, home-manager, sops-nix
@@ -70,6 +47,41 @@
           ];
         };
       };
+      nixosConfigurations.anywhereOrangePi5Plus = {
+        # "${nixpkgs}/nixos/nixpkgs/pkgs/misc/uboot/default.nix" # ubootOrangePi5Plus
+        aarch64-linux = nixpkgs.lib.nixosSystem {
+          specialArgs = { inherit inputs; };
+          system = "aarch64-linux";
+          modules = [
+            "${nixpkgs}/nixos/modules/profiles/all-hardware.nix"
+            "${nixpkgs}/nixos/modules/installer/sd-card/sd-image-aarch64-new-kernel-installer.nix"
+            ./modules/nixos/services/openssh.nix
+            ./hosts/anywhere/configuration.nix
+          ];
+        };
       };
     };
+
+  # Flake inputs
+  inputs = {
+    flake-compat.url = "https://flakehub.com/f/edolstra/flake-compat/*";
+    nixpkgs.url = "https://flakehub.com/f/NixOS/nixpkgs/*";
+    hardware.url = "github:nixos/nixos-hardware";
+    disko.url = "github:nix-community/disko";
+    disko.inputs.nixpkgs.follows = "nixpkgs";
+    flake-schemas.url =
+      "https://flakehub.com/f/DeterminateSystems/flake-schemas/*";
+
+    sops-nix.url = "github:Mic92/sops-nix";
+    sops-nix.inputs.nixpkgs.follows = "nixpkgs";
+
+    # HM
+    home-manager.url = "github:nix-community/home-manager/release-25.05";
+    home-manager.inputs.nixpkgs.follows = "nixpkgs";
+
+    # HJEM
+    hjem.url = "github:feel-co/hjem";
+    hjem.inputs.nixpkgs.follows = "nixpkgs";
+    hjem-impure.url = "github:Rexcrazy804/hjem-impure";
+  };
 }
