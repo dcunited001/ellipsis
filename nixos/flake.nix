@@ -28,9 +28,10 @@
 
   # Flake outputs that other flakes can use
   # flake-schemas, disko
-  outputs = inputs@{ self, flake-compat, nixpkgs, home-manager, sops-nix
-    , nixos-hardware, flake-schemas, disko }:
+  outputs = { self, nixpkgs, flake-compat, home-manager, sops-nix
+    , nixos-hardware, flake-schemas, disko, ... }@inputs:
     let
+      inherit (self) outputs;
 
       # extend lib with lib.custom (see flake.nix from EmergentMind/dotfiles)
       lib = nixpkgs.lib.extend
@@ -41,7 +42,7 @@
 
       # this is intended to support pkgs
       forAllSupportedSystems = f:
-        nixpkgs.lib.genAttrs supportedSystems
+        lib.genAttrs supportedSystems
         (system: f { pkgs = import nixpkgs { inherit system; }; });
       forEachSystem = s: f:
         (nixpkgs.lib.genAttrs s)
@@ -52,7 +53,8 @@
       # schemas = flake-schemas.schemas;
 
       nixosConfigurations.kratos = nixpkgs.lib.nixosSystem {
-        specialArgs = { inherit inputs; };
+        specialArgs = { inherit inputs outputs lib; };
+
         modules =
           [ ./hosts/kratos/configuration.nix sops-nix.nixosModules.sops ];
       };
