@@ -1,19 +1,8 @@
-{ pkgs, ... }: {
-
-  # users.users "already defined" ... damit
-  # users.users = let
-  #   myUsers = ["dc"];
-  # in
-  #   builtins.listToAttrs (map (user:
-  #     {
-  #       name = user;
-  #       value = {
-  #         isNormalUser = true;
-  #         home = "/home/${user}";
-  #         extraGroups = [ "wheel" ];
-  #       };
-  #     }
-  #   ) myUsers);
+{ lib, pkgs, ... }:
+let
+  hyprdc = (pkgs.callPackage
+    (lib.custom.relativeToRoot "pkgs/common/hyprdc/package.nix") { });
+in {
 
   users.groups = {
     dc = {
@@ -55,6 +44,9 @@
     # home-manager: ~/.nix-profile
     # these install to: /etc/profiles/per-user/$USER
     packages = with pkgs; [
+      # CUSTOM
+      hyprdc
+
       # CLI
       tree
       git-repo

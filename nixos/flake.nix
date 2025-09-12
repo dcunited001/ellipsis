@@ -11,24 +11,27 @@
 
       inherit (self) outputs;
 
+      # Helpers for producing system-specific outputs
+      supportedSystems = [ "x86_64-linux" "aarch64-linux" ];
+      desktopSystems = [ "x86_64-linux" "aarch64-linux" ];
+      serverSystems = [ "x86_64-linux" "aarch64-linux" ];
+
       # extend lib with lib.custom (see flake.nix from EmergentMind/dotfiles)
       lib = nixpkgs.lib.extend
         (self: super: { custom = import ./lib { inherit (nixpkgs) lib; }; });
 
-      # Helpers for producing system-specific outputs
-      supportedSystems = [ "x86_64-linux" "aarch64-linux" ];
-
-      # this is intended to support pkgs
-      forAllSupportedSystems = f:
-        lib.genAttrs supportedSystems
-        (system: f { pkgs = import nixpkgs { inherit system; }; });
-      forEachSystem = s: f:
-        (lib.genAttrs s)
-        (system: f { pkgs = import nixpkgs { inherit system; }; });
-
     in {
       # Schemas tell Nix about the structure of your flake's outputs
       # schemas = flake-schemas.schemas;
+
+      # from EmergentMind/nix-config
+      #
+      # but here, for importing internal scripts/packages ONLY. this should be
+      # a completely FLAT overlay...
+      #
+      # NOTE: i'm really going to try to avoid an overlay for now
+      #
+      # overlays = import ./overlays { inherit inputs; };
 
       nixosConfigurations.kratos = nixpkgs.lib.nixosSystem {
         specialArgs = { inherit inputs outputs lib; };
@@ -61,6 +64,21 @@
           ];
         };
       };
+
+      # genAttrs :: [ String ] -> (String -> Any) -> AttrSet
+      # genAttrs(systems) :: (String -> Any) -> AttrSet
+      # genAttrs(systems) eats [systemStrings], returns (String -> Any) -> AttrSet
+      packages = nixpkgs.lib.genAttrs (supportedSystems) (system:
+        let
+          pkgs = import nixpkgs {
+            inherit system;
+            # no overlays for now
+            # overlays = [ self.overlays.default ];
+          };
+        in nixpkgs.lib.packagesFromDirectoryRecursive {
+          callPackage = nixpkgs.lib.callPackageWith pkgs;
+          directory = ./pkgs/common;
+        });
     };
 
   # Flake inputs
