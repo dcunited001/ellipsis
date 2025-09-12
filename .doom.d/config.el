@@ -13,7 +13,7 @@
          t)))
 
 (defvar is-guix-system (is-system? "guix"))
-(defvar is-nix-system (is-system? "nix"))
+(defvar is-nixos (is-system? "nix"))
 
 (defconst IS-MAC      (eq system-type 'darwin))
 (defconst IS-LINUX    (memq system-type '(gnu gnu/linux gnu/kfreebsd berkeley-unix)))
@@ -462,7 +462,7 @@ Guix channel.")
  (is-guix-system
   (setopt doom-font (font-spec :family "Iosevka Nerd Font Mono" :size 12 :weight 'normal)
           doom-serif-font (font-spec :family "Iosevka Nerd Font Mono" :size 12 :weight 'normal)))
- (is-nix-system
+ (is-nixos
   (setopt doom-font (font-spec :family "Fira Code Nerd Font Mono" :size 11 :weight 'normal)
           doom-serif-font (font-spec :family "Fira Code Nerd Font Mono" :size 11 :weight 'normal)
           doom-big-font (font-spec :family "Noto Sans" :size 36 :weight 'normal)
@@ -642,6 +642,7 @@ Guix channel.")
                ("C-l" . #'dc/match-components-literally))))
 
 (use-package! consult
+  :custom (consult-man-args (or (and is-nixos "/run/current-system/sw/bin/man -k") "man -k"))
   :bind ((:map global-map
                ("C-x M-:" . #'consult-complex-command))))
 
@@ -886,7 +887,7 @@ Guix channel.")
 
 ;;;;; Org Agenda
 ;; start with empty org-agenda-files
-(setq org-agenda-files '()
+(setq org-agenda-files (list (expand-file-name ".dotfiles/todo.org" (getenv "HOME")))
 
       ;; org-habit
       org-habit-show-habits t           ; default
@@ -940,6 +941,53 @@ Guix channel.")
                                           (1.0 . org-warning)
                                           (0.5 . org-upcoming-deadline)
                                           (0.0 . org-upcoming-distant-deadline)))
+
+;;;;; Org Tags
+
+;; Deadline/Schedule: Use prop tags instead
+;; (:startgroup . nil) ("DL" . ?d) ("SCH" . ?s) (:newline) (:endgroup . nil)
+
+(setq-default
+ org-tag-persistent-alist
+ '((:startgroup . "WHY")
+   ;; WHY =======================
+   ("VIS" . ?v) ;; Visibility
+   ("ISH" . ?!) ;; Issues
+   ("GO" . ?G)  ;; Goals
+   ("FIN" . ?$) ;; Finance
+   (:newline . nil) (:endgroup . nil)
+   (:startgrouptag) ("HOW")
+   (:grouptags)
+   ("AUTO" . ?a) ;; Automation
+   ("NET" . ?n)  ;; Network
+   ("FS" . ?f)   ;; Files
+   ("DO" . ?d)   ;; Devops
+   ("AU" . ?@)   ;; Auth
+   ("ID" . ?#)   ;; Identity
+   ("DF" . ?.)   ;; Dotfiles
+   (:newline . nil) (:endgrouptag)
+   (:startgrouptag) ("WHAT")
+   (:grouptags)
+   ("CODE" . ?%)  ;; Code
+   ("READ" . ?&)  ;; Read
+   ("3D" . ?3)    ;; 3D
+   ("CAD" . ?C)   ;; Design
+   ("WS" . ?w)    ;; Workshop
+   ("ART" . ?A)   ;; Art
+   ("MUS" . ?#)   ;; Music
+   ("LEARN" . ?L) ;; Learn
+   ("EDU" . ?E)   ;; Edu
+   ("HOME" . ?H)  ;; Home
+   ("FAB" . ?F)   ;; Fablab
+   (:newline . nil) (:endgrouptag)
+   (:startgroup . "WHO")
+   ;; WHO  =======================
+   ("MEET" . ?M) ;; Meetups
+   ("MSG" . ?m)  ;; Msg
+   ("EV" . ?V)   ;; Events
+   ("CON" . ?c)  ;; Contacts
+   (:newline . nil)
+   (:endgroup . nil)))
 
 ;;;;; Org Super Agenda
 
@@ -1605,9 +1653,30 @@ the root")
 ;;;;; Man
 
 (use-package! man
-  :custom (manual-program (if is-nix-system "/run/current-system/sw/bin/man" "man")))
+  :custom (manual-program (if is-nixos "/run/current-system/sw/bin/man" "man")))
 
 ;; M-x async-shell-command manpath
+;; /gnu/store/0pn3fjlfmvyjc9g29hzlgprvfchkv6ld-profile/share/man
+;; /run/current-system/sw/share/man
+;; /home/dc/.guix-profile/share/man
+;; /etc/profiles/per-user/dc/share/man
+;; /nix/store/bflsjj2cndl8fz690nx8aigf2x3q16d4-newt-0.52.24/share/man
+;; /nix/store/avhdfiwxm991wgmcgvmhmvgvwn9gavq6-python3-3.12.11-env/share/man
+;; /nix/store/gwk546kxw024v371l34sw11zvzqrxhdv-dmenu-5.3/share/man
+;; /nix/store/7gspl5402q53m36mavbq3rxxlh70kqfv-pciutils-3.13.0/share/man
+;; /gnu/store/m3y5v726hbdkpnh8zhad47ni82bna6ki-gzip-1.14/share/man           #  missing
+;; /gnu/store/lzf20vxz8rq5d1akv907c1g3a0mq2z01-coreutils-9.1/share/man       #  missing
+
+;; nixos
+;; /home/dc/.local/share/man              # missing
+;; /run/current-system/sw/share/man
+;; /home/dc/.guix-profile/share/man
+;; /etc/profiles/per-user/dc/share/man
+;; /nix/store/bflsjj2cndl8fz690nx8aigf2x3q16d4-newt-0.52.24/share/man
+;; /nix/store/avhdfiwxm991wgmcgvmhmvgvwn9gavq6-python3-3.12.11-env/share/man
+;; /nix/store/gwk546kxw024v371l34sw11zvzqrxhdv-dmenu-5.3/share/man
+;; /nix/store/7gspl5402q53m36mavbq3rxxlh70kqfv-pciutils-3.13.0/share/man
+
 ;;;;; Info
 (use-package! info
   :defer t)
@@ -2116,16 +2185,3 @@ the root")
 ;; they are implemented.
 
 ;; (server-start)
-
-;;; GC Settings
-
-;; updating tables in org mode is extremely slow with vc-gutter and gcmh
-;; defaults
-;; (setq gcmh-low-cons-threshold (* 4 (expt 2 20))
-;;       gc-cons-threshold (* 16 (expt 2 20)))
-;;
-;; + doom doesn't set gc-cons-threshold, but low/high instead
-;;
-;; + trying to force it here, it helps some, but large tables still slow
-;;
-;; + The +lsp-optimization-mode will

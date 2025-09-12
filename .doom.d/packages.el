@@ -179,7 +179,12 @@
 ;;*** TCL
 ;; TODO: PKG tcl-ts-mode? (local)
 
-;;** Compile
+;;** Build
+(package! just-mode)
+;; (just-mode :type git :host github :repo "leon-barrett/just-mode.el")
+;; (just-ts-mode :type git :host github :repo "leon-barrett/just-ts-mode.el")
+
+;;*** Compile
 
 ;; may need to include extensions: (compile-multi :type git :host github :repo "mohkale/compile-multi")
 (package! compile-multi)
@@ -222,6 +227,10 @@
 
 ;; the doom module will pull in cfw.* packages
 
+;;** Org Content
+(package! qrencode)
+
+;;** Org Integrations
 (package! org-gcal)
 
 ;;** Babel
