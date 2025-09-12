@@ -13,6 +13,7 @@
       "modules/nixos/programs/obs-studio.nix"
 
       "modules/nixos/desktop/bluetooth.nix"
+      "modules/nixos/desktop/docs.nix"
       "modules/nixos/desktop/fonts.nix"
       "modules/nixos/desktop/hypr.nix"
       "modules/nixos/desktop/pipewire.nix"
