@@ -29,19 +29,26 @@ in {
               mountpoint = "/boot";
               mountOptions = [ "umask=0077" "fmask=0022" "dmask=0022" ];
             };
+          };
 
-            luks = {
-              size = "85%";
-              content = {
-                type = "luks";
-                name = "${diskoHostname}LUKS";
-                settings = { allowDiscards = false; };
-                extraOpenArgs = [ ];
-                # default for LUKS2. set during compilation
-                # extraFormatArgs = [ "--pbkdf argon2id" ]
-                content = {
-                  type = "lvm_pv";
-                  vg = "pool";
+          root = {
+            # Subvolumes must set a mountpoint in order to be mounted,
+            # unless their parent is mounted
+            content = {
+              type = "btrfs";
+              extraArgs = [ "-f" ]; # force overwrite
+              subvolumes = {
+                "@root" = {
+                  mountpoint = "/";
+                  mountOptions = [ "compress=zstd" "noatime" ];
+                };
+                "@persist" = {
+                  mountpoint = "${config.hostSpec.persistFolder}";
+                  mountOptions = [ "compress=zstd" "noatime" ];
+                };
+                "@nix" = {
+                  mountpoint = "/nix";
+                  mountOptions = [ "compress=zstd" "noatime" ];
                 };
               };
             };
@@ -60,6 +67,7 @@ in {
       #   (whether inside of the native application(s) logic or as OCI volumes
       #   or as partitions)
       # - I've already hit the "oh shit my LVM metadata" button
+
       lvm_vg = {
         pool = {
           type = "lvm_vg";

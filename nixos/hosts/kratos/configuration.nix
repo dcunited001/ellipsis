@@ -12,6 +12,7 @@
       "modules/nixos/programs/gnupg.nix"
       "modules/nixos/programs/obs-studio.nix"
 
+      "modules/nixos/desktop/appimage.nix"
       "modules/nixos/desktop/bluetooth.nix"
       "modules/nixos/desktop/docs.nix"
       "modules/nixos/desktop/fonts.nix"
@@ -245,6 +246,9 @@
 
     # TOOLS: CRYPTO
     certgraph
+    # tpm2-tss
+    # tpm2-tools
+    # ssh-tpm-agent
 
     # TOOLS: DISK
     du-dust
@@ -281,6 +285,7 @@
   programs = {
     uwsm = {
       waylandCompositors = {
+        # TODO: Fix hyprland-debug, doesn't get launched by uwsm
         hyprland-debug = {
           prettyName = "hyprland-debug";
           binPath = "/run/current-system/sw/bin/Hyprland";
@@ -288,16 +293,22 @@
         };
       };
     };
+
     hyprland = {
       enable = true;
       withUWSM = true; # recommended for most users
       xwayland.enable = true; # Xwayland can be disabled.
+
+      # systemd includes system bin dir? (resolves problems opening links?)
+      # systemd.setPath.enable = true
     };
 
     # NOTE: check for uwsm issues
     # adds only three things: idle+lock pkgs, systemd service + pam auth
     hyprlock.enable = true;
 
+    # TODO: set dconf.profiles.user.databases?
+    # https://wiki.hypr.land/Nix/Hyprland-on-NixOS/#fixing-problems-with-themes
     dconf.enable = true;
     seahorse.enable = true;
     neovim.enable = true; # defaultEditor = true;

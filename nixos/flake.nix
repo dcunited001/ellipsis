@@ -5,8 +5,8 @@
 
   # Flake outputs that other flakes can use
   # flake-schemas, disko
-  outputs = { self, nixpkgs, flake-compat, home-manager, sops-nix
-    , nixos-hardware, flake-schemas, disko, ... }@inputs:
+  outputs = { self, nixpkgs, nixpkgs-unstable, flake-compat, home-manager
+    , sops-nix, nixos-hardware, flake-schemas, disko, ... }@inputs:
     let
 
       inherit (self) outputs;
@@ -20,7 +20,10 @@
       lib = nixpkgs.lib.extend
         (self: super: { custom = import ./lib { inherit (nixpkgs) lib; }; });
 
+      pkgs-unstable = nixpkgs-unstable.legacyPackages.x86_64-linux;
     in {
+      overlays = import ./overlays { inherit inputs; };
+
       # Schemas tell Nix about the structure of your flake's outputs
       # schemas = flake-schemas.schemas;
 
@@ -38,6 +41,23 @@
 
         modules =
           [ ./hosts/kratos/configuration.nix sops-nix.nixosModules.sops ];
+      };
+      nixosConfigurations.helius = nixpkgs.lib.nixosSystem {
+        system = "x86_64-linux";
+        specialArgs = { inherit inputs outputs nixpkgs-unstable lib; };
+
+        modules = [
+          # self.overlays.default
+          # { nixpkgs.overlays = [ (final: _: { unstable = pkgs-unstable; }) ]; }
+          # neither works
+          # nixpkgs.overlays = [
+          #   (final: _: {
+          #     pkgs-unstable.config.allowUnfree = true;
+          #     unstable = pkgs-unstable;
+          #   })
+          # ];
+          ./hosts/helius/configuration.nix
+        ];
       };
       nixosConfigurations.anywhere = {
         x86_64-linux = nixpkgs.lib.nixosSystem {
@@ -90,6 +110,13 @@
     disko.inputs.nixpkgs.follows = "nixpkgs";
     flake-schemas.url =
       "https://flakehub.com/f/DeterminateSystems/flake-schemas/*";
+
+    nixpkgs-stable.url = "github:NixOS/nixpkgs/nixos-25.05";
+    nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
+
+    # this flake follows nixpkgs-unstable
+    frc-nix.url = "github:frc4451/frc-nix";
+    frc-nix.inputs.nixpkgs.follows = "nixpkgs-unstable";
 
     sops-nix.url = "github:Mic92/sops-nix";
     sops-nix.inputs.nixpkgs.follows = "nixpkgs";
