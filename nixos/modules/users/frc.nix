@@ -15,8 +15,8 @@
   environment.sessionVariables.XDG_DATA_DIRS =
     [ "$HOME/.local/share/flatpak/exports/share" ];
 
-  users.users.dc = {
-    uid = 1000;
+  users.users.frc = {
+    uid = 1001;
     group = "frc";
     extraGroups = [ "wheel" "networkmanager" "docker" "podman" "audio" ];
     isNormalUser = true;
