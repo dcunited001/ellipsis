@@ -5,28 +5,30 @@
     ./fcitx5.nix
     ./input.nix
 
-    ../../modules/users/dc.nix
-    ../../modules/users/dctest.nix
-    ../../modules/nixos/programs/gnupg.nix
-    ../../modules/nixos/desktop/bluetooth.nix
-    ../../modules/nixos/desktop/fonts.nix
-    ../../modules/nixos/desktop/hypr.nix
-    ../../modules/nixos/desktop/pipewire.nix
-    ../../modules/nixos/desktop/printing.nix
-    ../../modules/nixos/desktop/sddm.nix
-    ../../modules/nixos/desktop/xdg.nix
+    (map lib.custom.relativeToRoot [
+      "modules/users/dc.nix"
+      "modules/users/dctest.nix"
 
-    # ../../modules/nixos/services/containers.nix
-    ../../modules/nixos/services/earlyoom.nix
-    ../../modules/nixos/services/guix.nix
-    ../../modules/nixos/services/nix.nix
-    ../../modules/nixos/services/openssh.nix
-    ../../modules/nixos/services/ras.nix
-    ../../modules/nixos/services/smartd.nix
-    ../../modules/nixos/services/yubikey.nix
-    ../../modules/nixos/services/zerotierone.nix
+      "modules/nixos/programs/gnupg.nix"
+      "modules/nixos/programs/obs-studio.nix"
 
-    # ./containers.nix
+      "modules/nixos/desktop/bluetooth.nix"
+      "modules/nixos/desktop/fonts.nix"
+      "modules/nixos/desktop/hypr.nix"
+      "modules/nixos/desktop/pipewire.nix"
+      "modules/nixos/desktop/printing.nix"
+      "modules/nixos/desktop/sddm.nix"
+      "modules/nixos/desktop/xdg.nix"
+
+      "modules/nixos/services/earlyoom.nix"
+      "modules/nixos/services/guix.nix"
+      "modules/nixos/services/nix.nix"
+      "modules/nixos/services/openssh.nix"
+      "modules/nixos/services/ras.nix"
+      "modules/nixos/services/smartd.nix"
+      "modules/nixos/services/yubikey.nix"
+      "modules/nixos/services/zerotierone.nix"
+    ])
   ];
 
   networking.hostName = "kratos";
@@ -145,7 +147,7 @@
   services.libinput.enable = true;
 
   # users.mutableUsers = false;
-  users.defaultUserShell = pkgs.zsh;
+  users.defaultUserShell = pkgs.bash;
 
   # ---------------------------------------------
   # DESKTOP stuff
@@ -208,7 +210,7 @@
   # SYSTEM PACKAGES
 
   # TODO: nix: lots of duplicate packages end up being installed
-  environment.variables.EDITOR = "vim";
+  environment.variables.EDITOR = "vim"; # TODO: ends up being doomclient
   environment.systemPackages = with pkgs; [
     git
     vim

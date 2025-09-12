@@ -165,6 +165,9 @@
       nwg-displays
       nwg-icon-picker
 
+      # DESKTOP: MEDIA
+      vlc
+
       # DESKTOP: INPUT
       piper
       # xkbcomp

@@ -12,6 +12,10 @@ buildhost:
 switchhost:
 	sudo nixos-rebuild switch -I nixos-config=$(NIXOS_HOST_CONFIG)
 
+.PHONY:
+nhbuild:
+	nh os switch . -- --show-trace
+
 .PHONY: liverepl
 liverepl:
 	nix repl --file '<nixpkgs/nixos>' -I nixos-config=${NIXOS_HOST_CONFIG}

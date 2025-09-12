@@ -19,7 +19,7 @@
         "https://bordeaux.guix.gnu.org"
         "https://ci.guix.gnu.org"
         "https://berlin.guix.gnu.org"
-        "https://substitutes.nonguix.gnu.org"
+        "https://substitutes.nonguix.org"
       ];
       authorizedKeys = let
         r = "https://raw.githubusercontent.com/dcunited001/ellipsis";

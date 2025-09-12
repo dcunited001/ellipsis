@@ -67,12 +67,18 @@
       }];
     };
 
+    # bluez5 roles:
+    # hsp_hs/ag: headset, audio gateway
+    # hfp_hf/ag: hands-free, audio gateway
+    # a2dp_sink/source
+    # LE Audio BAP: Basic Audio Profile
+    # bap_sink/source: BAP Sink/Source
     wireplumber.extraConfig.bluetoothEnhancements = {
       "monitor.bluez.properties" = {
-        "bluez5.enable-sbc-xq" = true;
-        "bluez5.enable-msbc" = true;
+        "bluez5.enable-sbc-xq" = true; # high-quality SBC Codec (A2DP; wp bluez default)
+        "bluez5.enable-msbc" = true;   # mSBC wideband speech codec (HFP/HSP; wp bluez default)
         "bluez5.enable-hw-volume" = true;
-        "bluez5.roles" = [ "hsp_hs" "hsp_ag" "hfp_hf" "hfp_ag" ];
+        "bluez5.roles" = [ "a2dp_sink" "a2dp_source" "hsp_hs" "hsp_ag" "hfp_hf" "hfp_ag" ]; # bap_sink bap_source
       };
     };
   };
