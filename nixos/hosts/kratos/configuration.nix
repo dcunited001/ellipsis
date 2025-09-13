@@ -24,6 +24,7 @@
 
       "modules/nixos/services/earlyoom.nix"
       "modules/nixos/services/guix.nix"
+      "modules/nixos/services/locate.nix"
       "modules/nixos/services/nix.nix"
       "modules/nixos/services/openssh.nix"
       "modules/nixos/services/ras.nix"
@@ -106,29 +107,6 @@
       [ "defaults" "noatime" "compress=zstd" "discard=async" "ssd" ];
   };
   services.gvfs.enable = true;
-
-  services.locate.enable = true;
-  services.locate = {
-    # prunePaths = [ "/tmp" "/var/tmp" "/var/cache" "/var/lock" "/var/run" "/var/spool"
-    #   "/nix/store" "/nix/var/log/nix" ];
-    # others: /sys /run
-    prunePaths = [
-      "/afs"
-      "/gnu/store"
-      "/net"
-      "/media"
-      "/mnt"
-      "/sfs"
-      "/tmp"
-      "/udev"
-      "/root"
-      "/proc"
-    ];
-    pruneBindMounts = true;
-    # pruneNames = [ ".bzr" ".cache" ".git" ".hg" ".svn" ];
-    # pruneFS = [ "looks good" ];
-    # extraFlags = []; # arch doesn't pass anything else
-  };
 
   time.timeZone = "America/New_York";
 

@@ -5,8 +5,8 @@
 
   # Flake outputs that other flakes can use
   # flake-schemas, disko
-  outputs = { self, nixpkgs, nixpkgs-unstable, flake-compat, home-manager
-    , sops-nix, nixos-hardware, flake-schemas, disko, ... }@inputs:
+  outputs = { self, nixpkgs, flake-compat, home-manager, sops-nix
+    , nixos-hardware, flake-schemas, disko, ... }@inputs:
     let
 
       inherit (self) outputs;
@@ -20,10 +20,7 @@
       lib = nixpkgs.lib.extend
         (self: super: { custom = import ./lib { inherit (nixpkgs) lib; }; });
 
-      pkgs-unstable = nixpkgs-unstable.legacyPackages.x86_64-linux;
     in {
-      overlays = import ./overlays { inherit inputs; };
-
       # Schemas tell Nix about the structure of your flake's outputs
       # schemas = flake-schemas.schemas;
 
@@ -33,31 +30,13 @@
       # a completely FLAT overlay...
       #
       # NOTE: i'm really going to try to avoid an overlay for now
-      #
-      # overlays = import ./overlays { inherit inputs; };
+      overlays = import ./overlays { inherit inputs; };
 
       nixosConfigurations.kratos = nixpkgs.lib.nixosSystem {
         specialArgs = { inherit inputs outputs lib; };
 
         modules =
           [ ./hosts/kratos/configuration.nix sops-nix.nixosModules.sops ];
-      };
-      nixosConfigurations.helius = nixpkgs.lib.nixosSystem {
-        system = "x86_64-linux";
-        specialArgs = { inherit inputs outputs nixpkgs-unstable lib; };
-
-        modules = [
-          # self.overlays.default
-          # { nixpkgs.overlays = [ (final: _: { unstable = pkgs-unstable; }) ]; }
-          # neither works
-          # nixpkgs.overlays = [
-          #   (final: _: {
-          #     pkgs-unstable.config.allowUnfree = true;
-          #     unstable = pkgs-unstable;
-          #   })
-          # ];
-          ./hosts/helius/configuration.nix
-        ];
       };
       nixosConfigurations.anywhere = {
         x86_64-linux = nixpkgs.lib.nixosSystem {
@@ -66,19 +45,6 @@
           modules = [
             "${nixpkgs}/nixos/modules/profiles/all-hardware.nix"
             "${nixpkgs}/nixos/modules/installer/cd-dvd/iso-image.nix"
-            ./modules/nixos/services/openssh.nix
-            ./hosts/anywhere/configuration.nix
-          ];
-        };
-      };
-      nixosConfigurations.anywhereOrangePi5Plus = {
-        # "${nixpkgs}/nixos/nixpkgs/pkgs/misc/uboot/default.nix" # ubootOrangePi5Plus
-        aarch64-linux = nixpkgs.lib.nixosSystem {
-          specialArgs = { inherit inputs; };
-          system = "aarch64-linux";
-          modules = [
-            "${nixpkgs}/nixos/modules/profiles/all-hardware.nix"
-            "${nixpkgs}/nixos/modules/installer/sd-card/sd-image-aarch64-new-kernel-installer.nix"
             ./modules/nixos/services/openssh.nix
             ./hosts/anywhere/configuration.nix
           ];
