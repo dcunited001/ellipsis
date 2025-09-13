@@ -4,6 +4,7 @@
     ./xdg.nix
     ./fcitx5.nix
     ./input.nix
+    ./containers.nix
 
     (map lib.custom.relativeToRoot [
       "modules/users/dc.nix"
@@ -22,6 +23,7 @@
       "modules/nixos/desktop/sddm.nix"
       "modules/nixos/desktop/xdg.nix"
 
+      "modules/nixos/services/containers.nix"
       "modules/nixos/services/earlyoom.nix"
       "modules/nixos/services/guix.nix"
       "modules/nixos/services/locate.nix"
