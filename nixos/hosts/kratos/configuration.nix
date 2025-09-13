@@ -1,4 +1,4 @@
-{ config, lib, pkgs, ... }: {
+{ config, lib, pkgs, outputs, ... }: {
   imports = lib.flatten [
     ./hardware.nix
     ./xdg.nix
@@ -12,6 +12,7 @@
 
       "modules/nixos/programs/gnupg.nix"
       "modules/nixos/programs/obs-studio.nix"
+      "modules/nixos/programs/vscode.nix"
 
       "modules/nixos/desktop/appimage.nix"
       "modules/nixos/desktop/bluetooth.nix"
@@ -35,6 +36,8 @@
       "modules/nixos/services/zerotierone.nix"
     ])
   ];
+
+  nixpkgs.overlays = [ outputs.overlays.default ];
 
   networking.hostName = "kratos";
 
@@ -187,6 +190,15 @@
   # TODO: accidentally deleted a networking config here.
   # tcpdump wrapper granting syscap (user: )
   programs.tcpdump.enable = true;
+
+  # ---------------------------------------------
+  # VS Code
+  # This is a fix to enable VSCode to successfully remote SSH on a client to a NixOS host
+  # https://wiki.nixos.org/wiki/Visual_Studio_Code # Remote_SSH
+  programs.nix-ld.enable = true;
+
+  # needed for store VS Code auth token
+  # services.gnome.gnome-keyring.enable = true;
 
   # ---------------------------------------------
   # SYSTEM PACKAGES

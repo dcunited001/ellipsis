@@ -5,8 +5,9 @@
 
   # Flake outputs that other flakes can use
   # flake-schemas, disko
-  outputs = { self, nixpkgs, flake-compat, home-manager, sops-nix
-    , nixos-hardware, flake-schemas, disko, ... }@inputs:
+  outputs = { self, nixpkgs, flake-compat, home-manager, frc-nix
+    , nixpkgs-unstable, sops-nix, nixos-hardware, flake-schemas, disko, ...
+    }@inputs:
     let
 
       inherit (self) outputs;
@@ -33,6 +34,7 @@
       overlays = import ./overlays { inherit inputs; };
 
       nixosConfigurations.kratos = nixpkgs.lib.nixosSystem {
+        system = "x86_64-linux";
         specialArgs = { inherit inputs outputs lib; };
 
         modules =
@@ -82,7 +84,8 @@
 
     # this flake follows nixpkgs-unstable
     frc-nix.url = "github:frc4451/frc-nix";
-    frc-nix.inputs.nixpkgs.follows = "nixpkgs-unstable";
+    frc-nix.inputs.nixpkgs.follows = "nixpkgs";
+    # qfrc-nix.inputs.nixpkgs.follows = "nixpkgs-unstable";
 
     sops-nix.url = "github:Mic92/sops-nix";
     sops-nix.inputs.nixpkgs.follows = "nixpkgs";

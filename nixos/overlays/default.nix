@@ -14,6 +14,5 @@ let
 
 in {
   default = final: prev:
-
     (additions final prev) // (linuxModifications final prev);
 }
