@@ -1,6 +1,20 @@
 { inputs, config, lib, pkgs, ... }:
 let
   frcPkgs = inputs.frc-nix.packages.${pkgs.system};
+  vscMarketplace = pkgs.vscode-utils.extensionsFromVscodeMarketplace [
+    { # "created 12,000 symlinks..."
+      name = "vscode-lombok";
+      publisher = "vscjava";
+      version = "1.1.2024071804";
+      sha256 = "10ppk8s4ppaac91r20hdb2m7kvmsxp15dgisd7f2raqbblk7d9sm";
+    }
+    {
+      name = "vscode-spotless-gradle";
+      publisher = "richardwillis";
+      version = "1.2.1";
+      sha256 = "0sdlg3w5g5v1jcx3qf8lljm2qavj3jas8dgr5gxb3l2yyk8knj1l";
+    }
+  ];
   # these fhsPkgs can be set in programs.nix-ld.libraries
   fhsPkgs = with pkgs;
     [
@@ -44,8 +58,6 @@ let
       redhat.vscode-yaml
       zxh404.vscode-proto3
       vscjava.vscode-gradle
-      # vscjava.vscode-lombok
-      # richardwillis.vscode-spotless-gradle
 
       # the extension pack won't work with java
       # vscjava.vscode-java-pack
@@ -73,7 +85,7 @@ let
       # to debug the extension: ensure vscode-wpilib isn't included
       #
       # - this VSCode should be able to run the two "Extension.*" targets
-    ] ++ [ frcPkgs.vscode-wpilib ];
+    ] ++ vscMarketplace ++ [ frcPkgs.vscode-wpilib ];
 
   vscFinal = pkgs.vscode-with-extensions.override {
     vscode = vscFhs;
