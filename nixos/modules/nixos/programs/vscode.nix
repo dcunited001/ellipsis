@@ -3,22 +3,26 @@ let
   frcPkgs = inputs.frc-nix.packages.${pkgs.system};
   # these fhsPkgs can be set in programs.nix-ld.libraries
   fhsPkgs = with pkgs;
-    [ stdenv.cc.cc.lib zlib openssl.dev pkg-config jdt-language-server ] # jdk17
+    [
+      stdenv.cc.cc.lib
+      zlib
+      openssl.dev
+      pkg-config
+      jdt-language-server
+      libglvnd
+      libGL
+      glfw
+      xorg.libXrandr
+      xorg.libXinerama
+      xorg.libXcursor
+      xorg.libXi
+      xorg.libXrender
+      xorg.libXt
+      xorg.libX11
+      xorg.libXext
+      wayland
+    ] # jdk17
     ++ [
-      # some, but not all wpilib apps should go here. particularly, those that
-      # need to link consistently into the FHS.
-      #
-      # - this avoids GLW issues (which you can usually circumvent on nix/guix
-      #   by wrapping in a shell with chromium dev dependencies).
-      #
-      # - however, these packages aren't added to the top-level environment
-      #   (and those won't have the FHS corrections).
-      #
-      # - This works for some apps, but not for those which need FHS
-      #   constraints on the dynamic library dependencies.
-      #
-      # - thus, it's safer to find a way to spawn these from within VS Code.
-
       frcPkgs.datalogtool
       frcPkgs.glass
       frcPkgs.outlineviewer
@@ -37,16 +41,38 @@ let
       bbenoist.nix
       golang.go
       twxs.cmake
+      redhat.vscode-yaml
+      zxh404.vscode-proto3
+      vscjava.vscode-gradle
+      # vscjava.vscode-lombok
+      # richardwillis.vscode-spotless-gradle
+
+      # the extension pack won't work with java
+      # vscjava.vscode-java-pack
+
+      # wpilib vscode installs these
       ms-vscode.cpptools
       redhat.java
-      redhat.vscode-yaml
+      vscjava.vscode-java-debug
+      vscjava.vscode-java-dependency
       ms-python.python
       ms-python.debugpy
       ms-python.vscode-pylance
       ms-python.isort
       ms-python.black-formatter
-      vscjava.vscode-java-pack
-      vscjava.vscode-gradle
+
+      # remote/ssh has telemetry:
+      # ensure telemetry.enableTelemetry=false
+      # ms-vscode.remote-explorer
+      ms-vscode-remote.remote-ssh
+      ms-vscode-remote.remote-containers
+      # ms-vscode.remote-server
+      ms-toolsai.jupyter-renderers
+      ms-toolsai.vscode-jupyter-cell-tags
+
+      # to debug the extension: ensure vscode-wpilib isn't included
+      #
+      # - this VSCode should be able to run the two "Extension.*" targets
     ] ++ [ frcPkgs.vscode-wpilib ];
 
   vscFinal = pkgs.vscode-with-extensions.override {
