@@ -13,7 +13,13 @@
          t)))
 
 (defvar is-guix-system (is-system? "guix"))
+(defvar guix-system-path "/run/current-system/profile/bin")
+(defvar guix-profile-path "~/.guix-profile/bin")
+(defvar guix-guix-path (expand-file-name "~/.config/guix/current/bin"))
+
 (defvar is-nixos (is-system? "nix"))
+(defvar nixos-profile-path (concat "/etc/profiles/per-user/" (getenv "USER") "/bin"))
+(defvar nixos-system-path "/run/current-system/sw/bin")
 
 (defconst IS-MAC      (eq system-type 'darwin))
 (defconst IS-LINUX    (memq system-type '(gnu gnu/linux gnu/kfreebsd berkeley-unix)))
@@ -1907,6 +1913,13 @@ the root")
 ;;;;; Visualization
 
 ;; gnu plot, graphviz/plot, d2, mermaid, plantuml
+
+(use-package! graphviz-dot-mode
+  :defer t
+  :config
+  (setq graphviz-dot (or (and is-nixos (expand-file-name "dot" nixos-profile-path))
+                         (and is-guix-system (expand-file-name "dot" guix-profile-path))
+                         "/usr/bin/dot")))
 
 (use-package! d2-mode
   :defer t
