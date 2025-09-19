@@ -2,6 +2,7 @@
   #:use-module ((guix licenses) #:prefix license:)
   #:use-module (gnu packages)
   #:use-module (gnu packages check)
+  #:use-module (gnu packages python-build)
   #:use-module (gnu packages python-xyz)
   #:use-module (gnu packages python-check)
   #:use-module (gnu packages imagemagick)
@@ -19,12 +20,12 @@
   #:use-module (srfi srfi-1))
 
 ;; from: https://github.com/engstrand-config/farg/tree/main/farg/packages.scm
-(define-public python-pywal-imagemagick
-  (package
-    (inherit python-pywal)
-    (name "python-pywal-imagemagick")
-    (input '())
-    (propagated-inputs (list imagemagick))))
+;; (define-public python-pywal-imagemagick
+;;   (package
+;;     (inherit python-pywal)
+;;     (name "python-pywal-imagemagick")
+;;     (input '())
+;;     (propagated-inputs (list imagemagick))))
 
 ;; TODO: missing tests directory, convert from pypi url to clone from git
 
@@ -44,6 +45,24 @@
 ;; %exception #<&invoke-error program: "/gnu/store/m8li9l31vqfl7f3m4zmdqykc5madv2hr-python-pytest-7.1.3/bin/pytest" arguments: ("-vv") exit-status: 4 term-signal: #f stop-signal: #f>
 ;; phase `check' failed after 1.1 seconds
 ;; command "/gnu/store/m8li9l31vqfl7f3m4zmdqykc5madv2hr-python-pytest-7.1.3/bin/pytest" "-vv" failed with status 4
+
+(define-public python-pytricia
+  (package
+    (name "python-pytricia")
+    (version "1.3.0")
+    (source
+     (origin
+       (method url-fetch)
+       (uri (pypi-uri "pytricia" version))
+       (sha256
+        (base32 "0gw5r3w97zm7gh1cr6dbkb90kqc14hm59r0g5yf4q3g115lksfhw"))))
+    (build-system python-build-system)
+    (native-inputs (list python-setuptools python-wheel))
+    (home-page "https://github.com/jsommers/pytricia")
+    (synopsis "An efficient IP address storage and lookup module for Python.")
+    (description
+     "An efficient IP address storage and lookup module for Python.")
+    (license license:lgpl3)))
 
 (define-public python-convcolors
   (package
