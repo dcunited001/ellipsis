@@ -87,7 +87,11 @@
 ;;** Services
 (package! daemons)
 (package! journalctl-mode)
-(package! systemd-mode)
+(package! systemd-mode
+  ;; :build (autoloads compile native-compile info)
+  :recipe ;; (:pre-build ("make" "all"))
+  (:pre-build ("make" "all")
+   :build (autoloads compile)))
 
 ;;** Network
 (package! pcap-mode)

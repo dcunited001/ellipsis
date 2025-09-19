@@ -154,7 +154,6 @@ Guix channel.")
                  (| "/types" "/compat" "/symbols" "/keycodes")))) ;; "/rules"
   "Regexp to match XKB files for `+df-xkb-mode'.")
 
-;; not working?
 (def-project-mode! +df-xkb-mode
   :match +df-xkb-regexp
   :on-enter (xkb-mode))
@@ -342,7 +341,7 @@ Guix channel.")
    ("C-x M-b g" . #'bufler-list)))
 
 ;; Use prefix to control *Bufler* sidebar placement
-;; 
+;;
 ;; (after! bufler
 ;;   (set-popup-rules!
 ;;     '(("^\\*Bufler" :side top :vslot -5 :slot -5 :width 80 :select t :quit t)))
@@ -818,7 +817,7 @@ Guix channel.")
          (bib-files '("articles.bib" "books.bib" "collections.bib" "doi.bib" "texts.bib"))
          (bib-files (mapcar (lambda (f) (expand-file-name f roam-notes))
                             bib-files)))
-    
+
     ;; oc needs `citar-bibliography' to set `org-cite-global-bibliography'
     ;; doi-utils needs `bibtex-completion-*'
     (setq bibtex-completion-bibliography bib-files
@@ -1096,6 +1095,13 @@ Guix channel.")
 ;;  - need to fix paths in ~/.emacs.g
 ;; TODO: CONF: rename org-roam-dailies-directory back to default...?
 
+(defun dc/org-roam-insert-slug ()
+  (interactive)
+  (insert (org-roam-node-slug (org-roam-node-at-point))))
+
+(defun dc/org-roam-get-slug ()
+  (org-roam-node-slug (org-roam-node-at-point)))
+
 ;; doom loads roam via :hook (org-load . +org-init-roam-h)
 (setq org-roam-directory (expand-file-name "roam" org-directory)
       org-roam-dailies-directory "dailies/"
@@ -1327,6 +1333,21 @@ Guix channel.")
   (map! :map doom-leader-toggle-map "M-p" #'prism-mode))
 
 ;;;;; Emacs Lisp
+
+(defvar +df-emacs-config-regexp
+  (rx-let ((dir-df (literal (expand-file-name "~/.dotfiles")))
+           (dir-home (literal (expand-file-name "~"))))
+    (rx bos
+        (| (and dir-home (| "/.emacs.d" "/.emacs.g" (* ".el")))
+           (and dir-df (| "/.doom.d" "/.emacs.hop" "/.emacs.console" "/.emacs.d") (* ".el")))))
+  "Regexp to match emacs-lisp files for `+df-emacs-config-mode'.")
+
+;; disable emacs-checkdoc flycheck in the above directories
+(def-project-mode! +df-emacs-config-mode
+  :match +df-emacs-config-regexp
+  :on-enter (setq-local flycheck-disabled-checkers
+                        (unless (memq 'emacs-lisp-checkdoc flycheck-disabled-checkers)
+                          (cons 'emacs-lisp-checkdoc flycheck-disabled-checkers))))
 
 ;;;;; Yuck
 (use-package! yuck-mode)
