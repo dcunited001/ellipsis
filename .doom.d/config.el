@@ -1204,17 +1204,17 @@ Guix channel.")
 ;;
 ;;;; Tree Sitter
 
-(setq treesit-extra-load-path
-      (list (expand-file-name ".local/lib/tree-sitter" (getenv "HOME")))
-      treesit-language-source-alist
-      '((yaml . ("https://github.com/ikatyang/tree-sitter-yaml"))
-        (astro . ("https://github.com/virchau13/tree-sitter-astro"))))
-
-(after! treesit
-  (cl-loop for lang-key
-           in (a-keys treesit-language-source-alist)
-           unless (treesit-language-available-p lang-key)
-           do (treesit-install-language-grammar lang-key)))
+;;(setq treesit-extra-load-path
+;;      (list (expand-file-name ".local/lib/tree-sitter" (getenv "HOME")))
+;;      treesit-language-source-alist
+;;      '(;; (astro . ("https://github.com/virchau13/tree-sitter-astro"))
+;;        (yaml . ("https://github.com/ikatyang/tree-sitter-yaml"))))
+;;
+;;(after! treesit
+;;  (cl-loop for lang-key
+;;           in (a-keys treesit-language-source-alist)
+;;           unless (treesit-language-available-p lang-key)
+;;           do (treesit-install-language-grammar lang-key)))
 
 ;;;; LSP
 
@@ -1850,7 +1850,11 @@ the root")
   :commands daemons
   :custom ((daemons-systemd-is-user t)))
 
-(use-package! systemd :defer t)
+(use-package! systemd
+  :defer t
+  ;; NOTE ensure this gets built (running doom rebuild or whatever should take care of it)
+  :init (require 'systemd (expand-file-name ".local/straight/repos/systemd-mode/systemd.elc" doom-emacs-dir)))
+
 (use-package! journalctl-mode
   :commands journalctl
   :config (map! :leader "oj" #'journalctl))

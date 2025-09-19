@@ -89,9 +89,9 @@
 (package! journalctl-mode)
 (package! systemd-mode
   ;; :build (autoloads compile native-compile info)
-  :recipe ;; (:pre-build ("make" "all"))
-  (:pre-build ("make" "all")
-   :build (autoloads compile)))
+  :recipe (:type git :host github :repo "holomorph/systemd-mode" :files (:defaults)
+           :pre-build ("make" "all")
+           :build (autoloads compile native-compile)))
 
 ;;** Network
 (package! pcap-mode)

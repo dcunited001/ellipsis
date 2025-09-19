@@ -3,7 +3,7 @@
         (url "https://codeberg.org/guix/guix.git")
         (branch "master")
         (commit
-          "ba17f399981f4f9f728902fe12896a750bf71856")
+          "1c73ab126d966a9399fa885bdeeb518fd333d082")
         (introduction
           (make-channel-introduction
             "9edb3f66fd807b096b48283debdcddccfea34bad"
@@ -25,7 +25,7 @@
         (url "https://github.com/fishinthecalculator/gocix")
         (branch "main")
         (commit
-          "faaaf6d997e99f813806d746964d1bac5c8cd79e")
+          "ffa11fd09ce7a791454b9fa6ea453e58e4fdef23")
         (introduction
           (make-channel-introduction
             "cdb78996334c4f63304ecce224e95bb96bfd4c7d"
@@ -36,7 +36,7 @@
         (url "https://gitlab.com/nonguix/nonguix")
         (branch "master")
         (commit
-          "d096df03564783372b315fe6c179655c2c337d5a")
+          "de297a2a28577651cbe27ba58f8b9ea8912392b0")
         (introduction
           (make-channel-introduction
             "897c1a470da759236cc11798f4e0a5f7d4d59fbc"
@@ -47,7 +47,7 @@
         (url "https://git.sr.ht/~abcdw/rde")
         (branch "master")
         (commit
-          "46a2e694a4afc3d1dbce8b751389b566df16d46a")
+          "0112e78be148702eadf4c75477b841b145f647b9")
         (introduction
           (make-channel-introduction
             "257cebd587b66e4d865b3537a9a88cccd7107c95"

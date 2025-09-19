@@ -38,6 +38,7 @@
    "tree-sitter-rust"
    "tree-sitter-sway"
    "tree-sitter-typescript"
+   "tree-sitter-yaml"
 
    ;; from ../ellipsis
    "tree-sitter-hyprlang"
