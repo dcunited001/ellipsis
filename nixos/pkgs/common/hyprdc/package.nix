@@ -12,6 +12,10 @@ in stdenv.mkDerivation {
   src = ./src;
   # strictDeps = true;
   dontBuild = true;
+
+  # NOTE if any scripts need patching, another derivation is needed as input
+  dontPatchShebangs = true;
+
   # dontUnpack = true;
   installPhase = ''
     install -m755 -D $src/bin/hjbinds $out/bin/hjbinds
