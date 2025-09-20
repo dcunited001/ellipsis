@@ -19,14 +19,13 @@ Environment=GPROFILE=.guix-profile
 Environment=EMACSSOCKET=/run/users/1000/emacs/doom
 
 #Type=notify #requires Notify
-ExecStart=/bin/bash -c \
-                    "guix shell -p $DOOMDIR/$GPROFILE \
+#ExecStart=/bin/sh -c "guix shell -p $DOOMDIR/$GPROFILE -- env | sort && sleep 3"
+ExecStart=/bin/sh -c "/home/dc/.config/guix/current/bin/guix shell -p $DOOMDIR/$GPROFILE \
                           -- emacs --init-directory=$EMACSDIR --fg-daemon=doom"
 #ExecStartPre=/bin/bash -c "notify-send 'Starting Emacs Service...'"
 #ExecStartPost=/bin/bash -c "notify-send 'Emacs Service Started Successfully'"
 
-ExecStop=/bin/bash -c \
-                     "guix shell -p $DOOMDIR/$GPROFILE \
+ExecStop=/bin/sh -c "/home/dc/.config/guix/current/bin/guix shell -p $DOOMDIR/$GPROFILE \
                           -- emacsclient --socket=$EMACSSOCKET -e '(kill-emacs)'"
 #ExecStopPost=/bin/bash -c "notify-send 'Emacs Service Stopped Successfully'"
 
