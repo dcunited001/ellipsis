@@ -193,6 +193,7 @@ in {
 
       # WAYBAR
       waybar
+      isd # better fzf for systemd
       sysz # fzf for systemd
       yad # gtk-like dmenu
     ];

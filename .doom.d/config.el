@@ -1345,9 +1345,10 @@ Guix channel.")
 ;; disable emacs-checkdoc flycheck in the above directories
 (def-project-mode! +df-emacs-config-mode
   :match +df-emacs-config-regexp
-  :on-enter (setq-local flycheck-disabled-checkers
-                        (unless (memq 'emacs-lisp-checkdoc flycheck-disabled-checkers)
-                          (cons 'emacs-lisp-checkdoc flycheck-disabled-checkers))))
+  :modes '(emacs-lisp)
+  :on-enter
+  (progn (setq-local flycheck-enabled-checkers
+                     (delq 'emacs-lisp-checkdoc flycheck-enabled-checkers))))
 
 ;;;;; Yuck
 (use-package! yuck-mode)
@@ -1853,7 +1854,9 @@ the root")
 (use-package! systemd
   :defer t
   ;; NOTE ensure this gets built (running doom rebuild or whatever should take care of it)
-  :init (require 'systemd (expand-file-name ".local/straight/repos/systemd-mode/systemd.elc" doom-emacs-dir)))
+  :init (require 'systemd (expand-file-name ".local/straight/repos/systemd-mode/systemd.elc" doom-emacs-dir))
+  :custom
+  (systemd-mode-hook '(flycheck-mode)))
 
 (use-package! journalctl-mode
   :commands journalctl
