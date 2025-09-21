@@ -91,12 +91,27 @@ channels-lock.scm: $(GUIXGUIXCHAN)
 # 	cp -p $(GUIXGUIXCHAN) $(MKDIR)/channels-lock.scm
 
 # ---------------------------------------------
-# from ./doom-set-env (if reconstructing a minimal env is necessary)
+# # to test config changes requiring a fresh emacs server
 #
-# EMAIL=aionfork@gmail.com
-# SSH_AUTH_SOCK=/run/user/1000/gnupg/S.gpg-agent.ssh
-# DOOMDIR=${HOME}.doom.d
-# EMACS=${GUIX_PROFILE}/bin/emacs
-# EMACSDIR=${HOME}/.emacs.doom
-# DOOMLSP=lsp
-# EMACSSOCKET=/run/users/1000/emacs/doom
+# uwsm app -- doomemacs -s fdsa
+#
+# # from ./doom-set-env (if reconstructing a minimal env is necessary)
+#
+# export EMAIL=aionfork@gmail.com
+# export SSH_AUTH_SOCK=/run/user/1000/gnupg/S.gpg-agent.ssh
+# export DOOMDIR=${HOME}.doom.d
+# export EMACS=$(pwd)/.guix-profile/bin/emacs
+# export EMACSDIR=${HOME}/.emacs.doom
+# export DOOMLSP=lsp
+#
+# emacs_socket_name=fdsa
+# export EMACSSOCKET=/run/users/1000/emacs/$emacs_socket_name
+#
+# # then... (add -q to avoid using doom)
+# uwsm app -- emacs -nw
+#
+# # or set GUIX_PROFILE and
+#
+# guix shell -p $GUIX_PROFILE -- \
+#      emacs --init-directory=$EMACSDIR
+#      --fg-daemon="$emacs_socket_name"
