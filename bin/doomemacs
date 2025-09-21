@@ -11,6 +11,23 @@ emacs_socket_name=doom
 # emacs_socket=$emacs_socket_path/$emacs_socket_name # unused
 search_paths=0
 
+# avoid crashing the hyprland session doing silly bluetooth or emacs testing
+# ... (until i can figure out whether its me or these sockets i'm not supposed to have... shhh)
+uwu="$(which uwsm)"
+uwu_msg='holy shit do not do that! use `uwsm app` !!'
+
+if [ -t 0 ] && [ -x "$uwu" ]; then
+  # check whether it's running on a uwsm-like scope
+  grep -e 'app-.*scope' "/proc/$$/cgroup"
+  isuwsm="$?"
+
+  if [ 0 -ne "$isuwsm" ]; then
+    # if it is, definitely stop
+    notify-send "$isuwsm Doom Emacs" "$uwu_msg"
+    echo "$isuwsm Doom Emacs $uwu_msg"
+    exit 1;
+  fi
+fi
 # =============================================
 # NOTE: to use .emacs.doom/bin/doom, you need to set EMACS but using this
 # script may end up recursively calling guix shell

@@ -1,0 +1,16 @@
+#!/bin/sh
+
+source <(bin/doomemacs -Z $@)
+# export PATH="/gnu/store/0pn3fjlfmvyjc9g29hzlgprvfchkv6ld-profile/bin${PATH:+:}$PATH"
+# export EMACSLOADPATH="/gnu/store/0pn3fjlfmvyjc9g29hzlgprvfchkv6ld-profile/share/emacs/site-lisp${EMACSLOADPATH:+:}$EMACSLOADPATH"
+# export INFOPATH="/gnu/store/0pn3fjlfmvyjc9g29hzlgprvfchkv6ld-profile/share/info${INFOPATH:+:}$INFOPATH"
+# export TREE_SITTER_GRAMMAR_PATH="/gnu/store/0pn3fjlfmvyjc9g29hzlgprvfchkv6ld-profile/lib/tree-sitter${TREE_SITTER_GRAMMAR_PATH:+:}$TREE_SITTER_GRAMMAR_PATH"
+
+export EMACSDIR="${EMACSDIR:-$HOME/.emacs.doom}"
+export DOOMDIR="${DOOMDIR:-$HOME/.doom.d}"
+GUIX_PROFILE="${GUIX_PROFILE}:-$DOOMDIR/.guix-profile}"
+export GUIX_SOURCE=$_ECTO/guix/guix
+export EMACS_SOURCE=$_ECTO/emacs/emacs/src
+
+uwsm app -- emacs --init-directory=$EMACSDIR -nw
+# --fg-daemon="$emacs_socket_name" "$@"
