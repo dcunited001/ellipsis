@@ -93,6 +93,16 @@ Guix channel.")
 (require 'dw-settings)
 (require 'dc-util)
 
+;; doom-specific modules
+(add-to-list 'load-path (expand-file-name "modules" doom-user-dir))
+
+;; doom-specific module tests
+(defun dc/doom-load-ert ()
+  "Load tests for interactive assertions"
+  (interactive)
+  (use-package ert :demand t)
+  (add-to-list 'load-path (expand-file-name "spec")))
+
 ;; TODO no-littering?
 ;;\\(?:;[^#]\\|\\*+\\)
 
@@ -352,6 +362,10 @@ Guix channel.")
 ;;;;;; Bufler package
 
 ;;;; Editor
+
+;;;;; Regexp
+(use-package! re-builder
+  :custom (reb-re-syntax 'rx))
 
 ;;;;; Highlighting
 
@@ -1333,22 +1347,29 @@ Guix channel.")
   (map! :map doom-leader-toggle-map "M-p" #'prism-mode))
 
 ;;;;; Emacs Lisp
+(after! flycheck
+  (unless (memq 'emacs-lisp-checkdoc flycheck-disabled-checkers)
+    (setq flycheck-disabled-checkers
+          (cons 'emacs-lisp-checkdoc flycheck-disabled-checkers))))
 
 (defvar +df-emacs-config-regexp
   (rx-let ((dir-df (literal (expand-file-name "~/.dotfiles")))
            (dir-home (literal (expand-file-name "~"))))
-    (rx bos
-        (| (and dir-home (| "/.emacs.d" "/.emacs.g" (* ".el")))
-           (and dir-df (| "/.doom.d" "/.emacs.hop" "/.emacs.console" "/.emacs.d") (* ".el")))))
+    (rx bol
+        (| (and dir-home (| "/.emacs.d" "/.emacs.g"))
+           (and dir-df (| "/.doom.d" "/.emacs.hop" "/.emacs.console" "/.emacs.d")))
+        (* anything) ".el" eol))
   "Regexp to match emacs-lisp files for `+df-emacs-config-mode'.")
 
 ;; disable emacs-checkdoc flycheck in the above directories
 (def-project-mode! +df-emacs-config-mode
   :match +df-emacs-config-regexp
-  :modes '(emacs-lisp)
+  :modes '(emacs-lisp-mode)
   :on-enter
-  (progn (setq-local flycheck-enabled-checkers
-                     (delq 'emacs-lisp-checkdoc flycheck-enabled-checkers))))
+  (unless (memq 'emacs-lisp-checkdoc flycheck-disabled-checkers)
+    (setq-local flycheck-disabled-checkers
+                (cons 'emacs-lisp-checkdoc flycheck-disabled-checkers))))
+
 
 ;;;;; Yuck
 (use-package! yuck-mode)
@@ -1944,10 +1965,14 @@ the root")
 
 (use-package! graphviz-dot-mode
   :defer t
-  :config
+  :init ;; NOTE 2025/9/21 see ppareit/graphviz-dot-mode#87, there is compilation issue
   (setq graphviz-dot (or (and is-nixos (expand-file-name "dot" nixos-profile-path))
                          (and is-guix-system (expand-file-name "dot" guix-profile-path))
                          "/usr/bin/dot")))
+
+(use-package! ob-dot
+  :defer t
+  :after (graphviz-dot-mode))
 
 (use-package! d2-mode
   :defer t

@@ -18,7 +18,7 @@ uwu_msg='holy shit do not do that! use `uwsm app` !!'
 
 if [ -t 0 ] && [ -x "$uwu" ]; then
   # check whether it's running on a uwsm-like scope
-  grep -e 'app-.*scope' "/proc/$$/cgroup"
+  grep -e 'app-.*scope' "/proc/$$/cgroup" 1>/dev/null 2>&1
   isuwsm="$?"
 
   if [ 0 -ne "$isuwsm" ]; then

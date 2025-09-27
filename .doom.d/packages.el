@@ -280,7 +280,8 @@
 
 ;;*** Visualization
 
-;; doom: graphviz-dot-mode
+;; NOTE 2025/9/21 until ppareit/graphviz-dot-mode#87 fixed, do not compile
+(package! graphviz-dot-mode :recipe (:build (:not compile)))
 
 ;;**** D2
 (package! d2-mode)

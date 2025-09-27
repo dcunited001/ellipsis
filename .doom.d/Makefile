@@ -93,7 +93,7 @@ channels-lock.scm: $(GUIXGUIXCHAN)
 # ---------------------------------------------
 # # to test config changes requiring a fresh emacs server
 #
-# uwsm app -- doomemacs -s fdsa
+# uwsm app -- doomemacs -s fdsa # (`uswm app` avoids UWSM crash)
 #
 # # from ./doom-set-env (if reconstructing a minimal env is necessary)
 #
