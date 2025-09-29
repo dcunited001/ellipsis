@@ -6,6 +6,7 @@
 
 # maybe rebuild cache: --rebuild-cache
 
+SHELL=/bin/sh
 GUIXTM=guix time-machine -C env/dc/channels.scm
 
 repl: ares

@@ -38,7 +38,15 @@
    '()
    '((shell .
       (("pathtr" . "tr '\\'':'\\'' '\\''\\n'\\''")
-       ("shitbin" . "echo -e \"\\033c\"")))
+       ("shitbin" . "echo -e \"\\033c\"")
+       ;; env+via =~ env+path ... get it?
+       ("envia" . "grep -e '^[A-Za-z0-9]*PATH=' | sort | uniq")
+       ("covia" . "sed -e 's/:/\n:\t/g'") ;; `env | envia | covia'
+       ("nenvia" . "grep -ve '^[A-Za-z0-9_]*PATH=' | sort | uniq")
+       ;; diff environments: `someother_env | diffia`
+       ;; ... just get the env there (mktemp, etc)
+       ("diffia" . "envia | covia | diff - <(env | envia | covia)")
+       ("difnia" . "nenvia | diff - <(env | nenvia)")))
      (defaultcmd .
        (("wget" . "wget -c ")))
      ;; emacs, info-standalone

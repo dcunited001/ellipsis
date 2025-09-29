@@ -2011,6 +2011,43 @@ the root")
 ;; also note: major-mode-remap-alist (not configured by libs AFAIK) and
 ;; org-src-lang-modes
 
+;; set up in .dir-locals.el unless using doom
+;;
+;; (hyprlang-ts-mode
+;;  (eval . (add-hook 'hyprlang-ts-mode-hook #'lsp)))
+
+;; (string-match-p df-hypr-rx "/home/dc/.dotfiles/.config/hypr/rules.conf")
+(after! hyprlang-ts-mode
+  (let* ((df-hypr-path-rx
+          (rx-to-string
+           (string-join (list (getenv "HOME") ".dotfiles" ".config" "hypr") "/")))
+         (df-hypr-rx (concat df-hypr-path-rx "/.*\\.conf")))
+    (def-project-mode! +df-hypr-mode
+      :match df-hypr-rx
+      :modes '(hyprlang-ts-mode)
+      :add-hooks '(lsp))))
+
+;; :on-enter (add-hook 'hyprlang-ts-mode-hook #'lsp 'append)
+
+;; i think that (lsp-register-client ...) does this
+;; (add-to-list 'lsp-language-id-configuration
+;;  '(hyprlang-ts-mode . "hyprlang"))
+
+;; TODO: look into .scm queries used by ts-hyprlang & hyprlang-ts-mode
+
+
+(defun dc/hyprlang-setup-outline-mode ()
+  "It will insert headings but it will not act on them (or highlight them)"
+  ;; it otherwise sets #'treesit-outline-search or something (doesn't work here)
+  (setq-local outline-level 'outline-regexp
+              ;; idk if -highlight works as a local var
+              outline-minor-mode-highlight t
+              outline-heading-alist '(("### *" . 1)
+                                      ("### **" . 2)
+                                      ("### ***" . 3))
+              outline-regexp (rx bol "### " (+ "*")))
+  (outline-minor-mode +1))
+
 (use-package! hyprlang-ts-mode
   :demand t
   :init
@@ -2025,31 +2062,10 @@ the root")
       :language-id "hyprlang"
       :priority -1
       :server-id 'hyprls)))
+  ;; :hook (hyprlang-ts-mode . dc/hyprlang-setup-outline-mode)
   :config
   (add-to-list 'major-mode-remap-alist '(hyprlang-mode . hyprlang-ts-mode)))
 
-;; set up in .dir-locals.el unless using doom
-;;
-;; (hyprlang-ts-mode
-;;  (eval . (add-hook 'hyprlang-ts-mode-hook #'lsp)))
-
-;; (string-match-p df-hypr-rx "/home/dc/.dotfiles/.config/hypr/rules.conf")
-(let* ((df-hypr-path-rx
-        (rx-to-string
-         (string-join (list (getenv "HOME") ".dotfiles" ".config" "hypr") "/")))
-       (df-hypr-rx (concat df-hypr-path-rx "/.*\\.conf")))
-  (def-project-mode! +df-hypr-mode
-    :match df-hypr-rx
-    :modes '(hyprlang-ts-mode)
-    :add-hooks '(lsp)))
-
-;; :on-enter (add-hook 'hyprlang-ts-mode-hook #'lsp 'append)
-
-;; i think that (lsp-register-client ...) does this
-;; (add-to-list 'lsp-language-id-configuration
-;;  '(hyprlang-ts-mode . "hyprlang"))
-
-;; TODO: look into .scm queries used by ts-hyprlang & hyprlang-ts-mode
 
 ;;; Applications
 
