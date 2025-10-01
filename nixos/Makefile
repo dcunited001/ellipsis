@@ -45,7 +45,7 @@ liverepl:
 #-----------------------
 # build iso
 NIXOS_ISO="anywhere"
-NXISO_ISO_SYSTEM="x86_64-linux"
+NIXOS_ISO_SYSTEM="x86_64-linux"
 
 .PHONY: buildiso
 buildiso:

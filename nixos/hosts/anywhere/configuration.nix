@@ -98,6 +98,9 @@
     tmux
     htop
 
+    btrfs-progs
+    btrfs-list
+
     # extra CLI packages
     tree
 
