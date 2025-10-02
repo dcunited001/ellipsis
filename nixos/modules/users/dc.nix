@@ -116,6 +116,7 @@ in {
       # TOOLS: CONTAINERS
       dive
       podman-compose
+      lazydocker
 
       # TOOLS: NETWORK
       socat

@@ -287,8 +287,8 @@
         "return-type": "json",
         "exec": "echo '{\"class\": \"tuitray\"}'",
         "format": "制",
-        "on-click": "alacritty --class 'Alacritty:org.dc.tuitray' -T 'tuitray:sysz' -e sysz",
-        //"on-click-right": ""
+        "on-click": "alacritty --class 'Alacritty:org.dc.tuitray' -T 'tuitray:isd' -e isd",
+        "on-click-right": "alacritty --class 'Alacritty:org.dc.tuitray' -T 'tuitray:sysz' -e sysz"
     },
 
     // ---------------------------------------------
