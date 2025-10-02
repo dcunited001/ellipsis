@@ -10,11 +10,19 @@ MKDIR        := $(abspath $(dir $(MKPATH)))
 MKPARENT     := $(abspath $(dir $(MKDIR)))
 SHELL=/bin/sh
 
-# this will run where the directory is linked from:
+HOST=$(shell hostname)
+
+# This will run where the directory is linked from:
 #
 # ~/.config/hypr -> ~/.dotfiles/.config/hypr
+#
+# Since it's checking links as targets, we need `make -L omarchylink`
 
-HOST=$(shell hostname)
+.PHONY: omarchylink
+omarchylink: hyprland.conf hypridle.conf hyprlock.conf hyprsunset.conf
+
+# this test isn't working (and it's dumb anyways)
+# 	test -f hyprland.conf && $(error hyprland.conf exists, but is not a symlink)
 
 # condense the target names using make syntax later
 hyprland.conf:
@@ -25,11 +33,5 @@ hyprlock.conf:
 	ln -s "./$(HOST)/hyprlock.conf" hyprlock.conf
 hyprsunset.conf:
 	ln -s "./$(HOST)/hyprsunset.conf" hyprsunset.conf
-
-# this test isn't working (and it's dumb anyways)
-# 	test -f hyprland.conf && $(error hyprland.conf exists, but is not a symlink)
-
-.PHONY: omarchylink
-omarchylink: hyprland.conf hypridle.conf hyprlock.conf hyprsunset.conf
 
 # end
