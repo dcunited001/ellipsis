@@ -23,11 +23,11 @@ repl:
 
 #-----------------------
 # nh os build
-.PHONY: nhbuild
+.PHONY: nhbuild nhswitch
 nhbuild:
 	nh os build ".#nixosConfigurations.$(NIXOS_HOST)" -- --show-trace
 
-nhswitch: nhswitch
+nhswitch:
 	nh os switch ".#nixosConfigurations.$(NIXOS_HOST)" -- --show-trace
 
 #-----------------------

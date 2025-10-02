@@ -183,6 +183,7 @@ in {
       font-manager
 
       # HYPR
+      hyprpicker
       hyprpaper
       hyprls
       hyprpolkitagent
