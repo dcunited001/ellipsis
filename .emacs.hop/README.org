@@ -46,3 +46,18 @@ path-finding for =load-path= gets messy.
 
 + lispy needs to build from a fork to avoid issues with scheme, which
   isn't configured in this profile.
+
+* Installation
+
+** Arch
+
+The =pacman= package will setup the =emacs.service= unit (and enable it
+apparently). This is nice.
+
++ Similarly, there are =emacs{,client}.desktop= files already set up. These will
+  assume the default =EMACSSOCKET=emacs= though.
+  - It's a bit confusing to have
+    multiple emacs logs popping out at you from the =nwg-desktop-menu= or
+    whatever, so i'll probably disable these.
++ In case they're not, there are some in this directory that I adapted from
+  =../.doom.d/doom.service=, etc.
