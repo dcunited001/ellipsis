@@ -5,7 +5,7 @@
 # @version 0.1
 
 MKPATH       := $(abspath $(lastword $(MAKEFILE_LIST)))
-MKPATHREAL  := $(realpath $(lastword $(MAKEFILE_LIST)))
+MKPATHREAL   := $(realpath $(lastword $(MAKEFILE_LIST)))
 MKDIR        := $(abspath $(dir $(MKPATH)))
 MKPARENT     := $(abspath $(dir $(MKDIR)))
 SHELL=/bin/sh
@@ -26,7 +26,7 @@ omarchylink: hyprland.conf hypridle.conf hyprlock.conf hyprsunset.conf
 
 # condense the target names using make syntax later
 hyprland.conf:
-	ln -s "./$(HOST)/hyprland.conf" hyprland.conf
+	ln -s "./$(HOST).hyprland.conf" hyprland.conf
 hypridle.conf:
 	ln -s "./$(HOST)/hypridle.conf" hypridle.conf
 hyprlock.conf:
