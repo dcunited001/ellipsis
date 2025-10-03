@@ -102,6 +102,8 @@ in {
       # age-plugin-tpm
       agenix-cli
       sops
+      _1password-cli
+      _1password-gui
 
       # LANG: JAVASCRIPT
       node2nix
