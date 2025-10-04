@@ -4,6 +4,7 @@
   virtualisation.podman = {
     autoPrune.enable = true;
     dockerCompat = true;
+    dockerSocket.enable = true;
     networkSocket.enable = false;
     defaultNetwork.settings.dns_enabled = true;
   };
