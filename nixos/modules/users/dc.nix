@@ -2,6 +2,8 @@
 let
   hyprdc = (pkgs.callPackage
     (lib.custom.relativeToRoot "pkgs/common/hyprdc/package.nix") { });
+  omarchy-scripts = (pkgs.callPackage
+    (lib.custom.relativeToRoot "pkgs/common/omarchy-scripts/package.nix") { });
 in {
 
   users.groups = {
@@ -46,6 +48,7 @@ in {
     packages = with pkgs; [
       # CUSTOM
       hyprdc
+      omarchy-scripts
 
       # CLI
       tree
