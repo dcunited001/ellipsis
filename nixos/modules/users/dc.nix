@@ -24,7 +24,7 @@ in {
   users.users.dc = {
     uid = 1000;
     group = "dc";
-    extraGroups = [ "wheel" "podman" "audio" ];
+    extraGroups = [ "wheel" "podman" "audio" "plugdev" ];
     isNormalUser = true;
     # useDefaultShell = true;
     linger = true; # continue running [oci-container] services after logout
