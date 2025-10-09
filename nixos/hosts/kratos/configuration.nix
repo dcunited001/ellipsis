@@ -24,6 +24,7 @@
       "modules/nixos/desktop/sddm.nix"
       "modules/nixos/desktop/xdg.nix"
 
+      "modules/nixos/hardware/rkdeveloptool.nix"
       "modules/nixos/services/containers.nix"
       "modules/nixos/services/earlyoom.nix"
       "modules/nixos/services/guix.nix"
@@ -92,6 +93,9 @@
   # Hardware Support
   hardware.enableRedistributableFirmware = true;
   # hardware.enableAllFirmware = true;
+
+  # add rockchip udev rules
+  hardware.rkdeveloptool.enable = true;
 
   # ---------------------------------------------
   # Disks
