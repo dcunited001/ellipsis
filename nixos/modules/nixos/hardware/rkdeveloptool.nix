@@ -21,9 +21,9 @@ let
   rockchipUdevRulesPkg = pkgs.runCommand "rockchip-udev-rules" { } ''
     loc="$out/lib/udev/rules.d/"
     mkdir -p "''${loc}"
-    sed 's/LABEL="end_rules"/# RK3588 \nATTRS{idVendor}=="2207", ATTRS{idProduct}=="350b", MODE="0660", GROUP="plugdev"\n\nLABEL="end_rules"/g' "${rockchipRules}" > "${rockchipRules}.1"
-    sed 's/ MODE="0666", GROUP="users"/ MODE="0660", GROUP="plugdev"/g' "${rockchipRules}" > "${rockchipRules}.2"
-    cp "${rockchipRules}.2" "''${loc}/${destination}"
+    sed 's/LABEL="end_rules"/# RK3588 \nATTRS{idVendor}=="2207", ATTRS{idProduct}=="350b", MODE="0660", GROUP="plugdev"\n\nLABEL="end_rules"/g' "${rockchipRules}" > "rkrules.1"
+    sed 's/ MODE="0666", GROUP="users"/ MODE="0660", GROUP="plugdev"/g' "rkrules.1" > "rkrules.2"
+    cp "rkrules.2" "''${loc}/${destination}"
   '';
 
   # too many derivations using sed ... but whatever. nicer facilities would
