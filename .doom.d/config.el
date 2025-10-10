@@ -510,7 +510,8 @@ Guix channel.")
 (use-package ef-themes
   :defer t
   :init (setopt doom-theme nil)
-  :hook (doom-init-ui-hook . (lambda () (ef-themes-load-random 'dark)))
+  ;; hmmm v2.0?
+  :hook (doom-init-ui-hook . (lambda () (ef-themes-load-random-dark)))
   :config
   (map! :map dc/quick-map
         (:prefix ("t" . "THEME")

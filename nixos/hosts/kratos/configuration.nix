@@ -19,12 +19,13 @@
       "modules/nixos/desktop/docs.nix"
       "modules/nixos/desktop/fonts.nix"
       "modules/nixos/desktop/hypr.nix"
+      "modules/nixos/desktop/ios.nix"
       "modules/nixos/desktop/pipewire.nix"
       "modules/nixos/desktop/printing.nix"
       "modules/nixos/desktop/sddm.nix"
       "modules/nixos/desktop/xdg.nix"
 
-      "modules/nixos/hardware/rkdeveloptool.nix"
+      # "modules/nixos/hardware/rkdeveloptool.nix"
       "modules/nixos/services/containers.nix"
       "modules/nixos/services/earlyoom.nix"
       "modules/nixos/services/guix.nix"
@@ -95,7 +96,7 @@
   # hardware.enableAllFirmware = true;
 
   # add rockchip udev rules
-  hardware.rkdeveloptool.enable = true;
+  # hardware.rkdeveloptool.enable = true;
 
   # ---------------------------------------------
   # Disks

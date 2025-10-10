@@ -11,7 +11,7 @@
 
   services.guix.enable = true;
   services.guix = {
-    stateDir = "/gnu/var";
+    stateDir = "/var";
 
     # does this need to be a derivation?
     substituters = {
