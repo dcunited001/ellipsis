@@ -4,6 +4,7 @@
    "guile-ares-rs"
 
    "texlive"
+   ;; "texlive-collection-pictures"
 
    ;; using nix for:
    ;; "ripgrep"

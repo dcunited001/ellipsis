@@ -1,6 +1,7 @@
 { config, lib, pkgs, outputs, ... }: {
   imports = lib.flatten [
     ./hardware.nix
+    ./networking.nix
     ./xdg.nix
     ./fcitx5.nix
     ./input.nix
@@ -37,6 +38,8 @@
       "modules/nixos/services/yubikey.nix"
       "modules/nixos/services/zerotierone.nix"
     ])
+
+    ./frc.nix
   ];
 
   nixpkgs.overlays = [ outputs.overlays.default ];

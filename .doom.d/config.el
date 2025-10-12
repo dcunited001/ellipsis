@@ -694,6 +694,15 @@ Guix channel.")
 
 ;;;;; Embark
 
+;;; Markdwon
+
+(remove-hook 'text-mode-hook #'visual-line-mode)
+(add-hook 'text-mode-hook #'auto-fill-mode)
+
+(use-package! markdown-mode
+  :hook (markdown-mode-hook . visual-line-mode))
+
+
 
 ;;; Org
 
@@ -707,6 +716,10 @@ Guix channel.")
 
 ;;;;; Org, itself
 
+
+(after! org-mode
+  (remove-hook 'org-mode-hook #'visual-line-mode)
+  (add-hook 'org-mode-hook #'auto-fill-mode))
 
 ;;;;; Visuals
 
@@ -775,9 +788,6 @@ Guix channel.")
         (:hlines . "no")
         (:tangle . "no")
         (:comments . "link")))
-
-(remove-hook 'text-mode-hook #'visual-line-mode)
-(add-hook 'text-mode-hook #'auto-fill-mode)
 
 ;; (setq org-list-demote-modify-bullet
 ;;       '(("+" . "-") ("-" . "+") ("*" . "+") ("1." . "a.")))

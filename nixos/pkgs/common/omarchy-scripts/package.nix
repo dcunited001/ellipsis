@@ -15,7 +15,11 @@ stdenv.mkDerivation rec {
   # from android-udev-rules
   installPhase = ''
     runHook preInstall
-    install -D bin/omarchy-cmd-terminal-cwd $out/bin/omarchy-cmd-terminal-cwd
+    for f in omarchy-cmd-terminal-cwd\
+      omarchy-{refresh,toggle,restart}-waybar\
+      omarchy-refresh-config; do
+      install -D "bin/$f" "$out/bin/$f"
+    done
     runHook postInstall
   '';
 

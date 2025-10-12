@@ -1,77 +1,79 @@
-# daviwil/dotfiles scripts
+# Window Managers
 
-# generally exclude all
-/.local/bin
-/.local/lib
-/.local/share
-/.local/state
+## i3
+.config/i3
+.config/polybar
 
-# bash
+## Sway
+.config/sway/config
+.config/sway/config.d/*
+!.config/sway/config.d/*.garuda
+
+# Shell
+
+## bash
 /.bashrc
 /.bash_profile
 /.bash_logout
 /.profile
 
-# misc
-/patches
-.scratch
-
-# .config/sh
+## .config/sh
 .config/sh/*.sh
 .config/sh/profile.d/*.sh
 .config/sh/rc.d/*.sh
 
-# direnv
-/.envrc
-/.config/direnv/eg
-/.config/guix/shell-authorized-directories
-
-# /etc/skel to diff from various distros
-/skel-images/**/*
-!/skel-images/.gitkeep
-
-# Sway
-.config/sway/config
-.config/sway/config.d/*
-!.config/sway/config.d/*.garuda
-
-# i3
-.config/i3
-.config/polybar
-
-# X11
-.xinitrc
-.xsession
-.xprofile
-.xessionrc
-
-# XDG
-.config/user-dirs.dirs
-.config/__*
-
-# fontconfig
+## fontconfig
 .config/fontconfig/**
 fonts/**
 !fonts/.gitkeep
 
-# xsettings
-.config/xsettingsd/xsettingsd.conf
-
 # Emacs
+
+## Shared Config
 .emacs.d/per-system-settings.el
 .emacs.d/tangle-dotfiles.el
+# TODO remove per-system-settings
 
-# .emacs.network
+## .emacs.network
 .config/guix/manifests/emacs-network.scm
 .emacs.network/emacs-network.scm
 .emacs.network/**
 !.emacs.network/README.org
 
-# guile
+# Side Effects
+
+## Logs and Output
+.diff
+
+# WIP
+/patches
+.scratch
+
+## Omarchy .bak (just in case these are linked)
+.config/fastfetch/*.bak.*
+.config/hypridle/*.bak.*
+.config/hyprland/*.bak.*
+.config/hyprlock/*.bak.*
+.config/hyprsunset/*.bak.*
+.config/swayosd/*.bak.*
+.config/walker/*.bak.*
+.config/waybar/*.bak.*
+
+# Guix
+
+## Shepherd
+.config/shepherd/shepherd.log
+
+## user-level guix channel signing keys
+.config/guix/*.pub
+
+## mcron
+.config/mcron
+
+## Guile
 .guile
 
-# guix
-# .config/guix/channels.scm
+## .config/guix/channels.scm
 .config/guix/current
 .config/guix/gpg
 .config/guix/manifests
@@ -82,36 +84,23 @@ fonts/**
 !.config/guix/manifests/arch-pwsafe.scm
 !.config/guix/manifests/emacs-native-comp.scm
 
-# NixOS
-.diff
+# Apps
 
-# shepherd
-.config/shepherd/shepherd.log
-
-# user-level guix channel signing keys
-.config/guix/*.pub
-
-# mcron
-.config/mcron
-
-# vlc
+## vlc
 .config/vlc/vlc-qt-interface.conf
 
-# dunst
+## dunst
 .config/dunst
 
-# mimetypes
-.config/mimetypes
-.config/mimeapps.list
-.local/share/mime/packages/org.xml
-
-# mpv
+## mpv
 .config/mpv/mpv.conf
 
-# zathura
+## zathura
 .config/zathura/zathurarc
 
-# gnupg
+# Tools
+
+## gnupg
 .gnupg
 .gnupg.test
 .bin/gpg-agent-env
@@ -119,28 +108,70 @@ fonts/**
 .bin/start-gpg
 .bin/start-gpg-*
 
-# ssh
+## ssh
 .ssh
 
-# shroud
+## shroud
 .shroud
 .config.shroud/*
 
-# screen
+## screen
 .screen
 .screenrc
 
-# KDE
-.config/spectaclerc
+# Lang
 
-## pyenv
+## Direnv
+/.envrc
+/.config/direnv/eg
+/.config/guix/shell-authorized-directories
+
+## Python
+
+### pyenv
 .python-version
 
-## poetry
+### poetry
 .config/pypoetry
 
-# xrandr
-## screenlayout scripts (exported via arandr)
+# XDG
 
+## mimetypes
+.config/mimetypes
+.config/mimeapps.list
+.local/share/mime/packages/org.xml
+
+## data dirs
+/.local/bin
+/.local/lib
+/.local/share
+/.local/state
+
+# X11
+
+## X Server
+.xinitrc
+.xsession
+.xprofile
+.xessionrc
+
+## xrandr
+### screenlayout scripts (exported via arandr)
 .screenlayout/kharis.sh
 .screenlayout/kratos.sh
+
+## XDG
+.config/user-dirs.dirs
+.config/__*
+
+## xsettings
+.config/xsettingsd/xsettingsd.conf
+
+# Distro (and old installs)
+
+## /etc/skel to diff from various distros
+/skel-images/**/*
+!/skel-images/.gitkeep
+
+# KDE
+.config/spectaclerc

@@ -37,8 +37,7 @@
         "custom/spacer",
         "pulseaudio",
         "custom/spacer",
-        "tray",
-        "custom/power" ],
+        "tray" ],
 
     // math scripts
     // https://www.compart.com/en/unicode/block/U+1D400

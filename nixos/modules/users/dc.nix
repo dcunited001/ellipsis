@@ -133,6 +133,9 @@ in {
       firefox
       chromium
 
+      # COMM
+      zoom-us
+
       # IRC
       quassel # flatpak doesn't load settings
 
