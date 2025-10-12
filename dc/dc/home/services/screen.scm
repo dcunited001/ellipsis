@@ -5,6 +5,7 @@
   #:use-module (dc home config)
 
   #:use-module (gnu home services)
+  #:use-module (gnu home services shells)
   #:use-module (gnu packages)
   #:use-module (gnu packages screen)
   #:use-module (gnu services base)
@@ -43,19 +44,19 @@
 
 (define (add-bash-configuration config)
   (home-bash-extension
-   (aliases screen-aliases)))
+    (aliases add-screen-aliases)))
 
 ;;; Guix Home Service
 
 (define screen-service-type
   (service-type
-   (name 'dc-home-screen)
-   (extensions
-    (list
-     (service-extension home-profile-service-type add-screen-packages)
-     (service-extension home-bash-service-type add-bash-configuration)
-     (service-extension home-files-service-type add-screen-files)))
-   (default-value '())
-   (description "Configures Screen")))
+    (name 'dc-home-screen)
+    (extensions
+     (list
+      (service-extension home-profile-service-type add-screen-packages)
+      (service-extension home-bash-service-type add-bash-configuration)
+      (service-extension home-files-service-type add-screen-files)))
+    (default-value '())
+    (description "Configures Screen")))
 
 ;;; screen.scm ends here

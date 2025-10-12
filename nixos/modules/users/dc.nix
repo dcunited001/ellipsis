@@ -4,6 +4,7 @@ let
     (lib.custom.relativeToRoot "pkgs/common/hyprdc/package.nix") { });
   omarchy-scripts = (pkgs.callPackage
     (lib.custom.relativeToRoot "pkgs/common/omarchy-scripts/package.nix") { });
+  # dcstaticdots
 in {
   users.groups = {
     dc = {
@@ -49,7 +50,7 @@ in {
       hyprdc
 
       # CUSTOM: omarchy
-      omarchy-scripts
+      omarchy-scripts # set BROWSER in uwsm startup or webapps don't work
       gum
 
       # CLI

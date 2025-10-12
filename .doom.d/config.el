@@ -1453,9 +1453,7 @@ the root")
   :defer t
   :config
   (set-popup-rules!
-    '(("^\\*arei:" :side bottom :vslot -5 :slot -5 :width 80 :select t :quit t)))
-
-  )
+    '(("^\\*arei:" :side bottom :vslot -5 :slot -5 :width 80 :select t :quit t))))
 
 ;; ---------------------------------------------
 ;;

@@ -6,6 +6,7 @@
     ./fcitx5.nix
     ./input.nix
     ./containers.nix
+    ./bash.nix
 
     (map lib.custom.relativeToRoot [
       "modules/users/dc.nix"
@@ -156,6 +157,8 @@
 
   # TODO nix: remove once flatpak upgrade service is setup
   services.flatpak.enable = true;
+
+  programs.bash.interactiveShellInit = "";
 
   programs.zsh = {
     enable = true;

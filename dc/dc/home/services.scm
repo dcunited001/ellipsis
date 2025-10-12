@@ -96,7 +96,7 @@
   (simple-service 'dc-home-bash-aliases
                   home-bash-service-type
                   (home-bash-extension
-                   (aliases add-shell-aliases))))
+                    (aliases add-shell-aliases))))
 
 ;; sysu cat doom
 ;; sysu show -p Type $doom
@@ -114,7 +114,7 @@
   (simple-service 'dc-home-bash-aliases
                   home-bash-service-type
                   (home-bash-extension
-                   (aliases add-systemd-aliases))))
+                    (aliases add-systemd-aliases))))
 
 ;; ---------------------------------------------
 ;;; Readline
@@ -124,18 +124,18 @@
 
 (define dc-inputrc-configuration
   (home-inputrc-configuration
-   ;; (conditional-constructs ...)
-   ;; (extra-content ...)
-   (key-bindings
-    '(("C-@" . "set-mark")
-      ;; ("Meta-\"" " . "set-mark")
-      ("C-w" . "kill-region")
-      ("M-w" . "copy-region-as-kill")))
-   (variables
-    ;; TODO: inputrc: determine whether colored-completion-prefix could
-    ;; possibly interfere with tramp. Though it requires interactive
-    '( ;; ("colored-completion-prefix" . #t)
-      ("bell-style" . "visible")))))
+    ;; (conditional-constructs ...)
+    ;; (extra-content ...)
+    (key-bindings
+     '(("C-@" . "set-mark")
+       ;; ("Meta-\"" " . "set-mark")
+       ("C-w" . "kill-region")
+       ("M-w" . "copy-region-as-kill")))
+    (variables
+     ;; TODO: inputrc: determine whether colored-completion-prefix could
+     ;; possibly interfere with tramp. Though it requires interactive
+     '( ;; ("colored-completion-prefix" . #t)
+       ("bell-style" . "visible")))))
 
 ;; ---------------------------------------------
 ;;; Bash
@@ -151,20 +151,20 @@
 
 (define dc-bash-configuration
   (home-bash-configuration
-   (aliases add-shell-aliases)
-   (bashrc
-    (list
-     ;; needs to be sourced first
-     dc-bashrc-noninteractive-return))
-   (bash-profile
-    (list
-     (plain-file "bash_profile" "\
+    (aliases add-shell-aliases)
+    (bashrc
+     (list
+      ;; needs to be sourced first
+      dc-bashrc-noninteractive-return))
+    (bash-profile
+     (list
+      (plain-file "bash_profile" "\
 if [ -f ~/.profile ] ; then source ~/.profile; fi
 if [ -f ~/.bashrc ]    ; then source ~/.bashrc; fi")))
-   (bash-logout
-    (list
-     (local-file (string-append %files-directory "/bash/bash_logout")
-                 "bash_logout")))))
+    (bash-logout
+     (list
+      (local-file (string-append %files-directory "/bash/bash_logout")
+                  "bash_logout")))))
 
 ;; ---------------------------------------------
 ;;; Base Shell Services

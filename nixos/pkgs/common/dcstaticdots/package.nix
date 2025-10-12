@@ -1,11 +1,13 @@
-{ lib, stdenv, fetchgit, }:
+{ lib, stdenv, fetchgit, ... }:
 let
   pname = "dcstaticdots";
-  scripts = [ ".bash_profile" "bash/colors.sh" "bash/alias.sh" ];
+  scripts = [ "bash/colors.sh" ]; # "bash/alias.sh"
 
 in stdenv.mkDerivation {
   inherit pname; # pname wasn't sufficient here.
   name = pname;
+
+  # TODO: this works with callPackage, but lib.custom isn't recognized after that
   src = (lib.custom.relativeToRoot "../gh/f");
 
   # strictDeps = true;
@@ -16,7 +18,7 @@ in stdenv.mkDerivation {
 
   # dontUnpack = true;
   installPhase = ''
-    for f in ${scripts}; do
+    for f in ${lib.concatStringsSep "\n" scripts}; do
       install -m644 -D "$src/$f" "$out/share/gh/f/$f"
     done
   '';

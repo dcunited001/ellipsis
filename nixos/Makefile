@@ -3,6 +3,11 @@
 #
 # @file
 # @version 0.1
+MKPATH       := $(abspath $(lastword $(MAKEFILE_LIST)))
+MKPATHREAL   := $(realpath $(lastword $(MAKEFILE_LIST)))
+MKDIR        := $(abspath $(dir $(MKPATH)))
+MKPARENT     := $(abspath $(dir $(MKDIR)))
+SHELL=/bin/sh
 
 NIXOS_HOST=$(shell hostname)
 NIXOS_HOST_CONFIG=./hosts/$(NIXOS_HOST)/configuration.nix

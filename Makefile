@@ -20,6 +20,14 @@ ELCHANNEL=$(abspath $(MKDIR)/ellipsis)
 DCCHANNEL=$(abspath $(MKDIR)/dc)
 GUIXPACKAGE=guix package -L ${ELCHANNEL} -L ${DCCHANNEL}
 
+# channel outputs
+ELLIPSIS_SRC_LOAD_PATH=-L ./env -L ./ellipsis
+DC_SRC_LOAD_PATH=-L ./env -L ./ellipsis -L ./dc
+
+# inputs, testing and repl
+DEV_ENV_LOAD_PATH=-L ./env -L ./ellipsis
+
+
 PULL_EXTRA_OPTIONS=
 # --allow-downgrades
 
@@ -42,7 +50,8 @@ PULL_EXTRA_OPTIONS=
 # ares: env/sync
 repl: ares
 ares:
-	${GUIX} shell -L ./env -L guile-next guile-ares-rs \
+	${GUIX} shell -L ./env \
+	guile-next guile-ares-rs \
 	-e '(@ (dc-configs dev packages) guix-package)' \
 	-e '(@ (dc-configs dev packages) channels-package)' \
 	-- guile -L ./env -L ./ellipsis -L ./dc -c \
@@ -63,6 +72,40 @@ guix-pull:
 # .guix-profile: manifest.scm channels-lock.scm
 # 	${GUIXPACKAGE} -m ${MANIFEST} -p ${GUIX_PROFILE}
 
+# =============================================
+# Guix
+
+# ---------------------------------------------
+# GuixHome
+GUIX_HOST=$(shell hostname)
+GUIX_HOST_SYSTEM=./dc/dc/system/$(GUIX_HOST).scm
+GUIX_HOST_HOME=./dc/dc/home/$(GUIX_HOST).scm
+
+GUIX_HOST_HE="(@ (dc home kharis) kharis-home-environment)"
+
+.PHONY: ghbuild
+ghbuild:
+	${GUIX} home \
+	${DC_SRC_LOAD_PATH} \
+	build ${GUIX_HOST_HOME}
+
+.PHONY: ghcontainer
+ghcontainer:
+	${GUIX} home \
+	${DC_SRC_LOAD_PATH} \
+	container ${GUIX_HOST_HOME}
+
+#-----------------------
+# Guix Home
+#
+# Just quickly extract a few files from there
+
+# TODO: cat this content from the store after guix home build
+
+.PHONY: guixHomeContainer
+guixHomeContainer:
+	guix home container -L ../dc -L ../ellipsis --share "$(MKDIR)" \
+	-e "$(GH_KHARIS_HE)"
 
 # end
 

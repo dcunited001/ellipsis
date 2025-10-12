@@ -2,12 +2,10 @@
 let
   inherit (lib.fileset) unions fromSource toSource toList;
   inherit (lib) fileContents;
-  dcstaticdots = (pkgs.callPackage
-    (lib.custom.relativeToRoot "pkgs/common/dcstaticdots/package.nix") { });
 in {
+
   hjem = {
     linker = inputs.hjem.packages.${pkgs.stdenv.hostPlatform.system}.smfh;
-
     users = {
       dc = {
         enable = true;
