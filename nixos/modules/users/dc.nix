@@ -1,4 +1,4 @@
-{ lib, pkgs, ... }:
+{ inputs, lib, pkgs, ... }:
 let
   hyprdc = (pkgs.callPackage
     (lib.custom.relativeToRoot "pkgs/common/hyprdc/package.nix") { });
@@ -48,7 +48,10 @@ in {
     packages = with pkgs; [
       # CUSTOM
       hyprdc
+
+      # CUSTOM: omarchy
       omarchy-scripts
+      gum
 
       # CLI
       tree
@@ -208,5 +211,18 @@ in {
       yad # gtk-like dmenu
     ];
 
+  };
+
+  # nix eval .#nixosConfigurations.kratos.config.hjem.users.dc.files.'".foo"' --json | jq
+  hjem = {
+    linker = inputs.hjem.packages.${pkgs.stdenv.hostPlatform.system}.smfh;
+
+    users = {
+      dc = {
+        enable = true;
+
+        files = { ".foo".text = "bar"; };
+      };
+    };
   };
 }

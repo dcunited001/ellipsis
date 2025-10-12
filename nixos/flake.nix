@@ -5,7 +5,7 @@
 
   # Flake outputs that other flakes can use
   # flake-schemas, disko
-  outputs = { self, nixpkgs, flake-compat, home-manager, frc-nix
+  outputs = { self, nixpkgs, flake-compat, home-manager, frc-nix, hjem
     , nixpkgs-unstable, sops-nix, nixos-hardware, flake-schemas, disko, ...
     }@inputs:
     let
@@ -37,8 +37,11 @@
         system = "x86_64-linux";
         specialArgs = { inherit inputs outputs lib; };
 
-        modules =
-          [ ./hosts/kratos/configuration.nix sops-nix.nixosModules.sops ];
+        modules = [
+          ./hosts/kratos/configuration.nix
+          inputs.hjem.nixosModules.default
+          sops-nix.nixosModules.sops
+        ];
       };
       nixosConfigurations.anywhere = {
         x86_64-linux = nixpkgs.lib.nixosSystem {
@@ -85,7 +88,7 @@
     # this flake follows nixpkgs-unstable
     frc-nix.url = "github:frc4451/frc-nix";
     frc-nix.inputs.nixpkgs.follows = "nixpkgs";
-    # qfrc-nix.inputs.nixpkgs.follows = "nixpkgs-unstable";
+    # frc-nix.inputs.nixpkgs.follows = "nixpkgs-unstable";
 
     sops-nix.url = "github:Mic92/sops-nix";
     sops-nix.inputs.nixpkgs.follows = "nixpkgs";
@@ -97,6 +100,7 @@
     # HJEM
     hjem.url = "github:feel-co/hjem";
     hjem.inputs.nixpkgs.follows = "nixpkgs";
-    hjem-impure.url = "github:Rexcrazy804/hjem-impure";
+
+    # hjem-impure.url = "github:Rexcrazy804/hjem-impure";
   };
 }

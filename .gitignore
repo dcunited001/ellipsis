@@ -59,6 +59,9 @@ fonts/**
 .config/walker/*.bak.*
 .config/waybar/*.bak.*
 
+# NixOS
+/nixos/result
+
 # Guix
 
 ## Shepherd

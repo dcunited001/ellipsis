@@ -27,12 +27,12 @@
       "text/calendar" = [ "org.mozilla.Thunderbird.desktop" ];
 
       # web
-      "x-scheme-handler/https" = [ "firefox.desktop" ];
-      "application/x-extension-htm" = [ "firefox.desktop" ];
-      "application/x-extension-html" = [ "firefox.desktop" ];
-      "application/x-extension-shtml" = [ "firefox.desktop" ];
-      "application/x-extension-xht" = [ "firefox.desktop" ];
-      "application/x-extension-xhtml" = [ "firefox.desktop" ];
+      "x-scheme-handler/https" = [ "chromium-browser.desktop" ];
+      "application/x-extension-htm" = [ "chromium-browser.desktop" ];
+      "application/x-extension-html" = [ "chromium-browser.desktop" ];
+      "application/x-extension-shtml" = [ "chromium-browser.desktop" ];
+      "application/x-extension-xht" = [ "chromium-browser.desktop" ];
+      "application/x-extension-xhtml" = [ "chromium-browser.desktop" ];
 
       # text
       "text/org" = [ "doomclient.desktop" ];
@@ -43,19 +43,20 @@
     addedAssociations = {
       # rss
       "application/rss+xml" = [
-        "firefox.desktop"
+        "chromium-browser.desktop"
         "doomclient.desktop"
         "org.mozilla.Thunderbird.desktop"
       ];
 
       # browsers + emacs
-      "x-scheme-handler/file" = [ "firefox.desktop" "doomclient.desktop" ];
-      "image/svg+xml" = [ "firefox.desktop" "doomclient.desktop" ];
-      "text/html" = [ "firefox.desktop" "doomclient.desktop" ];
+      "x-scheme-handler/file" =
+        [ "chromium-browser.desktop" "doomclient.desktop" ];
+      "image/svg+xml" = [ "chromium-browser.desktop" "doomclient.desktop" ];
+      "text/html" = [ "chromium-browser.desktop" "doomclient.desktop" ];
 
       # browsers only
-      "application/xhtml+xml" = [ "firefox.desktop" ];
-      "x-scheme-handler/chrome" = [ "firefox.desktop" ];
+      "application/xhtml+xml" = [ "chromium-browser.desktop" ];
+      "x-scheme-handler/chrome" = [ "chromium-browser.desktop" ];
 
       # emacs only
       "application/log" = [ "doomclient.desktop" ];

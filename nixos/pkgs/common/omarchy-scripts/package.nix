@@ -12,16 +12,29 @@ stdenv.mkDerivation rec {
     sha256 = "sha256-1QJBoMe6MzaD/dcOcqC8QpRxG0Z2c1p+WYqtNFlsTOA=";
   };
 
-  # from android-udev-rules
+  # TODO: find a way to quickly test these omarchy scripts (bats?)
+
+  # NOTE: I'm just manually managing the =~/.nix-profile= link with the command below.
+  # I'm not using =nix-env= or =nix profile=.
+  #
+  # ln -fs /etc/profiles/per-user/dc ~/.nix-profile
+
   installPhase = ''
     runHook preInstall
     for f in omarchy-cmd-terminal-cwd\
       omarchy-{refresh,toggle,restart}-waybar\
+      omarchy-webapp-{install,remove}\
+      omarchy-launch-{,or-focus-}webapp\
+      omarchy-webapp-handler-zoom\
       omarchy-refresh-config; do
       install -D "bin/$f" "$out/bin/$f"
     done
     runHook postInstall
   '';
+
+  # omarchy-webapp-handler-zoom: only called if zoom is installed via
+  # `omarchy-webapp-install "Zoom" ...` which is called in
+  # ./install/packaging/webapps.sh. I'd rather have the native zoom (i think?)
 
   doInstallCheck = true;
 
