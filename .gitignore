@@ -80,9 +80,6 @@ fonts/**
 !.config/guix/manifests/.gitkeep
 !.config/guix/manifests/academic.scm
 !.config/guix/manifests/cpp-build.scm
-!.config/guix/manifests/python.scm
-!.config/guix/manifests/arch-pwsafe.scm
-!.config/guix/manifests/emacs-native-comp.scm
 
 # Apps
 
