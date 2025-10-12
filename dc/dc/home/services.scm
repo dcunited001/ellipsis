@@ -20,6 +20,7 @@
   #:export (dc-inputrc-configuration
             dc-shell-profile-configuration
             dc-bash-configuration
+            dc-home-systemd-aliases-service
             dc-zathura-service))
 
 ;;; Commentary:
@@ -37,7 +38,7 @@
    (lambda (el acc) (append acc (cdr el)))
    '()
    '((shell .
-      (("pathtr" . "tr '\\'':'\\'' '\\''\\n'\\''")
+      (("pathtr" . "tr \":\" \"\n\"")
        ("shitbin" . "echo -e \"\\033c\"")
        ;; env+via =~ env+path ... get it?
        ("envia" . "grep -e '^[A-Za-z0-9]*PATH=' | sort | uniq")

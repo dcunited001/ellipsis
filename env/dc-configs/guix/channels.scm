@@ -1,14 +1,25 @@
-(define-module (dc channels)
-  #:use-module (guix channels)
-  #:export (%dc-lock-channels))
+;;; rde --- Reproducible development environment.
+;;;
+;;; SPDX-FileCopyrightText: 2024, 2025 Andrew Tropin <andrew@trop.in>
+;;;
+;;; SPDX-License-Identifier: GPL-3.0-or-later
 
-(define %dc-lock-channels
+;; originally from rde
+
+(define-module (dc-configs guix channels)
+  #:use-module (guix channels)
+  #:export (core-channels))
+
+;; (define-module (rde env guix channels)
+;;   #:use-module (guix channels))
+
+(define core-channels
   (list (channel
          (name 'guix)
          (url "https://codeberg.org/guix/guix.git")
          (branch "master")
          (commit
-          "679618893dbe9e9f32085db41356bebef7ddc4df")
+          "73eb38eeb00e61ff7a04a3c74099b99942768017")
          (introduction
           (make-channel-introduction
            "9edb3f66fd807b096b48283debdcddccfea34bad"
@@ -19,7 +30,7 @@
          (url "https://github.com/fishinthecalculator/sops-guix")
          (branch "main")
          (commit
-          "c2897f21a86077aeb50b5d179db6d0bd99683830")
+          "eba0aae6ac9d828c1afe7f8275ac8e1094334286")
          (introduction
           (make-channel-introduction
            "0bbaf1fdd25266c7df790f65640aaa01e6d2dbc9"
@@ -30,7 +41,7 @@
          (url "https://github.com/fishinthecalculator/gocix")
          (branch "main")
          (commit
-          "211a55900940043d061fced1068efa7ccf016786")
+          "e5d85ac182ce1379a8af309593695ca9900d6019")
          (introduction
           (make-channel-introduction
            "cdb78996334c4f63304ecce224e95bb96bfd4c7d"
@@ -41,7 +52,7 @@
          (url "https://gitlab.com/nonguix/nonguix")
          (branch "master")
          (commit
-          "841777ffcac40ad0a5a9e0451c05079a9cbcf139")
+          "a5d216cd7c2d67eb95e58871bb805f22c160c57b")
          (introduction
           (make-channel-introduction
            "897c1a470da759236cc11798f4e0a5f7d4d59fbc"
@@ -52,11 +63,27 @@
          (url "https://git.sr.ht/~abcdw/rde")
          (branch "master")
          (commit
-          "a0740b46c74210ea972560e07f33fb493eb65c78")
+          "c0694b353d816c8ee95324db979116253b65c571")
          (introduction
           (make-channel-introduction
            "257cebd587b66e4d865b3537a9a88cccd7107c95"
            (openpgp-fingerprint
             "2841 9AC6 5038 7440 C7E9  2FFA 2208 D209 58C1 DEB0"))))))
 
-%dc-lock-channels
+core-channels
+
+
+;; See ~akagi/guixrc for an example of maintaining GUIXTM profiles
+;;
+;; https://git.sr.ht/~akagi/guixrc/tree/master/item/configs/profiles.mk
+;;
+;; - uses guix.lock (on the profile links) to trigger further make tasks
+;; - maintains two sets of profiles, each with a set of pinned channels-{fdsa}.scm
+
+;; ./src/rde/packages/guix.scm does the same as the above with more granular
+;; control to create (channels-union ...) with a single set of sources.
+;;
+;; https://git.sr.ht/~abcdw/rde/tree/master/src/rde/packages/guix.scm#L6
+;;
+;; - it's only used for development purposes: in Makefiles and referenced
+;;   by other dev modules

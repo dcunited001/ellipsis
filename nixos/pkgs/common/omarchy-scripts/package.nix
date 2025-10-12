@@ -36,6 +36,10 @@ stdenv.mkDerivation rec {
   # `omarchy-webapp-install "Zoom" ...` which is called in
   # ./install/packaging/webapps.sh. I'd rather have the native zoom (i think?)
 
+  # strace xdg-settings set default-web-browser chromium-browser.desktop
+  #
+  # thanks strace (where is this stored? it gets pre-empted by $BROWSER)
+
   doInstallCheck = true;
 
   meta = {

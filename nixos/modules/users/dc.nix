@@ -5,7 +5,6 @@ let
   omarchy-scripts = (pkgs.callPackage
     (lib.custom.relativeToRoot "pkgs/common/omarchy-scripts/package.nix") { });
 in {
-
   users.groups = {
     dc = {
       name = "dc";
@@ -211,18 +210,5 @@ in {
       yad # gtk-like dmenu
     ];
 
-  };
-
-  # nix eval .#nixosConfigurations.kratos.config.hjem.users.dc.files.'".foo"' --json | jq
-  hjem = {
-    linker = inputs.hjem.packages.${pkgs.stdenv.hostPlatform.system}.smfh;
-
-    users = {
-      dc = {
-        enable = true;
-
-        files = { ".foo".text = "bar"; };
-      };
-    };
   };
 }

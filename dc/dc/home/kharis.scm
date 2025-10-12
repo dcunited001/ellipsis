@@ -105,35 +105,36 @@
 ;;(define (kharis-home-environment) ...?)
 (define-public kharis-home-environment
   (home-environment
-    (packages home-manifest)
-    (services
-     (append
-      (list
-       ;; (simple-service 'wayland-environment-variables
-       ;;                 home-environment-variables-service-type
-       ;;                 wayland-environment)
-       ;; (simple-service 'gtk-environment-variables
-       ;;                 home-environment-variables-service-type
-       ;;                 gtk-environment)
+   (packages home-manifest)
+   (services
+    (append
+     (list
+      ;; (simple-service 'wayland-environment-variables
+      ;;                 home-environment-variables-service-type
+      ;;                 wayland-environment)
+      ;; (simple-service 'gtk-environment-variables
+      ;;                 home-environment-variables-service-type
+      ;;                 gtk-environment)
 
-       (simple-service 'kharis-environment-variables
-                       home-environment-variables-service-type
-                       %kharis-environment)
-       (simple-service 'dc-shell-profile
-                       home-shell-profile-service-type
-                       dc-shell-profile-configuration)
-       (service home-bash-service-type
-                dc-bash-configuration)
-       (service home-gpg-agent-service-type dc-gpg-agent-configuration)
-       ;; dc-home-systemd-aliases-service
+      (simple-service 'kharis-environment-variables
+                      home-environment-variables-service-type
+                      %kharis-environment)
+      (simple-service 'dc-shell-profile
+                      home-shell-profile-service-type
+                      dc-shell-profile-configuration)
+      (service home-bash-service-type
+               dc-bash-configuration)
 
-       kharis-batsignal-service
-       ;; NOTE: not really sure this a great pattern
-       ;; (service alacritty-service-type dc-alacritty-xdg-files)
-       (service kharis-alacritty-service-type)
+      (service home-gpg-agent-service-type dc-gpg-agent-configuration)
 
-       (service home-dotfiles-service-type
-                (home-dotfiles-configuration
-                 (directories (list (string-append %dotfiles-directory "/df"))))))
-      (list dc-channels-service)
-      %base-home-services))))
+      kharis-batsignal-service
+      ;; NOTE: not really sure this a great pattern
+      ;; (service alacritty-service-type dc-alacritty-xdg-files)
+      (service kharis-alacritty-service-type)
+
+      (service home-dotfiles-service-type
+               (home-dotfiles-configuration
+                (directories (list (string-append %dotfiles-directory "/df"))))))
+     (list dc-channels-service)
+     %base-home-services))))
+
