@@ -2,7 +2,24 @@
   programs.bash = {
     enableCompletion = true;
 
-    # https://github.com/nix-community/home-manager/blob/2f607e07f3ac7e53541120536708e824acccfaa8/modules/programs/bash.nix#L173-L175
+    ### alacritty1 -----------------------
+    #
+    # nix shell carla
+    # t=$(mktemp -d)
+    # env > $t/nixshell.env
+    # covia $t/nixshell.env         # pathtr colon-delmited values
+    # echo $t | wl-copy
+
+    ### alacritty2 -----------------------
+    #
+    # t=$(wl-paste)
+    # env > $t/env
+    # covia $t/env
+    # cat $t/env | envia            # lines matching .*PATH=
+    # cat $t/env | nenvia           # not matching .*PATH=
+    # cat $t/nixshell.env | diffia  # diffing .*PATH= matches
+    # cat $t/nixshell.env | difnia  # diffing .*PATH= non-matches
+
     shellAliases = {
       pathtr = ''tr ":" "\n"'';
       shitbin = ''echo -e "\033c"'';
@@ -44,16 +61,64 @@
       # nodenpm_lsparse = "npm ls -g --parseable | grep node_modules | sed -e '\\''s/.*node_modules\\///g'\\''";
       tyxy =
         "tidy --quiet yes --tidy-mark no --vertical-space yes -indent -xml";
-      jctlu = "journalctl --user -u";
-      jctlb = "journalctl -p 3 -xb";
-      sysu = "systemctl --user";
+      jctl = "isd";
+      jour = "isd";
+      jctlu = "journalctl --user";
+      jctlu7 = "journalctl --user -p7";
+      jctlb = "journalctl -xb";
+      jctlb7 = "journalctl -xb -p7";
+      sysu = "isd";
+      syustat = "systemctl --user status";
+      systat = "systemctl";
       sysdpath = "systemd-path system-shared";
       sysupath = "systemd-path user-shared";
     };
 
+    promptInit = ''
+      export PS_PROMPT=""
+
+      # TODO: use PROMPT_COMMAND and an array of commands mutating the state
+
+      PS_GIT=""
+      GIT_PS1_SHOWCOLORHINTS=1
+      GIT_PS1_DESCRIBE_STYLE=branch
+      GIT_PS1_SHOWUPSTREAM=name
+
+      PS_PROMPT="''${LYELLOW}\A ''${LGREEN}\u''${RED}@''${LCYAN}\h ''${RED}:: ''${YELLOW}\w"
+      if [ -n "$GUIX_ENVIRONMENT" ]; then
+          PS_INFO="''${LMAGENTA}g''${RESTORE}"
+      fi
+
+      if [ "$TERM" = "dumb" ]; then
+          PS1='$ '
+      else
+          PS_GIT='$(__git_ps1 "«%s»") '
+          PS_INFO="$PS_GIT $PS_INFO"
+          PS1="$PS_INFO \n$PS_PROMPT"
+
+          # calc number of cols with $((COLUMNS -n ))
+          if [ -n "$PS_GIT" ]; then
+             PS1="$PS1"
+          fi
+          PS1="$PS1''${RED}$ ''${RESTORE}"
+      fi
+    '';
+
     # for f in "$HOME/.nix-profile/share"/gh/f/bash/*; do
     #  if [ -f "$f" ]; then source $f; fi; done
     interactiveShellInit = ''
+      if [ "$TERM" != "dumb" ]; then
+        alias ls='ls --color=auto'
+        alias dir='dir --color=auto'
+        alias egrep='egrep --color=auto'
+        alias fgrep='fgrep --color=auto'
+        alias diff='diff --color=auto'
+        alias grep='grep --color=auto'
+        alias vdir='vdir --color=auto'
+        # else
+        # no color
+      fi
+
       if [ "$TERM" != "dumb" ]; then
           #export CURSOR_BOX=$(echo -e '\001\033[\017
 
