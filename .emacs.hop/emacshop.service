@@ -1,0 +1,39 @@
+[Unit]
+Description=Emacs Server With Emacs Hop Profile
+# Documentation=info:emacs man:emacs(1) https://gnu.org/software/emacs/
+StartLimitIntervalSec=300
+StartLimitBurst=3
+
+#--search-paths is diagnostic (output only)
+#--network is only necessary for containers
+
+[Service]
+Type=simple
+Environment=EMAIL=aionfork@gmail.com
+Environment=SSH_AUTH_SOCK=/run/user/1000/gnupg/S.gpg-agent.ssh
+Environment=EMACSDIR=/home/dc/.emacs.d
+Environment=EMACSSOCKETPATH=/run/users/1000/emacs
+Environment=EMACSSOCKET=hop
+Environment=EMACS=/usr/bin/emacs
+# Environment=GPROFILE=.guix-profile
+# Environment=EMACS_SOURCE=/data/ecto/emacs/emacs/src
+
+#Type=notify #requires Notify
+ExecStart=/bin/sh -c "/usr/bin/emacs --init-directory=$EMACSDIR --fg-daemon=$EMACSSOCKET"
+#ExecStartPre=/bin/bash -c "notify-send 'Starting Emacs Service...'"
+#ExecStartPost=/bin/bash -c "notify-send 'Emacs Service Started Successfully'"
+
+ExecStop=/bin/sh -c "/usr/bin/emacsclient --socket=$EMACSSOCKET -e '(kill-emacs)'"
+#ExecStopPost=/bin/bash -c "notify-send 'Emacs Service Stopped Successfully'"
+
+# straight can take awhile
+TimeoutStartSec=300
+Restart=on-failure
+RestartSec=30
+
+# Emacs will exit with status 15 after having received SIGTERM, which
+# is the default "KillSignal" value systemd uses to stop services.
+SuccessExitStatus=15
+
+[Install]
+WantedBy=graphical-session.target

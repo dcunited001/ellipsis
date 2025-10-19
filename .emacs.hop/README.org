@@ -61,3 +61,91 @@ apparently). This is nice.
     whatever, so i'll probably disable these.
 + In case they're not, there are some in this directory that I adapted from
   =../.doom.d/doom.service=, etc.
+
+
+* Misc notes from kratos
+
+** Guix Profile
+
+*** Misc notes on a system setup
+
+this is overkill, but it needs to be set up correctly (esp with
+both nix & guix). it's very confusing to debug (esp emacs eln if it
+doesn't fail outright)
+
+.guix-profile, on nix without setting up .profile or nix home
+
++ guix package emacs # used to install emacs
++ guix describe --format=channels >> ~/.emacs.d/.guix-channels.lock
+
+later, worry about loading extra profiles into "~/.profile"...
+
++ GUIX_PROFILE=~/.guix-profile; source ... # etc
++ easier 2 modify `env` as close to project as possible
++ avoid that. only nix modifies the .profile (except?...)
+
+emacs native comp
+
++ m/elpa packages need to run with .guix-channels.lock
++ bundle this into a ~/.emacs.d/.guix-profile for GC
+
+can't load guix packages from my .dotfiles
+
++ guix in .config/guix/current
++ but GUILE_LOAD_PATH isn't set up (bundled in wrapper?)
+
+EMACSLOADPATH is similarly being set:
+
++ compare `M-! shell-command env` vs `env`
+
+
+** Custom.el
+
+don't mess with custom.el.
+
+#+begin_quote
+just init to error after =custom.el= loads (ensure it overloads, otherwise it
+may overwrite). run =M-x package-install-selected-packages= then reload.
+
+(corrections to below)
+#+end_quote
+
+*** wrong
+
+... nevermind, i was pretty sure you couldn't just call
+=(customize-save-variable ...)= never really tried though, but it would help
+to export some settings quickly.
+
+#+begin_src emacs-lisp
+(let ((sel-pkgs   ;;  package-selected-packages
+   '(0x0 ace-window json-mode magit markdown-mode multiple-cursors
+                 nix-mode toml-mode x509-mode yuck-mode)))
+  ;; the let binding is unnecessary, just pass the value
+  ;; .... the full let binding actually prevents it from q'setting
+  (package--save-selected-packages sel-pkgs))
+#+end_src
+
+then =M-x package-upgrade-all= ... nope, d4mm1t
+=package-install-selected-packages=
+
+now the =custom.el= is set ... unless your session failed to load
+=init.el=. then =custom.el= isn't loaded (?)
+
+....... backtrack #456: it just appends custom custom
+
+eval during init or it may delete the customizations.
+
+=(setq custom-file "custom.el")=
+
+*** misc code blocks
+
+#+begin_src emacs-lisp
+;; package-selected-packages
+(sort '(nix-mode foob-mode boofster-mode) #'string<)
+#+end_src
+
+doesn't update selected-packages. may not update. may purge.
+
+#+begin_src emacs-lisp
+(mapcan (lambda (el) (package-install el)) '(x509-mode))
+#+end_src

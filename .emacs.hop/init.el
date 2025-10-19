@@ -1,30 +1,49 @@
+
+;;; Emacs
+
+;;;; Config and Load Path
 (setopt dc/emacs-modules (expand-file-name "modules" user-emacs-directory))
 (add-to-list 'load-path dc/emacs-modules)
 
+;;;; Packages and Custom.el
 (setq use-package-enable-imenu-support t
 	  org-src-preserve-indentation t
 	  backup-by-copying nil
 	  make-backup-files nil
-	  custom-file (expand-file-name "custom.el" "~/.emacs.d"))
+	  custom-file (expand-file-name "custom.el" user-emacs-directory))
 (load custom-file)
 
-(indent-tabs-mode -1)
-
 (require 'package)
-
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
 
-(use-package no-littering :demand t)
+;;;; Essential Libs
 (use-package a :demand t)
+
+;;;; No Littering
+
+(use-package no-littering :demand t)
+
+;;;; Editor
+
+(indent-tabs-mode -1)
 
 (use-package ibuffer
   :config
   (global-set-key [remap list-buffers] #'ibuffer))
 
-(setq-default tab-width 4)
-(use-package make-mode
-  :defer t
-  :hook (makefile-mode . (lambda () (setq-local tab-width 4))))
+(global-set-key (kbd "C-M-S-<return>") #'duplicate-line)
+(global-set-key (kbd "C-x M-f") #'find-file-at-point)
+
+;;;; Tabs
+
+(use-package tab-bar :defer t
+  :config
+  (global-set-key (kbd "C-<prior>") #'tab-bar-switch-to-tab)
+  (global-set-key (kbd "C-<next>") #'tab-bar-switch-to-recent-tab))
+
+;;;; Look & Feel
+
+(add-to-list 'emacs-startup-hook (lambda () (load-theme 'modus-vivendi)))
 
 ;;; Lang
 (use-package x509-mode :defer t)
@@ -35,28 +54,34 @@
 (use-package toml-mode :defer t)
 (use-package ace-window
   :demand t
+  :custom
+  (aw-background . nil)
   :config
   (setopt aw-keys '(?a ?s ?d ?f ?g ?h ?j ?k ?l))
   (define-key global-map [remap other-window] #'ace-window))
 
+;;;; Make
+
+(setq-default tab-width 4)
+(use-package make-mode
+  :defer t
+  :hook (makefile-mode . (lambda () (setq-local tab-width 4))))
+
+;; (use-package hyprlang-ts-mode)
+
 (winner-mode)
+
+;;;; LSP
 
 (use-package eglot
   :defer t
-  ;; :config
-  ;; already included
-  ;; (add-to-list 'eglot-server-programs '(nix-mode . '("nil")))
-
+  :config
+  (unless (member '(nix-mode "nixd") eglot-server-programs)
+	(setq eglot-server-programs (delq 'nix-mode eglot-server-programs))
+	(add-to-list 'eglot-server-programs '(nix-mode "nixd")))
   ;; (pop nix-mode-hook)
   :hook (nix-mode . eglot-ensure))
 
-(use-package tab-bar :defer t
-  :config
-  (global-set-key (kbd "C-<prior>") #'tab-bar-switch-to-tab)
-  (global-set-key (kbd "C-<next>") #'tab-bar-switch-to-recent-tab))
-
-(global-set-key (kbd "C-M-S-<return>") #'duplicate-line)
-(global-set-key (kbd "C-x M-f") #'find-file-at-point)
 
 ;; =============================================
 ;; MIRRORS .EMACS.CONSOLE (... mostly)

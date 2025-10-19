@@ -3,6 +3,7 @@
 /elpa
 /etc
 /var
+/transient
 .emacs.desktop
 .emacs.desktop.lock
 /custom.el

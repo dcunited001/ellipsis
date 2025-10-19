@@ -1,0 +1,19 @@
+[Desktop Entry]
+Name=Emacs Hop (Client)
+GenericName=Text Editor
+Comment=Edit text
+MimeType=text/org;text/english;text/plain;text/x-makefile;text/x-c++hdr;text/x-c++src;text/x-chdr;text/x-csrc;text/x-java;text/x-moc;text/x-pascal;text/x-tcl;text/x-tex;application/x-shellscript;text/x-c;text/x-c++;
+Icon=vim
+Type=Application
+Terminal=false
+Categories=Development;TextEditor;
+StartupNotify=true
+StartupWMClass=hopemacs
+Keywords=emacshop;emacshopclient;
+Actions=new-window;new-instance;
+
+Exec=/usr/bin/emacsclient -- -nc --socket=hop --alternate-editor="alacritty -e nvim" %F
+
+[Desktop Action new-window]
+Name=New Window
+Exec=/usr/bin/emacsclient -- -nc --socket=hop --alternate-editor="alacritty -e nvim" %F
