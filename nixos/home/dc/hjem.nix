@@ -20,26 +20,47 @@ in {
         #   }
 
         files = {
-          ".foo".text = ''
-            [[ $- != *i* ]] && return
-            shopt -s histappend
+          "bin/omarchy-find-webapp".text = ''
+            #!/usr/bin/env bash
+            omarchyFindWebapp() {
+              appname="$1"
+              browser=$(xdg-settings get default-web-browser)
+              for desktopFile in {~/.local,~/.nix-profile,/usr}/share/applications/$appname.desktop; do
+                [[ -f $desktopFile ]] \
+                && grep -qe '^Exec=.*omarchy-launch-webapp' $desktopFile \
+                && echo "$desktopFile"
+              done
+            }
 
-            [[ "$TERM" == "dumb" ]] || export TERM="xterm-256color"
-
-            export INSIDE_TRAMP="$\{INSIDE_EMACS/*tramp*/tramp}"
-            export DOTS_RC_D=$DOTS_CFG_SHELL/rc.d
-            [[ -f $DOTS_CFG_SHELL/_load_rc.d.sh ]] && source $DOTS_CFG_SHELL/_load_rc.d.sh
-
-            unset SSH_AGENT_PID
-            if [ "$\{gnupg_SSH_AUTH_SOCK_by:-0}" -ne $$ ]; then
-              export SSH_AUTH_SOCK="$(gpgconf --list-dirs agent-ssh-socket)"
-            fi
-
-            [[ -e "$(command -v direnv)" ]] && eval "$(direnv hook bash)"
-
+            omarchyFindWebapp $1
           '';
-          ".bar".source = "/.bash_logout";
+          # ".bar".source = "/.bash_logout";
         }; # // dfList;
+
+        # xdg.config
+        # xdg.cache
+        # xdg.data
+        # xdg.state
+        xdg.data = {
+          files = {
+            "applications/Onshape.desktop" = {
+              text = ''
+                [Desktop Entry]
+                Version=1.0
+                Name=Onshape
+                Comment=Onshape
+                # Exec=omarchy-launch-webapp https://cad.onshape.com
+                Exec=uwsm app -- chromium --app="https://cad.onshape.com"
+                Terminal=false
+                Type=Application
+                Icon=/home/dc/.local/share/applications/icons/Onshape.png
+                StartupNotify=true
+              '';
+              clobber = true;
+            };
+
+          };
+        };
       };
     };
   };
