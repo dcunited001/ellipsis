@@ -110,6 +110,10 @@ in {
       sops
       _1password-cli
       _1password-gui
+      keepassxc
+
+      # LANG: HTML
+      html-tidy
 
       # LANG: JAVASCRIPT
       node2nix

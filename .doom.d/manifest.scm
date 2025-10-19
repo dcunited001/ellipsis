@@ -2,6 +2,7 @@
  '(
    "emacs-next-pgtk"
    "guile-ares-rs"
+   "tidy-html"
 
    "texlive"
    ;; "texlive-collection-pictures"

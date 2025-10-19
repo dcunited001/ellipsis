@@ -1,7 +1,7 @@
 { ... }: {
   services.earlyoom.enable = true;
   services.earlyoom = {
-    enableDebugInfo = true;
+    enableDebugInfo = false;
     # enableNotifications = true;
     reportInterval = 0;
     freeMemThreshold = 5;

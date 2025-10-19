@@ -1,6 +1,6 @@
 { lib, pkgs, ... }: {
   programs.bash = {
-    enableCompletion = true;
+    completion.enable = true;
 
     ### alacritty1 -----------------------
     #

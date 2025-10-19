@@ -124,9 +124,9 @@
         },
         "return-type": "json",
         "exec-if": "which swaync-client",
-        "exec": "swaync-client -swb",
-        "on-click": "swaync-client -t -sw",       // toggle
-        "on-click-right": "swaync-client -d -sw", // dnd
+        "exec": "uwsm app -- swaync-client -swb",
+        "on-click": "uwsm app -- swaync-client -t -sw",       // toggle
+        "on-click-right": "uwsm app -- swaync-client -d -sw", // dnd
         "escape": true
     },
     // "custom/tray-tail": {
@@ -151,7 +151,7 @@
     },
     "custom/launcher": {
         "format":" ",
-        "on-click": "exec nwg-drawer",
+      "on-click": "uwsm app -- nwg-drawer",
         "tooltip": false,
     },
 
@@ -161,11 +161,11 @@
 
     "cpu": {
         "format": " {usage}%",
-        "on-click": "alacritty --class 'Alacritty:org.dc.tuitray' -T 'tuitray:btop' -e btop"
+        "on-click": "uwsm app -- alacritty --class 'Alacritty:org.dc.tuitray' -T 'tuitray:btop' -e btop"
     },
     "memory": {
         "format": "田{:>3}%",
-        "on-click": "alacritty --class 'Alacritty:org.dc.tuitray' -T 'tuitray:btop' -e btop"
+        "on-click": "uwsm app -- alacritty --class 'Alacritty:org.dc.tuitray' -T 'tuitray:btop' -e btop"
     },
     "temperature": {
         // "thermal-zone": 2,
@@ -188,8 +188,8 @@
         "format-alt": "{ifname}: {ipaddr}/{cidr}",
         "tooltip-format-wifi": "  {ifname} @ {essid}\nIP: {ipaddr}\nStrength: {signalStrength}%\nFreq: {frequency}MHz\nUp: {bandwidthUpBits} Down: {bandwidthDownBits}",
         "tooltip-format-ethernet": " {ifname}\nIP: {ipaddr}\n up: {bandwidthUpBits} down: {bandwidthDownBits}",
-        "on-click": "alacritty --class 'Alacritty:org.dc.tuitray' -T 'tuitray:nmtui' -e nmtui",
-        "on-right-click": "nm-connection-editor"
+        "on-click": "uwsm app -- alacritty --class 'Alacritty:org.dc.tuitray' -T 'tuitray:nmtui' -e nmtui",
+        "on-right-click": "uwsm-app -- nm-connection-editor"
     },
 
     // ---------------------------------------------
@@ -263,7 +263,7 @@
             "default": ["", ""]
         },
         // "on-click": "pavucontrol"
-        "on-click-right": "pavucontrol"
+        "on-click-right": "uwsm app -- pavucontrol"
     },
 
     // ---------------------------------------------
@@ -286,8 +286,8 @@
         "return-type": "json",
         "exec": "echo '{\"class\": \"tuitray\"}'",
         "format": "制",
-        "on-click": "alacritty --class 'Alacritty:org.dc.tuitray' -T 'tuitray:isd' -e isd",
-        "on-click-right": "alacritty --class 'Alacritty:org.dc.tuitray' -T 'tuitray:sysz' -e sysz"
+        "on-click": "uwsm app -- alacritty --class 'Alacritty:org.dc.tuitray' -T 'tuitray:isd' -e isd",
+        "on-click-right": "uwsm app -- alacritty --class 'Alacritty:org.dc.tuitray' -T 'tuitray:sysz' -e sysz"
     },
 
     // ---------------------------------------------
