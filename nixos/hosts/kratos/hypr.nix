@@ -43,5 +43,5 @@
   # hyprlock is run via hypridle (via uwsm app ... via exec-onde in autostarts)
   security.pam.services.hyprlock = { };
 
-  environment.systempackages = [ pkgs.hypridle pkgs.hyprland ];
+  environment.systemPackages = [ pkgs.hypridle pkgs.hyprlock pkgs.procps ];
 }

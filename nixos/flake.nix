@@ -5,11 +5,9 @@
 
   # Flake outputs that other flakes can use
   # flake-schemas, disko
-  outputs = { self, nixpkgs, flake-compat, home-manager, frc-nix, hjem
-    , nixpkgs-unstable, sops-nix, nixos-hardware, flake-schemas, disko, ...
-    }@inputs:
+  outputs = { self, nixpkgs, flake-compat, frc-nix, hjem, nixpkgs-unstable
+    , sops-nix, nixos-hardware, flake-schemas, disko, ... }@inputs:
     let
-
       inherit (self) outputs;
 
       # Helpers for producing system-specific outputs
@@ -94,8 +92,6 @@
     sops-nix.inputs.nixpkgs.follows = "nixpkgs";
 
     # HM
-    home-manager.url = "github:nix-community/home-manager/release-25.05";
-    home-manager.inputs.nixpkgs.follows = "nixpkgs";
 
     # HJEM
     hjem.url = "github:feel-co/hjem";
