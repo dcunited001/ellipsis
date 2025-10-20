@@ -28,7 +28,9 @@
       "modules/nixos/desktop/sddm.nix"
       "modules/nixos/desktop/xdg.nix"
 
+      "modules/nixos/hardware/i2c.nix"
       # "modules/nixos/hardware/rkdeveloptool.nix"
+
       "modules/nixos/services/containers.nix"
       "modules/nixos/services/earlyoom.nix"
       "modules/nixos/services/guix.nix"
@@ -44,9 +46,11 @@
       "home/dc/walker.nix"
     ])
 
-    ./frc.nix
+    # ./frc.nix
   ];
 
+  # ---------------------------------------------
+  # nixpkgs
   nixpkgs = {
     overlays = [ outputs.overlays.default ];
     config = {
@@ -57,10 +61,12 @@
 
   networking.hostName = "kratos";
 
+  # =============================================
+  # bootloader
+
   # https://gist.github.com/Le0xFF/21942ab1a865f19f074f13072377126b
   boot.supportedFilesystems = [ "btrfs" ];
 
-  # Use the systemd-boot EFI boot loader.
   boot.loader = {
     systemd-boot.enable = true;
     systemd-boot.configurationLimit = 15;
@@ -106,16 +112,21 @@
 
   # ---------------------------------------------
   # Hardware Support
+
   hardware.enableRedistributableFirmware = true;
   # hardware.enableAllFirmware = true;
 
   # add rockchip udev rules
   # hardware.rkdeveloptool.enable = true;
 
-  # ---------------------------------------------
-  # Disks
+  services.gpm.enable = true; # mouse at console (sometimes)
+  services.tlp.enable = true; # power manamagement profiles
+  services.thermald.enable = true; # thermal monitoring
 
-  # ---------------------------------------------
+  # control moniters (requires i2c group)
+  services.hardware.ddcutil.enable = true;
+
+  # =============================================
   # Filesystems
 
   fileSystems = {
@@ -185,13 +196,10 @@
     shortcut = "b"; # Screen "a"
   };
 
-  # ---------------------------------------------
+  # =============================================
+  # Networking
 
   services.avahi.enable = true;
-
-  services.gpm.enable = true;
-  services.tlp.enable = true;
-  services.thermald.enable = true;
   # services.earlyoom.enable = false; # needs a configuration
 
   # https://wiki.nixos.org/wiki/ZeroTier_One
@@ -215,8 +223,8 @@
   # needed for store VS Code auth token
   # services.gnome.gnome-keyring.enable = true;
 
-  # ---------------------------------------------
-  # SYSTEM PACKAGES
+  # =============================================
+  # System Packages
 
   # TODO: nix: lots of duplicate packages end up being installed
   environment.variables.EDITOR = "vim"; # TODO: ends up being doomclient
