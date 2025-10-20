@@ -1,5 +1,6 @@
-{ config, lib, pkgs, outputs, ... }: {
+{ inputs, config, lib, pkgs, outputs, ... }: {
   imports = lib.flatten [
+    (lib.custom.relativeToRoot "hosts/common.nix")
     ./hardware.nix
     ./networking.nix
     ./xdg.nix
@@ -45,7 +46,13 @@
     ./frc.nix
   ];
 
-  nixpkgs.overlays = [ outputs.overlays.default ];
+  nixpkgs = {
+    overlays = [ outputs.overlays.default ];
+    config = {
+      allowUnfree = true;
+      permittedInsecurePackages = [ "libsoup-2.74.3" ];
+    };
+  };
 
   networking.hostName = "kratos";
 

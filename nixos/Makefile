@@ -70,4 +70,11 @@ downloadNixOS:
 	wget -O iso/$isoName.iso.sha256 $isoUrl.sha256
 	wget -O iso/$isoName.iso $isoUrl $isoUrl
 
+#-----------------------
+APKG=/run/current-system
+BPKG=nixpkgs#libsoup
+.PHONY=whydep
+whydep:
+	nix why-depends "$(APKG)" "$(BPKG)"
+
 #

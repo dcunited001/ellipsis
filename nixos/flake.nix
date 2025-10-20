@@ -5,8 +5,8 @@
 
   # Flake outputs that other flakes can use
   # flake-schemas, disko
-  outputs = { self, nixpkgs, flake-compat, frc-nix, hjem, nixpkgs-unstable
-    , sops-nix, nixos-hardware, flake-schemas, disko, ... }@inputs:
+  outputs = { self, nixpkgs, flake-compat, frc-nix, hjem, sops-nix
+    , nixos-hardware, flake-schemas, disko, ... }@inputs:
     let
       inherit (self) outputs;
 
@@ -16,6 +16,7 @@
       serverSystems = [ "x86_64-linux" "aarch64-linux" ];
 
       # extend lib with lib.custom (see flake.nix from EmergentMind/dotfiles)
+
       lib = nixpkgs.lib.extend
         (self: super: { custom = import ./lib { inherit (nixpkgs) lib; }; });
 
@@ -29,18 +30,43 @@
       # a completely FLAT overlay...
       #
       # NOTE: i'm really going to try to avoid an overlay for now
+
       overlays = import ./overlays { inherit inputs; };
 
-      nixosConfigurations.kratos = nixpkgs.lib.nixosSystem {
+      nixosConfigurations.kratos2 = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
         specialArgs = { inherit inputs outputs lib; };
 
         modules = [
           ./hosts/kratos/configuration.nix
           inputs.hjem.nixosModules.default
+          # inputs.walker.nixosModules.default
           sops-nix.nixosModules.sops
         ];
       };
+
+      nixosConfigurations.kratos = let
+        # system = "x86_64-linux";
+        pkgs = import nixpkgs {
+          # inherit system;
+          config = {
+            allowUnfree = true;
+            permittedInsecurePackages = [ "libsoup-2.74.3" ];
+          };
+        };
+      in nixpkgs.lib.nixosSystem {
+        # inherit system;
+        inherit pkgs;
+        specialArgs = { inherit inputs outputs lib; };
+
+        modules = [
+          ./hosts/kratos/configuration.nix
+          inputs.hjem.nixosModules.default
+          # inputs.walker.nixosModules.default
+          sops-nix.nixosModules.sops
+        ];
+      };
+
       nixosConfigurations.anywhere = {
         x86_64-linux = nixpkgs.lib.nixosSystem {
           system = "x86_64-linux";
@@ -73,15 +99,16 @@
   # Flake inputs
   inputs = {
     flake-compat.url = "https://flakehub.com/f/edolstra/flake-compat/*";
-    nixpkgs.url = "https://flakehub.com/f/NixOS/nixpkgs/*";
+    # nixpkgs.url = "https://flakehub.com/f/NixOS/nixpkgs/*";
+    nixpkgs.url = "https://flakehub.com/f/NixOS/nixpkgs/0.1";
     hardware.url = "github:nixos/nixos-hardware";
     disko.url = "github:nix-community/disko";
     disko.inputs.nixpkgs.follows = "nixpkgs";
     flake-schemas.url =
       "https://flakehub.com/f/DeterminateSystems/flake-schemas/*";
 
-    nixpkgs-stable.url = "github:NixOS/nixpkgs/nixos-25.05";
-    nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
+    # nixpkgs-stable.url = "github:NixOS/nixpkgs/nixos-25.05";
+    # nixpkgs-unstable.url = "https://flakehub.com/f/NixOS/nixpkgs/0.1.860000";
 
     # this flake follows nixpkgs-unstable
     frc-nix.url = "github:frc4451/frc-nix";
@@ -91,7 +118,6 @@
     sops-nix.url = "github:Mic92/sops-nix";
     sops-nix.inputs.nixpkgs.follows = "nixpkgs";
 
-    # HM
 
     # HJEM
     hjem.url = "github:feel-co/hjem";

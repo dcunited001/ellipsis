@@ -1,6 +1,5 @@
-{ config, lib, pkgs, ... }:
+{ inputs, config, lib, pkgs, ... }: {
 
-{
   programs.walker = {
     enable = true;
     # style = lines

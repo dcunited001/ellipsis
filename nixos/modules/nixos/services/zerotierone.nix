@@ -1,4 +1,4 @@
-{ ... }: {
+{ inputs, config, pkgs, ... }: {
   # zerotierone.joinNetworks = ['0123456789abcdef']
   #
   # - this isn't secret, per-se ... but it could ID your network(s)
