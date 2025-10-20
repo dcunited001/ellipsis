@@ -72,6 +72,19 @@
           directory = ./pkgs/common;
         }
       );
+
+      checks = nixpkgs.lib.genAttrs (supportedSystems) (
+        system:
+        let
+          pkgs = nixpkgs.legacyPackages.${system};
+          checkArgs = {
+            inherit self inputs pkgs;
+          };
+        in
+        {
+          checkonetwo = import ./tests/checkonetwo.nix checkArgs;
+        }
+      );
     };
 
   # Flake inputs
