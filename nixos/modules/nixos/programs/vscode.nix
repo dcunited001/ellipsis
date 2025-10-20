@@ -44,7 +44,7 @@ let
       frcPkgs.roborioteamnumbersetter
       frcPkgs.robotbuilder
       frcPkgs.shuffleboard
-      frcPkgs.smartdashboard
+      # frcPkgs.smartdashboard
       frcPkgs.sysid
       frcPkgs.wpilib-utility
       frcPkgs.wpical
@@ -91,13 +91,18 @@ let
     vscode = vscFhs;
     vscodeExtensions = vscExtensions;
   };
+
+  # webkitSoup = pkgs.webkitgtk_4_1.overrideAttrs # ... already has it
+  #   (finalAttrs: previousAttrs: { buildInputs = libsoup_3 });
+  choreoFix = frcPkgs.choreo.overrideAttrs
+    (finalAttrs: previousAttrs: { buildInputs = [ pkgs.webkitgtk_4_1 ]; });
 in {
   environment.systemPackages = [
     vscFinal
     frcPkgs.advantagescope
-    frcPkgs.choreo
+    # choreoFix
     frcPkgs.elastic-dashboard
-    frcPkgs.pathplanner
+    # frcPkgs.pathplanner
   ];
 
   programs.nix-ld.enable = true;

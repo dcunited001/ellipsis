@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# name: obptdir
+# uuid: 
+# key: <obtdir
+# condition: t
+# --
+:dir (identity ${1:$$(yas-choose-value (list "" (dc/org-roam-get-slug)))})

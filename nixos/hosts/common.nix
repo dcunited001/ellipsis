@@ -13,7 +13,7 @@
 
   # nix-store --gc --print-roots
   nix.gc = {
-    automatic = true;
+    automatic = false; # use nh clean
     options = "--delete-older-than 30d";
     persistent = true;
     randomizedDelaySec = "60min";
@@ -24,10 +24,6 @@
 
   nix.settings = {
     auto-optimise-store = true;
-    optimise = {
-      automatic = true;
-      dates = [ "03:45" ]; # Periodically optimize the store
-    };
 
     connect-timeout = 5;
     log-lines = 25;

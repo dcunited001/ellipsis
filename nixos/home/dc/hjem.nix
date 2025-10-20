@@ -1,8 +1,19 @@
-{ inputs, lib, pkgs, ... }:
+{
+  inputs,
+  lib,
+  pkgs,
+  ...
+}:
 let
-  inherit (lib.fileset) unions fromSource toSource toList;
+  inherit (lib.fileset)
+    unions
+    fromSource
+    toSource
+    toList
+    ;
   inherit (lib) fileContents;
-in {
+in
+{
 
   hjem = {
     linker = inputs.hjem.packages.${pkgs.stdenv.hostPlatform.system}.smfh;
@@ -41,8 +52,31 @@ in {
         # xdg.cache
         # xdg.data
         # xdg.state
+
         xdg.data = {
           files = {
+            "applications/chromium-browser.desktop" = {
+              text = ''
+                [Desktop Entry]
+                StartupWMClass=chromium-browser
+                Version=1.0
+                Name=Chromium
+                GenericName=Web Browser
+                Exec=uwsm app -- chromium %U
+                Categories=Network;WebBrowser;
+                MimeType=application/pdf;application/rdf+xml;application/rss+xml;application/xhtml+xml;application/xhtml_xml;application/xml;image/gif;image/jpeg;image/png;image/webp;text/html;text/xml;x-scheme-handler/http;x-scheme-handler/https;x-scheme-handler/webcal;x-scheme-handler/mailto;x-scheme-handler/about;x-scheme-handler/unknown
+                Actions=new-window;new-private-window;
+                [Desktop Action new-window]
+                Exec=chromium
+                [Desktop Action new-private-window]
+                Exec=chromium --incognito
+                Terminal=false
+                Type=Application
+                Icon=/home/dc/.nix-profile/share/icons/hicolor/256x256/apps/chromium.png
+                StartupNotify=true
+              '';
+              clobber = true;
+            };
             "applications/Onshape.desktop" = {
               text = ''
                 [Desktop Entry]
@@ -75,4 +109,3 @@ in {
 # in { ".foo".text = "bar"; } // bashFiles;
 
 # nix eval .#nixosConfigurations.kratos.config.hjem.users.dc.files.'".foo"' --json | jq
-

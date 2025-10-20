@@ -5,7 +5,7 @@
 
   # Flake outputs that other flakes can use
   # flake-schemas, disko
-  outputs = { self, nixpkgs, flake-compat, frc-nix, hjem, sops-nix
+  outputs = { self, nixpkgs, flake-compat, frc-nix, hjem, walker, sops-nix
     , nixos-hardware, flake-schemas, disko, ... }@inputs:
     let
       inherit (self) outputs;
@@ -17,8 +17,7 @@
 
       # extend lib with lib.custom (see flake.nix from EmergentMind/dotfiles)
 
-      lib = nixpkgs.lib.extend
-        (self: super: { custom = import ./lib { inherit (nixpkgs) lib; }; });
+      lib = nixpkgs.lib.extend (self: super: { custom = import ./lib { inherit (nixpkgs) lib; }; });
 
     in {
       # Schemas tell Nix about the structure of your flake's outputs
@@ -33,36 +32,14 @@
 
       overlays = import ./overlays { inherit inputs; };
 
-      nixosConfigurations.kratos2 = nixpkgs.lib.nixosSystem {
+      nixosConfigurations.kratos = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
         specialArgs = { inherit inputs outputs lib; };
 
         modules = [
           ./hosts/kratos/configuration.nix
           inputs.hjem.nixosModules.default
-          # inputs.walker.nixosModules.default
-          sops-nix.nixosModules.sops
-        ];
-      };
-
-      nixosConfigurations.kratos = let
-        # system = "x86_64-linux";
-        pkgs = import nixpkgs {
-          # inherit system;
-          config = {
-            allowUnfree = true;
-            permittedInsecurePackages = [ "libsoup-2.74.3" ];
-          };
-        };
-      in nixpkgs.lib.nixosSystem {
-        # inherit system;
-        inherit pkgs;
-        specialArgs = { inherit inputs outputs lib; };
-
-        modules = [
-          ./hosts/kratos/configuration.nix
-          inputs.hjem.nixosModules.default
-          # inputs.walker.nixosModules.default
+          inputs.walker.nixosModules.default
           sops-nix.nixosModules.sops
         ];
       };
@@ -83,17 +60,20 @@
       # genAttrs :: [ String ] -> (String -> Any) -> AttrSet
       # genAttrs(systems) :: (String -> Any) -> AttrSet
       # genAttrs(systems) eats [systemStrings], returns (String -> Any) -> AttrSet
-      packages = nixpkgs.lib.genAttrs (supportedSystems) (system:
+      packages = nixpkgs.lib.genAttrs (supportedSystems) (
+        system:
         let
           pkgs = import nixpkgs {
             inherit system;
             # no overlays for now
             # overlays = [ self.overlays.default ];
           };
-        in nixpkgs.lib.packagesFromDirectoryRecursive {
+        in
+        nixpkgs.lib.packagesFromDirectoryRecursive {
           callPackage = nixpkgs.lib.callPackageWith pkgs;
           directory = ./pkgs/common;
-        });
+        }
+      );
     };
 
   # Flake inputs
@@ -104,10 +84,10 @@
     hardware.url = "github:nixos/nixos-hardware";
     disko.url = "github:nix-community/disko";
     disko.inputs.nixpkgs.follows = "nixpkgs";
-    flake-schemas.url =
-      "https://flakehub.com/f/DeterminateSystems/flake-schemas/*";
+    flake-schemas.url = "https://flakehub.com/f/DeterminateSystems/flake-schemas/*";
 
-    # nixpkgs-stable.url = "github:NixOS/nixpkgs/nixos-25.05";
+    nixpkgs-stable.url = "github:NixOS/nixpkgs/nixos-25.05";
+    nixpkgs-unstable.url = "https://flakehub.com/f/NixOS/nixpkgs/0.1";
     # nixpkgs-unstable.url = "https://flakehub.com/f/NixOS/nixpkgs/0.1.860000";
 
     # this flake follows nixpkgs-unstable
@@ -118,6 +98,12 @@
     sops-nix.url = "github:Mic92/sops-nix";
     sops-nix.inputs.nixpkgs.follows = "nixpkgs";
 
+    elephant.url = "github:abenz1267/elephant";
+    elephant.inputs.nixpkgs.follows = "nixpkgs"; # "nixpkgs-unstable";
+
+    walker.url = "github:abenz1267/walker";
+    walker.inputs.elephant.follows = "elephant";
+    walker.inputs.nixpkgs.follows = "nixpkgs"; # "nixpkgs-unstable";
 
     # HJEM
     hjem.url = "github:feel-co/hjem";

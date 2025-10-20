@@ -41,6 +41,7 @@
       "modules/nixos/services/zerotierone.nix"
 
       "home/dc/hjem.nix"
+      "home/dc/walker.nix"
     ])
 
     ./frc.nix
