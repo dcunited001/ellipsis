@@ -1,4 +1,5 @@
-{ pkgs, ... }: {
+{ pkgs, ... }:
+{
   environment.sessionVariables = {
     # TODO: nixos: remove unnecessary reliance on $HOME/bin (use writeScriptBin)
     PATH = "$HOME/bin";
@@ -49,10 +50,15 @@
       ];
 
       # browsers + emacs
-      "x-scheme-handler/file" =
-        [ "chromium-browser.desktop" "doomclient.desktop" ];
-      "image/svg+xml" = [ "chromium-browser.desktop" "doomclient.desktop" ];
-      "text/html" = [ "chromium-browser.desktop" "doomclient.desktop" ];
+      "x-scheme-handler/file" = [
+        "chromium-browser.desktop"
+        "doomclient.desktop"
+      ];
+      "image/svg+xml" = [
+        "chromium-browser.desktop"
+        "doomclient.desktop"
+      ];
+      "text/html" = [ "chromium-browser.desktop" ];
 
       # browsers only
       "application/xhtml+xml" = [ "chromium-browser.desktop" ];
@@ -78,10 +84,22 @@
       "x-scheme-handler/podman-desktop" = [ "Podman Desktop.desktop" ];
 
       # chat
-      "x-scheme-handler/io.element.desktop" =
-        [ "io.element.Element.desktop" "Element.desktop" ];
+      "x-scheme-handler/io.element.desktop" = [
+        "io.element.Element.desktop"
+        "Element.desktop"
+      ];
       "x-scheme-handler/element" = [ "io.element.Element.desktop" ];
-      "x-scheme-handler/slack" = [ "slack.desktop" "Slack.desktop" ];
+      "x-scheme-handler/slack" = [
+        "slack.desktop"
+        "Slack.desktop"
+      ];
+      "x-scheme-handler/https" = [ "chromium-browser.desktop" ];
+      "application/x-extension-htm" = [ "chromium-browser.desktop" ];
+      "application/x-extension-html" = [ "chromium-browser.desktop" ];
+      "application/x-extension-shtml" = [ "chromium-browser.desktop" ];
+      "application/x-extension-xht" = [ "chromium-browser.desktop" ];
+      "application/x-extension-xhtml" = [ "chromium-browser.desktop" ];
+
       # "x-scheme-handler/zoommtg" = ["us.zoom.Zoom.desktop"];
 
       # things i don't want emacs to open
