@@ -19,15 +19,15 @@ let
       ];
     }
   );
-  elephantCfg = {
-    enable = false;
-    # package = elephantProvWithWayland;
-  };
+  # elephantCfg =
 in
 {
   programs.walker = {
     enable = true;
-    elephant = elephantCfg;
+    elephant = {
+      enable = lib.mkForce false; # doesn't override (bc of implementation?)
+      # package = elephantProvWithWayland;
+    };
   };
 
   # the default theme is just in
