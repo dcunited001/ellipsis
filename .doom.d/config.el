@@ -199,6 +199,7 @@ Guix channel.")
   "Ds" #'desktop-save-in-desktop-dir
   "DS" #'desktop-save
   "Dr" #'desktop-read
+  "DC" #'dc/desktop-lock-clear
 
   "h" #'shortdoc
 
@@ -284,7 +285,18 @@ Guix channel.")
           " «─╢ ♠︎ %b ♥︎")))
 
 ;;; Interface
-;;
+
+(defun dc/toggle-window-balance ()
+  "Toggle between `maximize-window' and `balance-windows' depending on
+`window-width' and `frame-width'."
+  (interactive)
+  (let ((width-percentage
+         (* 100.0 (/ (* 1.0 (window-width))
+                     (frame-width)))))
+    (if (> width-percentage 75)
+        (balance-windows)
+      (maximize-window))))
+
 ;;;; Basics
 ;;
 ;;;;; Tooltips
@@ -297,6 +309,50 @@ Guix channel.")
 
 ;;;;; Menus
 ;;;;; Date & Time
+;;;;; Desktop
+
+;; phew, it can ask (doesn't really work though)
+;;
+;; I need to shutdown emacs gracefully from systemd
+(use-package! desktop
+  :demand t
+  :custom
+  (desktop-dirname doom-cache-dir)
+  (desktop-load-locked-desktop 'ask))
+
+;; desktop-dirname
+
+(defun dc/desktop-lock-p (&optional dirname)
+  (let* ((dirname (or dirname desktop-dirname)))
+    (file-exists-p (desktop-full-lock-name dirname))))
+
+(defun dc/desktop-in-use-p (&optional dirname)
+  (let* ((dirname (or dirname desktop-dirname))
+         ;; (desktop-lock (format "%s.lock" desktop-file))
+         (desktop-comm (alist-get 'comm (process-attributes (or (desktop-owner dirname) 0)))))
+    (when desktop-comm
+      (string-match-p (rx "emacs") desktop-comm))))
+
+(defun dc/desktop-lock-clear (&optional dirname arg)
+  "Release the PID file at `desktop-full-lock-name' for `dirname' if it
+it's associated to an emacs process. It's difficult to /always/ ensure
+proper shutdown and release when systemd runs the server. Many failure
+modes and testing is tedious."
+  (interactive "i\np")
+  (let* ((arg-read (memq arg '(4)))
+	 (dirname
+	  (or dirname
+              (and arg-read
+		   (read-directory-name "Directory for desktop file: " nil nil t))
+              desktop-dirname))
+         (desktop-file (desktop-full-file-name dirname))
+         (desktop-lock (desktop-full-lock-name dirname)))
+    (when (dc/desktop-lock-p dirname)
+      (when (dc/desktop-in-use-p dirname)
+	(user-error (format "Desktop in use: %s"
+			    (desktop-full-file-name dirname))))
+      (desktop-release-lock dirname))))
+
 ;;;;; Mouse
 
 ;;;; Casual
@@ -2184,12 +2240,11 @@ the root")
 
 ;; TODO: move setup for <f1> <f2> map to after use-package (and after! which-key?)
 
-;;NOTE: some of these may need to be hooked (after! ...)
-
 ;;;; Global Remaps
-(map! :map 'global-map
-      "<f11>" #'maximize-window
-      "S-<f11>" #'balance-windows)
+(map! :map 'global-map "<f11>" #'dc/toggle-window-balance)
+
+;; "<f11>" #'maximize-window
+;; "S-<f11>" #'balance-windows
 
 ;;;; Help Map
 
