@@ -45,6 +45,11 @@ in
 
             omarchyFindWebapp $1
           '';
+          ".bashrc".text = ''
+            # for shrc in $HOME/.local/share/gh/f/bash/{functions-hypr.sh}; do
+            #  source $shrc
+            # done
+          '';
           # ".bar".source = "/.bash_logout";
         }; # // dfList;
 
