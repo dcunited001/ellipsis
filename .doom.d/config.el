@@ -1637,8 +1637,24 @@ the root")
   (use-package! magit-tbdiff))
 
 ;;;; Ghub
+
 ;;;; Forge
-;; (use-package)
+(use-package! forge
+  :defer t
+  :after (:all magit graphql ghub)
+  :config
+  (setq forge-bug-reference-remote-files nil)
+  (add-to-list 'forge-owned-accounts '("dcunited001" "aionfork"))
+  (add-to-list 'forge-alist
+               '("invent.kde.org"
+                 "invent.kde.org/api/v4"
+                 "invent.kde.org"
+                 forge-gitlab-repository))
+  (add-to-list 'forge-alist
+               '("gitlab.freedestkop.org"
+                 "gitlab.freedesktop.org/api/v4"
+                 "gitlab.freedesktop.org"
+                 forge-gitlab-repository)))
 
 (after! forge
   (map! :map forge-topic-mode-map
@@ -1656,7 +1672,56 @@ the root")
                  "s" #'forge-edit-topic-state
                  "t" #'forge-edit-topic-title)))
 
-;;;; Forges
+;;;;; Forge Setup
+
+(defun dc/forge-all-marks ()
+  "Gets generic marks from the `forge-database'."
+  (let ((arg nil))
+    ;; `forge-sql-cdr' will drop the first column from :select (?)
+    ;; so (->> (mapcar #'car) marks) returns a list of id's there
+    (forge-sql-cdr
+     `[:select * :from mark
+       ,@(and arg '(:where (in name $v1)))
+       :order-by [(asc name)]]
+     (vconcat arg))))
+
+;; (forge-create-mark "test2" 'modus-themes-mark-alt "modus-themes-mark-alt")
+
+;; `forge-edit-mark' (interactive ...) lists the the marks, displays the name
+;; via (->> (mapcar #'car) marks) ... which doesn't drop id there.
+;;
+;; after selection, (interactive ...) result acts like a (let ...) environment
+;; binding and morphs the function args into what gets passed to the body
+;;
+;; then forge sql updates one mark by keying on the UUID in `id'
+
+;; select * from mark; delete from mark;
+;;
+;; |"uuid1"|"testmark"|modus-themes-nuanced-cyan|"modus-themes-nuanced-cyan"
+;; |"uuid2"|"test2"|modus-themes-mark-alt|"modus-themes-mark-alt"
+
+(defvar dc/forge-nuanced-marks
+  ;; nothing to key on unless the UUIDs are external
+  '(("f8524701-93d9-4aad-a894-44de11fbf20c" "STRT" modus-themes-nuanced-blue "modus-themes-nuanced-blue")
+    ("7c1c2f6a-b5aa-4ba1-84d5-026510f849f5" "ASK" modus-themes-nuanced-cyan "modus-themes-nuanced-cyan")
+    ("cbac5d21-f162-430c-8b55-197482a54d9f" "LEARN" modus-themes-nuanced-green "modus-themes-nuanced-green")
+    ("99cd5d9a-e135-4eac-8e95-cadbbe73a301" "CHECK" modus-themes-nuanced-magenta "modus-themes-nuanced-magenta")
+    ("b75c358b-56fa-4f4d-9a1e-a925d3000716" "TODO" modus-themes-nuanced-red "modus-themes-nuanced-red")
+    ("d5b688a6-4d35-4535-b426-24828cc54db6" "WAIT" modus-themes-nuanced-yellow "modus-themes-nuanced-yellow")))
+
+;; can't re-init with UUIDs in tact
+(defun dc/forge-create-nuanced-marks ()
+  ;; (all-marks (dc/forge-all-marks)) ; no need 2 accumulate non-extant marks
+  (mapc (lambda (m) (apply #'forge-create-mark m)) dc/forge-nuanced-marks))
+
+;; (dc/forge-create-nuanced-marks)
+
+(defun dc/forge-edit-nuanced-marks (&optional marks)
+  (let ((new-marks (or marks dc/forge-nuanced-marks)))
+    (mapc (lambda (m) (apply #'forge-edit-mark m)) new-marks)))
+
+;; (dc/forge-edit-nuanced-marks dc/forge-nuanced-marks)
+
 ;;;;; Sourcehut
 ;;;;; Repo
 

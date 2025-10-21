@@ -4,6 +4,13 @@
    "guile-ares-rs"
    "tidy-html"
 
+   ;; TODO: configure (use-package! jinx-mode)
+   ;;
+   ;; requires dynamic module (if needed at compile time that won't work)
+   ;;
+   ;; "enchant"
+   ;; "aspell-dict-en"
+
    "texlive"
    ;; "texlive-collection-pictures"
 
