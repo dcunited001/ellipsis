@@ -202,6 +202,9 @@ Guix channel.")
 
   "h" #'shortdoc
 
+  "<f3>" #'forge-dispatch
+  "<SPC>" #'magit-dispatch
+
   "M-l" '(:ignore t :which-key "LOCALVARS")
   "M-l ad" #'add-dir-local-variable
   "M-l aF" #'add-file-local-variable
