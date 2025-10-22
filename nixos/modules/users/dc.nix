@@ -24,7 +24,15 @@ in {
   users.users.dc = {
     uid = 1000;
     group = "dc";
-    extraGroups = [ "wheel" "podman" "audio" "plugdev" ];
+    extraGroups = [
+      "wheel"
+      "podman"
+      "networkmanager"
+      "docker"
+      "i2c"
+      "audio"
+      "plugdev"
+    ];
     isNormalUser = true;
     # useDefaultShell = true;
     linger = true; # continue running [oci-container] services after logout
@@ -164,7 +172,9 @@ in {
       helvum
 
       # DESKTOP: NOTIFICATIONS
-      swaynotificationcenter
+      # swaynotificationcenter
+      mako
+      libnotify
 
       # DESKTOP: NWG
       nwg-look

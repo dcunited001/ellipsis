@@ -1576,7 +1576,9 @@ the root")
   :config
   (dolist (webml '(html-mode html-ts-mode mhtml-mode web-mode))
     ;; aphelia: prettier instead of prettier-html, so it relies on .prettierrc
-    (add-to-list 'apheleia-mode-alist `(,webml . prettier))))
+    (add-to-list 'apheleia-mode-alist `(,webml . prettier)))
+  (setq apheleia-mode-alist             ; '(nix-mode treefmt nix-ts-mode treefmt)
+        (apply #'a-assoc apheleia-mode-alist '(nix-mode nixfmt nix-ts-mode nixfmt))))
 
 ;;;;; Tailwind
 

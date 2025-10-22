@@ -124,7 +124,7 @@
   services.thermald.enable = true; # thermal monitoring
 
   # control moniters (requires i2c group)
-  services.hardware.ddcutil.enable = true;
+  services.ddccontrol.enable = true;
 
   # =============================================
   # Filesystems
