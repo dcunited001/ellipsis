@@ -1,4 +1,10 @@
-{ config, lib, pkgs, ... }: {
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
+{
   virtualisation.containers.enable = true;
   virtualisation.containers.storage.settings.storage = {
     driver = "overlay"; # just use overlayfs; files are large anyways.
@@ -9,7 +15,10 @@
   };
 
   virtualisation.containers.containersConf.settings = {
-    containers.dns_servers = [ "8.8.8.8" "8.8.4.4" ];
+    containers.dns_servers = [
+      "8.8.8.8"
+      "8.8.4.4"
+    ];
   };
 
   # hm.custom.persist = {

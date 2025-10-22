@@ -1,4 +1,12 @@
-{ inputs, config, lib, pkgs, outputs, ... }: {
+{
+  inputs,
+  config,
+  lib,
+  pkgs,
+  outputs,
+  ...
+}:
+{
   imports = lib.flatten [
     (lib.custom.relativeToRoot "hosts/common.nix")
     ./hardware.nix
@@ -80,7 +88,11 @@
   #
   # boot.kernelModules # for boot stage-2
   #   - will implicitly have stage-1, with maybe some technical discrepencies
-  boot.initrd.kernelModules = [ "cryptd" "btrfs" "zstd" ];
+  boot.initrd.kernelModules = [
+    "cryptd"
+    "btrfs"
+    "zstd"
+  ];
   boot.initrd.luks.devices = {
     luksroot = {
       device = "/dev/disk/by-uuid/d02f163b-d7c6-4e6f-bb55-601e9c39200e"; # UUID
@@ -131,15 +143,46 @@
 
   fileSystems = {
     # ... typo: ztsd => zstd
-    "/".options = [ "defaults" "noatime" "compress=zstd" ];
-    "/nix".options = [ "defaults" "noatime" ];
-    "/gnu".options = [ "defaults" "noatime" ];
-    "/var".options = [ "defaults" "noatime" "compress=zstd" ];
-    "/var/log".options = [ "defaults" "noatime" "compress=zstd" ];
-    "/var/cache".options = [ "defaults" "noatime" "compress=zstd" ];
-    "/var/tmp".options = [ "defaults" "noatime" "compress=zstd" ];
-    "/home".options =
-      [ "defaults" "noatime" "compress=zstd" "discard=async" "ssd" ];
+    "/".options = [
+      "defaults"
+      "noatime"
+      "compress=zstd"
+    ];
+    "/nix".options = [
+      "defaults"
+      "noatime"
+    ];
+    "/gnu".options = [
+      "defaults"
+      "noatime"
+    ];
+    "/var".options = [
+      "defaults"
+      "noatime"
+      "compress=zstd"
+    ];
+    "/var/log".options = [
+      "defaults"
+      "noatime"
+      "compress=zstd"
+    ];
+    "/var/cache".options = [
+      "defaults"
+      "noatime"
+      "compress=zstd"
+    ];
+    "/var/tmp".options = [
+      "defaults"
+      "noatime"
+      "compress=zstd"
+    ];
+    "/home".options = [
+      "defaults"
+      "noatime"
+      "compress=zstd"
+      "discard=async"
+      "ssd"
+    ];
   };
   services.gvfs.enable = true;
 
@@ -191,7 +234,10 @@
     withUtempter = false; # /var/run/utmp (to display connected users)
     secureSocket = true; # socket in /run instead of /tmp (a little to forward)
     # tmuxPlugins.copycat, tmuxPlugins.fpp, tmuxPlugins.cpu, tmuxPlugins.cpu
-    plugins = [ pkgs.tmuxPlugins.sessionist pkgs.tmuxPlugins.sysstat ];
+    plugins = [
+      pkgs.tmuxPlugins.sessionist
+      pkgs.tmuxPlugins.sysstat
+    ];
     # defaults
     shortcut = "b"; # Screen "a"
   };

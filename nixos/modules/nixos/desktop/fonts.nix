@@ -1,4 +1,5 @@
-{ pkgs, ... }: {
+{ pkgs, ... }:
+{
   # fontconfig.defaultFonts:
   # + emoji :: Noto Color Emoji
   # + monospace :: DejaVu Sans Mono

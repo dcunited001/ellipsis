@@ -1,4 +1,7 @@
-{ config, lib, pkgs, ... }: {
+{
+  ...
+}:
+{
   services.documentation = {
     # for now, just disable everything
     documentation.info.enable = false;

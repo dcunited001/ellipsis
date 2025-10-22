@@ -1,4 +1,5 @@
-{ pkgs, ... }: {
+{ pkgs, ... }:
+{
 
   services.ratbagd.enable = true;
   # TODO: restrict ratbagd to users via d-bus policy

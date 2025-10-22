@@ -1,4 +1,5 @@
-{ pkgs, ... }: {
+{ pkgs, ... }:
+{
   # https://ryanseipp.com/post/nixos-secure-ssh/
   # ensure it binds to a specific ip/interface (not 0.0.0.0)
   services.openssh = {
@@ -8,9 +9,14 @@
       X11Forwarding = false;
       PermitRootLogin = "no";
 
-      Ciphers = [ "chacha20-poly1305@openssh.com" "aes256-gcm@openssh.com" ];
-      Macs =
-        [ "hmac-sha2-512-etm@openssh.com" "hmac-sha2-256-etm@openssh.com" ];
+      Ciphers = [
+        "chacha20-poly1305@openssh.com"
+        "aes256-gcm@openssh.com"
+      ];
+      Macs = [
+        "hmac-sha2-512-etm@openssh.com"
+        "hmac-sha2-256-etm@openssh.com"
+      ];
       KexAlgorithms = [
         "curve25519-sha256@libssh.org"
         "diffie-hellman-group-exchange-sha256"

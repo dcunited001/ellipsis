@@ -1,8 +1,13 @@
-{ inputs, config, lib, pkgs, ... }:
+{
+  inputs,
+  pkgs,
+  ...
+}:
 let
   frcPkgs = inputs.frc-nix.packages.${pkgs.system};
   vscMarketplace = pkgs.vscode-utils.extensionsFromVscodeMarketplace [
-    { # "created 12,000 symlinks..."
+    {
+      # "created 12,000 symlinks..."
       name = "vscode-lombok";
       publisher = "vscjava";
       version = "1.1.2024071804";
@@ -16,7 +21,8 @@ let
     }
   ];
   # these fhsPkgs can be set in programs.nix-ld.libraries
-  fhsPkgs = with pkgs;
+  fhsPkgs =
+    with pkgs;
     [
       stdenv.cc.cc.lib
       zlib
@@ -50,7 +56,8 @@ let
       frcPkgs.wpical
     ];
   vscFhs = pkgs.vscode.fhsWithPackages (ps: with ps; fhsPkgs);
-  vscExtensions = with pkgs.vscode-extensions;
+  vscExtensions =
+    with pkgs.vscode-extensions;
     [
       bbenoist.nix
       golang.go
@@ -73,6 +80,8 @@ let
       ms-python.isort
       ms-python.black-formatter
 
+      # stkb.rewrap ... word wrap? (but not mode-specific?)
+
       # remote/ssh has telemetry:
       # ensure telemetry.enableTelemetry=false
       # ms-vscode.remote-explorer
@@ -85,7 +94,9 @@ let
       # to debug the extension: ensure vscode-wpilib isn't included
       #
       # - this VSCode should be able to run the two "Extension.*" targets
-    ] ++ vscMarketplace ++ [ frcPkgs.vscode-wpilib ];
+    ]
+    ++ vscMarketplace
+    ++ [ frcPkgs.vscode-wpilib ];
 
   vscFinal = pkgs.vscode-with-extensions.override {
     vscode = vscFhs;
@@ -94,9 +105,11 @@ let
 
   # webkitSoup = pkgs.webkitgtk_4_1.overrideAttrs # ... already has it
   #   (finalAttrs: previousAttrs: { buildInputs = libsoup_3 });
-  choreoFix = frcPkgs.choreo.overrideAttrs
-    (finalAttrs: previousAttrs: { buildInputs = [ pkgs.webkitgtk_4_1 ]; });
-in {
+  choreoFix = frcPkgs.choreo.overrideAttrs (
+    finalAttrs: previousAttrs: { buildInputs = [ pkgs.webkitgtk_4_1 ]; }
+  );
+in
+{
   environment.systemPackages = [
     vscFinal
     frcPkgs.advantagescope

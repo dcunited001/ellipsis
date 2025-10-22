@@ -1,4 +1,5 @@
-{ pkgs, ... }: {
+{ pkgs, ... }:
+{
   services.pipewire = {
     enable = true;
     alsa = {
@@ -55,16 +56,18 @@
       };
     };
     extraConfig.pipewire-pulse."92-low-latency" = {
-      context.modules = [{
-        name = "libpipewire-module-protocol-pulse";
-        args = {
-          pulse.min.req = "256/48000";
-          pulse.default.req = "256/48000";
-          pulse.max.req = "256/48000";
-          pulse.min.quantum = "256/48000";
-          pulse.max.quantum = "256/48000";
-        };
-      }];
+      context.modules = [
+        {
+          name = "libpipewire-module-protocol-pulse";
+          args = {
+            pulse.min.req = "256/48000";
+            pulse.default.req = "256/48000";
+            pulse.max.req = "256/48000";
+            pulse.min.quantum = "256/48000";
+            pulse.max.quantum = "256/48000";
+          };
+        }
+      ];
     };
 
     # bluez5 roles:
@@ -76,9 +79,16 @@
     wireplumber.extraConfig.bluetoothEnhancements = {
       "monitor.bluez.properties" = {
         "bluez5.enable-sbc-xq" = true; # high-quality SBC Codec (A2DP; wp bluez default)
-        "bluez5.enable-msbc" = true;   # mSBC wideband speech codec (HFP/HSP; wp bluez default)
+        "bluez5.enable-msbc" = true; # mSBC wideband speech codec (HFP/HSP; wp bluez default)
         "bluez5.enable-hw-volume" = true;
-        "bluez5.roles" = [ "a2dp_sink" "a2dp_source" "hsp_hs" "hsp_ag" "hfp_hf" "hfp_ag" ]; # bap_sink bap_source
+        "bluez5.roles" = [
+          "a2dp_sink"
+          "a2dp_source"
+          "hsp_hs"
+          "hsp_ag"
+          "hfp_hf"
+          "hfp_ag"
+        ]; # bap_sink bap_source
       };
     };
   };

@@ -1,4 +1,7 @@
-{ config, lib, pkgs, ... }: {
+{
+  ...
+}:
+{
   services.smartd.enable = true;
   services.smartd.autodetect = true;
   services.smartd.notifications.wall.enable = true; # default

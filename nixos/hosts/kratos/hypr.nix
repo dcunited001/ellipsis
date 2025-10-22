@@ -1,4 +1,9 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 {
   programs = {
@@ -43,5 +48,9 @@
   # hyprlock is run via hypridle (via uwsm app ... via exec-onde in autostarts)
   security.pam.services.hyprlock = { };
 
-  environment.systemPackages = [ pkgs.hypridle pkgs.hyprlock pkgs.procps ];
+  environment.systemPackages = [
+    pkgs.hypridle
+    pkgs.hyprlock
+    pkgs.procps
+  ];
 }

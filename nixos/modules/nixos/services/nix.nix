@@ -1,4 +1,5 @@
-{ pkgs, ... }: {
+{ pkgs, ... }:
+{
   programs.nh = {
     enable = true;
     clean.enable = true;
@@ -6,5 +7,9 @@
     # flake = "/home/user/${config.hostSpec.home}/nix-config";
   };
 
-  environment.systemPackages = [ pkgs.cachix pkgs.nix-tree pkgs.nix-du ];
+  environment.systemPackages = [
+    pkgs.cachix
+    pkgs.nix-tree
+    pkgs.nix-du
+  ];
 }

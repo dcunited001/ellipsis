@@ -5,21 +5,43 @@
 
   # Flake outputs that other flakes can use
   # flake-schemas, disko
-  outputs = { self, nixpkgs, flake-compat, frc-nix, hjem, walker, sops-nix
-    , nixos-hardware, flake-schemas, disko, ... }@inputs:
+  outputs =
+    {
+      self,
+      nixpkgs,
+      flake-compat,
+      frc-nix,
+      hjem,
+      walker,
+      sops-nix,
+      nixos-hardware,
+      flake-schemas,
+      disko,
+      ...
+    }@inputs:
     let
       inherit (self) outputs;
 
       # Helpers for producing system-specific outputs
-      supportedSystems = [ "x86_64-linux" "aarch64-linux" ];
-      desktopSystems = [ "x86_64-linux" "aarch64-linux" ];
-      serverSystems = [ "x86_64-linux" "aarch64-linux" ];
+      supportedSystems = [
+        "x86_64-linux"
+        "aarch64-linux"
+      ];
+      desktopSystems = [
+        "x86_64-linux"
+        "aarch64-linux"
+      ];
+      serverSystems = [
+        "x86_64-linux"
+        "aarch64-linux"
+      ];
 
       # extend lib with lib.custom (see flake.nix from EmergentMind/dotfiles)
 
       lib = nixpkgs.lib.extend (self: super: { custom = import ./lib { inherit (nixpkgs) lib; }; });
 
-    in {
+    in
+    {
       # Schemas tell Nix about the structure of your flake's outputs
       # schemas = flake-schemas.schemas;
 

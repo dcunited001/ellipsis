@@ -1,4 +1,10 @@
-{ lib, pkgs, config, ... }: {
+{
+  lib,
+  pkgs,
+  config,
+  ...
+}:
+{
   # via drduh/YubiKey-Guide, the first nixos system I built
   isoImage = {
     isoName = "nixos-anywhere.iso";
@@ -15,7 +21,9 @@
 
   boot = {
     tmp.cleanOnBoot = true;
-    kernel.sysctl = { "kernel.unprivileged_bpf_disabled" = 1; };
+    kernel.sysctl = {
+      "kernel.unprivileged_bpf_disabled" = 1;
+    };
   };
 
   services = {
@@ -45,7 +53,10 @@
   users.users = {
     nixos = {
       isNormalUser = true;
-      extraGroups = [ "wheel" "video" ];
+      extraGroups = [
+        "wheel"
+        "video"
+      ];
       initialHashedPassword = "";
       openssh.authorizedKeys.keys = [
         "ecdsa-sha2-nistp384 AAAAE2VjZHNhLXNoYTItbmlzdHAzODQAAAAIbmlzdHAzODQAAABhBGE6wqFapBOKBA2wCTB22nG+GANmh9JXNG54tBajKNu/Fh61ywzilEI6MYLpvolCuS0YWGAgv4h5MHzk45KnWXKJ1NSNTLJ4koa+NvAAHIVXKA19IZ+s6UyX7eyCWLx58w== cardno:19294239"
@@ -166,14 +177,16 @@
   # Copy the contents of contrib to the home directory, add a
   # shortcut to the guide on the desktop, and link to the whole
   # repo in the documents folder.
-  system.activationScripts.yubikeyGuide = let
-    homeDir = "/home/nixos/";
-    desktopDir = homeDir + "Desktop/";
-    documentsDir = homeDir + "Documents/";
-  in ''
-    mkdir -p ${desktopDir} ${documentsDir}
-    chown nixos ${homeDir} ${desktopDir} ${documentsDir}
-  '';
+  system.activationScripts.yubikeyGuide =
+    let
+      homeDir = "/home/nixos/";
+      desktopDir = homeDir + "Desktop/";
+      documentsDir = homeDir + "Documents/";
+    in
+    ''
+      mkdir -p ${desktopDir} ${documentsDir}
+      chown nixos ${homeDir} ${desktopDir} ${documentsDir}
+    '';
 
   # cp -R ${self}/contrib/* ${homeDir}
   # ln -sf ${yubikeyGuide}/share/applications/yubikey-guide.desktop ${desktopDir}

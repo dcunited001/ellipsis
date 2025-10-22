@@ -1,4 +1,10 @@
-{ config, lib, pkgs, ... }: {
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
+{
   # ---------------------------------------------
   # GPU
   hardware.amdgpu.opencl.enable = true;

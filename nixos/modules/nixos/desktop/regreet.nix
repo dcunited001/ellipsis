@@ -1,4 +1,5 @@
-{ pkgs, ... }: {
+{ pkgs, ... }:
+{
   # NOTE .. do not use
 
   services.regreet = {

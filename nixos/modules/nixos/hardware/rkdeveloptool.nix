@@ -1,7 +1,12 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 let
   # rockchip's udev rules haven't been updated since 2021
-  # 
+  #
   # - they don't include model 350b for the rk3588 (orangepi 5)
   # - they set everything to 666 and writable by users
   #
@@ -10,8 +15,7 @@ let
   rkdeveloptoolRev = "304f073752fd25c854e1bcf05d8e7f925b1f4e14";
 
   rockchipRules = pkgs.fetchurl {
-    url =
-      "https://raw.githubusercontent.com/rockchip-linux/rkdeveloptool/${rkdeveloptoolRev}/99-rk-rockusb.rules";
+    url = "https://raw.githubusercontent.com/rockchip-linux/rkdeveloptool/${rkdeveloptoolRev}/99-rk-rockusb.rules";
     sha256 = "0x1nkvfzidzjx0dis9xkw2yw09bv81zqkby12sbhlmgs607a68lf";
   };
 
@@ -29,7 +33,8 @@ let
   # too many derivations using sed ... but whatever. nicer facilities would
   # require the full stdenv.mkDerivation
   cfg = config.hardware.rkdeveloptool;
-in {
+in
+{
   options.hardware.rkdeveloptool = {
     enable = lib.mkEnableOption "udev rules for rkdeveloptool and Rockchip";
     # don't install this by default

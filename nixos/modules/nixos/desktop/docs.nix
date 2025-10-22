@@ -1,4 +1,5 @@
-{ pkgs, ... }: {
+{ pkgs, ... }:
+{
   # if it's not a server, add manix (probably requires nixos docs)
   # environment.systemPackages = with pkgs; [ manix ];
 

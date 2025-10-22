@@ -1,4 +1,6 @@
-{ config, lib, pkgs, ... }:
+{
+  ...
+}:
 
 {
   programs.brightnessKeys.enable = true;

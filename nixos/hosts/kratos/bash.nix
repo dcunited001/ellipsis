@@ -1,4 +1,5 @@
-{ lib, pkgs, ... }: {
+{ lib, pkgs, ... }:
+{
   programs.bash = {
     completion.enable = true;
 
@@ -29,8 +30,7 @@
       diffia = "envia | covia | diff - <(env | envia | covia)";
       difnia = "nenvia | diff - <(env | nenvia)";
       wget = "wget -c ";
-      imacs = ''
-        emacs -T "¤ INFO" -f info-standalone --eval="(load-theme (intern \"wombat\"))"'';
+      imacs = ''emacs -T "¤ INFO" -f info-standalone --eval="(load-theme (intern \"wombat\"))"'';
       wordcat = "tee >(xargs -n1 cat) | wc -w";
       gkcfg = "git stack --dump-config -";
       gkg = "git stack";
@@ -52,15 +52,13 @@
       psmem = "ps auxf | sort -nr -k 4";
       psmem10 = "ps auxf | sort -nr -k 4 | head -10";
       psnice = "ps -o pid,comm,nice";
-      pspri =
-        "ps -eo pid,tid,class,rtprio,ni,pri,psr,pcpu,stat,wchan:14,comm k pri";
+      pspri = "ps -eo pid,tid,class,rtprio,ni,pri,psr,pcpu,stat,wchan:14,comm k pri";
       ptrgb = "pstree -C age -pT";
       treef = "tree --prune -aP";
       jqr = "jq -r ";
       jqrj = "jq -rj ";
       # nodenpm_lsparse = "npm ls -g --parseable | grep node_modules | sed -e '\\''s/.*node_modules\\///g'\\''";
-      tyxy =
-        "tidy --quiet yes --tidy-mark no --vertical-space yes -indent -xml";
+      tyxy = "tidy --quiet yes --tidy-mark no --vertical-space yes -indent -xml";
       jctl = "isd";
       jour = "isd";
       jctlu = "journalctl --user";

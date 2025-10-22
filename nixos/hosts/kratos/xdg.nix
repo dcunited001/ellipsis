@@ -1,4 +1,10 @@
-{ config, lib, pkgs, ... }: {
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
+{
   xdg.portal.enable = true;
   xdg.portal = {
     # this includes xdg-desktop-portal-hyprland twice

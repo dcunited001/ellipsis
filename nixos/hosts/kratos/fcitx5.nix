@@ -1,4 +1,10 @@
-{ config, lib, pkgs, ... }: {
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
+{
   i18n.inputMethod = {
     enable = true;
     type = "fcitx5";
@@ -58,8 +64,7 @@
       "Behavior" = {
         "ActiveByDefault" = "True";
         "AltTriggerKeys" = "";
-        "CustomXkbOption" =
-          "lv3:ralt_alt,altwin:menu_win,mylvl5:ins_switch,mylvl3:sclk_switch";
+        "CustomXkbOption" = "lv3:ralt_alt,altwin:menu_win,mylvl5:ins_switch,mylvl3:sclk_switch";
         "ShareInputState" = "All";
         "resetStateWhenFocusIn" = "No";
       };

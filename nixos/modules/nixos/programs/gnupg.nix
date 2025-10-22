@@ -1,4 +1,8 @@
-{ config, lib, pkgs, ... }: {
+{
+  pkgs,
+  ...
+}:
+{
   # TODO: maybe remove gpg-agent conf from here.
 
   programs.gnupg = {

@@ -1,4 +1,5 @@
-{ pkgs, ... }: {
+{ ... }:
+{
   services.locate.enable = true;
   services.locate = {
     prunePaths = [

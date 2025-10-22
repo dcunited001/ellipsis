@@ -1,11 +1,17 @@
-{ inputs, lib, pkgs, ... }:
+{
+  inputs,
+  lib,
+  pkgs,
+  ...
+}:
 let
-  hyprdc = (pkgs.callPackage
-    (lib.custom.relativeToRoot "pkgs/common/hyprdc/package.nix") { });
-  omarchy-scripts = (pkgs.callPackage
-    (lib.custom.relativeToRoot "pkgs/common/omarchy-scripts/package.nix") { });
+  hyprdc = (pkgs.callPackage (lib.custom.relativeToRoot "pkgs/common/hyprdc/package.nix") { });
+  omarchy-scripts = (
+    pkgs.callPackage (lib.custom.relativeToRoot "pkgs/common/omarchy-scripts/package.nix") { }
+  );
   # dcstaticdots
-in {
+in
+{
   users.groups = {
     dc = {
       name = "dc";
@@ -18,8 +24,7 @@ in {
   };
 
   # TODO: nix: move elsewhere once flatpak is setup in home-manager
-  environment.sessionVariables.XDG_DATA_DIRS =
-    [ "$HOME/.local/share/flatpak/exports/share" ];
+  environment.sessionVariables.XDG_DATA_DIRS = [ "$HOME/.local/share/flatpak/exports/share" ];
 
   users.users.dc = {
     uid = 1000;
@@ -36,14 +41,20 @@ in {
     isNormalUser = true;
     # useDefaultShell = true;
     linger = true; # continue running [oci-container] services after logout
-    subUidRanges = [{
-      startUid = 1000000;
-      count = 65536;
-    }];
-    subGidRanges = [{
-      startGid = 1000000;
-      count = 65536;
-    }];
+
+    # startUGid = (1000000 + (n * lib.custom.pow (2 16)));
+    subUidRanges = [
+      {
+        startUid = 1000000;
+        count = 65536;
+      }
+    ];
+    subGidRanges = [
+      {
+        startGid = 1000000;
+        count = 65536;
+      }
+    ];
     # keyFiles
     openssh.authorizedKeys.keys = [
       "ecdsa-sha2-nistp384 AAAAE2VjZHNhLXNoYTItbmlzdHAzODQAAAAIbmlzdHAzODQAAABhBGE6wqFapBOKBA2wCTB22nG+GANmh9JXNG54tBajKNu/Fh61ywzilEI6MYLpvolCuS0YWGAgv4h5MHzk45KnWXKJ1NSNTLJ4koa+NvAAHIVXKA19IZ+s6UyX7eyCWLx58w== cardno:19294239"

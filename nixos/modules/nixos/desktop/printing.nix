@@ -1,4 +1,5 @@
-{ pkgs, ... }: {
+{ pkgs, ... }:
+{
   # wheel can print. add other users to "lp" group
   services.printing = {
     enable = true;
