@@ -1763,7 +1763,7 @@ the root")
 
 (defvar dc/forge-nuanced-marks
   ;; nothing to key on unless the UUIDs are external
-  '(("f8524701-93d9-4aad-a894-44de11fbf20c" "STRT" modus-themes-nuanced-blue "modus-themes-nuanced-blue")
+  '(("f8524701-93d9-4aad-a894-44de11fbf20c" "WATCH" modus-themes-nuanced-blue "modus-themes-nuanced-blue")
     ("7c1c2f6a-b5aa-4ba1-84d5-026510f849f5" "ASK" modus-themes-nuanced-cyan "modus-themes-nuanced-cyan")
     ("cbac5d21-f162-430c-8b55-197482a54d9f" "LEARN" modus-themes-nuanced-green "modus-themes-nuanced-green")
     ("99cd5d9a-e135-4eac-8e95-cadbbe73a301" "CHECK" modus-themes-nuanced-magenta "modus-themes-nuanced-magenta")

@@ -54,6 +54,9 @@
      (emacs .
             (("imacs"
               . "emacs -f info-standalone --eval=\"(load-theme (intern \\\"wombat\\\"))\"")))
+     (hypr . (("hcx" . "hyprctl")))
+     ;; (hyprdc . (("hbkey" "for i in (0 32 33 36 37  64 65 68 69 )")
+     ;;            ("hbcode" "hyprctl")))
      (text  .
             (("wordcat" . "tee >(xargs -n1 cat) | wc -w")))
      (git . (("gkcfg" . "git stack --dump-config -")

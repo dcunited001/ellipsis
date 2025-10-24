@@ -4,31 +4,12 @@
   pkgs,
   ...
 }:
-let
-  inherit (lib.fileset)
-    unions
-    fromSource
-    toSource
-    toList
-    ;
-  inherit (lib) fileContents;
-in
 {
 
   hjem = {
-    linker = inputs.hjem.packages.${pkgs.stdenv.hostPlatform.system}.smfh;
     users = {
       dc = {
         enable = true;
-
-        # fdsa = lib.mapAttrsToList; # lib.fileContents;
-
-        # let root = ./../gh; in {fdsa = lib.fileset.unions [(root + /f/bash)];}
-        # let root = ./../gh;
-        # in lib.fileset.toSource {
-        #   inherit root;
-        #   fileset = lib.fileset.unions [(root + /f/.bashrc)];
-        #   }
 
         files = {
           "bin/omarchy-find-webapp".text = ''
@@ -50,8 +31,7 @@ in
             #  source $shrc
             # done
           '';
-          # ".bar".source = "/.bash_logout";
-        }; # // dfList;
+        };
 
         # xdg.config
         # xdg.cache
@@ -72,9 +52,9 @@ in
                 MimeType=application/pdf;application/rdf+xml;application/rss+xml;application/xhtml+xml;application/xhtml_xml;application/xml;image/gif;image/jpeg;image/png;image/webp;text/html;text/xml;x-scheme-handler/http;x-scheme-handler/https;x-scheme-handler/webcal;x-scheme-handler/mailto;x-scheme-handler/about;x-scheme-handler/unknown
                 Actions=new-window;new-private-window;
                 [Desktop Action new-window]
-                Exec=chromium
+                Exec=uwsm app -- chromium
                 [Desktop Action new-private-window]
-                Exec=chromium --incognito
+                Exec=uwsm app -- chromium --incognito
                 Terminal=false
                 Type=Application
                 Icon=/home/dc/.nix-profile/share/icons/hicolor/256x256/apps/chromium.png
@@ -104,13 +84,3 @@ in
     };
   };
 }
-
-# getContents = (dest: src: lib.fileContents src);
-# root = "./..";
-
-# let?
-#   bashFiles =
-#     lib.mapAttrs getContents { ".bashrc" = ../../../../gh/f/.bashrc; };
-# in { ".foo".text = "bar"; } // bashFiles;
-
-# nix eval .#nixosConfigurations.kratos.config.hjem.users.dc.files.'".foo"' --json | jq

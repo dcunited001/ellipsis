@@ -100,7 +100,7 @@
   inputs = {
     flake-compat.url = "https://flakehub.com/f/edolstra/flake-compat/*";
     # nixpkgs.url = "https://flakehub.com/f/NixOS/nixpkgs/*";
-    nixpkgs.url = "https://flakehub.com/f/NixOS/nixpkgs/0.1";
+    nixpkgs.url = "https://flakehub.com/f/DeterminateSystems/nixpkgs-weekly/0.1.880602";
     hardware.url = "github:nixos/nixos-hardware";
     disko.url = "github:nix-community/disko";
     disko.inputs.nixpkgs.follows = "nixpkgs";
@@ -108,7 +108,6 @@
 
     nixpkgs-stable.url = "github:NixOS/nixpkgs/nixos-25.05";
     nixpkgs-unstable.url = "https://flakehub.com/f/NixOS/nixpkgs/0.1";
-    # nixpkgs-unstable.url = "https://flakehub.com/f/NixOS/nixpkgs/0.1.860000";
 
     # this flake follows nixpkgs-unstable
     frc-nix.url = "github:frc4451/frc-nix";

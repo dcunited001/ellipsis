@@ -89,6 +89,7 @@ in
       nix-diff
       nixfmt
       nix-visualize
+      sbomnix
 
       # nil # nix lsp
       nixd
@@ -157,7 +158,7 @@ in
 
       # BROWSER
       firefox
-      chromium
+      chromium # crashes instantly moving desktops when programs.chromium.enable
 
       # COMM
       zoom-us
@@ -182,11 +183,6 @@ in
       qpwgraph
       helvum
 
-      # DESKTOP: NOTIFICATIONS
-      # swaynotificationcenter
-      mako
-      libnotify
-
       # DESKTOP: NWG
       nwg-look
       nwg-bar
@@ -202,7 +198,8 @@ in
       # xkbcomp
       # xkbprint # trying to avoid unnecessary X11 deps (? idk)
       xkbvalidate
-      fcitx5-configtool
+
+      # fcitx5-configtool
 
       # problematic when fcitx5 configured by system:
       # fcitx5 fcitx5-mozc fcitx5-gtk

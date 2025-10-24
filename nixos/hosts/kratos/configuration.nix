@@ -19,7 +19,7 @@
     ./hypr.nix
 
     (map lib.custom.relativeToRoot [
-      "modules/users/dc.nix"
+      "users/dc"
 
       "modules/nixos/programs/gnupg.nix"
       "modules/nixos/programs/obs-studio.nix"
@@ -51,10 +51,10 @@
       "modules/nixos/services/zerotierone.nix"
 
       "home/dc/hjem.nix"
-      # "home/dc/walker.nix"
+      "home/dc/walker.nix"
     ])
 
-    # ./frc.nix
+    ./frc.nix
   ];
 
   # ---------------------------------------------
@@ -109,18 +109,10 @@
 
   # ---------------------------------------------
   # Appimage
+
+  # this configures boot.binfmt.registrations.appimage for both appimage v1/v2
   programs.appimage.enable = true;
   programs.appimage.binfmt = true;
-
-  # the above is identical, except that will run both appimage v1/v2
-  # boot.binfmt.registrations.appimage = {
-  #   wrapInterpreterInShell = false;
-  #   interpreter = "${pkgs.appimage-run}/bin/appimage-run";
-  #   recognitionType = "magic";
-  #   offset = 0;
-  #   mask = "\\xff\\xff\\xff\\xff\\x00\\x00\\x00\\x00\\xff\\xff\\xff";
-  #   magicOrExtension = "\\x7fELF....AI\\x02";
-  # };
 
   # ---------------------------------------------
   # Hardware Support
@@ -208,18 +200,26 @@
   users.defaultUserShell = pkgs.bash;
 
   # ---------------------------------------------
-  # DESKTOP stuff
+  # Browsers
+
+  # programs.firefox.enable = true;
+  programs.chromium.enable = true;
+
+  # ---------------------------------------------
+  # Desktop
+
+  hjem.linker = inputs.hjem.packages.${pkgs.stdenv.hostPlatform.system}.smfh;
+
+  programs.thunar.enable = true;
+
+  # TODO nix: remove once flatpak upgrade service is setup
+  services.flatpak.enable = true;
 
   programs.git = {
     enable = true;
     prompt.enable = true;
     lfs.enable = true;
   };
-  programs.firefox.enable = true;
-  programs.thunar.enable = true;
-
-  # TODO nix: remove once flatpak upgrade service is setup
-  services.flatpak.enable = true;
 
   programs.bash.interactiveShellInit = "";
 
@@ -295,6 +295,7 @@
     lsof
     rng-tools
     diffoscope
+    kernel-hardening-checker
 
     # TOOLS: VM
     qemu
@@ -333,7 +334,7 @@
     v4l-utils
     hw-probe
     brightnessctl
-
+    gpu-viewer
   ];
 
   system.stateVersion = "25.05";
