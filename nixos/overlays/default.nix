@@ -4,7 +4,8 @@
 { inputs, ... }:
 
 let
-  additions = final: prev:
+  additions =
+    final: prev:
     (prev.lib.packagesFromDirectoryRecursive {
       callPackage = prev.lib.callPackageWith final;
       directory = ../pkgs/common;
@@ -12,9 +13,9 @@ let
 
   linuxModifications = final: prev: prev.lib.mkIf final.stdenv.isLinux { };
 
-in {
-  default = final: prev:
-    (additions final prev) // (linuxModifications final prev);
+in
+{
+  default = final: prev: (additions final prev) // (linuxModifications final prev);
 }
 
 # modifications = final: prev: {

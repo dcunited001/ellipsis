@@ -5,9 +5,9 @@
   ...
 }:
 let
-  hyprdc = (pkgs.callPackage (lib.custom.relativeToRoot "pkgs/common/hyprdc/package.nix") { });
+  hyprdc = (pkgs.callPackage (lib.custom.relativeToRoot "pkgs/dots/hyprdc/package.nix") { });
   omarchy-scripts = (
-    pkgs.callPackage (lib.custom.relativeToRoot "pkgs/common/omarchy-scripts/package.nix") { }
+    pkgs.callPackage (lib.custom.relativeToRoot "pkgs/dots/omarchy-scripts/package.nix") { }
   );
   # dcstaticdots
 in

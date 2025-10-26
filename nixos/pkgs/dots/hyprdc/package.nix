@@ -1,12 +1,20 @@
-{ lib, stdenv, fetchgit, }:
+{
+  lib,
+  stdenv,
+  fetchgit,
+}:
 let
   pname = "hyprdc";
   # install_root = ".";
   # scripts unused for how
-  scripts = [ "hjbinds" "hjinspect.jq" ];
+  scripts = [
+    "hjbinds"
+    "hjinspect.jq"
+  ];
   # install_path = "share/fdsa/${pname}";
   # url = "https://github.com/dcunited001/ellipsis";
-in stdenv.mkDerivation {
+in
+stdenv.mkDerivation {
   inherit pname; # pname wasn't sufficient here.
   name = pname;
   src = ./src;
@@ -23,7 +31,6 @@ in stdenv.mkDerivation {
   '';
   meta = {
     license = lib.licenses.mit;
-    description =
-      "If it supports or depends on hyprland, it goes here for now.";
+    description = "If it supports or depends on hyprland, it goes here for now.";
   };
 }

@@ -1,4 +1,8 @@
-{ stdenv, lib, fetchFromGitHub }:
+{
+  stdenv,
+  lib,
+  fetchFromGitHub,
+}:
 
 stdenv.mkDerivation rec {
   name = "omarchy-scripts-${version}";
@@ -43,8 +47,7 @@ stdenv.mkDerivation rec {
   doInstallCheck = true;
 
   meta = {
-    description =
-      "A collection of scripts from DHH's opinionated arch/hyprland setup.";
+    description = "A collection of scripts from DHH's opinionated arch/hyprland setup.";
     homepage = "https://github.com/basecamp/omarchy";
 
     license = lib.licenses.mit;
