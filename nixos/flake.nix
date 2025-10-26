@@ -93,6 +93,9 @@
           callPackage = nixpkgs.lib.callPackageWith pkgs;
           directory = ./pkgs/common;
         }
+        ++ {
+          freecad = nixpkgs.callPackage ./pkgs/freecad.nix;
+        }
       );
     };
 
