@@ -112,7 +112,7 @@ Guix channel.")
 
 ;;;; Keymaps (Emacs Native)
 
-;;;;; Unbind Globally
+;;;;; Unbinds
 
 (defun dc/unbind-keys (key-names &optional keymap)
   (seq-do (lambda (key)
@@ -121,18 +121,26 @@ Guix channel.")
               (unbind-key key)))
           key-names))
 
-;;;;;; Unbind 2C-mode
+
+;; Unbinds for +popup
+;;
+;; - M-` tmm-menubar: helpful, but also accessible via ESC-`. that gets
+;;   unbound. so remap to C-h C-<SPC>
+;; - M-~ not-modified: (mostly) useless, except as valuable unclaimed key
+(dc/unbind-keys '("M-`" "M-~"))
+
+;; Unbind 2C-mode
 
 ;; This mode's global bindings are also bound on C-x 6 {2,s,RET}
 (dc/unbind-keys '("<f2> 2" "<f2> b" "<f2> s" "<f2> <f2>"))
 
-;;;;;; Unbind fullscreen
+;; Unbind fullscreen
 
 ;; toggle-frame-fullscreen is setting bad state in the parameters to restore
 ;; and won't toggle back. on f10, KDE just moves focus to emacs' menus
 (dc/unbind-keys '("<f10>" "M-<f10>" "<f11>"))
 
-;;;;;; Unbind kmacro
+;; Unbind kmacro
 ;;
 ;; - `kmacro-start-macro-or-insert-macro' not doubly mapped
 ;; - `kmacro-end-or-call-macro' via `C-x e'
@@ -167,16 +175,6 @@ Guix channel.")
 (def-project-mode! +df-xkb-mode
   :match +df-xkb-regexp
   :on-enter (xkb-mode))
-
-;;;;; Help Map (native)
-
-(map! :map 'help-map
-      "M-k" #'describe-keymap
-      "M-f" #'list-faces-display)
-
-;; TODO: these don't work because doom uses [remap]
-;; :prefix ("<f1>" . "NATIVEHELP")
-;; "f" #'describe-function
 
 ;;;;; Quick Map (native) <f1> <f2>
 
@@ -340,17 +338,17 @@ proper shutdown and release when systemd runs the server. Many failure
 modes and testing is tedious."
   (interactive "i\np")
   (let* ((arg-read (memq arg '(4)))
-	 (dirname
-	  (or dirname
+         (dirname
+          (or dirname
               (and arg-read
-		   (read-directory-name "Directory for desktop file: " nil nil t))
+                   (read-directory-name "Directory for desktop file: " nil nil t))
               desktop-dirname))
          (desktop-file (desktop-full-file-name dirname))
          (desktop-lock (desktop-full-lock-name dirname)))
     (when (dc/desktop-lock-p dirname)
       (when (dc/desktop-in-use-p dirname)
-	(user-error (format "Desktop in use: %s"
-			    (desktop-full-file-name dirname))))
+        (user-error (format "Desktop in use: %s"
+                            (desktop-full-file-name dirname))))
       (desktop-release-lock dirname))))
 
 ;;;;; Mouse
@@ -1302,6 +1300,19 @@ modes and testing is tedious."
 
 ;;;; LSP
 
+;; (dc/lsp-json-pp lsp--client-capabilities)
+;; (dc/lsp-json-pp lsp--server-capabilities)
+
+(defun dc/lsp-json-serialize (params)
+  ;; (let ((json-encoding-pretty-print t))) ; can't extend inside macro scope?
+  (lsp--json-serialize params))
+
+(defun dc/lsp-json-pp (params)
+  (with-temp-buffer
+    (insert (dc/lsp-json-serialize params))
+    (json-pretty-print (point-min) (point-max))
+    (buffer-string)))
+
 ;; M-x lsp-describe-sessions
 ;; M-x lsp-workspace-show-log
 
@@ -1950,7 +1961,20 @@ the root")
   :add-hooks (list #'lsp)
   :modes '(nix-mode))
 
-
+(defconst dc/nixos-dotfiles-flake
+  (expand-file-name ".dotfiles/nixos/flake.nix" (getenv "HOME")))
+(use-package! nix-mode
+  :defer t
+  :config
+  (setq lsp-nix-nixd-server-path "nixd"
+        lsp-nix-nixd-formatting-command [ "nixfmt" ]
+        lsp-nix-nixd-nixpkgs-expr "import <nixpkgs> { }"
+        lsp-nix-nixd-home-manager-options-expr
+        "(builtins.getFlake \"/home/nb/nixos\").homeConfigurations.\"nb@mnd\".options"
+        lsp-nix-nixd-nixos-options-expr
+        (format
+         "(builtins.getFlake \"%s\").nixosConfigurations.mnd.options"
+         dc/nixos-dotfiles-flake)))
 
 
 ;;;;; Unix
@@ -2250,17 +2274,25 @@ the root")
 
 ;;;; Help Map
 
+;;;;; Help Map
+
 (map! :map 'help-map
-
-      ;; can insert values with embark
-      "M-v" #'getenv
-
-      ;; not interactive, also not sure whether it works
-      ;; "C-k" (apply-partially #'embark-bindings-at-point)
+      "C-<SPC>" #'tmm-menubar           ; "^" previous menu ; "PgUp" help buffer
 
       "B" #'embark-bindings
       "M-b" #'embark-bindings-in-keymap
-      "M-m" #'consult-minor-mode-menu)
+
+      "M-f" #'list-faces-display
+
+      ;; not interactive, also not sure whether it works (it doesn't...)
+      ;; "C-k" (apply-partially #'embark-bindings-at-point)
+
+      "M-k" #'describe-keymap
+
+      "M-m" #'consult-minor-mode-menu
+
+      ;; can insert values with embark
+      "M-v" #'getenv)
 
 ;; "<" #'help-go-back
 ;; ">" #'help-go-forward

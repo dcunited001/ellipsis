@@ -49,6 +49,9 @@
         "org.mozilla.Thunderbird.desktop"
       ];
 
+      # email
+      "message/rfc822" = [ "org.mozilla.Thunderbird.desktop" ];
+
       # browsers + emacs
       "x-scheme-handler/file" = [
         "chromium-browser.desktop"
@@ -66,6 +69,13 @@
 
       # emacs only
       "application/log" = [ "doomclient.desktop" ];
+
+      "text/english" = [ "doomclient.desktop" ];
+      "text/x-c++hdr" = [ "doomclient.desktop" ];
+      "text/x-c++src" = [ "doomclient.desktop" ];
+      "text/x-chdr" = [ "doomclient.desktop" ];
+      "text/x-csrc" = [ "doomclient.desktop" ];
+      "text/x-makefile" = [ "doomclient.desktop" ];
     };
 
     # used 2: inhibit .desktop files that claim mimetype
@@ -79,6 +89,7 @@
       # - but it needs to handle URI injection (not bash)
       # - d-bus subscription to listen for "" would be simpler
       "x-scheme-handler/http" = [ "" ];
+      # "x-scheme-handler/chrome" = [ "firefox.desktop" ];
 
       # this was in my mimetypes? it has a space in the name?
       "x-scheme-handler/podman-desktop" = [ "Podman Desktop.desktop" ];
