@@ -14,7 +14,7 @@ in
     files = {
       "applications/chromium-browser.desktop" = {
         text = ''
-            [Desktop Entry]
+          [Desktop Entry]
           StartupWMClass=chromium-browser
           Version=1.0
           Name=Chromium
@@ -49,9 +49,17 @@ in
         '';
         clobber = true;
       };
+      # TODO don't use nwg-drawer to launch (it calls `/usr/bin/env $Exec` and fails)
+      # - that requires an absolute path for $Exec, which can still be a symlink
+      #
+      # NOTE
+      # - these don't have exec bits set, so `/usr/bin/env xdg-open` doesn't work
+      # - if xdg-open doesn't start the app, then StartupWMClass isn't applied
+      # - Chrome profile names won't be consistent across multiple machines.......
+      # - ...................... ad infinitum
       "applications/Translate.desktop" =
         let
-          profile = "Profile 3";
+          profile = "Profile 3"; # ........ possible to rename profiles? idk
           crx = translateCrx;
           wmclass = "translate";
         in
@@ -63,9 +71,10 @@ in
             Terminal=false
             Type=Application
             Name=Google Translate Foob
-            Exec=chromium "--profile-directory=${profile}" --app-id=${crx}
-            Icon=chrome-${crx}-${profile}
+            Exec=uwsm app -- chromium "--profile-directory=${profile}" --app-id=${crx}
+            Icon=chrome-${crx}-${builtins.replaceStrings [ " " ] [ "_" ] profile}
             StartupWMClass=crx_${wmclass}_${crx}
+            StartupNotify=true
           '';
           clobber = true;
         };
@@ -83,13 +92,13 @@ in
             Terminal=false
             Type=Application
             Name=Google Meet Barq
-            Exec=chromium "--profile-directory=${profile}" --app-id=${crx}
-            Icon=chrome-${crx}-${profile}
+            Exec=uwsm app -- chromium "--profile-directory=${profile}" --app-id=${crx}
+            Icon=chrome-${crx}-${builtins.replaceStrings [ " " ] [ "_" ] profile}
             StartupWMClass=crx_${wmclass}_${crx}
+            StartupNotify=true
           '';
           clobber = true;
         };
-
     };
   };
 }
