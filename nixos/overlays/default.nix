@@ -13,19 +13,21 @@ let
 
   linuxModifications = final: prev: prev.lib.mkIf final.stdenv.isLinux { };
 
+  modifications = final: prev: {
+    # hyprland = prev.hyprland.overrideAttrs {
+    #   mesa = final.unstable.mesa;
+    # };
+    # steam = prev.steam.overrideAttrs {
+    #   mesa = final.unstable.mesa;
+    # };
+    #
+  };
 in
 {
-  default = final: prev: (additions final prev) // (linuxModifications final prev);
+  default =
+    final: prev:
+    (additions final prev) // (modifications final prev) // (linuxModifications final prev);
 }
-
-# modifications = final: prev: {
-#   # example = prev.example.overrideAttrs (previousAttrs: let ... in {
-#   # ...
-#   # });
-#   hyprland = prev.hyprland.overrideAttrs {
-#     mesa = final.unstable.mesa;
-#   };
-# };
 
 # stable-packages = final: prev: {
 #   stable = import inputs.nixpkgs-stable {

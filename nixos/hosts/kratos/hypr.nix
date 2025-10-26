@@ -1,9 +1,21 @@
 {
+  inputs,
   config,
   lib,
   pkgs,
   ...
 }:
+let
+
+  hyprPkgs = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system};
+  hyprlandDev = hyprPkgs.hyprland;
+  hyprlandPortalDev = hyprPkgs.xdg-desktop-portal-hyprland;
+
+  # mesa should be unnecessary
+  hyprInputs = inputs.hyprland.inputs.nixpkgs.legacyPackages.${pkgs.stdenv.hostPlatform.system};
+  hyprlandMesa = hyprInputs.mesa;
+  hyprlandMesa32 = hyprInputs.pkgsi686Linux.mesa;
+in
 
 {
   programs = {
@@ -20,6 +32,11 @@
 
     hyprland = {
       enable = true;
+
+      # while on dev
+      package = hyprlandDev;
+      portalPackage = hyprlandPortalDev;
+
       withUWSM = true; # recommended for most users
       xwayland.enable = true; # Xwayland can be disabled
 
@@ -32,6 +49,12 @@
     dconf.enable = true;
     seahorse.enable = true;
     neovim.enable = true; # defaultEditor = true;
+  };
+
+  hardware.graphics = {
+    package = hyprlandMesa;
+    enable32Bit = true;
+    package32 = hyprlandMesa32;
   };
 
   # hints electron apps to use wayland

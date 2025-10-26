@@ -29,7 +29,6 @@
       "modules/nixos/desktop/bluetooth.nix"
       "modules/nixos/desktop/docs.nix"
       "modules/nixos/desktop/fonts.nix"
-      "modules/nixos/desktop/hypr.nix"
       "modules/nixos/desktop/ios.nix"
       "modules/nixos/desktop/pipewire.nix"
       "modules/nixos/desktop/printing.nix"
@@ -52,6 +51,7 @@
 
       "home/dc/hjem.nix"
       "home/dc/walker.nix"
+      "home/dc/chromium.nix"
     ])
 
     ./frc.nix
@@ -63,7 +63,7 @@
     overlays = [ outputs.overlays.default ];
     config = {
       allowUnfree = true;
-      permittedInsecurePackages = [ "libsoup-2.74.3" ];
+      # permittedInsecurePackages = [ "libsoup-2.74.3" ];
     };
   };
 
