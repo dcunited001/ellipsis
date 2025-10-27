@@ -40,9 +40,9 @@ in
           '';
         };
 
-        xdg.data = {
+        xdg.data.files = {
           # failias.sh: the aliases that almost were
-          "gh/f/bash/failias.sh" = lib.readFile (guixHome + "/bash/rc/failias.sh");
+          "gh/f/bash/failias.sh".source = (guixHome + "/bash/rc/failias.sh");
         };
 
         # xdg.config
