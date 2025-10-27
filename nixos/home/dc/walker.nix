@@ -8,6 +8,7 @@
 let
   elephantPkg = inputs.elephant.packages.${pkgs.stdenv.system}.elephant-with-providers;
   walkerPkg = inputs.walker.packages.${pkgs.stdenv.system}.walker;
+  elephantSystemD = false;
 in
 {
   programs.walker = {
@@ -40,7 +41,7 @@ in
   # environment.etc = {
   #   "xdg/walker/config.toml" = lib.importTOML "./walker.toml";
   # };
-  systemd.user.services.elephant = {
+  systemd.user.services.elephant = lib.mkIf elephantSystemD {
     unitConfig = {
       Description = "Elephant Launcher and Indexer Service";
       Documentation = "https://github.com/abenz1257/elephant";
@@ -58,7 +59,7 @@ in
     };
   };
 
-  systemd.user.sockets.elephant = {
+  systemd.user.sockets.elephant = lib.mkIf elephantSystemD {
     unitConfig = {
       Description = "Elephant Launcher and Indexer Socket";
       Documentation = "https://github.com/abenz1257/elephant";
