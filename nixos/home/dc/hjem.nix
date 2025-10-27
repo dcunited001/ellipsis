@@ -34,7 +34,7 @@ in
 
           # sources /etc/bashrc, then ~/.bashrc
           ".bashrc".text = ''
-              for shrc in $HOME/.local/share/gh/f/bash/{failias.sh}; do
+            for shrc in $HOME/.local/share/gh/f/bash/rc/{failias.sh,util.sh}; do
               [[ -f $shrc ]] && source $shrc
             done
           '';
@@ -42,7 +42,7 @@ in
 
         xdg.data.files = {
           # failias.sh: the aliases that almost were
-          "gh/f/bash/failias.sh".source = (guixHome + "/bash/rc/failias.sh");
+          "gh/f/bash/rc/failias.sh".source = (guixHome + "/bash/rc/failias.sh");
         };
 
         # xdg.config
