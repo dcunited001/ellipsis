@@ -4,8 +4,10 @@
   pkgs,
   ...
 }:
+let
+  guixHome = ./. + "../../../../gh/f";
+in
 {
-
   hjem = {
     users = {
       dc = {
@@ -29,11 +31,18 @@
               omarchyFindWebapp $1
             '';
           };
+
+          # sources /etc/bashrc, then ~/.bashrc
           ".bashrc".text = ''
-            # for shrc in $HOME/.local/share/gh/f/bash/{functions-hypr.sh}; do
-            #  source $shrc
-            # done
+              for shrc in $HOME/.local/share/gh/f/bash/{failias.sh}; do
+              [[ -f $shrc ]] && source $shrc
+            done
           '';
+        };
+
+        xdg.data = {
+          # failias.sh: the aliases that almost were
+          "gh/f/bash/failias.sh" = lib.readFile (guixHome + "/bash/rc/failias.sh");
         };
 
         # xdg.config
