@@ -10,8 +10,14 @@ let
     pkgs.callPackage (lib.custom.relativeToRoot "pkgs/dots/omarchy-scripts/package.nix") { }
   );
   # dcstaticdots
+
+  # (these packages don't have outputs from the direct hyprland output)
+  #
+  # hyprPkgs = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system};
 in
 {
+  imports = [ ./swaync.nix ];
+
   users.groups = {
     dc = {
       name = "dc";
