@@ -345,6 +345,7 @@ modes and testing is tedious."
               desktop-dirname))
          (desktop-file (desktop-full-file-name dirname))
          (desktop-lock (desktop-full-lock-name dirname)))
+    (message (format "Clearing desktop file in: %s" dirname))
     (when (dc/desktop-lock-p dirname)
       (when (dc/desktop-in-use-p dirname)
         (user-error (format "Desktop in use: %s"
