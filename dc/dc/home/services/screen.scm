@@ -33,9 +33,10 @@
 ;;; XDG Files
 
 (define (add-screen-files config)
-  (list
-   `(".screenrc"
-     ,(local-file (string-append %files-directory "/.screenrc") "screenrc"))))
+  (list))
+
+;; `(".screenrc"
+;;   ,(local-file (string-append %files-directory "/.screenrc") "screenrc"))
 
 ;;; Shell
 

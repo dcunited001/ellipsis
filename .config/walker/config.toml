@@ -1,251 +1,155 @@
-app_launch_prefix = ""
-terminal_title_flag = ""
-locale = ""
-close_when_open = false
+# https://github.com/abenz1267/walker/blob/master/src/config.rs#L1
+
+# additional_theme_location
+click_to_close = true
+close_when_open = true
+debug = false
+disable_mouse = false
+exact_search_prefix = "'"
+force_keyboard_focus = false # true
+global_argument_delimiter = "#"  # needs to match elephant config
+# installed_providers:
+# keybinds
+# page_jump_items
+# providers
+# placeholders
+# shell
+selection_wrap = false
 theme = "default"
-monitor = ""
-hotreload_theme = false
-as_window = false
-timeout = 0
-disable_click_to_close = false
-force_keyboard_focus = false
 
-[keys]
-accept_typeahead = ["tab"]
-trigger_labels = "lalt"
-next = ["down"]
-prev = ["up"]
-close = ["esc"]
-remove_from_history = ["shift backspace"]
-resume_query = ["ctrl r"]
-toggle_exact_search = ["ctrl m"]
+[shell]
+anchor_bottom = true
+anchor_left = true
+anchor_right = true
+anchor_top = true
 
-[keys.activation_modifiers]
-keep_open = "shift"
-alternate = "alt"
+[placeholders]
+"default" = { input = " Search...", list = "No Results" }
 
-[keys.ai]
-clear_session = ["ctrl x"]
-copy_last_response = ["ctrl c"]
-resume_session = ["ctrl r"]
-run_last_response = ["ctrl e"]
+[keybinds]
+close = ["Escape"]
+next = ["Down"]
+previous = ["Up"]
+quick_activate = ["F1", "F2", "F3", "F4"]
+resume_last_query = ["ctrl r"]
+toggle_exact = ["ctrl e"]
+# page_down
+# page_up
 
-[events]
-on_activate = ""
-on_selection = ""
-on_exit = ""
-on_launch = ""
-on_query_change = ""
+[providers]
+default = ["desktopapplications", "runner", "menus"]
+empty = ["desktopapplications"]
+max_results = 50
+previews = ["files", "clipboard", "menus"]
 
-[list]
-dynamic_sub = true
-keyboard_scroll_style = "emacs"
-max_entries = 50
-show_initial_entries = true
-single_click = true
-visibility_threshold = 20
-placeholder = "No Results"
+# default: [str]?
+# clipboard: clipboard?
+# sets: {str: providerSet}?
+# actions: {str: action}?
+# max_results_provider: {str: int}?
 
-[search]
-argument_delimiter = "#"
-placeholder = "Search..."
-delay = 0
-resume_last_query = false
+sets = {}
+max_results_provider = {}
 
-[activation_mode]
-labels = "jkl;asdf"
+prefixes = [
+  { prefix = ";", provider = "providerlist" },
+  { prefix = ">", provider = "runner" },
+  { prefix = "/", provider = "files" },
+  { prefix = ".", provider = "symbols" },
+  { prefix = "!", provider = "todo" },
+  { prefix = "=", provider = "calc" },
+  { prefix = "@", provider = "websearch" },
+  { prefix = ":", provider = "clipboard" },
+  { prefix = "$", provider = "windows" },
+  { prefix = ",", provider = "unicode" }
+]
 
-[builtins.applications]
-weight = 5
-name = "applications"
-placeholder = "Applications"
-prioritize_new = true
-hide_actions_with_empty_query = true
-context_aware = true
-refresh = true
-show_sub_when_single = true
-show_icon_when_single = true
-show_generic = true
-history = true
+[providers.actions] # This will be MERGED/OVEWRITTEN with what the user specifies
 
-[builtins.applications.actions]
-enabled = true
-hide_category = false
-hide_without_query = true
+dmenu = [{ action = "select", default = true, bind = "Return" }]
 
-[builtins.bookmarks]
-weight = 5
-placeholder = "Bookmarks"
-name = "bookmarks"
-icon = "bookmark"
-switcher_only = true
+providerlist = [
+  { action = "activate", default = true, bind = "Return", after = "ClearReload" },
+]
 
-[[builtins.bookmarks.entries]]
-label = "Walker"
-url = "https://github.com/abenz1267/walker"
-keywords = ["walker", "github"]
+bluetooth = [
+  { action = "find", global = true, bind = "ctrl f", after = "AsyncClearReload" },
+  { action = "trust", bind = "ctrl t", after = "AsyncReload" },
+  { action = "untrust", bind = "ctrl t", after = "AsyncReload" },
+  { action = "pair", bind = "Return", after = "AsyncReload" },
+  { action = "remove", bind = "ctrl d", after = "AsyncReload" },
+  { action = "connect", bind = "Return", after = "AsyncReload" },
+  { action = "disconnect", bind = "Return", after = "AsyncReload" },
+]
 
-[builtins.xdph_picker]
-hidden = true
-weight = 5
-placeholder = "Screen/Window Picker"
-show_sub_when_single = true
-name = "xdphpicker"
-switcher_only = true
+# archlinuxpkgs = [
+#   { action = "install", bind = "Return", default = true },
+#   { action = "remove", bind = "Return" },
+# ]
 
-[builtins.ai]
-weight = 5
-placeholder = "AI"
-name = "ai"
-icon = "help-browser"
-switcher_only = true
-show_sub_when_single = true
+calc = [
+  { action = "copy", default = true, bind = "Return" },
+  { action = "delete", bind = "ctrl d", after = "AsyncReload" },
+  { action = "save", bind = "ctrl s", after = "AsyncClearReload" },
+]
 
-[[builtins.ai.anthropic.prompts]]
-model = "claude-3-7-sonnet-20250219"
-temperature = 1
-max_tokens = 1_000
-label = "General Assistant"
-prompt = "You are a helpful general assistant. Keep your answers short and precise."
+websearch = [
+  { action = "search", default = true, bind = "Return" },
+  { action = "erase_history", label = "clear hist", bind = "ctrl h", after = "Reload" },
+]
 
-[builtins.calc]
-require_number = true
-weight = 5
-name = "calc"
-icon = "accessories-calculator"
-placeholder = "Calculator"
-min_chars = 4
+desktopapplications = [
+  { action = "start", default = true, bind = "Return" },
+  { action = "start:keep", label = "open+next", bind = "shift Return", after = "KeepOpen" },
+  { action = "erase_history", label = "clear hist", bind = "ctrl h", after = "AsyncReload" },
+  { action = "pin", bind = "ctrl p", after = "AsyncReload" },
+  { action = "unpin", bind = "ctrl p", after = "AsyncReload" },
+  { action = "pinup", bind = "ctrl n", after = "AsyncReload" },
+  { action = "pindown", bind = "ctrl m", after = "AsyncReload" },
+]
 
-[builtins.windows]
-weight = 5
-icon = "view-restore"
-name = "windows"
-placeholder = "Windows"
-show_icon_when_single = true
+files = [
+  { action = "open", default = true, bind = "Return" },
+  { action = "opendir", label = "open dir", bind = "ctrl Return" },
+  { action = "copypath", label = "copy path", bind = "ctrl shift c" },
+  { action = "copyfile", label = "copy file", bind = "ctrl c" },
+]
 
-[builtins.clipboard]
-always_put_new_on_top = true
-exec = "wl-copy"
-weight = 5
-name = "clipboard"
-avoid_line_breaks = true
-placeholder = "Clipboard"
-image_height = 300
-max_entries = 10
-switcher_only = true
 
-[builtins.commands]
-weight = 5
-icon = "utilities-terminal"
-switcher_only = true
-name = "commands"
-placeholder = "Commands"
+todo = [
+  { action = "save", after = "ClearReload", bind = "Return", default = true },
+  { action = "delete", after = "ClearReload", bind = "ctrl d"  },
+  { action = "active", after = "ClearReload", bind = "Return"  },
+  { action = "inactive", after = "ClearReload", bind = "Return"  },
+  { action = "done", after = "ClearReload", bind = "ctrl f"  },
+  { action = "clear", after = "ClearReload", bind = "ctrl x", global = true }
+]
 
-[builtins.custom_commands]
-weight = 5
-icon = "utilities-terminal"
-name = "custom_commands"
-placeholder = "Custom Commands"
+runner = [
+  { action = "run", default = true, bind = "Return" },
+  { action = "runterminal", label = "run in terminal", bind = "shift Return" },
+  { action = "erase_history", label = "clear hist", bind = "ctrl h", after = "Reload" },
+]
 
-[builtins.emojis]
-exec = "wl-copy"
-weight = 5
-name = "emojis"
-placeholder = "Emojis"
-switcher_only = true
-history = true
-typeahead = true
-show_unqualified = false
+symbols = [
+  { action = "run_cmd", label = "select", default = true, bind = "Return" },
+  { action = "erase_history", label = "clear hist", bind = "ctrl h", after = "Reload" },
+]
 
-[builtins.symbols]
-after_copy = ""
-weight = 5
-name = "symbols"
-placeholder = "Symbols"
-switcher_only = true
-history = true
-typeahead = true
+unicode = [
+  { action = "run_cmd", label = "select", default = true, bind = "Return" },
+  { action = "erase_history", label = "clear hist", bind = "ctrl h", after = "Reload" },
+]
 
-[builtins.finder]
-use_fd = false
-fd_flags = "--ignore-vcs --type file"
-weight = 5
-icon = "file"
-name = "finder"
-placeholder = "Finder"
-switcher_only = true
-ignore_gitignore = true
-refresh = true
-concurrency = 8
-show_icon_when_single = true
-preview_images = false
+# nirisessions = [
+#   { action = "start", label = "start", default = true, bind = "Return" },
+#   { action = "start_new", label = "start blank", bind = "ctrl Return" },
+# ]
 
-[builtins.runner]
-eager_loading = true
-weight = 5
-icon = "utilities-terminal"
-name = "runner"
-placeholder = "Runner"
-typeahead = true
-history = true
-generic_entry = false
-refresh = true
-use_fd = false
-
-[builtins.ssh]
-weight = 5
-icon = "preferences-system-network"
-name = "ssh"
-placeholder = "SSH"
-switcher_only = true
-history = true
-refresh = true
-
-[builtins.switcher]
-weight = 5
-name = "switcher"
-placeholder = "Switcher"
-prefix = "/"
-
-[builtins.websearch]
-keep_selection = true
-weight = 5
-icon = "applications-internet"
-name = "websearch"
-placeholder = "Websearch"
-
-[[builtins.websearch.entries]]
-name = "Google"
-url = "https://www.google.com/search?q=%TERM%"
-
-[[builtins.websearch.entries]]
-name = "DuckDuckGo"
-url = "https://duckduckgo.com/?q=%TERM%"
-switcher_only = true
-
-[[builtins.websearch.entries]]
-name = "Ecosia"
-url = "https://www.ecosia.org/search?q=%TERM%"
-switcher_only = true
-
-[[builtins.websearch.entries]]
-name = "Yandex"
-url = "https://yandex.com/search/?text=%TERM%"
-switcher_only = true
-
-[builtins.dmenu]
-hidden = true
-weight = 5
-name = "dmenu"
-placeholder = "Dmenu"
-switcher_only = true
-show_icon_when_single = true
-
-[builtins.translation]
-delay = 1000
-weight = 5
-name = "translation"
-icon = "accessories-dictionary"
-placeholder = "Translation"
-switcher_only = true
-provider = "googlefree"
+clipboard = [
+  { action = "copy", default = true, bind = "Return" },
+  { action = "remove", bind = "ctrl d", after = "ClearReload" },
+  { action = "remove_all", global = true, label = "clear", bind = "ctrl shift d", after = "ClearReload" },
+  { action = "toggle_images", global = true, label = "toggle images", bind = "ctrl i", after = "ClearReload" },
+  { action = "edit", bind = "ctrl o" },
+]

@@ -9,6 +9,7 @@ let
   elephantPkg = inputs.elephant.packages.${pkgs.stdenv.system}.elephant-with-providers;
   walkerPkg = inputs.walker.packages.${pkgs.stdenv.system}.walker;
   elephantSystemD = false;
+  hjemFiles = ./. + "../../../../gh/f";
 in
 {
   programs.walker = {
@@ -25,6 +26,23 @@ in
         lsof -p $(pgrep walker | head -n1)
       '';
     };
+    "bin/dwalker-man" = {
+      # TODO: maybe add options, ensure man -k args re-quoted,
+      #
+      # - validate page exists, require < 2000 results
+      # - fix less colors (when launched via UWSM) ... or just open with emacs.
+      executable = true;
+      text = ''
+        #!/usr/bin/env bash
+        manquery="$(walker --dmenu --keepopen -p "Query for man -k ...")"
+        manpage="$(man -k "$manquery" | cut -d' ' -f1,2 | walker --dmenu -p "Open ..." | cut -f1 -d' ')"
+        setsid uwsm app -- alacritty --class 'Alacritty:org.dc.tuitray' -T 'tuitray:man' -e man "$manpage"
+      '';
+
+      # probably more diffucult to handle errors
+      # paste <(man -k "ls"  | sort | cut -d' ' -f2 | tr -d '()' ) \
+      #       <(man -k "ls" | sort | cut -d' ' -f1,3-) | tr '\t' ' '
+    };
     "bin/ofelephant" = {
       executable = true;
       text = ''
@@ -32,6 +50,7 @@ in
         lsof -p $(pgrep elephant | head -n1)
       '';
     };
+    # ".screen/walker.screenrc".source = (hjemFiles + "/.screen/walker.screenrc");
   };
 
   # the default theme is also in ~/.config/walker/themes/default/{style.css,*.xml}

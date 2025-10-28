@@ -116,8 +116,8 @@ fonts/**
 .config.shroud/*
 
 ## screen
-.screen
-.screenrc
+# /.screen/*.pts-*
+# .screenrc
 
 # Lang
 

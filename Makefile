@@ -107,6 +107,19 @@ guixHomeContainer:
 	guix home container -L ../dc -L ../ellipsis --share "$(MKDIR)" \
 	-e "$(GH_KHARIS_HE)"
 
+#-----------------------
+# Screen
+.PHONY: screen
+screen: ${HOME}/.screenrc ${HOME}/.screen
+
+# probably a bad pattern.... may switch to using stow
+${HOME}/.screenrc:
+	ln -s $(MKDIR)/.screenrc $(MKDIR)/../.screenrc
+
+# Screen creates sockets and hjem creates *.screenrc links
+# ${HOME}/.screen:
+# 	ln -s $(MKDIR)/.screen $(MKDIR)/../.screen
+
 # end
 
 # ** Writing Makefiles

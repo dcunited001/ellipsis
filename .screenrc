@@ -1,0 +1,53 @@
+### Startup
+startup_message off
+
+# https://cgit.git.savannah.gnu.org/cgit/screen.git/tree/src/etc/screenrc
+# https://cgit.git.savannah.gnu.org/cgit/screen.git/tree/src/etc/etcscreenrc
+
+### Color
+term screen-256color
+#term xterm-256color
+#term rxvt-unicode-256color
+
+# enable bold colors (shouldn't be req.)
+# attrcolor b ".I"
+
+### Scrolling
+# when available: use x-scrolling mechanism
+#termcapinfo xterm*|rxvt*|kterm*|Eterm* ti@:te@
+
+scrollback 10000
+
+### Windows
+
+# remove window/proc number from name in windowlist (C-a ")
+windowlist string "%4n %h%=%f"
+#windowlist string "%4n %t%=%f" # default
+
+# index windows starting at 1
+screen 1
+
+### Binds
+
+bind c screen 1
+bind ^c screen 1
+bind 0 select 10
+
+# mouse
+defmousetrack on
+
+
+### Misc
+
+#### Editor Fix
+
+# should fix issues where text editor's don't properly reset the window
+altscreen on
+
+### Status Bar
+hardstatus off
+hardstatus alwayslastline
+hardstatus string '%{= kG}[ %{G}%H %{g}][%= %{= kw}%?%-Lw%?%{r}(%{W}%n*%f%t%?(%u)%?%{r})%{w}%?%+Lw%?%?%= %{g}][%{B} %m-%d %{W} %c %{g}]'
+
+# TODO: dynamic titles for screen windows:
+# https://www.gnu.org/software/screen/manual/screen.html#Dynamic-Titles

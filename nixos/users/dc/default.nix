@@ -82,6 +82,7 @@ in
       tree
       git-repo
       git-stack
+      watchexec
 
       # CLI SHINY
       neofetch

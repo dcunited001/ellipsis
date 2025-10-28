@@ -5,7 +5,7 @@
   ...
 }:
 let
-  guixHome = ./. + "../../../../gh/f";
+  hjemFiles = ./. + "../../../../gh/f";
 in
 {
   hjem = {
@@ -42,7 +42,7 @@ in
 
         xdg.data.files = {
           # failias.sh: the aliases that almost were
-          "gh/f/bash/rc/failias.sh".source = (guixHome + "/bash/rc/failias.sh");
+          "gh/f/bash/rc/failias.sh".source = (hjemFiles + "/bash/rc/failias.sh");
         };
 
         # xdg.config
