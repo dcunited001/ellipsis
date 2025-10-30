@@ -16,8 +16,33 @@ in
     enable = true;
     package = walkerPkg;
     elephant.package = elephantPkg;
+    elephant.providers = lib.attrNames {
+      # archlinuxpkgs = "Find, install and delete Arch & AUR packages";
+      bluetooth = "Basic Bluetooth management";
+      calc = "Calculator and unit conversion";
+      # clipboard = "Clipboard history management";
+      desktopapplications = "Desktop application launcher";
+      # snippets = "Create and access text snippets";
+      files = "File search and management";
+      menus = "Custom menu system";
+      providerlist = "Provider listing and management";
+      runner = "Command runner";
+      symbols = "Symbols and emojis";
+      todo = "Todo list";
+      unicode = "Unicode symbol search";
+      websearch = "Web search integration";
+      # windows = "Find and focus opened windows";
+    };
   };
 
+  environment.etc = {
+    "xdg/elephant/providers/windows.so" = {
+      source = "${elephantPkg}/lib/elephant/providers/windows.so";
+    };
+  };
+
+  # TODO: restow with files (and clean up). hjem is linking these back into my
+  # dotfiles repo (as links)
   hjem.users.dc.files = {
     "bin/ofwalker" = {
       executable = true;
@@ -27,9 +52,10 @@ in
       '';
     };
     "bin/dwalker-man" = {
-      # TODO: maybe add options, ensure man -k args re-quoted,
+      # TODO: maybe add options, ensure man -k args re-quoted
       #
-      # - validate page exists, require < 2000 results
+      # - require (1 < N < 2000) results, validate exists
+      # - exit if no selection
       # - fix less colors (when launched via UWSM) ... or just open with emacs.
       executable = true;
       text = ''

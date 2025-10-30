@@ -31,6 +31,7 @@ in
               omarchyFindWebapp $1
             '';
           };
+          ".screen/journal-gpg".source = (hjemFiles + "/.screen/journal-gpg.screenrc");
 
           # sources /etc/bashrc, then ~/.bashrc
           ".bashrc".text = ''

@@ -47,6 +47,18 @@
           <name>mylvl3:sclk_switch</name>
           <description>Scroll Lock chooses 3th level</description>
         </configItem>
+        <configItem>
+          <name>mylvl3:display_switch</name>
+          <description>XF86display chooses 3th level</description>
+        </configItem>
+        <configItem>
+          <name>mylvl3:micmute_switch</name>
+          <description>Mic Mute chooses 3rd level.</description>
+        </configItem>
+        <configItem>
+          <name>mylvl3:lctl_switch</name>
+          <description>Left Control (scan: 37) chooses 3rd level.</description>
+        </configItem>
       </option>
     </group>
     <group allowMultipleSelection="false">
@@ -58,6 +70,14 @@
         <configItem>
           <name>mylvl5:ins_switch</name>
           <description>Insert chooses 5th level. Get You A Reboot</description>
+        </configItem>
+        <configItem>
+          <name>mylvl5:micmute_switch</name>
+          <description>Mic Mute chooses 5th level.</description>
+        </configItem>
+        <configItem>
+          <name>mylvl3:lctl_switch</name>
+          <description>Left Control (scan: 37) chooses 5th level.</description>
         </configItem>
       </option>
     </group>

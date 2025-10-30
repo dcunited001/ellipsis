@@ -1,0 +1,34 @@
+# -*- mode: shell-ts -*-
+source $HOME/.screenrc
+
+# ----------------------------------
+# journal
+screen -t 'journalctl' 1 journalctl -f --no-tail --no-pager -b -p7 --unit pcscd.service --user-unit=gpg-agent.service --user-unit=yubikey-touch-detector.service
+
+# ----------------------------------
+# bash console
+split
+focus down
+select 1
+focusminsize 50% 10%         # focusminsize is global
+# screen -t "2: bash" 2      # it's already running bash
+
+# ----------------------------------
+# gpg-agent help
+
+split
+focus down
+split -v
+# focusminsize 50%
+screen -t 'gpg-agent: help getinfo' 4 gpg-connect-agent 'help getinfo'
+resize 50%
+
+focus right
+# focusminsize 50%
+screen -t 'scdaemon: help getinfo' 5 gpg-connect-agent 'scd help getinfo'
+resize 50%
+
+# ----------------------------------
+# back to bash
+focus up
+resize 0

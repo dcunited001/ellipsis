@@ -160,6 +160,14 @@ Guix channel.")
 
 (use-package! xkb-mode :defer t)
 
+(defun dc/underspace ()
+  "Insert an underscore with `S-<SPC>'. Configure here rather than in XKB."
+  (interactive)
+  ;; (insert "_")
+  (insert-char "_"))
+
+(global-set-key (kbd "S-<SPC>") #'dc/underspace)
+;; (global-set-key (kbd "S-<SPC>") (apply-partially #'insert-char "_"))
 
 ;; ... LIT ER ALL Y? damit
 

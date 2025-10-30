@@ -2,5 +2,26 @@
 
 partial modifier_keys
 xkb_symbols "sclk_switch" {
+  // HP 845 G7: Fn+C
   key <SCLK> {[  ISO_Level3_Shift  ], type[group1]="ONE_LEVEL" };
+};
+
+partial modifier_keys
+xkb_symbols "display_switch" {
+  // HP 845 G7: Fn+F1 (Doesn't work)
+  // key <XF86Display> {[  ISO_Level3_Shift  ], type[group1]="ONE_LEVEL" };
+  key <I243> {[  ISO_Level3_Shift  ], type[group1]="ONE_LEVEL" };
+};
+
+partial modifier_keys
+xkb_symbols "micmute_switch" {
+  // HP 845 G7: Fn+F1 (Doesn't work).
+  // also incompatible with X11 protocol (see qmk/qmk_firmware#17749)
+  // key <XF86AudioMicMute> {[  ISO_Level3_Shift  ], type[group1]="ONE_LEVEL" };
+  key <I256> {[  ISO_Level3_Shift  ], type[group1]="ONE_LEVEL" };
+};
+
+partial xkb_symbols "lctl_switch" {
+  // Dell PC-104: this combines alright with the 'underspace' option
+  key <LCTL> {[  ISO_Level3_Shift  ], type[group1]="ONE_LEVEL" };
 };

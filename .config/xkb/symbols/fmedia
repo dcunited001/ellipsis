@@ -1,11 +1,11 @@
 // -*- mode: xkb; aphelia-mode: -1 -*-
 partial xkb_symbols "mute_f17" {
-  key<MUTE>{[ F15, F15, XF86AudioMute, XF86AudioMute ]};
-}
+  key<MUTE>{[ F17, F17, XF86AudioMute, XF86AudioMute ]};
+};
 
 partial xkb_symbols "voldown_f18" {
   key<VOL->{[ F18, F18, XF86AudioLowerVolume, XF86AudioLowerVolume ]};
-}
+};
 
 // key<VOL->{[ XF86AudioLowerVolume  ]};
 // key<VOL+>{[ XF86AudioRaiseVolume  ]};

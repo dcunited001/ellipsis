@@ -4,7 +4,12 @@
   underspace:shift_underscore		= +underspace(shift_underscore)
   underspace:altgr_underscore		= +underspace(altgr_underscore)
   mylvl5:ins_switch					= +mylevel5(ins_switch)
+  mylvl5:micmute_switch				= +mylevel5(micmute_switch)
+  mylvl5:lctl_switch				= +mylevel5(lctl_switch)
   mylvl3:sclk_switch				= +mylevel3(sclk_switch)
+  mylvl3:display_switch				= +mylevel3(display_switch)
+  mylvl3:micmute_switch				= +mylevel3(micmute_switch)
+  mylvl3:lctl_switch				= +mylevel3(lctl_switch)
 
 ! option = symbols
   fmedia:mute_f17       = +fmedia(mute_f17)

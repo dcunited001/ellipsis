@@ -7,13 +7,15 @@
   (name 'guix)
   (url "https://codeberg.org/guix/guix.git")
   (branch "master")
-  ;; (branch "main")
-  ;; (commit "a2b36ad311885b30e35b187f71b7ffa3ce5af83b")
   (introduction
    (make-channel-introduction
     "9edb3f66fd807b096b48283debdcddccfea34bad"
     (openpgp-fingerprint
      "BBB0 2DDF 2CEA F6A8 0D1D  E643 A2A0 6DF2 A33A 54FA"))))
+ ;; For RDE: last commit before tdlib moved to (gnu packages telegram)
+ ;; (commit "2f12efaf3994edc23be816bb49dd2a349ca99ac9")
+ ;; RDE specs this commit, but the build fails (nonguix)
+ ;; (commit "92c63391ee25205be3b8525d5d1fe5b9f345f37f")
  (channel
   (name 'sops-guix)
   (url "https://github.com/fishinthecalculator/sops-guix")

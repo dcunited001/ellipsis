@@ -2,7 +2,6 @@
 // messes with simple Emacs/OS keybindings
 // gives you accessible snake_case
 
-// partial xkb_symbols "underspace:shift_underscore" {
 partial xkb_symbols "shift_underscore" {
   // TODO: shit1 emacs demands a sacrifice: fix snakeyay/snakeplus at levels 5-8
   key<SPCE>{[space, underscore, space, underscore]};
@@ -12,7 +11,8 @@ partial xkb_symbols "shift_underscore" {
 // but (+shift+space) keybinds still work as (+shift+altgr+space)
 // albeit right handed
 
-// partial xkb_symbols "underspace:altgr_underscore" {
+// HP 845 G7: works if you lift off the Fn Key first
+// (Fn+C=> AltGr) before typing Space
 partial xkb_symbols "altgr_underscore" {
   key<SPCE>{[space, space, underscore, underscore]};
 };

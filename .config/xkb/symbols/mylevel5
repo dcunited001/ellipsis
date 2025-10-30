@@ -4,3 +4,12 @@ partial modifier_keys
 xkb_symbols "ins_switch" {
   key <INS> {[  ISO_Level5_Shift  ], type[group1]="ONE_LEVEL" };
 };
+
+partial modifier_keys
+xkb_symbols "micmute_switch" {
+  key <I256> {[  ISO_Level5_Shift  ], type[group1]="ONE_LEVEL" };
+};
+
+partial xkb_symbols "lctl_switch" {
+  key <LCTL> {[  ISO_Level5_Shift  ], type[group1]="ONE_LEVEL" };
+};
