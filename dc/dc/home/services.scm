@@ -118,9 +118,12 @@
     ("jctlu7" . "journalctl --user -p7")
     ("jctlb" . "journalctl -xb")
     ("jctlb7" . "journalctl -xb -p7")
+    ("systat" . "systemctl status")
+    ("sycat" . "SYSTEMD_COLORS=256 systemctl cat --no-pager")
     ("sysu" . "isd")
+    ("syu" . "systemctl --user")
     ("syustat" . "systemctl --user status")
-    ("systat" . "systemctl")
+    ("syucat" . "SYSTEMD_COLORS=256 systemctl --user cat --no-pager")
     ("sysdpath" . "systemd-path system-shared")
     ("sysupath" . "systemd-path user-shared")))
 

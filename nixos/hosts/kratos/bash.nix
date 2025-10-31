@@ -65,9 +65,12 @@
       jctlu7 = "journalctl --user -p7";
       jctlb = "journalctl -xb";
       jctlb7 = "journalctl -xb -p7";
+      systat = "systemctl status";
+      sycat = "SYSTEMD_COLORS=256 systemctl cat --no-pager";
       sysu = "isd";
+      syu = "systemctl --user";
+      syucat = "SYSTEMD_COLORS=256 systemctl cat --user --no-pager";
       syustat = "systemctl --user status";
-      systat = "systemctl";
       sysdpath = "systemd-path system-shared";
       sysupath = "systemd-path user-shared";
     };

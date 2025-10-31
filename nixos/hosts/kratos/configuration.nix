@@ -52,6 +52,7 @@
       "home/dc/hjem.nix"
       "home/dc/walker.nix"
       "home/dc/chromium.nix"
+      "home/dc/hypr.nix"
     ])
 
     ./frc.nix

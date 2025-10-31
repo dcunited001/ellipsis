@@ -8,6 +8,8 @@ if [ "$TERM" != "dumb" ]; then
     alias diff='diff --color=auto'
     alias grep='grep --color=auto'
     alias vdir='vdir --color=auto'
+    alias less='less -R'
+    alias ress='less'
 # else
     # no color
 fi
