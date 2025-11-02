@@ -8,7 +8,7 @@
 let
   elephantPkg = inputs.elephant.packages.${pkgs.stdenv.system}.elephant-with-providers;
   walkerPkg = inputs.walker.packages.${pkgs.stdenv.system}.walker;
-  elephantSystemD = false;
+  elephantSystemD = true;
   hjemFiles = ./. + "../../../../gh/f";
 in
 {
@@ -44,13 +44,6 @@ in
   # TODO: restow with files (and clean up). hjem is linking these back into my
   # dotfiles repo (as links)
   hjem.users.dc.files = {
-    "bin/ofwalker" = {
-      executable = true;
-      text = ''
-        #!/usr/bin/env bash
-        lsof -p $(pgrep walker | head -n1)
-      '';
-    };
     "bin/dwalker-man" = {
       # TODO: maybe add options, ensure man -k args re-quoted
       #
@@ -69,14 +62,6 @@ in
       # paste <(man -k "ls"  | sort | cut -d' ' -f2 | tr -d '()' ) \
       #       <(man -k "ls" | sort | cut -d' ' -f1,3-) | tr '\t' ' '
     };
-    "bin/ofelephant" = {
-      executable = true;
-      text = ''
-        #!/usr/bin/env bash
-        lsof -p $(pgrep elephant | head -n1)
-      '';
-    };
-    # ".screen/walker.screenrc".source = (hjemFiles + "/.screen/walker.screenrc");
   };
 
   # the default theme is also in ~/.config/walker/themes/default/{style.css,*.xml}
@@ -90,9 +75,6 @@ in
     unitConfig = {
       Description = "Elephant Launcher and Indexer Service";
       Documentation = "https://github.com/abenz1257/elephant";
-      Requires = [ "sockets.target" ];
-      After = [ "graphical-session.target" ];
-      PartOf = [ "graphical-session.target" ];
       ConditionEnvironment = "WAYLAND_DISPLAY";
     };
     serviceConfig = {
@@ -102,6 +84,10 @@ in
       Restart = "on-failure";
       RestartSec = 5;
     };
+    environment.PATH = lib.mkForce null;
+    requires = [ "sockets.target" ];
+    partOf = [ "background-graphical.target" ];
+    after = [ "background-graphical.target" ];
   };
 
   systemd.user.sockets.elephant = lib.mkIf elephantSystemD {
@@ -110,9 +96,9 @@ in
       Documentation = "https://github.com/abenz1257/elephant";
     };
     socketConfig = {
-      # l, err := net.ListenUnix("unix", &net.UnixAddr{ ... }; # SOCK_STREAM =~ "unix"
-      #
-      # https://github.com/abenz1267/elephant/blob/master/internal/comm/comm.go#L41
+      # linux recursively checks permissions from / at kernel level. any
+      # directory block visibility blocks directory read, including bind
+      # mounds which are also checked at their source.
       ListenStream = "%t/elephant/elephant.sock";
       SocketMode = "0600";
       Service = "elephant.service"; # redundant
@@ -120,7 +106,4 @@ in
     };
     wantedBy = [ "sockets.target" ];
   };
-
 }
-
-# elephantPkgs = inputs.elephant.packages.${pkgs.stdenv.system};

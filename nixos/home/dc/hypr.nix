@@ -10,8 +10,7 @@ let
   dc = "dc";
 in
 {
-
-  systemd.user.services.fumon = {
+  hjem.users.dc.systemd.services.fumon = {
     unitConfig = {
       Description = "Failed unit monitor";
       Documentation = "man:fumon(1) man:busctl(1)";
@@ -20,7 +19,7 @@ in
     serviceConfig = {
       Type = "exec";
       ExecCondition = "/bin/sh -c \"command -v notify-send > /dev/null\"";
-      ExecStart = "fumon";
+      ExecStart = "${lib.getExe' pkgs.uwsm "fumon"}";
       Restart = "on-failure";
       Slice = [ "background-graphical.slice" ];
     };
@@ -29,5 +28,4 @@ in
     after = [ "graphical-session.target" ];
     wantedBy = [ "graphical-session.target" ];
   };
-
 }
