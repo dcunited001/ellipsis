@@ -63,10 +63,10 @@ syskeys() {
 
     local page
     case "$1" in
-      sleep.conf) page='systemd-sleep.conf';;
-      system.conf) page='systemd-system.conf';;
-      user-runtime-dir) page='systemd-user-runtime-dir';;
-      user.conf) page='systemd-user.conf';;
+      # sleep.conf) page='systemd-sleep.conf';;
+      # system.conf) page='systemd-system.conf';;
+      # user-runtime-dir) page='systemd-user-runtime-dir';;
+      # user.conf) page='systemd-user.conf';;
       automount) page='systemd.automount';;
       device) page='systemd.device';;
       dnssd) page='systemd.dnssd';;

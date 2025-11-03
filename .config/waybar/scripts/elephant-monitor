@@ -1,0 +1,18 @@
+#!/bin/sh
+
+svcName=elephant.service
+svcOnlineIcon="🩢"  # 🩢 # red elephant  
+svcOfflineIcon="🩩" # 🩩 # black elephant
+svcOnlineMsg="<span foreground='green'><sup>$svcOnlineIcon</sup></span>"
+svcOfflineMsg="<span foreground='red'><sup>$svcOfflineIcon</sup></span>"
+
+while true; do
+  svcOnline="$(systemctl --user is-active $svcName)"
+  if [ "$svcOnline" == "active" ]; then
+      printf "{\"text\": \"$svcOnlineMsg\"}\n"
+  else
+      printf "{\"text\": \"$svcOfflineMsg\"}\n"
+  fi
+
+  sleep 5
+done

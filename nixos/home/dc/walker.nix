@@ -83,11 +83,12 @@ in
 
       Restart = "on-failure";
       RestartSec = 5;
+
+      Slice = [ "background-graphical.slice" ];
     };
     environment.PATH = lib.mkForce null;
-    requires = [ "sockets.target" ];
-    partOf = [ "background-graphical.target" ];
-    after = [ "background-graphical.target" ];
+    requires = [ "elephant.socket" ];
+    after = [ "graphical-session.target" ];
   };
 
   hjem.users.dc.systemd.sockets.elephant = lib.mkIf elephantSystemD {
@@ -104,6 +105,7 @@ in
       Service = "elephant.service"; # redundant
       DirectoryMode = "0700";
     };
+    partOf = [ "elephant.service" ];
     wantedBy = [ "sockets.target" ];
   };
 }

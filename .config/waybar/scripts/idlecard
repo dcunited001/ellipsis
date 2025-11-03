@@ -1,0 +1,25 @@
+#!/bin/sh
+
+unlocked="🔓"
+locked="🔒"
+lockedWithKey="🔐"
+
+svcNoCard=hypridle.service
+svcWithCard=hypridleSmartcard.service
+
+while true; do
+  idleNoCard=$(systemctl --user is-active "$svcNoCard")
+  idleWithCard=$(systemctl --user is-active "$svcWithCard")
+
+  if [ "$idleNoCard" == "active" ]; then
+       printf "{\"text\": \"$locked\"}\n"
+  else
+      if [ "$idleWithCard" == "active" ]; then
+          printf "{\"text\": \"$lockedWithKey\"}\n"
+      else
+          printf "{\"text\": \"$unlocked\"}\n"
+      fi
+  fi
+
+  sleep 1
+done

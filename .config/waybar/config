@@ -22,7 +22,11 @@
         "custom/spacer-head",
         "custom/sysz",
         "custom/spacer",
-        "custom/notification",
+        // "custom/notification",
+        "custom/spacer",
+        "custom/elephant",
+        "custom/spacer",
+        "custom/idlecard",
         "custom/spacer",
         "custom/yktouch",
         "custom/spacer-tail"
@@ -101,6 +105,22 @@
     // ---------------------------------------------
     // INDICATORS
 
+    "custom/elephant": {
+        "exec": "~/.config/waybar/scripts/elephant-monitor",
+        "return-type": "json",
+        // "on-click-right": "systemctl --user restart yubikey-touch-detector"
+        // hmmm
+        // "on-click": "/bin/sh -c 'ykman list' | hyprctl notify 1 1000 rgb(123456) 'font-size:24 ...'"
+    },
+
+    "custom/idlecard": {
+        "exec": "~/.config/waybar/scripts/idlecard",
+        "return-type": "json",
+        // "on-click-right": "systemctl --user restart yubikey-touch-detector"
+        // hmmm
+        // "on-click": "/bin/sh -c 'ykman list' | hyprctl notify 1 1000 rgb(123456) 'font-size:24 ...'"
+    },
+
     "custom/yktouch": {
         // "format": "🔑",
         "exec": "~/.config/waybar/scripts/yktouch",
@@ -123,10 +143,11 @@
             "dnd-inhibited-none": ""
         },
         "return-type": "json",
-        "exec-if": "which swaync-client",
-        "exec": "uwsm app -- swaync-client -swb",
-        "on-click": "uwsm app -- swaync-client -t -sw",       // toggle
-        "on-click-right": "uwsm app -- swaync-client -d -sw", // dnd
+
+        // "exec-if": "which swaync-client",
+        // "exec": "uwsm app -- swaync-client -swb",
+        // "on-click": "uwsm app -- swaync-client -t -sw",       // toggle
+        // "on-click-right": "uwsm app -- swaync-client -d -sw", // dnd
         "escape": true
     },
     // "custom/tray-tail": {

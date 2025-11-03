@@ -31,6 +31,15 @@
     };
   };
 
+  hjem.users.dc.systemd.targets.hypridle = {
+    unitConfig = {
+      Description = "Hypridle target satisfied by either hypridle.service or hypridle-smartcard.service";
+      ConditionEnvironment = "WAYLAND_DISPLAY";
+    };
+    wantedBy = [ "graphical-session.target" ];
+    after = [ "graphical-session.target" ];
+  };
+
   hjem.users.dc.systemd.services.hypridle = {
     unitConfig = {
       Description = "Hypridle with no smartcard";
@@ -46,16 +55,14 @@
     environment.PATH = lib.mkForce null;
     environment.XDG_CONFIG_HOME = lib.mkForce null;
     conflicts = [
-      # "smartcard.target"
+      "smartcard.target"
       "hypridleSmartcard.service"
     ];
-    wantedBy = [ "graphical-session.target" ];
-    partOf = [ "graphical-session.target" ];
-    after = [
-      "graphical-session.target"
-      # "hypridleSmartcard.service"
-    ];
+    wantedBy = [ "hypridle.target" ];
+    partOf = [ "hypridle.target" ];
+    after = [ "graphical-session.target" ];
   };
+
   hjem.users.dc.systemd.services.hypridleSmartcard = {
     unitConfig = {
       Description = "Hypridle with a smartcard";
@@ -65,7 +72,8 @@
     serviceConfig = {
       ExecStart = "${lib.getExe pkgs.hypridle} -c  \"\${XDG_CONFIG_HOME}\"/hypr/hypridle.smartcard.conf";
       ExecStop = "${config.hjem.users.dc.files."bin/hypridle-kill".target}";
-      # TODO: the system reaches smartcard target regardless of device status...
+      # TODO: the smartcard target starts & shuts down on device insert...
+      # - but this set of system params doesn't quite work.
       # Restart = "on-failure"
       # RestartSec = 5;
     };
@@ -75,11 +83,12 @@
       "hypridle.service"
     ];
     requires = [ "smartcard.target" ];
-    partOf = [ "graphical-session.target" ];
-    wantedBy = [ "graphical-session.target" ];
+    partOf = [ "hypridle.target" ];
+    wantedBy = [ "hypridle.target" ];
     after = [
       "graphical-session.target"
       "hypridle.service"
+      "smartcard.target"
     ];
   };
 

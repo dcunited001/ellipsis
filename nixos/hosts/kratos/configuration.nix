@@ -54,6 +54,7 @@
       "home/dc/chromium.nix"
       "home/dc/hypr.nix"
       "home/dc/hypridle.nix"
+      "home/dc/yktouch.nix"
     ])
 
     ./frc.nix
