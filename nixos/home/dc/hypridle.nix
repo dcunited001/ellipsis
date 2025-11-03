@@ -46,14 +46,14 @@
     environment.PATH = lib.mkForce null;
     environment.XDG_CONFIG_HOME = lib.mkForce null;
     conflicts = [
-      "smartcard.target"
+      # "smartcard.target"
       "hypridleSmartcard.service"
     ];
     wantedBy = [ "graphical-session.target" ];
     partOf = [ "graphical-session.target" ];
     after = [
       "graphical-session.target"
-      "hypridleSmartcard.service"
+      # "hypridleSmartcard.service"
     ];
   };
   hjem.users.dc.systemd.services.hypridleSmartcard = {
