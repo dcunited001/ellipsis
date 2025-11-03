@@ -1,0 +1,24 @@
+// -*- mode: jsonc -*-
+{
+  "custom/swaync": {
+    "tooltip": false,
+    "format": "{icon}",
+    "format-icons": {
+      "swaync": "<span foreground='red'><sup></sup></span>",
+      "none": "",
+      "dnd-swaync": "<span foreground='red'><sup></sup></span>",
+      "dnd-none": "",
+      "inhibited-swaync": "<span foreground='red'><sup></sup></span>",
+      "inhibited-none": "",
+      "dnd-inhibited-swaync": "<span foreground='red'><sup></sup></span>",
+      "dnd-inhibited-none": ""
+    },
+    "return-type": "json",
+
+    // "exec-if": "which swaync-client",
+    // "exec": "uwsm app -- swaync-client -swb",
+    // "on-click": "uwsm app -- swaync-client -t -sw",       // toggle
+    // "on-click-right": "uwsm app -- swaync-client -d -sw", // dnd
+    "escape": true
+  }
+}

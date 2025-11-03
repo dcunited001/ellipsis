@@ -1,339 +1,154 @@
 // -*- mode: jsonc -*-
 {
-    "layer": "top",
-    "position": "top",
-    "height": 40,
-    "margin": "0 0 0 0",
-    "spacing": 0,
+  "layer": "top",
+  "position": "top",
+  "height": 40,
+  "margin": "0 0 0 0",
+  "spacing": 0,
 
-    "modules-left": [
-        "custom/launcher",
-        "hyprland/workspaces",
-        "custom/spacer",
-        "hyprland/window"],
-    "modules-center": [
-        "hyprland/submap",
-        "cpu",
-        "custom/spacer",
-        "memory",
-        "custom/spacer",
-        "battery",
-        "clock",
-        "custom/spacer-head",
-        "custom/sysz",
-        "custom/spacer",
-        // "custom/notification",
-        "custom/spacer",
-        "custom/elephant",
-        "custom/spacer",
-        "custom/idlecard",
-        "custom/spacer",
-        "custom/yktouch",
-        "custom/spacer-tail"
-    ],
-    "modules-right": [
-        // "custom/lnavlogs",
-        "custom/spacer",
-        "network",
-        "custom/spacer",
-        "wireplumber",
-        "wireplumber#source",
-        "custom/spacer",
-        "pulseaudio",
-        "custom/spacer",
-        "tray" ],
+  "include": [
+    "~/.config/waybar/modules/hyprland.jsonc",
+    "~/.config/waybar/modules/spacers.jsonc",
+    "~/.config/waybar/modules/indicators.jsonc",
+    "~/.config/waybar/modules/swaync.jsonc",
+    "~/.config/waybar/modules/tui-sysz.jsonc",
+    "~/.config/waybar/modules/wireplumber.jsonc",
+    "~/.config/waybar/modules/backlight.jsonc"
+  ],
 
-    // math scripts
-    // https://www.compart.com/en/unicode/block/U+1D400
+  // NOTE: when customizing, esp. if multiple monitors or css rules are important
+  //
+  // - ./modules/*.jsonc contains only input/output/interaction
+  // - ./modules/$host.jsonc patches up implementation needs
+  // - ./$host.config instantiates the modules, sets display-specific needs
+  //   - may style with $host or $hostDisplay as ids in style.css or $host.style.css
+  // - ideally eliminate the $host pattern. doing so locks changes into /nix/store
+  //   - leaving the final `waybar -c $config` json as simple file allows you to add
+  //     edits without nixos-rebuild
+  // - ./style.css could be a concatenated result
+  // - it is possible to use jsmin + jq to merge waybar configs on ExecStartPre...
+  //   - a similar approach could be used for style.css
+  //   - but if your widget#instance namespacing is right, it shouldn't matter.
+  // - prefer to define complicated widgets as menus + TUIs. the click events
+  //   can be overridden in the top-level config. this helps support misc.
+  //   requirements like alternative service managers.
+  //   - unfortunately, for most widgets, unless you have alternative wrapper scripts
+  //     or wrapper scripts to handle multiple implementations, there's no great way
+  //     to keep ~/.config/waybar/config mostly the same without overriding the most
+  //     core json attributes that `include` pulls in
+  // - consider an entirely different set of widgets for more complicated interfaces
+  //   - the taskbar should mainly display visual cues. it doesn't need to spec out
+  //     the UI/UX for controlling/interacting
+  //   - the taskbar is less convenient than hyprland keybindings
+  //   - use the layers...
 
-    // =============================================
-    // MODULES CONFIGURATION
+  // why not EWW? u can bundle widget definitions as self-contained packages
 
-    // ---------------------------------------------
-    // HYPRLAND
-    "hyprland/window": {
-        "format": "{}",
-        "icon": true,
-        "icon-size": 20
-    },
-    "hyprland/submap":{
-        "format": "鍵 {}",
-        "max-length": 12,
-        "tooltip": true
-    },
+  "modules-left": [
+    "custom/launcher",
+    "hyprland/workspaces",
+    "custom/spacer",
+    "hyprland/window"
+  ],
+  "modules-center": [
+    "hyprland/submap",
+    "cpu",
+    "custom/spacer",
+    "memory",
+    "custom/spacer",
+    "battery",
+    "clock",
+    "custom/spacer-head",
+    "custom/sysz",
+    "custom/spacer",
+    // "custom/swaync",
+    "custom/spacer",
+    "custom/elephant",
+    "custom/spacer",
+    "custom/idlecard",
+    "custom/spacer",
+    "custom/yktouch",
+    "custom/spacer-tail"
+  ],
+  "modules-right": [
+    "custom/spacer",
+    "network",
+    "custom/spacer",
+    "wireplumber",
+    "wireplumber#source",
+    // "custom/spacer",
+    // "pulseaudio",
+    "custom/spacer",
+    "tray"
+  ],
 
-    // ---------------------------------------------
-    // WORKSPACES
+  // math scripts
+  // https://www.compart.com/en/unicode/block/U+1D400
 
-    "hyprland/workspaces": {
-        "format": "{icon}",
-        "on-click": "activate",
-        "all-outputs": false,
-        "sort-by-number": true,
-        "show-special": true,
-        // "special-visible-only": true,
-        "format-icons": {
-            "1": "1",
-            "2": "2",
-            "3": "3",
-            "4": "4",
-            "5": "5",
-            "6": "6",
-            "7": "7",
-            "8": "8",
-            "9": "9",
-            "10": "10",
-            "audio": "󰜟",
-            "discord": "🗨",
-            "docs": "𝔻", // D doublestruck
-            "dotfilesHypr": "¶H",
-            "dotfilesEmacs": "¶E",
-            "dotfilesNixos": "¶N",
-            "music": "𝄞",
-            "pass": "🔒",
-            "agenda": "𝔄", //  A frankfurt
-            "roam": "𝕽", // R frankfurt
-            "tuitray": "",
-            "focused": "",
-            // "default": "",
-            "on-scroll-up": "hyprctl dispatch workspace e+1",
-            "on-scroll-down": "hyprctl dispatch workspace e-1",
-        },
-    },
+  "tray": {
+    "icon-size": 20,
+    "spacing": 5
+  },
+  "clock": {
+    "tooltip-format": "<big>{:%A, %d.%B %Y }</big>\n<tt><small>{calendar}</small></tt>",
+    "format": " {:%a %d %b  %H:%M}", // 24 H
+    "format-alt": " {:%d/%m/%Y  %H:%M:%S}",
+    "interval": 1
+    // "on-click": "~/.config/waybar/scripts/OCV",
+  },
+  "custom/launcher": {
+    "format":" ",
+    "on-click": "uwsm app -- nwg-drawer",
+    "tooltip": false,
+  },
 
-    // ---------------------------------------------
-    // INDICATORS
+  // ---------------------------------------------
+  // PERF
 
-    "custom/elephant": {
-        "exec": "~/.config/waybar/scripts/elephant-monitor",
-        "return-type": "json",
-        // "on-click-right": "systemctl --user restart yubikey-touch-detector"
-        // hmmm
-        // "on-click": "/bin/sh -c 'ykman list' | hyprctl notify 1 1000 rgb(123456) 'font-size:24 ...'"
-    },
+  "cpu": {
+    "format": " {usage}%",
+    "on-click": "uwsm app -- alacritty --class 'Alacritty:org.dc.tuitray' -T 'tuitray:btop' -e btop"
+  },
+  "memory": {
+    "format": "田{:>3}%",
+    "on-click": "uwsm app -- alacritty --class 'Alacritty:org.dc.tuitray' -T 'tuitray:btop' -e btop"
+  },
+  "temperature": {
+    // "thermal-zone": 2,
+    // "hwmon-path": "/sys/class/hwmon/hwmon2/temp1_input",
+    "critical-threshold": 80,
+    // "format-critical": "{temperatureC}°C ",
+    "format": "{temperatureC}°C "
+  },
 
-    "custom/idlecard": {
-        "exec": "~/.config/waybar/scripts/idlecard",
-        "return-type": "json",
-        // "on-click-right": "systemctl --user restart yubikey-touch-detector"
-        // hmmm
-        // "on-click": "/bin/sh -c 'ykman list' | hyprctl notify 1 1000 rgb(123456) 'font-size:24 ...'"
-    },
+  // ---------------------------------------------
+  // NET
 
-    "custom/yktouch": {
-        // "format": "🔑",
-        "exec": "~/.config/waybar/scripts/yktouch",
-        "return-type": "json",
-        "on-click-right": "systemctl --user restart yubikey-touch-detector"
-        // hmmm
-        // "on-click": "/bin/sh -c 'ykman list' | hyprctl notify 1 1000 rgb(123456) 'font-size:24 ...'"
-    },
-    "custom/notification": {
-        "tooltip": false,
-        "format": "{icon}",
-        "format-icons": {
-            "notification": "<span foreground='red'><sup></sup></span>",
-            "none": "",
-            "dnd-notification": "<span foreground='red'><sup></sup></span>",
-            "dnd-none": "",
-            "inhibited-notification": "<span foreground='red'><sup></sup></span>",
-            "inhibited-none": "",
-            "dnd-inhibited-notification": "<span foreground='red'><sup></sup></span>",
-            "dnd-inhibited-none": ""
-        },
-        "return-type": "json",
+  "network": {
+    // "interface": "wlp2s0", // (Optional) To force the use of this interface
+    "format": "⚠ Disabled",
+    "format-wifi": " {essid}",
+    "format-linked": "{ifname} (No IP)",
+    "format-ethernet": " {ifname}: {ipaddr}/{cidr}",
+    "format-disconnected": "⚠ Disconnected",
+    "format-alt": "{ifname}: {ipaddr}/{cidr}",
+    "tooltip-format-wifi": "  {ifname} @ {essid}\nIP: {ipaddr}\nStrength: {signalStrength}%\nFreq: {frequency}MHz\nUp: {bandwidthUpBits} Down: {bandwidthDownBits}",
+    "tooltip-format-ethernet": " {ifname}\nIP: {ipaddr}\n up: {bandwidthUpBits} down: {bandwidthDownBits}",
+    "on-click": "uwsm app -- alacritty --class 'Alacritty:org.dc.tuitray' -T 'tuitray:nmtui' -e nmtui",
+    "on-right-click": "uwsm-app -- nm-connection-editor"
+  },
 
-        // "exec-if": "which swaync-client",
-        // "exec": "uwsm app -- swaync-client -swb",
-        // "on-click": "uwsm app -- swaync-client -t -sw",       // toggle
-        // "on-click-right": "uwsm app -- swaync-client -d -sw", // dnd
-        "escape": true
-    },
-    // "custom/tray-tail": {
-    //     "format": "⚬",
-    //     "tooltip": false,
-    // },
-
-
-    //---------------------------------------------
-    // DESKTOP
-
-    "tray": {
-        "icon-size": 20,
-        "spacing": 5
-    },
-    "clock": {
-        "tooltip-format": "<big>{:%A, %d.%B %Y }</big>\n<tt><small>{calendar}</small></tt>",
-        "format": " {:%a %d %b  %H:%M}", // 24 H
-        "format-alt": " {:%d/%m/%Y  %H:%M:%S}",
-        "interval": 1
-        // "on-click": "~/.config/waybar/scripts/OCV",
-    },
-    "custom/launcher": {
-        "format":" ",
-      "on-click": "uwsm app -- nwg-drawer",
-        "tooltip": false,
-    },
-
-
-    // ---------------------------------------------
-    // PERF
-
-    "cpu": {
-        "format": " {usage}%",
-        "on-click": "uwsm app -- alacritty --class 'Alacritty:org.dc.tuitray' -T 'tuitray:btop' -e btop"
-    },
-    "memory": {
-        "format": "田{:>3}%",
-        "on-click": "uwsm app -- alacritty --class 'Alacritty:org.dc.tuitray' -T 'tuitray:btop' -e btop"
-    },
-    "temperature": {
-        // "thermal-zone": 2,
-        // "hwmon-path": "/sys/class/hwmon/hwmon2/temp1_input",
-        "critical-threshold": 80,
-        // "format-critical": "{temperatureC}°C ",
-        "format": "{temperatureC}°C "
-    },
-
-    // ---------------------------------------------
-    // NET
-
-    "network": {
-        // "interface": "wlp2s0", // (Optional) To force the use of this interface
-        "format": "⚠ Disabled",
-        "format-wifi": " {essid}",
-        "format-linked": "{ifname} (No IP)",
-        "format-ethernet": " {ifname}: {ipaddr}/{cidr}",
-        "format-disconnected": "⚠ Disconnected",
-        "format-alt": "{ifname}: {ipaddr}/{cidr}",
-        "tooltip-format-wifi": "  {ifname} @ {essid}\nIP: {ipaddr}\nStrength: {signalStrength}%\nFreq: {frequency}MHz\nUp: {bandwidthUpBits} Down: {bandwidthDownBits}",
-        "tooltip-format-ethernet": " {ifname}\nIP: {ipaddr}\n up: {bandwidthUpBits} down: {bandwidthDownBits}",
-        "on-click": "uwsm app -- alacritty --class 'Alacritty:org.dc.tuitray' -T 'tuitray:nmtui' -e nmtui",
-        "on-right-click": "uwsm-app -- nm-connection-editor"
-    },
-
-    // ---------------------------------------------
-    // POWER
-    "power-profiles-daemon": {
-        "format": "{icon}",
-        "tooltip-format": "Power profile: {profile}\nDriver: {driver}",
-        "tooltip": true,
-        "format-icons": {
-            "default": "",
-            "performance": "",
-            "balanced": "",
-            "power-saver": ""
-        }
-    },
-
-    "battery": {
-        "states": {
-            // "good": 95,
-            "warning": 35,
-            "critical": 20
-        },
-        "format": "{icon} {capacity: >3}%",
-        "format-icons": ["", "", "", "", ""]
-        // "format-good": "", // An empty format will hide the module
-        // "format-full": "",
-        //"format-icons": ["", "", "", "", "", "", "", "", "", ""]
-        //"format": "&#x202b;{icon}&#x202c; {capacity}%",
-        //"format-icons": ["ﱉ","ﱊ","ﱌ","ﱍ","ﱋ"]
-    },
-
-    "backlight": {
-        // "device": "acpi_video1",
-        "format": "{icon} {percent: >3}%",
-        "format-icons": ["", ""],
-        "on-scroll-down": "brightnessctl -c backlight set 5%",
-        "on-scroll-up": "brightnessctl -c backlight set +5%"
-    },
-
-    // ---------------------------------------------
-    // AUDIO
-
-    "wireplumber": {
-        "format": "{volume}{icon}",
-        "format-icons": ["", "", ""],
-        "on-click": "helvum",
-        "on-click-right": "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle",
-        "format-muted":"µ ",
-        "max-volume": 150,
-        "scroll-step": 2
-    },
-    "wireplumber#source": {
-        "node-type": "Audio/Source",
-        "format": "{volume}󰍬",
-        "format-muted": "µ 󰍭",
-        "on-click-right": "wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle",
-        "scroll-step": 5,
-    },
-    "pulseaudio": {
-        "scroll-step": 5,
-        "format": "{volume}{icon}",
-        "format-bluetooth": "{icon} {volume}%",
-        "format-muted":"µ ",
-        "format-icons": {
-            "headphones": "",
-            "handsfree": "",
-            "headset": "",
-            "phone": "",
-            "portable": "",
-            "car": "",
-            "default": ["", ""]
-        },
-        // "on-click": "pavucontrol"
-        "on-click-right": "uwsm app -- pavucontrol"
-    },
-
-    // ---------------------------------------------
-    //    TUI
-
-    //    "custom/docker-tui": // 箱 (box/railcar)
-    //    碼頭 (wharf), 碼 (wharf), 裝箱 (shipping container, zh), 澪 (waterway)
-    //    通箱 (reusable shipping carton)
-    //    "custom/orgroam-ui":
-    //    外箱 (slipbox)
-    // "tom/lnavlogs": {
-    //  "return-type": "json",
-    //  "exec": "echo '{\"class\": \"tuitray\"}'",
-    //  "format": "履歴",
-    //  "on-click": "alacritty -e lnav ~/.cache/log",
-    //  "on-click-right": "alacritty -e lnav /var/log"
-    // }
-
-    "custom/sysz": {
-        "return-type": "json",
-        "exec": "echo '{\"class\": \"tuitray\"}'",
-        "format": "制",
-        "on-click": "uwsm app -- alacritty --class 'Alacritty:org.dc.tuitray' -T 'tuitray:isd' -e isd",
-        "on-click-right": "uwsm app -- alacritty --class 'Alacritty:org.dc.tuitray' -T 'tuitray:sysz' -e sysz"
-    },
-
-    // ---------------------------------------------
-    // SPACERS
-
-    "custom/spacer": {
-        "format": "⚬",
-        "tooltip": false,
-    },
-    "custom/spacer-head": {
-        "format": " ", // "⚬"
-        "tooltip": false,
-    },
-    "custom/spacer-tail": {
-        "format": " ", // "⚬"
-        "tooltip": false,
-    },
-
+  // ---------------------------------------------
+  // POWER
+  "power-profiles-daemon": {
+    "format": "{icon}",
+    "tooltip-format": "Power profile: {profile}\nDriver: {driver}",
+    "tooltip": true,
+    "format-icons": {
+      "default": "",
+      "performance": "",
+      "balanced": "",
+      "power-saver": ""
+    }
+  },
 }
-
-// "custom/keyboard-layout": {
-//     "exec": "swaymsg -t get_inputs | grep -m1 'xkb_active_layout_name' | cut -d '\"' -f4",
-//     // Interval set only as a fallback, as the value is updated by signal
-//     "interval": 30,
-//     "format": "  {}", // Icon: keyboard
-//     // Signal sent by Sway key binding (~/.config/sway/key-bindings)
-//     "signal": 1, // SIGHUP
-//     "tooltip": false
-// },

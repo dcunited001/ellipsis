@@ -1,0 +1,15 @@
+// -*- mode: jsonc -*-
+{
+  "custom/spacer": {
+    "format": "⚬",
+    "tooltip": false
+  },
+  "custom/spacer-head": {
+    "format": " ",
+    "tooltip": false
+  },
+  "custom/spacer-tail": {
+    "format": " ",
+    "tooltip": false
+  }
+}

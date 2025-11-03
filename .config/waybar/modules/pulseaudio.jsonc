@@ -1,0 +1,20 @@
+// -*- mode: jsonc -*-
+{
+  "pulseaudio": {
+    "scroll-step": 5,
+    "format": "{volume}{icon}",
+    "format-bluetooth": "{icon} {volume}%",
+    "format-muted":"µ ",
+    "format-icons": {
+      "headphones": "",
+      "handsfree": "",
+      "headset": "",
+      "phone": "",
+      "portable": "",
+      "car": "",
+      "default": ["", ""]
+    },
+    // "on-click": "pavucontrol"
+    "on-click-right": "uwsm app -- pavucontrol"
+  },
+}

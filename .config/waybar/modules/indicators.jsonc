@@ -1,0 +1,20 @@
+// -*- mode: jsonc -*-
+{
+  "custom/elephant": {
+    "exec": "~/.config/waybar/scripts/elephant-monitor",
+    "return-type": "json",
+  },
+
+  "custom/idlecard": {
+    "exec": "~/.config/waybar/scripts/idlecard",
+    "return-type": "json",
+  },
+
+  "custom/yktouch": {
+    // "format": "🔑",
+    "exec": "~/.config/waybar/scripts/yktouch",
+    "return-type": "json",
+    "on-click-right": "systemctl --user restart yubikey-touch-detector"
+    // "on-click": "/bin/sh -c 'ykman list' | hyprctl notify 1 1000 rgb(123456) 'font-size:24 ...'"
+  },
+}

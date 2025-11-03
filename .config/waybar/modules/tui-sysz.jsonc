@@ -1,0 +1,17 @@
+// -*- mode: jsonc -*-
+{
+  "custom/sysz": {
+    "return-type": "json",
+    "exec": "echo '{\"class\": \"tuitray\"}'",
+    "format": "制",
+    "on-click": "uwsm app -- alacritty --class 'Alacritty:org.dc.tuitray' -T 'tuitray:isd' -e isd",
+    "on-click-right": "uwsm app -- alacritty --class 'Alacritty:org.dc.tuitray' -T 'tuitray:sysz' -e sysz"
+  },
+  
+  //    "custom/docker-tui": // 箱 (box/railcar)
+  //    碼頭 (wharf), 碼 (wharf), 裝箱 (shipping container, zh), 澪 (waterway)
+  //    通箱 (reusable shipping carton)
+  //    "custom/orgroam-ui":
+  //    外箱 (slipbox)
+
+}

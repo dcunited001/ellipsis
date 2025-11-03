@@ -1,0 +1,49 @@
+// -*- mode: jsonc -*-
+{
+  "hyprland/window": {
+    "format": "{}",
+    "icon": true,
+    "icon-size": 20
+  },
+  "hyprland/submap":{
+    "format": "鍵 {}",
+    "max-length": 12,
+    "tooltip": true
+  },
+  
+  "hyprland/workspaces": {
+    "format": "{icon}",
+    "on-click": "activate",
+    "all-outputs": false,
+    "sort-by-number": true,
+    "show-special": true,
+    // "special-visible-only": true,
+    "format-icons": {
+      "1": "1",
+      "2": "2",
+      "3": "3",
+      "4": "4",
+      "5": "5",
+      "6": "6",
+      "7": "7",
+      "8": "8",
+      "9": "9",
+      "10": "10",
+      "audio": "󰜟",
+      "discord": "🗨",
+      "docs": "𝔻", // D doublestruck
+      "dotfilesHypr": "¶H",
+      "dotfilesEmacs": "¶E",
+      "dotfilesNixos": "¶N",
+      "music": "𝄞",
+      "pass": "🔒",
+      "agenda": "𝔄", //  A frankfurt
+      "roam": "𝕽", // R frankfurt
+      "tuitray": "",
+      "focused": "",
+      // "default": "",
+      "on-scroll-up": "hyprctl dispatch workspace e+1",
+      "on-scroll-down": "hyprctl dispatch workspace e-1",
+    },
+  }
+}

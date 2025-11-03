@@ -1,0 +1,19 @@
+// -*- mode: jsonc -*-
+{
+  "wireplumber": {
+    "format": "{volume}{icon}",
+    "format-icons": ["", "", ""],
+    "on-click": "helvum",
+    "on-click-right": "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle",
+    "format-muted":"µ ",
+    "max-volume": 150,
+    "scroll-step": 2
+  },
+  "wireplumber#source": {
+    "node-type": "Audio/Source",
+    "format": "{volume}󰍬",
+    "format-muted": "µ 󰍭",
+    "on-click-right": "wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle",
+    "scroll-step": 5,
+  },
+}

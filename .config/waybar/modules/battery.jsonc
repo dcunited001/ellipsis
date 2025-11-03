@@ -1,0 +1,17 @@
+// -*- mode: jsonc -*-
+{
+  "battery": {
+    "states": {
+      // "good": 95,
+      "warning": 35,
+      "critical": 20
+    },
+    "format": "{icon} {capacity: >3}%",
+    "format-icons": ["", "", "", "", ""]
+    // "format-good": "", // An empty format will hide the module
+    // "format-full": "",
+    //"format-icons": ["", "", "", "", "", "", "", "", "", ""]
+    //"format": "&#x202b;{icon}&#x202c; {capacity}%",
+    //"format-icons": ["ﱉ","ﱊ","ﱌ","ﱍ","ﱋ"]
+  },
+}
