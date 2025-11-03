@@ -29,6 +29,8 @@ hyprland.conf:
 	ln -s "./$(HOST).hyprland.conf" hyprland.conf
 hypridle.conf:
 	ln -s "./$(HOST)/hypridle.conf" hypridle.conf
+hypridle.smartcard.conf:
+	ln -s "./$(HOST)/hypridle.smartcard.conf" hypridle.smartcard.conf
 hyprlock.conf:
 	ln -s "./$(HOST)/hyprlock.conf" hyprlock.conf
 hyprsunset.conf:

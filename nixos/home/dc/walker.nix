@@ -71,7 +71,7 @@ in
   # environment.etc = {
   #   "xdg/walker/config.toml" = lib.importTOML "./walker.toml";
   # };
-  systemd.user.services.elephant = lib.mkIf elephantSystemD {
+  hjem.users.dc.systemd.services.elephant = lib.mkIf elephantSystemD {
     unitConfig = {
       Description = "Elephant Launcher and Indexer Service";
       Documentation = "https://github.com/abenz1257/elephant";
@@ -90,7 +90,7 @@ in
     after = [ "background-graphical.target" ];
   };
 
-  systemd.user.sockets.elephant = lib.mkIf elephantSystemD {
+  hjem.users.dc.systemd.sockets.elephant = lib.mkIf elephantSystemD {
     unitConfig = {
       Description = "Elephant Launcher and Indexer Socket";
       Documentation = "https://github.com/abenz1257/elephant";

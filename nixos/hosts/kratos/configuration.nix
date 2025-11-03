@@ -53,6 +53,7 @@
       "home/dc/walker.nix"
       "home/dc/chromium.nix"
       "home/dc/hypr.nix"
+      "home/dc/hypridle.nix"
     ])
 
     ./frc.nix
