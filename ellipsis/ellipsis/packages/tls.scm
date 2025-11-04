@@ -167,7 +167,7 @@ Key Vault, age, and PGP.")
 (define-public step-cli-bin
   (package
     (name "step-cli-bin")
-    (version "0.28.6")
+    (version "0.28.7")
     (source (origin
               (method url-fetch)
               (uri (string-append
@@ -175,7 +175,7 @@ Key Vault, age, and PGP.")
                     "v" version "/step_linux_" version "_amd64.tar.gz"))
               (sha256
                (base32
-                "0f3k7bz9ypyhp9dzq3l62aac2qr1c2957667g6i4ppgpvvnqw78c"))))
+                "0q1ls399i4byqa7ad9x8f8l644bvrs8rzapvacm3819f38sqdraj"))))
     (build-system copy-build-system)
     (inputs
      (list coreutils pcsc-lite))
@@ -189,7 +189,7 @@ Key Vault, age, and PGP.")
 (define-public step-ca-bin
   (package
     (name "step-ca-bin")
-    (version "0.28.3")
+    (version "0.28.4")
     (source (origin
               (method url-fetch)
               (uri (string-append
@@ -197,7 +197,7 @@ Key Vault, age, and PGP.")
                     "v" version "/step-ca_linux_" version "_amd64.tar.gz"))
               (sha256
                (base32
-                "0vpsxqp2fd38r8k689370364bsj5crajs2npz7bhchsgn7k7lx70"))))
+                "0vcr25rbswl4gfmbxgna06g8a92lwc1n01bnxrpkp4amzdz5zpnx"))))
     (build-system copy-build-system)
     (arguments
      (list
@@ -213,7 +213,8 @@ Key Vault, age, and PGP.")
 (define-public step-kms-plugin-bin
   (package
     (name "step-kms-plugin-bin")
-    (version "0.12.3-rc19")
+    (version "0.15.1")
+    ;; (version "0.12.3-rc19")
     (source (origin
               (method url-fetch)
               (uri (string-append
@@ -222,7 +223,7 @@ Key Vault, age, and PGP.")
                     "_linux_amd64.tar.gz"))
               (sha256
                (base32
-                "1vn0z3bjrf5h5amll2xa39nppxn6ggdxfk6mnvyqsgy1083rmnxm"))))
+                "157as58f71k3p61mlbqk3351rk913k7gvyrjckmyx2c9sx63bpgv"))))
     (build-system binary-build-system)
     (inputs `((,gcc "lib")
               ,gcc-toolchain
@@ -230,6 +231,11 @@ Key Vault, age, and PGP.")
               ;; ,pcsc-lite
               ;; ,glibc
               ))
+
+    ;; causes pcsc server (4:5) client (4:4) mismatch
+    ;; - using patchelf against guix's pcsc-lite 2.0.0
+    ;; - while running nixos pcsc-lite 2.3.0
+    ;; - this is more of a host-system incompatibility
     (propagated-inputs (list pcsc-lite))
     (arguments
      (list

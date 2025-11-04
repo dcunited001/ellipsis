@@ -1,10 +1,10 @@
 ;;; Module: common
 (define-module (ellipsis system common)
 
-  #:use-module (ellipsis packages emacs-xyz)
+  ;; #:use-module (ellipsis packages emacs-xyz)
   #:use-module (ellipsis packages gnupg)
   #:use-module (ellipsis packages golang-crypto)
-  #:use-module (ellipsis packages password-utils)
+  ;; #:use-module (ellipsis packages password-utils)
   #:use-module (ellipsis packages security-token)
   #:use-module (ellipsis packages tls)
 
@@ -18,8 +18,9 @@
   #:use-module (srfi srfi-1)
   #:export (%el-extra-files-svc))
 
+;; remove package-management?
 (use-package-modules wget curl screen password-utils vim tmux emacs emacs-xyz
-                     package-management ; remove?
+                     emacs-build package-management textutils
                      networking linux hardware rsync acl admin diffoscope
                      time mtools lsof file-systems disk version-control web
                      ssh gnupg cryptsetup security-token tls certs libusb
@@ -46,29 +47,29 @@
 
 (define-public el-nonguix-chan-subs
   (guix-extension
-   (substitute-urls
-    (append (list "https://substitutes.nonguix.org")
-            %default-substitute-urls))
-   (authorized-keys
-    (append
-     (list %nonguix-chan-key)
-     %default-authorized-guix-keys))))
+    (substitute-urls
+     (append (list "https://substitutes.nonguix.org")
+             %default-substitute-urls))
+    (authorized-keys
+     (append
+      (list %nonguix-chan-key)
+      %default-authorized-guix-keys))))
 
 (define-public (el-guix-configuration channels)
   (guix-configuration
-   (inherit %default-guix-configuration)
-   (guix (guix-for-channels channels))
-   (channels channels)
-   (authorize-key? #t)
-   (authorized-keys
-    (cons* %nonguix-key
-           %default-authorized-guix-keys))
-   (substitute-urls
-    '("https://ci.guix.gnu.org"
-      "https://substitutes.nonguix.org"
-      "https://bordeaux.guix.gnu.org"))
-   (extra-options '("--max-jobs=6"
-                    "--cores=0"))))
+    (inherit %default-guix-configuration)
+    (guix (guix-for-channels channels))
+    (channels channels)
+    (authorize-key? #t)
+    (authorized-keys
+     (cons* %nonguix-key
+            %default-authorized-guix-keys))
+    (substitute-urls
+     '("https://ci.guix.gnu.org"
+       "https://substitutes.nonguix.org"
+       "https://bordeaux.guix.gnu.org"))
+    (extra-options '("--max-jobs=6"
+                     "--cores=0"))))
 
 ;;; Packages
 

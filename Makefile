@@ -20,6 +20,8 @@ ELCHANNEL=$(abspath $(MKDIR)/ellipsis)
 DCCHANNEL=$(abspath $(MKDIR)/dc)
 GUIXPACKAGE=guix package -L ${ELCHANNEL} -L ${DCCHANNEL}
 
+# TODO: fix these load paths
+
 # channel outputs
 ELLIPSIS_SRC_LOAD_PATH=-L ./env -L ./ellipsis
 DC_SRC_LOAD_PATH=-L ./env -L ./ellipsis -L ./dc
@@ -75,37 +77,45 @@ guix-pull:
 # =============================================
 # Guix
 
+#-----------------------
+# ISOs
+.PHONY: guixIso
+GPGISO_SCM="(@ (ellipsis system usb-gpg-tools) usb-gpg-tools)"
+
+gpgiso:
+	guix system -L ./ellipsis \
+	image --image-type=iso9660 \
+	-e ${GPGISO_SCM}
+
 # ---------------------------------------------
-# GuixHome
+# Guix Home
 GUIX_HOST=$(shell hostname)
 GUIX_HOST_SYSTEM=./dc/dc/system/$(GUIX_HOST).scm
 GUIX_HOST_HOME=./dc/dc/home/$(GUIX_HOST).scm
 
-GUIX_HOST_HE="(@ (dc home kharis) kharis-home-environment)"
-
 .PHONY: ghbuild
 ghbuild:
-	${GUIX} home \
-	${DC_SRC_LOAD_PATH} \
+	${GUIX} home -L ./ellipsis -L ./dc \
 	build ${GUIX_HOST_HOME}
 
 .PHONY: ghcontainer
 ghcontainer:
-	${GUIX} home \
-	${DC_SRC_LOAD_PATH} \
+	${GUIX} home -L ./ellipsis -L ./dc \
 	container ${GUIX_HOST_HOME}
 
 #-----------------------
-# Guix Home
+# Guix Home Container
 #
 # Just quickly extract a few files from there
 
 # TODO: cat this content from the store after guix home build
 
+GUIX_HOST_HE="(@ (dc home kharis) kharis-home-environment)"
+
 .PHONY: guixHomeContainer
 guixHomeContainer:
-	guix home container -L ../dc -L ../ellipsis --share "$(MKDIR)" \
-	-e "$(GH_KHARIS_HE)"
+	guix home -L ./ellipsis -L ./dc \
+	container --share="$(MKDIR)" -e ${GUIX_HOST_HE}
 
 #-----------------------
 # Screen

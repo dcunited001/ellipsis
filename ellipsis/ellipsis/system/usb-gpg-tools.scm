@@ -30,7 +30,7 @@
 
 ;; networking is needed for loopback and maybe other use cases
 (use-service-modules networking ssh security-token authentication)
-(use-package-modules emacs emacs-xyz)
+(use-package-modules emacs emacs-xyz emacs-build)
 
 (define %ugt-my-groups
   '("wheel" "users" "tty" "dialout"
@@ -56,10 +56,10 @@
 ;; TODO %ugt-default-user set to 1000:1000 to be consistent
 (define %ugt-default-user
   (user-account
-   (name "dc")
-   (comment "Default User")
-   (group %ugt-user-name)
-   (supplementary-groups %ugt-my-groups)))
+    (name "dc")
+    (comment "Default User")
+    (group %ugt-user-name)
+    (supplementary-groups %ugt-my-groups)))
 
 (define-public %ugt-packages-emacs
   ;; still needs either emacs or emacs-no-x-toolkit
@@ -87,14 +87,14 @@
    (modify-services %base-services
      (agetty-service-type
       config => (agetty-configuration
-                 (inherit config)
-                 (login-pause? #t)
-                 (timeout 30)))
+                  (inherit config)
+                  (login-pause? #t)
+                  (timeout 30)))
 
      (mingetty-service-type
       config => (mingetty-configuration
-                 (inherit config)
-                 (login-pause? #t))))))
+                  (inherit config)
+                  (login-pause? #t))))))
 
 ;;;; Image
 
@@ -109,8 +109,8 @@
 
     ;; to install on a system with just BIOS (e.g. a VM)
     (bootloader (bootloader-configuration
-                 (bootloader grub-efi-bootloader)
-                 (targets "/dev/sda")))
+                  (bootloader grub-efi-bootloader)
+                  (targets "/dev/sda")))
 
     (file-systems (cons (file-system
                           (device (file-system-label "usb-gpg-disk"))

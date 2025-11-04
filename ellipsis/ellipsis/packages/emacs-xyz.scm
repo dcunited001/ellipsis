@@ -7,6 +7,7 @@
   #:use-module (guix packages)
   #:use-module (guix build-system emacs)
   #:use-module (gnu packages)
+  #:use-module (gnu packages emacs-build)
   #:use-module (gnu packages emacs-xyz)
   #:use-module (srfi srfi-1))
 
@@ -39,8 +40,8 @@
       (source (origin
                 (method git-fetch)
                 (uri (git-reference
-                      (url github-repo)
-                      (commit commit)))
+                       (url github-repo)
+                       (commit commit)))
                 (file-name (git-file-name name version))
                 (sha256
                  (base32 "079fj4vm8pyjfm62yba8r089rlhy725qm27b3fj4vx25s44vywjr"))))
@@ -83,8 +84,8 @@
     (source (origin
               (method git-fetch)
               (uri (git-reference
-                    (url "https://github.com/snogge/repo-el")
-                    (commit version)))
+                     (url "https://github.com/snogge/repo-el")
+                     (commit version)))
               (file-name (git-file-name name version))
               (sha256
                (base32
