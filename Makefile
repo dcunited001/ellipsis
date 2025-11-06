@@ -11,6 +11,7 @@ SHELL=/bin/sh
 
 # maybe rebuild cache: --rebuild-cache
 
+GUIXGUIXCHAN=$(HOME)/.config/guix/channels.scm
 CHANNELS_FILE=./env/dc-configs/guix/channels.scm
 GUIXTM=guix time-machine -L ./env -C ${CHANNELS_FILE}
 GUIX=$(GUIXTM) --
@@ -83,7 +84,7 @@ guix-pull:
 GPGISO_SCM="(@ (ellipsis system usb-gpg-tools) usb-gpg-tools)"
 
 gpgiso:
-	guix system -L ./ellipsis \
+	${GUIX} system -L ./ellipsis \
 	image --image-type=iso9660 \
 	-e ${GPGISO_SCM}
 
@@ -114,7 +115,7 @@ GUIX_HOST_HE="(@ (dc home kharis) kharis-home-environment)"
 
 .PHONY: guixHomeContainer
 guixHomeContainer:
-	guix home -L ./ellipsis -L ./dc \
+	${GUIX} home -L ./ellipsis -L ./dc \
 	container --share="$(MKDIR)" -e ${GUIX_HOST_HE}
 
 #-----------------------

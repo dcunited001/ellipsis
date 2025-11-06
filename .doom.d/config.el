@@ -297,11 +297,22 @@ Guix channel.")
 `window-width' and `frame-width'."
   (interactive)
   (let ((width-percentage
-         (* 100.0 (/ (* 1.0 (window-width))
-                     (frame-width)))))
+         (* 100.0 (/ (* 1.0 (window-width)) (frame-width))))
+        (restore-popups (+popup-windows)))
+    (when restore-popups (+popup/toggle))
     (if (> width-percentage 75)
         (balance-windows)
-      (maximize-window))))
+      (maximize-window))
+    (when restore-popups (+popup/toggle))))
+
+(defun +popup/toggle ()
+  "Toggle any visible popups.
+If no popups are available, display the *Messages* buffer in a popup window."
+  (interactive)
+  (let ((+popup--inhibit-transient t))
+    (cond ((+popup-windows) (+popup/close-all t))
+          ((ignore-errors (+popup/restore)))
+          ((display-buffer (get-buffer "*Messages*"))))))
 
 ;;;; Basics
 ;;
@@ -315,6 +326,12 @@ Guix channel.")
 
 ;;;;; Menus
 ;;;;; Date & Time
+;;;;; Desktop
+(after! customize
+  (set-popup-rules!
+    '(("^\\*Customize"
+       :slot 2 :side right :size 0.25 :select t :quit nil))))
+
 ;;;;; Desktop
 
 ;; phew, it can ask (doesn't really work though)
@@ -735,6 +752,14 @@ modes and testing is tedious."
 ;; `completion-category-defaults' is set to nil in doom's vertico/corfu modules
 
 ;;;;; Consult
+
+(defun dc/consult-ripgrep (&optional dir initial)
+  "By default `consult-ripgrep' should not exclude compressed files, but in
+large search domains, it's almost always a failure."
+  (interactive "P")
+  (let ((consult-ripgrep-args (concat consult-ripgrep-args " --no-search-zip")))
+    (consult-ripgrep dir initial)))
+
 (use-package! consult-org-roam
   :after (org-roam consult)
   :config
@@ -2340,6 +2365,7 @@ the root")
       "k" #'consult-keep-lines
       "m" #'consult-man
       "r" #'consult-ripgrep
+      "M-r" #'dc/consult-ripgrep
       "s" #'consult-line-multi          ; "L"
       "S" #'swiper
       ;; "M-s" #'consult-yasnippet
