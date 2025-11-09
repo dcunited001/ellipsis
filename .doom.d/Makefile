@@ -23,7 +23,7 @@ SHELL=/bin/sh
 GUIX_PROFILE=$(MKDIR)/.guix-profile
 MANIFEST=$(MKDIR)/manifest.scm
 CHANLOCK=$(MKDIR)/channels-lock.scm
-GUIXGUIXCHAN=$(HOME)/.config/guix/channels.scm
+GUIXGUIXCHAN=$(MKPARENT)/.config/guix/channels.scm
 
 GUIXTM=guix time-machine -C channels-lock.scm
 

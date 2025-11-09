@@ -594,7 +594,7 @@ modes and testing is tedious."
   :defer t
   :init (setopt doom-theme nil)
   ;; hmmm v2.0?
-  :hook (doom-init-ui-hook . (lambda () (ef-themes-load-random-dark)))
+  :hook (doom-init-ui-hook . (lambda () (modus-themes-load-random-dark)))
   :config
   (map! :map dc/quick-map
         (:prefix ("t" . "THEME")
@@ -2301,7 +2301,9 @@ the root")
 ;; TODO: move setup for <f1> <f2> map to after use-package (and after! which-key?)
 
 ;;;; Global Remaps
-(map! :map 'global-map "<f11>" #'dc/toggle-window-balance)
+(map! :map 'global-map
+      "<f11>" #'dc/toggle-window-balance
+      "M-`" #'+popup/buffer)
 
 ;; "<f11>" #'maximize-window
 ;; "S-<f11>" #'balance-windows

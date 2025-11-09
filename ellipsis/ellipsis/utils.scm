@@ -9,7 +9,6 @@
   (call-with-input-file file
     json->scm))
 
-
 (define-public (alist-append-uniq . rest)
   (fold
    (lambda (el li)

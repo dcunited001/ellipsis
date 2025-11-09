@@ -39,6 +39,71 @@ PULL_EXTRA_OPTIONS=
 # ROOT_MOUNT_MOUNT=/mnt
 
 # =============================================
+# Guix Channel
+
+guix:
+
+# TODO: this be crazy. either use git-restore-mtime from MestreLion/git-tools
+#   - or fsmonitor-watchman (receives command+args and list of rewrites on stdin)
+
+# multiple bad patterns here....
+
+# GUIX_GIT_FILES := .config/guix/base-channels.scm \
+# .config/guix/channels.scm \
+# env/dc-configs/guix/channels.scm
+# GUIX_GIT_TIMESTAMPS := $(foreach f, $(GUIX_GIT_FILES), $(shell git log -1 --format="%ad" --date=iso-strict -- $(f)))
+
+# guixGitTouch:
+# 	echo $(GUIX_GIT_FILES)
+# 	echo $(GUIX_GIT_TIMESTAMPS)
+
+# # for f in $(GUIX_GIT_TOUCH); do \
+# #   echo commit_date=$$(git log -1 --format=\"%ad\" --date=iso-strict -- \"$$f\"); \
+# #   echo "touched mtime: $$f $$commit_date"; \
+# #   echo touch -m -d "$$commit_date" "$$f"; \
+# # done # wtf
+
+# -----------------------
+# For Dotfiles
+#
+# - for Doom Emacs, and misc profiles
+
+$(HOME)/.config/guix/current:
+.config/guix/base-channels.scm: # guix-git-touch
+.config/guix/channels.scm:  .config/guix/current # guix-git-touch .config/guix/current
+	guix describe --format=channels > .config/guix/channels.scm
+
+.PHONY: guix-pull
+guix-pull: # guix-git-touch
+	guix pull -L ./ellipsis -L ./dc -C ${GUIXGUIXCHAN}
+
+# -----------------------
+# For hacking on Scheme
+#
+# - for packages, services and guix-home in ./ellipsis and ./dc
+# - this stays locked via ${CHANNELS_FILE}
+
+# guix: env/sync
+
+env/dc-configs/guix/channels.scm: # .config/guix/channels.scm # (run manually)
+
+guix-pull-dev: .config/guix/channels.scm env/dc-configs/guix/channels.scm
+	guix pull -L ./env -C ${CHANNELS_FILE}
+
+# TODO: automatically sync the commit shas in env/dc-configs/guix/channels.scm
+# with those in .config/guix/channels (run as a PHONY task). it should be as
+# simple as:
+#
+# - create a timestamped backup (so it doesn't get overwritten, though it's in git)
+# - then eliminate everything after (define core-channels ...)
+# - run a guile -e script that sources .config/guix/channels (or guix describe)
+# - and write the object it to a scheme port. append a reference to `core-channels`
+#
+# done... or it would be as simple as that... but idk scheme tooling well
+# enough. you can write plain scheme objects to a file. that's all that's
+# happening here. the channels format is like a nested plist.
+
+# =============================================
 # `make ares`
 #
 # (1) sets /gnu/store to the specified CHANNELS_FILE (for fast GUIXTM)
@@ -64,10 +129,6 @@ ares:
 # TODO: write an env/sync task to emit channel spec to (dc-configs guix channels)
 # env/sync: env/guix/rde/env/guix/channels.scm
 
-# guix: env/sync
-guix:
-guix-pull:
-	guix pull -L ./env -C ${CHANNELS_FILE}
 
 # TODO: figure out how to get a separate GC link, so the GUIXTM store items
 # aren't prematurely purged (like a basic emacs profile or something)
