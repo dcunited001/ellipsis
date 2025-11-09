@@ -101,8 +101,9 @@ obj_mgr:connect("installed", function (om)
     if global_props["media.class"]:match("Stream/.*") then
       print ("\t" .. id .. ": " .. global_props["application.name"])
     else
-      print ("\t" .. id .. ": " .. global_props["object.path"]
-                .. " (" .. global_props["node.description"] .. ")")
+      -- not every node in my graph has an object.path...
+      print ("\t" .. id .. ": " .. " (" .. global_props["node.description"] .. ")")
+        -- .. global_props["object.path"]
     end
   end
 
