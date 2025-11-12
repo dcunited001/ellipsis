@@ -26,3 +26,5 @@ link_om:connect("object-added", function (om, link)
 end)
 
 link_om:activate()
+
+Core.quit()

@@ -1612,10 +1612,15 @@ the root")
 
 ;;TODO Web: ensure emmet-mode is configured
 
+;; html-ts-mode requires mhtml-ts-mode, but needs html-ts-mode-indent-offset set
+(use-package mhtml-ts-mode :defer t)
 (use-package html-ts-mode
   :mode "\\.html?\\'"
-  :config (add-to-list 'major-mode-remap-alist
-                       '(mhtml-mode . html-ts-mode)))
+  :config
+  (require 'mhtml-ts-mode)
+  (setq html-ts-mode-indent-offset 2)
+  (add-to-list 'major-mode-remap-alist
+               '(mhtml-mode . html-ts-mode)))
 
 (use-package! apheleia
   :config

@@ -2,10 +2,12 @@
   #:use-module ((guix licenses) #:prefix license:)
   #:use-module (gnu packages)
   #:use-module (gnu packages check)
+  #:use-module (gnu packages imagemagick)
   #:use-module (gnu packages python-build)
   #:use-module (gnu packages python-xyz)
+  #:use-module (gnu packages python-web)
   #:use-module (gnu packages python-check)
-  #:use-module (gnu packages imagemagick)
+  #:use-module (gnu packages xml)
   #:use-module (guix build-system pyproject)
   #:use-module (guix build-system python)
 
@@ -16,6 +18,7 @@
   #:use-module (guix gexp)
   #:use-module (guix git-download)
   #:use-module (guix packages)
+  #:use-module (guix transformations) ;; for python-requests=2.30
   #:use-module (guix utils)
   #:use-module (srfi srfi-1))
 
@@ -63,6 +66,138 @@
     (description
      "An efficient IP address storage and lookup module for Python.")
     (license license:lgpl3)))
+
+;; ---------------------------------------------
+;; python-pds-deeparchive
+
+(define-public python-lxml-stubs
+  (let ((version "0.5.1"))
+    (package
+      (name "python-lxml-stubs")
+      (version version)
+      (source
+       (origin
+         (method url-fetch)
+         (uri (pypi-uri "lxml-stubs" version))
+         (sha256
+          (base32 "17dpx97pvyhyz3x9sdb4sp0ss4jwa7j1q28rnxw15ncjrshjmv70"))))
+      (build-system pyproject-build-system)
+      (inputs (list python-lxml))
+      (native-inputs (list
+                      python-setuptools
+                      python-wheel
+                      python-coverage
+                      python-mypy
+                      python-pytest
+                      python-pytest-mypy-plugins))
+      ;; fails everything, but same as nixos derivation at first glance
+      (arguments
+       (list #:phases #~(modify-phases %standard-phases (delete 'check))))
+      (home-page "https://github.com/lxml/lxml-stubs")
+      (synopsis "Type annotations for the lxml package")
+      (description "Type annotations for the lxml package.")
+      (license #f))))
+
+(define-public python-mypy-zope
+  (let ((version "1.0.13"))
+    (package
+      (name "python-mypy-zope")
+      (version version)
+      (source
+       (origin
+         (method url-fetch)
+         (uri (pypi-uri "mypy_zope" version))
+         (sha256
+          (base32 "168ga7m1ps8cv7c0yyl3ljjd4jyyvhaffsfwh3rblx58bq1lvyv3"))))
+      (build-system pyproject-build-system)
+      (propagated-inputs (list python-mypy python-zope-interface
+                               python-zope-schema))
+      (native-inputs (list python-lxml python-pytest python-pytest-cov
+                           python-setuptools python-wheel))
+      (arguments
+       ;; tests/test_samples/interface_implications.py (and others)
+       ;; idkwtf mypy is (dev tool? build tool? does it land bruce willis on the moon?)
+       (list #:phases #~(modify-phases %standard-phases (delete 'check))))
+      (home-page "https://github.com/Shoobx/mypy-zope")
+      (synopsis "Plugin for mypy to support zope interfaces")
+      (description "Plugin for mypy to support zope interfaces.")
+      (license #f))))
+
+(define-public python-requests-2.31
+  (package
+    (inherit python-requests)
+    (name "python-requests-2.31")
+    (version "2.31.0")
+    ;; pkg_resources package is slated for removal as early as 2025-11-30
+    (source (origin
+              (method url-fetch)
+              (uri (pypi-uri "requests" version))
+              (sha256
+               (base32
+                "1qfidaynsrci4wymrw3srz8v1zy7xxpcna8sxpm91mwqixsmlb4l"))))))
+
+(define-public python-zope-interface-7.1.1
+  (package
+    (inherit python-zope-interface)
+    (name "python-zope-interface-7.1.1")
+    (version "7.1.1")
+    (source (origin
+              (method url-fetch)
+              (uri (pypi-uri "zope.interface" version))
+              (sha256
+               (base32
+                "1qy5za5hb05jplx0gz7gzb2kv1w07nqyfkbdhc4vgxqgxxjdd122"))))))
+
+(define-public python-pds-deeparchive
+  (let ((version "1.5.0")
+        (github-repo "https://github.com/NASA-PDS/deep-archive"))
+    (package
+      (name "python-pds-deeparchive")
+      (version version)
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+                (url github-repo)
+                (commit (string-append "v" version))))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32 "1q8l6pvlh7hia0r8q42drrxfc6mw100sbw81q8mxcdfglb95n0jf"))))
+      (build-system pyproject-build-system)
+      (inputs
+       (list python-requests-2.31
+             python-zope-component
+             python-zope-interface
+             python-lxml))
+      ;; https://github.com/NASA-PDS/deep-archive/blob/c5452b9dcd1a271889401df9897c82f594b3e48f/setup.cfg#L94
+      (native-inputs
+       ;; python-wheel
+       ;; python-pydocstyle
+       (list
+        python-setuptools
+        python-mypy-zope
+        python-types-requests
+        ;; python-lxml-stubs
+        python-pytest
+        python-pytest-cov
+        python-pytest-xdist
+        python-pytest-mypy-plugins
+        python-tox
+        python-coverage))
+
+      ;; failures related to type inference in tests (adding mypy-zope didn't help)
+      (arguments
+       (list
+        #:phases
+        #~(modify-phases %standard-phases
+            (delete 'check)
+            (delete 'sanity-check))))
+      (home-page "https://github.com/NASA-PDS/deep-archive")
+      (synopsis "PDS Open Archival Information System (OAIS) utilities")
+      (description "Software for the Planetary Data System to generate Archive
+Information Package (AIP) and Submission Information Package (SIP) products,
+based upon Open Archival Information System standards.")
+      (license license:asl2.0))))
 
 (define-public python-convcolors
   (package

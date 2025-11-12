@@ -4,10 +4,15 @@
   services.pcscd.enable = true;
   # services.pscsd.plugins = [pkgs.ccid] # default
 
+  # adds pkgs, enables pcscd, adds udev rules from yubikey-personalization
+  # services.yubikey-manager.enable = true; # 25.05 only
+
   # TODO: move some of these to the users.users.<username>.packages?
   environment.systemPackages = [
     pkgs.yubikey-manager
     pkgs.yubico-piv-tool
+    pkgs.yubikey-personalization # still also need the package
+    pkgs.yubioath-flutter # the new yk-p13n gui
   ];
 
   # TODO: nix systemd: Needs: smartcard.target + (age/gpg startup target) or scd-pkcs11

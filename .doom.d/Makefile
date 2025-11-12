@@ -30,11 +30,11 @@ GUIXTM=guix time-machine -C channels-lock.scm
 # TODO: shouldn't be coupled to another project install path
 ELCHANNEL=$(abspath $(MKPARENT)/ellipsis)
 DCCHANNEL=$(abspath $(MKPARENT)/dc)
-GUIXPACKAGE=guix package -L ${ELCHANNEL} -L ${DCCHANNEL}
+GUIXPACKAGE=guix package -L $(ELCHANNEL) -L $(DCCHANNEL)
 
 # quoting issues:
-# GUIXLOADARGS="-L ${ELCHANNEL} -L ${DCCHANNEL}"
-# GUIXPACKAGE="guix package ${GUIXLOADARGS}"
+# GUIXLOADARGS="-L $(ELCHANNEL) -L $(DCCHANNEL)"
+# GUIXPACKAGE="guix package $(GUIXLOADARGS)"
 
 # .guix-profile requires pulling $ELCHANNEL,$DCCHANNEL first
 
@@ -61,13 +61,16 @@ testErrorStatus:
 # - also, timestamps won't hold on clone.
 # - how to reference the name of a .PHONY target?
 
+$GUIXGUIXCHAN: .config/guix/current
+	guix describe --format=channels > ~/.config/guix/channels.scm
+
 .PHONY: updateChanLock
 updateChanLock:
 	@echo "Running updateChanLock"
-	test ${CHANLOCK} -nt ${GUIXGUIXCHAN} \
-	&& echo ${GUIXGUIXCHAN} is not newer than ${CHANLOCK} \
-	|| (cp -p ${GUIXGUIXCHAN} ${CHANLOCK} \
-	    && echo Copied ${GUIXGUIXCHAN} to ${CHANLOCK})
+	test $(CHANLOCK) -nt $(GUIXGUIXCHAN) \
+	&& echo $(GUIXGUIXCHAN) is not newer than $(CHANLOCK) \
+	|| (cp -p $(GUIXGUIXCHAN) $(CHANLOCK) \
+	    && echo Copied $(GUIXGUIXCHAN) to $(CHANLOCK))
 
 # this seems like a bad pattern
 manifest.scm:
@@ -79,7 +82,7 @@ channels-lock.scm: $(GUIXGUIXCHAN)
 # this does NOT consistently run its dependents, regardless of whether `make
 # -L` is used... which is annoyingly required.
 .guix-profile: manifest.scm channels-lock.scm
-	${GUIXPACKAGE} -m ${MANIFEST} -p ${GUIX_PROFILE}
+	$(GUIXPACKAGE) -m $(MANIFEST) -p $(GUIX_PROFILE)
 
 # channels-lock.scm:
 # 	mktemp
@@ -99,9 +102,9 @@ channels-lock.scm: $(GUIXGUIXCHAN)
 #
 # export EMAIL=aionfork@gmail.com
 # export SSH_AUTH_SOCK=/run/user/1000/gnupg/S.gpg-agent.ssh
-# export DOOMDIR=${HOME}.doom.d
+# export DOOMDIR=$(HOME).doom.d
 # export EMACS=$(pwd)/.guix-profile/bin/emacs
-# export EMACSDIR=${HOME}/.emacs.doom
+# export EMACSDIR=$(HOME)/.emacs.doom
 # export DOOMLSP=lsp
 #
 # emacs_socket_name=fdsa

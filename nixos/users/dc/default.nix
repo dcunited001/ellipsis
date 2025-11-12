@@ -138,6 +138,11 @@ in
       _1password-cli
       _1password-gui
       keepassxc
+      openssl
+
+      step-cli
+      step-ca
+      step-kms-plugin
 
       # LANG: HTML
       html-tidy

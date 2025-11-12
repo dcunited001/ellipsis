@@ -11,17 +11,18 @@ SHELL=/bin/sh
 
 # maybe rebuild cache: --rebuild-cache
 
+GUIXGUIXBASE=$(HOME)/.config/guix/base-channels.scm
 GUIXGUIXCHAN=$(HOME)/.config/guix/channels.scm
 CHANNELS_FILE=./env/dc-configs/guix/channels.scm
-GUIXTM=guix time-machine -L ./env -C ${CHANNELS_FILE}
+GUIXTM=guix time-machine -L ./env -C $(CHANNELS_FILE)
 GUIX=$(GUIXTM) --
 
 # don't use these vars for GUIXTM
 ELCHANNEL=$(abspath $(MKDIR)/ellipsis)
 DCCHANNEL=$(abspath $(MKDIR)/dc)
-GUIXPACKAGE=guix package -L ${ELCHANNEL} -L ${DCCHANNEL}
+GUIXPACKAGE=guix package -L $(ELCHANNEL) -L $(DCCHANNEL)
 
-# TODO: fix these load paths
+# TODO: ... don't quote these load paths (no idea what i'm doing)
 
 # channel outputs
 ELLIPSIS_SRC_LOAD_PATH=-L ./env -L ./ellipsis
@@ -43,30 +44,10 @@ PULL_EXTRA_OPTIONS=
 
 guix:
 
-# TODO: this be crazy. either use git-restore-mtime from MestreLion/git-tools
-#   - or fsmonitor-watchman (receives command+args and list of rewrites on stdin)
 
-# multiple bad patterns here....
-
-# GUIX_GIT_FILES := .config/guix/base-channels.scm \
-# .config/guix/channels.scm \
-# env/dc-configs/guix/channels.scm
-# GUIX_GIT_TIMESTAMPS := $(foreach f, $(GUIX_GIT_FILES), $(shell git log -1 --format="%ad" --date=iso-strict -- $(f)))
-
-# guixGitTouch:
-# 	echo $(GUIX_GIT_FILES)
-# 	echo $(GUIX_GIT_TIMESTAMPS)
-
-# # for f in $(GUIX_GIT_TOUCH); do \
-# #   echo commit_date=$$(git log -1 --format=\"%ad\" --date=iso-strict -- \"$$f\"); \
-# #   echo "touched mtime: $$f $$commit_date"; \
-# #   echo touch -m -d "$$commit_date" "$$f"; \
-# # done # wtf
 
 # -----------------------
 # For Dotfiles
-#
-# - for Doom Emacs, and misc profiles
 
 $(HOME)/.config/guix/current:
 .config/guix/base-channels.scm: # guix-git-touch
@@ -81,11 +62,10 @@ guix-pull: # guix-git-touch
 # For hacking on Scheme
 #
 # - for packages, services and guix-home in ./ellipsis and ./dc
-# - this stays locked via ${CHANNELS_FILE}
+# - this stays locked via $(CHANNELS_FILE)
 
 # guix: env/sync
 
-env/dc-configs/guix/channels.scm: # .config/guix/channels.scm # (run manually)
 
 guix-pull-dev: .config/guix/channels.scm env/dc-configs/guix/channels.scm
 	guix pull -L ./env -C ${CHANNELS_FILE}
@@ -118,7 +98,7 @@ guix-pull-dev: .config/guix/channels.scm env/dc-configs/guix/channels.scm
 # ares: env/sync
 repl: ares
 ares:
-	${GUIX} shell -L ./env \
+	$(GUIX) shell -L ./env \
 	guile-next guile-ares-rs \
 	-e '(@ (dc-configs dev packages) guix-package)' \
 	-e '(@ (dc-configs dev packages) channels-package)' \
@@ -129,12 +109,11 @@ ares:
 # TODO: write an env/sync task to emit channel spec to (dc-configs guix channels)
 # env/sync: env/guix/rde/env/guix/channels.scm
 
-
 # TODO: figure out how to get a separate GC link, so the GUIXTM store items
 # aren't prematurely purged (like a basic emacs profile or something)
 
 # .guix-profile: manifest.scm channels-lock.scm
-# 	${GUIXPACKAGE} -m ${MANIFEST} -p ${GUIX_PROFILE}
+# 	$(GUIXPACKAGE) -m $(MANIFEST) -p $(GUIX_PROFILE)
 
 # =============================================
 # Guix
@@ -145,9 +124,9 @@ ares:
 GPGISO_SCM="(@ (ellipsis system usb-gpg-tools) usb-gpg-tools)"
 
 gpgiso:
-	${GUIX} system -L ./ellipsis \
+	$(GUIX) system -L ./ellipsis \
 	image --image-type=iso9660 \
-	-e ${GPGISO_SCM}
+	-e $(GPGISO_SCM)
 
 # ---------------------------------------------
 # Guix Home
@@ -157,13 +136,13 @@ GUIX_HOST_HOME=./dc/dc/home/$(GUIX_HOST).scm
 
 .PHONY: ghbuild
 ghbuild:
-	${GUIX} home -L ./ellipsis -L ./dc \
-	build ${GUIX_HOST_HOME}
+	$(GUIX) home -L ./ellipsis -L ./dc \
+	build $(GUIX_HOST_HOME)
 
 .PHONY: ghcontainer
 ghcontainer:
-	${GUIX} home -L ./ellipsis -L ./dc \
-	container ${GUIX_HOST_HOME}
+	$(GUIX) home -L ./ellipsis -L ./dc \
+	container $(GUIX_HOST_HOME)
 
 #-----------------------
 # Guix Home Container
@@ -176,20 +155,20 @@ GUIX_HOST_HE="(@ (dc home kharis) kharis-home-environment)"
 
 .PHONY: guixHomeContainer
 guixHomeContainer:
-	${GUIX} home -L ./ellipsis -L ./dc \
-	container --share="$(MKDIR)" -e ${GUIX_HOST_HE}
+	$(GUIX) home -L ./ellipsis -L ./dc \
+	container --share="$(MKDIR)" -e $(GUIX_HOST_HE)
 
 #-----------------------
 # Screen
 .PHONY: screen
-screen: ${HOME}/.screenrc ${HOME}/.screen
+screen: $(HOME)/.screenrc $(HOME)/.screen
 
 # probably a bad pattern.... may switch to using stow
-${HOME}/.screenrc:
+$(HOME)/.screenrc:
 	ln -s $(MKDIR)/.screenrc $(MKDIR)/../.screenrc
 
 # Screen creates sockets and hjem creates *.screenrc links
-# ${HOME}/.screen:
+# $(HOME)/.screen:
 # 	ln -s $(MKDIR)/.screen $(MKDIR)/../.screen
 
 # end
