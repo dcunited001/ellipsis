@@ -44,19 +44,22 @@ PULL_EXTRA_OPTIONS=
 
 guix:
 
+$(GUIXGUIXCHAN): # guix-git-touch .config/guix/current
 
+.PHONY: guix-pull guix-pull-sync guix-pull-lock
+guix-pull: guix-pull-sync guix-pull-lock
+guix-pull-lock:
+	guix describe --format=channels > $(GUIXGUIXCHAN)
+guix-pull-sync:
+	guix pull -L ./ellipsis -L ./dc -C $(GUIXGUIXBASE)
 
 # -----------------------
 # For Dotfiles
 
-$(HOME)/.config/guix/current:
-.config/guix/base-channels.scm: # guix-git-touch
-.config/guix/channels.scm:  .config/guix/current # guix-git-touch .config/guix/current
-	guix describe --format=channels > .config/guix/channels.scm
+# $(HOME)/.config/guix/current:
+# $(GUIXGUIXBASE):
 
-.PHONY: guix-pull
-guix-pull: # guix-git-touch
-	guix pull -L ./ellipsis -L ./dc -C ${GUIXGUIXCHAN}
+# make this an empty target?
 
 # -----------------------
 # For hacking on Scheme
@@ -66,9 +69,19 @@ guix-pull: # guix-git-touch
 
 # guix: env/sync
 
+# .config/guix/channels.scm # (run manually)
 
-guix-pull-dev: .config/guix/channels.scm env/dc-configs/guix/channels.scm
-	guix pull -L ./env -C ${CHANNELS_FILE}
+.PHONY: guix-dev-sync
+guix-sync-dev:
+	cp $(CHANNELS_FILE) $(CHANNELS_FILE).bak
+	nmatch=$(grep -ne '^(define core-channels' | cut -f1 -d':')
+	echo $nmatch
+
+# $(CHANNELS_FILE): $(GUIXGUIXCHAN)
+
+# .PHONY: guix-dev-pull
+# guix-pull-dev: .config/guix/channels.scm env/dc-configs/guix/channels.scm
+# 	guix pull -L ./env -C $(CHANNELS_FILE)
 
 # TODO: automatically sync the commit shas in env/dc-configs/guix/channels.scm
 # with those in .config/guix/channels (run as a PHONY task). it should be as

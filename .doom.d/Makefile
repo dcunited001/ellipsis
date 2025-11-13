@@ -26,6 +26,7 @@ CHANLOCK=$(MKDIR)/channels-lock.scm
 GUIXGUIXCHAN=$(MKPARENT)/.config/guix/channels.scm
 
 GUIXTM=guix time-machine -C channels-lock.scm
+GUIX=$(GUIXTM) --
 
 # TODO: shouldn't be coupled to another project install path
 ELCHANNEL=$(abspath $(MKPARENT)/ellipsis)
@@ -102,9 +103,49 @@ channels-lock.scm: $(GUIXGUIXCHAN)
 #
 # export EMAIL=aionfork@gmail.com
 # export SSH_AUTH_SOCK=/run/user/1000/gnupg/S.gpg-agent.ssh
-# export DOOMDIR=$(HOME).doom.d
-# export EMACS=$(pwd)/.guix-profile/bin/emacs
-# export EMACSDIR=$(HOME)/.emacs.doom
+
+DOOMDIR=$(HOME).doom.d
+EMACSDIR=$(HOME)/.emacs.doom
+EMACS=$(MKDIR)/.guix-profile/bin/emacs
+GUIX_SOURCE=/data/ecto/guix/guix
+EMACS_SOURCE=/data/ecto/emacs/emacs/src
+emacs_socket_name=doom
+# emacs_socket_path=$(XDG_RUNTIME_DIR)/emacs            # unused
+# emacs_socket=$(emacs_socket_path)$(emacs_socket_name) # unused
+
+# make doom_build=-b doomsync
+doom_build=
+
+.PHONY: doomsync doomup doominstall
+doomsync:
+	guix shell -p $(GUIX_PROFILE) \
+	-E EMACSDIR -E EMACS -E DOOMDIR -E EMACS_SOURCE -E GUIX_SOURCE \
+	-- $(EMACSDIR)/bin/doom sync -e -u $(doom_build) -j 6
+
+# TODO: --aot for nativecomp
+
+doomup:
+	guix shell -p $(GUIX_PROFILE) \
+	-E EMACSDIR -E EMACS -E DOOMDIR -E EMACS_SOURCE -E GUIX_SOURCE \
+	-- $(EMACSDIR)/bin/doom upgrade -j 6
+	$(MAKE) doom_build=-b doomsync
+
+.PHONY: doomuwsm doomuwsmtest
+doomuwsm:
+	uwsm app -- \
+	guix shell -p $(GUIX_PROFILE) \
+	-E EMACSDIR -E EMACS -E DOOMDIR -E EMACS_SOURCE -E GUIX_SOURCE \
+	emacs --init-directory=$(EMACSDIR) --fg-daemon=$(emacs_socket_name)
+
+doomuwsmtest:
+	uwsm app -- \
+	guix shell -p $(GUIX_PROFILE) \
+	-E EMACSDIR -E EMACS -E DOOMDIR \
+	emacs --init-directory=$(EMACSDIR) --debug-init
+
+# TODO: calculating "guix" derivation when using $(GUIXTM)
+# TODO: how to pass args into doomuwsmtest?
+
 # export DOOMLSP=lsp
 #
 # emacs_socket_name=fdsa

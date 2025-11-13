@@ -603,6 +603,38 @@ modes and testing is tedious."
                  "t" #'ef-themes-toggle)))
 
 ;;;; Windows
+
+;; NOTE these functions are duplicated in ~/.emacs.d/lisp/dc-aceable-window.el
+(defun dc/aw-window-list ()
+  (mapcar (lambda (wnd) (cons (aw-offset wnd) wnd)) (aw-window-list)))
+
+(defun dc/aw-tree ()
+  (avy-tree (dc/aw-window-list) aw-keys))
+
+(defun dc/aw-select-nth (fn n)
+  (let ((n (or n 0))
+        (atree (dc/aw-tree)))
+    (unless (> (- 1 n) (length atree))
+      (funcall fn (cdddr (nth n atree))))))
+
+(defun dc/map-kp-aceable-window ()
+  (mapc (lambda (k)
+          (global-set-key
+           (kbd (car k))
+           (cmd! (dc/aw-select-nth #'aw-switch-to-window (cdr k)))))
+        '(("<kp-home>" . 0) ("<kp-up>". 1) ("<kp-prior>" . 2)
+          ("<kp-left>". 3) ("<kp-begin>". 4) ("<kp-right>". 5)
+          ("<kp-end>". 6) ("<kp-down>". 7) ("<kp-next>". 8)))
+
+  ;; '"<kp-divide>" "<kp-multiply>" "<kp-subtract>"
+  ;; "<kp-add>"
+
+  #'aw-swap-window)
+
+;; "<kp-decimal>" "<kp-enter>"
+
+(global-set-key (kbd "<kp-insert>") (cmd!! #'ace-window 4))
+
 (use-package! ace-window
   :commands ace-window aw-show-dispatch-help
   :config

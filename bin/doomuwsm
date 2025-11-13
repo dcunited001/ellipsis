@@ -82,7 +82,8 @@ uw_app=uwsmdoom
 uw_desc="Doom Emacs @ $emacs_socket"
 uw_unit="uwsm-emacs-$emacs_socket_name.service"
 
-uwsm app -s b -t service \
-    -a "$uw_app" -u "$uw_unit" -d "$uw_desc" -- \
+# uwsm app -s b -t service \
+#     -a "$uw_app" -u "$uw_unit" -d "$uw_desc" -- \
+uwsm app -- \
     guix shell -p $GUIX_PROFILE -- \
     emacs --init-directory=$EMACSDIR --fg-daemon="$emacs_socket_name" "$@"
