@@ -143,13 +143,13 @@ doomuwsm:
 	uwsm app -- \
 	guix shell -p $(GUIX_PROFILE) \
 	-E EMACSDIR -E EMACS -E DOOMDIR -E EMACS_SOURCE -E GUIX_SOURCE \
-	emacs --init-directory=$(EMACSDIR) --fg-daemon=$(emacs_socket_name)
+	-- emacs --init-directory=$(EMACSDIR) --fg-daemon=$(emacs_socket_name)
 
 doomuwsmtest:
 	uwsm app -- \
 	guix shell -p $(GUIX_PROFILE) \
 	-E EMACSDIR -E EMACS -E DOOMDIR \
-	emacs --init-directory=$(EMACSDIR) --debug-init
+	-- emacs --init-directory=$(EMACSDIR) --debug-init
 
 # TODO: calculating "guix" derivation when using $(GUIXTM)
 # TODO: how to pass args into doomuwsmtest?
