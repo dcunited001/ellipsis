@@ -116,9 +116,10 @@ emacs_socket_name=doom
 # make doom_build=-b doomsync
 # doom_build= # nevermind, just call doomsync before doomup
 
-doom_aot=--aot
+doom_build=-b
+doom_aot=
 
-.PHONY: doomsync doombuild doomup doominstall
+.PHONY: doomsync doombuild doombuildaot doomup doominstall
 doomsync:
 	guix shell -p $(GUIX_PROFILE) \
 	-E EMACSDIR -E EMACS -E DOOMDIR -E EMACS_SOURCE -E GUIX_SOURCE \
@@ -127,7 +128,10 @@ doomsync:
 doombuild:
 	guix shell -p $(GUIX_PROFILE) \
 	-E EMACSDIR -E EMACS -E DOOMDIR -E EMACS_SOURCE -E GUIX_SOURCE \
-	-- $(EMACSDIR)/bin/doom sync -e -U -b -j 12 $(doom_aot)
+	-- $(EMACSDIR)/bin/doom sync -e -U $(doom_build) -j 12 $(doom_aot)
+
+doombuildaot:
+	$(MAKE) doom_aot=--aot doom_build= doombuild
 
 # TODO: --aot for nativecomp
 #
@@ -135,7 +139,7 @@ doombuild:
 # recipe specifies nativecomp. if this causes issues, remove 'nativecomp from
 # :recipe in packages.el
 #
-# TODO: natively compiling 1500+ files (how to run these tasks incrementally?)
+# TODO: natively compiling 3,200+ files (how to run these tasks incrementally?)
 #
 # bin/doom make completions --zsh # (no bash yet)
 
