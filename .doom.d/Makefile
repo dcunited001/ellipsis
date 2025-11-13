@@ -116,6 +116,7 @@ emacs_socket_name=doom
 # make doom_build=-b doomsync
 # doom_build= # nevermind, just call doomsync before doomup
 
+doom_threads=-j 8
 doom_build=-b
 doom_aot=
 
@@ -123,12 +124,12 @@ doom_aot=
 doomsync:
 	guix shell -p $(GUIX_PROFILE) \
 	-E EMACSDIR -E EMACS -E DOOMDIR -E EMACS_SOURCE -E GUIX_SOURCE \
-	-- $(EMACSDIR)/bin/doom sync -e -u -j 6
+	-- $(EMACSDIR)/bin/doom sync -e -u $(doom_threads)
 
 doombuild:
 	guix shell -p $(GUIX_PROFILE) \
 	-E EMACSDIR -E EMACS -E DOOMDIR -E EMACS_SOURCE -E GUIX_SOURCE \
-	-- $(EMACSDIR)/bin/doom sync -e -U $(doom_build) -j 12 $(doom_aot)
+	-- $(EMACSDIR)/bin/doom sync -e -U $(doom_build) $(doom_threads) $(doom_aot)
 
 doombuildaot:
 	$(MAKE) doom_aot=--aot doom_build= doombuild
@@ -146,7 +147,7 @@ doombuildaot:
 doomup: # doomsync
 	guix shell -p $(GUIX_PROFILE) \
 	-E EMACSDIR -E EMACS -E DOOMDIR -E EMACS_SOURCE -E GUIX_SOURCE \
-	-- $(EMACSDIR)/bin/doom upgrade -j 6 $(doom_aot)
+	-- $(EMACSDIR)/bin/doom upgrade $(doom_threads) $(doom_aot)
 
 doominstall:
 	guix shell -p $(GUIX_PROFILE) \
