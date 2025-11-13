@@ -134,7 +134,7 @@ doomup: doomsync
 doominstall:
 	guix shell -p $(GUIX_PROFILE) \
 	-E EMACSDIR -E EMACS -E DOOMDIR -E EMACS_SOURCE -E GUIX_SOURCE \
-	-- $(EMACSDIR)/bin/doom install -j 6 --no-config --no-env --no-fonts
+	-- $(EMACSDIR)/bin/doom install --no-config --no-env --no-fonts
 
 # TODO check --no-fonts
 
