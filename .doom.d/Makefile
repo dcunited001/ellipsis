@@ -71,7 +71,7 @@ updateChanLock:
 	test $(CHANLOCK) -nt $(GUIXGUIXCHAN) \
 	&& echo $(GUIXGUIXCHAN) is not newer than $(CHANLOCK) \
 	|| (cp -p $(GUIXGUIXCHAN) $(CHANLOCK) \
-	    && echo Copied $(GUIXGUIXCHAN) to $(CHANLOCK))
+		&& echo Copied $(GUIXGUIXCHAN) to $(CHANLOCK))
 
 # this seems like a bad pattern
 manifest.scm:
@@ -86,13 +86,13 @@ channels-lock.scm: $(GUIXGUIXCHAN)
 	$(GUIXPACKAGE) -m $(MANIFEST) -p $(GUIX_PROFILE)
 
 # channels-lock.scm:
-# 	mktemp
-# 	echo Update channels-lock.scm! Run make updateChanLock
-# 	echo $(error thats a silent error)
+#	mktemp
+#	echo Update channels-lock.scm! Run make updateChanLock
+#	echo $(error thats a silent error)
 
 # .PHONY: $(GUIXGUIXCHAN)
 # $(GUIXGUIXCHAN):
-# 	cp -p $(GUIXGUIXCHAN) $(MKDIR)/channels-lock.scm
+#	cp -p $(GUIXGUIXCHAN) $(MKDIR)/channels-lock.scm
 
 # ---------------------------------------------
 # # to test config changes requiring a fresh emacs server
@@ -116,20 +116,33 @@ emacs_socket_name=doom
 # make doom_build=-b doomsync
 # doom_build= # nevermind, just call doomsync before doomup
 
-doom_aot=
+doom_aot=--aot
 
-.PHONY: doomsync doomup doominstall
+.PHONY: doomsync doombuild doomup doominstall
 doomsync:
 	guix shell -p $(GUIX_PROFILE) \
 	-E EMACSDIR -E EMACS -E DOOMDIR -E EMACS_SOURCE -E GUIX_SOURCE \
-	-- $(EMACSDIR)/bin/doom sync -e -u -j 6 $(doom_aot)
+	-- $(EMACSDIR)/bin/doom sync -e -u -j 6
 
-# TODO: --aot for nativecomp
-
-doomup: doomsync
+doombuild:
 	guix shell -p $(GUIX_PROFILE) \
 	-E EMACSDIR -E EMACS -E DOOMDIR -E EMACS_SOURCE -E GUIX_SOURCE \
-	-- $(EMACSDIR)/bin/doom upgrade -j 6
+	-- $(EMACSDIR)/bin/doom sync -e -U -b -j 12 $(doom_aot)
+
+# TODO: --aot for nativecomp
+#
+# NOTE: --aot is required for systemd-mode to produce systemd.elc since its
+# recipe specifies nativecomp. if this causes issues, remove 'nativecomp from
+# :recipe in packages.el
+#
+# TODO: natively compiling 1500+ files (how to run these tasks incrementally?)
+#
+# bin/doom make completions --zsh # (no bash yet)
+
+doomup: # doomsync
+	guix shell -p $(GUIX_PROFILE) \
+	-E EMACSDIR -E EMACS -E DOOMDIR -E EMACS_SOURCE -E GUIX_SOURCE \
+	-- $(EMACSDIR)/bin/doom upgrade -j 6 $(doom_aot)
 
 doominstall:
 	guix shell -p $(GUIX_PROFILE) \
