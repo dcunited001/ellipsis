@@ -114,21 +114,29 @@ emacs_socket_name=doom
 # emacs_socket=$(emacs_socket_path)$(emacs_socket_name) # unused
 
 # make doom_build=-b doomsync
-doom_build=
+# doom_build= # nevermind, just call doomsync before doomup
+
+doom_aot=
 
 .PHONY: doomsync doomup doominstall
 doomsync:
 	guix shell -p $(GUIX_PROFILE) \
 	-E EMACSDIR -E EMACS -E DOOMDIR -E EMACS_SOURCE -E GUIX_SOURCE \
-	-- $(EMACSDIR)/bin/doom sync -e -u $(doom_build) -j 6
+	-- $(EMACSDIR)/bin/doom sync -e -u -j 6 $(doom_aot)
 
 # TODO: --aot for nativecomp
 
-doomup:
+doomup: doomsync
 	guix shell -p $(GUIX_PROFILE) \
 	-E EMACSDIR -E EMACS -E DOOMDIR -E EMACS_SOURCE -E GUIX_SOURCE \
 	-- $(EMACSDIR)/bin/doom upgrade -j 6
-	$(MAKE) doom_build=-b doomsync
+
+doominstall:
+	guix shell -p $(GUIX_PROFILE) \
+	-E EMACSDIR -E EMACS -E DOOMDIR -E EMACS_SOURCE -E GUIX_SOURCE \
+	-- $(EMACSDIR)/bin/doom install -j 6 --no-config --no-env --no-fonts
+
+# TODO check --no-fonts
 
 .PHONY: doomuwsm doomuwsmtest
 doomuwsm:
