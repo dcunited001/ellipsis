@@ -22,6 +22,9 @@
 
 ;;** Editor
 ;; visual-fill-column?
+(package! iedit :recipe (:type git :flavor melpa :host github
+                         :repo "victorhge/iedit"
+                         :branch "main"))
 
 ;;** Highlighting
 (package! highlight-symbol)
