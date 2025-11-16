@@ -55,6 +55,7 @@
       "home/dc/hypr.nix"
       "home/dc/hypridle.nix"
       "home/dc/yktouch.nix"
+      # "home/dc/waybar.nix"
     ])
 
     ./frc.nix
@@ -316,7 +317,7 @@
     # ssh-tpm-agent
 
     # TOOLS: DISK
-    du-dust
+    dust
     ioping
     smartmontools
     btrfs-progs
@@ -330,7 +331,7 @@
     usbutils
     hwinfo
     inxi
-    glxinfo
+    mesa-demos
     pciutils
     lm_sensors
     lshw

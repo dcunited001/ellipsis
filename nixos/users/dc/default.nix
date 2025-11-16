@@ -31,6 +31,7 @@ in
 
   # TODO: nix: move elsewhere once flatpak is setup in home-manager
   environment.sessionVariables.XDG_DATA_DIRS = [ "$HOME/.local/share/flatpak/exports/share" ];
+  environment.sessionVariables.ORG_DIRECTORY = [ "$HOME/org" ];
 
   users.users.dc = {
     uid = 1000;

@@ -24,7 +24,8 @@
     # pkgs.nerd-fonts.im-writing
     # pkgs.nerd-fonts.blex-mono
     pkgs.noto-fonts
-    pkgs.noto-fonts-emoji
+    # pkgs.noto-fonts-monochrome-emoji
+    pkgs.noto-fonts-color-emoji
     pkgs.noto-fonts-cjk-sans
     pkgs.noto-fonts-cjk-serif
     pkgs.noto-fonts-monochrome-emoji
