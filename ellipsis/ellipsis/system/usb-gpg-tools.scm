@@ -101,6 +101,10 @@
 ;; guix system -L ~/.dotfiles/ellipsis -L ~/.dotfiles/dc \
 ;; image --image-type=iso9660 \
 ;; -e '(@@ (ellipsis system usb-gpg-tools) usb-gpg-tools)'
+
+;; NOTE these images need the RTC to work, otherwise `herd status` will fail
+;;
+;; https://issues.guix.gnu.org/72166
 (define usb-gpg-tools
   (operating-system
     (host-name "usbgpgtool")

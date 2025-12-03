@@ -76,7 +76,7 @@
 ;;;; CLI Tools
 
 (define-public %el-profile-pkgs-cli
-  (list lsof git stow vim screen tmux diffoscope))
+  (list lsof strace tree git stow vim screen tmux diffoscope))
 
 ;; TODO: enable local networking for usb-gpg-tools
 (define-public %el-profile-pkgs-net

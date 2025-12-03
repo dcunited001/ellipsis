@@ -46,6 +46,7 @@
       "modules/nixos/services/openssh.nix"
       "modules/nixos/services/ras.nix"
       "modules/nixos/services/smartd.nix"
+      "modules/nixos/services/tpm2.nix"
       "modules/nixos/services/yubikey.nix"
       "modules/nixos/services/zerotierone.nix"
 
@@ -312,8 +313,12 @@
 
     # TOOLS: CRYPTO
     certgraph
-    # tpm2-tss
-    # tpm2-tools
+    tpm2-tss
+    tpm2-tools
+    age
+    age-plugin-yubikey
+    age-plugin-tpm
+
     # ssh-tpm-agent
 
     # TOOLS: DISK

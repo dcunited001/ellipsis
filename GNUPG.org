@@ -54,13 +54,32 @@ This command dumps the session key.
 gpg -vv --show-session-key --list-packets $gpg_crypted_file
 #+end_src
 
-
 + The subkey ID will be included unless the =throw-keyid= option is set.
 
 *** Symmetric Encryption
 
 + [[https://unix.stackexchange.com/questions/560135/how-to-decrypt-file-that-was-symmetrically-encrypted-using-gpg][How to decrypt file that was symmetrically encrypted using GPG?]]
   Particularly, see the answer with the [[https://unix.stackexchange.com/a/662662][batch script]] that uses FD's
+
+*** Private Keys
+
+#+begin_src shell
+gpg --list-packets $keyfile
+
+# or
+gpg --with-fingerprint --with-colons \
+    --keyring $keyfile --list-keys
+
+# or
+diff --color=always <(gpg --list-packets $old) <(gpg --list-packets $new) \
+    | less -R
+
+# TLDR
+gpg -K --list-options show-unusable-subkeys
+#+end_src
+
+After creating new subkeys, but before importing to keycard, then copy data to
+new =GNUPGHOME=. Collect new shadowed subkeys and combine.
 
 ** GPG Agent
 
@@ -317,7 +336,6 @@ Firewalling SSH? oh noes: on what port?
 
 lol i hope you have deep-packet inspection.
 #+end_quote
-
 * Init Script
 
 #+begin_src sh :tangle (concat (or (getenv "SECRETS_HOME") ".") "/.gnupg/init-gpg.sh") :shebang "#!/bin/sh" :tangle-mode (identity #o500) :noweb yes
