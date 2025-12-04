@@ -39,6 +39,7 @@
    "tree-sitter-html"
    "tree-sitter-java"
    "tree-sitter-javascript"
+   "tree-sitter-jsdoc"
    "tree-sitter-json"
    "tree-sitter-lua"
    "tree-sitter-nix"

@@ -133,7 +133,7 @@ in
       pass
       age
       age-plugin-yubikey
-      # age-plugin-tpm
+      age-plugin-tpm
       agenix-cli
       sops
       _1password-cli

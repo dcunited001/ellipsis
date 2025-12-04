@@ -120,18 +120,22 @@ doom_threads=-j 8
 doom_build=-b
 doom_aot=
 
+.PHONY: doomfixsystemd
+	rm $(EMACSDIR)/.local/straight/repos/systemd-mode/systemd.elc
+
 .PHONY: doomsync doombuild doombuildaot doomup doominstall
-doomsync:
+# git -C "$EMACSDIR/.local/straight/repos/systemd-mode" reset
+doomsync: doomfixsystemd
 	guix shell -p $(GUIX_PROFILE) \
 	-E EMACSDIR -E EMACS -E DOOMDIR -E EMACS_SOURCE -E GUIX_SOURCE \
 	-- $(EMACSDIR)/bin/doom sync -e -u $(doom_threads)
 
-doombuild:
+doombuild: doomfixsystemd
 	guix shell -p $(GUIX_PROFILE) \
 	-E EMACSDIR -E EMACS -E DOOMDIR -E EMACS_SOURCE -E GUIX_SOURCE \
 	-- $(EMACSDIR)/bin/doom sync -e -U $(doom_build) $(doom_threads) $(doom_aot)
 
-doombuildaot:
+doombuildaot: doomfixsystemd
 	$(MAKE) doom_aot=--aot doom_build= doombuild
 
 # TODO: --aot for nativecomp
@@ -144,7 +148,9 @@ doombuildaot:
 #
 # bin/doom make completions --zsh # (no bash yet)
 
-doomup: # doomsync
+# NOTE: equivalent to git pull + doom sync
+
+doomup: doomfixsystemd # doomsync
 	guix shell -p $(GUIX_PROFILE) \
 	-E EMACSDIR -E EMACS -E DOOMDIR -E EMACS_SOURCE -E GUIX_SOURCE \
 	-- $(EMACSDIR)/bin/doom upgrade $(doom_threads) $(doom_aot)

@@ -184,7 +184,7 @@ Guix channel.")
   :match +df-xkb-regexp
   :on-enter (xkb-mode))
 
-;;;;; Quick Map (native) <f1> <f2>
+;;;;; Quick Map <f1> <f2>
 
 ;; this is a bit tough to determine how to get it to be a separate keymap. you
 ;; can't (map! :map help-map "<f2>" 'dc/quick-map)
@@ -225,6 +225,7 @@ Guix channel.")
   "M-l h" #'apropos-local-variable
   "M-l H" #'array-display-local-variables)
 
+;;;;; Doc Map <f3>
 (general-create-definer doc-def
   :prefix-map 'dc/doc-map
   :prefix-command 'dc/doc-map)
@@ -235,6 +236,17 @@ Guix channel.")
   "<f3>" #'lsp-ui-doc-toggle
   "<f4>" #'lsp-lens-show)
 
+;;;;; Cape Map <f5>
+(general-create-definer cape-def
+  :prefix-map 'dc/cape-map
+  :prefix-command 'dc/cape-map)
+(general-define-key
+ :keymaps 'global-map
+ "<f4>" '(:prefix-command dc/doc-map :wk "DOC"))
+(doc-def
+  "f" #'cape-file)
+
+;;;;; LSP Map <f8>
 (general-create-definer lsp-def
   :prefix-map 'dc/lsp-map
   :prefix-command 'dc/lsp-map)
@@ -493,10 +505,12 @@ modes and testing is tedious."
 (use-package! dired
   :defer t
   :config
-  (map! :map dired-mode-map [remap quit-window] #'dc/dired-quit-window)
-  ;; ... dired is built to omit .go files
-  ;;(setq dired-omit-extensions (delete ".go" dired-omit-extensions))
-  )
+  (map! :map dired-mode-map [remap quit-window] #'dc/dired-quit-window))
+;; ... dired is built to omit .go files
+
+(use-package! dired-x
+  :defer t
+  :config (setq dired-omit-extensions (delete ".go" dired-omit-extensions)))
 
 (setq dired-omit-files "^.DS_Store\\'\\|^.project\\(?:ile\\)?\\'\\|^.\\(svn\\)\\'\\|^.ccls-cache\\'\\|\\(?:\\.js\\)?\\.meta\\'\\|\\.\\(?:elc\\|o\\|pyo\\|swp\\|class\\)\\'")
 
@@ -594,6 +608,7 @@ modes and testing is tedious."
   :defer t
   :init (setopt doom-theme nil)
   ;; hmmm v2.0?
+  ;; :hook (doom-init-ui-hook . (lambda () (ef-themes-load-random-dark)))
   :hook (doom-init-ui-hook . (lambda () (modus-themes-load-random-dark)))
   :config
   (map! :map dc/quick-map
@@ -616,24 +631,6 @@ modes and testing is tedious."
         (atree (dc/aw-tree)))
     (unless (> (- 1 n) (length atree))
       (funcall fn (cdddr (nth n atree))))))
-
-(defun dc/map-kp-aceable-window ()
-  (mapc (lambda (k)
-          (global-set-key
-           (kbd (car k))
-           (cmd! (dc/aw-select-nth #'aw-switch-to-window (cdr k)))))
-        '(("<kp-home>" . 0) ("<kp-up>". 1) ("<kp-prior>" . 2)
-          ("<kp-left>". 3) ("<kp-begin>". 4) ("<kp-right>". 5)
-          ("<kp-end>". 6) ("<kp-down>". 7) ("<kp-next>". 8)))
-
-  ;; '"<kp-divide>" "<kp-multiply>" "<kp-subtract>"
-  ;; "<kp-add>"
-
-  #'aw-swap-window)
-
-;; "<kp-decimal>" "<kp-enter>"
-
-(global-set-key (kbd "<kp-insert>") (cmd!! #'ace-window 4))
 
 (use-package! ace-window
   :commands ace-window aw-show-dispatch-help
@@ -816,14 +813,18 @@ large search domains, it's almost always a failure."
   (map! :map dc/quick-map "SPC" #'cape-prefix-map))
 
 ;;;;; Embark
+(after! embark
+  (set-popup-rules!
+    '(("^\\*Embark Collect:" :side bottom :vslot -5 :slot -5 :width 80 :select t :quit t))))
 
-;;; Markdwon
+;;; Markdown
 
 (remove-hook 'text-mode-hook #'visual-line-mode)
 (add-hook 'text-mode-hook #'auto-fill-mode)
 
 (use-package! markdown-mode
-  :hook (markdown-mode-hook . visual-line-mode))
+  :hook (markdown-mode-hook . visual-line-mode)
+  :config (add-to-list 'auto-mode-alist '("\\.mdx\\'" . markdown-mode)))
 
 
 
@@ -1645,12 +1646,12 @@ the root")
 ;;TODO Web: ensure emmet-mode is configured
 
 ;; html-ts-mode requires mhtml-ts-mode, but needs html-ts-mode-indent-offset set
+(setq-default html-ts-mode-indent-offset 2)
 (use-package mhtml-ts-mode :defer t)
 (use-package html-ts-mode
   :mode "\\.html?\\'"
   :config
   (require 'mhtml-ts-mode)
-  (setq html-ts-mode-indent-offset 2)
   (add-to-list 'major-mode-remap-alist
                '(mhtml-mode . html-ts-mode)))
 
@@ -2338,9 +2339,19 @@ the root")
 ;; TODO: move setup for <f1> <f2> map to after use-package (and after! which-key?)
 
 ;;;; Global Remaps
+
+;; "<f1> C-`" #'+popup/diagnose ;; in help-map
 (map! :map 'global-map
       "<f11>" #'dc/toggle-window-balance
-      "M-`" #'+popup/buffer)
+
+      ;; "C-`" #'+popup/toggle          ; pop the popup
+      "C-~" #'+popup/other              ; look around      (+ shift)
+
+      "M-`" #'+popup/buffer             ; window -> popup
+      "C-M-`" #'+popup/raise            ; popup -> window  (+ ctrl)
+                                        ;   shift is hard to hit
+
+      "C-M-~" #'+popup/restore)         ; where'd it go?   (req. most keys)
 
 ;; "<f11>" #'maximize-window
 ;; "S-<f11>" #'balance-windows
@@ -2350,7 +2361,9 @@ the root")
 ;;;;; Help Map
 
 (map! :map 'help-map
-      "C-<SPC>" #'tmm-menubar           ; "^" previous menu ; "PgUp" help buffer
+      "C-<SPC>" #'tmm-menubar         ; "^" previous menu ; "PgUp" help buffer
+      "C-`" #'+popup/diagnose
+
 
       "B" #'embark-bindings
       "M-b" #'embark-bindings-in-keymap
@@ -2414,7 +2427,7 @@ the root")
       ;; Isearch integration
       "e" #'consult-isearch-history)
 
-;;;; Search Map
+;;;; Goto Map
 (map! :map 'goto-map
       "a" #'consult-org-agenda
       "e" #'consult-compile-error
@@ -2431,6 +2444,33 @@ the root")
                "b" #'consult-org-roam-backlinks
                "f" #'consult-org-roam-file-find
                "l" #'consult-org-roam-forward-links))
+
+;;;; Keypad
+
+;; (after! tmr) ;; (after! forge) ;; these should autoload
+(global-set-key (kbd "<kp-insert>") #'tmr-tabulated-view)
+(global-set-key (kbd "<C-kp-insert>") #'tmr)
+(global-set-key (kbd "<kp-delete>") #'forge-dispatch)
+(global-set-key (kbd "C-<kp-delete>") #'forge-list-notifications)
+
+;; This gets hooked in ace-window :config
+(defun dc/map-kp-aceable-window ()
+  (mapc (lambda (k)
+          (global-set-key
+           (kbd (car k))
+           (cmd! (dc/aw-select-nth #'aw-switch-to-window (cdr k)))))
+        ;; '"<kp-divide>" "<kp-multiply>" "<kp-subtract>"
+        '(("<kp-home>" . 0) ("<kp-up>". 1) ("<kp-prior>" . 2)
+          ("<kp-left>". 3) ("<kp-begin>". 4) ("<kp-right>". 5)
+          ("<kp-end>". 6) ("<kp-down>". 7) ("<kp-next>". 8))) ;; "<kp-enter">
+  ;; C-u #'ace-window => #'aw-swap-window
+  ;; #'aw-flip-window
+  ;; "<kp-add>"
+  ;; (global-set-key (kbd "<kp-insert>") #'aw-flip-window)
+
+  (global-set-key (kbd "C-<kp-add>") (cmd!! #'ace-window 4))) ;; "<kp-delete>"
+(dc/map-kp-aceable-window)
+
 
 ;; FIXME: the hook gets set. the code works, but it doesn't run
 (add-hook! 'server-mode-hook

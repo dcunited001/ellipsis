@@ -53,6 +53,18 @@ guix-pull-lock:
 guix-pull-sync:
 	guix pull -L ./ellipsis -L ./dc -C $(GUIXGUIXBASE)
 
+.PHONY: guix-upgrade guix-upgrade-all
+guix-upgrade:
+	make guix-pull
+	make repl
+
+guix-upgrade-all:
+	make guix-pull
+	make -C .doom.d updateChanLock
+	make -C .doom.d .guix-profile
+	make -C .doom.d doom_aot=--aot doomup
+	make repl
+
 # -----------------------
 # For Dotfiles
 

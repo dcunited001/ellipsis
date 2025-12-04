@@ -133,6 +133,7 @@
     pass
     age
     age-plugin-yubikey
+    age-plugin-tpm
     agenix-cli
     sops
     p7zip

@@ -1,0 +1,4 @@
+#!/usr/bin/bash
+
+obranch=$(git --git-dir="$OMARCHY_PATH" branch --show-current)
+notify-send "Omarchy Update Complete" "Current branch: $obranch"

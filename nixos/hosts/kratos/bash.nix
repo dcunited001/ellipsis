@@ -24,7 +24,7 @@
     shellAliases = {
       pathtr = ''tr ":" "\n"'';
       shitbin = ''echo -e "\033c"'';
-      envia = "grep -e '^[A-Za-z0-9]*PATH=' | sort | uniq";
+      envia = "grep -e '^[A-Za-z0-9_]*PATH=' | sort | uniq";
       covia = ''sed -e "s/:/\n:\t/g"'';
       nenvia = "grep -ve '^[A-Za-z0-9_]*PATH=' | sort | uniq";
       diffia = "envia | covia | diff - <(env | envia | covia)";

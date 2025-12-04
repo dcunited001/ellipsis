@@ -4,7 +4,7 @@
   ...
 }:
 let
-  frcPkgs = inputs.frc-nix.packages.${pkgs.stdenv.hostplatform.system};
+  frcPkgs = inputs.frc-nix.packages.${pkgs.stdenv.hostPlatform.system};
   vscMarketplace = pkgs.vscode-utils.extensionsFromVscodeMarketplace [
     {
       # "created 12,000 symlinks..."
