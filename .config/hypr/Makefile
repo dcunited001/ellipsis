@@ -19,7 +19,7 @@ HOST=$(shell hostname)
 # Since it's checking links as targets, we need `make -L omarchylink`
 
 .PHONY: omarchylink
-omarchylink: hyprland.conf hypridle.conf hyprlock.conf hyprsunset.conf
+omarchylink: hyprland.conf hypridle.conf hyprlock.conf hyprsunset.conf xdph.conf
 
 # this test isn't working (and it's dumb anyways)
 # 	test -f hyprland.conf && $(error hyprland.conf exists, but is not a symlink)
@@ -35,5 +35,7 @@ hyprlock.conf:
 	ln -s "./$(HOST)/hyprlock.conf" hyprlock.conf
 hyprsunset.conf:
 	ln -s "./$(HOST)/hyprsunset.conf" hyprsunset.conf
+xdph.conf:
+	ln -s "./$(HOST)/xdph.conf" xdph.conf
 
 # end
