@@ -118,47 +118,50 @@ emacs_socket_name=doom
 
 doom_threads=-j 8
 doom_build=-b
-doom_aot=
+doom_aot=--aot
 
-.PHONY: doomfixsystemd
-	rm $(EMACSDIR)/.local/straight/repos/systemd-mode/systemd.elc
+.PHONY: doomsync doomgc doombuildaot doomup doominstall
 
-.PHONY: doomsync doombuild doombuildaot doomup doominstall
-# git -C "$EMACSDIR/.local/straight/repos/systemd-mode" reset
+# syncs, but doesn't rebuild
 doomsync: doomfixsystemd
 	guix shell -p $(GUIX_PROFILE) \
 	-E EMACSDIR -E EMACS -E DOOMDIR -E EMACS_SOURCE -E GUIX_SOURCE \
-	-- $(EMACSDIR)/bin/doom sync -e -u $(doom_threads)
+	-- $(EMACSDIR)/bin/doom sync -e -B $(doom_aot) $(doom_threads)
 
-doombuild: doomfixsystemd
+doomgc:
 	guix shell -p $(GUIX_PROFILE) \
 	-E EMACSDIR -E EMACS -E DOOMDIR -E EMACS_SOURCE -E GUIX_SOURCE \
-	-- $(EMACSDIR)/bin/doom sync -e -U $(doom_build) $(doom_threads) $(doom_aot)
+	-- $(EMACSDIR)/bin/doom gc
 
-doombuildaot: doomfixsystemd
-	$(MAKE) doom_aot=--aot doom_build= doombuild
+# doombuild:
+#	doom sync -e -U $(doom_build) $(doom_threads) $(doom_aot)
 
-# TODO: --aot for nativecomp
-#
-# NOTE: --aot is required for systemd-mode to produce systemd.elc since its
-# recipe specifies nativecomp. if this causes issues, remove 'nativecomp from
-# :recipe in packages.el
-#
-# TODO: natively compiling 3,200+ files (how to run these tasks incrementally?)
-#
-# bin/doom make completions --zsh # (no bash yet)
-
-# NOTE: equivalent to git pull + doom sync
-
+# pulls, then syncs (implicitly rebuilds)
 doomup: doomfixsystemd # doomsync
 	guix shell -p $(GUIX_PROFILE) \
 	-E EMACSDIR -E EMACS -E DOOMDIR -E EMACS_SOURCE -E GUIX_SOURCE \
-	-- $(EMACSDIR)/bin/doom upgrade $(doom_threads) $(doom_aot)
+	-- $(EMACSDIR)/bin/doom upgrade $(doom_aot) $(doom_threads)
 
 doominstall:
 	guix shell -p $(GUIX_PROFILE) \
 	-E EMACSDIR -E EMACS -E DOOMDIR -E EMACS_SOURCE -E GUIX_SOURCE \
 	-- $(EMACSDIR)/bin/doom install --no-config --no-env --no-fonts
+
+# NOTE: --aot is required for systemd-mode to produce systemd.elc since its
+# recipe specifies nativecomp. if this causes issues, remove 'nativecomp from
+# :recipe in packages.el
+
+.PHONY: doomfixsystemd
+	rm $(EMACSDIR)/.local/straight/repos/systemd-mode/systemd.elc
+
+# NOTE --aot only compiles packages upgraded/installed during that invocation
+
+# TODO: natively compiling 3,200+ files (how to run these tasks incrementally?)
+
+# bin/doom make completions --zsh # (no bash yet)
+
+# NOTE: upgrade is equivalent to git pull + doom sync
+
 
 # TODO check --no-fonts
 

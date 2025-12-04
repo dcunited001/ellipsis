@@ -58,12 +58,10 @@ guix-upgrade:
 	make guix-pull
 	make repl
 
-guix-upgrade-all:
-	make guix-pull
+guix-upgrade-doom:
 	make -C .doom.d updateChanLock
 	make -C .doom.d .guix-profile
-	make -C .doom.d doom_aot=--aot doomup
-	make repl
+	make -C .doom.d doomup
 
 # -----------------------
 # For Dotfiles
