@@ -836,7 +836,8 @@ large search domains, it's almost always a failure."
 
 ;;;; Packages
 
-(setopt org-directory "/data/org")
+
+(setopt org-directory (or (getenv "ORG_DIRECTORY") "~/org"))
 
 ;;;;; Org, itself
 
