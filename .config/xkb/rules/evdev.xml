@@ -59,6 +59,22 @@
           <name>mylvl3:lctl_switch</name>
           <description>Left Control (scan: 37) chooses 3rd level.</description>
         </configItem>
+        <configItem>
+          <name>mylvl3:sclk_latch</name>
+          <description>Scroll Lock latches 3th level</description>
+        </configItem>
+        <configItem>
+          <name>mylvl3:display_latch</name>
+          <description>XF86display latches 3th level</description>
+        </configItem>
+        <configItem>
+          <name>mylvl3:micmute_latch</name>
+          <description>Mic Mute latches 3rd level.</description>
+        </configItem>
+        <configItem>
+          <name>mylvl3:lctl_latch</name>
+          <description>Left Control (scan: 37) latches 3rd level.</description>
+        </configItem>
       </option>
     </group>
     <group allowMultipleSelection="false">
@@ -78,6 +94,18 @@
         <configItem>
           <name>mylvl3:lctl_switch</name>
           <description>Left Control (scan: 37) chooses 5th level.</description>
+        </configItem>
+        <configItem>
+          <name>mylvl5:ins_latch</name>
+          <description>Insert latches 5th level.</description>
+        </configItem>
+        <configItem>
+          <name>mylvl5:micmute_latch</name>
+          <description>Mic Mute latches 5th level.</description>
+        </configItem>
+        <configItem>
+          <name>mylvl5:lctl_latch</name>
+          <description>Left Control (scan: 37) latches 5th level.</description>
         </configItem>
       </option>
     </group>

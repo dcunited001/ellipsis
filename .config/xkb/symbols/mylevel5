@@ -1,5 +1,8 @@
 // -*- mode: xkb; aphelia-mode: -1 -*-
 
+// =============================================
+// ISO_Level5_Shift
+
 partial modifier_keys
 xkb_symbols "ins_switch" {
   key <INS> {[  ISO_Level5_Shift  ], type[group1]="ONE_LEVEL" };
@@ -12,4 +15,21 @@ xkb_symbols "micmute_switch" {
 
 partial xkb_symbols "lctl_switch" {
   key <LCTL> {[  ISO_Level5_Shift  ], type[group1]="ONE_LEVEL" };
+};
+
+// =============================================
+// ISO_Level5_Latch (same, but latches instead)
+
+partial modifier_keys
+xkb_symbols "ins_latch" {
+  key <INS> {[  ISO_Level5_Latch  ], type[group1]="ONE_LEVEL" };
+};
+
+partial modifier_keys
+xkb_symbols "micmute_latch" {
+  key <I256> {[  ISO_Level5_Latch  ], type[group1]="ONE_LEVEL" };
+};
+
+partial xkb_symbols "lctl_latch" {
+  key <LCTL> {[  ISO_Level5_Latch  ], type[group1]="ONE_LEVEL" };
 };
