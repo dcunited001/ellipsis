@@ -32,6 +32,10 @@ partial xkb_symbols "lctl_switch" {
 // =============================================
 // ISO_Level3_Latch (same, but latches instead)
 
+// same, but latches instead. two presses will lock the modifier.
+
+// see notes in mylevel5 on weird keyboard ghosting.
+
 partial modifier_keys
 xkb_symbols "sclk_latch" {
   key <SCLK> {[  ISO_Level3_Latch  ], type[group1]="ONE_LEVEL" };

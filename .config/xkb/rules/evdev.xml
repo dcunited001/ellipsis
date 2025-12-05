@@ -92,7 +92,7 @@
           <description>Mic Mute chooses 5th level.</description>
         </configItem>
         <configItem>
-          <name>mylvl3:lctl_switch</name>
+          <name>mylvl5:lctl_switch</name>
           <description>Left Control (scan: 37) chooses 5th level.</description>
         </configItem>
         <configItem>

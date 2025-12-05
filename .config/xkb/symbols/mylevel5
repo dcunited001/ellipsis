@@ -18,7 +18,14 @@ partial xkb_symbols "lctl_switch" {
 };
 
 // =============================================
-// ISO_Level5_Latch (same, but latches instead)
+// ISO_Level5_Latch
+
+// same, but latches instead. two presses will lock the modifier
+
+// for function keys like F7, the FN mod must be depressed on the next
+// keypress. otherwise, it doesn't trigger the keybind in hyprland
+
+// no problem for other normal keys, Ins+Enter => LVL5+Enter
 
 partial modifier_keys
 xkb_symbols "ins_latch" {
