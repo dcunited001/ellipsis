@@ -15,6 +15,22 @@ NIXOS_HOST_CONFIG=./hosts/$(NIXOS_HOST)/configuration.nix
 # make NIXOS_HOST=helius build
 
 #-----------------------
+# flake
+
+# flake_nixpkgs_revcount
+
+flake_nixpkgs_newest=$(shell fh list releases DeterminateSystems/nixpkgs-weekly --json -l3 \
+| jq -r 'map(.Version | split("+")[0]) | first')
+
+flake_nixpkgs_current=$(shell nix flake info --json \
+| jq -r '.locks.nodes | "0.1.\(.nixpkgs.locked.revCount)"')
+
+.PHONY: flakeup-nixpkgs
+flakeup-nixpkgs:
+	@echo $(flake_nixpkgs_newest)
+	@echo $(flake_nixpkgs_current)
+
+#-----------------------
 # nixos-rebuild
 .PHONY: build switch repl
 build:
@@ -62,8 +78,8 @@ ISO_VARIANT=minimal            # or graphical
 ISO_PLATFORM=x86_64-linux      # or aarch64-linux
 ISO_VERSION=nixos-25.05        # or nixos-unstable
 
-.PHONY: downloadNixOS
-downloadNixOS:
+.PHONY: download-nixos
+download-nixos:
 	isoName=latest-nixos-$(ISO_VARIANT)-$(ISO_PLATFORM)
 	isoUrl="https://channels.nixos.org/$(ISO_VERSION)/$(isoName).iso"
 	mkdir -p iso

@@ -5,7 +5,13 @@
 
 {
   # Database for aiding terminal-based programs
-  environment.enableAllTerminfo = true;
+  #
+  # NOTE until #465358 is resolved, it builds without OpenSSL
+  #
+  # - https://github.com/NixOS/nixpkgs/issues/465358
+  # - https://github.com/contour-terminal/termbench-pro
+  #
+  # environment.enableAllTerminfo = true;
 
   # -----------------------
   # nixpkgs (pre-overlay)

@@ -18,6 +18,11 @@
         "hmac-sha2-256-etm@openssh.com"
       ];
       KexAlgorithms = [
+        "sntrup761x25519-sha512"
+        "sntrup761x25519-sha512@openssh.com"
+        # - drduh/yubikey-guide advises adding this to fix issue with openssh8.9/9.0
+        # - maybe key restrictions https://www.openssh.org/agent-restrict.html
+        "curve25519-sha256"
         "curve25519-sha256@libssh.org"
         "diffie-hellman-group-exchange-sha256"
       ];
@@ -40,11 +45,18 @@
       MaxSessions 4
       # TCPKeepAlive no
 
-      HostKeyAlgorithms rsa-sha2-256,rsa-sha2-512,\
-      ecdsa-sha2-nistp521,ecdsa-sha2-nistp384,ecdsa-sha2-nistp256,\
+      HostKeyAlgorithms \
+      rsa-sha2-256,\
+      rsa-sha2-512,\
+      ecdsa-sha2-nistp521,\
+      ecdsa-sha2-nistp384,\
+      ecdsa-sha2-nistp256,\
       sk-ecdsa-sha2-nistp256@openssh.com,\
-      rsa-sha2-512-cert-v01@openssh.com,rsa-sha2-256-cert-v01@openssh.com,\
-      ecdsa-sha2-nistp521-cert-v01@openssh.com,ecdsa-sha2-nistp384-cert-v01@openssh.com,ecdsa-sha2-nistp256-cert-v01@openssh.com,\
+      rsa-sha2-512-cert-v01@openssh.com,\
+      rsa-sha2-256-cert-v01@openssh.com,\
+      ecdsa-sha2-nistp521-cert-v01@openssh.com,\
+      ecdsa-sha2-nistp384-cert-v01@openssh.com,\
+      ecdsa-sha2-nistp256-cert-v01@openssh.com,\
       sk-ecdsa-sha2-nistp256-cert-v01@openssh.com
     '';
   };
