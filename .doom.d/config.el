@@ -2294,6 +2294,9 @@ the root")
       :language-id "hyprlang"
       :priority -1
       :server-id 'hyprls)))
+  (after! apheleia-mode
+    (add-to-list 'apheleia-formatters '(whitespace . whitespace-cleanup))
+    (add-to-list 'apheleia-mode-alist '(hyprlang-ts . whitespace)))
   ;; :hook (hyprlang-ts-mode . dc/hyprlang-setup-outline-mode)
   :config
   (add-to-list 'major-mode-remap-alist '(hyprlang-mode . hyprlang-ts-mode)))
