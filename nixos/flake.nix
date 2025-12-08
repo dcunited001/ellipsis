@@ -60,8 +60,8 @@
 
         modules = [
           ./hosts/kratos/configuration.nix
-          inputs.hjem.nixosModules.default
-          inputs.walker.nixosModules.default
+          hjem.nixosModules.default
+          walker.nixosModules.default
           sops-nix.nixosModules.sops
         ];
       };
@@ -105,6 +105,12 @@
     nixpkgs.url = "https://flakehub.com/f/DeterminateSystems/nixpkgs-weekly/0.1.905078";
     nixpkgs-stable.url = "github:NixOS/nixpkgs/nixos-25.05";
     nixpkgs-unstable.url = "https://flakehub.com/f/NixOS/nixpkgs/0.1";
+
+    # not quite sure how to add this correctly
+    #
+    # determinate.url = "https://flakehub.com/f/DeterminateSystems/determinate/*";
+    # determinate.inputs.nixpkgs.follows = "nixpkgs";
+    # determinate.inputs.flake-compat.follows = "flake-compat";
 
     hardware.url = "github:nixos/nixos-hardware";
 

@@ -30,6 +30,9 @@
       diffia = "envia | covia | diff - <(env | envia | covia)";
       difnia = "nenvia | diff - <(env | nenvia)";
       wget = "wget -c ";
+      hcx = "hyprctl";
+      hcbinds = ''hyprctl binds | tr -d "\n" | sed -e "s/bind/\nbind/g"'';
+      hcbdoops = ''hcbinds | sort | cut -f2-5 | uniq -c | grep -vE "^\s+1"'';
       imacs = ''emacs -T "¤ INFO" -f info-standalone --eval="(load-theme (intern \"wombat\"))"'';
       wordcat = "tee >(xargs -n1 cat) | wc -w";
       gkcfg = "git stack --dump-config -";
@@ -57,6 +60,8 @@
       treef = "tree --prune -aP";
       jqr = "jq -r ";
       jqrj = "jq -rj ";
+      sqli = "rlwrap sqlite3";
+      gxpl = "rlwap guix repl";
       # nodenpm_lsparse = "npm ls -g --parseable | grep node_modules | sed -e '\\''s/.*node_modules\\///g'\\''";
       tyxy = "tidy --quiet yes --tidy-mark no --vertical-space yes -indent -xml";
       jctl = "isd";

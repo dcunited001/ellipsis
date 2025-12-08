@@ -168,6 +168,7 @@ in
 
       # TERM
       alacritty
+      rlwrap
 
       # BROWSER
       firefox
@@ -175,6 +176,7 @@ in
 
       # COMM
       zoom-us
+      thunderbird
 
       # IRC
       quassel # flatpak doesn't load settings

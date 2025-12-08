@@ -14,6 +14,15 @@ let
   linuxModifications = final: prev: prev.lib.mkIf final.stdenv.isLinux { };
 
   modifications = final: prev: {
+    nh = prev.nh.overrideAttrs {
+      # src = inputs.nixpkgs.legacyPackages.${pkgs.stdenv.hostPlatform.system}.fetchFromGithub {
+      src = inputs.nixpkgs.legacyPackages.${prev.stdenv.hostPlatform.system}.fetchFromGitHub {
+        owner = "nix-community";
+        repo = "nh";
+        rev = "master";
+        sha256 = "sha256-V7lRjvq6vFq0hR4fNYFznahMo/NayVHK18ELKL4Q0To=";
+      };
+    };
     # hyprland = prev.hyprland.overrideAttrs {
     #   mesa = final.unstable.mesa;
     # };

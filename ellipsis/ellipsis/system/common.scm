@@ -86,7 +86,7 @@
   (list wget curl rsync))
 
 (define-public %el-profile-pkgs-data
-  (list jq yq jc))
+  (list jq yq jc sqlite3))
 
 (define-public %el-profile-pkgs-fs
   (list lvm2 cryptsetup dosfstools ntfs-3g exfat-utils fuse-exfat f3 acl))

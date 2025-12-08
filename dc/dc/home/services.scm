@@ -54,7 +54,11 @@
      (emacs .
             (("imacs"
               . "emacs -f info-standalone --eval=\"(load-theme (intern \\\"wombat\\\"))\"")))
-     (hypr . (("hcx" . "hyprctl")))
+     (hypr . (("hcx" . "hyprctl")
+              ("hcbinds"
+               . "hyprctl binds | tr -d '\n' | sed -e 's/bind/\nbind/g'")
+              ("hcbdoops"
+               . "hcbinds | sort | cut -f2-5 | uniq -c | grep -vE '^\s+1'")))
      ;; (hyprdc . (("hbkey" "for i in (0 32 33 36 37  64 65 68 69 )")
      ;;            ("hbcode" "hyprctl")))
      (text  .
@@ -87,6 +91,8 @@
      (tree . (("treef" . "tree --prune -aP")))
      (jq . (("jqr" . "jq -r ")
             ("jqrj" . "jq -rj ")))
+     (repl . (("sqli" . "rlwrap sqlite3")
+              ("gxpl" . "rlwrap guix repl")))
      (node . (("nodenpm_lsparse"
                . "npm ls -g --parseable | grep node_modules | sed -e '\\''s/.*node_modules\\///g'\\''")))
      (html . (("tyxy"
