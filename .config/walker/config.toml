@@ -1,20 +1,22 @@
 # https://github.com/abenz1267/walker/blob/master/src/config.rs#L1
 
 # additional_theme_location
+actions_as_menu = false
 click_to_close = true
 close_when_open = true
 debug = false
 disable_mouse = false
 exact_search_prefix = "'"
 force_keyboard_focus = false # true
-global_argument_delimiter = "#"  # needs to match elephant config
-# installed_providers:
-# keybinds
-# page_jump_items
-# providers
-# placeholders
-# shell
+global_argument_delimiter = "#"
+hide_action_hints = false
+hide_action_hints_dmenu = true
+hide_quick_activation = false
+hide_return_action = false
+page_jump_items = 10
+resume_last_query = false
 selection_wrap = false
+single_click_activation = true
 theme = "default"
 
 [shell]
@@ -23,6 +25,9 @@ anchor_left = true
 anchor_right = true
 anchor_top = true
 
+[columns]
+"symbols" = 3
+
 [placeholders]
 "default" = { input = " Search...", list = "No Results" }
 
@@ -30,17 +35,23 @@ anchor_top = true
 close = ["Escape"]
 next = ["Down"]
 previous = ["Up"]
+left = ["Left"]
+right = ["Right"]
+down = ["Down"]
+up = ["Up"]
 quick_activate = ["F1", "F2", "F3", "F4"]
 resume_last_query = ["ctrl r"]
 toggle_exact = ["ctrl e"]
-# page_down
-# page_up
+page_down = ["Page_Down"]
+page_up = ["Page_Up"]
+show_actions = ["alt j"]
 
 [providers]
 default = ["desktopapplications", "runner", "menus"]
 empty = ["desktopapplications"]
 max_results = 50
 previews = ["files", "clipboard", "menus"]
+ignore_preview = []
 
 # default: [str]?
 # clipboard: clipboard?
@@ -64,7 +75,19 @@ prefixes = [
   { prefix = ",", provider = "unicode" }
 ]
 
+[clipboard]
+time_format = "%d.%m. - %H:%M" # format for the clipboard item date
+
+[argument_delimiter] # define the argument delimiter per provider
+runner = " "
+
 [providers.actions] # This will be MERGED/OVEWRITTEN with what the user specifies
+fallback = [
+  { action = "menus:open", label = "open", after = "Nothing" },
+  { action = "menus:default", label = "run", after = "Close" },
+  { action = "menus:parent", label = "back", bind = "Escape", after = "Nothing" },
+  { action = "erase_history", label = "clear hist", bind = "ctrl h", after = "AsyncReload" },
+]
 
 dmenu = [{ action = "select", default = true, bind = "Return" }]
 
@@ -102,6 +125,8 @@ desktopapplications = [
   { action = "start", default = true, bind = "Return" },
   { action = "start:keep", label = "open+next", bind = "shift Return", after = "KeepOpen" },
   { action = "erase_history", label = "clear hist", bind = "ctrl h", after = "AsyncReload" },
+  { action = "new_instance", label = "new instance", bind = "ctrl Return" },
+  { action = "new_instance:keep", label = "new+next", bind = "ctrl alt Return", after = "KeepOpen" },
   { action = "pin", bind = "ctrl p", after = "AsyncReload" },
   { action = "unpin", bind = "ctrl p", after = "AsyncReload" },
   { action = "pinup", bind = "ctrl n", after = "AsyncReload" },
@@ -113,16 +138,22 @@ files = [
   { action = "opendir", label = "open dir", bind = "ctrl Return" },
   { action = "copypath", label = "copy path", bind = "ctrl shift c" },
   { action = "copyfile", label = "copy file", bind = "ctrl c" },
+  { action = "localsend", label = "localsend", bind = "ctrl l" },
+  { action = "refresh_index", label = "reload", bind = "ctrl r", after = "AsyncReload" },
 ]
 
 
 todo = [
-  { action = "save", after = "ClearReload", bind = "Return", default = true },
-  { action = "delete", after = "ClearReload", bind = "ctrl d"  },
-  { action = "active", after = "ClearReload", bind = "Return"  },
-  { action = "inactive", after = "ClearReload", bind = "Return"  },
-  { action = "done", after = "ClearReload", bind = "ctrl f"  },
-  { action = "clear", after = "ClearReload", bind = "ctrl x", global = true }
+  { action = "save", default = true, bind = "Return", after = "AsyncClearReload" },
+  { action = "save_next", label = "save & new", bind = "shift Return", after = "AsyncClearReload" },
+  { action = "delete", bind = "ctrl d", after = "AsyncClearReload" },
+  { action = "active", default = true, bind = "Return", after = "Nothing" },
+  { action = "inactive", default = true, bind = "Return", after = "Nothing" },
+  { action = "done", bind = "ctrl f", after = "Nothing" },
+  { action = "change_category", bind = "ctrl y", label = "change category", after = "Nothing" },
+  { action = "clear", bind = "ctrl x", after = "AsyncClearReload" },
+  { action = "create", bind = "ctrl a", after = "AsyncClearReload" },
+  { action = "search", bind = "ctrl a", after = "AsyncClearReload" },
 ]
 
 runner = [
@@ -148,8 +179,13 @@ unicode = [
 
 clipboard = [
   { action = "copy", default = true, bind = "Return" },
-  { action = "remove", bind = "ctrl d", after = "ClearReload" },
-  { action = "remove_all", global = true, label = "clear", bind = "ctrl shift d", after = "ClearReload" },
-  { action = "toggle_images", global = true, label = "toggle images", bind = "ctrl i", after = "ClearReload" },
+  { action = "remove", bind = "ctrl d", after = "AsyncClearReload" },
+  { action = "remove_all", label = "clear", bind = "ctrl shift d", after = "AsyncClearReload" },
+  { action = "show_images_only", label = "only images", bind = "ctrl i", after = "AsyncClearReload" },
+  { action = "show_text_only", label = "only text", bind = "ctrl i", after = "AsyncClearReload" },
+  { action = "show_combined", label = "show all", bind = "ctrl i", after = "AsyncClearReload" },
+  { action = "pause", bind = "ctrl p" },
+  { action = "unpause", bind = "ctrl p" },
   { action = "edit", bind = "ctrl o" },
+  { action = "localsend", bind = "ctrl l" },
 ]

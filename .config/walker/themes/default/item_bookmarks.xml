@@ -8,11 +8,27 @@
     <property name="orientation">horizontal</property>
     <property name="spacing">10</property>
     <child>
-      <object class="GtkLabel" id="ItemImage">
+      <object class="GtkLabel" id="ItemImageFont">
+        <style>
+          <class name="item-image-text"></class>
+        </style>
+        <property name="width-chars">2</property>
+      </object>
+    </child>
+    <child>
+      <object class="GtkImage" id="ItemImage">
         <style>
           <class name="item-image"></class>
         </style>
-        <property name="width-chars">2</property>
+        <property name="icon-size">large</property>
+      </object>
+    </child>
+    <child>
+      <object class="GtkImage" id="ItemImageCreate">
+        <style>
+          <class name="item-image"></class>
+        </style>
+        <property name="pixel-size">48</property>
       </object>
     </child>
     <child>
@@ -21,7 +37,6 @@
           <class name="item-text-box"></class>
         </style>
         <property name="orientation">vertical</property>
-        <property name="hexpand">true</property>
         <property name="vexpand">true</property>
         <property name="vexpand-set">true</property>
         <property name="spacing">0</property>
@@ -30,10 +45,23 @@
             <style>
               <class name="item-text"></class>
             </style>
-            <property name="wrap">false</property>
+            <property name="wrap">true</property>
+            <property name="vexpand_set">true</property>
+            <property name="vexpand">true</property>
+            <property name="hexpand">true</property>
+            <property name="xalign">0</property>
+          </object>
+        </child>
+        <child>
+          <object class="GtkLabel" id="ItemSubtext">
+            <style>
+              <class name="item-subtext"></class>
+            </style>
+            <property name="wrap">true</property>
             <property name="vexpand_set">true</property>
             <property name="vexpand">true</property>
             <property name="xalign">0</property>
+            <property name="yalign">0</property>
           </object>
         </child>
       </object>
