@@ -1,0 +1,16 @@
+[Desktop Entry]
+Actions=profile-manager-window;compose-message;calendar;open-address-book;open-file;keymanager;settings
+Categories=Network;Chat;Email;Feed;GTK;News
+Comment=Read and write e-mails or RSS feeds, or manage tasks on calendars.
+Exec=thunderbird --name org.mozilla.Thunderbird
+GenericName=Email Client
+Icon=thunderbird
+# Icon=org.mozilla.Thunderbird
+Keywords=mail;email;e-mail;messages;rss;calendar;address book;addressbook;chat
+MimeType=message/rfc822;x-scheme-handler/mailto;text/calendar;text/vcard;text/x-vcard;x-scheme-handler/webcal;x-scheme-handler/webcals;x-scheme-handler/mid;
+Name=Thunderbird (GH)
+StartupNotify=true
+StartupWMClass=org.mozilla.Thunderbird
+Terminal=false
+Type=Application
+Version=1.5
