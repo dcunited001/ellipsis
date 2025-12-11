@@ -2,7 +2,7 @@
 Actions=profile-manager-window;compose-message;calendar;open-address-book;open-file;keymanager;settings
 Categories=Network;Chat;Email;Feed;GTK;News
 Comment=Read and write e-mails or RSS feeds, or manage tasks on calendars.
-Exec=thunderbird --name org.mozilla.Thunderbird
+Exec=thunderbird --name org.mozilla.Thunderbird -mail -calendar
 GenericName=Email Client
 Icon=thunderbird
 # Icon=org.mozilla.Thunderbird
