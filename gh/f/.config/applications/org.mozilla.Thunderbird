@@ -8,7 +8,7 @@ Icon=thunderbird
 # Icon=org.mozilla.Thunderbird
 Keywords=mail;email;e-mail;messages;rss;calendar;address book;addressbook;chat
 MimeType=message/rfc822;x-scheme-handler/mailto;text/calendar;text/vcard;text/x-vcard;x-scheme-handler/webcal;x-scheme-handler/webcals;x-scheme-handler/mid;
-Name=Thunderbird
+Name=Thunderbird (GH)
 StartupNotify=true
 StartupWMClass=org.mozilla.Thunderbird
 Terminal=false
@@ -17,19 +17,19 @@ Version=1.5
 
 [Desktop Action profile-manager-window]
 Exec=thunderbird --ProfileManager
-Name=Profile Manager
+Name=Profile Manager (GH)
 
 [Desktop Action compose-message]
 Exec=thunderbird -compose
-Name=Compose Message
+Name=Compose Message (GH)
 
 [Desktop Action calendar]
 Exec=thunderbird -calendar
-Name=Calendar
+Name=Calendar (GH)
 
 [Desktop Action open-file]
 Exec=thunderbird -file %U
-Name=Open File (.ical)
+Name=Open File (.ical) (GH)
 # TODO ensure .ical mimetype handles this
 
 [Desktop Action open-address-book]
@@ -38,8 +38,8 @@ Name=Address Book
 
 [Desktop Action settings]
 Exec=thunderbird -settings
-Name=Settings
+Name=Settings (GH)
 
 [Desktop Action keymanager]
 Exec=thunderbird -keymanager
-Name=Manage OpenPGP Keys
+Name=Manage OpenPGP Keys (GH)
