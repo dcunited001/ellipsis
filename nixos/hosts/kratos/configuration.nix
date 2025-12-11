@@ -11,6 +11,7 @@
     (lib.custom.relativeToRoot "hosts/common.nix")
     ./hardware.nix
     ./networking.nix
+    ./openssh.nix
     ./xdg.nix
     ./fcitx5.nix
     ./input.nix
@@ -274,8 +275,6 @@
 
   # needed for store VS Code auth token
   # services.gnome.gnome-keyring.enable = true;
-
-  services.openssh.settings.AllowUsers = [ "dc" ];
 
   # =============================================
   # System Packages

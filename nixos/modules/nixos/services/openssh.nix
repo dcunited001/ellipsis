@@ -26,15 +26,12 @@
         "curve25519-sha256@libssh.org"
         "diffie-hellman-group-exchange-sha256"
       ];
-
-      # HostKeyAlgorithms = ["rsa-sha2-256" "rsa-sha2-512"
-      #                      "ecdsa-sha2-nistp521" "ecdsa-sha2-nistp384" "ecdsa-sha2-nistp256"
-      #                      "sk-ecdsa-sha2-nistp256@openssh.com"
-      #                      "rsa-sha2-512-cert-v01@openssh.com" "rsa-sha2-256-cert-v01@openssh.com"
-      #                      "ecdsa-sha2-nistp521-cert-v01@openssh.com" "ecdsa-sha2-nistp384-cert-v01@openssh.com" "ecdsa-sha2-nistp256-cert-v01@openssh.com"
-      #                      "sk-ecdsa-sha2-nistp256-cert-v01@openssh.com"];
     };
 
+    # SSH defaults for HostKeyAlgorithms, but prefer:
+    #
+    # - (ed25519 > rsa > ecdsa)
+    # - (cert > sk-cert > key > sk-key)
     extraConfig = ''
       ClientAliveCountMax 0
       ClientAliveInterval 300
@@ -46,18 +43,36 @@
       # TCPKeepAlive no
 
       HostKeyAlgorithms \
-      rsa-sha2-256,\
-      rsa-sha2-512,\
-      ecdsa-sha2-nistp521,\
-      ecdsa-sha2-nistp384,\
-      ecdsa-sha2-nistp256,\
-      sk-ecdsa-sha2-nistp256@openssh.com,\
+      ssh-ed25519-cert-v01@openssh.com,\
       rsa-sha2-512-cert-v01@openssh.com,\
       rsa-sha2-256-cert-v01@openssh.com,\
-      ecdsa-sha2-nistp521-cert-v01@openssh.com,\
-      ecdsa-sha2-nistp384-cert-v01@openssh.com,\
       ecdsa-sha2-nistp256-cert-v01@openssh.com,\
-      sk-ecdsa-sha2-nistp256-cert-v01@openssh.com
+      ecdsa-sha2-nistp384-cert-v01@openssh.com,\
+      ecdsa-sha2-nistp521-cert-v01@openssh.com,\
+      sk-ssh-ed25519-cert-v01@openssh.com,\
+      sk-ecdsa-sha2-nistp256-cert-v01@openssh.com,\
+      ssh-ed25519,\
+      rsa-sha2-512,rsa-sha2-256,\
+      ecdsa-sha2-nistp256,ecdsa-sha2-nistp384,ecdsa-sha2-nistp521,\
+      sk-ecdsa-sha2-nistp256@openssh.com,\
+      sk-ssh-ed25519@openssh.com
     '';
   };
 }
+
+# Original                                      Github                                                SSH Defaults
+#
+# rsa-sha2-256,\                                ecdsa-sha2-nistp521-cert-v01@openssh.com              ssh-ed25519-cert-v01@openssh.com,
+# rsa-sha2-512,\                                ecdsa-sha2-nistp384-cert-v01@openssh.com              ecdsa-sha2-nistp256-cert-v01@openssh.com,
+# ecdsa-sha2-nistp521,\                         ecdsa-sha2-nistp256-cert-v01@openssh.com              ecdsa-sha2-nistp384-cert-v01@openssh.com,
+# ecdsa-sha2-nistp384,\                         ssh-ed25519-cert-v01@openssh.com                      ecdsa-sha2-nistp521-cert-v01@openssh.com,
+# ecdsa-sha2-nistp256,\                         ecdsa-sha2-nistp521                                   sk-ssh-ed25519-cert-v01@openssh.com,
+# sk-ecdsa-sha2-nistp256@openssh.com,\          ecdsa-sha2-nistp384                                   sk-ecdsa-sha2-nistp256-cert-v01@openssh.com,
+# rsa-sha2-512-cert-v01@openssh.com,\           ecdsa-sha2-nistp256                                   rsa-sha2-512-cert-v01@openssh.com,
+# rsa-sha2-256-cert-v01@openssh.com,\           ssh-ed25519                                           rsa-sha2-256-cert-v01@openssh.com,
+# ecdsa-sha2-nistp521-cert-v01@openssh.com,\    sk-ecdsa-sha2-nistp256-cert-v01@openssh.com           ssh-ed25519,
+# ecdsa-sha2-nistp384-cert-v01@openssh.com,\    sk-ecdsa-sha2-nistp256@openssh.com                    ecdsa-sha2-nistp256,ecdsa-sha2-nistp384,ecdsa-sha2-nistp521,
+# ecdsa-sha2-nistp256-cert-v01@openssh.com,\    rsa-sha2-512-cert-v01@openssh.com                     sk-ecdsa-sha2-nistp256@openssh.com,
+# sk-ecdsa-sha2-nistp256-cert-v01@openssh.com   rsa-sha2-256-cert-v01@openssh.com                     sk-ssh-ed25519@openssh.com,
+#                                               rsa-sha2-512                                          rsa-sha2-512,rsa-sha2-256
+#                                               rsa-sha2-256
