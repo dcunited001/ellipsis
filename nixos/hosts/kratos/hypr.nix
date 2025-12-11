@@ -34,8 +34,8 @@ in
       enable = true;
 
       # while on dev
-      package = hyprlandDev;
-      portalPackage = hyprlandPortalDev;
+      package = pkgs.hyprland;
+      portalPackage = pkgs.xdg-desktop-portal-hyprland;
 
       withUWSM = true; # recommended for most users
       xwayland.enable = true; # Xwayland can be disabled

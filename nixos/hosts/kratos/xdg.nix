@@ -18,6 +18,7 @@
     pkgs.nordic
     pkgs.adwaita-qt
     pkgs.gnome-themes-extra
+    pkgs.kdePackages.plasma-sdk # env QT_STYLE_OVERRIDE= iconexplorer
   ];
 
   qt.enable = true;

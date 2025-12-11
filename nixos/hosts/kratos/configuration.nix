@@ -55,6 +55,7 @@
       "home/dc/chromium.nix"
       "home/dc/hypr.nix"
       "home/dc/hypridle.nix"
+      "home/dc/thunderbird.nix"
       "home/dc/yktouch.nix"
       # "home/dc/waybar.nix"
     ])
