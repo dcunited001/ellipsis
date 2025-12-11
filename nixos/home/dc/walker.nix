@@ -9,6 +9,7 @@ let
   elephantPkg = inputs.elephant.packages.${pkgs.stdenv.system}.elephant-with-providers;
   walkerPkg = inputs.walker.packages.${pkgs.stdenv.system}.walker;
   elephantSystemD = true;
+  walkerSystemd = true;
   hjemFiles = ./. + "../../../../gh/f";
 in
 {
@@ -85,7 +86,19 @@ in
       RestartSec = 5;
 
       Slice = [ "background-graphical.slice" ];
+
+      # Security settings
+      # "Failed to set up mount namespace: /var/lib/elephant" (doesn't exist)
+      NoNewPrivileges = true;
+      # PrivateTmp = true;
+      # ProtectSystem = "strict";
+      # ProtectHome = true;
+      # ReadWritePaths = [
+      #   "/var/lib/elephant"
+      #   "/tmp"
+      # ];
     };
+    # environment.HOME = "/var/lib/elephant";
     environment.PATH = lib.mkForce null;
     requires = [ "elephant.socket" ];
     after = [ "graphical-session.target" ];
@@ -106,6 +119,47 @@ in
       DirectoryMode = "0700";
     };
     partOf = [ "elephant.service" ];
+    wantedBy = [ "sockets.target" ];
+  };
+
+  hjem.users.dc.systemd.services.walker = lib.mkIf walkerSystemd {
+    unitConfig = {
+      Description = "Walker Launcher and Indexer Service";
+      Documentation = "https://github.com/abenz1257/walker";
+      ConditionEnvironment = "WAYLAND_DISPLAY";
+    };
+    serviceConfig = {
+      ExecStart = "${walkerPkg}/bin/walker --gapplication-service";
+
+      Restart = "on-failure";
+      RestartSec = 5;
+
+      Slice = [ "background-graphical.slice" ];
+    };
+    environment.PATH = lib.mkForce null;
+    requires = [
+      "walker.socket"
+      "elephant.socket"
+      "elephant.service"
+    ];
+    after = [
+      "graphical-session.target"
+      "elephant.service"
+    ];
+  };
+
+  hjem.users.dc.systemd.sockets.walker = lib.mkIf walkerSystemd {
+    unitConfig = {
+      Description = "Walker Launcher and Indexer Socket";
+      Documentation = "https://github.com/abenz1257/walker";
+    };
+    socketConfig = {
+      ListenStream = "%t/walker/walker.sock";
+      SocketMode = "0600";
+      Service = "walker.service";
+      DirectoryMode = "0700";
+    };
+    partOf = [ "walker.service" ];
     wantedBy = [ "sockets.target" ];
   };
 }
