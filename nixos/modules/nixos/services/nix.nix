@@ -1,6 +1,7 @@
-{ pkgs, ... }:
+{ pkgs, inputs, ... }:
 {
   programs.nh = {
+    package = inputs.nh.packages.${pkgs.stdenv.system}.nh;
     enable = true;
     clean.enable = true;
     clean.extraArgs = "--keep-since 20d --keep 20";

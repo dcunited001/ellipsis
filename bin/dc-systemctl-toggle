@@ -1,0 +1,24 @@
+#!/bin/sh
+
+_print_usage() {
+    echo "usage: `basename $0` SERVICE"
+}
+
+if [ $# != 1 ]; then _print_usage; exit 1; fi
+
+service=$1
+
+I_SYS="${I_SYS:-system-run}"
+I_SUCCESS=emblem-success
+I_FAIL=emblem-error
+I_RUN=emblem-error
+I_LOCKED=changes-prevent
+I_UNLOCKED=changes-allow
+
+if systemctl -q is-active --user "$service"; then
+  notify-send -i "$I_SYS" 'SystemD' "Stopping: $service"
+  systemctl stop --user "$service"
+else
+  notify-send -i "$I_SYS" 'SystemD' "Starting: $service"
+  systemctl start --user "$service"
+fi

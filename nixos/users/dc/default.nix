@@ -101,7 +101,7 @@ in
 
       # nil # nix lsp
       nixd
-      nh
+      # nh # use programs.nh.package via nh flake
 
       # EDITOR
       emacs

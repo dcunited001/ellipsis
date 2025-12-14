@@ -22,7 +22,7 @@ NIXOS_HOST_CONFIG=./hosts/$(NIXOS_HOST)/configuration.nix
 flake_nixpkgs_newest=$(shell fh list releases DeterminateSystems/nixpkgs-weekly --json -l3 \
 | jq -r 'map(.Version | split("+")[0]) | first')
 
-flake_nixpkgs_current=$(shell nix flake info --json \
+flake_nixpkgs_current=$(shell nix flake metadata --json \
 | jq -r '.locks.nodes | "0.1.\(.nixpkgs.locked.revCount)"')
 
 .PHONY: flakeup-nixpkgs

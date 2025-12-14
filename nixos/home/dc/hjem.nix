@@ -44,6 +44,17 @@ in
     xdg.data.files = {
       # failias.sh: the aliases that almost were
       "gh/f/bash/rc/failias.sh".source = (hjemFiles + "/bash/rc/failias.sh");
+      "applications/io.elementary.iconbrowser.desktop".text = ''
+        [Desktop Entry]
+        Version=1.0
+        Type=Application
+        Name=Icon Browser
+        Comment=Browse and find system icons
+        Keywords=icons;iconography;
+        Icon=io.elementary.iconbrowser
+        Exec=io.elementary.iconbrowser
+        Terminal=false
+      '';
     };
 
     # xdg.config
