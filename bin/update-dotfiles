@@ -14,7 +14,7 @@ stow .
 
 status=$?
 if [ $status -eq 0 ]; then
-    notify-send -i "checkmark" "Dotfiles" "Update Complete"
+    notify-send -a "Dotfiles" -i "checkmark" "Dotfiles" "Update Complete"
 else
-    notify-send -i "error" "Dotfiles" "Update failed"
+    notify-send -a "Dotfiles" -i "error" "Dotfiles" "Update failed"
 fi

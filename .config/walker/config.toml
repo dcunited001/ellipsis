@@ -47,8 +47,6 @@ page_up = ["Page_Up"]
 show_actions = ["alt j"]
 
 [providers]
-default = ["desktopapplications", "runner", "menus"]
-empty = ["desktopapplications"]
 max_results = 50
 previews = ["files", "clipboard", "menus"]
 ignore_preview = []

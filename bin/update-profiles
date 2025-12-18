@@ -57,8 +57,8 @@ for profile in $__profiles; do
 
   status=$?
   if [[ $status -eq 0 ]]; then
-      notify-send -i "checkmark" "GUIX (Update Profile)" "Complete: $profileName"
+      notify-send -a "Guix" -i "checkmark" "GUIX (Update Profile)" "Complete: $profileName"
   else
-      notify-send -i "error" "GUIX (Profile)" "Failed: $profileName"
+      notify-send -a "Guix" -i "error" "GUIX (Profile)" "Failed: $profileName"
   fi
 done

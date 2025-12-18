@@ -23,7 +23,7 @@ OPTIND=1
 emacs_socket="$emacs_socket_path/$emacs_socket_name"
 if [[ ! -S "$emacs_socket" ]]; then
     # TODO: fix icons on guix
-    notify-send -a "`basename $0`" -i vim \
+    notify-send -a "Doom Emacs" -i emacs \
                 "Doom Emacs" \
                 "<b>`basename $0` </b> requires a running server"
     echo "`basename $0` requires a running server when specifying a socket"

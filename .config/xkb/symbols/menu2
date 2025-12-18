@@ -1,0 +1,7 @@
+// -*- mode: xkb; aphelia-mode: -1 -*-
+
+// Menu is mapped to the Menu key.
+partial alphanumeric_keys modifier_keys
+xkb_symbols "xf86calculator_menu" {
+    key <XF86Calculator> {[  Menu  ]};
+};

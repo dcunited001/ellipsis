@@ -129,6 +129,18 @@
     </group>
     <group allowMultipleSelection="true">
       <configItem>
+        <name>menu2</name>
+        <description>Rebind another key to the Menu symbol</description>
+      </configItem>
+      <option>
+        <configItem>
+          <name>menu2:xf86calculator_menu</name>
+          <description>XF86Calculator to Menu</description>
+        </configItem>
+      </option>
+    </group>
+    <group allowMultipleSelection="true">
+      <configItem>
         <name>fmedia</name>
         <description>Reuse Media Keys as additional function keys</description>
       </configItem>

@@ -24,7 +24,8 @@ xkb_symbols "micmute_switch" {
   key <I256> {[  ISO_Level3_Shift  ], type[group1]="ONE_LEVEL" };
 };
 
-partial xkb_symbols "lctl_switch" {
+partial modifier_keys
+xkb_symbols "lctl_switch" {
   // Dell PC-104: this combines alright with the 'underspace' option
   key <LCTL> {[  ISO_Level3_Shift  ], type[group1]="ONE_LEVEL" };
 };
@@ -51,6 +52,7 @@ xkb_symbols "micmute_latch" {
   key <I256> {[  ISO_Level3_Latch  ], type[group1]="ONE_LEVEL" };
 };
 
-partial xkb_symbols "lctl_latch" {
+partial modifier_keys
+xkb_symbols "lctl_latch" {
   key <LCTL> {[  ISO_Level3_Latch  ], type[group1]="ONE_LEVEL" };
 };

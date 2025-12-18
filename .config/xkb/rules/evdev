@@ -25,3 +25,6 @@
 ! option = symbols
   fmedia:mute_f17       = +fmedia(mute_f17)
   fmedia:voldown_f18    = +fmedia(voldown_f18)
+
+! option = symbols
+  menu2:xf86calculator_menu			= +menu2(xf86calculator_menu)

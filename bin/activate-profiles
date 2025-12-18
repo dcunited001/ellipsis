@@ -55,7 +55,7 @@ for profile in $__profiles; do
          --substitute-urls="$__substitute_urls" \
          $@
 
-    notify-send "GUIX (Activate Profile)" "Complete: $profileName"
+    notify-send -a "Guix" -i checkmark "GUIX (Activate Profile)" "Complete: $profileName"
 
     # Source the new profile
     GUIX_PROFILE="$profilePath/$profileName"

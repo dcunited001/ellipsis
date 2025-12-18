@@ -8,17 +8,18 @@ if [ $# != 1 ]; then _print_usage; exit 1; fi
 
 service=$1
 
-I_SYS="${I_SYS:-system-run}"
-I_SUCCESS=emblem-success
-I_FAIL=emblem-error
-I_RUN=emblem-error
-I_LOCKED=changes-prevent
-I_UNLOCKED=changes-allow
+NB=SystemD
+NB_SYS="${NB_SYS:-system-run-symbolic}"
+NB_SUCCESS=emblem-success
+NB_FAIL=emblem-error
+NB_RUN=emblem-error
+NB_LOCKED=changes-prevent
+NB_UNLOCKED=changes-allow
 
 if systemctl -q is-active --user "$service"; then
-  notify-send -i "$I_SYS" 'SystemD' "Stopping: $service"
+  notify-send -a "$NB" -i "$NB_SYS" 'SystemD' "Stopping: $service"
   systemctl stop --user "$service"
 else
-  notify-send -i "$I_SYS" 'SystemD' "Starting: $service"
+  notify-send -a "$NB" -i "$NB_SYS" 'SystemD' "Starting: $service"
   systemctl start --user "$service"
 fi

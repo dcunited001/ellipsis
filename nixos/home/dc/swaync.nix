@@ -19,6 +19,7 @@
       ExecReload = "${pkgs.swaynotificationcenter}/bin/swaync-client --reload-config ; ${pkgs.swaynotificationcenter}/bin/swaync-client --reload-cs";
       Restart = "on-failure";
       RestartSec = 5;
+      Slice = [ "app-graphical.slice" ];
     };
     environment.PATH = lib.mkForce null;
     environment.XDG_CONFIG_HOME = lib.mkForce null;

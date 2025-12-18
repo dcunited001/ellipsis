@@ -30,6 +30,7 @@
       "modules/nixos/desktop/bluetooth.nix"
       "modules/nixos/desktop/docs.nix"
       "modules/nixos/desktop/fonts.nix"
+      "modules/nixos/desktop/gtk.nix"
       "modules/nixos/desktop/ios.nix"
       "modules/nixos/desktop/pipewire.nix"
       "modules/nixos/desktop/printing.nix"

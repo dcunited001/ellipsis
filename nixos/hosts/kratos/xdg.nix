@@ -8,6 +8,7 @@
   # maybe use `exec-once dex -a ~/.config/autostart/{list,of}.desktop`
   xdg.autostart.enable = true;
   xdg.portal.enable = true;
+  xdg.icons.enable = true;
   xdg.portal = {
     # this includes xdg-desktop-portal-hyprland twice
     # extraPortals = with pkgs; [ xdg-desktop-portal-hyprland ];
@@ -16,11 +17,15 @@
 
   # run nwg-look and apply. theme files aren't in dotfiles
   environment.systemPackages = [
+    pkgs.glib
     pkgs.gsettings-desktop-schemas
     pkgs.nordic
+    pkgs.nordzy-icon-theme
+    pkgs.nordzy-cursor-theme
     pkgs.adwaita-qt
     pkgs.adwaita-qt6
     pkgs.adwaita-icon-theme
+    pkgs.adwaita-icon-theme-legacy
     pkgs.gnome-themes-extra
     # too slow when searching on nixos (too many packages, GPU rendering?)
     # otherwise great
@@ -33,4 +38,5 @@
     platformTheme = "qt5ct"; # gnome,gtk2,kde,kde6,lxqt,qt5ct
     style = "adwaita-dark";
   };
+
 }

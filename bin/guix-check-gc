@@ -1,8 +1,0 @@
-__which_guix=`which guix`
-__as_user=`whoami`
-
-__iavail=$(df --output=iavail -lh /gnu | tail -n +2)
-__itotal=$(df --output=itotal -lh /gnu | tail -n +2)
-
-notify-send -i important "GUIX (GC Check)" "Inodes: $__iavail\nTotal: $__itotal"
-notify-send "MCRON (Task Debug)" "User: $__as_user\nGuix: $__which_guix"

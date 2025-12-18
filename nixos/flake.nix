@@ -9,6 +9,7 @@
     {
       self,
       nixpkgs,
+      nh,
       flake-compat,
       frc-nix,
       hjem,

@@ -23,7 +23,7 @@ if [ -t 0 ] && [ -x "$uwu" ]; then
 
   if [ 0 -ne "$isuwsm" ]; then
     # if it is, definitely stop
-    notify-send "$isuwsm Doom Emacs" "$uwu_msg"
+    notify-send -a "Doom Emacs" -i emacs "$isuwsm Doom Emacs" "$uwu_msg"
     echo "$isuwsm Doom Emacs $uwu_msg"
     exit 1;
   fi

@@ -38,7 +38,7 @@ __substitute_urls=${__substitute_urls:-https://ci.guix.gnu.org https://bordeaux.
 # not sure on sudo -E, sudo -i or no option
 #sudo -i
 
-notify-send "GUIX Update $(hostname)" "Starting update to ${__os}"
+notify-send -a "Guix" "GUIX Update $(hostname)" "Starting update to ${__os}"
 
 sudo -E guix system -L $__ellipsis_channel -L $__dc_channel \
      reconfigure $__os \
@@ -46,7 +46,7 @@ sudo -E guix system -L $__ellipsis_channel -L $__dc_channel \
      $@
 
 if [ $? -eq 0 ]; then
-    notify-send -i "checkmark" "GUIX Update $(hostname) failed" "Update to ${__os}"
+    notify-send -a "Guix" -i "checkmark" "GUIX Update $(hostname) failed" "Update to ${__os}"
 else
-    notify-send -i "error" "GUIX Update $(hostname) finished" "Update to ${__os}"
+    notify-send -a "Guix" -i "error" "GUIX Update $(hostname) finished" "Update to ${__os}"
 fi

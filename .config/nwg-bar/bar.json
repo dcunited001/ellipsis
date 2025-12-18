@@ -1,7 +1,7 @@
 [
   {
     "label": "Lock",
-    "exec": "notify-send LOCK 'LOCKED COMPUTR'",
+    "exec": "loginctl lock-session'",
     "icon": "/nix/store/6265x8gw2yx48388bapyc9789jzs5all-nwg-bar-0.1.6/share/nwg-bar/images/system-lock-screen.svg"
   },
   {

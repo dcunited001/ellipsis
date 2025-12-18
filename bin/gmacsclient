@@ -24,7 +24,7 @@ OPTIND=1
 # TODO: fix icons on guix
 emacs_socket="$emacs_socket_path/$emacs_socket_name"
 if [ ! -S "$emacs_socket_path/$emacs_socket_name" ]; then
-    notify-send -a "`basename $0`" -i emacs \
+    notify-send -a "Gmacs" -i emacs \
                 "Gmacs" \
                 "<b>`basename $0`</b> requires a running server when specifying a socket"
     echo "`basename $0` requires a running server when specifying a socket"

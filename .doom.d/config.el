@@ -1457,6 +1457,8 @@ large search domains, it's almost always a failure."
  )
 
 (after! lsp-mode
+  (set-popup-rules!
+    '(("^\\*LSP Error List*" :side left :vslot -5 :slot 0 :width 40 :select t :quit nil)))
   (advice-add 'lsp! :override #'ignore))
 
 ;; i'm starting way too much of this for random config files
@@ -1473,7 +1475,7 @@ large search domains, it's almost always a failure."
   :defer t
   :config
   (set-popup-rules!
-    '(("^\\*sesman" :side bottom :vslot -5 :slot -5 :width 80 :select t :quit t))))
+    '(("^\\*sesman" :side bottom :vslot -5 :slot -5 :width 80 :select t :quit nil))))
 
 ;;;; Lisp
 
@@ -1647,14 +1649,8 @@ the root")
 ;;TODO Web: ensure emmet-mode is configured
 
 ;; html-ts-mode requires mhtml-ts-mode, but needs html-ts-mode-indent-offset set
-(setq-default html-ts-mode-indent-offset 2)
+;; (setq-default html-ts-mode-indent-offset 2) ;; NOTE remove if unnecessary
 (use-package mhtml-ts-mode :defer t)
-(use-package html-ts-mode
-  :mode "\\.html?\\'"
-  :config
-  (require 'mhtml-ts-mode)
-  (add-to-list 'major-mode-remap-alist
-               '(mhtml-mode . html-ts-mode)))
 
 (use-package! apheleia
   :config
@@ -1774,6 +1770,9 @@ the root")
 (use-package! magit
   :custom (magit-delete-by-moving-to-trash nil))
 
+;; :config (setq magit-display-buffer-function
+;;               #'magit-display-buffer-same-window-except-diff-v1)
+
 (after! magit
   (use-package! magit-todos
     :config (magit-todos-mode 1))
@@ -1801,6 +1800,10 @@ the root")
                  "gitlab.freedesktop.org"
                  forge-gitlab-repository)))
 
+
+;; (set-popup-rule! "^\\*?[0-9]+:\\(?:new-\\|[0-9]+$\\)" :size 0.45 :modeline t :ttl 0 :quit nil)
+;; (set-popup-rule! "^\\*\\(?:[^/]+/[^ ]+ #[0-9]+\\*$\\|Issues\\|Pull-Requests\\|forge\\)" :ignore t)
+;; => ("^\\*\\(?:[^/]+/[^ ]+ #[0-9]+\\*$\\|Issues\\|Pull-Requests\\|forge\\)" nil)
 (after! forge
   (map! :map forge-topic-mode-map
         "c" #'forge-create-post
@@ -1817,6 +1820,21 @@ the root")
                  "s" #'forge-edit-topic-state
                  "t" #'forge-edit-topic-title)))
 
+;; to recreate database, M-x forge-reset-database, then list repositories to
+;; set up schema
+
+;;;;; Forge Functionality
+
+(defun dc/forge-repository-toggle-selective-p (repository)
+  "Update `repository' by toggling `selective-p'."
+  (interactive (list (forge-read-repository "Toggle repository :selective")))
+  (let ((repo-was-selective-p (oref repository selective-p))
+        (repo-id (oref repository id)))
+    (pp repo-was-selective-p) (pp repo-id)
+    (forge-sql [:update repository
+                :set (= [selective_p] $s1)
+                :where (= id $s2)]
+               (not repo-was-selective-p) repo-id)))
 ;;;;; Forge Setup
 
 (defun dc/forge-all-marks ()
@@ -1848,7 +1866,7 @@ the root")
 (defvar dc/forge-nuanced-marks
   ;; nothing to key on unless the UUIDs are external
   '(("f8524701-93d9-4aad-a894-44de11fbf20c" "WATCH" modus-themes-nuanced-blue "modus-themes-nuanced-blue")
-    ("7c1c2f6a-b5aa-4ba1-84d5-026510f849f5" "ASK" modus-themes-nuanced-cyan "modus-themes-nuanced-cyan")
+    ("7c1c2f6a-b5aa-4ba1-84d5-026510f849f5" "LINK" modus-themes-nuanced-cyan "modus-themes-nuanced-cyan")
     ("cbac5d21-f162-430c-8b55-197482a54d9f" "LEARN" modus-themes-nuanced-green "modus-themes-nuanced-green")
     ("99cd5d9a-e135-4eac-8e95-cadbbe73a301" "CHECK" modus-themes-nuanced-magenta "modus-themes-nuanced-magenta")
     ("b75c358b-56fa-4f4d-9a1e-a925d3000716" "TODO" modus-themes-nuanced-red "modus-themes-nuanced-red")
@@ -2032,7 +2050,7 @@ the root")
 (def-project-mode! +df-nixos-mode
   :match "\\(?:/home/dc/\\.dotfiles/nixos/.*\\.nix\\)"
   :add-hooks (list #'lsp)
-  :modes '(nix-mode))
+  :modes '(nix-mode nix-ts-mode))
 
 (defconst dc/nixos-dotfiles-flake
   (expand-file-name ".dotfiles/nixos/flake.nix" (getenv "HOME")))
@@ -2357,6 +2375,14 @@ the root")
 
       "C-M-~" #'+popup/restore)         ; where'd it go?   (req. most keys)
 
+;; doesn't easily do the opposite
+;;
+;; - maybe use cmd!, but there's no push-global-mark-command
+;;
+;; (map! :map 'ctl-x-map
+;;       ;; "C-<SPC>" #'pop-global-mark
+;;       "C-M-<SPC>" #'push-mark-command)
+
 ;; "<f11>" #'maximize-window
 ;; "S-<f11>" #'balance-windows
 
@@ -2454,6 +2480,7 @@ the root")
 ;; (after! tmr) ;; (after! forge) ;; these should autoload
 (global-set-key (kbd "<kp-insert>") #'tmr-tabulated-view)
 (global-set-key (kbd "<C-kp-insert>") #'tmr)
+(global-set-key (kbd "<S-kp-insert>") #'ffap-menu)
 (global-set-key (kbd "<kp-delete>") #'forge-dispatch)
 (global-set-key (kbd "C-<kp-delete>") #'forge-list-notifications)
 

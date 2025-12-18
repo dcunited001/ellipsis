@@ -1,3 +1,27 @@
+#!/bin/bash
+
+# =============================================
+# Finding executables
+
+# will dump binary to shell
+cwix() {
+    [[ $# -lt 1 ]] && echo "Error: Requires executable command name" >&2 && return 1;
+    local _cwix_error=0
+    for c in $@; do
+        if ! command -v "$c" >/dev/null; then
+            _cwix_error=1;
+            echo "### CWIX: Error: $c not found" >&2;
+        else
+            echo "### CWIX: $c"
+            cat "$(which "$c")"
+        fi
+    done
+    return $_cwix_error
+}
+
+# ---------------------------------------------
+# Guix and Nix
+
 gwix() {
     [[ $# -ne 1 ]] && echo "Error: Requires executable command name" >&2 && return 1;
     cmd=$(which "$1") # test -x $cmdlink && echo "it passes"
@@ -15,11 +39,86 @@ nwix() {
     gwix "$1"
 }
 
+# =============================================
+# Strace
+
+
+# NOTE: can alternatively use `strace -o "!cmd"` or `strace -o "|cmd"`
+strep() {
+    local _output=""
+    local _regexp=".*"
+    local _strace_e="all"
+    local _strace_f=""
+    local _strace_append=
+    while getopts :E:e:f OPT; do # o:A OPT; do
+        case $OPT in
+            E) _regexp="$OPTARG" ;;
+            e|+e) _strace_e="$OPTARG" ;;
+            f|+f) _strace_f="-f" ;;
+            # A|+A) _strace_append="-A" ;;
+            # o|+o) _output="$OPTARG" ;;
+            --) break ;;
+            *)
+                echo "usage: `basename $0` -E REGEXP [+-e STRACE_EXPR} [+-f} -- [STRACE_CMD]...
+
+-E REGEXP           Regexp for 'grep -e'. Default: '.*'
+-e                  Strace expression. Default: 'all'
+-f --follow-forks   Follows forked processes and produces a single output
+"
+                return 2
+        esac
+    done
+    shift `expr $OPTIND - 1`
+    OPTIND=1
+
+    [[ -z "$_regexp" ]] && echo "Error: Requires '\$regexp' for 'grep -E'" >&2 && return 1;
+    [[ $# -lt 1 ]] && echo "Error: Requires a command to strace" >&2 && return 1;
+    echo "grep -E \"$_regexp\""
+    echo "strace -e \"$_strace_e\" \"${_strace_f}\" $@ 2>&1"
+    grep -E "$_regexp" <(strace -e "$_strace_e" ${_strace_f} $@ 2>&1) 
+    # grep -E "$_regexp" <(strace -e "$_strace_e" -o "$output" "${_strace_append}")
+
+    return $?
+}
+
+# =============================================
+# gpg
+# KEYID=$(gpg_id_master)
+gpg_id_master() {
+    [[ -z "$1" ]] && echo '$1 Required: IDENTITY' && return 1;
+    gpg -k --with-colons "$1" \
+        | awk -F: '/^pub:/ {print $5; exit}'
+}
+
+# KEYFP=$(gpg_fp_master)
+gpg_fp_master() {
+    [[ -z "$1" ]] && echo '$1 Required: IDENTITY' && return 1;
+    gpg -k --with-colons "$1" \
+        | awk -F: '/^fpr:/ {print $10; exit}'
+}
+
+# =============================================
+# SystemD
+
 syutarget() {
     [[ $# -ne 0 ]] && echo 'Error: does not accept arguments' >&2 && return 1;
 
     systemctl --user list-units | grep -e '\.target' | cut -f3 -d' '
 }
+
+# syusvc() {
+#   svc=$(systemctl --user list-units \
+#   | cut -f3 -d' ' \
+#   | grep -e 'service$' \
+#   | grep -v @ \
+#   | tr '\n' ',' \
+#   | sed -E 's/,$//g')
+
+#   if [ $? -ne 0 ]; then echo "Error: couldn't list units" && return 1; fi
+
+#   echo "$svc"
+# }
+
 alias syusvc="systemctl --user list-units \
   | cut -f3 -d' ' \
   | grep -e 'service$'"
