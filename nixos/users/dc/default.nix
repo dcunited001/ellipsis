@@ -140,6 +140,7 @@ in
       _1password-gui
       keepassxc
       openssl
+      tuntox # for CRDT https://code.librehq.com/qhong/crdt.el
 
       step-cli
       step-ca

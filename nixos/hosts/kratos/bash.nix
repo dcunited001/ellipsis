@@ -43,6 +43,7 @@
       gpguptty = "gpg-connect-agent updatestartuptty /bye";
       gpgrel = "gpg-connect-agent reloadagent /bye";
       hw = "hwinfo --short";
+      diffusb = "diff <(lsusb) <(sleep 3; lsusb)";
       iotopa = "iotop -oa";
       grubup = "sudo update-grub";
       dfs = "df -h | tail -n+2 | sort -nk5";
