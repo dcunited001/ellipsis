@@ -242,9 +242,22 @@ Guix channel.")
   :prefix-command 'dc/cape-map)
 (general-define-key
  :keymaps 'global-map
- "<f4>" '(:prefix-command dc/doc-map :wk "DOC"))
-(doc-def
-  "f" #'cape-file)
+ "<f2>" '(:prefix-command dc/cape-map :wk "CAPE")
+ "<f11>" '(:prefix-command dc/cape-map :wk "CAPE"))
+(cape-def
+  "M-a" #'cape-abbrev
+  "M-A" #'cape-dabbrev
+  "f" #'cape-file
+  "l" #'cape-line
+  "M-d" #'cape-dict
+  "e" #'cape-elisp-symbol
+  "E" #'cape-elisp-block
+  ":" #'cape-emoji
+  "k" #'cape-keyword
+  "t" #'complete-tag
+  "x" #'cape-sgml
+  "<SPC>" #'cape-tex
+  "M-<SPC>" #'cape-rfc1345)
 
 ;;;;; LSP Map <f8>
 (general-create-definer lsp-def
@@ -2369,7 +2382,7 @@ the root")
 
 ;; "<f1> C-`" #'+popup/diagnose ;; in help-map
 (map! :map 'global-map
-      "<f11>" #'dc/toggle-window-balance
+      "S-<f11>" #'dc/toggle-window-balance
 
       ;; "C-`" #'+popup/toggle          ; pop the popup
       "C-~" #'+popup/other              ; look around      (+ shift)
