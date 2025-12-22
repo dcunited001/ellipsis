@@ -1830,7 +1830,8 @@ the root")
   (interactive (list (forge-read-repository "Toggle repository :selective")))
   (let ((repo-was-selective-p (oref repository selective-p))
         (repo-id (oref repository id)))
-    (pp repo-was-selective-p) (pp repo-id)
+    ;; (pp repo-was-selective-p)
+    ;; (pp repo-id)
     (forge-sql [:update repository
                 :set (= [selective_p] $s1)
                 :where (= id $s2)]
