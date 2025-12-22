@@ -53,7 +53,7 @@ guix-pull-lock:
 guix-pull-sync:
 	guix pull -L ./ellipsis -L ./dc -C $(GUIXGUIXBASE)
 
-.PHONY: guix-upgrade guix-upgrade-all
+.PHONY: guix-upgrade guix-upgrade-doom
 guix-upgrade:
 	make guix-pull
 	make repl
