@@ -35,7 +35,7 @@ in
 
       # sources /etc/bashrc, then ~/.bashrc
       ".bashrc".text = ''
-        for shrc in $HOME/.local/share/gh/f/bash/rc/{failias.sh,util.sh}; do
+        for shrc in $HOME/.local/share/gh/f/bash/rc/{failias.sh,util.sh,mise.sh}; do
           [[ -f $shrc ]] && source $shrc
         done
       '';
@@ -57,7 +57,13 @@ in
       '';
     };
 
-    # xdg.config
+    xdg.config.files = {
+      # use nix-ld to avoid all_compile=true
+      "mise/config.toml".text = ''
+        [tools]
+        node = "latest"
+      '';
+    };
     # xdg.cache
     # xdg.data
     # xdg.state
