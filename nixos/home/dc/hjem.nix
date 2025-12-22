@@ -43,6 +43,7 @@ in
 
     xdg.data.files = {
       # failias.sh: the aliases that almost were
+      "gh/f/bash/rc/mise.sh".source = (hjemFiles + "/bash/rc/mise.sh");
       "gh/f/bash/rc/failias.sh".source = (hjemFiles + "/bash/rc/failias.sh");
       "applications/io.elementary.iconbrowser.desktop".text = ''
         [Desktop Entry]
@@ -58,12 +59,19 @@ in
     };
 
     xdg.config.files = {
-      # use nix-ld to avoid all_compile=true
-      "mise/config.toml".text = ''
+      # - use nix-ld to avoid all_compile=true ... probably going to want to um lock the flake
+      # - `mise completion bash --include-bash-completion-lib > ~/.local/share/bash-completions/mise`
+      "mise/config.toml.ohhh".text = ''
+        [settings]
+        all_compile = false
+        # jobs = 12
+
         [tools]
         node = "latest"
+        usage = "latest"
       '';
     };
+
     # xdg.cache
     # xdg.data
     # xdg.state

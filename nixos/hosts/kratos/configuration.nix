@@ -17,6 +17,8 @@
     ./input.nix
     ./containers.nix
     ./bash.nix
+    ./mise.nix
+    ./python.nix
     ./hypr.nix
 
     (map lib.custom.relativeToRoot [
