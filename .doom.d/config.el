@@ -1899,6 +1899,10 @@ the root")
                  "r" #'envrc-reload-all
                  "g" #'envrc-global-mode)))
 
+;;;; Mise
+(use-package! mise
+  :hook (after-init-hook . global-mise-mode))
+
 ;;;; Auth
 ;;
 ;;;;; epa

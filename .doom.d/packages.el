@@ -320,6 +320,8 @@
 ;; TODO: PKG: TS LANGS: python-ts-mode, clojure-ts-mode
 ;; TODO: PKG: TOOLS: srht, repo
 
+(package! mise)
+
 ;;** To Config
 ;;***
 ;;*** Babel
