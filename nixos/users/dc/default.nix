@@ -178,6 +178,7 @@ in
       # COMM
       zoom-us
       thunderbird
+      telegram-desktop
 
       # IRC
       quassel # flatpak doesn't load settings
