@@ -263,15 +263,14 @@ Guix channel.")
 (general-create-definer lsp-def
   :prefix-map 'dc/lsp-map
   :prefix-command 'dc/lsp-map)
-
 (general-define-key
  :keymaps 'global-map
  "<f8>" '(:prefix-command dc/lsp-map :wk "LSP"))
-
 (lsp-def
   "<f7>" #'lsp-ui-peek-enable
   "<f8>" #'lsp-ui-lsp-toggle
   "<f9>" #'lsp-lens)
+
 ;;; Projects
 ;;
 ;;;; Project.el
@@ -2334,9 +2333,13 @@ the root")
     (add-to-list 'apheleia-formatters '(whitespace . whitespace-cleanup))
     (add-to-list 'apheleia-mode-alist '(hyprlang-ts . whitespace)))
   ;; :hook (hyprlang-ts-mode . dc/hyprlang-setup-outline-mode)
+  :hook (hyprlang-ts-mode . (lambda () (setq-local rainbow-html-colors t)))
   :config
   (add-to-list 'major-mode-remap-alist '(hyprlang-mode . hyprlang-ts-mode)))
 
+(use-package! rainbow-mode
+  :demand t
+  :hook (hyprlang-ts-mode . rainbow-mode))
 
 ;;; Applications
 

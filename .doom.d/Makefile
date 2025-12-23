@@ -122,7 +122,7 @@ doom_aot=--aot
 
 .PHONY: doomsync doomgc doombuildaot doomup doominstall
 
-# syncs, but doesn't rebuild
+# syncs, but doesn't rebuild (... actually it seems to nativecomp)
 doomsync: doomfixsystemd
 	guix shell -p $(GUIX_PROFILE) \
 	-E EMACSDIR -E EMACS -E DOOMDIR -E EMACS_SOURCE -E GUIX_SOURCE \

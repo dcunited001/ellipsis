@@ -1,0 +1,9 @@
+#+title: eldc
+
+Just a real quick README.
+
++ Anything in ./.emacs.lib should have minimal dependencies and certainly no
+  framework deps.
++ It gets pulled in to other emacs profiles using =load-path= and/or =symlinks=
++ if I move code into =.emacs.lib/pkgs=, then maybe the code is intended for
+  external packaging. Or at least more straightforward testing.

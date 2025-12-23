@@ -115,6 +115,8 @@
 
     # extra CLI packages
     tree
+    # nmcli
+    # nmtui
 
     emacs
     # emacsPackages.nix-mode # probably requires emacsPackagesFor
