@@ -39,20 +39,77 @@
               (r :type number)
               (g :type number)
               (b :type number)
-              (a :type number))
+              (a 255 :type number))
 
-(cl-defstruct eldc-color-hex "Abstract color"
-              ;; :constructor (...)
-              (r :type number)
-              (g :type number)
-              (b :type number)
-              (a :type number))
+(defun eldc-color-hex-from-str (str)
+  "oof this is terrible. just let the vec4's be vec4's"
+  (unless (and (string-match-p "^#?[0-9A-Fa-f]+$" str)
+               (or (eq (length str) 6)
+                   (eq (length str) 8)))
+    (user-error "probably give it valid input"))
+  (let* ((str (or (and (string-match-p "^#" str) (substring 1 str)) str))
+         (str (or (and (eq (length str) 6) (format "%sFF" str)) str))
+         ;; ... damit
+         ;; (idx (vector [:r 0 :g 2 :b 4 (when (> 8 (length str)) [:a 6])]))
+         (color-args
+          (mapcar (lambda (i2)
+                    (or (and (keywordp i2) i2)
+                        (string-to-number
+                         (substring str i2 (+ 2 i2)) 16)))
+                  [:r 0 :g 2 :b 4 :a 6])))
+    (apply #'make-eldc-color-hex color-args)))
+
+;; (eldc-color-hex-from-str "FFBBCCFB")
+
+(cl-defstruct (eldc-color-hex (:include eldc-color-base)) "Hex color")
+;; :constructor (eldc-color-hex-from-str)
+(cl-defstruct (eldc-color-rgb (:include eldc-color-base (a 255))) "RGB color")
+(cl-defstruct (eldc-color-rgba (:include eldc-color-base)) "RGBA color")
+
+;; as is, not really a great usage of defgeneric, since it only prints its own
+;; type. there's probably a better way, using &optional or struct conversion
+(cl-defgeneric eldc-color-to-string (color) "Return the color's string representation"
+               (string-trim (pp-to-string (vector (eldc-color-base-r color)
+                                                  (eldc-color-base-g color)
+                                                  (eldc-color-base-b color)
+                                                  (eldc-color-base-a color)))))
+
+(cl-defmethod eldc-color-to-string ((color eldc-color-hex))
+  (format "#%s%s%s" (eldc-color-base-r color)
+          (eldc-color-base-g color)
+          (eldc-color-base-b color)))
+
+;; (when (< a 255) (eldc-color-base-a color))
+
+(let ((ccc (eldc-color-hex-to-rgb-vec "#FFAACCD0"))
+      (hexcolor (eldc-color-hex "#FFAACCD0")))
+  (eldc-color-to-string ccc))
+
+;; (cl-defstruct eldc-color-float "Float color")
 
 ;; (make-eldc-color-base :r 1 :g 2 :b 3 :a 4)
 ;; (copy-eldc-color-base)
 
 (defun eldc-color-css-invert-rgb (x)
   (format "%06X" (- #xFFFFFF x)))
+
+(defun eldc-color-hex-to-rgb-vec (color)
+  (cond-let*
+    ([hex (string-match "\\`#[0-9a-fA-F]\\{8\\}" color)]
+     [hexint (string-to-number (substring color 1) 16)]
+     [rgbvec (vector
+              (mod (/ hexint (expt 2 24)) (expt 2 8))
+              (mod (/ hexint (expt 2 16)) (expt 2 8))
+              (mod (/ hexint (expt 2 8)) (expt 2 8))
+              (mod hexint (expt 2 8)))]
+     (apply #'make-eldc-color-base (list :r (elt rgbvec 0) :g (elt rgbvec 1) :b (elt rgbvec 2) :a (elt rgbvec 3))))
+    ([hex (string-match "\\`#[0-9a-fA-F]\\{6\\}" color)]
+     [hexint (string-to-number (substring color 1) 16)]
+     [rgbvec (vector
+              (mod (/ hexint (expt 2 16)) (expt 2 8))
+              (mod (/ hexint (expt 2 8)) (expt 2 8))
+              (mod hexint (expt 2 8)))]
+     (apply #'make-eldc-color-base (list :r (elt rgbvec 0) :g (elt rgbvec 1) :b (elt rgbvec 2))))))
 
 (defun eldc-color-css-convert-hex (color &rest keys)
   "Convert CSS hex to format"
@@ -67,7 +124,7 @@
     color ;; TODO: implement cl-defstruct & cl-defmethods
     ))
 
-(eldc-color-css-convert-hex "fdsa" :to "asdf" :from "asdf")
+;; (eldc-color-css-convert-hex "fdsa" :to "asdf" :from "asdf")
 
 ;; convert #abc => #554433
 ;; (replace-regexp "\( +--.*\):#\(.\)\(.\)\(.\);$" "\1:#\2\2\3\3\4\4")
