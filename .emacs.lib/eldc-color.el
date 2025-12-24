@@ -57,9 +57,9 @@
                         (string-to-number
                          (substring str i2 (+ 2 i2)) 16)))
                   [:r 0 :g 2 :b 4 :a 6])))
-    (apply #'make-eldc-color-hex color-args)))
+    (apply #'make-eldc-color-base color-args)))
 
-;; (eldc-color-hex-from-str "BFCCBBFF")
+;; (eldc-color-hex-from-str "FFBBCCFB")
 
 (cl-defstruct (eldc-color-hex (:include eldc-color-base)) "Hex color")
 ;; :constructor (eldc-color-hex-from-str)
@@ -80,50 +80,84 @@
                                                   (eldc-color-base-b color)
                                                   (eldc-color-base-a color)))))
 
-(cl-defmethod eldc-color-to-string ((color eldc-color-hex))
-  (format "#%s%s%s%s" (eldc-color-base-r color)
-          (eldc-color-base-g color)
-          (eldc-color-base-b color)
-          (eldc-color-base-a color)))
+;; NOTE: cl-defmethod is defmacro that calls cl-defun
+;; 
+;; :extra "arbitrary-string?-hex
+;; :extra "arbitrary-string?-rgb
+;; :extra "arbitrary-string?-rgba
+
+(cl-defmethod eldc-color-to-string :around ((color eldc-color-hex))
+  (format "#%s%s%s%s"
+          (eldc-color-hex-r color)
+          (eldc-color-hex-g color)
+          (eldc-color-hex-b color)
+          (eldc-color-hex-a color)))
+
+(cl-defmethod eldc-color-to-string :around ((color eldc-color-rgb))
+  (format "rgb(%s, %s, %s)"
+          (eldc-color-rgb-r color)
+          (eldc-color-rgb-g color)
+          (eldc-color-rgb-b color)))
+
+(cl-defmethod eldc-color-to-string :around ((color eldc-color-rgba))
+  (pp color)
+  (format "rgba(%s, %s, %s, %s)"
+          (eldc-color-rgba-r color)
+          (eldc-color-rgba-g color)
+          (eldc-color-rgba-b color)
+          (eldc-color-rgba-a color)))
+
+(defun eldc-color-to-list (color)
+  (mapcar (lambda (sl)
+            (cl-struct-slot-value (type-of color) sl color))
+          '(r g b a)))
+
+;; ((ct (color-struct-type (type-of color))))
+;; (cl-struct-slot-value color-struct-type 'a color)
 
 ;; (when (< a 255) (eldc-color-base-a color))
 (defvar -eldc-color-test nil)
 (when -eldc-color-test
-  (let* ((color (eldc-color-hex-from-str "#123456" ))
+  (let* ((color (eldc-color-hex-from-str "#123456" )) ; #s(eldc-color-hex 18 52 86 255)
          (color-struct-type (type-of color)))
     (list :raw (cl-struct-slot-value color-struct-type 'a color)
           :hex (eldc-color-hex-a color)
           :base (eldc-color-base-a color)))
 
-  (let ((colors (list "#FFAACC" "#0DCCAAFF")))
+  (let ((colors (list "#FFAACC" "#FFAACCD0")))
     (->> colors
          (mapcar #'eldc-color-hex-from-str)
+
+         ;; make-eldc-color-hex... /was/ type-specific in the apply from
+         ;; eldc-color-to-string. idk, likely problematic design
          (mapcar #'eldc-color-to-string))))
 
 (defun eldc-color-css-invert-rgb (x)
   (format "%06X" (- #xFFFFFF x)))
 
-(defun eldc-color-hex-to-rgb-vec (color)
+(defun eldc-color-hex-str-to-rgb-vec (str)
+  "Requires the hash sign"
   (cond-let*
-    ([hex (string-match "\\`#[0-9a-fA-F]\\{8\\}" color)]
-     [hexint (string-to-number (substring color 1) 16)]
+    ([hex (string-match "\\`#?[0-9a-fA-F]\\{8\\}" str)]
+     [hexint (string-to-number (substring str -8) 16)]
      [rgbvec (vector
               (mod (/ hexint (expt 2 24)) (expt 2 8))
               (mod (/ hexint (expt 2 16)) (expt 2 8))
               (mod (/ hexint (expt 2 8)) (expt 2 8))
               (mod hexint (expt 2 8)))]
-     (apply #'make-eldc-color-base (list :r (elt rgbvec 0) :g (elt rgbvec 1) :b (elt rgbvec 2) :a (elt rgbvec 3))))
-    ([hex (string-match "\\`#[0-9a-fA-F]\\{6\\}" color)]
-     [hexint (string-to-number (substring color 1) 16)]
+     (apply #'make-eldc-color-rgb (list :r (elt rgbvec 0) :g (elt rgbvec 1) :b (elt rgbvec 2) :a (elt rgbvec 3))))
+    ([hex (string-match "\\`#?[0-9a-fA-F]\\{6\\}" str)]
+     [hexint (string-to-number (substring str -6) 16)]
      [rgbvec (vector
               (mod (/ hexint (expt 2 16)) (expt 2 8))
               (mod (/ hexint (expt 2 8)) (expt 2 8))
               (mod hexint (expt 2 8)))]
-     (apply #'make-eldc-color-base (list :r (elt rgbvec 0) :g (elt rgbvec 1) :b (elt rgbvec 2))))))
+     (apply #'make-eldc-color-rgba (list :r (elt rgbvec 0) :g (elt rgbvec 1) :b (elt rgbvec 2))))))
 
 (when -eldc-color-test
-  (->> (list "#FFAACC" "#0DCCAAFF")
-       (mapcar #'eldc-color-hex-to-rgb-vec)))
+  (->> (list "#FFAACC" "#FFAACCD0")
+       (mapcar #'eldc-color-hex-str-to-rgb-vec)))
+;; => (#s(eldc-color-rgba 255 170 204 255) #s(eldc-color-rgb 13 204 170 255))
 
 (defun eldc-color-css-convert-hex (color &rest keys)
   "Convert CSS hex to format"
@@ -176,15 +210,39 @@ resembles hex SMH"
 ;; -fdsa => ((42 8) (32 4500) (20 32000) (20 93) (19 27) (19 110) (1 10))
 
 ;; #123456
-;; #12345678
-;; #12321FFF
-;; #FFF32123
+;; #87654321
+;; #FFF12321
+;; #32123FFF
+;; 2112CDBA
 
 (when -eldc-color-test
   (eldc-color-regexp-replace-colors
    :buffer (current-buffer)
    :regexp "[[:xdigit:]]\\{8\\}"
-   :with-match (lambda (s) (string-reverse s))))
+   :with-match (lambda (s) (string-reverse s)))
+
+  ;; NOTE: still doesn't work bc i'm mis-interpreting etc, learning
+  ;; malinformation & malexperience. i need
+  ;; clarification.......... early. otherwise learn bad
+  ;;
+  ;; I put a ton of time into learning this defmethod stuff several times in
+  ;; the past 3 years... only to NEVER actually write code to reinforce what
+  ;; i've learned.
+  (eldc-color-regexp-replace-colors
+   :buffer (current-buffer)
+   :regexp "[[:xdigit:]]\\{8\\}"
+   :with-match
+   (lambda (s)
+     ;; generics are not dispatching as expected (around should override AFAIK?)
+     ;; 
+     ;; (eldc-color-to-string
+     ;;  (eldc-color-hex-str-to-rgb-vec (string-reverse s)))
+     (let* ((this-color (eldc-color-hex-str-to-rgb-vec (string-reverse s)))
+            (fdsa (eldc-color-to-list this-color)))
+       (apply #'format "rgba(%s, %s, %s, %s)" fdsa)))))
+
+;; => 
+;; (eldc-color-hex-str-to-rgb-vec "FFBBCCFB")
 
 ;; &key (buffer #'current-buffer) ; ... the `n+1' problem is expensive
 ;;
@@ -199,20 +257,23 @@ resembles hex SMH"
   "Find references to colors in buffer that match `regexp' and transform
 them with `with-match'."
   (interactive)
-  (save-excursion
-    (with-current-buffer
-        (or buffer (current-buffer))
-      (save-restriction
-        (widen)
-        (goto-char 1)
-        (while (search-forward-regexp regexp nil t 1)
-          ;; still not dynamic (only hex)
-          (let* ((color (match-string 0))
-                 (result (funcall with-match (match-string 0)))
-                 acc '())
-            ;; (setf (car acc) (caar acc))
-            (push (list color result) acc)
-            (replace-match result t)))))))
+  (let ((acc '()))
+    (save-excursion
+      (with-current-buffer
+          (or buffer (current-buffer))
+        (save-restriction
+          (widen)
+          (goto-char 1)
+          (while (search-forward-regexp regexp nil t 1)
+            ;; still not dynamic (only hex)
+            (let* ((color (match-string 0))
+                   (-fdsa- (pp color))
+                   (result (funcall with-match color))
+                   (result (eldc-color-to-string result)))
+              ;; (setf (car acc) (caar acc))
+              (push (list color result) acc)
+              (replace-match result t nil color))))))
+    (nreverse acc)))
 
 (provide 'eldc-color)
 
