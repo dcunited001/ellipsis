@@ -1638,6 +1638,7 @@ the root")
 (use-package! lispy
   :defer t
   :hook 'lisp-data-mode-hook
+  :custom ((lispy-x-default-verbosity 1 "Show more info for `lispy-x'"))
   :config
   (setq lispy-outline "^;;\\(?:;[^#]\\|\\*+\\)")
   ;; removing advice fixes consult-outline

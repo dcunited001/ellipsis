@@ -6,9 +6,9 @@
 ;; Version: 0.0.1
 ;; Package-Requires: ((emacs "30.1"))
 ;; Keywords: lisp
-;; 
+;;
 ;; This file is NOT part of GNU Emacs.
-;; 
+;;
 ;; Permission is hereby granted, free of charge, to any person obtaining a copy
 ;; of this software and associated documentation files (the “Software”), to deal
 ;; in the Software without restriction, including without limitation the rights
@@ -30,7 +30,7 @@
 ;;; Commentary:
 
 ;;; Some common miscellaneous utilities designed to be shared between emacs
-;;; profiles. 
+;;; profiles.
 
 ;;; Code:
 
@@ -43,11 +43,11 @@
 
 (defun eldc-color-hex-from-str (str)
   "oof this is terrible. just let the vec4's be vec4's"
-  (unless (and (string-match-p "^#?[0-9A-Fa-f]+$" str)
-               (or (eq (length str) 6)
-                   (eq (length str) 8)))
+  (unless (or (and (string-match-p "^#[0-9A-Fa-f]+$" str)
+                   (memq (length str) '(7 9)))
+              (memq (length str) '(6 8)))
     (user-error "probably give it valid input"))
-  (let* ((str (or (and (string-match-p "^#" str) (substring 1 str)) str))
+  (let* ((str (or (and (string-match-p "^#" str) (substring str 1)) str))
          (str (or (and (eq (length str) 6) (format "%sFF" str)) str))
          ;; ... damit
          ;; (idx (vector [:r 0 :g 2 :b 4 (when (> 8 (length str)) [:a 6])]))
@@ -59,15 +59,21 @@
                   [:r 0 :g 2 :b 4 :a 6])))
     (apply #'make-eldc-color-hex color-args)))
 
-;; (eldc-color-hex-from-str "FFBBCCFB")
+;; (eldc-color-hex-from-str "BFCCBBFF")
 
 (cl-defstruct (eldc-color-hex (:include eldc-color-base)) "Hex color")
 ;; :constructor (eldc-color-hex-from-str)
 (cl-defstruct (eldc-color-rgb (:include eldc-color-base (a 255))) "RGB color")
 (cl-defstruct (eldc-color-rgba (:include eldc-color-base)) "RGBA color")
 
+;; (make-eldc-color-base :r 1 :g 2 :b 3 :a 4)
+;; (copy-eldc-color-base)
+
 ;; as is, not really a great usage of defgeneric, since it only prints its own
 ;; type. there's probably a better way, using &optional or struct conversion
+
+;; when (color &optional alpha), confused about how to include that in a
+;; defmethod's closure
 (cl-defgeneric eldc-color-to-string (color) "Return the color's string representation"
                (string-trim (pp-to-string (vector (eldc-color-base-r color)
                                                   (eldc-color-base-g color)
@@ -75,20 +81,24 @@
                                                   (eldc-color-base-a color)))))
 
 (cl-defmethod eldc-color-to-string ((color eldc-color-hex))
-  (format "#%s%s%s" (eldc-color-base-r color)
+  (format "#%s%s%s%s" (eldc-color-base-r color)
           (eldc-color-base-g color)
-          (eldc-color-base-b color)))
+          (eldc-color-base-b color)
+          (eldc-color-base-a color)))
 
 ;; (when (< a 255) (eldc-color-base-a color))
+(defvar -eldc-color-test nil)
+(when -eldc-color-test
+  (let* ((color (eldc-color-hex-from-str "#123456" ))
+         (color-struct-type (type-of color)))
+    (list :raw (cl-struct-slot-value color-struct-type 'a color)
+          :hex (eldc-color-hex-a color)
+          :base (eldc-color-base-a color)))
 
-(let ((ccc (eldc-color-hex-to-rgb-vec "#FFAACCD0"))
-      (hexcolor (eldc-color-hex "#FFAACCD0")))
-  (eldc-color-to-string ccc))
-
-;; (cl-defstruct eldc-color-float "Float color")
-
-;; (make-eldc-color-base :r 1 :g 2 :b 3 :a 4)
-;; (copy-eldc-color-base)
+  (let ((colors (list "#FFAACC" "#0DCCAAFF")))
+    (->> colors
+         (mapcar #'eldc-color-hex-from-str)
+         (mapcar #'eldc-color-to-string))))
 
 (defun eldc-color-css-invert-rgb (x)
   (format "%06X" (- #xFFFFFF x)))
@@ -110,6 +120,10 @@
               (mod (/ hexint (expt 2 8)) (expt 2 8))
               (mod hexint (expt 2 8)))]
      (apply #'make-eldc-color-base (list :r (elt rgbvec 0) :g (elt rgbvec 1) :b (elt rgbvec 2))))))
+
+(when -eldc-color-test
+  (->> (list "#FFAACC" "#0DCCAAFF")
+       (mapcar #'eldc-color-hex-to-rgb-vec)))
 
 (defun eldc-color-css-convert-hex (color &rest keys)
   "Convert CSS hex to format"
@@ -149,6 +163,56 @@ resembles hex SMH"
               (push inv-rgb acc)
               (replace-match inv-rgb t))))))
     (nreverse acc)))
+
+(when -eldc-color-test
+  (progn
+    ;; eval with lispy
+    (setq-local -fdsa '((1 10)))
+    ;; repeatedly prepend with `(,(mod time 60) ,(random))
+    (push (list (ts-sec (ts-now)) (random 120)) -fdsa)
+    ;; repeatedly (* 10 (cdr (car -fdsa))) & set
+    (setf (cadar -fdsa) (* 10 (cadar -fdsa)))))
+
+;; -fdsa => ((42 8) (32 4500) (20 32000) (20 93) (19 27) (19 110) (1 10))
+
+;; #123456
+;; #12345678
+;; #12321FFF
+;; #FFF32123
+
+(when -eldc-color-test
+  (eldc-color-regexp-replace-colors
+   :buffer (current-buffer)
+   :regexp "[[:xdigit:]]\\{8\\}"
+   :with-match (lambda (s) (string-reverse s))))
+
+;; &key (buffer #'current-buffer) ; ... the `n+1' problem is expensive
+;;
+;; (cond ((functionp buffer) (funcall buffer))
+;;       ((bufferp buffer) buffer)
+;;       (t (current-buffer)))
+;;
+;; let* ((buffer (or buffer (current-buffer)))) ; unnecessarily complex closure
+
+(cl-defun eldc-color-regexp-replace-colors
+    (&key buffer (regexp "[[:xdigit:]]\\{6\\}") (with-match #'identity))
+  "Find references to colors in buffer that match `regexp' and transform
+them with `with-match'."
+  (interactive)
+  (save-excursion
+    (with-current-buffer
+        (or buffer (current-buffer))
+      (save-restriction
+        (widen)
+        (goto-char 1)
+        (while (search-forward-regexp regexp nil t 1)
+          ;; still not dynamic (only hex)
+          (let* ((color (match-string 0))
+                 (result (funcall with-match (match-string 0)))
+                 acc '())
+            ;; (setf (car acc) (caar acc))
+            (push (list color result) acc)
+            (replace-match result t)))))))
 
 (provide 'eldc-color)
 
