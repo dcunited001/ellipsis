@@ -645,6 +645,7 @@ modes and testing is tedious."
       (funcall fn (cdddr (nth n atree))))))
 
 (use-package! ace-window
+  :demand t
   :commands ace-window aw-show-dispatch-help
   :config
   ;; this logs to messages a bit too often, to engrain the functionality...
@@ -838,8 +839,6 @@ large search domains, it's almost always a failure."
   :hook (markdown-mode-hook . visual-line-mode)
   :config (add-to-list 'auto-mode-alist '("\\.mdx\\'" . markdown-mode)))
 
-
-
 ;;; Org
 
 ;; + Structure via https://tecosaur.github.io/emacs-config
@@ -849,14 +848,29 @@ large search domains, it's almost always a failure."
 ;;;; Packages
 
 
-(setopt org-directory (or (getenv "ORG_DIRECTORY") "~/org"))
+(setq org-directory (or (getenv "ORG_DIRECTORY") "~/org"))
 
 ;;;;; Org, itself
-
 
 (after! org-mode
   (remove-hook 'org-mode-hook #'visual-line-mode)
   (add-hook 'org-mode-hook #'auto-fill-mode))
+
+(use-package org-roam
+  :defer t
+  :after org
+  :config
+  (setq org-roam-directory (expand-file-name "roam" org-directory)
+        org-roam-dailies-directory "dailies/"
+        org-roam-db-gc-threshold most-positive-fixnum
+        ;; this needs to be set early. keep in completion-fn's though
+        org-roam-completion-everywhere nil))
+
+;; :hook (doom-init-ui-hook .
+;; (lambda () (setq org-roam-completion-functions
+;;                  (delq 'org-roam-complete-everywhere
+;;                        org-roam-completion-functions))))
+;; (add-to-list 'org-roam-completion-functions 'org-roam-complete-everywhere t)
 
 ;;;;; Visuals
 
@@ -1265,14 +1279,11 @@ large search domains, it's almost always a failure."
   (org-roam-node-slug (org-roam-node-at-point)))
 
 ;; doom loads roam via :hook (org-load . +org-init-roam-h)
-(setq org-roam-directory (expand-file-name "roam" org-directory)
-      org-roam-dailies-directory "dailies/"
+(setq org-roam-db-gc-threshold most-positive-fixnum
       ;; TODO: CONF: org-roam-extract-new-file-path "${slug}-%<%Y%m%d%H%M%S>-.org"
       org-roam-list-files-commands '(fd fdfind rg find)
-      org-roam-db-gc-threshold most-positive-fixnum
       org-roam-mode-section-functions #'(org-roam-backlinks-section
                                          org-roam-reflinks-section)
-      org-roam-completion-everywhere nil ;; this is getting turned on anyways
       org-roam-capture-templates
       (append
        '(("n" "Note")

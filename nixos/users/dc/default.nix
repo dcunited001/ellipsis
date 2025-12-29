@@ -179,6 +179,7 @@ in
       zoom-us
       thunderbird
       telegram-desktop
+      vesktop
 
       # IRC
       quassel # flatpak doesn't load settings
@@ -199,6 +200,7 @@ in
       pavucontrol
       qpwgraph
       helvum
+      hyprpwcenter
 
       # DESKTOP: NWG
       nwg-look
