@@ -65,12 +65,12 @@ liverepl:
 
 #-----------------------
 # build iso
-NIXOS_ISO="anywhere"
-NIXOS_ISO_SYSTEM="x86_64-linux"
+NIXOS_ISO=anywhere
+NIXOS_ISO_SYSTEM=x86_64-linux
 
 .PHONY: buildiso
 buildiso:
-	nix build ".#nixosConfigurations.$(NIXOS_ISO).$(NIXOS_ISO_SYSTEM).config.system.build.isoImage"
+	nix build .#nixosConfigurations.$(NIXOS_ISO).config.system.build.isoImage
 
 #-----------------------
 # fetch iso

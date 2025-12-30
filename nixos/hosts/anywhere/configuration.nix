@@ -106,7 +106,7 @@
 
     # Might be useful beyond the scope of the guide
     cfssl
-    pcsctools
+    pcsc-tools
     tmux
     htop
 
