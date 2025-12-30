@@ -304,7 +304,13 @@ Guix channel.")
   :hook (doom-init-ui-hook . (lambda () (activities-tabs-mode +1))))
 
 ;; Activities get persisted here
-;; ~/.emacs.doom/.local/cache/persist/activities-activities
+;;
+;; - ~/.emacs.doom/.local/etc/bookmarks (reference only)
+;; - ~/.emacs.doom/.local/cache/persist/activities-activities
+;;
+;; to transfer activities, transfer ./persist/activities-activities file, then
+;; run M-: (persist-load 'activities-activities). emacs deletes the file on
+;; startup without a manual load
 
 ;; phew, I can jump to a window on KDE without using my eyes
 (defun dc/tab-names (&optional tabs)
