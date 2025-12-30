@@ -32,7 +32,7 @@
     environment.SSH_AUTH_SOCK = "/run/user/1000/gnupg/S.gpg-agent.ssh";
     environment.EMACSDIR = "/home/dc/.emacs.d";
 
-    # environment.EMACSSOCKETPATH = "/run/users/1000/emacs";
+    # environment.EMACSSOCKETPATH = "/run/user/1000/emacs";
     # environment.EMACS = "/usr/bin/emacs";
 
     after = [ "graphical-session.target" ];

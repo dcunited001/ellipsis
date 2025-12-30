@@ -303,6 +303,9 @@ Guix channel.")
                  "t" #'activities-tabs-mode))
   :hook (doom-init-ui-hook . (lambda () (activities-tabs-mode +1))))
 
+;; Activities get persisted here
+;; ~/.emacs.doom/.local/cache/persist/activities-activities
+
 ;; phew, I can jump to a window on KDE without using my eyes
 (defun dc/tab-names (&optional tabs)
   (let ((tabs (or tabs (funcall tab-bar-tabs-function))))

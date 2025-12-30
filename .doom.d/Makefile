@@ -184,7 +184,7 @@ doomuwsmtest:
 # export DOOMLSP=lsp
 #
 # emacs_socket_name=fdsa
-# export EMACSSOCKET=/run/users/1000/emacs/$emacs_socket_name
+# export EMACSSOCKET=/run/user/1000/emacs/$emacs_socket_name
 #
 # # then... (add -q to avoid using doom)
 # uwsm app -- emacs -nw

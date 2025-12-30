@@ -72,7 +72,7 @@ export EMACSDIR=$HOME/.emacs.doom
 export DOOMDIR=$HOME/.doom.d
 export GPROFILE="$GUIX_PROFILE"
 
-# EMACSSOCKET=/run/users/1000/emacs/doom
+# EMACSSOCKET=/run/user/1000/emacs/doom
 # EMACS_SOURCE=/data/ecto/emacs/emacs/src
 
 emacs_socket_path=/run/user/1000/emacs # unused

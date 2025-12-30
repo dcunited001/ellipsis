@@ -16,7 +16,7 @@ Environment=EMACS=/home/dc/.doom.d/.guix-profile/bin/emacs
 Environment=EMACSDIR=/home/dc/.emacs.doom
 Environment=DOOMDIR=/home/dc/.doom.d
 Environment=GPROFILE=.guix-profile
-Environment=EMACSSOCKET=/run/users/1000/emacs/doom
+Environment=EMACSSOCKET=/run/user/1000/emacs/doom
 
 #Type=notify #requires Notify
 #ExecStart=/bin/sh -c "guix shell -p $DOOMDIR/$GPROFILE -- env | sort && sleep 3"

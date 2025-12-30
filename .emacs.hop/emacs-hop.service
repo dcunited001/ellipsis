@@ -12,7 +12,7 @@ Type=simple
 Environment=EMAIL=aionfork@gmail.com
 Environment=SSH_AUTH_SOCK=/run/user/1000/gnupg/S.gpg-agent.ssh
 Environment=EMACSDIR=/home/dc/.emacs.d
-Environment=EMACSSOCKETPATH=/run/users/1000/emacs
+Environment=EMACSSOCKETPATH=/run/user/1000/emacs
 Environment=EMACSSOCKET=hop
 Environment=EMACS=/usr/bin/emacs
 # Environment=GPROFILE=.guix-profile
