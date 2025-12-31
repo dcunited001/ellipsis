@@ -261,9 +261,10 @@
   # Service Tweaks
 
   hjem.users.dc.systemd.services.doom2 = {
-    serviceConfig.CPUAffinity = "0-3";
+    # serviceConfig.CPUAffinity = "0-3";
     serviceConfig.Nice = -13;
   };
+
   # =============================================
   # Networking
 
