@@ -75,11 +75,17 @@ should be used for setting guix-load-path unless working on
 checkouts of channels which depend on modified packages in the
 Guix channel.")
 
+;; TODO: this isn't actually wired up to anything
+(setopt dc/guix-checkout-path (or (getenv "GUIX_SOURCE") "~/src/guix"))
+(unless (and (not (string-empty-p dc/guix-checkout-path)) (file-exists-p dc/guix-checkout-path))
+  (warn "Guix: dc/guix-checkout-path is not set"))
+
 (defvar source-directory (getenv "EMACS_SOURCE")
   "Directory containing the ./src directory of an Emacs checkout.")
 
-(unless source-directory (warn "Emacs: source-directory is not set"))
-(unless dc/guix-checkout-path (warn "Emacs: source-directory is not set"))
+(setopt source-directory (or (getenv "EMACS_SOURCE") "~/src/emacs/src"))
+(unless (and (not (string-empty-p source-directory)) (file-exists-p source-directory))
+  (warn "Emacs: source-directory is not set"))
 
 ;; don't accidentally edit doom's straight.el files
 (def-project-mode! +df-doom-read-only-mode

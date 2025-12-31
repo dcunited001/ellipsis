@@ -75,7 +75,7 @@ strep() {
     [[ $# -lt 1 ]] && echo "Error: Requires a command to strace" >&2 && return 1;
     echo "grep -E \"$_regexp\""
     echo "strace -e \"$_strace_e\" \"${_strace_f}\" $@ 2>&1"
-    grep -E "$_regexp" <(strace -e "$_strace_e" ${_strace_f} $@ 2>&1) 
+    grep -E "$_regexp" <(strace -e "$_strace_e" ${_strace_f} $@ 2>&1)
     # grep -E "$_regexp" <(strace -e "$_strace_e" -o "$output" "${_strace_append}")
 
     return $?
@@ -153,9 +153,35 @@ alias syutgt="systemctl --user list-units \
 # for k in $(syskeys all); do syskeys $k; done | sort | uniq
 #
 # probably breaks on man formatting #$%^%*@#^!%
+
+syskgr() {
+    [[ $# -ne 1 ]] && echo 'Error: Requires query for systemd keys' >&2 && return 1;
+    local q=$1;
+    for k in $(syskeys all); do
+        syskeys "$k" | grep -iE "$q"
+    done
+}
+
+syskgrep() {
+    [[ $# -ne 1 ]] && echo 'Error: Requires query for systemd keys' >&2 && return 1;
+    local q=$1;
+    for k in $(syskeys all); do
+        echo $k;
+        syskeys "$k" | grep -iE "$q"
+    done
+}
+
+syskeys_validpages() {
+    man -S5 -k '^systemd.*$' \
+        | cut -f1 -d' ' \
+        | grep -e '^systemd' \
+        | grep -vE '(conf$|dns-delegate|user-runtime-dir)' \
+        | sed -e 's/systemd\.//g'
+}
+
 syskeys() {
     [[ $# -ne 1 ]] && echo 'Error: Requires arg for systemd manpage' >&2 && return 1;
-    local validpages="$(man -S5 -k '^systemd.*$' | cut -f1 -d' ' | grep -e '^systemd')"
+    local validpages="$(syskeys_validpages)"
 
     # query valid pages
     [[ $1 == "all" ]] && echo "$validpages" | sed -e 's/systemd.//g' | sort && return 0;
