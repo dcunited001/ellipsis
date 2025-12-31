@@ -50,13 +50,15 @@
       dfsh = "df -sh | tail -n+2 | sort -nk5";
       tarnow = "tar -acf ";
       untar = "tar -zxvf ";
-      ps_nice = "ps axo pid,comm,nice,cls --sort=-nice";
+      ps_nice = "ps -o pid,ppid,uname,cls,nice,pri,rtprio,comm,args --sort=-nice";
       ps_pri = "ps -eo pri k +pri h | uniq -c";
       psid = "ps -opid,uid,command h";
       psmem = "ps auxf | sort -nr -k 4";
       psmem10 = "ps auxf | sort -nr -k 4 | head -10";
-      psnice = "ps -o pid,comm,nice";
+      psnice = "ps axo pid,ppid,uname,cls,nice,pri,rtprio,comm,args --sort=-nice";
       pspri = "ps -eo pid,tid,class,rtprio,ni,pri,psr,pcpu,stat,wchan:14,comm k pri";
+      psz = "ps axo s,pid,ppid,uname,comm,args | grep -e'^Z'";
+      pssyuz = "ps axo s,pid,ppid,unit,ouid,uunit,slice,uname,comm,args | grep -e'^Z'";
       ptrgb = "pstree -C age -pT";
       treef = "tree --prune -aP";
       jqr = "jq -r ";

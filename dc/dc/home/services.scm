@@ -80,15 +80,19 @@
      (archive . (("tarnow" . "tar -acf ")
                  ("untar" . "tar -zxvf ")))
      ;; alias renoice="renice --priority 15 $(pgrep emacs-29)"
-     (process . (("ps_nice" . "ps axo pid,comm,nice,cls --sort=-nice")
-                 ("ps_pri" . "ps -eo pri k +pri h | uniq -c")
-                 ("psid" . "ps -opid,uid,command h")
-                 ("psmem" . "ps auxf | sort -nr -k 4")
-                 ("psmem10" . "ps auxf | sort -nr -k 4 | head -10")
-                 ("psnice" . "ps -o pid,comm,nice")
-                 ("pspri"
-                  . "ps -eo pid,tid,class,rtprio,ni,pri,psr,pcpu,stat,wchan:14,comm k pri")
-                 ("ptrgb" . "pstree -C age -pT")))
+     (process
+      . (("ps_nice"
+          . "ps -o pid,ppid,uname,cls,nice,pri,rtprio,comm,args --sort=-nice")
+         ("ps_pri" . "ps -eo pri k +pri h | uniq -c")
+         ("psid" . "ps -opid,uid,command h")
+         ("psmem" . "ps auxf | sort -nr -k 4")
+         ("psmem10" . "ps auxf | sort -nr -k 4 | head -10")
+         ("psnice"
+          . "ps axo pid,ppid,uname,cls,nice,pri,rtprio,comm,args --sort=-nice")
+         ("pspri"
+          . "ps -eo pid,tid,class,rtprio,ni,pri,psr,pcpu,stat,wchan:14,comm k pri")
+         ("psz" . "ps axo s,pid,ppid,uname,comm,args | grep -e'^Z'")
+         ("ptrgb" . "pstree -C age -pT")))
      (tree . (("treef" . "tree --prune -aP")))
      (jq . (("jqr" . "jq -r ")
             ("jqrj" . "jq -rj ")))
