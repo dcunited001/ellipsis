@@ -254,16 +254,14 @@
     shortcut = "b"; # Screen "a"
   };
 
+  # disable speechd
+  services.speechd.enable = false;
+
   # =============================================
   # Home
 
   # ---------------------------------------------
   # Service Tweaks
-
-  hjem.users.dc.systemd.services.doom2 = {
-    # serviceConfig.CPUAffinity = "0-3";
-    serviceConfig.Nice = -13;
-  };
 
   # =============================================
   # Networking
@@ -363,6 +361,9 @@
     brightnessctl
     gpu-viewer
   ];
+
+  # =============================================
+  # Misc
 
   system.stateVersion = "25.05";
 

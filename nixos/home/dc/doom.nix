@@ -6,9 +6,7 @@
 }:
 {
 
-
-
-  hjem.users.dc.systemd.services."doom2@" = {
+  hjem.users.dc.systemd.services."doom2" = {
     unitConfig = {
       Description = "Doom Emacs 2";
       Documentation = "info:emacs man:emacs(1) https://gnu.org/software/emacs/";
@@ -17,16 +15,17 @@
     };
     serviceConfig = {
       Type = "simple";
+      Slice = [ "app.slice" ];
       ExecStart = ''/bin/sh -c "/home/dc/.config/guix/current/bin/guix shell -p $DOOMDIR/$GPROFILE -- emacs --init-directory=$EMACSDIR --fg-daemon=\"$EMACSSOCKET\""'';
       ExecStop = ''/bin/sh -c "/home/dc/.config/guix/current/bin/guix shell -p $DOOMDIR/$GPROFILE -- emacsclient --socket=\"$EMACSSOCKET\" -e '(kill-emacs)'"'';
       # ExecStart = ''/bin/sh -c "/home/dc/.config/guix/current/bin/guix shell -p $DOOMDIR/$GPROFILE -- emacs --init-directory=$EMACSDIR --fg-daemon=doom"'';
       # ExecStop = ''/bin/sh -c "/home/dc/.config/guix/current/bin/guix shell -p $DOOMDIR/$GPROFILE -- emacsclient --socket=$EMACSSOCKET -e '(kill-emacs)'"'';
-      TimeoutStartSec = 300;
+
+      SuccessExitStatus = 15;
       Restart = "on-failure";
       RestartSec = 30;
-      SuccessExitStatus = 15;
+      TimeoutStartSec = 300;
 
-      Slice = [ "app.slice" ];
       Nice = -13;
       # CPUAffinity = "0-3";
     };
@@ -38,11 +37,12 @@
     environment.EMACSDIR = "/home/dc/.emacs.doom";
     environment.DOOMDIR = "/home/dc/.doom.d";
     environment.GPROFILE = ".guix-profile";
-    # NOTE FIX SOCKET: environment.EMACSSOCKETPATH = "/run/user/1000/emacs/doom2";
+    # TODO fix socket (keep as such for now, until I've tested)
+    # environment.EMACSSOCKETPATH = "/run/user/1000/emacs/doom2";
     # environment.EMACSSOCKET = "doom";
     environment.EMACSSOCKET = "doom2";
     environment.EMACSSOCKETPATH = "/run/user/1000/emacs/doom2";
-    # environment.EMACS_SOURCE = /data/ecto/emacs/emacs/src;
+    environment.EMACS_SOURCE = "/data/ecto/emacs/emacs/src";
 
     after = [ "graphical-session.target" ];
     wantedBy = [ "graphical-session.target" ];
