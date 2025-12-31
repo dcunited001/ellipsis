@@ -98,6 +98,7 @@ in
       nixfmt
       nix-visualize
       sbomnix
+      nix-template
 
       # nil # nix lsp
       nixd

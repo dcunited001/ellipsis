@@ -29,7 +29,8 @@ in
           Exec=uwsm app -- chromium --incognito
           Terminal=false
           Type=Application
-          Icon=/home/dc/.nix-profile/share/icons/hicolor/256x256/apps/chromium.png
+          Icon=chromium
+          # Icon=/home/dc/.nix-profile/share/icons/hicolor/256x256/apps/chromium.png
           StartupNotify=true
         '';
         clobber = true;
@@ -70,7 +71,7 @@ in
             Version=1.0
             Terminal=false
             Type=Application
-            Name=Google Translate Foob
+            Name=Google Translate (Hjem)
             Exec=uwsm app -- chromium "--profile-directory=${profile}" --app-id=${crx}
             Icon=chrome-${crx}-${builtins.replaceStrings [ " " ] [ "_" ] profile}
             StartupWMClass=crx_${wmclass}_${crx}
@@ -91,7 +92,7 @@ in
             Version=1.0
             Terminal=false
             Type=Application
-            Name=Google Meet Barq
+            Name=Google Meet (Hjem)
             Exec=uwsm app -- chromium "--profile-directory=${profile}" --app-id=${crx}
             Icon=chrome-${crx}-${builtins.replaceStrings [ " " ] [ "_" ] profile}
             StartupWMClass=crx_${wmclass}_${crx}
