@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# name: obptmpdirvar
+# uuid: obptmpdirvar
+# key: <obtdv
+# condition: t
+# --
+:var ${1:$$(yas-choose-value (list "obtmp"))}=(or (bound-and-true-p ob@${2:$$(yas-choose-value (list "" (dc/org-roam-get-slug)))}) (setq ob@${2:$(identity yas-text)} (make-temp-file "roam-" t)))

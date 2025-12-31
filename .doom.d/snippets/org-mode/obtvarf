@@ -4,4 +4,4 @@
 # key: <obtvarf
 # condition: t
 # --
-:var $1=(expand-file-name "$2" (or (bound-and-true-p ${3:$$(yas-choose-value (list "" (dc/org-roam-get-slug)))}) (setq ob@${3:$(identity yas-text)} (make-temp-file "roam-" t))))
+:var ${1:$$(yas-choose-value (list "obtmp"))}=(expand-file-name "$2" (or (bound-and-true-p ob@${3:$$(yas-choose-value (list "" (dc/org-roam-get-slug)))}) (setq ob@${3:$(identity yas-text)} (make-temp-file "roam-" t))))

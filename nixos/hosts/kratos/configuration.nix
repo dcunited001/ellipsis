@@ -57,6 +57,7 @@
       "home/dc/hjem.nix"
       "home/dc/walker.nix"
       "home/dc/chromium.nix"
+      "home/dc/doom.nix"
       "home/dc/hypr.nix"
       "home/dc/hypridle.nix"
       "home/dc/swaync.nix"
@@ -253,6 +254,16 @@
     shortcut = "b"; # Screen "a"
   };
 
+  # =============================================
+  # Home
+
+  # ---------------------------------------------
+  # Service Tweaks
+
+  hjem.users.dc.systemd.services.doom2 = {
+    serviceConfig.CPUAffinity = "0-3";
+    serviceConfig.Nice = -13;
+  };
   # =============================================
   # Networking
 
