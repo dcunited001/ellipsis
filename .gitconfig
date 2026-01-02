@@ -57,7 +57,8 @@
 # =============================================
 # Rebase
 
-# TODO: consider [rebase] autoStash = true
+[rebase]
+	autoStash = true
 	
 [rerere]
 	enabled = true
