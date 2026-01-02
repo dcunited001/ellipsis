@@ -40,6 +40,21 @@ nwix() {
 }
 
 # =============================================
+# Perf
+
+function recnice() {
+    local newnice=$1;
+    pid=$2;
+    renice "$newnice" "$pid";
+    for p in $(pgrep -d' ' -P $pid); do
+        recnice $newnice $p;
+    done;
+}
+
+# =============================================
+# Tracing
+
+# ---------------------------------------------
 # Strace
 
 
