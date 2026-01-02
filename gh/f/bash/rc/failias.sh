@@ -42,6 +42,7 @@ nwix() {
 # =============================================
 # Perf
 
+# https://gist.github.com/thefotios/2646996
 function recnice() {
     local newnice=$1;
     pid=$2;

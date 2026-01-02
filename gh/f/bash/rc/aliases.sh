@@ -43,6 +43,7 @@ alias grubup='sudo update-grub'
 alias gxpl='rlwap guix repl'
 alias hcbdoops='hcbinds | sort | cut -f2-5 | uniq -c | grep -vE "^\s+1"'
 alias hcbinds='hyprctl binds | tr -d "\n" | sed -e "s/bind/\nbind/g"'
+alias hyprrect="hyprctl activewindow -j | jq -r '[.at[0], .at[1]] + [.at[0]+.size[0], .at[0]+.size[0]] | join(\" \")'"
 alias hcx='hyprctl'
 alias hw='hwinfo --short'
 alias imacs='emacs -T "¤ INFO" -f info-standalone --eval="(load-theme (intern \"wombat\"))"'

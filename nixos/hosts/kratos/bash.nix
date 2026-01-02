@@ -35,6 +35,7 @@
       hcx = "hyprctl";
       hcbinds = ''hyprctl binds | tr -d "\n" | sed -e "s/bind/\nbind/g"'';
       hcbdoops = ''hcbinds | sort | cut -f2-5 | uniq -c | grep -vE "^\s+1"'';
+      hyprrect = ''hyprctl activewindow -j | jq -r '[.at[0], .at[1]] + [.at[0]+.size[0], .at[0]+.size[0]] | join(" ")' '';
       imacs = ''emacs -T "¤ INFO" -f info-standalone --eval="(load-theme (intern \"wombat\"))"'';
       wordcat = "tee >(xargs -n1 cat) | wc -w";
       gkcfg = "git stack --dump-config -";

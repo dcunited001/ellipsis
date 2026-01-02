@@ -18,6 +18,7 @@
   # run nwg-look and apply. theme files aren't in dotfiles
   environment.systemPackages = [
     pkgs.glib
+    pkgs.xdg-user-dirs
     pkgs.gsettings-desktop-schemas
     pkgs.nordic
     pkgs.nordzy-icon-theme

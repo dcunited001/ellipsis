@@ -6,14 +6,14 @@
 
 stdenv.mkDerivation rec {
   name = "omarchy-scripts-${version}";
-  srcVersion = "3.0.2";
-  version = "3.0.2-revision0"; # increment revision number when package changes
+  srcVersion = "3.2.3";
+  version = "3.2.3-revision0"; # increment revision number when package changes
 
   src = fetchFromGitHub {
     owner = "basecamp";
     repo = "omarchy";
     rev = "v${srcVersion}";
-    sha256 = "sha256-1QJBoMe6MzaD/dcOcqC8QpRxG0Z2c1p+WYqtNFlsTOA=";
+    sha256 = "sha256-i0Pwu4pjlnxz67QlCBxBZJI9ADEnrSQYRvxQzEQ8q64=";
   };
 
   # TODO: find a way to quickly test these omarchy scripts (bats?)
@@ -27,9 +27,10 @@ stdenv.mkDerivation rec {
     runHook preInstall
     for f in omarchy-cmd-terminal-cwd\
       omarchy-{refresh,toggle,restart}-waybar\
-      omarchy-webapp-{install,remove}\
+      omarchy-cmd-screenshot\
       omarchy-launch-{,or-focus-}webapp\
       omarchy-webapp-handler-zoom\
+      omarchy-webapp-{install,remove}\
       omarchy-refresh-config; do
       install -D "bin/$f" "$out/bin/$f"
     done

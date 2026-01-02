@@ -195,6 +195,8 @@ in
       grim
       slurp
       grimblast
+      satty
+      wayfreeze
 
       # DESKTOP: AUDIO
       playerctl

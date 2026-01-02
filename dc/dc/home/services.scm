@@ -63,7 +63,9 @@
               ("hcbinds"
                . "hyprctl binds | tr -d '\n' | sed -e 's/bind/\nbind/g'")
               ("hcbdoops"
-               . "hcbinds | sort | cut -f2-5 | uniq -c | grep -vE '^\s+1'")))
+               . "hcbinds | sort | cut -f2-5 | uniq -c | grep -vE '^\s+1'")
+              ("hyprrect"
+               . "hyprctl activewindow -j | jq -r '[.at[0], .at[1]] + [.at[0]+.size[0], .at[0]+.size[0]] | join(\" \")'")))
      ;; (hyprdc . (("hbkey" "for i in (0 32 33 36 37  64 65 68 69 )")
      ;;            ("hbcode" "hyprctl")))
      (text  .
