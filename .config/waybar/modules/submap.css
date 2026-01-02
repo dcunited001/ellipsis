@@ -1,0 +1,10 @@
+#submap {
+    background-image: linear-gradient(25deg, #333e3c, #3e214c);
+    color: goldenrod;
+    border-color: coral;
+    border: 2px dotted;
+    padding: 0px 5px;
+    margin: 0px 3px;
+    /* font-size: 18px; */
+    /* background-color: rgba(64,64,64,0.5); */
+}
