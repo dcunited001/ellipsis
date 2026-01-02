@@ -29,6 +29,8 @@ alias difnia='nenvia | diff - <(env | nenvia)'
 # alias egrep='egrep --color=auto'
 alias envia='grep -e '\''^[A-Za-z0-9_]*PATH='\'' | sort | uniq'
 # alias fgrep='fgrep --color=auto'
+alias bashbinds="bind -p | grep -ve '^#' | tr -d ':\"' | sed -e 's/\\\\e/M /g' | sed -e 's/\\\\C-/C /g' | grep -v 'self-insert' | sort -k2"
+alias bashbindtree="bind -P | cut -f1 -d' ' | tr '-' '/' | tree --noreport --fromfile ."
 alias gkcfg='git stack --dump-config -'
 alias gkg='git stack'
 alias gksy='git stack sync'

@@ -48,6 +48,11 @@
        ;; ... just get the env there (mktemp, etc)
        ("diffia" . "envia | covia | diff - <(env | envia | covia)")
        ("difnia" . "nenvia | diff - <(env | nenvia)")))
+     (bash .
+           (("bashbinds"
+             . "bind -p | grep -ve '^#' | tr -d ':\"' | sed -e 's/\\\\e/M /g' | sed -e 's/\\\\C-/C /g'  | grep -v 'self-insert' | sort -k2")
+            ("bashbindtree"
+             . "bind -P | cut -f1 -d' ' | tr '_' '/' | tree --noreport --fromfile .")))
      (defaultcmd .
        (("wget" . "wget -c ")))
      ;; emacs, info-standalone

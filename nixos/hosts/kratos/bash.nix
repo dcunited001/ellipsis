@@ -29,6 +29,8 @@
       nenvia = "grep -ve '^[A-Za-z0-9_]*PATH=' | sort | uniq";
       diffia = "envia | covia | diff - <(env | envia | covia)";
       difnia = "nenvia | diff - <(env | nenvia)";
+      bashbinds = ''bind -p | grep -ve '^#' | tr -d ':\"' | sed -e 's/\\e/M /g' | sed -e 's/\\C-/C /g' | grep -v 'self-insert' | sort -k2'';
+      bashbindtree = ''bind -P | cut -f1 -d' ' | tr '-' '/' | tree --noreport --fromfile .'';
       wget = "wget -c ";
       hcx = "hyprctl";
       hcbinds = ''hyprctl binds | tr -d "\n" | sed -e "s/bind/\nbind/g"'';
