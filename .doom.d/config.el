@@ -2360,13 +2360,15 @@ the root")
     (add-to-list 'apheleia-formatters '(whitespace . whitespace-cleanup))
     (add-to-list 'apheleia-mode-alist '(hyprlang-ts . whitespace)))
   ;; :hook (hyprlang-ts-mode . dc/hyprlang-setup-outline-mode)
-  :hook (hyprlang-ts-mode . (lambda () (setq-local rainbow-html-colors t)))
   :config
   (add-to-list 'major-mode-remap-alist '(hyprlang-mode . hyprlang-ts-mode)))
 
 (use-package! rainbow-mode
   :demand t
-  :hook (hyprlang-ts-mode . rainbow-mode))
+  ;; html colors must be set before mode loads
+  :hook (hyprlang-ts-mode . (lambda ()
+                              (setq-local rainbow-html-colors t)
+                              (rainbow-mode +1))))
 
 ;;; Applications
 
