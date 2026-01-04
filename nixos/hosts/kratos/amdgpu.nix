@@ -13,14 +13,21 @@
     };
   };
 
+  # VDPAU: Video Decode/Presentation API For Unix
+  # libglvnd: GL Vendor-Neutral Dispatch (dispatch for systems with multiple gpu drivers)
+  # libGL: GL Vendor-Neutral Dispatch Library
+  # libGLU: OpenGL Utility Library
+  # glfw: multi-platform lib 4 creating opengl contexts & managing input (kbd, mouse, joystick, time)
+  #
   environment.systemPackages = [
     pkgs.gpu-viewer
     pkgs.clinfo
     pkgs.radeontop
-    pkgs.vulkan-tools
-    pkgs.vulkan-loader
 
-    # VDPAU: Video Decode/Presentation API For Unix
+    # GL
+    pkgs.libGL
+    pkgs.libGLU
+
     pkgs.vdpauinfo # `vdpauinfo` query caps 4
 
     # VA: Video Acceleration: for AMD, the mesa drivers check the box
@@ -54,24 +61,71 @@
 
   # -----------------------
   # dynamic linking
+
   hardware.graphics.extraPackages = [
-    pkgs.rocmPackages.clr
+    pkgs.libglvnd
+
+    pkgs.rocmPackages.clr # only icd needed here?
     pkgs.rocmPackages.clr.icd
+
     # pkgs.libva
     # pkgs.libva-vdpau-driver
     # pkgs.libvdpau-va-gl
+
+    # vulkan: blender HIP & Vulkan display seems to work fine without amdvlk
+    pkgs.vulkan-tools
+    pkgs.vulkan-loader
+    pkgs.vulkan-validation-layers
+    pkgs.vulkan-extension-layer
   ];
+
+  # -----------------------
+  # nix-ld
+
+  programs.nix-ld.enable = true;
+  programs.nix-ld.libraries = with pkgs; [
+    rocmPackages.clr.icd
+    libglvnd
+    libGL
+    glfw
+    libdrm
+    # xorg.libX11
+    # xorg.libXScrnSaver
+    # xorg.libXcomposite
+    # xorg.libXcursor
+    # xorg.libXdamage
+    # xorg.libXext
+    # xorg.libXfixes
+    # xorg.libXi
+    # xorg.libXrandr
+    # xorg.libXrender
+    # xorg.libXtst
+    # xorg.libxcb
+    # xorg.libxkbfile
+    # xorg.libxshmfence
+  ];
+
+  # see mic92 dots. many of these are defined only here (implicitly imported
+  # into system)
+  # https://github.com/Mic92/dotfiles/blob/004e86355aa517fb1d9527d440c1b57cec275a6b/nixosModules/fhs-compat.nix#L12-L70
 
   # -----------------------
   # Environment
 
+  # https://rocm.docs.amd.com/en/latest/reference/env-variables.html
+
   # These may cause problems in a multi-GPU environment
   environment.sessionVariables.AMD_VULKAN_ICD = "RADV";
-  environment.sessionVariables.HCC_AMDGPU_TARGET = "gfx906"; # specific to my 6700
+  environment.sessionVariables.HCC_AMDGPU_TARGET = "gfx1030"; # specific to my 6700
   environment.sessionVariables.HSA_OVERRIDE_GFX_VERSION = "10.3.0";
+
+  # `rocm_agent_enumerator` says gfx1030
 
   # https://github.com/alyraffauf/bazznix/blob/24d345beb5de17acb6e33d906d5b482c85403f13/hwModules/common/gpu/amd/default.nix#L3
   # environment.sessionVariables.VDPAU_DRIVER = "radeonsi";
+  #
+  # VDPAU was removed from mesa (wayland incompat; also VAAPI > VDPAU apparently)
+  # https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/36632
 
   # https://github.com/randomizedcoder/nixos/blob/2fa7e78ab73141d87d9f391fd0b42d789da66a9a/desktop/l/home.nix#L69-L73
   # home.sessionVariables.LD_LIBRARY_PATH = "${pkgs.libdrm}/lib";
@@ -140,6 +194,3 @@
 #   openFirewall = true;
 #   rocmOverrideGfx = "10.3.0"; # Wepretend because ollama/ROCM does not support the 6700.
 # };
-
-
-

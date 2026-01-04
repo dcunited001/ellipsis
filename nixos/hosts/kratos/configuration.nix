@@ -9,7 +9,7 @@
 {
   imports = lib.flatten [
     (lib.custom.relativeToRoot "hosts/common.nix")
-    ./amdgpu.nix    # load this here to ensure nixpkgs.config.rocmSupport early
+    ./amdgpu.nix # load this here to ensure nixpkgs.config.rocmSupport early
     ./hardware.nix
     ./networking.nix
     ./openssh.nix
@@ -21,6 +21,7 @@
     ./mise.nix
     ./python.nix
     ./hypr.nix
+    ./blender.nix
 
     (map lib.custom.relativeToRoot [
       "users/dc"
@@ -82,6 +83,18 @@
   };
 
   networking.hostName = "kratos";
+
+  # ---------------------------------------------
+  # nix-ld (this also gets loaded in a lot of modules, defaults below)
+  programs.nix-ld.enable = true;
+
+  # | Compression | zlib          | zstd    |  xz    | bzip2 |
+  # | Build       | stdenv.cc.cc  |         |        |       |
+  # | Network     | curl          |         |        |       |
+  # | Crypto      | libsodium     | openssl | libssh |       |
+  # | Data        | libxml2       |         |        |       |
+  # | Linux FS    | acl           | attr    |        |       |
+  # | Linux       | util-linux    | systemd |        |       |
 
   # =============================================
   # bootloader

@@ -32,14 +32,23 @@ let
       libglvnd
       libGL
       glfw
-      xorg.libXrandr
-      xorg.libXinerama
-      xorg.libXcursor
-      xorg.libXi
-      xorg.libXrender
-      xorg.libXt
       xorg.libX11
+      xorg.libXScrnSaver
+      xorg.libXcomposite
+      xorg.libXcursor
+      xorg.libXdamage
       xorg.libXext
+      xorg.libXfixes
+      xorg.libXi
+      xorg.libXrandr
+      xorg.libXrender
+      xorg.libXtst
+      xorg.libxcb
+      xorg.libxkbfile
+      xorg.libxshmfence
+      # had added these earlier, but unsure of whether they're necessary
+      # xorg.libXinerama
+      # xorg.libXt
       wayland
     ] # jdk17
     ++ [
