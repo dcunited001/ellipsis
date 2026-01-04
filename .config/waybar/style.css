@@ -252,7 +252,7 @@ window#waybar {
     color:#d08770;
 }
 
-@import "../modules/submap.css";
+@import "modules/submap.css";
 #submap {
     font-size: 18px;
 }
