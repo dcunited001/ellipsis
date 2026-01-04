@@ -9,6 +9,7 @@
 {
   imports = lib.flatten [
     (lib.custom.relativeToRoot "hosts/common.nix")
+    ./amdgpu.nix    # load this here to ensure nixpkgs.config.rocmSupport early
     ./hardware.nix
     ./networking.nix
     ./openssh.nix
@@ -307,7 +308,6 @@
     # ddcutil # TODO: services.i2c.enable, groups, kernel module
 
     # SYS ADMIN
-    btop
     htop
     killall
     pstree
@@ -360,7 +360,6 @@
     v4l-utils
     hw-probe
     brightnessctl
-    gpu-viewer
   ];
 
   # =============================================
