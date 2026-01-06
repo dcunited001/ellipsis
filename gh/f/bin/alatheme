@@ -1,0 +1,45 @@
+#!/bin/sh
+themes_path="$HOME/.config/alacritty-theme/themes"
+theme=""
+
+socket="$ALACRITTY_SOCKET"
+window="$ALACRITTY_WINDOW_ID"
+reset=0
+
+while getopts :s:w:r OPT; do # :w
+    case $OPT in
+        s|+s)
+            socket="$OPTARG";;
+        w|+w)
+            window="$OPTARG";;
+        r|+r)
+            reset=1;
+            ;;
+        *)
+            echo "usage: ${0##*/} [+- ARG] [+-s ARG] [+-w ARG] [+-r} [--] ARGS..."
+            exit 2
+    esac
+done
+shift $(( OPTIND - 1 ))
+OPTIND=1
+
+# required: socket
+[[ -z "$socket" ]] && echo "Required: ALACRITTY_SOCKET or -s \$socket" >&2 && exit 1;
+
+# reset alacritty theme
+[[ $reset -eq 1 ]] && alacritty msg -s "$socket" config -r && exit 0;
+
+# required: theme
+[[ $# -eq 0 ]] && echo "Required: name of theme in \$HOME/.config/alacritty-theme" >&2 && exit 1;
+
+theme="$1"
+shift 1
+
+# check that theme exists
+# echo $themes_path/$theme.toml
+[[ -f "$themes_path/$theme.toml" ]] || (echo "Theme $themes_path/$theme.toml: file not found" >&2 && exit 1);
+
+delta_config=$(alatheme.jq "$themes_path/$theme.toml")
+
+# doesn't work... just echo theme updates for now (imports override, i think)
+echo alacritty msg -s "$socket" config -w "$window" $delta_config

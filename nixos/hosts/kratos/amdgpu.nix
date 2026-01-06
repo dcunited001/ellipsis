@@ -15,6 +15,7 @@ let
       rocthrust
 
       # math -----------------------
+      hipfort
       hipblas-common
       hipblaslt
       hipblas # libhipblas.so.XX
@@ -187,9 +188,12 @@ in
   environment.sessionVariables.ROCM_PATH = "/opt/rocm";
   systemd.tmpfiles.rules = [
     "L+ /opt/rocm - - - - ${rocmOptBuildEnv}"
-    # "L+ /opt/rocm/hip - - - - ${pkgs.rocmPackages.clr}"
-    # "L+ /opt/rocm/llvm - - - - ${pkgs.rocmPackages.llvm.llvm}"
   ];
+
+  # "L+ /opt/rocm/llvm - - - - ${pkgs.rocmPackages.llvm.llvm}"
+  # "L+ /opt/rocm/hip - - - - ${pkgs.rocmPackages.clr}"
+  # "L+ /opt/rocm/hip - - - - /opt/rocm/hip2" # <--- disable link like this
+
   # `rocm_agent_enumerator` says gfx1030
 
   # https://github.com/alyraffauf/bazznix/blob/24d345beb5de17acb6e33d906d5b482c85403f13/hwModules/common/gpu/amd/default.nix#L3
@@ -220,15 +224,6 @@ in
   #
   # - could also install multiple versions, technically.. though the the
   #   system's running driver seems sometimes involved with builds
-
-  environment.sessionVariables.ROCM_PATH = "/opt/rocm";
-  systemd.tmpfiles.rules = [
-    "L+ /opt/rocm - - - - ${rocmOptBuildEnv}"
-    # "L+ /opt/rocm/hip - - - - ${pkgs.rocmPackages.clr}"
-    # "L+ /opt/rocm/llvm - - - - ${pkgs.rocmPackages.llvm.llvm}"
-  ];
-
-  # "L+ /opt/rocm/hip - - - - /opt/rocm/hip2" # <--- disable link like this
 }
 
 # TODO: nix: consider mangohud (overlay gpu perf), amdgpu-i2c (rgb control)

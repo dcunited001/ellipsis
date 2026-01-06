@@ -1,13 +1,17 @@
 [general]
 live_config_reload = true
+# ipc_socket = true # required for alacritty msg config $options
 
 import = [
-# note: this breaks guix-home
-"../alacritty-theme/themes/github_dark_colorblind.toml",
+"/home/dc/.config/alacritty-theme/themes/monokai_charcoal.toml",
 "./font.default.toml",
 "./window.default.toml",
-"./input.default.toml"
-]
+"./input.default.toml"]
+
+# note: relative paths are relative to the file _after_ links resolved
+# "../alacritty-theme/themes/github_dark_colorblind.toml",
+# "/home/dc/.config/alacritty-theme/themes/blood_moon.toml",
+# "/home/dc/.config/alacritty-theme/themes/hyper.toml",
 
 [terminal]
 # shell = "/bin/bash"

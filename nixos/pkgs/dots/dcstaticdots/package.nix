@@ -7,7 +7,6 @@
 let
   pname = "dcstaticdots";
   scripts = [ "bash/colors.sh" ]; # "bash/alias.sh"
-
 in
 stdenv.mkDerivation {
   inherit pname; # pname wasn't sufficient here.
