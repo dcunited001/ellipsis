@@ -71,6 +71,7 @@
       # "home/dc/waybar.nix"
     ])
 
+    ./ollama.nix
     ./frc.nix
   ];
 
