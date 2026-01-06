@@ -22,6 +22,7 @@
     ./python.nix
     ./hypr.nix
     ./blender.nix
+    ./steam.nix
 
     (map lib.custom.relativeToRoot [
       "users/dc"

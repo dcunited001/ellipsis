@@ -4,8 +4,72 @@
   pkgs,
   ...
 }:
-{
+let
+  rocmOptBuildEnv = pkgs.symlinkJoin {
+    name = "rocmOptBuildEnv";
+    paths = with pkgs.rocmPackages; [
+      # primatives -----------------------
+      hipcub
+      rocprim
+      # hiptensor
+      rocthrust
 
+      # math -----------------------
+      hipblas-common
+      hipblaslt
+      hipblas # libhipblas.so.XX
+      rocblas # librocblas.so.XX
+
+      hiprand
+      rocrand
+      rocsparse # librocsparse.so.XX
+      hipsparse
+      roctracer
+      hipfft
+      rocfft # librocfft.so.XX
+      hipsolver
+      rocsolver
+
+      composable_kernel
+      # composable_kernel_base # not intended to build directly
+
+      # vision -----------------------
+      miopen # libMIOpen.so.XX
+      mivisionx
+      mivisionx-hip
+      # mivisionx-cpu
+
+      # rpp
+      rpp-hip
+      # rpp-cpu
+      # rpp-opencl
+
+      # dev -----------------------
+      rocdbgapi
+
+      # build -----------------------
+      rocm-comgr
+      rocm-device-libs
+
+      # runtime -----------------------
+      rocm-core
+      rocm-runtime # hsakmt: libhsa-runtime64.so.1.15.0
+      clr
+      clr.icd
+      hipify
+      rccl # librccl.so.XX (when rcclSupport is enabled)
+    ];
+
+    # python ------------
+    # aotriton
+
+    # tools ------------
+    # rocminfo
+    # rocm-smi
+
+  };
+in
+{
   nixpkgs = {
     config = {
       allowUnfree = true;
@@ -13,15 +77,17 @@
     };
   };
 
+  # CLR: Common Language Runtime
+
   # VDPAU: Video Decode/Presentation API For Unix
   # libglvnd: GL Vendor-Neutral Dispatch (dispatch for systems with multiple gpu drivers)
   # libGL: GL Vendor-Neutral Dispatch Library
   # libGLU: OpenGL Utility Library
   # glfw: multi-platform lib 4 creating opengl contexts & managing input (kbd, mouse, joystick, time)
-  #
+
   environment.systemPackages = [
     pkgs.gpu-viewer
-    pkgs.clinfo
+    pkgs.clinfo # rocmPackages.clr contains another `clinfo`
     pkgs.radeontop
 
     # GL
@@ -34,11 +100,9 @@
     pkgs.libva-utils # `vainfo` list of supported profiles (VP9, VA1)
 
     # these are tools and should maybe be in users' packages
+    pkgs.rocmPackages.amdsmi
     pkgs.rocmPackages.rocminfo
     pkgs.rocmPackages.rocm-smi
-    pkgs.rocmPackages.rocm-core
-    # pkgs.rocmPackages.rocmPath # removed
-    pkgs.rocmPackages.rccl
 
     pkgs.btop-rocm
   ];
@@ -60,13 +124,12 @@
   # Runtime
 
   # -----------------------
-  # dynamic linking
+  # these extraPackages go in /run/opengl-driver
 
   hardware.graphics.extraPackages = [
     pkgs.libglvnd
 
-    pkgs.rocmPackages.clr # only icd needed here?
-    pkgs.rocmPackages.clr.icd
+    rocmOptBuildEnv
 
     # pkgs.libva
     # pkgs.libva-vdpau-driver
@@ -84,6 +147,7 @@
 
   programs.nix-ld.enable = true;
   programs.nix-ld.libraries = with pkgs; [
+    rocmPackages.clr
     rocmPackages.clr.icd
     libglvnd
     libGL
@@ -119,6 +183,13 @@
   environment.sessionVariables.HCC_AMDGPU_TARGET = "gfx1030"; # specific to my 6700
   environment.sessionVariables.HSA_OVERRIDE_GFX_VERSION = "10.3.0";
 
+  # TODO: try adding to LD_LIBRARY_PATH? ...
+  environment.sessionVariables.ROCM_PATH = "/opt/rocm";
+  systemd.tmpfiles.rules = [
+    "L+ /opt/rocm - - - - ${rocmOptBuildEnv}"
+    # "L+ /opt/rocm/hip - - - - ${pkgs.rocmPackages.clr}"
+    # "L+ /opt/rocm/llvm - - - - ${pkgs.rocmPackages.llvm.llvm}"
+  ];
   # `rocm_agent_enumerator` says gfx1030
 
   # https://github.com/alyraffauf/bazznix/blob/24d345beb5de17acb6e33d906d5b482c85403f13/hwModules/common/gpu/amd/default.nix#L3
@@ -144,9 +215,20 @@
 
   # -----------------------
   # Blender HIP (and anything that links rocm)
+
+  # - needs symlink-join, then bind to /opt/rocm
+  #
+  # - could also install multiple versions, technically.. though the the
+  #   system's running driver seems sometimes involved with builds
+
+  environment.sessionVariables.ROCM_PATH = "/opt/rocm";
   systemd.tmpfiles.rules = [
-    "L+ /opt/rocm/hip - - - - ${pkgs.rocmPackages.clr}"
+    "L+ /opt/rocm - - - - ${rocmOptBuildEnv}"
+    # "L+ /opt/rocm/hip - - - - ${pkgs.rocmPackages.clr}"
+    # "L+ /opt/rocm/llvm - - - - ${pkgs.rocmPackages.llvm.llvm}"
   ];
+
+  # "L+ /opt/rocm/hip - - - - /opt/rocm/hip2" # <--- disable link like this
 }
 
 # TODO: nix: consider mangohud (overlay gpu perf), amdgpu-i2c (rgb control)

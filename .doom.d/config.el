@@ -2102,7 +2102,7 @@ the root")
   :defer t
   :config
   (setq lsp-nix-nixd-server-path "nixd"
-        lsp-nix-nixd-formatting-command [ "nixfmt" ]
+        ;; lsp-nix-nixd-formatting-command [ "nixfmt" ]
         lsp-nix-nixd-nixpkgs-expr "import <nixpkgs> { }"
         lsp-nix-nixd-home-manager-options-expr
         "(builtins.getFlake \"/home/nb/nixos\").homeConfigurations.\"nb@mnd\".options"
@@ -2110,7 +2110,6 @@ the root")
         (format
          "(builtins.getFlake \"%s\").nixosConfigurations.mnd.options"
          dc/nixos-dotfiles-flake)))
-
 
 ;;;;; Unix
 

@@ -10,7 +10,7 @@ in
 {
   users.users.${dc}.packages = [
     pkgs.swaynotificationcenter
-    pkgs.mako
+    # pkgs.mako
     pkgs.libnotify
   ];
 }

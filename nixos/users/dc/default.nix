@@ -32,6 +32,7 @@ in
   # TODO: nix: move elsewhere once flatpak is setup in home-manager
   environment.sessionVariables.XDG_DATA_DIRS = [ "$HOME/.local/share/flatpak/exports/share" ];
   environment.sessionVariables.ORG_DIRECTORY = [ "$HOME/org" ];
+  environment.sessionVariables.SYSTEMD_EDITOR = [ "vim" ];
 
   users.users.dc = {
     uid = 1000;
@@ -44,6 +45,8 @@ in
       "i2c"
       "audio"
       "plugdev"
+      "render"
+      "video"
     ];
     isNormalUser = true;
     # useDefaultShell = true;
