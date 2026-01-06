@@ -71,7 +71,12 @@
       # "home/dc/waybar.nix"
     ])
 
-    ./ollama.nix
+    # ollama runs by default using "DynamicUser" and will have access to all
+    # files with at least 004 permissions (the entire /nix/store). it's not a
+    # great fit for nixos without additional customization
+    #
+    # ./ollama.nix
+    # ./open-webui.nix
     ./frc.nix
   ];
 
