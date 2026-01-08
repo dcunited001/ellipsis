@@ -52,9 +52,9 @@ in
   };
 
   hardware.graphics = {
-    package = hyprlandMesa;
+    package = pkgs.mesa;
     enable32Bit = true;
-    package32 = hyprlandMesa32;
+    package32 = pkgs.pkgsi686Linux.mesa;
   };
 
   # hints electron apps to use wayland
