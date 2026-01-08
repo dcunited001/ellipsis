@@ -5,6 +5,12 @@
   ...
 }:
 let
+  # NOTE: i'm pretty sure I'm "doing it wrong", but listing all this out may
+  # be useful for derivations in the future.
+  #
+  # Seems like it's not going to work for `uv` unless you build from
+  # source. even then, it's going to want everything built in a "soft-chroot",
+  # so specific packages are compatible with their deps.
   rocmOptBuildEnv = pkgs.symlinkJoin {
     name = "rocmOptBuildEnv";
     paths = with pkgs.rocmPackages; [
@@ -25,7 +31,7 @@ let
       rocrand
       rocsparse # librocsparse.so.XX
       hipsparse
-      roctracer
+      rocalution
       hipfft
       rocfft # librocfft.so.XX
       hipsolver
@@ -33,36 +39,59 @@ let
 
       composable_kernel
       # composable_kernel_base # not intended to build directly
+      ck4inductor
+
+      # graphics -----------------------
+      hiprt
 
       # vision -----------------------
       miopen # libMIOpen.so.XX
+      migraphx
       mivisionx
       mivisionx-hip
       # mivisionx-cpu
 
       # rpp
       rpp-hip
-      # rpp-cpu
+      # rpp-cpul
       # rpp-opencl
 
-      # dev -----------------------
-      rocdbgapi
+      # python -----------------------
+      # aotriton # implicity included
+
+      # llvm -----------------------
+      llvm.bintools
+      # llvm.clang-unwrapped
+      llvm.compiler-rt
+      llvm.libcxx
+      llvm.llvm
+      llvm.lld
+      llvm.openmp
+      # llvm.rocmClangStdenv
 
       # build -----------------------
       rocm-comgr
       rocm-device-libs
+      rocm-cmake
 
       # runtime -----------------------
       rocm-core
-      rocm-runtime # hsakmt: libhsa-runtime64.so.1.15.0
+      rocm-runtime
+      hsakmt # libhsa-runtime64.so.1.15.0 (not included with runtime)
       clr
       clr.icd
       hipify
       rccl # librccl.so.XX (when rcclSupport is enabled)
-    ];
 
-    # python ------------
-    # aotriton
+      # debug -----------------------
+      rocgdb
+      rocdbgapi
+      rocr-debug-agent
+      roctracer
+      rocprofiler
+      rocprofiler-register
+      aqlprofile
+    ];
 
     # tools ------------
     # rocminfo

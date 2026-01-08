@@ -61,7 +61,7 @@
       # "home/dc/walker.nix"
       "home/dc/alacritty.nix"
       "home/dc/chromium.nix"
-      "home/dc/doom.nix"
+      # "home/dc/doom.nix"
       # "home/dc/ectorepo.nix"
       "home/dc/hypr.nix"
       "home/dc/hypridle.nix"
