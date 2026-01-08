@@ -191,7 +191,8 @@ in
 
       # DESKTOP
       # thunar # programs.thunar...
-      wofi
+      # wofi
+      walker
       wl-clipboard-rs
       dex
 
