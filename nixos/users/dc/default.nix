@@ -183,7 +183,8 @@ in
       zoom-us
       thunderbird
       telegram-desktop
-      vesktop
+      # vesktop
+      discord
 
       # IRC
       quassel # flatpak doesn't load settings

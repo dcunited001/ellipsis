@@ -58,7 +58,7 @@
       "modules/nixos/services/zerotierone.nix"
 
       "home/dc/hjem.nix"
-      "home/dc/walker.nix"
+      # "home/dc/walker.nix"
       "home/dc/alacritty.nix"
       "home/dc/chromium.nix"
       "home/dc/doom.nix"
