@@ -9,27 +9,34 @@
     uv
   ];
 
-  users.users.dc.packages = let python = pkgs.python313.withPackages (ps: with ps; [
-    numpy
-    scipy
-    polars
-    pandas
+  users.users.dc.packages =
+    let
+      python = pkgs.python313.withPackages (
+        ps: with ps; [
+          numpy
+          scipy
+          polars
+          pandas
 
-    ipython
-    matplotlib
-    # pyqt6-charts # just using tk
-    # anyqt
+          ipython
+          matplotlib
+          # pyqt6-charts # just using tk
+          # anyqt
 
-    torch
-    torchvision
-    torchbench
-    geotorch
-    gpytorch
-    # pytorch-bench
-    # torchsummary
-  ]); in [
-    python
-  ];
+          torch
+          torchvision
+          torchbench
+          geotorch
+          gpytorch
+          # pytorch-bench
+          # torchsummary
+          jupyterlab
+        ]
+      );
+    in
+    [
+      python
+    ];
 
   # tinygrad has been broken for ROCm since 10.0.x
 

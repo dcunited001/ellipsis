@@ -958,8 +958,6 @@ large search domains, it's almost always a failure."
 ;; (setq org-list-demote-modify-bullet
 ;;       '(("+" . "-") ("-" . "+") ("*" . "+") ("1." . "a.")))
 
-
-
 ;;;;; Citation
 
 ;; Doom's biblio uses citar/oc in lieu of most of bibtex. we still want
@@ -1309,26 +1307,80 @@ large search domains, it's almost always a failure."
           plain "%?" :unnarrowed t
           :target (file+head
                    "projects/${slug}.org"
-                   "#+TITLE: ${title}\n#+DESCRIPTION: ${description}\n"))
+                   "#+TITLE: ${title
+#+DESCRIPTION: ${description}
+
+* Roam
++
+* Docs
+* Resources
+* Topics
+"))
          ("t" "Topic"
           plain "%?" :unnarrowed t
-          :target (file+head+olp
+          :target (file+head
                    "topics/${slug}.org"
-                   "#+TITLE: ${title}\n#+DESCRIPTION: ${description}\n#+TAGS:\n\n"
-                   ("Roam" "Docs" "Resources" "Topics" "Issues")))
+                   "#+TITLE: ${title}
+#+DESCRIPTION: ${description}
+#+TAGS:
+
+* Roam
++
+* Docs
+* Resources
+* Topics
+"))
          ("c" "Code"
           plain "%?" :unnarrowed t
           :target (file+head
                    "code/${slug}.org"
-                   "#+TITLE: ${title}\n#+DESCRIPTION: ${description}\n#+TAGS:\n\n")))
-       `(("z" "Zettel"
-          plain "%?" :unnarrowed t
-          :target (file+head+olp
-                   "slips/%<%Y%m%d%H%M%S>-${slug}.org"
-                   ,(string-join '("#+TITLE: ${title}"
-                                   "#+CATEGORY: slips"
-                                   "#+TAGS: ") "\n")
-                   ("Roam" "Docs" "Resources" "Issues" "Projects"))))))
+                   "#+TITLE: ${title}
+#+DESCRIPTION: ${description}
+#+TAGS:
+
+* Roam
++
+* Notes
+")
+          ("z" "Zettel"
+           plain "%?" :unnarrowed t
+           :target (file+head
+                    "slips/%<%Y%m%d%H%M%S>-${slug}.org"
+                    "#+TITLE: ${title}
+#+CATEGORY: slips
+#+TAGS:
+"))
+          ;; :template (file "nb/_jupyter_template.org")
+          ("j" "Jupyter Notebook"
+           plain
+           "%?"
+           :unnarrowed t
+           :target (file+head "nb/%<%Y%m%d%H%M%S>-${slug}.org")
+           "#+TITLE: ${title}
+#+DESCRIPTION: ${description}
+#+TAGS
+#+PROPERTY: header-args:jupyter-python+ :kernel python3
+#+PROPERTY: header-args:jupyter-python+ :session /jpy::${slug}
+#+PROPERTY: header-args+ :var jpvol=(setq-local jpvol \"/nb\")
+#+PROPERTY: header-args+ :var jpdir=(setq-local jpdir (expand-file-name \"/jpy::${slug}\" jpvol))
+
+* Roam
++
+* Resources
+* Notebook
+
++ C-c h :: jupyter-org-hydra/body
+
+#+begin_src jupyter-python :results output file :file \"img/foo.png\" :async t
+foo=2+2
+#+end_src
+
+#+begin_src jupyter-python
+with open(\"nixos_trying_rocm_tensorflow_jax.html\",'w') as fp:
+    fp.write(plot.get_snapshot())
+#+end_src
+
+")))))
 
 ;;;;; Roam UI
 
@@ -1377,12 +1429,34 @@ large search domains, it's almost always a failure."
   ;; (:bind "C-T" #'my-google-translate-at-point)
   :custom (google-translate-backend-method 'curl))
 
-
 (after! ob
   (use-package! ob-translate :defer t)
   ;; TODO :custom ob-mermaid-cli-path "~/.nix-profile/bin/mmdc"
   (use-package! ob-mermaid :defer t :custom (ob-mermaid-cli-path "mmdc")))
 
+(after! ob-jupyter
+  (org-babel-jupyter-aliases-from-kernelspecs))
+
+(use-package! ob-jupyter
+  :defer t
+  :config
+  ;; (set-popup-rules!
+  ;;   '(("^\\*jupyter-kernels[.*localhost.*]*:" :side bottom :vslot -5 :slot 10 :width 80 :select t :quit nil)))
+  (set-popup-rules!
+    ;; hard to get the name right
+    ;; ("^\\*jupyter-repl\\[.*jpy::" :side bottom :vslot -5 :slot -9 :width 80 :select t :quit nil)
+    '(("^\\*jupyter-repl\\[" :side bottom :vslot -5 :slot -10 :width 80 :select t :quit nil)
+      ("^\\*jupyter-kernels\\[.*localhost" :side top :vslot -5 :slot -10 :width 80 :select t :quit nil))))
+
+(defun dc/unadvise-babel-async-backend-selection ()
+  "This keeps failing `call' which apparently means the block it refers to
+thinks it's a python block. Unsure of whether it's stateful or otherwise
+order dependent via my config."
+  (undefadvice! '+org-babel-disable-async-maybe-a
+    (fn &optional orig-fn arg info params)
+    :around #'ob-async-org-babel-execute-src-block))
+
+;; (rx "emacs")
 ;;;;;; Wiktionary
 
 ;; TODO: https://github.com/umanwizard/emacs-wiktionary
