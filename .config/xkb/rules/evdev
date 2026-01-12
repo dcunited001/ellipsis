@@ -7,20 +7,24 @@
   mylvl5:ins_switch					= +mylevel5(ins_switch)
   mylvl5:micmute_switch				= +mylevel5(micmute_switch)
   mylvl5:lctl_switch				= +mylevel5(lctl_switch)
+  mylvl5:kpen_switch				= +mylevel5(kpen_switch)
 
   mylvl5:ins_latch					= +mylevel5(ins_latch)
   mylvl5:micmute_latch				= +mylevel5(micmute_latch)
   mylvl5:lctl_latch					= +mylevel5(lctl_latch)
+  mylvl5:kpen_latch					= +mylevel5(kpen_latch)
 
   mylvl3:sclk_switch				= +mylevel3(sclk_switch)
   mylvl3:display_switch				= +mylevel3(display_switch)
   mylvl3:micmute_switch				= +mylevel3(micmute_switch)
   mylvl3:lctl_switch				= +mylevel3(lctl_switch)
+  mylvl3:kpen_switch				= +mylevel3(kpen_switch)
 
   mylvl3:sclk_latch					= +mylevel3(sclk_latch)
   mylvl3:display_latch				= +mylevel3(display_latch)
   mylvl3:micmute_latch				= +mylevel3(micmute_latch)
   mylvl3:lctl_latch					= +mylevel3(lctl_latch)
+  mylvl3:kpen_latch					= +mylevel3(kpen_latch)
 
 ! option = symbols
   fmedia:mute_f17       = +fmedia(mute_f17)

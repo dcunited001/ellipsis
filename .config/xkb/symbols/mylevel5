@@ -18,6 +18,12 @@ xkb_symbols "lctl_switch" {
   key <LCTL> {[  ISO_Level5_Shift  ], type[group1]="ONE_LEVEL" };
 };
 
+partial modifier_keys
+xkb_symbols "kpen_switch" {
+  // key <KPEN> { [ KP_Enter	]};
+  key <KPEN> {[  ISO_Level5_Shift  ], type[group1]="ONE_LEVEL" };
+};
+
 // =============================================
 // ISO_Level5_Latch
 
@@ -41,4 +47,10 @@ xkb_symbols "micmute_latch" {
 partial modifier_keys
 xkb_symbols "lctl_latch" {
   key <LCTL> {[  ISO_Level5_Latch  ], type[group1]="ONE_LEVEL" };
+};
+
+partial modifier_keys
+xkb_symbols "kpen_latch" {
+  // key <KPEN> { [ KP_Enter	]};
+  key <KPEN> {[  ISO_Level5_Latch  ], type[group1]="ONE_LEVEL" };
 };
