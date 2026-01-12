@@ -96,6 +96,10 @@
           <description>Insert chooses 5th level. Get You A Reboot</description>
         </configItem>
         <configItem>
+          <name>mylvl5:display_switch</name>
+          <description>XF86display chooses 5th level</description>
+        </configItem>
+        <configItem>
           <name>mylvl5:micmute_switch</name>
           <description>Mic Mute chooses 5th level.</description>
         </configItem>
@@ -110,6 +114,10 @@
         <configItem>
           <name>mylvl5:ins_latch</name>
           <description>Insert latches 5th level.</description>
+        </configItem>
+        <configItem>
+          <name>mylvl5:display_latch</name>
+          <description>XF86display latches 5th level</description>
         </configItem>
         <configItem>
           <name>mylvl5:micmute_latch</name>

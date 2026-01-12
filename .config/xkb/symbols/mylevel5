@@ -9,6 +9,11 @@ xkb_symbols "ins_switch" {
 };
 
 partial modifier_keys
+xkb_symbols "display_switch" {
+  key <I235> {[  ISO_Level3_Shift  ], type[group1]="ONE_LEVEL" };
+};
+
+partial modifier_keys
 xkb_symbols "micmute_switch" {
   key <I256> {[  ISO_Level5_Shift  ], type[group1]="ONE_LEVEL" };
 };
@@ -37,6 +42,11 @@ xkb_symbols "kpen_switch" {
 partial modifier_keys
 xkb_symbols "ins_latch" {
   key <INS> {[  ISO_Level5_Latch  ], type[group1]="ONE_LEVEL" };
+};
+
+partial modifier_keys
+xkb_symbols "display_latch" {
+  key <I235> {[  ISO_Level5_Latch  ], type[group1]="ONE_LEVEL" };
 };
 
 partial modifier_keys

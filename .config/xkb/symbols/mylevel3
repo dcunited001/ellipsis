@@ -13,7 +13,7 @@ partial modifier_keys
 xkb_symbols "display_switch" {
   // HP 845 G7: Fn+F1 (Doesn't work)
   // key <XF86Display> {[  ISO_Level3_Shift  ], type[group1]="ONE_LEVEL" };
-  key <I243> {[  ISO_Level3_Shift  ], type[group1]="ONE_LEVEL" };
+  key <I235> {[  ISO_Level3_Shift  ], type[group1]="ONE_LEVEL" };
 };
 
 partial modifier_keys
@@ -52,7 +52,7 @@ xkb_symbols "sclk_latch" {
 
 partial modifier_keys
 xkb_symbols "display_latch" {
-  key <I243> {[  ISO_Level3_Latch  ], type[group1]="ONE_LEVEL" };
+  key <I235> {[  ISO_Level3_Latch  ], type[group1]="ONE_LEVEL" };
 };
 
 partial modifier_keys
