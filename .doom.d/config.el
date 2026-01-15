@@ -1914,6 +1914,12 @@ the root")
         lsp-java-jdt-ls-prefer-native-command t
         lsp-java-server-install-dir (dc/lsp-java-server-install-dir)))
 
+(defun dc/lsp-java-toggle-hook ()
+  (interactive)
+  (if (memq #'lsp java-ts-mode-hook)
+      (remove-hook 'java-ts-mode-hook #'lsp)
+    (add-hook 'java-ts-mode-hook #'lsp)))
+
 ;; (setq lsp-java-configuration-runtimes
 ;;       `[(:name "OpenJDK-17"
 ;;          :path ,(expand-file-name "wpilib/2026/jdk" (getenv "HOME"))
