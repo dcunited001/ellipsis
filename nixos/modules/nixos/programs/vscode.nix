@@ -6,13 +6,14 @@
 let
   frcPkgs = inputs.frc-nix.packages.${pkgs.stdenv.hostPlatform.system};
   vscMarketplace = pkgs.vscode-utils.extensionsFromVscodeMarketplace [
-    {
-      # "created 12,000 symlinks..."
-      name = "vscode-lombok";
-      publisher = "vscjava";
-      version = "1.1.2024071804";
-      sha256 = "10ppk8s4ppaac91r20hdb2m7kvmsxp15dgisd7f2raqbblk7d9sm";
-    }
+    # vscode-lombok is deprecated
+    # {
+    #   # "created 12,000 symlinks..."
+    #   name = "vscode-lombok";
+    #   publisher = "vscjava";
+    #   version = "1.1.2024071804";
+    #   sha256 = "10ppk8s4ppaac91r20hdb2m7kvmsxp15dgisd7f2raqbblk7d9sm";
+    # }
     {
       name = "vscode-spotless-gradle";
       publisher = "richardwillis";
@@ -70,9 +71,9 @@ let
     [
       bbenoist.nix
       golang.go
-      twxs.cmake
+
       redhat.vscode-yaml
-      zxh404.vscode-proto3
+      drblury.protobuf-vsc # zxh404.vscode-proto3
       vscjava.vscode-gradle
 
       # the extension pack won't work with java
@@ -99,6 +100,8 @@ let
       # ms-vscode.remote-server
       ms-toolsai.jupyter-renderers
       ms-toolsai.vscode-jupyter-cell-tags
+
+      ms-vscode.cmake-tools # twxs.cmake
 
       # to debug the extension: ensure vscode-wpilib isn't included
       #
