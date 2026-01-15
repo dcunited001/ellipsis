@@ -601,6 +601,32 @@ modes and testing is tedious."
 
 ;;;; Font
 
+(defun dc/set-font-noto ()
+  "To avoid typing this again..."
+  (setopt
+   ;; -GOOG-Noto Sans-regular-normal-normal-*-*-*-*-*-*-0-iso10646-1
+   ;; -GOOG-Noto Sans Mono-regular-normal-normal-*-16-*-*-*-*-0-iso10646-1
+   ;; /usr/share/fonts/noto/NotoSansMono-Regular.ttf
+   doom-font (font-spec :family "Noto Sans Mono" :size 12 :weight 'normal)
+   doom-serif-font (font-spec :family "Noto Serif" :size 12 :weight 'normal)
+   doom-big-font (font-spec :family "Noto Sans" :size 36 :weight 'normal)
+   doom-emoji-font (font-spec :family "Noto Sans" :weight 'normal)
+   doom-symbol-font (font-spec :family "Noto Sans" :weight 'normal)
+   doom-unicode-font (font-spec :family "Noto Sans" :weight 'normal)
+   doom-variable-pitch-font (font-spec :family "Noto Sans" :weight 'normal)))
+
+(defun dc/set-font-omarchy ()
+  "To avoid typing this again..."
+  (setopt
+   ;; -JB-JetBrainsMono Nerd Font Mono-regular-normal-normal-*-*-*-*-*-m-0-iso10646-1
+   doom-font (font-spec :family "JetbrainsMono Nerd Font Mono" :size 12 :weight 'normal)
+   doom-serif-font (font-spec :family "Liberation Serif" :size 12 :weight 'normal)
+   doom-big-font (font-spec :family "Noto Sans" :size 36 :weight 'normal)
+   doom-emoji-font (font-spec :family "Noto Sans" :weight 'normal)
+   doom-symbol-font (font-spec :family "Noto Sans" :weight 'normal)
+   doom-unicode-font (font-spec :family "Noto Sans" :weight 'normal)
+   doom-variable-pitch-font (font-spec :family "Liberation Serif" :weight 'normal)))
+
 (cond
  (is-guix-system
   (setopt doom-font (font-spec :family "Iosevka Nerd Font Mono" :size 12 :weight 'normal)
@@ -613,14 +639,7 @@ modes and testing is tedious."
           doom-symbol-font (font-spec :family "Noto Sans" :weight 'normal)
           doom-unicode-font (font-spec :family "Noto Sans" :weight 'normal)
           doom-variable-pitch-font (font-spec :family "Noto Sans" :weight 'normal)))
- (t (setopt
-     doom-font (font-spec :family "Noto Sans Mono" :size 12 :weight 'normal)
-     doom-serif-font (font-spec :family "Noto Serif" :size 12 :weight 'normal)
-     doom-big-font (font-spec :family "Noto Sans" :size 36 :weight 'normal)
-     doom-emoji-font (font-spec :family "Noto Sans" :weight 'normal)
-     doom-symbol-font (font-spec :family "Noto Sans" :weight 'normal)
-     doom-unicode-font (font-spec :family "Noto Sans" :weight 'normal)
-     doom-variable-pitch-font (font-spec :family "Noto Sans" :weight 'normal))))
+ (t (dc/set-font-omarchy)))
 
 ;; (math ⊕ ⊗) (kana あいうえお) (kanji 一分亜音) (emoji 🇦 ♍ 🌐 💫)
 ;;
