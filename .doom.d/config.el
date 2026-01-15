@@ -783,7 +783,7 @@ modes and testing is tedious."
         corfu-popupinfo-min-height 5
         corfu-popupinfo-max-height 15
         corfu-popupinfo-direction 'right ; default list: '(right left down)
-        corfu-popupinfo-delay '(1.0 0.5)
+        corfu-popupinfo-delay '(1.0 . 0.5)
 
         corfu-preview-current nil))
 
@@ -1525,7 +1525,25 @@ order dependent via my config."
 ;; TODO: ponder deeply the deepest unasked questions of the cosmos
 ;; TODO: CONF: per-project `lsp-diagnostics-provider'? fly{check,make}
 
-;;;;; LSP Default Functionality
+;;;;; Eglot
+
+(use-package! eglot
+  :defer t
+
+  ;; doom sets these -----------------------
+  ;; eglot-autoshutdown t
+  ;; eglot-sync-connect 1
+  ;; eglot-connect-timeout 15
+  ;; eglot-extend-to-xref t ;; doom should do this
+
+  ;; eglot-confirm-server-initiated-edits 'confirm
+
+  :config
+  (setq eglot-send-changes-idle-time 0.5))
+
+;;;;; LSP Mode
+
+;; LSP-Mode Default Functionality
 
 ;; See: https://emacs-lsp.github.io/lsp-mode/tutorials/how-to-turn-of
 ;;
@@ -1839,10 +1857,74 @@ the root")
   ;; :custom (lsp-zig-zls-executable . "~/.fdsa")
   :defer t)
 
+;;;;; Java
+
+;; for FRC: create a .mise.toml like below (or install tools with mise)
+;;
+;; [env]
+;; JAVA_HOME="{{env.HOME}}/wpilib/2026/jdk"
+;; _.path="{{env.JAVA_HOME}}/bin"
+
 (use-package! java-mode
   ;; but now my smartparens would be dumb... lispy >> smartparens
   ;; :config (add-to-list 'sp-ignore-modes-list 'java-mode)
   :defer t)
+
+(after! treesit
+  (when (treesit-language-available-p 'java)
+    (add-to-list 'major-mode-remap-alist '(java-mode . java-ts-mode))))
+
+(use-package! java-ts-mode
+  :defer t)
+
+;; (defvar dc/jdtls
+;;   (cond (is-guix-system "jdtls")
+;;         (is-nixos "jdtls")
+;;         (t "/usr/bin/jdtls")))
+
+;; (after! eglot
+;;   (add-to-list 'eglot-server-programs
+;;                `((java-ts-mode ""))))
+
+;; - https://github.com/emacs-lsp/lsp-java/issues/487
+;; - https://github.com/emacs-lsp/lsp-java/pull/497
+(defun dc/lsp-java-server-install-dir ()
+  "Return install dir for `jdtls'"
+  (cond (is-guix-system (getenv "GUIX_ENVIRONMENT")) ;; not in guix yet
+        (is-nixos (expand-file-name ".nix-profile" (getenv "HOME")))
+        (t (expand-file-name ".nix-profile" (getenv "HOME")))))
+
+(defun java-server-subdir-for-jar (orig &rest args)
+  "Add nix subdir to `lsp-java-server-install-dir' so lsp test succeeds."
+  (let ((lsp-java-server-install-dir
+         (expand-file-name "./share/java/jdtls/" lsp-java-server-install-dir)))
+    (apply orig args)))
+
+;; After getting nix's jdtls running, i cycled the server/jdtls until it had
+;; accepted `M-x lsp-java-load-vscode-workspace'. nav-to-reference
+;; works. After `gradlew clean' and `M-x lsp-java-build-project', then
+;; `./gradlew simulateJava' seems to work.
+(use-package! lsp-java
+  :defer t
+  :config
+  (advice-add 'lsp-java--locate-server-jar :around #'java-server-subdir-for-jar)
+  (setq lsp-semgrep-languages (delete "java" lsp-semgrep-languages)
+
+        lsp-java-jdt-ls-command "jdtls"
+        lsp-java-jdt-ls-prefer-native-command t
+        lsp-java-server-install-dir (dc/lsp-java-server-install-dir)))
+
+;; (setq lsp-java-configuration-runtimes
+;;       `[(:name "OpenJDK-17"
+;;          :path ,(expand-file-name "wpilib/2026/jdk" (getenv "HOME"))
+;;          :default t)]) ;; wasn't working
+
+;; can manually run M-x lsp-update-server, if its lsp-mode managed
+;;
+;; (it checks in lsp-server-install-dir)
+;;
+;; ((java-ts-mode . ((lsp-java-jdt-ls-command . "jdtls")
+;;                   (eval . (add-hook 'java-ts-mode-hook #'lsp)))))
 
 ;;;; Functional Langs
 
