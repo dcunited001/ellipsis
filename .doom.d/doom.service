@@ -9,37 +9,36 @@ StartLimitBurst=3
 
 [Service]
 Type=simple
-
-#Type=notify #requires Notify
-#ExecStart=/bin/sh -c "guix shell -p $DOOMDIR/$GPROFILE -- env | sort && sleep 3"
-ExecStart=/bin/sh -c "/home/dc/.config/guix/current/bin/guix shell -p $DOOMDIR/$GPROFILE \
-                          -- emacs --init-directory=$EMACSDIR --fg-daemon=\"$EMACSSOCKET\""
-#ExecStartPre=/bin/bash -c "notify-send 'Starting Emacs Service...'"
-#ExecStartPost=/bin/bash -c "notify-send 'Emacs Service Started Successfully'"
-ExecStop=/bin/sh -c "/home/dc/.config/guix/current/bin/guix shell -p $DOOMDIR/$GPROFILE \
-                          -- emacsclient --socket=\"$EMACSSOCKET\" -e '(kill-emacs)'"
-#ExecStopPost=/bin/bash -c "notify-send 'Emacs Service Stopped Successfully'"
+Slice=app.slice
+Nice=-10
 
 # Emacs will exit with status 15 after having received SIGTERM, which
 # is the default "KillSignal" value systemd uses to stop services.
 SuccessExitStatus=15
 
+# Straight can take awhile
 TimeoutStartSec=300
 Restart=on-failure
 RestartSec=30
 
-# prioritize the server process
-Nice=-7
+#Type=notify #requires Notify
+ExecStart=/bin/sh -c "/home/dc/.config/guix/current/bin/guix shell -p $DOOMDIR/$GPROFILE -- emacs --init-directory=$EMACSDIR --fg-daemon=\"$EMACSSOCKET\""
+ExecStop=/bin/sh -c "/home/dc/.config/guix/current/bin/guix shell -p $DOOMDIR/$GPROFILE -- emacsclient --socket=\"$EMACSSOCKET\" -e '(kill-emacs)'"
+
+#ExecStart=/bin/sh -c "guix shell -p $DOOMDIR/$GPROFILE -- env | sort && sleep 3"
+#ExecStartPre=/bin/bash -c "notify-send 'Starting Emacs Service...'"
+#ExecStartPost=/bin/bash -c "notify-send 'Emacs Service Started Successfully'"
+#ExecStopPost=/bin/bash -c "notify-send 'Emacs Service Stopped Successfully'"
 
 Environment=EMAIL=aionfork@gmail.com
 Environment=SSH_AUTH_SOCK=/run/user/1000/gnupg/S.gpg-agent.ssh
 Environment=EMACS=/home/dc/.doom.d/.guix-profile/bin/emacs
-# Environment=EMACS_SOURCE=/data/ecto/emacs/emacs/src
 Environment=EMACSDIR=/home/dc/.emacs.doom
 Environment=DOOMDIR=/home/dc/.doom.d
 Environment=GPROFILE=.guix-profile
 Environment=EMACSSOCKETPATH=/run/user/1000/emacs/doom
 Environment=EMACSSOCKET=doom
+# Environment=EMACS_SOURCE=/data/ecto/emacs/emacs/src
 
 [Install]
 WantedBy=graphical-session.target

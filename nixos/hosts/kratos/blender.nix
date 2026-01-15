@@ -9,7 +9,7 @@
   #
   # - launches with `blender --python-use-system-env` ... didn't know 'bout that...
   environment.systemPackages = with pkgs; [
-    blender-hip
+    blender
   ];
 
   # seems to have installed these:

@@ -1,5 +1,5 @@
 [Unit]
-Description=Doom Emacs
+Description=Doom Emacs text editor
 # Documentation=info:emacs man:emacs(1) https://gnu.org/software/emacs/
 StartLimitIntervalSec=300
 StartLimitBurst=3
@@ -10,25 +10,25 @@ StartLimitBurst=3
 [Service]
 Type=simple
 Slice=app.slice
-
-# "guix shell -p $DOOMDIR/$GPROFILE \
-#Type=notify #requires Notify
-#ExecStart=/bin/sh -c "guix shell -p $DOOMDIR/$GPROFILE -- env | sort && sleep 3"
-ExecStart=/bin/sh -c "/home/dc/.config/guix/current/bin/guix shell -p $DOOMDIR/$GPROFILE -- emacs --init-directory=$EMACSDIR --fg-daemon=\"$EMACSSOCKET\""
-ExecStop=/bin/sh -c "/home/dc/.config/guix/current/bin/guix shell -p $DOOMDIR/$GPROFILE -- emacsclient --socket=\"$EMACSSOCKET\" -e '(kill-emacs)'"
-#ExecStartPre=/bin/bash -c "notify-send 'Starting Emacs Service...'"
-#ExecStartPost=/bin/bash -c "notify-send 'Emacs Service Started Successfully'"
-#ExecStopPost=/bin/bash -c "notify-send 'Emacs Service Stopped Successfully'"
+Nice=-10
 
 # Emacs will exit with status 15 after having received SIGTERM, which
 # is the default "KillSignal" value systemd uses to stop services.
 SuccessExitStatus=15
 
+# Straight can take awhile
 TimeoutStartSec=300
 Restart=on-failure
 RestartSec=30
 
-Nice=-13
+#Type=notify #requires Notify
+ExecStart=/bin/sh -c "/home/dc/.config/guix/current/bin/guix shell -p $DOOMDIR/$GPROFILE -- emacs --init-directory=$EMACSDIR --fg-daemon=\"$EMACSSOCKET\""
+ExecStop=/bin/sh -c "/home/dc/.config/guix/current/bin/guix shell -p $DOOMDIR/$GPROFILE -- emacsclient --socket=\"$EMACSSOCKET\" -e '(kill-emacs)'"
+
+#ExecStart=/bin/sh -c "guix shell -p $DOOMDIR/$GPROFILE -- env | sort && sleep 3"
+#ExecStartPre=/bin/bash -c "notify-send 'Starting Emacs Service...'"
+#ExecStartPost=/bin/bash -c "notify-send 'Emacs Service Started Successfully'"
+#ExecStopPost=/bin/bash -c "notify-send 'Emacs Service Stopped Successfully'"
 
 Environment=EMAIL=aionfork@gmail.com
 Environment=SSH_AUTH_SOCK=/run/user/1000/gnupg/S.gpg-agent.ssh

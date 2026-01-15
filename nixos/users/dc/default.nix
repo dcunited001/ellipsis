@@ -168,6 +168,9 @@ in
       podman-compose
       lazydocker
 
+      # TOOLS: DISK
+      btrfs-assistant
+
       # TOOLS: NETWORK
       socat
 
@@ -192,7 +195,6 @@ in
       # DESKTOP
       # thunar # programs.thunar...
       # wofi
-      walker
       wl-clipboard-rs
       dex
 
@@ -219,6 +221,9 @@ in
 
       # DESKTOP: MEDIA
       vlc
+
+      # DESKTOP: IMAGE
+      inkscape
 
       # DESKTOP: INPUT
       piper
