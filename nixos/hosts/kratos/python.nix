@@ -14,6 +14,7 @@
       python = pkgs.python313.withPackages (
         ps: with ps; [
           numpy
+          numpy-stl
           scipy
           polars
           pandas
