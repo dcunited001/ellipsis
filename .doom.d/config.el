@@ -1917,12 +1917,16 @@ the root")
         lsp-java-jdt-ls-prefer-native-command t
         lsp-java-server-install-dir (dc/lsp-java-server-install-dir)))
 
-;; using .dir-locals.el for the lsp hook is painful
+;; NOTE: if jdt-ls is not configured correctly, it will attempt to generate
+;; annotations in places where redhat is not expecting (in the ./bin
+;; directory) this causes builds to fail... It also may create .factorypath
 (defun dc/lsp-java-toggle-hook ()
   (interactive)
   (if (memq #'lsp java-ts-mode-hook)
       (remove-hook 'java-ts-mode-hook #'lsp)
     (add-hook 'java-ts-mode-hook #'lsp)))
+
+;; using .dir-locals.el for the lsp hook is painful
 
 ;; (setq lsp-java-configuration-runtimes
 ;;       `[(:name "OpenJDK-17"
