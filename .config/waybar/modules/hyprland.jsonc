@@ -35,6 +35,9 @@
       "dotfilesHypr": "¶H",
       "dotfilesEmacs": "¶E",
       "dotfilesNixos": "¶N",
+      "frcSim": "𝔽S", // F doublestruck
+      "frcAscope": "𝔽A1", // F doublestruck
+      "frcAscopeFloat": "𝔽A2", // F doublestruck
       "forum": "⨖",
       "music": "𝄞",
       "pass": "🔒",
