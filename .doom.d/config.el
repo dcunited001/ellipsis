@@ -1606,9 +1606,14 @@ order dependent via my config."
  )
 
 (after! lsp-mode
+  ;; lsp-semgrep connects to a paid service afaik
+  (require 'lsp-semgrep) ;; to immediately remove (by lang...)
   (set-popup-rules!
     '(("^\\*LSP Error List*" :side left :vslot -5 :slot 0 :width 40 :select t :quit nil)))
-  (advice-add 'lsp! :override #'ignore))
+  (advice-add 'lsp! :override #'ignore)
+  (setq-default lsp-semgrep-languages
+                (mapcar (lambda (lang) (delete lang lsp-semgrep-languages))
+                        '("java" "nix"))))
 
 ;; i'm starting way too much of this for random config files
 ;;
@@ -1908,12 +1913,11 @@ the root")
   :defer t
   :config
   (advice-add 'lsp-java--locate-server-jar :around #'java-server-subdir-for-jar)
-  (setq lsp-semgrep-languages (delete "java" lsp-semgrep-languages)
-
-        lsp-java-jdt-ls-command "jdtls"
+  (setq lsp-java-jdt-ls-command "jdtls"
         lsp-java-jdt-ls-prefer-native-command t
         lsp-java-server-install-dir (dc/lsp-java-server-install-dir)))
 
+;; using .dir-locals.el for the lsp hook is painful
 (defun dc/lsp-java-toggle-hook ()
   (interactive)
   (if (memq #'lsp java-ts-mode-hook)
@@ -1924,13 +1928,6 @@ the root")
 ;;       `[(:name "OpenJDK-17"
 ;;          :path ,(expand-file-name "wpilib/2026/jdk" (getenv "HOME"))
 ;;          :default t)]) ;; wasn't working
-
-;; can manually run M-x lsp-update-server, if its lsp-mode managed
-;;
-;; (it checks in lsp-server-install-dir)
-;;
-;; ((java-ts-mode . ((lsp-java-jdt-ls-command . "jdtls")
-;;                   (eval . (add-hook 'java-ts-mode-hook #'lsp)))))
 
 ;;;; Functional Langs
 
