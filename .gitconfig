@@ -18,9 +18,11 @@
 
 # =============================================
 # Branching
-[branch]
-	autoSetupMerge=always
-	autoSetupRebase=always
+
+# [branch]
+#	autoSetupRebase=always
+#	autoSetupMerge=never
+#	autoSetupMerge=always
 	
 # =============================================
 # Fetch
@@ -47,10 +49,10 @@
 	
 # ---------------------------------------------
 
-# TODO: .gitconfig: remove pull.rebase? (when autoSetupRebase=always)
 [pull]
 	rebase = true
 
+# `pull.rebase` makes `branch.autoSetupRebase` redundant
 # =============================================
 # Merge
 
