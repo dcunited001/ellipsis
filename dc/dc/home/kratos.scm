@@ -165,7 +165,7 @@
 ;; TODO: gpg-agent: reopen configuration instead of defining a new one
 (define kratos-gpg-agent-configuration
   (home-gpg-agent-configuration
-   (pinentry-program (file-append pinentry-qt5 "/bin/pinentry-qt5"))
+   (pinentry-program (file-append pinentry-qt "/bin/pinentry-qt"))
    (ssh-support? #t)
    (default-cache-ttl 60)
    (default-cache-ttl-ssh 60)

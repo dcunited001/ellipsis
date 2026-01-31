@@ -18,7 +18,7 @@
   #:use-module (gnu packages ninja)
   ;; #:use-module (ice-9 pretty-print)
 
-  #:use-module (ellipsis packages wm)
+  #:use-module (ellipsis services wm)
 
   #:use-module (srfi srfi-1))
 
