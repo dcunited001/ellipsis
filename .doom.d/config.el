@@ -1360,22 +1360,22 @@ large search domains, it's almost always a failure."
 * Roam
 +
 * Notes
-")
-          ("z" "Zettel"
-           plain "%?" :unnarrowed t
-           :target (file+head
-                    "slips/%<%Y%m%d%H%M%S>-${slug}.org"
-                    "#+TITLE: ${title}
+"))
+         ("z" "Zettel"
+          plain "%?" :unnarrowed t
+          :target (file+head
+                   "slips/%<%Y%m%d%H%M%S>-${slug}.org"
+                   "#+TITLE: ${title}
 #+CATEGORY: slips
 #+TAGS:
 "))
-          ;; :template (file "nb/_jupyter_template.org")
-          ("j" "Jupyter Notebook"
-           plain
-           "%?"
-           :unnarrowed t
-           :target (file+head "nb/%<%Y%m%d%H%M%S>-${slug}.org")
-           "#+TITLE: ${title}
+         ;; :template (file "nb/_jupyter_template.org")
+         ("j" "Jupyter Notebook"
+          plain
+          "%?"
+          :unnarrowed t
+          :target (file+head "nb/%<%Y%m%d%H%M%S>-${slug}.org")
+          "#+TITLE: ${title}
 #+DESCRIPTION: ${description}
 #+TAGS
 #+PROPERTY: header-args:jupyter-python+ :kernel python3
@@ -1399,7 +1399,7 @@ with open(\"nixos_trying_rocm_tensorflow_jax.html\",'w') as fp:
     fp.write(plot.get_snapshot())
 #+end_src
 
-")))))
+"))))
 
 ;;;;; Roam UI
 
