@@ -11,8 +11,11 @@
    ;; "enchant"
    ;; "aspell-dict-en"
 
-   "texlive"
-   ;; "texlive-collection-pictures"
+   "texlive" ;; now installs texlive-scheme-full
+
+   ;; texlive is quite hefty -- 4gb and contains them all lol
+   ;;
+   ;; don't mix with extra texlive-.** like "texlive-collection-pictures"
 
    ;; using nix for:
    ;; "ripgrep"

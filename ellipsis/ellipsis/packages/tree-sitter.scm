@@ -17,11 +17,5 @@
   #:use-module (guix utils)
   #:use-module (srfi srfi-1))
 
-(define-public tree-sitter-hyprlang
-  ((@@ (gnu packages tree-sitter) tree-sitter-grammar)
-   "hyprlang" "Hyprlang"
-   "171p3hj36a1jqflg9xv138445j4m4m16na6bgpm1km3l67jhvl54"
-   "3.1.0"
-   #:repository-url
-   "https://github.com/tree-sitter-grammars/tree-sitter-hyprlang"))
+(define-public foo "foo")
 
