@@ -103,7 +103,7 @@
     flake-schemas.url = "https://flakehub.com/f/DeterminateSystems/flake-schemas/*";
 
     # nixpkgs.url = "https://flakehub.com/f/NixOS/nixpkgs/*";
-    nixpkgs.url = "https://flakehub.com/f/DeterminateSystems/nixpkgs-weekly/0.1.921317";
+    nixpkgs.url = "https://flakehub.com/f/DeterminateSystems/nixpkgs-weekly/0.1.942631";
     nixpkgs-stable.url = "github:NixOS/nixpkgs/nixos-25.11";
     nixpkgs-unstable.url = "https://flakehub.com/f/NixOS/nixpkgs/0.1";
 

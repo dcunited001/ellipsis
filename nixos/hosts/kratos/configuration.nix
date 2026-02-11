@@ -7,6 +7,9 @@
   ...
 }:
 {
+
+  disabledModules = [ "services/misc/elephant.nix" ]; # namespace collision
+
   imports = lib.flatten [
     (lib.custom.relativeToRoot "hosts/common.nix")
     ./amdgpu.nix # load this here to ensure nixpkgs.config.rocmSupport early
