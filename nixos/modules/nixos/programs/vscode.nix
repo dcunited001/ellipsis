@@ -53,23 +53,23 @@ let
       libglvnd
       libGL
       glfw
-      xorg.libX11
-      xorg.libXScrnSaver
-      xorg.libXcomposite
-      xorg.libXcursor
-      xorg.libXdamage
-      xorg.libXext
-      xorg.libXfixes
-      xorg.libXi
-      xorg.libXrandr
-      xorg.libXrender
-      xorg.libXtst
-      xorg.libxcb
-      xorg.libxkbfile
-      xorg.libxshmfence
+      libX11
+      libXScrnSaver
+      libXcomposite
+      libXcursor
+      libXdamage
+      libXext
+      libXfixes
+      libXi
+      libXrandr
+      libXrender
+      libXtst
+      libxcb
+      libxkbfile
+      libxshmfence
       # had added these earlier, but unsure of whether they're necessary
-      # xorg.libXinerama
-      # xorg.libXt
+      # libXinerama
+      # libXt
 
       # wayland
       wayland
