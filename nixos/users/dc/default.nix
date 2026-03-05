@@ -155,7 +155,7 @@ in
       html-tidy
 
       # LANG: JAVASCRIPT
-      node2nix
+      # node2nix
 
       # LANG: JAVA
       openjdk
