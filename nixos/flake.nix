@@ -107,7 +107,7 @@
 
     # .... 0.1.921317 doesn't build guile-zlib (something seems non-hermetic)
 
-    nixpkgs.url = "https://flakehub.com/f/DeterminateSystems/nixpkgs-weekly/0.1.921317";
+    nixpkgs.url = "https://flakehub.com/f/DeterminateSystems/nixpkgs-weekly/0.1.957146";
     nixpkgs-stable.url = "github:NixOS/nixpkgs/nixos-25.11";
     nixpkgs-unstable.url = "https://flakehub.com/f/NixOS/nixpkgs/0.1";
 
@@ -127,6 +127,7 @@
 
     hyprland.url = "github:hyprwm/Hyprland";
     hyprland.inputs.nixpkgs.follows = "nixpkgs";
+    hyprland.inputs.systems.follows = "systems";
 
     # this flake follows nixpkgs-unstable
     frc-nix.url = "github:frc4451/frc-nix";
@@ -138,10 +139,12 @@
 
     elephant.url = "github:abenz1267/elephant";
     elephant.inputs.nixpkgs.follows = "nixpkgs"; # "nixpkgs-unstable";
+    elephant.inputs.systems.follows = "systems";
 
     walker.url = "github:abenz1267/walker";
     walker.inputs.elephant.follows = "elephant";
     walker.inputs.nixpkgs.follows = "nixpkgs"; # "nixpkgs-unstable";
+    walker.inputs.systems.follows = "systems";
 
     # HJEM
     hjem.url = "github:feel-co/hjem";
@@ -149,7 +152,11 @@
 
     # hjem-impure.url = "github:Rexcrazy804/hjem-impure";
 
-    # browser-previews.url = "github:nix-community/browser-previews";
-    # browser-previews.inputs.nixpkgs.follows = "nixpkgs";
+    browser-previews.url = "github:nix-community/browser-previews";
+    browser-previews.inputs.nixpkgs.follows = "nixpkgs";
+    browser-previews.inputs.systems.follows = "systems";
+
+    # makes `nix flake info` hard to follow
+    systems.url = "github:nix-systems/default";
   };
 }
