@@ -51,6 +51,8 @@
       "modules/nixos/services/containers.nix"
       "modules/nixos/services/earlyoom.nix"
       # "modules/nixos/services/guix.nix"
+      "modules/nixos/services/guix2.nix"
+      "modules/nixos/services/guix.nix"
       "modules/nixos/services/locate.nix"
       "modules/nixos/services/nix.nix"
       "modules/nixos/services/openssh.nix"
