@@ -14,6 +14,11 @@ let
   linuxModifications = final: prev: prev.lib.mkIf final.stdenv.isLinux { };
 
   modifications = final: prev: {
+    # guix package does this: `pkgs ? import ../../.. { inherit system; }`
+    # so the below builds zlib w/o checks but to no effect
+    # ... (i think... bc of the above)
+    # guile-zlib = prev.guile-zlib.overrideAttrs { doCheck = false; };
+
     # hyprland = prev.hyprland.overrideAttrs {
     #   mesa = final.unstable.mesa;
     # };
