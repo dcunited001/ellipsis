@@ -103,7 +103,7 @@
     flake-schemas.url = "https://flakehub.com/f/DeterminateSystems/flake-schemas/*";
 
     # nixpkgs.url = "https://flakehub.com/f/NixOS/nixpkgs/*";
-    nixpkgs.url = "https://flakehub.com/f/DeterminateSystems/nixpkgs-weekly/0.1.942631";
+    nixpkgs.url = "https://flakehub.com/f/DeterminateSystems/nixpkgs-weekly/0.1.957146";
     nixpkgs-stable.url = "github:NixOS/nixpkgs/nixos-25.11";
     nixpkgs-unstable.url = "https://flakehub.com/f/NixOS/nixpkgs/0.1";
 
@@ -144,5 +144,8 @@
     hjem.inputs.nixpkgs.follows = "nixpkgs";
 
     # hjem-impure.url = "github:Rexcrazy804/hjem-impure";
+
+    # browser-previews.url = "github:nix-community/browser-previews";
+    # browser-previews.inputs.nixpkgs.follows = "nixpkgs";
   };
 }

@@ -19,16 +19,20 @@ NIXOS_HOST_CONFIG=./hosts/$(NIXOS_HOST)/configuration.nix
 
 # flake_nixpkgs_revcount
 
-flake_nixpkgs_newest=$(shell fh list releases DeterminateSystems/nixpkgs-weekly --json -l3 \
-| jq -r 'map(.simplified_version | split("+")[0]) | first')
 
-flake_nixpkgs_current=$(shell nix flake metadata --json \
-| jq -r '.locks.nodes | "0.1.\(.nixpkgs.locked.revCount)"')
-
+# NOTE: unless `flake_nixpkgs_{newest,current}` are in task, they always run
 .PHONY: flakeup-nixpkgs
 flakeup-nixpkgs:
+	flake_nixpkgs_newest=$(shell fh list releases DeterminateSystems/nixpkgs-weekly --json -l3 \
+	| jq -r 'map(.simplified_version | split("+")[0]) | first')
+	flake_nixpkgs_current=$(shell nix flake metadata --json \
+	| jq -r '.locks.nodes | "0.1.\(.nixpkgs.locked.revCount)"')
 	@echo $(flake_nixpkgs_newest)
 	@echo $(flake_nixpkgs_current)
+
+.PHONY: flakeup
+flakeup:
+	nix flake update
 
 #-----------------------
 # nixos-rebuild
