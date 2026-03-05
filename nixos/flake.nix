@@ -105,6 +105,8 @@
     # nixpkgs.url = "https://flakehub.com/f/NixOS/nixpkgs/*";
     # fails (guile-zlib checks): 0.1.948651, 0.1.942631, 0.1.957146
 
+    # .... 0.1.921317 doesn't build guile-zlib (something seems non-hermetic)
+
     nixpkgs.url = "https://flakehub.com/f/DeterminateSystems/nixpkgs-weekly/0.1.921317";
     nixpkgs-stable.url = "github:NixOS/nixpkgs/nixos-25.11";
     nixpkgs-unstable.url = "https://flakehub.com/f/NixOS/nixpkgs/0.1";
