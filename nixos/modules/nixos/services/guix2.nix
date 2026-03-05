@@ -5,6 +5,9 @@
   ...
 }:
 
+# Phew! it wasn't this. (just needed `fc-cache -rv` for gtk, since glib updated)
+# https://github.com/NixOS/nixpkgs/issues/267101
+
 let
   cfg = config.services.guix2;
 

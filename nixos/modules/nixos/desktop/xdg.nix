@@ -1,4 +1,7 @@
 { pkgs, ... }:
+let
+  browser = "google-chrome.desktop";
+in
 {
   environment.sessionVariables = {
     # TODO: nixos: remove unnecessary reliance on $HOME/bin (use writeScriptBin)
@@ -31,12 +34,12 @@
       "text/calendar" = [ "org.mozilla.Thunderbird.desktop" ];
 
       # web
-      "x-scheme-handler/https" = [ "chromium-browser.desktop" ];
-      "application/x-extension-htm" = [ "chromium-browser.desktop" ];
-      "application/x-extension-html" = [ "chromium-browser.desktop" ];
-      "application/x-extension-shtml" = [ "chromium-browser.desktop" ];
-      "application/x-extension-xht" = [ "chromium-browser.desktop" ];
-      "application/x-extension-xhtml" = [ "chromium-browser.desktop" ];
+      "x-scheme-handler/https" = [ browser ];
+      "application/x-extension-htm" = [ browser ];
+      "application/x-extension-html" = [ browser ];
+      "application/x-extension-shtml" = [ browser ];
+      "application/x-extension-xht" = [ browser ];
+      "application/x-extension-xhtml" = [ browser ];
 
       # text
       "text/org" = [ "doomclient.desktop" ];
@@ -47,7 +50,7 @@
     addedAssociations = {
       # rss
       "application/rss+xml" = [
-        "chromium-browser.desktop"
+        browser
         "doomclient.desktop"
         "org.mozilla.Thunderbird.desktop"
       ];
@@ -57,18 +60,18 @@
 
       # browsers + emacs
       "x-scheme-handler/file" = [
-        "chromium-browser.desktop"
+        browser
         "doomclient.desktop"
       ];
       "image/svg+xml" = [
-        "chromium-browser.desktop"
+        browser
         "doomclient.desktop"
       ];
-      "text/html" = [ "chromium-browser.desktop" ];
+      "text/html" = [ browser ];
 
       # browsers only
-      "application/xhtml+xml" = [ "chromium-browser.desktop" ];
-      "x-scheme-handler/chrome" = [ "chromium-browser.desktop" ];
+      "application/xhtml+xml" = [ browser ];
+      "x-scheme-handler/chrome" = [ browser ];
 
       # emacs only
       "application/log" = [ "doomclient.desktop" ];

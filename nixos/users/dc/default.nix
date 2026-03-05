@@ -10,7 +10,7 @@ let
     pkgs.callPackage (lib.custom.relativeToRoot "pkgs/dots/omarchy-scripts/package.nix") { }
   );
   # dcstaticdots
-
+  chrome = inputs.browser-previews.packages.${pkgs.stdenv.hostPlatform.system}.google-chrome;
   # (these packages don't have outputs from the direct hyprland output)
   #
   # hyprPkgs = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system};
