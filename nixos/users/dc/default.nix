@@ -134,6 +134,7 @@ in
       fd
 
       # DEV: CRYPT
+      sshpass
       pass
       age
       age-plugin-yubikey
@@ -160,6 +161,9 @@ in
       openjdk
 
       # TOOLS
+      poppler-utils # pdf
+
+      # TOOLS: ARCHIVE
       p7zip
       unzip
 
@@ -180,7 +184,8 @@ in
 
       # BROWSER
       firefox
-      chromium # crashes instantly moving desktops when programs.chromium.enable
+      chromium
+      google-chrome
 
       # COMM
       zoom-us
@@ -263,6 +268,13 @@ in
       isd # better fzf for systemd
       sysz # fzf for systemd
       yad # gtk-like dmenu
+
+      # GIT GUI
+      gitg
+      # gitkraken  # paid, basically
+      # smartgit   # doesn't "build" on arch (failed checksum)
+      # relagit    # n/a, doesn't bundle integrated git (like sourcetree), less snags
+      sourcegit
     ];
 
   };

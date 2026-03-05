@@ -351,6 +351,7 @@
     inetutils
     tunctl
     bridge-utils
+    net-tools
 
     # TOOLS: CRYPTO
     certgraph
