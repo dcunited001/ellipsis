@@ -7,7 +7,8 @@
 
   documentation.man = {
     enable = true;
-    generateCaches = true; # default: false
+    cache.enable = true; # default: false
+    cache.generateAtRuntime = true;
     # mandoc.enable = true; # default: false
   };
 
