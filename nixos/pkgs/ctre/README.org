@@ -1,0 +1,8 @@
+#+title: CTRE Pkgs
+
+|                           | Version | Desc                                                 |
+| Owlet                     | [[https://redist.ctr-electronics.com/tools/owlet/26.1.0/owlet-26.1.0-linuxx86-64][26.1.0]]  | CLI to convert =hoot= to other formats                 |
+| Corvus                    | [[https://redist.ctr-electronics.com/tools/corvus/26.1.1/corvus-26.1.1-linuxx86-64][26.1.1]]  | Generate mechanisms                                  |
+| Phoenix Diagnostic Server | [[https://redist.ctr-electronics.com/tools/PhoenixDiagnosticsProgram/26.1.1/PhoenixDiagnosticsProgram-26.1.1-linuxx86-64][26.1.1]]  | CLI that allows Phoenix Tuner to manage CTRE devices |
+| Passerine                 | [[https://redist.ctr-electronics.com/tools/passerine/0.0.1/passerine-0.0.1-linuxx86-64][0.0.1]]   | CLI to convert =midi= files                            |
+| Caniv                     | [[https://redist.ctr-electronics.com/tools/caniv/1.1.1.0/caniv-1.1.1.0-linuxx86-64][1.1.1.0]] | enumerate/configure/stat CANivore devices            |
