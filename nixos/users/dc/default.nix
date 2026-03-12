@@ -166,6 +166,7 @@ in
       # TOOLS: ARCHIVE
       p7zip
       unzip
+      zip
 
       # TOOLS: CONTAINERS
       dive

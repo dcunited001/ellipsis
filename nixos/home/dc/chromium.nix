@@ -19,6 +19,7 @@ in
           Version=1.0
           Name=Chromium
           GenericName=Web Browser
+          Icon=chromium
           Exec=uwsm app -- chromium %U
           Categories=Network;WebBrowser;
           MimeType=application/pdf;application/rdf+xml;application/rss+xml;application/xhtml+xml;application/xhtml_xml;application/xml;image/gif;image/jpeg;image/png;image/webp;text/html;text/xml;x-scheme-handler/http;x-scheme-handler/https;x-scheme-handler/webcal;x-scheme-handler/mailto;x-scheme-handler/about;x-scheme-handler/unknown
@@ -29,10 +30,9 @@ in
           Exec=uwsm app -- chromium --incognito
           Terminal=false
           Type=Application
-          Icon=chromium
-          # Icon=/home/dc/.nix-profile/share/icons/hicolor/256x256/apps/chromium.png
           StartupNotify=true
         '';
+        # Icon=/home/dc/.nix-profile/share/icons/hicolor/256x256/apps/chromium.png
         clobber = true;
       };
       "applications/Onshape.desktop" = {
@@ -41,11 +41,11 @@ in
           Version=1.0
           Name=Onshape
           Comment=Onshape
+          Icon=/home/dc/.local/share/applications/icons/Onshape.png
           # Exec=omarchy-launch-webapp https://cad.onshape.com
           Exec=uwsm app -- chromium --app="https://cad.onshape.com"
           Terminal=false
           Type=Application
-          Icon=/home/dc/.local/share/applications/icons/Onshape.png
           StartupNotify=true
         '';
         clobber = true;
