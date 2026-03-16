@@ -92,7 +92,7 @@ guix-copy:
 guix-copy-pull-sync:
 	@ssh $(GUIXUSER)@$(GUIXHOST) -- guix pull -L ./ellipsis -L ./dc -C $(GUIXGUIXCHAN)
 guix-copy-pull-lock:
-	@echo ssh $(GUIXUSER)@$(GUIXHOST) -- guix describe --format=channels > $(GUIXGUIXCHAN)
+	ssh $(GUIXUSER)@$(GUIXHOST) -- guix describe --format=channels > $(GUIXGUIXCHAN)
 
 # this is mostly working, but my omarchy bash shell is a bit messed up, so guix
 # reports different channels on login via `ssh`

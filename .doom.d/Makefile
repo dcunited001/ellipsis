@@ -88,6 +88,11 @@ channels-lock.scm: $(GUIXGUIXCHAN)
 GUIXHOST=$(shell hostname)
 GUIXUSER=$(shell whoami)
 
+.PHONY: guix-copy-doom
+guix-copy-doom:
+	@echo set GUIXHOST
+	guix copy --to=$(GUIXUSER)@$(GUIXHOST) $(shell readlink -f $(GUIX_PROFILE))
+
 .PHONY: guix-copy-doom-profile
 guix-copy-doom-profile:
 	@echo set GUIXHOST
