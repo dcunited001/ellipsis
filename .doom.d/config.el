@@ -1122,7 +1122,7 @@ large search domains, it's almost always a failure."
       org-clock-persist-query-save t
       org-clock-persist-query-resume nil ; default
 
-      ;; org-log-into-drawer t ;; use #+STARTUP: logdrawer
+      org-log-into-drawer t ;; or use #+STARTUP: logdrawer or nologdrawer
       org-log-done 'time
 
       ;; org-columns-default-format-for-agenda

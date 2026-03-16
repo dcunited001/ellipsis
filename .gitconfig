@@ -11,8 +11,10 @@
 # Core
 
 [core]
-	excludesfile = /home/dc/.gitignore_global
-	editor = gmacsclient -- -t
+  excludesfile = /home/dc/.gitignore_global
+  editor = nvim
+# editor = doomedit
+#	editor = gmacsclient -- -t
 	autocrlf = input
 	pager = less -R
 
@@ -117,3 +119,9 @@
 	smudge = git-lfs smudge -- %f
 	process = git-lfs filter-process
 	required = true
+
+#[credential]
+#	credentialStore = secretservice
+#	helper = cache --timeout 30000
+
+###	helper = store --file /mnt/thumbdrive/.git-credentials
