@@ -12,7 +12,7 @@
 
 [core]
   excludesfile = /home/dc/.gitignore_global
-  editor = nvim
+  editor = vim
 # editor = doomedit
 #	editor = gmacsclient -- -t
 	autocrlf = input
