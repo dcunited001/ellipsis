@@ -112,7 +112,13 @@
 	co = checkout
 	kg = stack
 	ksy = stack sync
-  kcfg = stack --dump-config -
+	kcfg = stack --dump-config -
+	next = stack next
+	prev = stack previous
+	reword = stack reword
+	amend = stack amend
+	sync = stack sync
+	run = stack run
 	
 [filter "lfs"]
 	clean = git-lfs clean -- %f
@@ -125,3 +131,5 @@
 #	helper = cache --timeout 30000
 
 ###	helper = store --file /mnt/thumbdrive/.git-credentials
+[stack]
+	stack = current
