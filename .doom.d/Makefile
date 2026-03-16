@@ -85,6 +85,14 @@ channels-lock.scm: $(GUIXGUIXCHAN)
 .guix-profile: manifest.scm channels-lock.scm
 	$(GUIXPACKAGE) -m $(MANIFEST) -p $(GUIX_PROFILE)
 
+GUIXHOST=$(shell hostname)
+GUIXUSER=$(shell whoami)
+
+.PHONY: guix-copy-doom-profile
+guix-copy-doom-profile:
+	@echo set GUIXHOST
+	ssh $(GUIXUSER)@$(GUIXHOST) -- $(GUIXPACKAGE) -m $(MANIFEST) -p $(GUIX_PROFILE)
+
 # channels-lock.scm:
 #	mktemp
 #	echo Update channels-lock.scm! Run make updateChanLock

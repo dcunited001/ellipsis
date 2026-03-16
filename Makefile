@@ -48,10 +48,10 @@ $(GUIXGUIXCHAN): # guix-git-touch .config/guix/current
 
 .PHONY: guix-pull guix-pull-sync guix-pull-lock
 guix-pull: guix-pull-sync guix-pull-lock
-guix-pull-lock:
-	guix describe --format=channels > $(GUIXGUIXCHAN)
 guix-pull-sync:
 	guix pull -L ./ellipsis -L ./dc -C $(GUIXGUIXBASE)
+guix-pull-lock:
+	guix describe --format=channels > $(GUIXGUIXCHAN)
 
 .PHONY: guix-upgrade guix-upgrade-doom
 guix-upgrade:
@@ -62,6 +62,40 @@ guix-upgrade-doom:
 	make -C .doom.d updateChanLock
 	make -C .doom.d .guix-profile
 	make -C .doom.d doomup
+
+# ---------------------------------------------
+# Copy installed Guix profiles
+
+# Run with `GUIXHOST=ahost GUIXPROFILE=$HOME/.dotfiles/.doom.d/.guixprofile make -e guix-copy`
+GUIXHOST=$(shell hostname)
+GUIXUSER=$(shell whoami)
+GUIXGUIXPROFILE=$(HOME)/.config/guix/current
+
+# this copies a profile. this could include $GUIXGUIXPROFILE, but `make
+# guix-copy-install-profile` can't be used to update the link to that
+# profile. this task `guix package ...` and `guix pull` is needed instead
+#
+# To upgrade guix by copying /gnu/store to another system, run:
+#
+# make guix-pull
+# GUIXHOST=ahost make -e guix-copy
+# GUIXHOST=ahost make -e guix-copy-pull-sync guix-copy-pull-lock
+
+.PHONY: guix-copy
+guix-copy:
+	@echo guix copy --to=$(GUIXUSER)@$(GUIXHOST) $(shell readlink -f $(GUIXGUIXPROFILE))
+
+# then connect and install the top-level summary of the channel as a link in
+# most cases, the dotfiles will need to be current
+
+.PHONY: guix-copy-pull-sync guix-copy-pull-lock
+guix-copy-pull-sync:
+	@ssh $(GUIXUSER)@$(GUIXHOST) -- guix pull -L ./ellipsis -L ./dc -C $(GUIXGUIXCHAN)
+guix-copy-pull-lock:
+	@echo ssh $(GUIXUSER)@$(GUIXHOST) -- guix describe --format=channels > $(GUIXGUIXCHAN)
+
+# this is mostly working, but my omarchy bash shell is a bit messed up, so guix
+# reports different channels on login via `ssh`
 
 # -----------------------
 # For Dotfiles
