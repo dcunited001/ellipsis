@@ -1,12 +1,14 @@
 # -*- mode: bash-ts -*-
 
 pkgname=open-ds
-pkgver=3.1
+pkgver=0.3.1
 pkgrel=1
 pkgdesc="A reverse-engineered lightweight cross-platform FRC Driver Station"
 arch=('x86_64' 'aarch64')
 license=('BSD-4-Clause')
 url="https://boomaa23.github.io/open-ds"
+provides=('open-ds')
+conflicts=('open-ds-bin')
 
 depends=(
     'java-runtime>=17'
@@ -40,17 +42,25 @@ prepare() {
 
 build() {
     cd "$srcdir/$pkgname-$pkgver"
-    make native-linux
+    # JAVA_HOME=/usr/lib/jvm/default make native-linux
+    UNIX_JDK_INCLUDE_PATH=/usr/lib/jvm/default/include make native-linux
     make check
     make build
 }
 
 package() {
+    install -Dm0755 -t "$pkgdir/usr/bin/" "$srcdir/../open-ds"
+
     cd "$srcdir/$pkgname-$pkgver"
 
+    __pkgver=0.3.2-SNAPSHOT
+
     install -Dm644 LICENSE.txt -t "${pkgdir}/usr/share/licenses/${pkgname}/"
-    install -Dm0644 -t "$pkgdir/usr/share/java/$pkgname" "target/libJNativeHook-v${pkgver}.x86_64.so"
-    install -Dm0644 -t "$pkgdir/usr/share/java/$pkgname" "target/open-ds-v${pkgver}.jar"
-    install -Dm0644 -t "$pkgdir/usr/share/java/$pkgname" "target/original-open-ds-v${pkgver}.jar"
-    # TODO: test package/install
+
+    # install -Dm0644 -t "$pkgdir/usr/share/java/$pkgname/" "target/libJNativeHook-v${pkgver}.x86_64.so"
+    # install -Dm0644 -t "$pkgdir/usr/share/java/$pkgname/" "target/original-open-ds-v${pkgver}.jar"
+
+    install -Dm0644 -t "$pkgdir/usr/share/java/${pkgname}/" "target/${pkgname}-v${__pkgver}.jar"
+    install -Dm0644 -t "$pkgdir/usr/share/java/${pkgname}/" "target/${pkgname}-v${__pkgver}-jar-with-dependencies.jar"
+    ln -sf "open-ds-v${__pkgver}-jar-with-dependencies.jar" "$pkgdir/usr/share/java/${pkgname}/${pkgname}.jar"
 }

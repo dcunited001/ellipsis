@@ -1,0 +1,22 @@
+pkgbase = open-ds
+	pkgdesc = A reverse-engineered lightweight cross-platform FRC Driver Station
+	pkgver = 0.3.1
+	pkgrel = 1
+	url = https://boomaa23.github.io/open-ds
+	arch = x86_64
+	arch = aarch64
+	license = BSD-4-Clause
+	makedepends = maven
+	makedepends = java-environment>=8
+	makedepends = base-devel
+	makedepends = gcc
+	makedepends = make
+	makedepends = linux-headers
+	makedepends = wget
+	depends = java-runtime>=17
+	provides = open-ds
+	conflicts = open-ds-bin
+	source = https://github.com/Boomaa23/open-ds/archive/refs/tags/v0.3.1.tar.gz
+	sha256sums = 9c3658a6f4e32fc30fa57c4079137b3eb4897d05d8ac5bb9a75dc044e8f26c63
+
+pkgname = open-ds

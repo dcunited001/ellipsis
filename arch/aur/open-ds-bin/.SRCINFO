@@ -1,0 +1,15 @@
+pkgbase = open-ds-bin
+	pkgdesc = A reverse-engineered lightweight cross-platform FRC Driver Station
+	pkgver = 0.3.1
+	pkgrel = 1
+	url = https://boomaa23.github.io/open-ds
+	arch = x86_64
+	arch = aarch64
+	license = BSD-4-Clause
+	depends = java-runtime>=17
+	provides = open-ds=0.3.1
+	conflicts = open-ds
+	source = https://github.com/Boomaa23/open-ds/releases/download/v0.3.1/open-ds-v0.3.1.jar
+	sha256sums = 01d6c0df4e166188cc216326cc453ffcc04c4709ffef55a19cb934c3ab3d9009
+
+pkgname = open-ds-bin

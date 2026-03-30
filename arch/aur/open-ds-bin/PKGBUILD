@@ -1,13 +1,15 @@
 # -*- mode: bash-ts -*-
 
 pkgname=open-ds-bin
-pkgver=3.1
+_pkgname=open-ds
+pkgver=0.3.1
 pkgrel=1
 pkgdesc="A reverse-engineered lightweight cross-platform FRC Driver Station"
 arch=('x86_64' 'aarch64')
 license=('BSD-4-Clause')
 url="https://boomaa23.github.io/open-ds"
-
+provides=("open-ds=${pkgver}")
+conflicts=('open-ds')
 
 depends=(
     'java-runtime>=17'
@@ -22,13 +24,32 @@ source=(
 sha256sums=(
   '01d6c0df4e166188cc216326cc453ffcc04c4709ffef55a19cb934c3ab3d9009'
 )
+noextract=(
+  "open-ds-v${pkgver}.jar"
+)
 
 verify() {
     echo "TODO: verify GPG signature on JAR"
 }
 
 package() {
-    cd "$srcdir/$pkgname-$pkgver"
-    install -Dm0644 -t "$pkgdir/usr/share/java/$pkgname" "${srcdir}/open-ds-v${pkgver}.jar"
-    # TODO: test install
+    # TODO: already in $srcdir. this seems non-hermetic
+    install -Dm0755 -t "$pkgdir/usr/bin/" "$srcdir/../open-ds"
+
+    cd "$srcdir"
+
+    # TODO: fetch license: install -Dm644 LICENSE.txt -t "${pkgdir}/usr/share/licenses/${pkgname}/"
+    install -Dm0644 -t "$pkgdir/usr/share/java/${_pkgname}/" "${_pkgname}-v${pkgver}.jar"
+
+    # necessary until i figured out that makepkg was extracting the JAR
+    #
+    # ln -sf "${_pkgname}-v${pkgver}.jar" "$pkgdir/usr/share/java/${_pkgname}/${_pkgname}.jar"
+    #
+    # if [[ "$arch" != "aarch64" ]]; then
+    #   _arch="amd64"
+    # else
+    #   _arch="aarch64"
+    # fi
+    #
+    # install -Dm0644 -t "$pkgdir/usr/share/java/${_pkgname}/" "opends-lib-linux-${_arch}.so"
 }
