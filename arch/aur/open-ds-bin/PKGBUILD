@@ -1,0 +1,34 @@
+# -*- mode: bash-ts -*-
+
+pkgname=open-ds-bin
+pkgver=3.1
+pkgrel=1
+pkgdesc="A reverse-engineered lightweight cross-platform FRC Driver Station"
+arch=('x86_64' 'aarch64')
+license=('BSD-4-Clause')
+url="https://boomaa23.github.io/open-ds"
+
+
+depends=(
+    'java-runtime>=17'
+    # also X11 deps, including libXt
+)
+
+# ARM only: 'aarch-linux-gnu-gcc'
+
+source=(
+    "https://github.com/Boomaa23/open-ds/releases/download/v${pkgver}/open-ds-v${pkgver}.jar"
+)
+sha256sums=(
+  '01d6c0df4e166188cc216326cc453ffcc04c4709ffef55a19cb934c3ab3d9009'
+)
+
+verify() {
+    echo "TODO: verify GPG signature on JAR"
+}
+
+package() {
+    cd "$srcdir/$pkgname-$pkgver"
+    install -Dm0644 -t "$pkgdir/usr/share/java/$pkgname" "${srcdir}/open-ds-v${pkgver}.jar"
+    # TODO: test install
+}

@@ -19,6 +19,12 @@ let
       version = "1.2.1";
       sha256 = "0sdlg3w5g5v1jcx3qf8lljm2qavj3jas8dgr5gxb3l2yyk8knj1l";
     }
+    {
+      name = "java";
+      publisher = "redhat";
+      version = "1.38.0";
+      sha256 = "10z352wxgk65b6a0hv9lvanpwmdfnzhg1r3g5fsg1ikgda8q6cgc";
+    }
   ];
 
   # deps to run avalonia WPILIB installer (don't do this: waste of time)
@@ -40,6 +46,23 @@ let
   #   libice
   #   libsm
   # ];
+
+  # To run code in simulator (without weird hacks setting JAVA_HOME in gradlew), set:
+  #
+  # {
+  #   "java.import.gradle.java.home": "/run/current-system/sw/lib/openjdk"
+  #   "java.configuration.runtimes": [
+  #     {
+  #       "name": "JavaSE-17",
+  #       "path": "/run/current-system/sw/lib/openjdk",
+  #       "default": true
+  #     }
+  #   ],
+  # }
+  #
+  # - then add openjdk17 to the system profile,
+  # - then `gradlew clean`, clear the java LSP workspace
+  # - and restart VSCode
 
   # these fhsPkgs can be set in programs.nix-ld.libraries
   fhsPkgs =
@@ -67,13 +90,13 @@ let
       libxcb
       libxkbfile
       libxshmfence
+      libxt
+
       # had added these earlier, but unsure of whether they're necessary
       # libXinerama
-      # libXt
 
       # wayland
       wayland
-      # also: jdk17
     ]
     ++ [
       # frcPkgs.datalogtool
@@ -103,7 +126,7 @@ let
 
       # wpilib vscode installs these
       ms-vscode.cpptools
-      redhat.java
+      # redhat.java # requires 1.38.0
       vscjava.vscode-java-debug
       vscjava.vscode-java-dependency
       ms-python.python
@@ -150,6 +173,7 @@ in
     # choreoFix
     frcPkgs.elastic-dashboard
     frcPkgs.pathplanner
+    pkgs.openjdk17
   ];
 
   programs.nix-ld.enable = true;

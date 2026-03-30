@@ -125,9 +125,20 @@ in
       imagemagick
 
       # DEV
-      gnumake
       tmux
       screen
+
+      # DEV: C++
+      gnumake
+      cmake
+      binutils
+      gcc
+      gcc-arm-embedded
+      gdb
+      minicom
+      openocd
+      expect
+      patchelf
 
       # DEV: DOOM EMACS
       ripgrep
@@ -159,6 +170,7 @@ in
 
       # LANG: JAVA
       openjdk
+      maven
 
       # TOOLS
       poppler-utils # pdf
