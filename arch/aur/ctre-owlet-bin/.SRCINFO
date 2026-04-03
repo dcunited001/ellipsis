@@ -1,0 +1,17 @@
+pkgbase = ctre-owlet-bin
+	pkgdesc = CLI Utility to convert CTR Electronics hoot .hoot files into other logging formats
+	pkgver = 26.1.0
+	pkgrel = 1
+	url = https://docs.ctr-electronics.com/cli-tools
+	arch = x86_64
+	arch = aarch64
+	license = None
+	provides = ctre-owlet
+	noextract = https://redist.ctr-electronics.com/tools/owlet/26.1.0/owlet-26.1.0-linuxx86-64
+	noextract = https://redist.ctr-electronics.com/tools/owlet/26.1.0/owlet-26.1.0-linuxarm64
+	source_x86_64 = https://redist.ctr-electronics.com/tools/owlet/26.1.0/owlet-26.1.0-linuxx86-64
+	sha1sums_x86_64 = fae8464ed63db8926e954af59ee5fcd49598b522
+	source_aarch64 = https://redist.ctr-electronics.com/tools/owlet/26.1.0/owlet-26.1.0-linuxarm64
+	sha1sums_aarch64 = ddc2d5fa2bf3982ecffa6fcb07cb3668f5562eed
+
+pkgname = ctre-owlet-bin

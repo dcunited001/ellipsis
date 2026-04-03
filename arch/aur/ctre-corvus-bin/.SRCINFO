@@ -1,0 +1,17 @@
+pkgbase = ctre-corvus-bin
+	pkgdesc = CLI Utility to generate mechanisms
+	pkgver = 26.1.1
+	pkgrel = 1
+	url = https://docs.ctr-electronics.com/cli-tools
+	arch = x86_64
+	arch = aarch64
+	license = None
+	provides = ctre-corvus
+	noextract = https://redist.ctr-electronics.com/tools/corvus/26.1.1/corvus-26.1.1-linuxx86-64
+	noextract = https://redist.ctr-electronics.com/tools/corvus/26.1.1/corvus-26.1.1-linuxarm64
+	source_x86_64 = https://redist.ctr-electronics.com/tools/corvus/26.1.1/corvus-26.1.1-linuxx86-64
+	sha1sums_x86_64 = 70f9b09315f89881af357531aa64a75daf0bb150
+	source_aarch64 = https://redist.ctr-electronics.com/tools/corvus/26.1.1/corvus-26.1.1-linuxarm64
+	sha1sums_aarch64 = 2625e9bc339a08e18fae2e249ebfcbe351e5297c
+
+pkgname = ctre-corvus-bin

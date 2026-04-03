@@ -1,0 +1,822 @@
+{
+  "JsonVersion": "1.0.0.0",
+  "LatestChannel": "2026",
+  "ChannelCompliancy": [
+    {
+      "Compliancy": 20,
+      "Name": "2027-alpha-1"
+    },
+    {
+      "Compliancy": 19,
+      "Name": "2026"
+    },
+    {
+      "Compliancy": 18,
+      "Name": "2026-beta-1"
+    },
+    {
+      "Compliancy": 13,
+      "Name": "2025"
+    },
+    {
+      "Compliancy": 12,
+      "Name": "2025-beta-4"
+    },
+    {
+      "Compliancy": 11,
+      "Name": "2025-beta-3"
+    },
+    {
+      "Compliancy": 10,
+      "Name": "2025-beta-2"
+    },
+    {
+      "Compliancy": 9,
+      "Name": "2025-beta-1"
+    },
+    {
+      "Compliancy": 6,
+      "Name": "2024"
+    }
+  ],
+  "Tools": [
+    {
+      "Name": "owlet",
+      "Items": [
+        {
+          "Version": "1.0.1.1",
+          "Compliancy": 6,
+          "Urls": {
+            "linuxarm32": "https://redist.ctr-electronics.com/tools/owlet/1.0.1.1/owlet-1.0.1.1-linuxarm32",
+            "linuxarm64": "https://redist.ctr-electronics.com/tools/owlet/1.0.1.1/owlet-1.0.1.1-linuxarm64",
+            "linuxx86-64": "https://redist.ctr-electronics.com/tools/owlet/1.0.1.1/owlet-1.0.1.1-linuxx86-64",
+            "linuxx86-64-md5": "9aceec9415a49a57740e57a3d5e9827e",
+            "linuxx86-64-sha1": "2143ae01c69bb12e617abbe02034a7de47d6ad3f",
+            "linuxarm32-md5": "507230f215108e32723ba9475f6e62ff",
+            "linuxarm32-sha1": "4c17f22ecc250b2ae459e915ba2aa49df1d5dcc7",
+            "linuxarm64-md5": "0cf3045221b52142284b8e0c0dc14eb8",
+            "linuxarm64-sha1": "6811660225a00b546a88bf67404c3be7bef069d0",
+            "windowsx86-64": "https://redist.ctr-electronics.com/tools/owlet/1.0.1.1/owlet-1.0.1.1-windowsx86-64.exe",
+            "windowsx86-64-md5": "742e2291145c853cd95e1985995c8f05",
+            "windowsx86-64-sha1": "7081bf72405f92f97e5dbe3e6cf683421243d9fe",
+            "macosuniversal": "https://redist.ctr-electronics.com/tools/owlet/1.0.1.1/owlet-1.0.1.1-macosuniversal",
+            "macosuniversal-md5": "1dcc7d307194bbd8455e3d79068860a8",
+            "macosuniversal-sha1": "e67c0976fe3f2cf89310f99abbe41d25b79057f1"
+          }
+        },
+        {
+          "Version": "25.0.0",
+          "Compliancy": 9,
+          "Urls": {
+            "macosuniversal": "https://redist.ctr-electronics.com/tools/owlet/25.0.0/owlet-25.0.0-macosuniversal",
+            "macosuniversal-md5": "086580122607882b5478e57b96d504d0",
+            "macosuniversal-sha1": "994e1bac9f8adcc59af716bb80dca8076d32de0b",
+            "windowsx86-64": "https://redist.ctr-electronics.com/tools/owlet/25.0.0/owlet-25.0.0-windowsx86-64.exe",
+            "windowsx86-64-md5": "170c9825ea4ef4e11568ca72ce63ec33",
+            "windowsx86-64-sha1": "70f2e27f9d0234227fb6bdb82c3a0e453e80c828",
+            "linuxx86-64": "https://redist.ctr-electronics.com/tools/owlet/25.0.0/owlet-25.0.0-linuxx86-64",
+            "linuxx86-64-md5": "8b68593fa2521e12bad193cdc86c2065",
+            "linuxx86-64-sha1": "813b3f3cd25bf9fe21e68c2718b133c61fe09fc7"
+          }
+        },
+        {
+          "Version": "25.0.1",
+          "Compliancy": 10,
+          "Urls": {
+            "macosuniversal": "https://redist.ctr-electronics.com/tools/owlet/25.0.1/owlet-25.0.1-macosuniversal",
+            "macosuniversal-md5": "7b2aa4c851154b5227078ad5d61305a3",
+            "macosuniversal-sha1": "faabeaa34e5134707cfccccb4df077296877be08",
+            "windowsx86-64": "https://redist.ctr-electronics.com/tools/owlet/25.0.1/owlet-25.0.1-windowsx86-64.exe",
+            "windowsx86-64-md5": "94505f934ec2e941a51bc19bed88ca76",
+            "windowsx86-64-sha1": "27c4bf558a2ed5e9b954cad85e6595b6815ad444",
+            "linuxx86-64": "https://redist.ctr-electronics.com/tools/owlet/25.0.1/owlet-25.0.1-linuxx86-64",
+            "linuxx86-64-md5": "4750ae185d56687f396b1ac083f07150",
+            "linuxx86-64-sha1": "d8fe9583d9137729215b31b8cbe0124c46a244a1"
+          }
+        },
+        {
+          "Version": "25.0.2",
+          "Compliancy": 11,
+          "Urls": {
+            "macosuniversal": "https://redist.ctr-electronics.com/tools/owlet/25.0.2/owlet-25.0.2-macosuniversal",
+            "macosuniversal-md5": "c8029ae39ea53802f3390d0ffd94a02a",
+            "macosuniversal-sha1": "ed85bed40e254c942235930dc88a225f7b8115ae",
+            "windowsx86-64": "https://redist.ctr-electronics.com/tools/owlet/25.0.2/owlet-25.0.2-windowsx86-64.exe",
+            "windowsx86-64-md5": "62913f9021e4c08f3fa5d320f37a2601",
+            "windowsx86-64-sha1": "706b4f76c8a7ddb134a0ef3f0f1e1f46a250f6a4",
+            "linuxx86-64": "https://redist.ctr-electronics.com/tools/owlet/25.0.2/owlet-25.0.2-linuxx86-64",
+            "linuxx86-64-md5": "c22a15677bac0f23d3f6946d6a70f7a7",
+            "linuxx86-64-sha1": "670339efe8b93f0827dad1db711ba8ea24e4d510",
+            "linuxarm64": "https://redist.ctr-electronics.com/tools/owlet/25.0.2/owlet-25.0.2-linuxarm64",
+            "linuxarm64-md5": "5766ee1cbf269a4accf57596c6ee94f4",
+            "linuxarm64-sha1": "61f2f8873c602589382e14f66c9ce0908542d6e1",
+            "linuxarm32": "https://redist.ctr-electronics.com/tools/owlet/25.0.2/owlet-25.0.2-linuxarm32",
+            "linuxarm32-md5": "0f4f9707b1ec5058409a8872dfedfac2",
+            "linuxarm32-sha1": "187f9cd05c38e94ca75837eb5a90bd68769bc813"
+          }
+        },
+        {
+          "Version": "25.0.3",
+          "Compliancy": 12,
+          "Urls": {
+            "macosuniversal": "https://redist.ctr-electronics.com/tools/owlet/25.0.3/owlet-25.0.3-macosuniversal",
+            "macosuniversal-md5": "32dc8f93c30b9b64bdb397783c6af447",
+            "macosuniversal-sha1": "6d124fec44e77cd5b70d881e5e4dd7c0ed83f41d",
+            "windowsx86-64": "https://redist.ctr-electronics.com/tools/owlet/25.0.3/owlet-25.0.3-windowsx86-64.exe",
+            "windowsx86-64-md5": "044b1d9ef4f195382cf3a07a91053c80",
+            "windowsx86-64-sha1": "b4d926cd2c90e07f8e6a2af40d64ed3abdde81f3",
+            "linuxx86-64": "https://redist.ctr-electronics.com/tools/owlet/25.0.3/owlet-25.0.3-linuxx86-64",
+            "linuxx86-64-md5": "7ae8a6dfb3dcb13bb0a7ee2d05d6303f",
+            "linuxx86-64-sha1": "6032d505d158ae497e51d62f669477ac23132665",
+            "linuxarm64": "https://redist.ctr-electronics.com/tools/owlet/25.0.3/owlet-25.0.3-linuxarm64",
+            "linuxarm64-md5": "c11d0efd8d0b36d38a36f4009dbce850",
+            "linuxarm64-sha1": "155b5d96cfeef6e5abcb813e3eb3ee10ac1f536e",
+            "linuxarm32": "https://redist.ctr-electronics.com/tools/owlet/25.0.3/owlet-25.0.3-linuxarm32",
+            "linuxarm32-md5": "493cdcec880e9bdeb26b31404f003d00",
+            "linuxarm32-sha1": "82c7916623130c1b0c5ac8711cffc20022509421"
+          }
+        },
+        {
+          "Version": "25.1.0",
+          "Compliancy": 13,
+          "Urls": {
+            "macosuniversal": "https://redist.ctr-electronics.com/tools/owlet/25.1.0/owlet-25.1.0-macosuniversal",
+            "macosuniversal-md5": "ba6e9d06a4249c029d8e68936e3859bb",
+            "macosuniversal-sha1": "621ca6abe653e40bf26b1093ea49510679d41ed8",
+            "windowsx86-64": "https://redist.ctr-electronics.com/tools/owlet/25.1.0/owlet-25.1.0-windowsx86-64.exe",
+            "windowsx86-64-md5": "7410a197f743026f1e601c06994ecfe3",
+            "windowsx86-64-sha1": "7e6fa66a3b69ea1977d425ac27f7e9953da7c6d5",
+            "linuxx86-64": "https://redist.ctr-electronics.com/tools/owlet/25.1.0/owlet-25.1.0-linuxx86-64",
+            "linuxx86-64-md5": "ef6e78a27f65dbb3abb499c9e2b5af2d",
+            "linuxx86-64-sha1": "31ed790f2441b0d4c1c81441b5ab433566a741eb",
+            "linuxarm64": "https://redist.ctr-electronics.com/tools/owlet/25.1.0/owlet-25.1.0-linuxarm64",
+            "linuxarm64-md5": "652e08864d3eb771a1854dbb4ac3830d",
+            "linuxarm64-sha1": "3ca7826470c2caf7b0bb6a701c83b72e22dbbe73",
+            "linuxarm32": "https://redist.ctr-electronics.com/tools/owlet/25.1.0/owlet-25.1.0-linuxarm32",
+            "linuxarm32-md5": "369b7d7ac2636241b063506160236d88",
+            "linuxarm32-sha1": "cddbc17631c9a43b52be5fd3a759aef9c7d23620"
+          }
+        },
+        {
+          "Version": "25.2.0",
+          "Compliancy": 13,
+          "Urls": {
+            "macosuniversal": "https://redist.ctr-electronics.com/tools/owlet/25.2.0/owlet-25.2.0-macosuniversal",
+            "macosuniversal-md5": "56a4126f262f56383dce0e59a9b6dc53",
+            "macosuniversal-sha1": "e985dc6b54801654bae22f0b495d89ee9f132527",
+            "windowsx86-64": "https://redist.ctr-electronics.com/tools/owlet/25.2.0/owlet-25.2.0-windowsx86-64.exe",
+            "windowsx86-64-md5": "c711028e9226b4d97cc2cd8d802c6499",
+            "windowsx86-64-sha1": "63a431700ffe35b720a35de973c250ada35d5b03",
+            "linuxx86-64": "https://redist.ctr-electronics.com/tools/owlet/25.2.0/owlet-25.2.0-linuxx86-64",
+            "linuxx86-64-md5": "e9b5f5a8be8fcb0d8e4db28f74328786",
+            "linuxx86-64-sha1": "1c8380c59abb8a969c2314f0f9945bea53b27dc3",
+            "linuxarm64": "https://redist.ctr-electronics.com/tools/owlet/25.2.0/owlet-25.2.0-linuxarm64",
+            "linuxarm64-md5": "4ede3f339759e922a90711c4f0a7283f",
+            "linuxarm64-sha1": "332bf180a0feb7b6853728cc35ae3dce1518ed9b",
+            "linuxarm32": "https://redist.ctr-electronics.com/tools/owlet/25.2.0/owlet-25.2.0-linuxarm32",
+            "linuxarm32-md5": "eb3ccb70697ccc15bdef81e8e77b98de",
+            "linuxarm32-sha1": "65a74700e66c7316214265b230087bbac1f98662"
+          }
+        },
+        {
+          "Version": "25.4.0",
+          "Compliancy": 13,
+          "Urls": {
+            "macosuniversal": "https://redist.ctr-electronics.com/tools/owlet/25.4.0/owlet-25.4.0-macosuniversal",
+            "macosuniversal-md5": "c9ed409ba56fa30fa3b812cff005dfed",
+            "macosuniversal-sha1": "85b754d935c3e45ef206bc3d8e92a5d4d5a7d55c",
+            "windowsx86-64": "https://redist.ctr-electronics.com/tools/owlet/25.4.0/owlet-25.4.0-windowsx86-64.exe",
+            "windowsx86-64-md5": "891a3f4cc66afdfea9020c47e716345b",
+            "windowsx86-64-sha1": "23f81dc6a569a017d23ef50c8edc92ae37c96962",
+            "linuxx86-64": "https://redist.ctr-electronics.com/tools/owlet/25.4.0/owlet-25.4.0-linuxx86-64",
+            "linuxx86-64-md5": "789077e36e59f96e29128c67df7fd057",
+            "linuxx86-64-sha1": "6fd31b387506b7060d5770a6cad71fdd0b1207d0",
+            "linuxarm64": "https://redist.ctr-electronics.com/tools/owlet/25.4.0/owlet-25.4.0-linuxarm64",
+            "linuxarm64-md5": "3a4ada030f3ae6155ca3c319dec2f9d2",
+            "linuxarm64-sha1": "3ed48220cd24b45da56c7ac9cdc022310e8d92bf",
+            "linuxarm32": "https://redist.ctr-electronics.com/tools/owlet/25.4.0/owlet-25.4.0-linuxarm32",
+            "linuxarm32-md5": "b282c273482e0e0125e4af2167c4329a",
+            "linuxarm32-sha1": "8829e61fc5ead91c8d966f99ce35177c0ccee92d"
+          }
+        },
+        {
+          "Version": "25.90.0",
+          "Compliancy": 20,
+          "Urls": {
+            "macosuniversal": "https://redist.ctr-electronics.com/tools/owlet/25.90.0/owlet-25.90.0-macosuniversal",
+            "macosuniversal-md5": "18da2ec586fb3c89e5f51773b81b7587",
+            "macosuniversal-sha1": "2bc5949c1239e4acc9aa8e064215b4a44b945a7b",
+            "windowsx86-64": "https://redist.ctr-electronics.com/tools/owlet/25.90.0/owlet-25.90.0-windowsx86-64.exe",
+            "windowsx86-64-md5": "9ec0f1ea4af588b24e5afdfbb9c43cd2",
+            "windowsx86-64-sha1": "1195b0c1be8d66e8d0075f3892e6f3e25d423e44",
+            "linuxx86-64": "https://redist.ctr-electronics.com/tools/owlet/25.90.0/owlet-25.90.0-linuxx86-64",
+            "linuxx86-64-md5": "36600710079d0983c3bcde254990194d",
+            "linuxx86-64-sha1": "4e98d4e25348b70486ff5e3d6ba1ed748156f3b0",
+            "linuxarm64": "https://redist.ctr-electronics.com/tools/owlet/25.90.0/owlet-25.90.0-linuxarm64",
+            "linuxarm64-md5": "ae52c09d44f6bedee008a3fc8f73221c",
+            "linuxarm64-sha1": "0b1f57e1b668bbc6c45b6b487637481f73122056",
+            "linuxarm32": "https://redist.ctr-electronics.com/tools/owlet/25.90.0/owlet-25.90.0-linuxarm32",
+            "linuxarm32-md5": "9c7de800a8cfdafce38ce5be59d9a631",
+            "linuxarm32-sha1": "f68b60b3f8596d0f371a23deb4904903570c527f"
+          }
+        },
+        {
+          "Version": "25.90.1",
+          "Compliancy": 20,
+          "Urls": {
+            "macosuniversal": "https://redist.ctr-electronics.com/tools/owlet/25.90.1/owlet-25.90.1-macosuniversal",
+            "macosuniversal-md5": "ec0e33e021c812434fe87a36959a2408",
+            "macosuniversal-sha1": "ee093bc044c72e7e96065132eacf5753c167c8f7",
+            "windowsx86-64": "https://redist.ctr-electronics.com/tools/owlet/25.90.1/owlet-25.90.1-windowsx86-64.exe",
+            "windowsx86-64-md5": "6bb31bdbfbab0e5e920d10962e5b09c7",
+            "windowsx86-64-sha1": "4a0f1c987058ce6a09e20115a4077e0e0ab62e5a",
+            "linuxx86-64": "https://redist.ctr-electronics.com/tools/owlet/25.90.1/owlet-25.90.1-linuxx86-64",
+            "linuxx86-64-md5": "2bd882e949c4cbb9c3ae0562a920e8f0",
+            "linuxx86-64-sha1": "c6d3bfd86b758c0c350ca128838251d3c11317da",
+            "linuxarm64": "https://redist.ctr-electronics.com/tools/owlet/25.90.1/owlet-25.90.1-linuxarm64",
+            "linuxarm64-md5": "00e5d63169dcbc2fd418b57abf3e0b43",
+            "linuxarm64-sha1": "97decd92e25860fb6e8a3f7f85b46e70bd184ad6",
+            "linuxarm32": "https://redist.ctr-electronics.com/tools/owlet/25.90.1/owlet-25.90.1-linuxarm32",
+            "linuxarm32-md5": "f098472ca7f4579113cef9fa8fec58d4",
+            "linuxarm32-sha1": "da2b3dcb23b101cc61dce3fe1e25aff707d10f77"
+          }
+        },
+        {
+          "Version": "25.4.1",
+          "Compliancy": 13,
+          "Urls": {
+            "macosuniversal": "https://redist.ctr-electronics.com/tools/owlet/25.4.1/owlet-25.4.1-macosuniversal",
+            "macosuniversal-md5": "2a242d8a0ffef4191e262e0305e80de2",
+            "macosuniversal-sha1": "33e573a2ebee34f4998971dc76e905b84f992d29",
+            "windowsx86-64": "https://redist.ctr-electronics.com/tools/owlet/25.4.1/owlet-25.4.1-windowsx86-64.exe",
+            "windowsx86-64-md5": "67c9484f141687fdc46742e47f4eb124",
+            "windowsx86-64-sha1": "8996bf60f01aafab9234eb58cd206bd1b15a6726",
+            "linuxx86-64": "https://redist.ctr-electronics.com/tools/owlet/25.4.1/owlet-25.4.1-linuxx86-64",
+            "linuxx86-64-md5": "822d1660aaa0e5d7076f064dda8f6b91",
+            "linuxx86-64-sha1": "f85d01848da6f179d9f468a449f9eb087ca555a0",
+            "linuxarm64": "https://redist.ctr-electronics.com/tools/owlet/25.4.1/owlet-25.4.1-linuxarm64",
+            "linuxarm64-md5": "464ce8ba88be2f8fc9f1ee6d8f710af9",
+            "linuxarm64-sha1": "d78a5ce0c334021494f329603e9dd66891f50a48",
+            "linuxarm32": "https://redist.ctr-electronics.com/tools/owlet/25.4.1/owlet-25.4.1-linuxarm32",
+            "linuxarm32-md5": "3a7395373a47c5a8b5cd5a261ff6a666",
+            "linuxarm32-sha1": "78900ff3b9d9041bfe4c8ff7f567e9b039cf700b"
+          }
+        },
+        {
+          "Version": "25.90.2",
+          "Compliancy": 20,
+          "Urls": {
+            "macosuniversal": "https://redist.ctr-electronics.com/tools/owlet/25.90.2/owlet-25.90.2-macosuniversal",
+            "macosuniversal-md5": "e74c515a52f4ae8b23b94af49e6dea2d",
+            "macosuniversal-sha1": "e6fbf94d15195f02af9b23e3e7594691218e9af3",
+            "windowsx86-64": "https://redist.ctr-electronics.com/tools/owlet/25.90.2/owlet-25.90.2-windowsx86-64.exe",
+            "windowsx86-64-md5": "edc62a81c875fb76cb76a2c1313f4a82",
+            "windowsx86-64-sha1": "1c187f1a75abda6bcc824b8b656c683ea127ab01",
+            "linuxx86-64": "https://redist.ctr-electronics.com/tools/owlet/25.90.2/owlet-25.90.2-linuxx86-64",
+            "linuxx86-64-md5": "73c641b338afdebd5fbb16b88c9913b2",
+            "linuxx86-64-sha1": "438cb06a25846d91ec2c9f73275acaf97f82a8d1",
+            "linuxarm64": "https://redist.ctr-electronics.com/tools/owlet/25.90.2/owlet-25.90.2-linuxarm64",
+            "linuxarm64-md5": "c9fe5e5083b4fe47d5c67fc5bead0060",
+            "linuxarm64-sha1": "b9f454eeaf4cbc7c32382b4bf4e6b491bbe3d3ad",
+            "linuxarm32": "https://redist.ctr-electronics.com/tools/owlet/25.90.2/owlet-25.90.2-linuxarm32",
+            "linuxarm32-md5": "7d1d05535d93447170988238e0dca0cd",
+            "linuxarm32-sha1": "f4ba08777d784a011b731c5bc5205838b4d422f4"
+          }
+        },
+        {
+          "Version": "26.0.0",
+          "Compliancy": 18,
+          "Urls": {
+            "windowsx86-64": "https://redist.ctr-electronics.com/tools/owlet/26.0.0/owlet-26.0.0-windowsx86-64.exe",
+            "windowsx86-64-md5": "7730c06916c5b9249d4dc1dbe712131a",
+            "windowsx86-64-sha1": "96d8d75723573f9b4e093263da213252c5faf590",
+            "linuxx86-64": "https://redist.ctr-electronics.com/tools/owlet/26.0.0/owlet-26.0.0-linuxx86-64",
+            "linuxx86-64-md5": "34c6759d0e08b045b5082964c220ba12",
+            "linuxx86-64-sha1": "69ae2dcaf660524c6798461f33e9da01bceed475",
+            "linuxarm64": "https://redist.ctr-electronics.com/tools/owlet/26.0.0/owlet-26.0.0-linuxarm64",
+            "linuxarm64-md5": "f542f341ffedaca3aeda1b76f94c15e3",
+            "linuxarm64-sha1": "6ef1a275aa71f53fd2bc85fd6db50df66975f8ad",
+            "macosuniversal": "https://redist.ctr-electronics.com/tools/owlet/26.0.0/owlet-26.0.0-macosuniversal",
+            "macosuniversal-md5": "5863f4efc036fd20378518931bd0817f",
+            "macosuniversal-sha1": "d9e761ee5c76dc2577dc89c8ed7a0d623b4f54ef"
+          }
+        },
+        {
+          "Version": "26.1.0",
+          "Compliancy": 19,
+          "Urls": {
+            "macosuniversal": "https://redist.ctr-electronics.com/tools/owlet/26.1.0/owlet-26.1.0-macosuniversal",
+            "macosuniversal-md5": "31791638f2bc156ff35d9a3565d710a8",
+            "macosuniversal-sha1": "f57928b53c42bcb7f79691e83eb0173e0d1b3f89",
+            "windowsx86-64": "https://redist.ctr-electronics.com/tools/owlet/26.1.0/owlet-26.1.0-windowsx86-64.exe",
+            "windowsx86-64-md5": "8bf9197d9a5f9bb8bcb20114c7a0d417",
+            "windowsx86-64-sha1": "4339c9dc5c1220dfd3d0e27b4c124977d2890da6",
+            "linuxx86-64": "https://redist.ctr-electronics.com/tools/owlet/26.1.0/owlet-26.1.0-linuxx86-64",
+            "linuxx86-64-md5": "c4414bd767fc89ebe8ca245279f9d1d8",
+            "linuxx86-64-sha1": "fae8464ed63db8926e954af59ee5fcd49598b522",
+            "linuxarm64": "https://redist.ctr-electronics.com/tools/owlet/26.1.0/owlet-26.1.0-linuxarm64",
+            "linuxarm64-md5": "c39a21ea79f252d060b4db6cbaf48f92",
+            "linuxarm64-sha1": "ddc2d5fa2bf3982ecffa6fcb07cb3668f5562eed"
+          }
+        }
+      ]
+    },
+    {
+      "Name": "corvus",
+      "Items": [
+        {
+          "Version": "26.0.0",
+          "Compliancy": 18,
+          "Urls": {
+            "windowsx86-64": "https://redist.ctr-electronics.com/tools/corvus/26.0.0/corvus-26.0.0-windowsx86-64.exe",
+            "windowsx86-64-md5": "b7a9ef6a5560d6967ac30ade1177a11e",
+            "windowsx86-64-sha1": "ddddcc0d01e04aa763029cf3e5f8cdcb2d466fe2",
+            "linuxx86-64": "https://redist.ctr-electronics.com/tools/corvus/26.0.0/corvus-26.0.0-linuxx86-64",
+            "linuxx86-64-md5": "be4a6eca2887ae1b42d3c6aad19b64a6",
+            "linuxx86-64-sha1": "bd1f3418800c9674c0a7b20d88a26dcb80fabd67",
+            "linuxarm64": "https://redist.ctr-electronics.com/tools/corvus/26.0.0/corvus-26.0.0-linuxarm64",
+            "linuxarm64-md5": "74ff3eb91bb1c422a2d03a13cb3e0b8b",
+            "linuxarm64-sha1": "d7d3436359a72e9152f2ec223fbbc8d34e892e26",
+            "macosuniversal": "https://redist.ctr-electronics.com/tools/corvus/26.0.0/corvus-26.0.0-macosuniversal",
+            "macosuniversal-md5": "c5b4adbf50419bfec3831410eb3ffafc",
+            "macosuniversal-sha1": "0412268aa7c8029675b85fa9474b0ebb251f49e5"
+          }
+        },
+        {
+          "Version": "26.1.0",
+          "Compliancy": 19,
+          "Urls": {
+            "macosuniversal": "https://redist.ctr-electronics.com/tools/corvus/26.1.0/corvus-26.1.0-macosuniversal",
+            "macosuniversal-md5": "6747ada02f8d6a9caaaf88651f0e58f2",
+            "macosuniversal-sha1": "2c7d8c2589f066acf9dfdbfef77b808554935e4f",
+            "windowsx86-64": "https://redist.ctr-electronics.com/tools/corvus/26.1.0/corvus-26.1.0-windowsx86-64.exe",
+            "windowsx86-64-md5": "40d8a71cd3a0591bf4014164479bba83",
+            "windowsx86-64-sha1": "d09e21dc04fa274b5392dc3dcfa9c4d4cefd99e8",
+            "linuxx86-64": "https://redist.ctr-electronics.com/tools/corvus/26.1.0/corvus-26.1.0-linuxx86-64",
+            "linuxx86-64-md5": "eac19cd3bc52187d3a7fe974883227f6",
+            "linuxx86-64-sha1": "2bbe87cb9f1de1a44a483d4ef836d7c0b54ac741",
+            "linuxarm64": "https://redist.ctr-electronics.com/tools/corvus/26.1.0/corvus-26.1.0-linuxarm64",
+            "linuxarm64-md5": "0857ad4bed30a22bb511b52346cdd7c7",
+            "linuxarm64-sha1": "a62ed9b35ea826b1acf3aae87a8036db7d060035"
+          }
+        },
+        {
+          "Version": "26.1.1",
+          "Compliancy": 19,
+          "Urls": {
+            "macosuniversal": "https://redist.ctr-electronics.com/tools/corvus/26.1.1/corvus-26.1.1-macosuniversal",
+            "macosuniversal-md5": "dc2f774ecf53e2527e831456aec2606f",
+            "macosuniversal-sha1": "d8abeaa0e07c572b525196a8bde3798fe920bac2",
+            "windowsx86-64": "https://redist.ctr-electronics.com/tools/corvus/26.1.1/corvus-26.1.1-windowsx86-64.exe",
+            "windowsx86-64-md5": "628c166274687e96c65f515af5924d0b",
+            "windowsx86-64-sha1": "ebbfc7eb3b0bf390484ba9667d973f87cd9675b5",
+            "linuxx86-64": "https://redist.ctr-electronics.com/tools/corvus/26.1.1/corvus-26.1.1-linuxx86-64",
+            "linuxx86-64-md5": "2d978d779372833501f57d0113eeee00",
+            "linuxx86-64-sha1": "70f9b09315f89881af357531aa64a75daf0bb150",
+            "linuxarm64": "https://redist.ctr-electronics.com/tools/corvus/26.1.1/corvus-26.1.1-linuxarm64",
+            "linuxarm64-md5": "71834881cf088ed2754a76a9852291ca",
+            "linuxarm64-sha1": "2625e9bc339a08e18fae2e249ebfcbe351e5297c"
+          }
+        }
+      ]
+    },
+    {
+      "Name": "PhoenixDiagnosticsProgram",
+      "Items": [
+        {
+          "Version": "24.3.0",
+          "Compliancy": 6,
+          "Urls": {
+            "linuxarm32": "https://redist.ctr-electronics.com/tools/PhoenixDiagnosticsProgram/24.3.0/PhoenixDiagnosticsProgram-24.3.0-linuxarm32",
+            "linuxarm64": "https://redist.ctr-electronics.com/tools/PhoenixDiagnosticsProgram/24.3.0/PhoenixDiagnosticsProgram-24.3.0-linuxarm64",
+            "linuxathena": "https://redist.ctr-electronics.com/tools/PhoenixDiagnosticsProgram/24.3.0/PhoenixDiagnosticsProgram-24.3.0-linuxathena",
+            "linuxx86-64": "https://redist.ctr-electronics.com/tools/PhoenixDiagnosticsProgram/24.3.0/PhoenixDiagnosticsProgram-24.3.0-linuxx86-64",
+            "linuxx86-64-md5": "9aceec9415a49a57740e57a3d5e9827e",
+            "linuxx86-64-sha1": "2143ae01c69bb12e617abbe02034a7de47d6ad3f",
+            "linuxarm32-md5": "1af63cccdcd180ca242dd68efc5b1244",
+            "linuxarm32-sha1": "135828b90c1b4f07ebd6baee899723f0f653b663",
+            "linuxarm64-md5": "03b6cb3aeaa70fef6c574f76b657b1e7",
+            "linuxarm64-sha1": "92cfdeebe201f27fc96a674f2a59cb16ade50288",
+            "linuxathena-md5": "b1b2b21af9ccb7d93a59b1fe1b16f8fc",
+            "linuxathena-sha1": "0edb511aa9337a1f538dcb089b90c48f0bd82640",
+            "windowsx86-64": "https://redist.ctr-electronics.com/tools/PhoenixDiagnosticsProgram/24.3.0/PhoenixDiagnosticsProgram-24.3.0-windowsx86-64.exe",
+            "windowsx86-64-md5": "33a6b496b1df4a436694873e4dfa9f81",
+            "windowsx86-64-sha1": "a3f97f45d7e4a7f5b24fc5c9242183d8d959bec2"
+          }
+        },
+        {
+          "Version": "25.0.0-beta-1",
+          "Compliancy": 9,
+          "Urls": {
+            "linuxathena": "https://redist.ctr-electronics.com/tools/PhoenixDiagnosticsProgram/25.0.0-beta-1/PhoenixDiagnosticsProgram-25.0.0-beta-1-linuxathena",
+            "linuxathena-md5": "b2a326d4b9399c6f66f76c02479fa340",
+            "linuxathena-sha1": "2e8a634a681a179b362282961427fcc9d1baee58",
+            "linuxarm32": "https://redist.ctr-electronics.com/tools/PhoenixDiagnosticsProgram/25.0.0-beta-1/PhoenixDiagnosticsProgram-25.0.0-beta-1-linuxarm32",
+            "linuxarm32-md5": "9ab696dcf28ebe51694c6ab80bf91fda",
+            "linuxarm32-sha1": "232c2ec07f4c4377764e7990399f3877553ffc13",
+            "linuxarm64": "https://redist.ctr-electronics.com/tools/PhoenixDiagnosticsProgram/25.0.0-beta-1/PhoenixDiagnosticsProgram-25.0.0-beta-1-linuxarm64",
+            "linuxarm64-md5": "225ac5589deec9d6684e300c057534ba",
+            "linuxarm64-sha1": "df68c5807968205500ea6a2ad30ebfc3966bd01e",
+            "windowsx86-64": "https://redist.ctr-electronics.com/tools/PhoenixDiagnosticsProgram/25.0.0-beta-1/PhoenixDiagnosticsProgram-25.0.0-beta-1-windowsx86-64.exe",
+            "windowsx86-64-md5": "58f9ba4f53dd789f667edcb1a9409b16",
+            "windowsx86-64-sha1": "82a12e95a56a2d53044e9279d61b35b83034c3ac"
+          }
+        },
+        {
+          "Version": "25.0.0-beta-2",
+          "Compliancy": 10,
+          "Urls": {
+            "linuxathena": "https://redist.ctr-electronics.com/tools/PhoenixDiagnosticsProgram/25.0.0-beta-2/PhoenixDiagnosticsProgram-25.0.0-beta-2-linuxathena",
+            "linuxathena-md5": "6e454ba4e9bff38adf0d3138cc4a33ba",
+            "linuxathena-sha1": "ada60c073efe7ac6f991acd5126dcca709c5d8e7",
+            "linuxarm32": "https://redist.ctr-electronics.com/tools/PhoenixDiagnosticsProgram/25.0.0-beta-2/PhoenixDiagnosticsProgram-25.0.0-beta-2-linuxarm32",
+            "linuxarm32-md5": "9b1571e80a3106c143846fcf8cb44d26",
+            "linuxarm32-sha1": "93c6425278e4cfa75ecae2c01c25e767aecda792",
+            "linuxarm64": "https://redist.ctr-electronics.com/tools/PhoenixDiagnosticsProgram/25.0.0-beta-2/PhoenixDiagnosticsProgram-25.0.0-beta-2-linuxarm64",
+            "linuxarm64-md5": "6bce4ba7fbc8bcbc23374add988ca2cc",
+            "linuxarm64-sha1": "bfd9edf5f7fae88cfadf41b88ba2288121de7530",
+            "windowsx86-64": "https://redist.ctr-electronics.com/tools/PhoenixDiagnosticsProgram/25.0.0-beta-2/PhoenixDiagnosticsProgram-25.0.0-beta-2-windowsx86-64.exe",
+            "windowsx86-64-md5": "e4fb24c06abb75b2316f549135960a3a",
+            "windowsx86-64-sha1": "235a52c6a1c9acdd609f87f6e1e635968aefb299"
+          }
+        },
+        {
+          "Version": "25.0.0-beta-3",
+          "Compliancy": 11,
+          "Urls": {
+            "linuxathena": "https://redist.ctr-electronics.com/tools/PhoenixDiagnosticsProgram/25.0.0-beta-3/PhoenixDiagnosticsProgram-25.0.0-beta-3-linuxathena",
+            "linuxathena-md5": "be4d2351e76b707bc8ea761238a90546",
+            "linuxathena-sha1": "60cc4266d4472ce26aac33c058b4a060facb7a4e",
+            "linuxarm32": "https://redist.ctr-electronics.com/tools/PhoenixDiagnosticsProgram/25.0.0-beta-3/PhoenixDiagnosticsProgram-25.0.0-beta-3-linuxarm32",
+            "linuxarm32-md5": "1dbde5c64d9ba8657ec0dc78e362c754",
+            "linuxarm32-sha1": "72eefb06a8c263e118094d1ef473be55c963fa9c",
+            "linuxarm64": "https://redist.ctr-electronics.com/tools/PhoenixDiagnosticsProgram/25.0.0-beta-3/PhoenixDiagnosticsProgram-25.0.0-beta-3-linuxarm64",
+            "linuxarm64-md5": "eceb627d1a00d22066c23672c680420c",
+            "linuxarm64-sha1": "86696117a256353904d114c0d0dd90b2aebadb7e",
+            "windowsx86-64": "https://redist.ctr-electronics.com/tools/PhoenixDiagnosticsProgram/25.0.0-beta-3/PhoenixDiagnosticsProgram-25.0.0-beta-3-windowsx86-64.exe",
+            "windowsx86-64-md5": "21b30f25f14113f3488a47014cee6bd1",
+            "windowsx86-64-sha1": "c73dbbea738f16b4d1525b92c1a5261be7d5aa78"
+          }
+        },
+        {
+          "Version": "25.0.0-beta-4",
+          "Compliancy": 12,
+          "Urls": {
+            "linuxathena": "https://redist.ctr-electronics.com/tools/PhoenixDiagnosticsProgram/25.0.0-beta-4/PhoenixDiagnosticsProgram-25.0.0-beta-4-linuxathena",
+            "linuxathena-md5": "495b5f90cbe603ce9e5af819b4046989",
+            "linuxathena-sha1": "54e3edd67a657975dec2da788f5d8ad047534244",
+            "linuxarm32": "https://redist.ctr-electronics.com/tools/PhoenixDiagnosticsProgram/25.0.0-beta-4/PhoenixDiagnosticsProgram-25.0.0-beta-4-linuxarm32",
+            "linuxarm32-md5": "9f488be77d422d97544b88ddef1092c5",
+            "linuxarm32-sha1": "bdaf53761e39bc8bd54c54e377d9297918292670",
+            "linuxarm64": "https://redist.ctr-electronics.com/tools/PhoenixDiagnosticsProgram/25.0.0-beta-4/PhoenixDiagnosticsProgram-25.0.0-beta-4-linuxarm64",
+            "linuxarm64-md5": "2e656c20455f554fdd084095a9395a93",
+            "linuxarm64-sha1": "6edd23319fb71d3dc09e01225facc27b510751e6",
+            "windowsx86-64": "https://redist.ctr-electronics.com/tools/PhoenixDiagnosticsProgram/25.0.0-beta-4/PhoenixDiagnosticsProgram-25.0.0-beta-4-windowsx86-64.exe",
+            "windowsx86-64-md5": "3fb036bfe1e1f76821ef96e59d36edba",
+            "windowsx86-64-sha1": "befcf143e01798b9a4b5597ada2cffeb555b8e63"
+          }
+        },
+        {
+          "Version": "25.1.0",
+          "Compliancy": 13,
+          "Urls": {
+            "linuxathena": "https://redist.ctr-electronics.com/tools/PhoenixDiagnosticsProgram/25.1.0/PhoenixDiagnosticsProgram-25.1.0-linuxathena",
+            "linuxathena-md5": "60a8e92bd7545f2d55fd48cc8886415b",
+            "linuxathena-sha1": "3692443755edffe8cf13950574b0a362eb6f48ea",
+            "linuxarm32": "https://redist.ctr-electronics.com/tools/PhoenixDiagnosticsProgram/25.1.0/PhoenixDiagnosticsProgram-25.1.0-linuxarm32",
+            "linuxarm32-md5": "c2ddba88b817bc48557f812e384b1917",
+            "linuxarm32-sha1": "8957c21362b5c3172cf80e7c0fd4e7140efc6819",
+            "linuxarm64": "https://redist.ctr-electronics.com/tools/PhoenixDiagnosticsProgram/25.1.0/PhoenixDiagnosticsProgram-25.1.0-linuxarm64",
+            "linuxarm64-md5": "d2988789ed8e249aa570a6d4344021b0",
+            "linuxarm64-sha1": "325c706b17680386ee0aedbf52156eb4a93fce2c",
+            "windowsx86-64": "https://redist.ctr-electronics.com/tools/PhoenixDiagnosticsProgram/25.1.0/PhoenixDiagnosticsProgram-25.1.0-windowsx86-64.exe",
+            "windowsx86-64-md5": "9b4a33b1fabdaab1193cdd7972bc627d",
+            "windowsx86-64-sha1": "0b11580399a78cf131cff6d62df81b8f87125e26"
+          }
+        },
+        {
+          "Version": "25.2.0",
+          "Compliancy": 13,
+          "Urls": {
+            "linuxathena": "https://redist.ctr-electronics.com/tools/PhoenixDiagnosticsProgram/25.2.0/PhoenixDiagnosticsProgram-25.2.0-linuxathena",
+            "linuxathena-md5": "b2d3a3ba175085c78b97fd9e4b2ce981",
+            "linuxathena-sha1": "f02687be27f993a3e5baea59faedf6748d7f156d",
+            "linuxarm32": "https://redist.ctr-electronics.com/tools/PhoenixDiagnosticsProgram/25.2.0/PhoenixDiagnosticsProgram-25.2.0-linuxarm32",
+            "linuxarm32-md5": "f73867a671a479e66b63ddf502d00682",
+            "linuxarm32-sha1": "ccdf84ac54f5a82385b31cabf1fc428da900d9a1",
+            "linuxarm64": "https://redist.ctr-electronics.com/tools/PhoenixDiagnosticsProgram/25.2.0/PhoenixDiagnosticsProgram-25.2.0-linuxarm64",
+            "linuxarm64-md5": "26c463678d5f7fae82c7cfc2d7f9e772",
+            "linuxarm64-sha1": "516e801e86966f2b303dd642935224be83ca0081",
+            "windowsx86-64": "https://redist.ctr-electronics.com/tools/PhoenixDiagnosticsProgram/25.2.0/PhoenixDiagnosticsProgram-25.2.0-windowsx86-64.exe",
+            "windowsx86-64-md5": "f33231417484f81c7819ce6628920ee6",
+            "windowsx86-64-sha1": "cb9e49bd3085e6639b6141d3169fd3b0c8c44823"
+          }
+        },
+        {
+          "Version": "25.2.1",
+          "Compliancy": 13,
+          "Urls": {
+            "linuxathena": "https://redist.ctr-electronics.com/tools/PhoenixDiagnosticsProgram/25.2.1/PhoenixDiagnosticsProgram-25.2.1-linuxathena",
+            "linuxathena-md5": "91f382d731e0dbe3f8ea0892ced93b58",
+            "linuxathena-sha1": "33daddd382cfff0bcd1f8aaf7f98a2f9dba4fa91",
+            "linuxarm32": "https://redist.ctr-electronics.com/tools/PhoenixDiagnosticsProgram/25.2.1/PhoenixDiagnosticsProgram-25.2.1-linuxarm32",
+            "linuxarm32-md5": "eea08fe0531e886b70fa674e61ee726e",
+            "linuxarm32-sha1": "b49c8cf2c1fba4e615de0ca9094ab52903dfc457",
+            "linuxarm64": "https://redist.ctr-electronics.com/tools/PhoenixDiagnosticsProgram/25.2.1/PhoenixDiagnosticsProgram-25.2.1-linuxarm64",
+            "linuxarm64-md5": "830b33d71ec6afc297366cb5234cf887",
+            "linuxarm64-sha1": "6a06e574099a49f55eaf002336cbcbf6943ea627",
+            "windowsx86-64": "https://redist.ctr-electronics.com/tools/PhoenixDiagnosticsProgram/25.2.1/PhoenixDiagnosticsProgram-25.2.1-windowsx86-64.exe",
+            "windowsx86-64-md5": "87eef7c8e130f089bbe091737f0fa4d3",
+            "windowsx86-64-sha1": "2d890905b7a71e9e3a1c6a033b0500c07bf0694a"
+          }
+        },
+        {
+          "Version": "25.2.2",
+          "Compliancy": 13,
+          "Urls": {
+            "linuxathena": "https://redist.ctr-electronics.com/tools/PhoenixDiagnosticsProgram/25.2.2/PhoenixDiagnosticsProgram-25.2.2-linuxathena",
+            "linuxathena-md5": "ad3ebe937ea4c0bfeb1267d9fba82e53",
+            "linuxathena-sha1": "050e4894da47e9f238a454d7ab9447bf1b1999cb",
+            "linuxarm32": "https://redist.ctr-electronics.com/tools/PhoenixDiagnosticsProgram/25.2.2/PhoenixDiagnosticsProgram-25.2.2-linuxarm32",
+            "linuxarm32-md5": "b093898760fe222382a22b9a6e3f9087",
+            "linuxarm32-sha1": "53fa8bc93c41c6fb0c53bcf3c224866ad1f7e707",
+            "linuxarm64": "https://redist.ctr-electronics.com/tools/PhoenixDiagnosticsProgram/25.2.2/PhoenixDiagnosticsProgram-25.2.2-linuxarm64",
+            "linuxarm64-md5": "93679d6e5a2a85d8ce0788339eac140d",
+            "linuxarm64-sha1": "88489745cb1e5a7bd11789ee743ccd2f245e51fa",
+            "windowsx86-64": "https://redist.ctr-electronics.com/tools/PhoenixDiagnosticsProgram/25.2.2/PhoenixDiagnosticsProgram-25.2.2-windowsx86-64.exe",
+            "windowsx86-64-md5": "64e2999445b6db488de8c9e96699b060",
+            "windowsx86-64-sha1": "2f2105505cdfd9fa45d4874cf28ee8f58ae1d03e"
+          }
+        },
+        {
+          "Version": "25.3.0",
+          "Compliancy": 13,
+          "Urls": {
+            "linuxathena": "https://redist.ctr-electronics.com/tools/PhoenixDiagnosticsProgram/25.3.0/PhoenixDiagnosticsProgram-25.3.0-linuxathena",
+            "linuxathena-md5": "ca93b67b82558c97097a5428dfa17780",
+            "linuxathena-sha1": "90336b3d7a6fc25ae184c8686e245023231271c2",
+            "linuxarm32": "https://redist.ctr-electronics.com/tools/PhoenixDiagnosticsProgram/25.3.0/PhoenixDiagnosticsProgram-25.3.0-linuxarm32",
+            "linuxarm32-md5": "8553e959bae6f2da3b306fb35349949a",
+            "linuxarm32-sha1": "7ba846fb58b5f0ec8d8f59531ee99ee6a94d402d",
+            "linuxarm64": "https://redist.ctr-electronics.com/tools/PhoenixDiagnosticsProgram/25.3.0/PhoenixDiagnosticsProgram-25.3.0-linuxarm64",
+            "linuxarm64-md5": "1d9d7b535399edbfcb94b0f81e3e7862",
+            "linuxarm64-sha1": "87c982dbb3ffb79c60defb2656f6d3334acdf56a",
+            "windowsx86-64": "https://redist.ctr-electronics.com/tools/PhoenixDiagnosticsProgram/25.3.0/PhoenixDiagnosticsProgram-25.3.0-windowsx86-64.exe",
+            "windowsx86-64-md5": "59ce2f6d95b59ffd34ba185793f2bfdb",
+            "windowsx86-64-sha1": "8103b811703f75ce11acc7ba10afcca115bd9ed2"
+          }
+        },
+        {
+          "Version": "25.3.1",
+          "Compliancy": 13,
+          "Urls": {
+            "linuxathena": "https://redist.ctr-electronics.com/tools/PhoenixDiagnosticsProgram/25.3.1/PhoenixDiagnosticsProgram-25.3.1-linuxathena",
+            "linuxathena-md5": "1304455bdf9b07d5e9c3b5ed582427dd",
+            "linuxathena-sha1": "486e65bfea30a330a4fe1a0a592ae70dc35083bf",
+            "linuxarm32": "https://redist.ctr-electronics.com/tools/PhoenixDiagnosticsProgram/25.3.1/PhoenixDiagnosticsProgram-25.3.1-linuxarm32",
+            "linuxarm32-md5": "ad63248c3391577502fbcf4bd95af044",
+            "linuxarm32-sha1": "65a1ece6ea02530cd9e2040b996ca617b94e7500",
+            "linuxarm64": "https://redist.ctr-electronics.com/tools/PhoenixDiagnosticsProgram/25.3.1/PhoenixDiagnosticsProgram-25.3.1-linuxarm64",
+            "linuxarm64-md5": "54b75f73bd628fee21ec9795dbf7ffc7",
+            "linuxarm64-sha1": "4f4a1896b200438d56e18be4f0e414e86e7fd69d",
+            "windowsx86-64": "https://redist.ctr-electronics.com/tools/PhoenixDiagnosticsProgram/25.3.1/PhoenixDiagnosticsProgram-25.3.1-windowsx86-64.exe",
+            "windowsx86-64-md5": "ea075cfb6ba9cf7d3931f11edad71cf5",
+            "windowsx86-64-sha1": "d943536da16dc19340536d58388bef650872dd8d"
+          }
+        },
+        {
+          "Version": "25.3.2",
+          "Compliancy": 13,
+          "Urls": {
+            "linuxathena": "https://redist.ctr-electronics.com/tools/PhoenixDiagnosticsProgram/25.3.2/PhoenixDiagnosticsProgram-25.3.2-linuxathena",
+            "linuxathena-md5": "ee5ce438de695b5c9228f676bd626452",
+            "linuxathena-sha1": "008ab6728cc3f4d714673968ef56ae588f1abf72",
+            "linuxarm32": "https://redist.ctr-electronics.com/tools/PhoenixDiagnosticsProgram/25.3.2/PhoenixDiagnosticsProgram-25.3.2-linuxarm32",
+            "linuxarm32-md5": "13787b5e839c768a9a47ee58dc74a11f",
+            "linuxarm32-sha1": "d6b5857a19b113f1363a030ea854c17ca130ac89",
+            "linuxarm64": "https://redist.ctr-electronics.com/tools/PhoenixDiagnosticsProgram/25.3.2/PhoenixDiagnosticsProgram-25.3.2-linuxarm64",
+            "linuxarm64-md5": "c7ea2525b1ddcad4398494c06735e90a",
+            "linuxarm64-sha1": "081d6f836026c21f78b26d750bbd74cbaab885c5",
+            "windowsx86-64": "https://redist.ctr-electronics.com/tools/PhoenixDiagnosticsProgram/25.3.2/PhoenixDiagnosticsProgram-25.3.2-windowsx86-64.exe",
+            "windowsx86-64-md5": "ed9bd1b51a3f5037b32419c05f10f64d",
+            "windowsx86-64-sha1": "a8914c7fdb86c0b02fc78894898f219322b972d6"
+          }
+        },
+        {
+          "Version": "25.4.0",
+          "Compliancy": 13,
+          "Urls": {
+            "linuxathena": "https://redist.ctr-electronics.com/tools/PhoenixDiagnosticsProgram/25.4.0/PhoenixDiagnosticsProgram-25.4.0-linuxathena",
+            "linuxathena-md5": "490d4aac41f5c3d2625ef9b5555deb5c",
+            "linuxathena-sha1": "88ceec155dad527c392cefc4e487244a9abf0193",
+            "linuxarm32": "https://redist.ctr-electronics.com/tools/PhoenixDiagnosticsProgram/25.4.0/PhoenixDiagnosticsProgram-25.4.0-linuxarm32",
+            "linuxarm32-md5": "b07ff58bc2bd94abb296d4f327f3e12c",
+            "linuxarm32-sha1": "dcfb18cea97a65d1610e874f4e02e7a66ba99bd6",
+            "linuxarm64": "https://redist.ctr-electronics.com/tools/PhoenixDiagnosticsProgram/25.4.0/PhoenixDiagnosticsProgram-25.4.0-linuxarm64",
+            "linuxarm64-md5": "06f9fd33d4b176167be0d3f45e57950e",
+            "linuxarm64-sha1": "7cbda017d45e621dda36d90dd2f2fca6d6ee018c",
+            "windowsx86-64": "https://redist.ctr-electronics.com/tools/PhoenixDiagnosticsProgram/25.4.0/PhoenixDiagnosticsProgram-25.4.0-windowsx86-64.exe",
+            "windowsx86-64-md5": "c8db9c70344948b85e2254406614f85c",
+            "windowsx86-64-sha1": "61abb22d40ec2b72513ff8e3ad5427f69a2cedde"
+          }
+        },
+        {
+          "Version": "25.90.0-alpha-1",
+          "Compliancy": 20,
+          "Urls": {
+            "linuxarm64": "https://redist.ctr-electronics.com/tools/PhoenixDiagnosticsProgram/25.90.0-alpha-1/PhoenixDiagnosticsProgram-25.90.0-alpha-1-linuxarm64",
+            "linuxarm64-md5": "f76e57c4b85f7ddeef508e3bbb57ed6b",
+            "linuxarm64-sha1": "f74816f74481c50eb671073a0f8b4019792214c4",
+            "windowsx86-64": "https://redist.ctr-electronics.com/tools/PhoenixDiagnosticsProgram/25.90.0-alpha-1/PhoenixDiagnosticsProgram-25.90.0-alpha-1-windowsx86-64.exe",
+            "windowsx86-64-md5": "3b9ebc3be38fb8494249bc38ba0d2a2e",
+            "windowsx86-64-sha1": "0f17692796345e282880f7f1f4a62c864b3e22ac"
+          }
+        },
+        {
+          "Version": "25.4.1",
+          "Compliancy": 13,
+          "Urls": {
+            "linuxathena": "https://redist.ctr-electronics.com/tools/PhoenixDiagnosticsProgram/25.4.1/PhoenixDiagnosticsProgram-25.4.1-linuxathena",
+            "linuxathena-md5": "bb968f0584ba096a85f7d6c64bace96e",
+            "linuxathena-sha1": "6ea505adc45a95e66a002605f9dd937650c5c1a7",
+            "linuxarm32": "https://redist.ctr-electronics.com/tools/PhoenixDiagnosticsProgram/25.4.1/PhoenixDiagnosticsProgram-25.4.1-linuxarm32",
+            "linuxarm32-md5": "93dc1b1e962c1117577d9f2d9cc131c2",
+            "linuxarm32-sha1": "da989e9b3cbf86fb20baedb97d58ec950568fade",
+            "linuxarm64": "https://redist.ctr-electronics.com/tools/PhoenixDiagnosticsProgram/25.4.1/PhoenixDiagnosticsProgram-25.4.1-linuxarm64",
+            "linuxarm64-md5": "b8a77a1c01218391fca6a933ce5745bb",
+            "linuxarm64-sha1": "df931ba1e5732291be45359f3497240795efc7a5",
+            "windowsx86-64": "https://redist.ctr-electronics.com/tools/PhoenixDiagnosticsProgram/25.4.1/PhoenixDiagnosticsProgram-25.4.1-windowsx86-64.exe",
+            "windowsx86-64-md5": "8b6bb06544ecc7c4b40f081e1d30e698",
+            "windowsx86-64-sha1": "ae16e87a0f502ad0f16bf17382d1b5a6d0a17158"
+          }
+        },
+        {
+          "Version": "25.4.2",
+          "Compliancy": 13,
+          "Urls": {
+            "linuxathena": "https://redist.ctr-electronics.com/tools/PhoenixDiagnosticsProgram/25.4.2/PhoenixDiagnosticsProgram-25.4.2-linuxathena",
+            "linuxathena-md5": "53d0d3074fa6d1d8e9485259316901a6",
+            "linuxathena-sha1": "a46acd5bd9e2bac7382b56cc4c3139323232c29f",
+            "linuxarm32": "https://redist.ctr-electronics.com/tools/PhoenixDiagnosticsProgram/25.4.2/PhoenixDiagnosticsProgram-25.4.2-linuxarm32",
+            "linuxarm32-md5": "9bb32db28b3fcaee646f5cc33da7c20c",
+            "linuxarm32-sha1": "a55fb17d9d3e5790f3801f7dbc33d772b8f0aea1",
+            "linuxarm64": "https://redist.ctr-electronics.com/tools/PhoenixDiagnosticsProgram/25.4.2/PhoenixDiagnosticsProgram-25.4.2-linuxarm64",
+            "linuxarm64-md5": "8dce3a97c3b2ff47cca561fd08d9f0c5",
+            "linuxarm64-sha1": "8cfa9658af985f0f48f6193ffa9da48f6e06c089",
+            "windowsx86-64": "https://redist.ctr-electronics.com/tools/PhoenixDiagnosticsProgram/25.4.2/PhoenixDiagnosticsProgram-25.4.2-windowsx86-64.exe",
+            "windowsx86-64-md5": "44cfa6deb4ad8e0eaf08eef7be755954",
+            "windowsx86-64-sha1": "f70228e3834e9a268a0f88aa7d67511cea9a55a1"
+          }
+        },
+        {
+          "Version": "25.90.0-alpha-2",
+          "Compliancy": 20,
+          "Urls": {
+            "linuxarm64": "https://redist.ctr-electronics.com/tools/PhoenixDiagnosticsProgram/25.90.0-alpha-2/PhoenixDiagnosticsProgram-25.90.0-alpha-2-linuxarm64",
+            "linuxarm64-md5": "dbbec0f763dab5361ed81305ef4d7752",
+            "linuxarm64-sha1": "067adeb060f136f71a9e99fa0d7e8d73ecd7d599",
+            "windowsx86-64": "https://redist.ctr-electronics.com/tools/PhoenixDiagnosticsProgram/25.90.0-alpha-2/PhoenixDiagnosticsProgram-25.90.0-alpha-2-windowsx86-64.exe",
+            "windowsx86-64-md5": "c93d5891017d3d0ad00728dd9e3c6887",
+            "windowsx86-64-sha1": "fe71b79afe7d4ed81172d8e9cb02098631863f83"
+          }
+        },
+        {
+          "Version": "26.0.0-beta-1",
+          "Compliancy": 18,
+          "Urls": {
+            "linuxathena": "https://redist.ctr-electronics.com/tools/PhoenixDiagnosticsProgram/26.0.0-beta-1/PhoenixDiagnosticsProgram-26.0.0-beta-1-linuxathena",
+            "linuxathena-md5": "7bda1a71bb12e9a5a8b57e109a0b6bbc",
+            "linuxathena-sha1": "ec0b0fd17632ee0d63fa006f0c1e09dcbd9340ad",
+            "linuxarm64": "https://redist.ctr-electronics.com/tools/PhoenixDiagnosticsProgram/26.0.0-beta-1/PhoenixDiagnosticsProgram-26.0.0-beta-1-linuxarm64",
+            "linuxarm64-md5": "461fff129159836dbb7bc04dc720349c",
+            "linuxarm64-sha1": "954c33d87107ed3d8a0e38aaa779f356c7c89498",
+            "windowsx86-64": "https://redist.ctr-electronics.com/tools/PhoenixDiagnosticsProgram/26.0.0-beta-1/PhoenixDiagnosticsProgram-26.0.0-beta-1-windowsx86-64.exe",
+            "windowsx86-64-md5": "44e6d7010b30b5604eb01f7bc23abc2a",
+            "windowsx86-64-sha1": "aa7c740145bce79109cbcc5ef203e501f4d58405"
+          }
+        },
+        {
+          "Version": "26.1.0",
+          "Compliancy": 19,
+          "Urls": {
+            "linuxathena": "https://redist.ctr-electronics.com/tools/PhoenixDiagnosticsProgram/26.1.0/PhoenixDiagnosticsProgram-26.1.0-linuxathena",
+            "linuxathena-md5": "c0bfbf2ac42fc4bf8a3789be777edf64",
+            "linuxathena-sha1": "fb58aacd6e07e300acf12f24d1a59e44f41ff031",
+            "linuxarm64": "https://redist.ctr-electronics.com/tools/PhoenixDiagnosticsProgram/26.1.0/PhoenixDiagnosticsProgram-26.1.0-linuxarm64",
+            "linuxarm64-md5": "4842d09aafe3229cd794876e5b2b9a3e",
+            "linuxarm64-sha1": "0f62f4bbf4c081afe2d292b7f2f401a724539e45",
+            "windowsx86-64": "https://redist.ctr-electronics.com/tools/PhoenixDiagnosticsProgram/26.1.0/PhoenixDiagnosticsProgram-26.1.0-windowsx86-64.exe",
+            "windowsx86-64-md5": "22b0c22be45d87e415c7aabce639326e",
+            "windowsx86-64-sha1": "7e49804f354028ba1d26af3aef6e4dd1a241295a"
+          }
+        },
+        {
+          "Version": "26.1.1",
+          "Compliancy": 19,
+          "Urls": {
+            "linuxathena": "https://redist.ctr-electronics.com/tools/PhoenixDiagnosticsProgram/26.1.1/PhoenixDiagnosticsProgram-26.1.1-linuxathena",
+            "linuxathena-md5": "67a06ea35fed7e1118fa42a264c78426",
+            "linuxathena-sha1": "aa76fdf8b041caad9b0b8c25b984fcce1ec5894c",
+            "linuxx86-64": "https://redist.ctr-electronics.com/tools/PhoenixDiagnosticsProgram/26.1.1/PhoenixDiagnosticsProgram-26.1.1-linuxx86-64",
+            "linuxx86-64-md5": "730b3dd476f99c747f14f94d6cd1b442",
+            "linuxx86-64-sha1": "fd6ccf7e0cecbdac7e33627e54652b4d5d9eebc7",
+            "linuxarm64": "https://redist.ctr-electronics.com/tools/PhoenixDiagnosticsProgram/26.1.1/PhoenixDiagnosticsProgram-26.1.1-linuxarm64",
+            "linuxarm64-md5": "b71a7dc784ce22a384c0e508ef3775f6",
+            "linuxarm64-sha1": "bdf38eb359392c34dbf17f74f4126b9ae1dc9272",
+            "windowsx86-64": "https://redist.ctr-electronics.com/tools/PhoenixDiagnosticsProgram/26.1.1/PhoenixDiagnosticsProgram-26.1.1-windowsx86-64.exe",
+            "windowsx86-64-md5": "2e10de9aaf88da0bd2bd68d9d69815e8",
+            "windowsx86-64-sha1": "d8f72db0273a87e1e30f27d1f75577be0ed94e01"
+          }
+        },
+        {
+          "Version": "26.1.2",
+          "Compliancy": 19,
+          "Urls": {
+            "linuxathena": "https://redist.ctr-electronics.com/tools/PhoenixDiagnosticsProgram/26.1.2/PhoenixDiagnosticsProgram-26.1.2-linuxathena",
+            "linuxathena-md5": "dd2695d9f841d455a95bd3cfb856821f",
+            "linuxathena-sha1": "e3076f11089e335e9eb3a947f45d7ed289178638",
+            "linuxx86-64": "https://redist.ctr-electronics.com/tools/PhoenixDiagnosticsProgram/26.1.2/PhoenixDiagnosticsProgram-26.1.2-linuxx86-64",
+            "linuxx86-64-md5": "895ba7e4b147494e4f0f9aa62d00edc7",
+            "linuxx86-64-sha1": "c166df06b29a2bbaeafd42edb41399ab6fc37e2d",
+            "linuxarm64": "https://redist.ctr-electronics.com/tools/PhoenixDiagnosticsProgram/26.1.2/PhoenixDiagnosticsProgram-26.1.2-linuxarm64",
+            "linuxarm64-md5": "12bc9e691d4bbbd9035bb4f5736bb5d4",
+            "linuxarm64-sha1": "565e7a5117d56e34ea660b3f99a8e89fa56b9e51",
+            "windowsx86-64": "https://redist.ctr-electronics.com/tools/PhoenixDiagnosticsProgram/26.1.2/PhoenixDiagnosticsProgram-26.1.2-windowsx86-64.exe",
+            "windowsx86-64-md5": "bf2815e7c63b421e2e77f4458e2a4ac4",
+            "windowsx86-64-sha1": "f7ea3098bbadc386d36a021ef1a38aba28080391"
+          }
+        },
+        {
+          "Version": "26.1.3",
+          "Compliancy": 19,
+          "Urls": {
+            "linuxathena": "https://redist.ctr-electronics.com/tools/PhoenixDiagnosticsProgram/26.1.3/PhoenixDiagnosticsProgram-26.1.3-linuxathena",
+            "linuxathena-md5": "f8335bc1e5f7504e700565093b8bd606",
+            "linuxathena-sha1": "8947a494f5d8e69ecfdb7c94465e1960e8171739",
+            "linuxx86-64": "https://redist.ctr-electronics.com/tools/PhoenixDiagnosticsProgram/26.1.3/PhoenixDiagnosticsProgram-26.1.3-linuxx86-64",
+            "linuxx86-64-md5": "b101a4414c070f021c34a71a180e05b6",
+            "linuxx86-64-sha1": "b85141bbc02ff20d22d52eecb6b58c0494cd485b",
+            "linuxarm64": "https://redist.ctr-electronics.com/tools/PhoenixDiagnosticsProgram/26.1.3/PhoenixDiagnosticsProgram-26.1.3-linuxarm64",
+            "linuxarm64-md5": "b1a573e767cce8bb9021ce79f4ba9cbc",
+            "linuxarm64-sha1": "031830b582f8c459b28ca051e4dd2d078893087b",
+            "windowsx86-64": "https://redist.ctr-electronics.com/tools/PhoenixDiagnosticsProgram/26.1.3/PhoenixDiagnosticsProgram-26.1.3-windowsx86-64.exe",
+            "windowsx86-64-md5": "dce0eb3ea2a9ae23e73ec7a63ec29eab",
+            "windowsx86-64-sha1": "54b021c14698a56d6b5e65f4f02b0ebb3e6b0ff7"
+          }
+        }
+      ]
+    },
+    {
+      "Name": "caniv",
+      "Items": [
+        {
+          "Version": "1.1.1.0",
+          "Compliancy": null,
+          "Urls": {
+            "windowsx86-64": "https://redist.ctr-electronics.com/tools/caniv/1.1.1.0/caniv-1.1.1.0-windowsx86-64.exe",
+            "windowsx86-64-md5": "24306936e7254b274deba714c9d842be",
+            "windowsx86-64-sha1": "08fef1ad69441d606c301b6cc9ee5b7cfcf99d18",
+            "linuxx86-64": "https://redist.ctr-electronics.com/tools/caniv/1.1.1.0/caniv-1.1.1.0-linuxx86-64",
+            "linuxx86-64-md5": "7d783913cdefa70321d30af919212501",
+            "linuxx86-64-sha1": "26ea28e8e99261cfb35822daf091f47910383e92",
+            "linuxarm64": "https://redist.ctr-electronics.com/tools/caniv/1.1.1.0/caniv-1.1.1.0-linuxarm64",
+            "linuxarm64-md5": "ca330c274db2f02ce61f5d6b424576e6",
+            "linuxarm64-sha1": "e4a98c618735ba08ab5cb54501e3ffd3c381b79b",
+            "linuxarm32": "https://redist.ctr-electronics.com/tools/caniv/1.1.1.0/caniv-1.1.1.0-linuxarm32",
+            "linuxarm32-md5": "bb9e905e3023c66e677d469984dee284",
+            "linuxarm32-sha1": "8c54f564341ef08fb1f414fc57abe1a8cdff1289",
+            "linuxathena": "https://redist.ctr-electronics.com/tools/caniv/1.1.1.0/caniv-1.1.1.0-linuxathena",
+            "linuxathena-md5": "6536e06f5583ada79df783b42bcb5ded",
+            "linuxathena-sha1": "fce6aa73200716e080f623ceb2669d623c1f3cf0"
+          }
+        }
+      ]
+    },
+    {
+      "Name": "passerine",
+      "Items": [
+        {
+          "Version": "0.0.1",
+          "Compliancy": null,
+          "Urls": {
+            "macosuniversal": "https://redist.ctr-electronics.com/tools/passerine/0.0.1/passerine-0.0.1-macosuniversal",
+            "macosuniversal-md5": "d1293745cded9e67f0acd3bb5488548d",
+            "macosuniversal-sha1": "172f47353320224231003ee2cc2d17b95025b012",
+            "windowsx86-64": "https://redist.ctr-electronics.com/tools/passerine/0.0.1/passerine-0.0.1-windowsx86-64.exe",
+            "windowsx86-64-md5": "e6a6e2593569518f5ccebc4eb2176a31",
+            "windowsx86-64-sha1": "3accf357f4c3cc200d60071dde6e8119bccddd64",
+            "linuxx86-64": "https://redist.ctr-electronics.com/tools/passerine/0.0.1/passerine-0.0.1-linuxx86-64",
+            "linuxx86-64-md5": "4bae8d2b01847178f708d662ef8da723",
+            "linuxx86-64-sha1": "35458ac3b0ea743d6c8abac65c3904b843d76b1a",
+            "linuxarm64": "https://redist.ctr-electronics.com/tools/passerine/0.0.1/passerine-0.0.1-linuxarm64",
+            "linuxarm64-md5": "9f0f09ac3d57277d7ee8d8daff89f210",
+            "linuxarm64-sha1": "7b378eb86b66fb6bf26c17e028be6ab8457c5688",
+            "linuxarm32": "https://redist.ctr-electronics.com/tools/passerine/0.0.1/passerine-0.0.1-linuxarm32",
+            "linuxarm32-md5": "0848cf1618f617b2dd925864b622ffb5",
+            "linuxarm32-sha1": "3517da17ba9bb2ebb530330b1a9532166f738c68"
+          }
+        }
+      ]
+    }
+  ]
+}

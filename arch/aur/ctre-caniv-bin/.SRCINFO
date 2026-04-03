@@ -1,0 +1,17 @@
+pkgbase = ctre-caniv-bin
+	pkgdesc = CLI Utility to enumerate, retrieve info and configure CANivore devices
+	pkgver = 1.1.1.0
+	pkgrel = 1
+	url = https://docs.ctr-electronics.com/cli-tools
+	arch = x86_64
+	arch = aarch64
+	license = None
+	provides = ctre-caniv
+	noextract = https://redist.ctr-electronics.com/tools/caniv/1.1.1.0/caniv-1.1.1.0-linuxx86-64
+	noextract = https://redist.ctr-electronics.com/tools/caniv/1.1.1.0/caniv-1.1.1.0-linuxarm64
+	source_x86_64 = https://redist.ctr-electronics.com/tools/caniv/1.1.1.0/caniv-1.1.1.0-linuxx86-64
+	sha1sums_x86_64 = 26ea28e8e99261cfb35822daf091f47910383e92
+	source_aarch64 = https://redist.ctr-electronics.com/tools/caniv/1.1.1.0/caniv-1.1.1.0-linuxarm64
+	sha1sums_aarch64 = e4a98c618735ba08ab5cb54501e3ffd3c381b79b
+
+pkgname = ctre-caniv-bin

@@ -1,0 +1,280 @@
+#+title: CTRE CLI Tools
+
+* Tools
+** Releases
+
+#+begin_src shell
+wget -O- https://redist.ctr-electronics.com/index.json | jq . > redist.json
+#+end_src
+
+#+RESULTS:
+
+=.Tools[] | [.Name, (.Items | group_by(.Compliancy)) | ... )]= ... hmm. not
+=HAVING= a good time selecting that.
+
+#+name: ctre-tools-jq
+#+headers: :stdin ctre-tools-info
+#+begin_src jq :cmd-line -rj
+.Tools[]
+  | [
+      .Name,
+      (.Items
+      | sort_by(.Compliancy)
+      | last
+      | [["linuxx86-64", .Version, .Urls."linuxx86-64", .Urls."linuxx86-64-sha1"], ["linuxarm64", .Version, .Urls."linuxarm64", .Urls."linuxarm64-sha1"]])
+    ]
+| first as $name
+| nth(2) as $version
+| reduce last[] as $arch ([]; . + [[$name,$arch]])
+| map(flatten)
+# | map(@csv) | join("\n")
+#+end_src
+
+#+name: ctre-tools-pkgbuild-metadata
+#+headers: :results output
+#+begin_src jq :stdin ctre-tools-jq :var tool="owlet" arch="linuxarm64" :cmd-line "--raw-output" 
+map(select(first == $tool and nth(1) == $arch))
+  | flatten | select(length > 0)
+  | "sources_\( $arch )=\"\( .[3] )\"\nsha1sums_\( $arch )=\"\( .[4] )\""
+#+end_src
+
+#+RESULTS: ctre-tools-pkgbuild-metadata
+: sources_linuxarm64="https://redist.ctr-electronics.com/tools/owlet/25.90.2/owlet-25.90.2-linuxarm64"
+: sha1sums_linuxarm64="b9f454eeaf4cbc7c32382b4bf4e6b491bbe3d3ad"
+
+#+name: ctre-tools-info
+#+headers: :jq-args "--raw-output" :eval query :results output value
+#+begin_src restclient :jq .
+:ctre-url = https://redist.ctr-electronics.com/index.json
+
+:headers = <<
+Accept: application/json
+User-Agent: Emacs
+#
+
+GET :ctre-url
+:headers
+#+end_src
+
+........ and compliancy doesn't do what i think it does
+
+# :stdin ctre-tools-info
+#+name: ctre-tools-windows
+#+headers: :in-file redist.json :cmd-line "-rj"
+#+begin_src jq
+.Tools[]
+  | {(.Name): (
+         .Items | last | [
+           .Version,
+           "linuxx86-64",
+           .Urls."linuxx86-64",
+           .Urls."linuxx86-64-sha1",
+           "linuxarm64",
+           .Urls."linuxarm64",
+           .Urls."linuxarm64-sha1"])
+    }
+#+end_src
+
+#+RESULTS: ctre-tools-windows
+
+#+name: ctre-tools-pkgbuild-metadata2
+#+headers: :results output
+#+begin_src jq :stdin ctre-tools-windows :var tool="owlet" arch="aarch64" :cmd-line "-rj" 
+."\($tool)" | select(.)
+  | if ($arch == "x86_64") then
+      "source_x86_64=(\"\( .[2] )\")
+sha1sums_x86_64=(\"\( .[3] )\")"
+    else
+      "source_aarch64=(\"\( .[5] )\")
+sha1sums_aarch64=(\"\( .[6] )\")"
+    end
+#+end_src
+
+#+RESULTS: ctre-tools-pkgbuild-metadata2
+: "sources_aarch64=(\"https://redist.ctr-electronics.com/tools/owlet/26.1.0/owlet-26.1.0-linuxarm64\")\nsha1sums_aarch64=(\"ddc2d5fa2bf3982ecffa6fcb07cb3668f5562eed\")"
+
+#+name: ctre-tools-pkgbuild-version
+#+headers: :results output
+#+begin_src jq :stdin ctre-tools-windows :var tool="owlet" :cmd-line "-rj" 
+."\($tool)" | select(.)
+  | "pkgver=\"\( .[0] )\""
+#+end_src
+
+#+RESULTS: ctre-tools-pkgbuild-version
+: version="26.1.0"
+
+* Arch
+
+Update =.SRCINFO=
+
+#+begin_src shell :async yes :session *noncy*
+d="$(pwd)"
+pkgs=("owlet" "corvus" "caniv" "phoenix-diagnostics-server" "passerine")
+for pkg in ${pkgs[@]}; do
+    cd $d/../"ctre-$pkg-bin"
+    makepkg --printsrcinfo > .SRCINFO
+done
+#+end_src
+
+#+RESULTS:
+
+Rebuild
+
+#+begin_src shell :async yes :session *noncy*
+d="$(pwd)"
+pkgs=("owlet" "corvus" "caniv" "phoenix-diagnostics-server" "passerine")
+for pkg in ${pkgs[@]}; do
+    cd $d/../"ctre-$pkg-bin"
+    makepkg -fC > /dev/null
+    tree -a pkg/ctre-$pkg-bin
+done
+#+end_src
+
+Install with =cd ctre-${pkg}-bin= and =makepkg -i=. Deps should already be synced
+
+** PKGBUILD
+
+Header
+
+#+begin_src text :noweb-ref ctre-pkgbuild-header
+pkgrel=1
+arch=('x86_64' 'aarch64')
+license=('None') # can't easily find this
+url="https://docs.ctr-electronics.com/cli-tools"
+#+end_src
+
+Body
+
+#+begin_src text :noweb-ref ctre-pkgbuild-body
+depends=()
+noextract=(
+    ${source_x86_64[@]}
+    ${source_aarch64[@]}
+)
+
+package() {
+    cd "$srcdir"
+    case "$arch" in
+       x86_64) _binfile="${_binname}-${pkgver}-linuxx86-64" ;;
+       aarch64) _binfile="${_binname}-${pkgver}-linuxarm64" ;;
+    esac
+    mv "${_binfile}" "${_binname}"
+    # TODO: ln -sf "${_binfile}" "${_binname}" and move both?
+    install -Dm0755 -t "$pkgdir/usr/bin" "$srcdir/${_binname}"
+}
+#+end_src
+
+*** Owlet
+
+#+headers: :noweb yes :mkdirp yes :comments no
+#+begin_src shell :tangle ../ctre-owlet-bin/PKGBUILD :noweb yes
+# -*- mode: bash-ts -*-
+pkgname=ctre-owlet-bin
+pkgdesc="CLI Utility to convert CTR Electronics hoot .hoot files into other logging formats"
+# _binname=${pkgname%ctre-}
+_binname=owlet
+provides=("ctre-owlet")
+
+<<ctre-pkgbuild-header>>
+
+<<ctre-tools-pkgbuild-version(tool="owlet")>>
+<<ctre-tools-pkgbuild-metadata2(tool="owlet", arch="x86_64")>>
+<<ctre-tools-pkgbuild-metadata2(tool="owlet", arch="aarch64")>>
+
+<<ctre-pkgbuild-body>>
+#+end_src
+
+*** Corvus
+
+#+headers: :noweb yes :mkdirp yes :comments no
+#+begin_src shell :tangle ../ctre-corvus-bin/PKGBUILD :noweb yes
+# -*- mode: bash-ts -*-
+pkgname=ctre-corvus-bin
+pkgdesc="CLI Utility to generate mechanisms"
+# _binname=${pkgname%ctre-}
+_binname=corvus
+provides=("ctre-corvus")
+
+<<ctre-pkgbuild-header>>
+
+<<ctre-tools-pkgbuild-version(tool="corvus")>>
+<<ctre-tools-pkgbuild-metadata2(tool="corvus", arch="x86_64")>>
+<<ctre-tools-pkgbuild-metadata2(tool="corvus", arch="aarch64")>>
+
+<<ctre-pkgbuild-body>>
+#+end_src
+
+*** PhoneixDiagnosticsProgram
+
+#+headers: :noweb yes :mkdirp yes :comments no
+#+begin_src shell :tangle ../ctre-phoenix-diagnostics-server-bin/PKGBUILD
+# -*- mode: bash-ts -*-
+pkgname=ctre-phoenix-diagnostics-server-bin
+pkgdesc="CLI Utility that allows Phoenix Tuner to manage CTR Electronics devices"
+# _binname=${pkgname%ctre-}
+_binname=PhoenixDiagnosticsProgram
+provides=("ctre-phoenix-diagnostics-server")
+
+<<ctre-pkgbuild-header>>
+
+<<ctre-tools-pkgbuild-version(tool="PhoenixDiagnosticsProgram")>>
+<<ctre-tools-pkgbuild-metadata2(tool="PhoenixDiagnosticsProgram", arch="x86_64")>>
+<<ctre-tools-pkgbuild-metadata2(tool="PhoenixDiagnosticsProgram", arch="aarch64")>>
+
+depends=()
+noextract=(
+    ${source_x86_64[@]}
+    ${source_aarch64[@]}
+)
+package() {
+    cd "$srcdir"
+    case "$arch" in
+       x86_64) _binfile="${_binname}-${pkgver}-linuxx86-64" ;;
+       aarch64) _binfile="${_binname}-${pkgver}-linuxarm64" ;;
+    esac
+    mv "${_binfile}" "${_binname}"
+    # TODO: ln -sf "${_binfile}" "${_binname}" and move both?
+    install -Dm0755 -t "$pkgdir/usr/bin" "$srcdir/${_binname}"
+}
+#+end_src
+
+#+RESULTS:
+
+
+*** Caniv
+
+#+headers: :noweb yes :mkdirp yes :comments no
+#+begin_src shell :tangle ../ctre-caniv-bin/PKGBUILD :noweb yes
+# -*- mode: bash-ts -*-
+pkgname=ctre-caniv-bin
+pkgdesc="CLI Utility to enumerate, retrieve info and configure CANivore devices"
+# _binname=${pkgname%ctre-}
+_binname=caniv
+provides=("ctre-caniv")
+
+<<ctre-pkgbuild-header>>
+
+<<ctre-tools-pkgbuild-version(tool="caniv")>>
+<<ctre-tools-pkgbuild-metadata2(tool="caniv", arch="x86_64")>>
+<<ctre-tools-pkgbuild-metadata2(tool="caniv", arch="aarch64")>>
+
+<<ctre-pkgbuild-body>>
+#+end_src
+
+*** Passerine
+
+#+headers: :noweb yes :mkdirp yes :comments no
+#+begin_src shell :tangle ../ctre-passerine-bin/PKGBUILD :noweb yes
+# -*- mode: bash-ts -*-
+pkgname=ctre-passerine-bin
+pkgdesc="CLI utility to turn MIDI (.mid and .midi) files into CTR Electronics CHRP .chrp files"
+# _binname=${pkgname%ctre-}
+_binname=passerine
+provides=("ctre-passerine")
+
+<<ctre-pkgbuild-header>>
+
+<<ctre-tools-pkgbuild-version(tool="passerine")>>
+<<ctre-tools-pkgbuild-metadata2(tool="passerine", arch="x86_64")>>
+<<ctre-tools-pkgbuild-metadata2(tool="passerine", arch="aarch64")>>
+#+end_src

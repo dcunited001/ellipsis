@@ -1,0 +1,15 @@
+pkgbase = ctre-passerine-bin
+	pkgdesc = CLI utility to turn MIDI (.mid and .midi) files into CTR Electronics CHRP .chrp files
+	pkgver = 0.0.1
+	pkgrel = 1
+	url = https://docs.ctr-electronics.com/cli-tools
+	arch = x86_64
+	arch = aarch64
+	license = None
+	provides = ctre-passerine
+	source_x86_64 = https://redist.ctr-electronics.com/tools/passerine/0.0.1/passerine-0.0.1-linuxx86-64
+	sha1sums_x86_64 = 35458ac3b0ea743d6c8abac65c3904b843d76b1a
+	source_aarch64 = https://redist.ctr-electronics.com/tools/passerine/0.0.1/passerine-0.0.1-linuxarm64
+	sha1sums_aarch64 = 7b378eb86b66fb6bf26c17e028be6ab8457c5688
+
+pkgname = ctre-passerine-bin
