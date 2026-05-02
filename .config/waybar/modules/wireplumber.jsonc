@@ -3,7 +3,7 @@
   "wireplumber": {
     "format": "{volume}{icon}",
     "format-icons": ["", "", ""],
-    "on-click": "helvum",
+    "on-click": "hyprpwcenter",
     "on-click-right": "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle",
     "format-muted":"µ ",
     "max-volume": 150,
@@ -14,6 +14,6 @@
     "format": "{volume}󰍬",
     "format-muted": "µ 󰍭",
     "on-click-right": "wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle",
-    "scroll-step": 5,
-  },
+    "scroll-step": 5
+  }
 }

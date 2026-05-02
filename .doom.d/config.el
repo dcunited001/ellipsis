@@ -331,6 +331,8 @@ Guix channel.")
 
 ;;; Interface
 
+(setopt window-combination-resize t)
+
 (defun dc/toggle-window-balance ()
   "Toggle between `maximize-window' and `balance-windows' depending on
 `window-width' and `frame-width'."

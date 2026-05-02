@@ -89,7 +89,7 @@ in
       watchexec
 
       # CLI SHINY
-      neofetch
+      fastfetch
       # starship
 
       # NIX
@@ -123,6 +123,7 @@ in
       graphviz
       plantuml
       imagemagick
+      gnuplot
 
       # DEV
       tmux
@@ -227,8 +228,8 @@ in
       playerctl
       pavucontrol
       qpwgraph
-      helvum
       hyprpwcenter
+      coppwr
 
       # DESKTOP: NWG
       nwg-look
