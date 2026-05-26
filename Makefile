@@ -71,6 +71,13 @@ GUIXHOST=$(shell hostname)
 GUIXUSER=$(shell whoami)
 GUIXGUIXPROFILE=$(HOME)/.config/guix/current
 
+# setup requires:
+#
+# - running `guix archive --generate-key` on the host to export nars from
+# - running `cat from-host-signing-key.pub | guix archive --authorize`
+#   on the host to send archives to
+# - then `make GUIXHOST=tohost guix-copy` should work as expected
+
 # this copies a profile. this could include $GUIXGUIXPROFILE, but `make
 # guix-copy-install-profile` can't be used to update the link to that
 # profile. this task `guix package ...` and `guix pull` is needed instead
