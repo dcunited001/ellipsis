@@ -13,15 +13,14 @@
     extraConfig.pipewire."91-null-sinks" = {
       "context.objects" = [
         # pipewire seems to already have a dummy driver
-        #
-        # {
-        #   factory = "spa-node-factory";
-        #   args = {
-        #     "factory.name" = "support.node.driver";
-        #     "node.name" = "Dummy-Driver";
-        #     "priority.driver" = 8000;
-        #   };
-        # }
+        {
+          factory = "spa-node-factory";
+          args = {
+            "factory.name" = "support.node.driver";
+            "node.name" = "Dummy-Driver";
+            "priority.driver" = 8000;
+          };
+        }
         {
           factory = "adapter";
           args = {
@@ -75,6 +74,12 @@
     # - gh/f/.config/wireplumber/scripts/auto-connect-ports.lua
 
     wireplumber.extraConfig = {
+
+      extraConfig = {
+        "10-default-volume" = {
+          "wireplumber.settings"."device.routes.default-sink-volume" = 0.8;
+        };
+      };
 
       # bluez5 roles:
       # - hsp_hs/ag: headset, audio gateway

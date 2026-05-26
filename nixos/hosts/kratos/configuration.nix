@@ -147,6 +147,19 @@
   boot.kernelModules = [ "v4l2loopback" ];
   boot.extraModulePackages = [ config.boot.kernelPackages.v4l2loopback ];
 
+  # TODO remove once copy.fail has blown over
+  boot.blacklistedKernelModules = [
+    "algif_aead"
+    "esp4"
+    "esp6"
+    "rxrpc"
+  ];
+  boot.extraModprobeConfig = "
+    install algif_aead /bin/false
+    install esp4 /bin/false
+    install esp6 /bin/false
+    install rxrpc /bin/false";
+
   # ---------------------------------------------
   # Appimage
 

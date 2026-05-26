@@ -173,6 +173,10 @@ in
       openjdk
       maven
 
+      # LANG: LUA
+      lua-language-server
+      stylua
+
       # TOOLS
       poppler-utils # pdf
 
@@ -188,6 +192,7 @@ in
 
       # TOOLS: DISK
       btrfs-assistant
+      ncdu
 
       # TOOLS: NETWORK
       socat
@@ -230,6 +235,7 @@ in
       qpwgraph
       hyprpwcenter
       coppwr
+      # crosspipe
 
       # DESKTOP: NWG
       nwg-look
