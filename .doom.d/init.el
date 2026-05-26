@@ -88,9 +88,9 @@
        json
        (java +lsp)
        (javascript +lsp)
-       (julia +lsp)
+       ;; (julia +lsp) ;; getting silent warnings in debug for (julia +snail) via (modulep! +snail) on M-x
        (latex +cdlatex +latexmk)
-       lua ;; TODO: (lua +lsp)
+       (lua +lsp +tree-sitter)
        markdown
        (nix +tree-sitter)
        (org +jupyter +pandoc +pretty +noter +gnuplot +present +roam2) ; +crypt?

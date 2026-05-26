@@ -1484,7 +1484,13 @@ order dependent via my config."
 
 
 ;;; Programming
-;;
+
+;;;; Grammar
+
+(use-package! antlr-mode :defer t)
+
+(use-package! bnf-mode :defer t)
+
 ;;;; Tree Sitter
 
 ;;(setq treesit-extra-load-path
@@ -1840,6 +1846,9 @@ the root")
 (use-package! js-mode :defer t :custom (js-indent-level 2))
 
 ;;;; Scripting
+
+(use-package! restclient
+  :config (setq restclient-log-request nil))
 
 ;;;;; Shell
 

@@ -121,14 +121,10 @@
 (package! magit-todos)
 (package! magit-tbdiff)
 
-;; TODO: remove once doom re-pins forge or specifies ghub
-(package! ghub)
-(package! gogs)
-(package! glab)
-(package! buck)
-(package! gtea)
-
 ;;* Programming
+
+;;** Grammar
+(package! bnf-mode)
 
 ;;** Tree Sitter
 

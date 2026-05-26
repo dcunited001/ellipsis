@@ -117,7 +117,7 @@ guix-copy-doom-profile:
 # export EMAIL=aionfork@gmail.com
 # export SSH_AUTH_SOCK=/run/user/1000/gnupg/S.gpg-agent.ssh
 
-DOOMDIR=$(HOME).doom.d
+DOOMDIR=$(HOME)/.doom.d
 EMACSDIR=$(HOME)/.emacs.doom
 EMACS=$(MKDIR)/.guix-profile/bin/emacs
 GUIX_SOURCE=/data/ecto/guix/guix
@@ -139,7 +139,7 @@ doom_aot=--aot
 doomsync: doomfixsystemd
 	guix shell -p $(GUIX_PROFILE) \
 	-E EMACSDIR -E EMACS -E DOOMDIR -E EMACS_SOURCE -E GUIX_SOURCE \
-	-- $(EMACSDIR)/bin/doom sync -e -B $(doom_aot) $(doom_threads)
+	-- $(EMACSDIR)/bin/doom sync -e $(doom_aot) $(doom_threads)
 
 doomgc:
 	guix shell -p $(GUIX_PROFILE) \

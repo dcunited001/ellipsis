@@ -81,6 +81,8 @@ GUIXGUIXPROFILE=$(HOME)/.config/guix/current
 # GUIXHOST=ahost make -e guix-copy
 # GUIXHOST=ahost make -e guix-copy-pull-sync guix-copy-pull-lock
 
+# 5/2/26: confirmed that `guix copy` works from desktop -> laptop
+
 .PHONY: guix-copy
 guix-copy:
 	@echo guix copy --to=$(GUIXUSER)@$(GUIXHOST) $(shell readlink -f $(GUIXGUIXPROFILE))
