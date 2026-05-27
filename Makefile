@@ -8,13 +8,22 @@ MKPATHREAL   := $(realpath $(lastword $(MAKEFILE_LIST)))
 MKDIR        := $(abspath $(dir $(MKPATH)))
 MKPARENT     := $(abspath $(dir $(MKDIR)))
 SHELL=/bin/sh
+HOST=$(shell hostname)
 
 # maybe rebuild cache: --rebuild-cache
 
 GUIXGUIXBASE=$(HOME)/.config/guix/base-channels.scm
 GUIXGUIXCHAN=$(HOME)/.config/guix/channels.scm
 CHANNELS_FILE=./env/dc-configs/guix/channels.scm
-GUIXTM=guix time-machine -L ./env -C $(CHANNELS_FILE)
+
+# Temporary: I need a proper repl to refactor for restricted channels API
+channels_unsafe ?= 0
+channels_unsafe_eval =
+ifeq ($(channels_unsafe),1)
+    channels_unsafe_eval = --unsafe-channel-evaluation
+endif
+
+GUIXTM=guix time-machine -L ./env -C $(CHANNELS_FILE) $(channels_unsafe_eval)
 GUIX=$(GUIXTM) --
 
 # don't use these vars for GUIXTM
@@ -31,13 +40,62 @@ DC_SRC_LOAD_PATH=-L ./env -L ./ellipsis -L ./dc
 # inputs, testing and repl
 DEV_ENV_LOAD_PATH=-L ./env -L ./ellipsis
 
-
 PULL_EXTRA_OPTIONS=
 # --allow-downgrades
 
 # to install directly onto a system booted with iso (cow-store)
 #
 # ROOT_MOUNT_MOUNT=/mnt
+
+# =============================================
+#
+# - `make channels_unsafe=1 ares-profile` to register gc root
+# - then `make ares` to run
+#
+# (1) sets /gnu/store to the specified CHANNELS_FILE (for fast GUIXTM)
+#
+# then (2) loads a consistent `guile` with the second set of -L flags
+#
+# and (3) starts the repl.
+#
+# for rde dev worklows, `make env/sync` syncs channel specs between rde's
+# upstream and the example's channel spec
+
+ARES_PROFILE=.guix-profile-dev
+ARES_GC_ROOT=$(MKDIR)/$(ARES_PROFILE)
+ARES_SHELL=$(GUIX) shell -L ./env \
+	guile-next guile-ares-rs \
+	-e '(@ (dc-configs dev packages) guix-package)' \
+	-e '(@ (dc-configs dev packages) channels-package)'
+
+# `ares <- ares-profile` would add some additional eval time
+ares-profile:
+	$(ARES_SHELL) --root=$(ARES_GC_ROOT) # registers a GC root and dumps the profile path
+
+# assumes the profile retains the `guix time-machine` provenance, but runs
+# it with a separate top-level `guix` binary (unsure of the exact consequences)
+ares-impure:
+	guix shell -L ./env -p $(ARES_PROFILE) \
+	-- guile -L ./env -L ./ellipsis -L ./dc -c \
+"(begin (use-modules (guix gexp)) #;(load gexp reader macro globally) \
+((@ (ares server) run-nrepl-server)))"
+
+ares:
+	$(ARES_SHELL) -- guile -L ./env -L ./ellipsis -L ./dc -c \
+"(begin (use-modules (guix gexp)) #;(load gexp reader macro globally) \
+((@ (ares server) run-nrepl-server)))"
+
+repl: ares
+
+# TODO: write an env/sync task to emit channel spec to (dc-configs guix channels)
+# env/sync: env/guix/rde/env/guix/channels.scm
+
+# TODO: figure out how to get a separate GC link, so the GUIXTM store items
+# aren't prematurely purged (like a basic emacs profile or something)
+
+# .guix-profile: manifest.scm channels-lock.scm
+# 	$(GUIXPACKAGE) -m $(MANIFEST) -p $(GUIX_PROFILE)
+
 
 # =============================================
 # Guix Channel
@@ -148,38 +206,6 @@ guix-sync-dev:
 # done... or it would be as simple as that... but idk scheme tooling well
 # enough. you can write plain scheme objects to a file. that's all that's
 # happening here. the channels format is like a nested plist.
-
-# =============================================
-# `make ares`
-#
-# (1) sets /gnu/store to the specified CHANNELS_FILE (for fast GUIXTM)
-#
-# then (2) loads a consistent `guile` with the second set of -L flags
-#
-# and (3) starts the repl.
-#
-# for rde dev worklows, `make env/sync` syncs channel specs between rde's
-# upstream and the example's channel spec
-
-# ares: env/sync
-repl: ares
-ares:
-	$(GUIX) shell -L ./env \
-	guile-next guile-ares-rs \
-	-e '(@ (dc-configs dev packages) guix-package)' \
-	-e '(@ (dc-configs dev packages) channels-package)' \
-	-- guile -L ./env -L ./ellipsis -L ./dc -c \
-"(begin (use-modules (guix gexp)) #;(load gexp reader macro globally) \
-((@ (ares server) run-nrepl-server)))"
-
-# TODO: write an env/sync task to emit channel spec to (dc-configs guix channels)
-# env/sync: env/guix/rde/env/guix/channels.scm
-
-# TODO: figure out how to get a separate GC link, so the GUIXTM store items
-# aren't prematurely purged (like a basic emacs profile or something)
-
-# .guix-profile: manifest.scm channels-lock.scm
-# 	$(GUIXPACKAGE) -m $(MANIFEST) -p $(GUIX_PROFILE)
 
 # =============================================
 # Guix
