@@ -123,42 +123,37 @@ EMACS=$(MKDIR)/.guix-profile/bin/emacs
 GUIX_SOURCE=/data/ecto/guix/guix
 EMACS_SOURCE=/data/ecto/emacs/emacs/src
 emacs_socket_name=doom
+
 # emacs_socket_path=$(XDG_RUNTIME_DIR)/emacs            # unused
 # emacs_socket=$(emacs_socket_path)$(emacs_socket_name) # unused
-
-# make doom_build=-b doomsync
-# doom_build= # nevermind, just call doomsync before doomup
 
 doom_threads=-j 8
 doom_build=-b
 doom_aot=--aot
 
+DOOMCLI=guix shell -p $(GUIX_PROFILE) \
+	-E EMACSDIR -E EMACS -E DOOMDIR -E EMACS_SOURCE -E GUIX_SOURCE \
+	-- $(EMACSDIR)/bin/doom
+
+
 .PHONY: doomsync doomgc doombuildaot doomup doominstall
 
 # syncs, but doesn't rebuild (... actually it seems to nativecomp)
 doomsync: doomfixsystemd
-	guix shell -p $(GUIX_PROFILE) \
-	-E EMACSDIR -E EMACS -E DOOMDIR -E EMACS_SOURCE -E GUIX_SOURCE \
-	-- $(EMACSDIR)/bin/doom sync -e $(doom_aot) $(doom_threads)
+	$(DOOMCLI) sync -e
 
 doomgc:
-	guix shell -p $(GUIX_PROFILE) \
-	-E EMACSDIR -E EMACS -E DOOMDIR -E EMACS_SOURCE -E GUIX_SOURCE \
-	-- $(EMACSDIR)/bin/doom gc
+	$(DOOMCLI) gc
 
-# doombuild:
-#	doom sync -e -U $(doom_build) $(doom_threads) $(doom_aot)
+doombuild:
+	$(DOOMCLI) sync -e -U $(doom_build) $(doom_threads) $(doom_aot)
 
 # pulls, then syncs (implicitly rebuilds)
 doomup: doomfixsystemd # doomsync
-	guix shell -p $(GUIX_PROFILE) \
-	-E EMACSDIR -E EMACS -E DOOMDIR -E EMACS_SOURCE -E GUIX_SOURCE \
-	-- $(EMACSDIR)/bin/doom upgrade $(doom_aot) $(doom_threads)
+	$(DOOMCLI) upgrade $(doom_aot) $(doom_threads)
 
 doominstall:
-	guix shell -p $(GUIX_PROFILE) \
-	-E EMACSDIR -E EMACS -E DOOMDIR -E EMACS_SOURCE -E GUIX_SOURCE \
-	-- $(EMACSDIR)/bin/doom install --no-config --no-env --no-fonts
+	$(DOOMCLI) install --no-config --no-env --no-fonts
 
 # NOTE: --aot is required for systemd-mode to produce systemd.elc since its
 # recipe specifies nativecomp. if this causes issues, remove 'nativecomp from
@@ -172,9 +167,6 @@ doominstall:
 # TODO: natively compiling 3,200+ files (how to run these tasks incrementally?)
 
 # bin/doom make completions --zsh # (no bash yet)
-
-# NOTE: upgrade is equivalent to git pull + doom sync
-
 
 # TODO check --no-fonts
 
