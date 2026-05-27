@@ -1,5 +1,3 @@
-(use-modules (guix ci)
-             (guix channels))
 
 (list
  ;; %default-guix-channel
