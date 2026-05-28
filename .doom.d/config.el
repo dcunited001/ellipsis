@@ -2000,7 +2000,8 @@ the root")
 ;;;; Magit
 
 (use-package! magit
-  :custom (magit-delete-by-moving-to-trash nil))
+  :custom (magit-delete-by-moving-to-trash nil)
+  :config (setq magit-revision-insert-related-refs t))
 
 ;; :config (setq magit-display-buffer-function
 ;;               #'magit-display-buffer-same-window-except-diff-v1)
