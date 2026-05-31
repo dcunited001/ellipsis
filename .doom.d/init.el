@@ -96,7 +96,7 @@
        (org +jupyter +pandoc +pretty +noter +gnuplot +present +roam2) ; +crypt?
        plantuml
        (python +lsp +tree-sitter) ;; TODO: +poetry +pyright +pyenv
-       qt
+       (qt +tree-sitter)
        (rest +jq)
        (ruby +lsp) ;; TODO: +rails +chruby +rbenv +rvm
        (rust +lsp)

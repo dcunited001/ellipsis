@@ -40,6 +40,7 @@
    "tree-sitter-gomod"
    "tree-sitter-hcl"
    "tree-sitter-html"
+   "tree-sitter-hyprlang"
    "tree-sitter-java"
    "tree-sitter-javascript"
    "tree-sitter-jsdoc"
@@ -47,14 +48,13 @@
    "tree-sitter-lua"
    "tree-sitter-nix"
    "tree-sitter-python"
+   "tree-sitter-qmljs"
+   "tree-sitter-qmldir"
    "tree-sitter-ruby"
    "tree-sitter-rust"
    "tree-sitter-sway"
    "tree-sitter-typescript"
    "tree-sitter-yaml"
-
-   ;; from ../ellipsis
-   "tree-sitter-hyprlang"
 
    ;; CLI
    "tree-sitter-cli"))
