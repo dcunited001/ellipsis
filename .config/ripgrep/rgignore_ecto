@@ -1,0 +1,17 @@
+# linked from $_ECTO/.rgignore
+
+# .repo metadata
+.repo
+
+# internationalization
+*.po
+
+# compressed files
+*.tar.gz
+*.zip
+*.bz2
+*.lzma
+*.xz
+*.lz4
+*.br
+*.zst

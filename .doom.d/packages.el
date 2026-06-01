@@ -167,6 +167,8 @@
 ;;*** C++
 ;;**** CMake
 ;; TODO: PKG project-cmake (dep on project.el)
+(package! meson-mode)
+
 ;;**** QML
 ;;**** XKB
 (package! xkb-mode)

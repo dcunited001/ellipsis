@@ -87,6 +87,7 @@ in
       git-repo
       git-stack
       watchexec
+      ripgrep
 
       # CLI SHINY
       fastfetch

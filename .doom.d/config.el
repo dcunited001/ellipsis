@@ -1873,6 +1873,9 @@ the root")
   ;; :custom (lsp-zig-zls-executable . "~/.fdsa")
   :defer t)
 
+(use-package! meson-mode
+  :defer t)
+
 ;;;;; Java
 
 ;; for FRC: create a .mise.toml like below (or install tools with mise)
@@ -2478,6 +2481,10 @@ the root")
 ;;;; Misc
 
 ;;;; Desktop
+
+;;;;; Quickshell
+
+
 
 ;;;;; Hyprland
 
