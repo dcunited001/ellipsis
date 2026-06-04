@@ -72,7 +72,8 @@ along with KEYBIND, if present. (keybind is probably broken)."
                          (intern toggle-name))))
     `(progn
        (defun ,toggle-sym ()
-         (list ,toggle-docstring)
+         ;; (list ,toggle-docstring)
+         ,toggle-docstring
          (interactive)
          (setq-default ,name (not ,name)))
        ;; ,(if keybind `(map! ,keybind #',toggle-sym))

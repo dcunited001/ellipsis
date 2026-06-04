@@ -1,0 +1,22 @@
+// -*- mode: jsonc -*-
+{
+  "$schema": "https://raw.githubusercontent.com/sumneko/vscode-lua/master/setting/schema.json",
+  "workspace": {
+    "library": [
+      "/usr/share/hypr/stubs",
+      "/nix/store/nyfjvjg4qpssa5513q41xjvrmlhz16gs-hyprland-0.55.1/share/hypr/stubs",
+      ".config/hypr",
+      ".config/wireplumber/scripts"
+    ],
+    "ignoreDir": [
+      "/.doom.d/.guix-profile",
+      "/.doom.d/.guix-profile-dev"
+    ],
+    "maxPreload": 200,
+    "checkThirdParty": "Disable" // Ask, Apply, ApplyInMemory
+  },
+  "diagnostics": {
+    "globals": ["hl"],
+    "unusedLocalExclude": ["_*"]
+  }
+}

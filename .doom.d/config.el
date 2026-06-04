@@ -266,6 +266,9 @@ Guix channel.")
   "M-<SPC>" #'cape-rfc1345)
 
 ;;;;; LSP Map <f8>
+
+(dc/toggleable-boolean lsp-log-io)
+
 (general-create-definer lsp-def
   :prefix-map 'dc/lsp-map
   :prefix-command 'dc/lsp-map)
@@ -273,6 +276,7 @@ Guix channel.")
  :keymaps 'global-map
  "<f8>" '(:prefix-command dc/lsp-map :wk "LSP"))
 (lsp-def
+  "l" #'dc/toggle-lsp-log-io
   "<f7>" #'lsp-ui-peek-enable
   "<f8>" #'lsp-ui-lsp-toggle
   "<f9>" #'lsp-lens)
@@ -1951,8 +1955,57 @@ the root")
 
 ;;;; Other Langs
 
-;;;; Compile
+;;;;; Lua
 
+(use-package! lua-ts-mode
+  :defer t)
+
+(after! lsp-mode
+  ;; nope! it's fucking async
+  ;; (advice-add 'lsp-lua-language-server-install-latest :override #'ignore)
+
+  (advice-add 'lsp-clients-lua-language-server-test
+              :override (lambda () (message "EL ES PE: it's great if you don't care about details"))))
+
+;; this may need to be evaluated before lsp-lua.el. it reallly wants to download it
+(setq lsp-clients-lua-language-server-bin (executable-find "lua-language-server")
+      lsp-clients-lua-language-server-command (executable-find "lua-language-server"))
+
+;; (string-match-p +df-lua-regexp "/home/dc/.dotfiles/.config/hypr/rules.lua")
+;; (string-match-p +df-lua-regexp "/home/dc/.dotfiles/.config/hypr/rules/fdsa.lua")
+;; (string-match-p +df-lua-regexp "/home/dc/.dotfiles/.config/wireplumber/scripts/foobar.lua")
+
+(defvar +df-lua-regexp
+  (rx-let ((xdg-config (literal (or (getenv "XDG_CONFIG_HOME")
+                                    (expand-file-name "~/.config"))))
+           (df-xdg-config (literal (expand-file-name "~/.dotfiles/.config"))))
+    (rx bos (and (| xdg-config df-xdg-config)
+                 (| "/hypr/" "/wireplumber/scripts/")
+                 (1+ printing)
+                 ".lua")
+        eos)) ;; "/rules"
+  "Regexp to match files for `+df-lua-mode'.")
+
+(after! lua-ts-mode
+  (def-project-mode! +df-lua-mode
+    :match +df-lua-regexp
+    :add-hooks (list #'lsp)
+    :modes '(lua-ts-mode)))
+
+(after! lsp-mode
+  (setq lsp-disabled-clients
+        (append lsp-disabled-clients
+                '(lsp-lua-lsp emmy-lua lua-roblox-language-server))))
+
+;;   lsp-clients-lua-language-server-main-location "fdsa"
+;;   lsp-clients-lua-language-server-bin "-E"
+
+;; - nix bundles main.lua in share, but doesn't propagate it
+;; - guix bundles it in libexec/lua-language-server/bin/main.lua
+;; - both are plenty capable of wrapping the exec and adding "-E"
+;; - nix logs to XDG_CACHE_DIR, guix logs to /tmp/runtime-$USER (there can be only one)
+
+;;;; Compile
 
 ;;;;; Compile Multi
 ;;
