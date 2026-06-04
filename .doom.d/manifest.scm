@@ -27,6 +27,8 @@
    ;; req. -L $dotfiles/ellipsis -L $dotfiles/dc
    ;; "d2-bin"
 
+   "lua-language-server"
+
    ;; emacs bundles tree-sitter as dep
    "tree-sitter-awk"
    "tree-sitter-devicetree"

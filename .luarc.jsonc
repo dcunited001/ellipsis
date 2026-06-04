@@ -9,8 +9,8 @@
       ".config/wireplumber/scripts"
     ],
     "ignoreDir": [
-      "/.doom.d/.guix-profile",
-      "/.doom.d/.guix-profile-dev"
+      "/.doom.d/.guix-profile*/",
+      "/.doom.d/.guix-profile-dev*/"
     ],
     "maxPreload": 200,
     "checkThirdParty": "Disable" // Ask, Apply, ApplyInMemory

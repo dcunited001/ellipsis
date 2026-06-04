@@ -132,7 +132,6 @@
 
 ;;** Lisp
 
-(package! lispy :recipe (:host github :repo "abo-abo/lispy"))
 (package! prism)
 (package! yuck-mode)
 
