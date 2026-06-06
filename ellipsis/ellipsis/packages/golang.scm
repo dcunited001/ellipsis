@@ -9,6 +9,7 @@
   #:use-module (guix build-system copy)
 
   #:use-module (gnu packages base)
+  #:use-module (gnu packages compression)
   #:use-module (gnu packages golang)
   #:use-module (gnu packages golang-xyz)
   #:use-module (gnu packages golang-check)
@@ -17,6 +18,57 @@
   ;; #:use-module (gnu packages gcc)
 
   #:use-module (srfi srfi-1))
+
+(define-public qml-language-server-bin
+  (let* ((bin-platform "linux-amd64")
+         (bin-version "1.7.0")
+         (bin-name
+          (string-append "qml-language-server-v" bin-version "-" bin-platform
+                         ".zip")))
+    (package
+      (name "qml-language-server-bin")
+      (version "1.7.0")
+      (source (origin
+                (method url-fetch)
+                (uri (string-append
+                      "https://github.com/cushycush/qml-language-server/releases/download/"
+                      "v" version "/" bin-name))
+                (sha256
+                 (base32
+                  "0ip9yhxl90sjf53wahj95k04g81s23004rczzh1yxrgvzyq8hvmd"))))
+
+      (build-system copy-build-system)
+      (native-inputs (list unzip))
+      (arguments
+       (list
+        #:install-plan #~
+        '(("." "bin/" #:include-regexp ("qml-language-server.*$")))
+        #:modules '((guix build copy-build-system)
+                    (guix build utils)  ; for find-file
+                    (srfi srfi-26))
+                                        ; for cut, a swappier curry
+        #:phases
+        #~(modify-phases %standard-phases
+            (add-after 'install 'make-symlink
+              (lambda*
+                  (#:key inputs outputs #:allow-other-keys)
+                (let ((bin (string-append
+                            (assoc-ref outputs "out")
+                            "/bin")))
+                  (with-directory-excursion bin
+                    (symlink
+                     (car
+                      (find-files
+                       "."
+                       "qml-language-server"))
+                     "qml-language-server"))))))))
+
+      (home-page "https://github.com/cushycush/qml-language-server")
+      (synopsis "A Go-based Language Server for QML")
+      
+      (description
+       "Pure-Go Parser powered by @@{gotreesitter} with an embedded tree-sitter-qmljs grammar; no CGO, no external tree-sitter install.")
+      (license license:expat))))
 
 
 (define-public go-github-com-jfeliu007-goplantuml
@@ -210,17 +262,23 @@ produce SVGs from @@code{.d2} files.")
       #~(modify-phases %standard-phases
           (delete 'build) ;; XXX: Workaround for go-build-system's lack of Go modules support.
           (replace 'check
-            (lambda* (#:key tests? import-path #:allow-other-keys)
+            (lambda*
+                (#:key tests? import-path #:allow-other-keys)
               (when tests?
-                (with-directory-excursion (string-append "src/" import-path)
-                  (invoke "go" "test" "-v" "./...")))))
+                (with-directory-excursion
+                    (string-append "src/" import-path)
+                  (invoke "go" "test"
+                          "-v"
+                          "./...")))))
           (add-before 'check 'remove-failing-tests
-            (lambda* (#:key import-path #:allow-other-keys)
+            (lambda*
+                (#:key import-path #:allow-other-keys)
               (delete-file-recursively
                ;; global_test.go calls util.GenerateUniqueID() which evokes from
                ;; the fourth dimension several identical moments of the first
                ;; kind
-               (string-append "src/" import-path "/opts/global_test.go")))))))
+               (string-append "src/" import-path
+                              "/opts/global_test.go")))))))
     ;; unsure as to whether any of these need to be propagated
     (propagated-inputs (list go-github-com-kr-pretty
                              go-gopkg-in-yaml-v3))

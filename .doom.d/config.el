@@ -29,7 +29,7 @@
 (defconst EMACS29+    (> emacs-major-version 28))
 (defconst MODULES     (featurep 'dynamic-modules))
 (defconst NATIVECOMP  (featurep 'native-compile))
-(defconst DBUS_FOUND (not (null (getenv "DBUS_SESSION"))))
+(defconst DBUS_FOUND (not (null (getenv "DBUS_SESSION_BUS_ADDRESS"))))
 
 ;;; Emacs
 
@@ -558,6 +558,11 @@ modes and testing is tedious."
 
 ;;;; Alerts
 (require 'notifications)
+(defun dc/notifi (&rest params)
+  "Send a reminder or notification."
+  (let ((params (doom-plist-merge params '(:title "Doom Emacs" :body "Doom Emacs"))))
+    (when DBUS_FOUND (apply #'notifications-notify params))))
+
 (use-package! alert
   :demand t
   :custom
@@ -1819,12 +1824,20 @@ the root")
 ;; (setq-default html-ts-mode-indent-offset 2) ;; NOTE remove if unnecessary
 (use-package mhtml-ts-mode :defer t)
 
+;; :config (notifications-notify
+;;             :title "Emacs: straight.el"
+;;             :body "Repositories last updated %s. Update now?"
+;;             :actions '("update" "Update")
+;;             :on-action #'dc/reminder-straight-fetch-on-action)
+
+;; (add-hook! mhtml-ts-mode)
+
 (use-package! apheleia
   :config
-  (dolist (webml '(html-mode html-ts-mode mhtml-mode web-mode))
+  (dolist (webml '(html-mode html-ts-mode mhtml-mode mhtml-ts-mode web-mode))
     ;; aphelia: prettier instead of prettier-html, so it relies on .prettierrc
     (add-to-list 'apheleia-mode-alist `(,webml . prettier)))
-  (setq apheleia-mode-alist             ; '(nix-mode treefmt nix-ts-mode treefmt)
+  (setq apheleia-mode-alist          ; '(nix-mode treefmt nix-ts-mode treefmt)
         (apply #'a-assoc apheleia-mode-alist '(nix-mode nixfmt nix-ts-mode nixfmt))))
 
 ;;;;; Tailwind
@@ -2537,6 +2550,17 @@ the root")
 
 ;;;;; Quickshell
 
+(setq dc/lsp-qml-language-server-command "qml-language-server")
+
+(after! lsp-mode
+  (lsp-register-client
+   (make-lsp-client :new-connection
+                    (lsp-stdio-connection
+                     (lambda ()
+                       (executable-find lsp-qml-language-server-command)))
+                    :activation-fn (lsp-activate-on "qml")
+                    :priority 0
+                    :server-id 'qml-language-server)))
 
 
 ;;;;; Hyprland
@@ -2753,8 +2777,8 @@ the root")
       "M-r" #'dc/consult-ripgrep
       "s" #'consult-line-multi          ; "L"
       "S" #'swiper
-      ;; "M-s" #'consult-yasnippet
-      ;; "M-S" #'consult-yasnippet-visit-snippet-file
+      "M-s" #'consult-yasnippet-visit-snippet-file
+      "M-C-s" #'consult-yasnippet
       "u" #'consult-focus-lines
 
       ;; Isearch integration

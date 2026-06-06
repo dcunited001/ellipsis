@@ -25,6 +25,12 @@ let
       version = "1.38.0";
       sha256 = "10z352wxgk65b6a0hv9lvanpwmdfnzhg1r3g5fsg1ikgda8q6cgc";
     }
+    {
+      name = "ty";
+      publisher = "astral-sh";
+      version = "2026.54.0";
+      sha256 = "sha256-pTxphxaXO1jRpD2hPiegm1ky5kzA85CqOjJ43Is/FnY=";
+    }
   ];
 
   # deps to run avalonia WPILIB installer (don't do this: waste of time)
@@ -120,6 +126,9 @@ let
 
       redhat.vscode-yaml
       vscjava.vscode-gradle
+
+      vue.vscode-typescript-vue-plugin
+      antyos.openscad # includes snippets
 
       # the extension pack won't work with java
       # vscjava.vscode-java-pack

@@ -178,6 +178,9 @@ in
       lua-language-server
       stylua
 
+      # LANG: MISC
+      ts_query_ls
+
       # TOOLS
       poppler-utils # pdf
 
