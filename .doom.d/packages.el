@@ -143,6 +143,7 @@
 ;;** Web
 
 (package! astro-ts-mode :recipe (:host github :repo "Sorixelle/astro-ts-mode"))
+(package! vue-ts-mode :recipe (:host github :repo "8uff3r/vue-ts-mode" :files ("vue-ts-mode.el")))
 (package! websocket) ;; :type git (:host github :repo "ahyatt/emacs-websocket")
 
 ;;*** Tailwind

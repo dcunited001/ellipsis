@@ -2,7 +2,7 @@
        (name 'guix)
        (url "https://codeberg.org/guix/guix.git")
        (branch "master")
-       (commit "41111228d516bf834bce5ad4b92fc7dfef1187de")
+       (commit "c86d515f948c12c14c5837a1df914f9394e8c120")
        (introduction
         (make-channel-introduction
          "9edb3f66fd807b096b48283debdcddccfea34bad"
@@ -32,7 +32,7 @@
        (name 'nonguix)
        (url "https://gitlab.com/nonguix/nonguix")
        (branch "master")
-       (commit "e1273e751bb4a65cd8f817b871bfde740373d917")
+       (commit "3ed7c207c59dde11a97db483cad4c96eae1a10c4")
        (introduction
         (make-channel-introduction
          "897c1a470da759236cc11798f4e0a5f7d4d59fbc"
