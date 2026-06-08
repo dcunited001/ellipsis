@@ -70,7 +70,13 @@ ARES_SHELL=$(GUIX) shell -L ./env \
 
 # `ares <- ares-profile` would add some additional eval time
 ares-profile:
-	$(ARES_SHELL) --root=$(ARES_GC_ROOT) # registers a GC root and dumps the profile path
+	$(ARES_SHELL) --root=$(ARES_GC_ROOT)
+
+# `make ares-profile`:
+#
+# - registers a GC root (and dumps the profile path; it did but now it doesn't)
+# - fail when --root=$profile already exists (unless identical gitsha's)
+# - this is fine. it's super fucking fast.
 
 # assumes the profile retains the `guix time-machine` provenance, but runs
 # it with a separate top-level `guix` binary (unsure of the exact consequences)

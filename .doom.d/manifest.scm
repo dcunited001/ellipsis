@@ -28,6 +28,7 @@
    ;; "d2-bin"
 
    "lua-language-server"
+   "systemd-lsp"
 
    ;; emacs bundles tree-sitter as dep
    "tree-sitter-awk"

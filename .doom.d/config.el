@@ -780,10 +780,12 @@ modes and testing is tedious."
     (add-to-list 'vertico-multiform-commands vrt-cmd)))
 
 ;;;;; Corfu
+
 (use-package! corfu
   :defer t
   :bind ((:map corfu-map
                ("C-f" . #'corfu-insert-separator)
+               ;; "C-S-s" #'+corfu/move-to-minibuffer
                ("'" . #'corfu-quick-complete)))
   :config
   (setq corfu-auto-delay 0.5
@@ -1514,6 +1516,9 @@ order dependent via my config."
 ;;           unless (treesit-language-available-p lang-key)
 ;;           do (treesit-install-language-grammar lang-key)))
 
+;; TODO: setup combobulate
+(use-package! combobulate :defer t)
+
 ;;;; LSP
 
 ;; (dc/lsp-json-pp lsp--client-capabilities)
@@ -1762,6 +1767,7 @@ the root")
 ;; run guile-ares-rs server externally, then connect using sesman-start
 (use-package! arei
   :defer t
+  :hook 'guix-scheme-mode
   :config
   (set-popup-rules!
     '(("^\\*arei:" :side bottom :vslot -5 :slot -5 :width 80 :select t :quit t))))
@@ -2212,9 +2218,42 @@ the root")
 
 ;;;;; pinentry
 
-(setopt epg-user-id user-mail-address)
+(setopt epg-user-id (format "%s <%s>" user-full-name user-mail-address))
+
+;; NOTE: this should maybe get set to `epg-user-id' (or name or email)
+(setq-default org-crypt-key t)
+
 ;; (setopt epg-pinentry-mode nil) ; cancel/ask/loopback
 ;; (setq epg-debug t)
+
+(defun dc/epg-uid-list (&optional context user-id)
+  "Return a list of GPG identities with my default on top"
+  (let* ((context (epg-make-context))
+         (key-list (epg-list-keys context))
+         (user-id (or user-id epg-user-id)))
+    (->>
+     key-list
+     (mapcar #'epg-key-user-id-list)
+     (mapcar (lambda (k) (car k)))
+     (mapcar #'epg-user-id-string)
+     (-sort (lambda (a b) (equal a epg-user-id))))))
+
+(defun dc/epg-subkey-for (&optional user-id)
+  "Return the most recent subkey for `user-ud'."
+  ;; (epg-key-user-id-list (nth 1 (epg-list-keys (epg-make-context))))
+  ;; (epa-list-keys (nth 1 (epg-list-keys (epg-make-context))))
+  (epa-list-keys (nth 0 (dc/epg-uid-list))))
+
+(defun dc/org-crypt-entry (encrypt-to)
+  "Setup `:crypt:' tag and `CRYPTKEY' property. Either use this command or
+set `org-crypt-key' locally to project, which itself falls through to
+`epa-file-encrypt-to'. (it is noob if you don 't handle GPG UID
+selection.)"
+  ;; NOTE: it still sorts my UID second...
+  (interactive (list (completing-read "GPG ID: " (dc/epg-uid-list) nil nil epg-user-id)))
+  (org-entry-put nil "CRYPTKEY" encrypt-to)
+  (org-toggle-tag "crypt" 'on))
+
 
 ;;;;; auth-source-pass
 ;; via doom
@@ -2434,6 +2473,8 @@ the root")
   :init (require 'systemd (expand-file-name ".local/straight/repos/systemd-mode/systemd.elc" doom-emacs-dir))
   :custom
   (systemd-mode-hook '(flycheck-mode)))
+
+;; TODO: add lsp-mode.el client for systemd-lsp
 
 (use-package! journalctl-mode
   :commands journalctl

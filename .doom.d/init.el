@@ -93,7 +93,7 @@
        (lua +lsp +tree-sitter)
        markdown
        (nix +tree-sitter)
-       (org +jupyter +pandoc +pretty +noter +gnuplot +present +roam2) ; +crypt?
+       (org +jupyter +pandoc +pretty +noter +gnuplot +present +roam2 +crypt)
        plantuml
        (python +lsp +tree-sitter) ;; TODO: +poetry +pyright +pyenv
        (qt +tree-sitter)

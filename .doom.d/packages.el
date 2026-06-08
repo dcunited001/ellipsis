@@ -125,8 +125,8 @@
 
 ;;** Grammar
 (package! bnf-mode)
-;;** Tree Sitter
 
+;;** Tree Sitter
 (package! combobulate)
 
 ;;** LSP
