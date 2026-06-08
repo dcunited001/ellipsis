@@ -29,6 +29,7 @@
 
    "lua-language-server"
    "systemd-lsp"
+   "ts-query-ls-bin"
 
    ;; emacs bundles tree-sitter as dep
    "tree-sitter-awk"
