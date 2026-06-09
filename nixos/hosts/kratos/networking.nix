@@ -22,4 +22,10 @@
     wideArea = false;
     allowPointToPoint = false;
   };
+
+  networking.hostName = "kratos";
+  networking.networkmanager.enable = true;
+
+  # for split-brane dns ... idk that this is sufficient
+  services.resolved.enable = true;
 }

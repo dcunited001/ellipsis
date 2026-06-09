@@ -95,8 +95,6 @@
     };
   };
 
-  networking.hostName = "kratos";
-
   # ---------------------------------------------
   # nix-ld (this also gets loaded in a lot of modules, defaults below)
   programs.nix-ld.enable = true;
@@ -314,8 +312,6 @@
   #
   # autojoins networks. does not leave
   # services.zerotierone.enable = true;
-
-  networking.networkmanager.enable = true;
 
   # networking.firewall.enable = false;
   # networking.firewall = {
