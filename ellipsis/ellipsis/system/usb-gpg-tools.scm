@@ -17,7 +17,7 @@
   #:export (usb-gpg-tools
             usb-gpg-tools-amd))
 
-(use-modules (guix utils))
+;; NOTE: readd (use-modules (guix utils))
 
 ;;;; AGE keygen: golang golang-crypto
 ;;;; PGP Packages: gnupg security-token

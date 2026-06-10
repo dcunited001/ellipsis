@@ -33,13 +33,25 @@
 ;; TODO: "dotfiles/ellipsis/service"
 ;; TODO: "dotfiles/ellipsis/home/service"
 
-;; (define-auto-insert
-;;   (rx "dc/services/" (one-or-more (or alphanumeric "-")) ".scm" line-end)
-;;   ["dotfiles/dc/service" yas-expand-current-buffer])
+(define-auto-insert
+  (rx "dc/services/" (one-or-more (or alphanumeric "-")) ".scm" line-end)
+  ["dotfiles/dc/services/service" yas-expand-current-buffer])
+
+(define-auto-insert
+  (rx "dc/home/services/" (one-or-more (or alphanumeric "-")) ".scm" line-end)
+  ["dotfiles/dc/home/services/service" yas-expand-current-buffer])
+
+(define-auto-insert
+  (rx "ellipsis/home/services/" (one-or-more (or alphanumeric "-")) ".scm" line-end)
+  ["dotfiles/ellipsis/home/services/service" yas-expand-current-buffer])
+
+(define-auto-insert
+  (rx "ellipsis/home/services/" (one-or-more (or alphanumeric "-")) ".scm" line-end)
+  ["dotfiles/ellipsis/home/services/service" yas-expand-current-buffer])
 
 ;; (define-auto-insert
 ;;   (rx "dc/home/services/" (one-or-more (or alphanumeric "-")) ".scm" line-end)
-;;   ["dotfiles/dc/home/service" yas-expand-current-buffer])
+;;   ["dotfiles/dc/home/services/service" yas-expand-current-buffer])
 
 ;; NOTE: not using these for now
 
