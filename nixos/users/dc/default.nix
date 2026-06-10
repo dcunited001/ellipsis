@@ -225,6 +225,7 @@ in
       # wofi
       wl-clipboard-rs
       dex
+      file-roller
 
       # DESKTOP: SCREENSHOTS
       grim

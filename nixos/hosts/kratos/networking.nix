@@ -25,6 +25,9 @@
 
   networking.hostName = "kratos";
   networking.networkmanager.enable = true;
+  networking.networkmanager = {
+    plugins = [ pkgs.networkmanager-openvpn ];
+  };
 
   # for split-brane dns ... idk that this is sufficient
   services.resolved.enable = true;
