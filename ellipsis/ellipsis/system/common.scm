@@ -20,7 +20,7 @@
 
 ;; remove package-management?
 (use-package-modules wget curl screen password-utils vim tmux emacs emacs-xyz
-                     emacs-build package-management textutils
+                     emacs-build package-management textutils sqlite
                      networking linux hardware rsync acl admin diffoscope
                      time mtools lsof file-systems disk version-control web
                      ssh gnupg cryptsetup security-token tls certs libusb
@@ -47,29 +47,28 @@
 
 (define-public el-nonguix-chan-subs
   (guix-extension
-    (substitute-urls
-     (append (list "https://substitutes.nonguix.org")
-             %default-substitute-urls))
-    (authorized-keys
-     (append
-      (list %nonguix-chan-key)
-      %default-authorized-guix-keys))))
+   (substitute-urls
+    (append (list "https://substitutes.nonguix.org")
+            %default-substitute-urls))
+   (authorized-keys
+    (append
+     (list %nonguix-chan-key)
+     %default-authorized-guix-keys))))
 
 (define-public (el-guix-configuration channels)
   (guix-configuration
-    (inherit %default-guix-configuration)
-    (guix (guix-for-channels channels))
-    (channels channels)
-    (authorize-key? #t)
-    (authorized-keys
-     (cons* %nonguix-key
-            %default-authorized-guix-keys))
-    (substitute-urls
-     '("https://ci.guix.gnu.org"
-       "https://substitutes.nonguix.org"
-       "https://bordeaux.guix.gnu.org"))
-    (extra-options '("--max-jobs=6"
-                     "--cores=0"))))
+   (guix (guix-for-channels channels))
+   (channels channels)
+   (authorize-key? #t)
+   (authorized-keys
+    (cons* %nonguix-chan-key
+           %default-authorized-guix-keys))
+   (substitute-urls
+    '("https://ci.guix.gnu.org"
+      "https://substitutes.nonguix.org"
+      "https://bordeaux.guix.gnu.org"))
+   (extra-options '("--max-jobs=6"
+                    "--cores=0"))))
 
 ;;; Packages
 
@@ -86,7 +85,7 @@
   (list wget curl rsync))
 
 (define-public %el-profile-pkgs-data
-  (list jq yq jc sqlite3))
+  (list jq yq jc sqlite))
 
 (define-public %el-profile-pkgs-fs
   (list lvm2 cryptsetup dosfstools ntfs-3g exfat-utils fuse-exfat f3 acl))
@@ -100,7 +99,7 @@
    i2c-tools ddcutil))
 
 (define-public %el-profile-pkgs-age
-  (list age age-keygen age-plugin-tpm-bin age-plugin-yubikey-bin))
+  (list age age-plugin-tpm-bin age-plugin-yubikey-bin))
 
 (define-public %el-profile-pkgs-tls
   ;; desec-certbot-hook

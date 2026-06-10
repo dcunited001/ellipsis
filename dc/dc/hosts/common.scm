@@ -25,7 +25,7 @@
                      auditd networking ssh docker virtualization containers
                      security-token)
 
-(use-package-modules security-token gnupg)
+(use-package-modules security-token gnupg libusb)
 
 (define-public (dc-hosts-subid-start id)
   (+ (expt 2 16) (expt 10 8) (* 100000 id)))
@@ -89,6 +89,7 @@
                         (udev-rules-service 'yubikey yubikey-personalization))
      (service-extension profile-service-type
                         (lambda (config) (append pkgs-yubikey pkgs-smartcard)))))
+   (default-value '())
    (description "Sets up some common services")))
 
 (define-public (dc-hosts-tty-services)
@@ -115,6 +116,12 @@
                                  (rasdaemon-configuration (record? #t))))
      (service-extension shepherd-root-service-type
                         (service auditd-service-type))))
+   (default-value '())
    (description "Sets up some common services")))
+
+(define-public dc-hosts-unattended-upgrade-defaults
+  (unattended-upgrade-configuration
+   (schedule "30 2 * * 0")
+   (system-expiration (* 6 7 24 3600))))
 
 ;;; common.scm ends here
