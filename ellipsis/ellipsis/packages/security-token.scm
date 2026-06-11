@@ -32,7 +32,7 @@
 (define-public libtpms
   (package
     (name "libtpms")
-    (version "0.10.0")
+    (version "0.10.2")
     (source (origin
               (method git-fetch)
               (uri (git-reference
@@ -41,7 +41,7 @@
               (file-name (git-file-name name version))
               (sha256
                (base32
-                "0nawrc09ahmb1hcxw58v79bwbm8v7xprg9r8nm78nl3wh9fkzav0"))))
+                "190qnjp384a8i8jqh3xyxac7i3cbsbphbl6wk91kw5gzjymjj4aj"))))
     (build-system gnu-build-system)
     (native-inputs (list m4 autoconf automake libtool pkg-config perl))
     (inputs (list openssl tpm2-tss))
@@ -67,7 +67,7 @@ minimum of necessary APIs are made publicly available.")
 (define-public swtpm
   (package
     (name "swtpm")
-    (version "0.10.0")
+    (version "0.10.1")
     (source (origin
               (method git-fetch)
               (uri (git-reference
@@ -76,7 +76,7 @@ minimum of necessary APIs are made publicly available.")
               (file-name (git-file-name name version))
               (sha256
                (base32
-                "1kbxps7kmkd6dnnfv1rzz83bm6ks4pls4lcz0k9y92g0la2m6jk4"))))
+                "0wah3zsnkasccazzlycq8scc52q4h1g58w0br45sr185inw6zgrp"))))
     (build-system gnu-build-system)
     (native-inputs
      (list m4 autoconf automake libtool pkg-config expect socat perl python
@@ -131,76 +131,3 @@ Please read the READMEs in the individual tool's directory under src/.
 
 Please consult the Wiki for information about swtpm")
     (license license:bsd-3)))
-
-(define-public age-plugin-yubikey-bin
-  (let* ((bin-platform "x86_64-linux")
-         (bin-version "0.5.0")
-         (bin-name (string-append "age-plugin-yubikey-v"
-                                  bin-version "-" bin-platform
-                                  ".tar.gz")))
-    (package
-      (name "age-plugin-yubikey-bin")
-      (version "0.5.0")
-      (source (origin
-                (method url-fetch)
-                (uri (string-append
-                      "https://github.com/str4d/age-plugin-yubikey"
-                      "/releases/download/" "v" version "/" bin-name))
-                (sha256
-                 (base32
-                  "1hxja5ziy4c1cf1wdhinr42bsbq8laq3swnhfdnya6y87yhkb6q1"))))
-      (build-system binary-build-system)
-      (inputs `((,gcc "lib")
-                ,gcc-toolchain
-                ,pcsc-lite))
-      (propagated-inputs (list))
-      (arguments
-       (list
-        #:patchelf-plan #~'(("age-plugin-yubikey"
-                             ("pcsc-lite" "gcc" "gcc-toolchain"))
-                            ;; #:include "age-plugin-yubikey"
-                            )
-        #:install-plan #~'(("age-plugin-yubikey" "bin/"))))
-      (home-page "https://github.com/str4d/age-plugin-yubikey")
-      (synopsis "YubiKey plugin for age")
-      (description
-       "age-plugin-yubikey is a plugin for age clients like age and rage, which enables files to be encrypted to age identities stored on YubiKeys.")
-      (license license:expat))))
-
-;; NOTE: it builds: no idea whether it works
-;; (define-public go-github-com-go-piv-piv-go
-;;   (package
-;;     (name "go-github-com-go-piv-piv-go")
-;;     (version "1.11.0")
-;;     (source
-;;      (origin
-;;        (method git-fetch)
-;;        (uri (git-reference
-;;              (url "https://github.com/go-piv/piv-go")
-;;              (commit (string-append "v" version))))
-;;        (file-name (git-file-name name version))
-;;        (sha256
-;;         (base32 "13njcz4lxrac5r3ww4bdrrzkiz2x057d6cyjq9p2jylygkwkp631"))))
-;;     (build-system go-build-system)
-
-;;     ;; the importpath is ./piv. makefile calls `go build ./...`
-;;     ;; #:import-path "github.com/go-piv/piv-go"
-
-;;     (native-inputs (list pkg-config))
-;;     (inputs (list pcsc-lite))
-;;     (arguments
-;;      (list
-;;       #:unpack-path "github.com/go-piv/piv-go"
-;;       #:import-path "github.com/go-piv/piv-go/piv"
-;;       ;; TODO: fix tests: pcsc_test.go and piv_test.go rely on hardware
-;;       ;; the only test that passes is key_test.go
-;;       #:tests? #f
-;;       #:phases
-;;       #~(modify-phases %standard-phases
-;;           (add-after 'unpack 'delete-python-script
-;;             (lambda _
-;;               (for-each delete-file (find-files "src" "pcsc_errors\\.py$")))))))
-;;     (home-page "https://github.com/go-piv/piv-go")
-;;     (synopsis "A Go YubiKey PIV implementation")
-;;     (description "This is not an officially supported Google product")
-;;     (license license:asl2.0)))
