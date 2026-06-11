@@ -15,14 +15,14 @@
 (define-public packer-bin
   (package
     (name "packer-bin")
-    (version "1.9.2")
+    (version "1.15.4")
     (source (origin
               (method url-fetch)
               (uri (string-append "https://releases.hashicorp.com/packer/"
                                   version "/packer_"
                                   version "_linux_amd64.zip"))
               (sha256
-               (base32 "0xbjjkknv6bvgh6j8dyfjf0d1sbwvf0vb8yq2npp15prsp84izil"))))
+               (base32 "1wbwjbd81knb7i0srghjw4w7p0w0a8xrf2f6119psp34k5m7my8m"))))
     (build-system copy-build-system)
     (inputs (list unzip))
     (arguments
@@ -37,14 +37,14 @@ multiple platforms from a single source configuration.")
 (define-public terraform-bin
   (package
     (name "terraform-bin")
-    (version "1.5.4")
+    (version "1.15.6")
     (source (origin
               (method url-fetch)
               (uri (string-append "https://releases.hashicorp.com/terraform/"
                                   version "/terraform_"
                                   version "_linux_amd64.zip"))
               (sha256
-               (base32 "1skps2scfjl2d3iqxj7j76rkrry0wyllr8fgm0kz9xzc6x8w1n8n"))))
+               (base32 "1agsi1z4zlr5l1gkhsxmz12ldid3ajclk31fsim4cp0v1qxhs5d7"))))
     (build-system copy-build-system)
     (inputs (list unzip))
     (arguments
