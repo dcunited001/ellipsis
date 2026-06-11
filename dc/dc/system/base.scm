@@ -200,16 +200,6 @@
     ;;    "/root/.config/guix/systems/" %host-name ".scm")))
     (system-expiration (* 6 7 24 3600)))))
 
-;; TODO: remove dc-extra-file-flatpak from systems
-(define-public (dc-extra-file-flatpak)
-  (extra-special-file
-   "/etc/flatpak/installations.d"
-   (file-union "installations.d"
-               `
-               (("steam.conf" ,(local-file "flatpak/installations.d/steam.conf"))
-                ("agenda.conf"
-                 ,(local-file "flatpak/installations.d/agenda.conf"))))))
-
 ;; use with (udev-rules-service %udev-backlight-rule)
 (define-public %dc-backlight-udev
   (udev-rule
