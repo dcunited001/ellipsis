@@ -29,15 +29,15 @@
                      tcl
                      linux networking python gnome tls security-token hardware)
 
-(define-public libtpms
+(define-public libtpms-dc
   (package
-    (name "libtpms")
+    (name "libtpms-dc")
     (version "0.10.2")
     (source (origin
               (method git-fetch)
               (uri (git-reference
-                    (url "https://github.com/stefanberger/libtpms")
-                    (commit (string-append "v" version))))
+                     (url "https://github.com/stefanberger/libtpms")
+                     (commit (string-append "v" version))))
               (file-name (git-file-name name version))
               (sha256
                (base32
@@ -64,15 +64,15 @@ minimum of necessary APIs are made publicly available.")
     ;; the TPM 2.0 code has a slightly different license
     (license license:bsd-3)))
 
-(define-public swtpm
+(define-public swtpm-dc
   (package
-    (name "swtpm")
+    (name "swtpm-dc")
     (version "0.10.1")
     (source (origin
               (method git-fetch)
               (uri (git-reference
-                    (url "https://github.com/stefanberger/swtpm")
-                    (commit (string-append "v" version))))
+                     (url "https://github.com/stefanberger/swtpm")
+                     (commit (string-append "v" version))))
               (file-name (git-file-name name version))
               (sha256
                (base32
@@ -82,7 +82,7 @@ minimum of necessary APIs are made publicly available.")
      (list m4 autoconf automake libtool pkg-config expect socat perl python
            net-tools which))
     (inputs
-     (list libtpms openssl libtasn1 glib json-glib gnutls fuse libseccomp))
+     (list libtpms-dc openssl libtasn1 glib json-glib gnutls fuse libseccomp))
     (arguments
      (list
       #:tests? #f
