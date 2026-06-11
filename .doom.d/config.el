@@ -2057,6 +2057,9 @@ the root")
   :defer t
   :bind ((:map doom-leader-toggle-map ("G" . #'git-timemachine-toggle))))
 
+;; https://guix.gnu.org/manual/devel/en/guix.html#Submitting-Pull-Requests-Following-the-AGit-Workflow
+(use-package! agitjo)
+
 ;;;; Diff
 ;;;;; Patches
 ;;;;; Smerge

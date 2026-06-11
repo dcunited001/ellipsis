@@ -116,6 +116,7 @@
 ;;* VCS
 ;;** Git
 (package! git-link)
+(package! agitjo)
 
 ;;** Magit
 (package! magit-todos)
