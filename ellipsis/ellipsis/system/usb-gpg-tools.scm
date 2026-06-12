@@ -81,6 +81,7 @@
   (append
    (list
     (service ellipsis-smartcard-service-type))
+    (service pcscd-service-type))
 
    (modify-services %base-services
      (agetty-service-type

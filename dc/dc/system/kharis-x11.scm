@@ -264,6 +264,7 @@ EndSection
        (service zerotier-one-service-type)
 
        (service ellipsis-smartcard-service-type)
+       (service pcscd-service-type)
 
        %dc-docker-service
        %dc-containerd-service

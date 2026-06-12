@@ -248,6 +248,7 @@
        (service fprintd-service-type)
 
        (service ellipsis-smartcard-service-type)
+       (service pcscd-service-type)
 
        ;; connect phone to laptop
        ;; (simple-service 'mtp udev-service-type (list libmtp))

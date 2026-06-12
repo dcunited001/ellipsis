@@ -234,6 +234,7 @@
 
              (list
               (service ellipsis-smartcard-service-type)
+              (service pcscd-service-type)
               (service openssh-service-type openssh-conf))
 
              ;; dbus complains about the name of plasma's notification

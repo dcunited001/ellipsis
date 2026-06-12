@@ -61,13 +61,6 @@
                     (address "3.us.pool.ntp.org")
                     (options '("iburst"))))))))
 
-;; (define-public %el-profile-pkgs-age
-;;   (list age age-keygen age-plugin-tpm-bin age-plugin-yubikey-bin))
-
-;; (define-public %el-profile-pkgs-tls
-;;   ;; desec-certbot-hook
-;;   (list openssh openssl le-certs gnutls certdata2pem))
-
 (define-public (dc-hosts-tty-services)
   (modify-services %base-services
     (agetty-service-type

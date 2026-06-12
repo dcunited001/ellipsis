@@ -420,7 +420,7 @@ The syntax is very specific: no newlines for any variable.
   "password-store"
   "age"
   "pass-age"
-  "age-plugin-yubikey-bin"
+  "age-plugin-yubikey"
   "sops"
 
 ;;** compression

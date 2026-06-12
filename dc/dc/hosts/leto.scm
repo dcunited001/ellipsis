@@ -62,6 +62,7 @@
   (list
    (service dc-hosts-common-service-type)
    (service ellipsis-smartcard-service-type)
+   (service pcscd-service-type)
    (service network-manager-service-type leto-network-manager-configuration)
    (service unattended-upgrade-service-type unattended-upgrade-config)))
 

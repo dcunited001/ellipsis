@@ -20,7 +20,7 @@
                      networking linux hardware rsync acl admin diffoscope
                      time mtools lsof file-systems disk version-control web
                      ssh gnupg cryptsetup security-token tls certs libusb
-                     fontutils fonts
+                     fontutils fonts rust-apps
                      golang-crypto)
 
 (define %el-extra-files-svc
@@ -95,7 +95,7 @@
    i2c-tools ddcutil))
 
 (define-public %el-profile-pkgs-age
-  (list age age-plugin-tpm-bin age-plugin-yubikey-bin))
+  (list age age-plugin-tpm-bin age-plugin-yubikey))
 
 (define-public %el-profile-pkgs-tls
   ;; desec-certbot-hook
