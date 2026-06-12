@@ -23,7 +23,6 @@
   ;; #:use-module (gnu packages hardware) ;; for tpm2-tss
 
   #:use-module (ellipsis packages)
-  #:use-module (ellipsis packages perl)
   #:use-module (srfi srfi-1))
 
 (define-public grofftl
