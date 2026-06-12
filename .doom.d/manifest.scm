@@ -2,7 +2,6 @@
  '(
    "emacs-next-pgtk"
    "guile-ares-rs"
-   "tidy-html"
 
    ;; TODO: configure (use-package! jinx-mode)
    ;;
@@ -27,9 +26,16 @@
    ;; req. -L $dotfiles/ellipsis -L $dotfiles/dc
    ;; "d2-bin"
 
+   ;; tools
+   ;; "git-repo-go" ;; install into guix profile
+
+   ;; lsp
    "lua-language-server"
    "systemd-lsp"
    "ts-query-ls-bin"
+
+   ;; formatters
+   "tidy-html"
 
    ;; emacs bundles tree-sitter as dep
    "tree-sitter-awk"

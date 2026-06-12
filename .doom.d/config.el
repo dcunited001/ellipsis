@@ -2057,9 +2057,6 @@ the root")
   :defer t
   :bind ((:map doom-leader-toggle-map ("G" . #'git-timemachine-toggle))))
 
-;; https://guix.gnu.org/manual/devel/en/guix.html#Submitting-Pull-Requests-Following-the-AGit-Workflow
-(use-package! agitjo)
-
 ;;;; Diff
 ;;;;; Patches
 ;;;;; Smerge
@@ -2089,7 +2086,11 @@ the root")
     :config (magit-todos-mode 1))
 
   ;; magit-tbdiff commands interfaced via a transient
-  (use-package! magit-tbdiff))
+  (use-package! magit-tbdiff)
+
+  ;; https://guix.gnu.org/manual/devel/en/guix.html#Submitting-Pull-Requests-Following-the-AGit-Workflow
+  (use-package! agitjo
+    :config (agitjo-setup "#")))
 
 ;;;; Ghub
 
