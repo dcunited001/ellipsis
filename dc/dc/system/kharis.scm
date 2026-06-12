@@ -218,6 +218,7 @@
 
       %el-extra-files-svc
 
+      ellipsis-smartcard-services
       (list
        (service greetd-service-type %kharis-greetd-conf)
        (service seatd-service-type)
@@ -246,9 +247,6 @@
                 (bluetooth-configuration
                  (auto-enable? #t)))
        (service fprintd-service-type)
-
-       (service ellipsis-smartcard-service-type)
-       (service pcscd-service-type)
 
        ;; connect phone to laptop
        ;; (simple-service 'mtp udev-service-type (list libmtp))

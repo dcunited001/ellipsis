@@ -79,21 +79,18 @@
 
 (define %ugt-services
   (append
-   (list
-    (service ellipsis-smartcard-service-type))
-    (service pcscd-service-type))
-
+   ellipsis-smartcard-services
    (modify-services %base-services
      (agetty-service-type
       config => (agetty-configuration
-                 (inherit config)
-                 (login-pause? #t)
-                 (timeout 30)))
+                  (inherit config)
+                  (login-pause? #t)
+                  (timeout 30)))
 
      (mingetty-service-type
       config => (mingetty-configuration
-                 (inherit config)
-                 (login-pause? #t))))))
+                  (inherit config)
+                  (login-pause? #t)))))))
 
 ;;;; Image
 

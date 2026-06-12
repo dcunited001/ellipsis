@@ -36,10 +36,7 @@
 
 (define-public yubikey-udev-rules
   ;; needs plugdev, but warns if multiple instantiations create using #:groups
-  (list
-   (udev-rules-service 'fido2 libfido2 #:groups '("plugdev"))
-   (udev-rules-service 'u2f libu2f-host)
-   (udev-rules-service 'yubikey yubikey-personalization)))
+  )
 
 ;; hidapi: HID Devices for FIDO/OTP
 (define pkgs-smartcard
@@ -48,22 +45,13 @@
 (define pkgs-yubikey
   (list yubico-piv-tool yubikey-personalization python-yubikey-manager))
 
-(define svc-pcscd
-  (service pcscd-service-type))
-
-(define-public ellipsis-smartcard-service-type
-  (service-type
-   (name 'ellipsis-smartcard)
-   (extensions
-    (list
-
-     ;; pcsc-lite, ccid provided by service/activation
-     ;; (service-extension shepherd-root-service-type svc-pcscd)
-
-     (service-extension udev-service-type (lambda (config) yubikey-udev-rules))
-     (service-extension profile-service-type
-                        (lambda (config) (append pkgs-yubikey pkgs-smartcard)))))
-   (default-value '())
-   (description "Sets up some common services")))
+(define-public ellipsis-smartcard-services
+  (list
+   (service pcscd-service-type)
+   (udev-rules-service 'fido2 libfido2 #:groups '("plugdev"))
+   (udev-rules-service 'u2f libu2f-host)
+   (udev-rules-service 'yubikey yubikey-personalization)
+   (simple-service 'ellipsis-smartcard-profile-service
+                   (append pkgs-yubikey pkgs-smartcard))))
 
 ;;; security-token.scm ends here

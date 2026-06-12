@@ -191,6 +191,7 @@ EndSection
                     (inherit config)
                     (extra-options '("--cores=8" "--max-jobs=4")))))
 
+      ellipsis-smartcard-services
       ;; from %desktop-services
       (list
        (service gdm-service-type
@@ -262,9 +263,6 @@ EndSection
        %dc-nntp-service
        (service openssh-service-type %kharis-openssh-conf)
        (service zerotier-one-service-type)
-
-       (service ellipsis-smartcard-service-type)
-       (service pcscd-service-type)
 
        %dc-docker-service
        %dc-containerd-service

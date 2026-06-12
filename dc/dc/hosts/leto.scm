@@ -42,15 +42,15 @@
 (define-public %leto-channels
   (list
    (channel
-    (name 'nonguix)
-    (url "https://gitlab.com/nonguix/nonguix")
-    (branch "master"))
+     (name 'nonguix)
+     (url "https://gitlab.com/nonguix/nonguix")
+     (branch "master"))
    %default-channels))
 
 (define unattended-upgrade-config
   (unattended-upgrade-configuration
-   (inherit dc-hosts-unattended-upgrade-defaults)
-   (channels #~(@ (dc hosts leto) %leto-channels))))
+    (inherit dc-hosts-unattended-upgrade-defaults)
+    (channels #~(@ (dc hosts leto) %leto-channels))))
 
 (define-public hosts-leto-foo "foo")
 
@@ -59,11 +59,11 @@
 
 ;; TODO: adjust dc-hosts-tty-services after append to %base-services
 (define-public leto-services
-  (list
-   (service dc-hosts-common-service-type)
-   (service ellipsis-smartcard-service-type)
-   (service pcscd-service-type)
-   (service network-manager-service-type leto-network-manager-configuration)
-   (service unattended-upgrade-service-type unattended-upgrade-config)))
+  (append
+   ellipsis-smartcard-services
+   (list
+    (service dc-hosts-common-service-type)
+    (service network-manager-service-type leto-network-manager-configuration)
+    (service unattended-upgrade-service-type unattended-upgrade-config))))
 
 ;;; leto.scm ends here
