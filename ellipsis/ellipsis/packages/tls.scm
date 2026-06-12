@@ -21,93 +21,6 @@
 
   #:use-module (srfi srfi-1))
 
-(define-public sops-bin
-  (let* ((bin-platform "linux.amd64")
-         (bin-version "3.10.2")
-         (bin-name (string-append "sops-v" bin-version "." bin-platform)))
-    (package
-      (name "sops-bin")
-      (version bin-version)
-      (source (origin
-                (method url-fetch)
-                (uri (string-append
-                      "https://github.com/getsops/sops/releases/download/"
-                      "v" version "/" bin-name))
-                (sha256
-                 (base32
-                  "0f8pf0p6z74lsm1zfs1rvkgcfpvnq7dq9j2ddr2b1m3v4d2gic3r"))))
-      (build-system copy-build-system)
-      (arguments
-       (list
-        ;; run by guix build daemon, so bin-name not in scope
-        ;; #:install-plan #~`((,bin-name "bin/"))
-        ;; otherwise, should be double-quoted
-        ;; #:install-plan ''(("sops" "bin/"))
-        ;; nothing i try here seemed to work until i added 'make-symlink
-        #:install-plan #~'(("." "bin/" #:include-regexp ("sops.*$")))
-        #:modules '((guix build copy-build-system)
-                    (guix build utils)  ; for find-file
-                    (srfi srfi-26))
-                                        ; for cut, a swappier curry
-        #:phases
-        #~(modify-phases %standard-phases
-            (add-after 'unpack 'make-executable
-              (lambda _
-                (for-each (cut chmod <> #o555)
-                          (find-files "." "sops.*$"))))
-
-            ;; from tcl's phase install-private-headers
-            (add-after 'install 'make-symlink
-              (lambda* (#:key inputs outputs #:allow-other-keys)
-                (let ((bin (string-append (assoc-ref outputs "out")
-                                          "/bin")))
-                  (with-directory-excursion bin
-                    (symlink (car (find-files "." "sops"))
-                             "sops"))))))))
-      (inputs '())
-      (native-inputs '())
-      (home-page "https://github.com/getsops/sops")
-      (synopsis "Simple and flexible tool for managing secrets")
-      (description "SOPS is an editor of encrypted files that supports YAML,
-JSON, ENV, INI and BINARY formats and encrypts with AWS KMS, GCP KMS, Azure
-Key Vault, age, and PGP.")
-      (license license:mpl2.0))))
-
-;; gnu-build-system phases:
-;; set-SOURCE-DATE-EPOCH set-paths install-locale unpack
-;; bootstrap
-;; patch-user-bin-file
-;; patch-source-shebangs configure patch-generated-file-shebangs
-;; build check install
-;; patch-shebangs strip
-;; validate-runpath
-;; validate-documentation-location
-;; delete-info-dir-file
-;; patch-dot-desktop-files
-;; make-dynamic-linker-cache
-;; install-license-files
-;; reset-gzip-timestamps
-;; compress-documentation
-;;
-;; simplified:
-;; set-paths
-;; unpack
-;; configure
-;; build
-;; check
-;; install
-;; strip
-;; make-dynamic-linker-cache
-;; install-license-files
-;; compress-documenation
-
-;; cgo: gccgo
-;; ccid
-;; pcsc-lite
-;; openssl
-;; this requires building step-cli "using CGO"
-;; make bootstrap && make build GOFLAGS=""
-
 ;; (define-public step-ca
 ;;   (package
 ;;     (name "step-ca")
@@ -138,7 +51,7 @@ Key Vault, age, and PGP.")
 (define-public step-cli
   (package
     (name "step-cli")
-    (version "0.25.0")
+    (version "0.30.6")
     (source (origin
               (method url-fetch)
               (uri (string-append
@@ -167,7 +80,7 @@ Key Vault, age, and PGP.")
 (define-public step-cli-bin
   (package
     (name "step-cli-bin")
-    (version "0.28.7")
+    (version "0.30.6")
     (source (origin
               (method url-fetch)
               (uri (string-append
@@ -175,7 +88,7 @@ Key Vault, age, and PGP.")
                     "v" version "/step_linux_" version "_amd64.tar.gz"))
               (sha256
                (base32
-                "0q1ls399i4byqa7ad9x8f8l644bvrs8rzapvacm3819f38sqdraj"))))
+                "1phnb16ksi8qvvghy5skw1pbrc41kak42a8g9ar999l0z32msjp4"))))
     (build-system copy-build-system)
     (inputs
      (list coreutils pcsc-lite))
@@ -187,33 +100,36 @@ Key Vault, age, and PGP.")
     (license license:asl2.0)))
 
 (define-public step-ca-bin
-  (package
-    (name "step-ca-bin")
-    (version "0.28.4")
-    (source (origin
-              (method url-fetch)
-              (uri (string-append
-                    "https://github.com/smallstep/certificates/releases/download/"
-                    "v" version "/step-ca_linux_" version "_amd64.tar.gz"))
-              (sha256
-               (base32
-                "0vcr25rbswl4gfmbxgna06g8a92lwc1n01bnxrpkp4amzdz5zpnx"))))
-    (build-system copy-build-system)
-    (arguments
-     (list
-      #:install-plan ''(("." "bin/" #:include-regexp ("step-ca$")))))
-    (inputs
-     (list coreutils pcsc-lite))
-    (home-page "https://smallstep.com/certificates/")
-    (synopsis "(prebuilt) Open-Source Certificate Authority & PKI Toolkit")
-    (description
-     "A private certificate authority (X.509 & SSH) & ACME server for secure automated certificate management, so you can use TLS everywhere & SSO for SSH.")
-    (license license:asl2.0)))
+  (let ((version-stem "0.30.2")
+        (version-release "0.30.2"))
+    (package
+      (name "step-ca-bin")
+      (version version-release)
+      (source (origin
+                (method url-fetch)
+                (uri (string-append
+                      "https://github.com/smallstep/certificates/releases/download/"
+                      "v" version-stem "/step-ca_linux_" version-release
+                      "_amd64.tar.gz"))
+                (sha256
+                 (base32
+                  "0wvxqdy088sbsdqhd3dlbwqmfa3fz8lddqlhz39z5qxgbdwiarhj"))))
+      (build-system copy-build-system)
+      (arguments
+       (list
+        #:install-plan ''(("." "bin/" #:include-regexp ("step-ca$")))))
+      (inputs
+       (list coreutils pcsc-lite))
+      (home-page "https://smallstep.com/certificates/")
+      (synopsis "(prebuilt) Open-Source Certificate Authority & PKI Toolkit")
+      (description
+       "A private certificate authority (X.509 & SSH) & ACME server for secure automated certificate management, so you can use TLS everywhere & SSO for SSH.")
+      (license license:asl2.0))))
 
 (define-public step-kms-plugin-bin
   (package
     (name "step-kms-plugin-bin")
-    (version "0.15.1")
+    (version "0.17.0")
     ;; (version "0.12.3-rc19")
     (source (origin
               (method url-fetch)
@@ -223,7 +139,7 @@ Key Vault, age, and PGP.")
                     "_linux_amd64.tar.gz"))
               (sha256
                (base32
-                "157as58f71k3p61mlbqk3351rk913k7gvyrjckmyx2c9sx63bpgv"))))
+                "1cz7rczx9iqq6r35q7mffr86724nnm8xy4dzfm1rr9gamg7g0kfx"))))
     (build-system binary-build-system)
     (inputs `((,gcc "lib")
               ,gcc-toolchain

@@ -1,7 +1,5 @@
 ;;; Module: common
 (define-module (ellipsis system common)
-
-  ;; #:use-module (ellipsis packages emacs-xyz)
   #:use-module (ellipsis packages golang-crypto)
   #:use-module (ellipsis packages security-token)
   #:use-module (ellipsis packages tls)
@@ -120,7 +118,7 @@
   (list gnupg paperkey datefudge))
 
 (define-public %el-profile-pkgs-secrets
-  (list sops-bin))
+  (list sops))
 
 (define-public %el-profile-pkgs-tpm
   (list tpm2-tss ssh-tpm-agent-bin))
