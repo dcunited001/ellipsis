@@ -20,9 +20,7 @@
 
   #:use-module (guix gexp)
   #:use-module (guix records)
-  #:use-module (srfi srfi-1)
-  #:use-module (ice-9 pretty-print)
-  #:export (yubikey-udev-rules))
+  #:use-module (srfi srfi-1))
 
 ;;; Commentary:
 ;;;
@@ -31,12 +29,8 @@
 
 
 ;;;
-;;; yubikey-udev-rules
+;;; ellipsis-smartcard-services
 ;;;
-
-(define-public yubikey-udev-rules
-  ;; needs plugdev, but warns if multiple instantiations create using #:groups
-  )
 
 ;; hidapi: HID Devices for FIDO/OTP
 (define pkgs-smartcard
@@ -52,6 +46,7 @@
    (udev-rules-service 'u2f libu2f-host)
    (udev-rules-service 'yubikey yubikey-personalization)
    (simple-service 'ellipsis-smartcard-profile-service
+                   profile-service-type
                    (append pkgs-yubikey pkgs-smartcard))))
 
 ;;; security-token.scm ends here

@@ -90,7 +90,7 @@
      (mingetty-service-type
       config => (mingetty-configuration
                   (inherit config)
-                  (login-pause? #t)))))))
+                  (login-pause? #t))))))
 
 ;;;; Image
 
