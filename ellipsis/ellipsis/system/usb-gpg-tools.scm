@@ -6,7 +6,6 @@
   #:use-module (gnu system nss)
   #:use-module (gnu system pam)
 
-  #:use-module (ellipsis packages emacs-xyz)
   #:use-module (ellipsis services security-token)
   #:use-module (ellipsis system common)
   ;; #:use-module (gnu services certbot)

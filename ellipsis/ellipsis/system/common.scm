@@ -2,9 +2,7 @@
 (define-module (ellipsis system common)
 
   ;; #:use-module (ellipsis packages emacs-xyz)
-  #:use-module (ellipsis packages gnupg)
   #:use-module (ellipsis packages golang-crypto)
-  ;; #:use-module (ellipsis packages password-utils)
   #:use-module (ellipsis packages security-token)
   #:use-module (ellipsis packages tls)
 
