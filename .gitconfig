@@ -119,6 +119,9 @@
 	amend = stack amend
 	sync = stack sync
 	run = stack run
+
+	# then hash
+	resign = rebase --exec "git commit --amend --no-edit -n -S" -i
 	
 [filter "lfs"]
 	clean = git-lfs clean -- %f
