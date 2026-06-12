@@ -55,10 +55,10 @@
 ;; TODO %ugt-default-user set to 1000:1000 to be consistent
 (define %ugt-default-user
   (user-account
-    (name "dc")
-    (comment "Default User")
-    (group %ugt-user-name)
-    (supplementary-groups %ugt-my-groups)))
+   (name "dc")
+   (comment "Default User")
+   (group %ugt-user-name)
+   (supplementary-groups %ugt-my-groups)))
 
 (define-public %ugt-packages-emacs
   ;; still needs either emacs or emacs-no-x-toolkit
@@ -80,20 +80,19 @@
 (define %ugt-services
   (append
    (list
-    (service pcscd-service-type))
-   yubikey-udev-rules
+    (service ellipsis-smartcard-service-type))
 
    (modify-services %base-services
      (agetty-service-type
       config => (agetty-configuration
-                  (inherit config)
-                  (login-pause? #t)
-                  (timeout 30)))
+                 (inherit config)
+                 (login-pause? #t)
+                 (timeout 30)))
 
      (mingetty-service-type
       config => (mingetty-configuration
-                  (inherit config)
-                  (login-pause? #t))))))
+                 (inherit config)
+                 (login-pause? #t))))))
 
 ;;;; Image
 
@@ -112,8 +111,8 @@
 
     ;; to install on a system with just BIOS (e.g. a VM)
     (bootloader (bootloader-configuration
-                  (bootloader grub-efi-bootloader)
-                  (targets "/dev/sda")))
+                 (bootloader grub-efi-bootloader)
+                 (targets "/dev/sda")))
 
     (file-systems (cons (file-system
                           (device (file-system-label "usb-gpg-disk"))
@@ -149,8 +148,6 @@
       %el-profile-pkgs-i2c
       %el-profile-pkgs-age
       %el-profile-pkgs-tls
-      %el-profile-pkgs-smartcard
-      %el-profile-pkgs-yubikey
       %el-profile-pkgs-step
       %el-profile-pkgs-gnupg
       %el-profile-pkgs-secrets

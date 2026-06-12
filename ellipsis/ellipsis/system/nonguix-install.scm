@@ -19,6 +19,7 @@
   #:use-module (ellipsis packages tls)
   #:use-module (ellipsis packages security-token)
   #:use-module (ellipsis packages golang-crypto)
+  #:use-module (ellipsis services security-token)
   #:use-module (ellipsis system accounts)
   #:use-module (ellipsis system common)
   #:use-module (ellipsis system usb-gpg-tools)
@@ -200,8 +201,6 @@
       %el-profile-pkgs-hardware
       %el-profile-pkgs-age
       %el-profile-pkgs-tls
-      %el-profile-pkgs-smartcard
-      %el-profile-pkgs-yubikey
       %el-profile-pkgs-step
       %el-profile-pkgs-gnupg
       %el-profile-pkgs-secrets
@@ -234,13 +233,8 @@
                    (service seatd-service-type))
 
              (list
-              (service pcscd-service-type)
-              (service openssh-service-type openssh-conf)
-
-              ;; testing removing the fido2 functionality to restore yubikey
-              (udev-rules-service 'fido2 libfido2)
-              (udev-rules-service 'u2f libu2f-host)
-              (udev-rules-service 'yubikey yubikey-personalization))
+              (service ellipsis-smartcard-service-type)
+              (service openssh-service-type openssh-conf))
 
              ;; dbus complains about the name of plasma's notification
              ;;

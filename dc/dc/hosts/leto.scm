@@ -9,6 +9,7 @@
   #:use-module (gnu system nss)
   #:use-module (gnu system privilege)
   #:use-module (gnu system setuid)
+  #:use-module (ellipsis services security-token)
   #:use-module (ellipsis system accounts)
   #:use-module (ellipsis system common)
   #:use-module (dc hosts common)
@@ -60,7 +61,7 @@
 (define-public leto-services
   (list
    (service dc-hosts-common-service-type)
-   (service dc-hosts-smartcard-service-type)
+   (service ellipsis-smartcard-service-type)
    (service network-manager-service-type leto-network-manager-configuration)
    (service unattended-upgrade-service-type unattended-upgrade-config)))
 

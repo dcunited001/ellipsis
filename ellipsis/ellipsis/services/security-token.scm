@@ -36,5 +36,30 @@
    (udev-rules-service 'u2f libu2f-host)
    (udev-rules-service 'yubikey yubikey-personalization)))
 
+;; hidapi: HID Devices for FIDO/OTP
+(define pkgs-smartcard
+  (list opensc pinentry-tty hidapi libu2f-host libfido2))
+
+(define pkgs-yubikey
+  (list yubico-piv-tool yubikey-personalization python-yubikey-manager))
+
+(define-public ellipsis-smartcard-service-type
+  (service-type
+   (name 'ellipsis-smartcard)
+   (extensions
+    (list
+     ;; pcsc-lite, ccid provided by service/activation
+     (service-extension shepherd-root-service-type (service pcscd-service-type))
+     (service-extension udev-service-type
+                        (udev-rules-service 'u2f libu2f-host))
+     (service-extension udev-service-type
+                        (udev-rules-service 'fido2 libfido2 #:groups
+                                            '("plugdev")))
+     (service-extension udev-service-type
+                        (udev-rules-service 'yubikey yubikey-personalization))
+     (service-extension profile-service-type
+                        (lambda (config) (append pkgs-yubikey pkgs-smartcard)))))
+   (default-value '())
+   (description "Sets up some common services")))
 
 ;;; security-token.scm ends here

@@ -246,7 +246,9 @@
                 (bluetooth-configuration
                  (auto-enable? #t)))
        (service fprintd-service-type)
-       (service pcscd-service-type)
+
+       (service ellipsis-smartcard-service-type)
+
        ;; connect phone to laptop
        ;; (simple-service 'mtp udev-service-type (list libmtp))
 
@@ -278,7 +280,6 @@
        %dc-ras-daemon-service
        (service earlyoom-service-type %kharis-earlyoom-conf)
        (service gpm-service-type %kharis-gpm-conf)
-       (yubikey-udev-rules)
 
        ;; containers
        %dc-docker-service

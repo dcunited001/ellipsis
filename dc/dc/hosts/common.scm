@@ -8,7 +8,9 @@
   #:use-module (gnu system accounts)
   #:use-module (gnu system nss)
   #:use-module (gnu system privilege)
-  #:use-module (gnu system setuid))
+  #:use-module (gnu system setuid)
+
+  #:use-module (ellipsis services security-token))
 
 ;; #:use-module (nongnu packages linux)
 ;; #:use-module (nongnu system linux-initrd)
@@ -65,32 +67,6 @@
 ;; (define-public %el-profile-pkgs-tls
 ;;   ;; desec-certbot-hook
 ;;   (list openssh openssl le-certs gnutls certdata2pem))
-
-;; hidapi: HID Devices for FIDO/OTP
-(define pkgs-smartcard
-  (list opensc pinentry-tty hidapi libu2f-host libfido2))
-
-(define pkgs-yubikey
-  (list yubico-piv-tool yubikey-personalization python-yubikey-manager))
-
-(define-public dc-hosts-smartcard-service-type
-  (service-type
-   (name 'dc-hosts-smartcard)
-   (extensions
-    (list
-     ;; pcsc-lite, ccid provided by service/activation
-     (service-extension shepherd-root-service-type (service pcscd-service-type))
-     (service-extension udev-service-type
-                        (udev-rules-service 'u2f libu2f-host))
-     (service-extension udev-service-type
-                        (udev-rules-service 'fido2 libfido2 #:groups
-                                            '("plugdev")))
-     (service-extension udev-service-type
-                        (udev-rules-service 'yubikey yubikey-personalization))
-     (service-extension profile-service-type
-                        (lambda (config) (append pkgs-yubikey pkgs-smartcard)))))
-   (default-value '())
-   (description "Sets up some common services")))
 
 (define-public (dc-hosts-tty-services)
   (modify-services %base-services

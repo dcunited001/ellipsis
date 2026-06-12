@@ -295,7 +295,7 @@
    (home-mcron-configuration
     (jobs
      ;; updates guix
-     `(,dc-mcron-job-bgcycle
+     `(,dc-mcron-update-guix
        (job "24 5,16 */5 * *" "$HOME/.config/guix/current/bin/guix pull"))))))
 
 ;; =============================================

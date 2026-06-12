@@ -101,13 +101,6 @@
   ;; desec-certbot-hook
   (list openssh openssl le-certs gnutls certdata2pem))
 
-(define-public %el-profile-pkgs-smartcard
-  ;; hidapi: HID Devices for FIDO/OTP
-  (list ccid pcsc-lite opensc pinentry-tty hidapi libu2f-host libfido2))
-
-(define-public %el-profile-pkgs-yubikey
-  (list yubico-piv-tool yubikey-personalization python-yubikey-manager))
-
 ;; NOTE: step-kms-plugin should work if ldd discovers
 ;; pscscd via rpath
 
