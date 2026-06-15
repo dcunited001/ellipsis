@@ -24,4 +24,4 @@
       ;; smerge-mode is lazy loaded, default: t
       smerge-change-buffer-confirm t)
 
-(provide 'config-ui-confirm)
+(provide 'hop-ui-confirm)

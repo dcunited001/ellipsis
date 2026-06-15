@@ -23,4 +23,4 @@
   (add-to-list 'org-babel-load-languages '((shell . t)))
   (org-babel-do-load-languages))
 
-(provide 'config-org)
+(provide 'hop-org)

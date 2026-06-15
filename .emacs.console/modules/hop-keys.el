@@ -9,4 +9,4 @@
 (global-set-key (kbd "<f11> <f11>") #'maximize-window)
 (global-set-key (kbd "S-<f11> S-<f11>") #'balance-windows)
 
-(provide 'config-keys)
+(provide 'hop-keys)

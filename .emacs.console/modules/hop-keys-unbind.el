@@ -9,4 +9,4 @@
    "<f10>" "M-<f10>" "<f11>"
    "<f3>" "<f4>"))
 
-(provide 'config-keys-unbind)
+(provide 'hop-keys-unbind)

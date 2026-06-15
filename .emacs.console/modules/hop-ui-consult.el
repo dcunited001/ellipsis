@@ -204,4 +204,4 @@
   :hook
   (embark-collect-mode . consult-preview-at-point-mode))
 
-(provide 'config-ui-consult)
+(provide 'hop-ui-consult)

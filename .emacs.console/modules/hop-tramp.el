@@ -11,4 +11,4 @@
     (add-to-list 'tramp-remote-path p))
   :custom ((tramp-default-method "ssh")))
 
-(provide 'config-tramp)
+(provide 'hop-tramp)

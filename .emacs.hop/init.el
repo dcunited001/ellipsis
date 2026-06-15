@@ -7,10 +7,10 @@
 
 ;;;; Packages and Custom.el
 (setq use-package-enable-imenu-support t
-	  org-src-preserve-indentation t
-	  backup-by-copying nil
-	  make-backup-files nil
-	  custom-file (expand-file-name "custom.el" user-emacs-directory))
+      org-src-preserve-indentation t
+      backup-by-copying nil
+      make-backup-files nil
+      custom-file (expand-file-name "custom.el" user-emacs-directory))
 (load custom-file)
 
 (require 'package)
@@ -77,8 +77,8 @@
   :defer t
   :config
   (unless (member '(nix-mode "nixd") eglot-server-programs)
-	(setq eglot-server-programs (delq 'nix-mode eglot-server-programs))
-	(add-to-list 'eglot-server-programs '(nix-mode "nixd")))
+    (setq eglot-server-programs (delq 'nix-mode eglot-server-programs))
+    (add-to-list 'eglot-server-programs '(nix-mode "nixd")))
   ;; (pop nix-mode-hook)
   :hook (nix-mode . eglot-ensure))
 
@@ -95,8 +95,8 @@
 
 ;;; UI
 (setopt global-auto-revert-non-file-buffers t
-		auto-revert-verbose nil
-		display-line-numbers-type nil)
+	auto-revert-verbose nil
+	display-line-numbers-type nil)
 
 (setq dired-omit-files "^.DS_Store\\'\\|^.project\\(?:ile\\)?\\'\\|^.\\(svn\\)\\'\\|^.ccls-cache\\'\\|\\(?:\\.js\\)?\\.meta\\'\\|\\.\\(?:elc\\|o\\|pyo\\|swp\\|class\\)\\'")
 
@@ -135,8 +135,8 @@
 (defun dc/set-bars ()
   (interactive)
   (progn
-	(menu-bar-mode -1)
-	(scroll-bar-mode -1)
-	(tool-bar-mode -1)))
+    (menu-bar-mode -1)
+    (scroll-bar-mode -1)
+    (tool-bar-mode -1)))
 
 (add-to-list 'emacs-startup-hook #'dc/set-bars)

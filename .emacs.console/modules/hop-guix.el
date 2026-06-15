@@ -67,6 +67,7 @@
                ("gsr" . #'guix-switch-to-repl)))
   ;; (setopt guix-devel-ffap-patch-directories (flatten-list (list guix-pulled-profile "patches")))
   :config
+  (require 'guix-autoloads)
   (require 'guix-ui))
 
-(provide 'config-guix)
+(provide 'hop-guix)
