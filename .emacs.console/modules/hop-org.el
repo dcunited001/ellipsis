@@ -10,6 +10,8 @@
       ;; org-export-allow-bind-keywords t
       org-image-actual-width '(0.9)
 
+      org-src-preserve-indentation t
+
       ;; from .emacs.guix
       org-capture-bookmark t ;; nil
       org-cycle-separator-lines 2

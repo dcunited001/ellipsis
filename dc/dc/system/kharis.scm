@@ -20,10 +20,10 @@
 
   #:use-module (dc system base))
 
-(use-service-modules guix admin sysctl pm nix avahi dbus cups
-                     desktop linux mcron networking ssh ;; xorg?
-                     security-token docker audio virtualization
-                     containers)
+(use-service-modules guix admin sysctl pm nix avahi dbus cups authentication
+                     desktop linux mcron networking ssh security-token
+                     sound docker audio virtualization containers)
+;; xorg?
 
 (use-package-modules nfs certs shells ssh tls gnupg security-token
                      bash emacs emacs-xyz gnome networking libusb
@@ -43,8 +43,9 @@
 
 ;; jhash=$(echo jupyter-lab | sha256sum | head -c8)
 ;; echo $((0x$jhash % 1000)) # probably a bad idea all around
-(define %kharis-service-users
-  `((jupyter-lab ,(user-account (name "jupyter-lab") (groups)))))
+
+;; (define %kharis-service-users
+;;   `((jupyter-lab ,(user-account (name "jupyter-lab") (groups)))))
 
 ;;;  can still download astral-uv from guix, but the paths just need to be
 ;;;  compat with the runtime... though i haven't actually read
@@ -57,7 +58,7 @@
 (define %kharis-users
   (append
    (list (dc-user (cons* "seat" %dc-my-groups)))
-   %kharis-service-users
+   ;; %kharis-service-users
    %base-user-accounts))
 
 (define-public %kharis-shell-keyboard
@@ -122,32 +123,32 @@
 
 (define-public %kharis-greetd-conf
   (greetd-configuration
-   (greeter-supplementary-groups (list "video" "input" "seat"))
-   (terminals
-    (list
-     ;; TTY7 is the graphical login screen for Sway
-     ;; Set up remaining TTYs for terminal use
-     (greetd-terminal-configuration (terminal-vt "1"))
-     (greetd-terminal-configuration (terminal-vt "2"))
-     (greetd-terminal-configuration (terminal-vt "3"))
-     (greetd-terminal-configuration (terminal-vt "4"))
-     (greetd-terminal-configuration (terminal-vt "5"))
-     (greetd-terminal-configuration (terminal-vt "6"))
-     (greetd-terminal-configuration
-      (terminal-vt "7")
-      (terminal-switch #t)
-      (extra-shepherd-requirement '(seatd))
-      (default-session-command
-        (greetd-wlgreet-sway-session
-         ;; TODO background
-         (command (greetd-user-session
-                   (xdg-session-type "wayland")))
-         (sway-configuration
-          (plain-file "sway-greet.conf"
-                      (string-append
-                       "output * bg /data/xdg/Wallpapers/"
-                       %host-name "-greetd.jpg fill\n"))))))
-     (greetd-terminal-configuration (terminal-vt "8"))))))
+    (greeter-supplementary-groups (list "video" "input" "seat"))
+    (terminals
+     (list
+      ;; TTY7 is the graphical login screen for Sway
+      ;; Set up remaining TTYs for terminal use
+      (greetd-terminal-configuration (terminal-vt "1"))
+      (greetd-terminal-configuration (terminal-vt "2"))
+      (greetd-terminal-configuration (terminal-vt "3"))
+      (greetd-terminal-configuration (terminal-vt "4"))
+      (greetd-terminal-configuration (terminal-vt "5"))
+      (greetd-terminal-configuration (terminal-vt "6"))
+      (greetd-terminal-configuration
+        (terminal-vt "7")
+        (terminal-switch #t)
+        (extra-shepherd-requirement '(seatd))
+        (default-session-command
+          (greetd-wlgreet-sway-session
+            ;; TODO background
+            (command (greetd-user-session
+                       (xdg-session-type "wayland")))
+            (sway-configuration
+              (plain-file "sway-greet.conf"
+                          (string-append
+                           "output * bg /data/xdg/Wallpapers/"
+                           %host-name "-greetd.jpg fill\n"))))))
+      (greetd-terminal-configuration (terminal-vt "8"))))))
 
 (define kharis-channels (current-channels))
 
@@ -213,8 +214,18 @@
       (modify-services %base-services
         ;; (delete console-font-service-type)
         (delete agetty-service-type)
+        ;; (delete elogind-service-type)
         (delete mingetty-service-type)
-        (delete elogind-service-type))
+
+        (guix-service-type
+         config => (guix-configuration
+                     (inherit config)
+                     (guix (guix-for-channels %dc-default-channels))
+                     (channels %dc-default-channels)
+                     (authorize-key? #t)
+                     (authorized-keys %default-authorized-guix-keys)
+                     (substitute-urls %default-substitute-urls)
+                     (extra-options '("--cores=8" "--max-jobs=4")))))
 
       %el-extra-files-svc
 
@@ -223,12 +234,10 @@
        (service greetd-service-type %kharis-greetd-conf)
        (service seatd-service-type)
 
-       (service guix-service-type
-                (el-guix-configuration %kharis-channels))
 
        (simple-service 'add-nonguix-substitutes
                        guix-service-type el-nonguix-chan-subs)
-
+       %dc-subids-service-type
        polkit-wheel-service
 
        ;; networking

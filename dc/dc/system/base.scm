@@ -22,7 +22,7 @@
 
 (use-service-modules guix admin sysctl pm nix avahi dbus cups
                      desktop linux mcron networking xorg ssh
-                     docker audio virtualization
+                     docker audio virtualization auditd
                      containers)
 
 (use-package-modules nfs certs shells ssh tls gnupg security-token acl
@@ -94,7 +94,7 @@
          (remove (lambda (g) (equal? (user-group-name g) "users"))
                  %base-groups)))
 
-(define %dc-my-groups
+(define-public %dc-my-groups
   ;; "kmem"
   '("wheel" "users" "tty" "dialout"
     "input" "video" "audio" "netdev" "lp"
@@ -104,24 +104,27 @@
 
 (define-public (dc-user my-groups)
   (user-account
-   (uid 1000)
-   (name "dc")
-   (comment "David Conner")
-   (group "dc")
-   (home-directory "/home/dc")
-   (supplementary-groups my-groups)))
+    (uid 1000)
+    (name "dc")
+    (comment "David Conner")
+    (group "dc")
+    (home-directory "/home/dc")
+    (supplementary-groups my-groups)))
+
+(define (dc-subid-start id)
+  (+ (expt 2 16) (expt 10 8) (* 100000 id)))
 
 ;; TODO: maybe define suid elsewhere.
 ;; rootless-podman extends the subids-service-type
 (define-public %dc-subid-range
-  (subid-range (name "dc") (start 1000000) (range 65536)))
+  (subid-range (name "dc") (start (dc-subid-start 1000)) (count (expt 2 16))))
 
 ;; define the rest with subids extensions
-(define-public %dc-subid-service-type
-  (service subid-service-type
+(define-public %dc-subids-service-type
+  (service subids-service-type
            (subids-configuration
-            (subgids %dc-subid-range)
-            (subuids %dc-subid-range))))
+             (subgids %dc-subid-range)
+             (subuids %dc-subid-range))))
 
 (define-public %dc-rootless-podman-service
   (service rootless-podman-service-type
@@ -199,6 +202,14 @@
     ;;   (string-append
     ;;    "/root/.config/guix/systems/" %host-name ".scm")))
     (system-expiration (* 6 7 24 3600)))))
+
+(define-public %dc-default-channels
+  (append (list
+           (channel
+             (name 'nonguix)
+             (url "https://gitlab.com/nonguix/nonguix")
+             (branch "master")))
+          %default-channels))
 
 ;; use with (udev-rules-service %udev-backlight-rule)
 (define-public %dc-backlight-udev
@@ -304,17 +315,8 @@
 
    zerotier
 
-   ccid
-   yubikey-personalization
-   ;; breaking python crypto version
-   ;; python-yubikey-manager
-   libu2f-host
-   libfido2 ;; included as dependency
-   opensc   ;; for pkcs#11 (ssh using smartcard PIV certs)
    gnupg
    age
-   pcsc-lite
-   hidapi ;; for HID devices to control FIDO/U2F
 
    libsecret
    rng-tools ;; req. to seed /dev/random with entropy from yubikey

@@ -43,28 +43,23 @@
 
 (define-public el-nonguix-chan-subs
   (guix-extension
-   (substitute-urls
-    (append (list "https://substitutes.nonguix.org")
-            %default-substitute-urls))
-   (authorized-keys
-    (append
-     (list %nonguix-chan-key)
-     %default-authorized-guix-keys))))
+    (substitute-urls
+     (append (list "https://substitutes.nonguix.org")
+             %default-substitute-urls))
+    (authorized-keys
+     (append
+      (list %nonguix-chan-key)
+      %default-authorized-guix-keys))))
 
+;; TODO remove this (confusing and doesn't work with config =>
 (define-public (el-guix-configuration channels)
   (guix-configuration
-   (guix (guix-for-channels channels))
-   (channels channels)
-   (authorize-key? #t)
-   (authorized-keys
-    (cons* %nonguix-chan-key
-           %default-authorized-guix-keys))
-   (substitute-urls
-    '("https://ci.guix.gnu.org"
-      "https://substitutes.nonguix.org"
-      "https://bordeaux.guix.gnu.org"))
-   (extra-options '("--max-jobs=6"
-                    "--cores=0"))))
+    (guix (guix-for-channels channels))
+    (channels channels)
+    (authorize-key? #t)
+    (authorized-keys %default-authorized-guix-keys)
+    (substitute-urls %default-substitute-urls)
+    (extra-options '("--max-jobs=6" "--cores=0"))))
 
 ;;; Packages
 

@@ -17,16 +17,18 @@
   #:use-module (dc system base)
   #:use-module (dc system kharis)
 
-  #:use-module (ellipsis services vpn))
+  #:use-module (ellipsis services vpn)
+  #:use-module (ellipsis services security-token)
+  #:use-module (ellipsis system common))
 
 ;; TODO: add pam_tmpdir module to pam-services
 ;;   - https://www.debian.org/doc/manuals/securing-debian-manual/ch04s11.en.html
 ;;   - req. libpam-tmpdir
 ;; (pam-service (name "tmpdir")
 
-(use-service-modules guix admin sysctl pm nix avahi dbus cups
-                     desktop linux mcron networking xorg ssh
-                     security-token docker audio virtualization)
+(use-service-modules guix admin sysctl pm nix avahi dbus cups authentication
+                     desktop linux mcron networking xorg ssh security-token
+                     sound docker audio virtualization)
 
 ;; req for %dc-desktop-packages
 (use-package-modules nfs certs shells ssh tls gnupg security-token
@@ -83,7 +85,7 @@ EndSection
                     %default-xorg-modules))
    (extra-config (list %kharis-libinput-config))))
 
-(define kharis-channels (current-channels))
+;; (define kharis-channels (current-channels))
 
 (define system
   (operating-system
@@ -188,8 +190,13 @@ EndSection
       (modify-services %base-services
         (guix-service-type
          config => (guix-configuration
-                    (inherit config)
-                    (extra-options '("--cores=8" "--max-jobs=4")))))
+                     (inherit config)
+                     (guix (guix-for-channels %dc-default-channels))
+                     (channels %dc-default-channels)
+                     (authorize-key? #t)
+                     (authorized-keys %default-authorized-guix-keys)
+                     (substitute-urls %default-substitute-urls)
+                     (extra-options '("--cores=8" "--max-jobs=4")))))
 
       ellipsis-smartcard-services
       ;; from %desktop-services
@@ -224,12 +231,10 @@ EndSection
       %el-extra-files-svc
 
       (list
-       (service guix-service-type
-                (el-guix-configuration %kharis-channels))
-
        (simple-service 'add-nonguix-substitutes
                        guix-service-type el-nonguix-chan-subs)
 
+       %dc-subids-service-type
        polkit-wheel-service
 
        %dc-ntp-service
@@ -245,17 +250,14 @@ EndSection
        (service tlp-service-type %kharis-tlp-conf)
        %dc-auditd-service
        %dc-ras-daemon-service
-       (services earlyoom-service-type %kharis-earlyoom-conf)
-       (services earlyoom-service-type %kharis-gpm-conf)
+       (service earlyoom-service-type %kharis-earlyoom-conf)
+       (service gpm-service-type %kharis-gpm-conf)
 
        (service avahi-service-type)
        (service udisks-service-type)
        (service upower-service-type)
        (service geoclue-service-type)
        (service polkit-service-type)
-       (service elogind-service-type
-                (elogind-configuration
-                 (handle-lid-switch-external-power 'suspend)))
        (service dbus-root-service-type)
 
        fontconfig-file-system-service
