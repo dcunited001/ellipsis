@@ -7,4 +7,4 @@ We're sorry. The URL you've dialed is no longer in service.
 
 Please try again at:
 
-[[https://github.com/dcunited001/zettelkasten/tree/master/topics/gnupg.org#old-dotfiles][https github com dcunited001 zettelkasten tree master topics gnupg.org]]
+[[https://github.com/dcunited001/zettelkasten/tree/master/projects/dotfiles-2022-2025][https github com dcunited001 zettelkasten tree master projects dotfiles 2022-2025]]

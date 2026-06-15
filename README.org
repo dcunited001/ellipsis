@@ -4,3 +4,7 @@
 #+TITLE: Dotfiles
 
 fdsa
+
+* Old Dotfiles
+
+Mostly here: [[https://github.com/dcunited001/zettelkasten/tree/master/projects/dotfiles-2022-2025][./projects/dotfiles-2022-2025]]
