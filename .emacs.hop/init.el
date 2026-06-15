@@ -8,8 +8,6 @@
 ;;;; Packages and Custom.el
 (setq use-package-enable-imenu-support t
       org-src-preserve-indentation t
-      backup-by-copying nil
-      make-backup-files nil
       custom-file (expand-file-name "custom.el" user-emacs-directory))
 (load custom-file)
 
@@ -92,6 +90,13 @@
 
 ;;; Use Package
 (setopt use-package-enable-imenu-support t)
+
+;;; Files
+
+(setq backup-by-copying nil
+      make-backup-files nil
+      ;; create-lockfiles nil
+      auto-save-default nil )
 
 ;;; UI
 (setopt global-auto-revert-non-file-buffers t
