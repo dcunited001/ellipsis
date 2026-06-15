@@ -64,10 +64,10 @@
 (setq dired-omit-files "^.DS_Store\\'\\|^.project\\(?:ile\\)?\\'\\|^.\\(svn\\)\\'\\|^.ccls-cache\\'\\|\\(?:\\.js\\)?\\.meta\\'\\|\\.\\(?:elc\\|o\\|pyo\\|swp\\|class\\)\\'")
 
 ;;;; Confirmations
-(require 'config-ui-confirm)
+(require 'hop-ui-confirm)
 
 ;;;; Consult
-(require 'config-ui-consult)
+(require 'hop-ui-consult)
 
 ;;;; Misc UI
 
@@ -85,22 +85,22 @@
 (use-package lispy
   :hook '((emacs-lisp-mode scheme-mode geiser-mode)))
 
-(require 'config-guix)
+(require 'hop-guix)
 
 ;;; Org
-(require 'config-org)
+(require 'hop-org)
 
 ;;; Tools
-(require 'config-vcs)
-(require 'config-tramp)
+(require 'hop-vcs)
+(require 'hop-tramp)
 
 ;;; Final Setup
 
 ;;;; Keys
 
 ;; NOTE: mind the non/console-specific key mappings!
-(require 'config-keys-unbind)
-(require 'config-keys)
+(require 'hop-keys-unbind)
+(require 'hop-keys)
 
 (defun dc/set-bars ()
   (interactive)
