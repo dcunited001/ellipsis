@@ -21,12 +21,21 @@
 
 (require 'find-func)
 
+;; (setq-default
+;;  guix-lsp-extra-roots
+;;  '(
+;;    "~/.dotfiles/.guix-profile-dev/share/guile/site/3.0"
+;;    "~/.dotfiles/ellipsis"
+;;    "~/.dotfiles/dc"))
+
+;; (add-to-list ' scheme-mode-hook #'guix-scheme-mode)
+
 (defun my/config-guix-lsp ()
   (interactive)
   (unless
       (ignore-errors (find-library-name "guix-lsp-eglot"))
     (if-let* ((some-load-path (read-directory-name "guix-lsp-eglot.el load path: " nil nil t))
-              (some-load-path (file-exists-p some-load-path)))
+              (some-load-path (and (file-exists-p some-load-path) some-load-path)))
         (add-to-list 'load-path some-load-path)
       (warn "guix-lsp-eglot.el load path: some thing hap pen some where.")))
   
@@ -36,7 +45,21 @@
         (setq-default guix-lsp-executable some-executable)
       (warn "guix-lsp: could not find executable")))
 
-  (message "Set guix-lsp-extra-roots to list of guile module roots"))
+  (message "Remeber to set guix-lsp-extra-roots to list of guile module roots"))
+
+(defun my/add-guix-lsp-extra-roots ()
+  (interactive)
+  (if-let* ((some-guix-path (read-directory-name "add directory to guix-lsp-eglot-extra-roots: " nil nil t))
+            (some-guix-path (and (file-exists-p some-guix-path) some-guix-path))
+            (some-guix-path (expand-file-name (directory-file-name some-guix-path))))
+      (progn
+	(add-to-list 'guix-lsp-extra-roots some-guix-path)
+        ;; TODO: get guix-compiled-path?
+        (add-to-list 'guix-load-path some-guix-path)
+        ;; it doesn't match this for some reason
+	(add-to-list 'auto-mode-alist
+		     `(,(format "%s.*\\.scm\\'" some-guix-path) . guix-scheme-mode)))
+    (user-error "guix-lsp: could not find directory")))
 
 ;; https://codeberg.org/trevarj/guix-lsp
 ;;
@@ -53,6 +76,7 @@
 ;;   (add-hook 'guix-scheme-mode-hook #'guix-lsp-eglot-ensure)
 
 (defun my/load-guix-lsp ()
+  (interactive)
   (unless (ignore-errors (find-library-name "guix-lsp-eglot"))
     (user-error "guix-lsp-eglot.el not found. run M-x my/config-guix-lsp or set load-path"))
   (unless (executable-find "guix-lsp")
