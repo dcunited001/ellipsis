@@ -1,7 +1,6 @@
-export GUILE_LOAD_PATH="$HOME/.config/guix/current/lib/guile/3.0/site-ccache:$HOME/.config/guix/current/share/guile/site/3.0"
-# /home/dc/.dotfiles/env:
+# export GUILE_LOAD_PATH="$HOME/.config/guix/current/lib/guile/3.0/site-ccache:$HOME/.config/guix/current/share/guile/site/3.0"
+# export GUILE_LOAD_COMPILED_PATH="/home/dc/.config/guix/current/share/guile/site/3.0"
 
-export GUILE_LOAD_COMPILED_PATH="/home/dc/.config/guix/current/share/guile/site/3.0"
-
-path_add GUILE_LOAD_PATH
-path_add GUILE_LOAD_COMPILED_PATH
+# i don't even have direnv right now...
+export GUILE_LOAD_PATH="$HOME/.dotfiles/dc:$HOME/.dotfiles/ellipsis:$HOME/.dotfiles/.guix-profile-dev/share/guile/site/3.0:$HOME/.config/guix/current/share/guile/site/3.0"
+export GUILE_LOAD_COMPILED_PATH="$HOME/.dotfiles/.guix-profile-dev/lib/guile/3.0/site-ccache:$HOME/.config/guix/current/lib/guile/3.0/site-ccache"

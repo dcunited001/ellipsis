@@ -7,7 +7,6 @@
 
 ;;;; Packages and Custom.el
 (setq use-package-enable-imenu-support t
-      org-src-preserve-indentation t
       custom-file (expand-file-name "custom.el" user-emacs-directory))
 (load custom-file)
 

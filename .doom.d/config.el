@@ -2349,11 +2349,29 @@ selection.)"
 ;; use-package.
 ;;
 
+;; (expand-file-name ;; GUILE_LOAD_COMPILED_PATH
+;;  ".dotfiles/.guix-profile-dev/lib/guile/3.0/site-ccache"
+;;  (getenv "HOME"))
+;; (expand-file-name ;; GUILE_LOAD_PATH
+;;  ".dotfiles/.guix-profile-dev/share/guile/site/3.0"
+;;  (getenv "HOME"))
+
+;; (setopt guix-load-path
+;;         (mapcar (lambda (p)
+;;                   (expand-file-name p (getenv "HOME")))
+;;                 '(".dotfiles/.guix-profile-dev/share/guile/site/3.0"
+;;                   ".dotfiles/ellipsis"
+;;                   ".dotfiles/dc"))
+;;         guix-load-compiled-path
+;;         (mapcar (lambda (p)
+;;                   (expand-file-name p (getenv "HOME")))
+;;                 '(".dotfiles/.guix-profile-dev/lib/guile/3.0/site-ccache")))
+
+;; (list (expand-file-name ".dotfiles/ellipsis" (getenv "HOME"))
+;;       (expand-file-name ".dotfiles/dc" (getenv "HOME")))
+
 (defun dc/guix-scheme-mode-regexp (path)
   (rx (and (literal path) "/" (+ any) ".scm")))
-
-(setopt guix-load-path (list (expand-file-name ".dotfiles/ellipsis" (getenv "HOME"))
-                             (expand-file-name ".dotfiles/dc" (getenv "HOME"))))
 
 ;; TODO: GUIX: maybe set guix-load-compiled-path
 ;; see [[file:~/.emacs.doom/.local/straight/repos/emacs-guix/elisp/guix-repl.el::defun guix-repl-guile-args]]
