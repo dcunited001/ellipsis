@@ -45,6 +45,7 @@
       "modules/nixos/desktop/sddm.nix"
       "modules/nixos/desktop/xdg.nix"
 
+      "modules/nixos/hardware/ddccontrol.nix"
       "modules/nixos/hardware/i2c.nix"
       # "modules/nixos/hardware/rkdeveloptool.nix"
 
@@ -177,9 +178,6 @@
   services.gpm.enable = true; # mouse at console (sometimes)
   services.tlp.enable = true; # power manamagement profiles
   services.thermald.enable = true; # thermal monitoring
-
-  # control moniters (requires i2c group)
-  services.ddccontrol.enable = true;
 
   # =============================================
   # Filesystems
@@ -340,7 +338,6 @@
     curl
 
     uwsm
-    # ddcutil # TODO: services.i2c.enable, groups, kernel module
 
     # SYS ADMIN
     htop
