@@ -16,7 +16,10 @@ let
   # hyprPkgs = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system};
 in
 {
-  imports = [ ./swaync.nix ];
+  imports = [
+    ./swaync.nix
+    ./try.nix
+  ];
 
   users.groups = {
     dc = {

@@ -109,7 +109,7 @@
     # .... 0.1.921317 doesn't build guile-zlib (something seems non-hermetic)
 
     # nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
-    nixpkgs.url = "https://flakehub.com/f/DeterminateSystems/nixpkgs-weekly/0.1.1012902";
+    nixpkgs.url = "https://flakehub.com/f/DeterminateSystems/nixpkgs-weekly/0.1.1014179";
     nixpkgs-stable.url = "github:NixOS/nixpkgs/nixos-25.11";
     nixpkgs-unstable.url = "https://flakehub.com/f/NixOS/nixpkgs/0.1";
 
@@ -140,6 +140,7 @@
     sops-nix.inputs.nixpkgs.follows = "nixpkgs";
 
     # TODO: nix-secrets repo
+    # dotsops.url = "codeberg.org:aionfork/dotsops";
 
     elephant.url = "github:abenz1267/elephant";
     elephant.inputs.nixpkgs.follows = "nixpkgs"; # "nixpkgs-unstable";
@@ -153,8 +154,10 @@
     # HJEM
     hjem.url = "github:feel-co/hjem";
     hjem.inputs.nixpkgs.follows = "nixpkgs";
-
     # hjem-impure.url = "github:Rexcrazy804/hjem-impure";
+
+    try.url = "github:tobi/try";
+    try.inputs.nixpkgs.follows = "nixpkgs";
 
     browser-previews.url = "github:nix-community/browser-previews";
     browser-previews.inputs.nixpkgs.follows = "nixpkgs";

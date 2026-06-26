@@ -15,8 +15,7 @@
      ;; Geiser
      ;; This allows automatically setting the `geiser-guile-load-path'
      ;; variable when using various Guix checkouts (e.g., via git worktrees).
-     ;; (geiser-repl-per-project-p . t)
-     
+     (geiser-repl-per-project-p . t)
      (geiser-insert-actual-lambda . nil)))
 
  (shell-mode
