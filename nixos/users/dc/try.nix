@@ -5,7 +5,7 @@
   ...
 }:
 let
-  tryPkg = inputs.try.packages.${pkgs.stdenv.system}.try;
+  tryPkg = inputs.try.packages.${pkgs.stdenv.system}.default;
 in
 {
   # set TRY_PROJECTS in ~/Work/.mise.toml or elsewhere

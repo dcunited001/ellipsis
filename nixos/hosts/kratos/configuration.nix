@@ -350,6 +350,7 @@
     rng-tools
     diffoscope
     kernel-hardening-checker
+    hwloc
 
     # TOOLS: VM
     qemu

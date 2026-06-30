@@ -19,6 +19,7 @@
       nixos-hardware,
       flake-schemas,
       disko,
+      try,
       ...
     }@inputs:
     let
@@ -108,8 +109,10 @@
 
     # .... 0.1.921317 doesn't build guile-zlib (something seems non-hermetic)
 
-    # nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
-    nixpkgs.url = "https://flakehub.com/f/DeterminateSystems/nixpkgs-weekly/0.1.1014179";
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
+    #
+    # 0.1.1014179: thows deprecated assertion on systemd.user.extraConfig? (for hyprland)
+    # nixpkgs.url = "https://flakehub.com/f/DeterminateSystems/nixpkgs-weekly/0.1.1014179";
     nixpkgs-stable.url = "github:NixOS/nixpkgs/nixos-25.11";
     nixpkgs-unstable.url = "https://flakehub.com/f/NixOS/nixpkgs/0.1";
 

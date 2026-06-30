@@ -187,6 +187,9 @@ in
       # TOOLS
       poppler-utils # pdf
 
+      # TOOLS: hardware
+      hardinfo2
+
       # TOOLS: ARCHIVE
       p7zip
       unzip
@@ -209,7 +212,7 @@ in
       rlwrap
 
       # BROWSER
-      firefox
+      firefox-bin # TODO: set back to firefox
       chromium
       google-chrome
 
