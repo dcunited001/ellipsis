@@ -34,8 +34,7 @@ bind ^c screen 1
 bind 0 select 10
 
 # mouse
-defmousetrack on
-
+mousetrack on
 
 ### Misc
 
