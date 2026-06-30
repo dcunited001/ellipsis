@@ -35,6 +35,7 @@ bind 0 select 10
 
 # mouse
 mousetrack on
+defmousetrack on
 
 ### Misc
 
