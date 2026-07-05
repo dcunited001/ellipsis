@@ -60,7 +60,9 @@
 
 ;;** Unix
 (package! crontab-mode)
-(package! x509-mode)
+(package! x509-mode :recipe (:type git :flavor melpa :host github
+                             :repo "jobbflykt/x509-mode"
+                             :branch "main"))
 (package! elf-mode)
 (package! syslog-mode :recipe (:type git :flavor melpa :host github
                                :repo "dcunited001/syslog-mode"

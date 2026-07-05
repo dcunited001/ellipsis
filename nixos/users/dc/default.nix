@@ -207,6 +207,9 @@ in
       # TOOLS: NETWORK
       socat
 
+      # TOOLS: LLM
+      llmfit
+
       # TERM
       alacritty
       rlwrap
