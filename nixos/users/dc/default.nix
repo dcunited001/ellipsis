@@ -220,7 +220,9 @@ in
       zoom-us
       thunderbird
       telegram-desktop
-      vesktop
+
+      # install vesktop via flatpak
+      vesktop # pnpm marked as insecure package
       # discord
 
       # IRC

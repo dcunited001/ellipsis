@@ -18,8 +18,10 @@
 
     # models = "{cfg.home}/models";
     loadModels = [
-      "qwen3-embedding:8b-q8_0"
-      "gemma3:12b"
+      # "Jackrong/Qwopus3.6-35B-A3B-v1"
+      "gemma4:12b"
+      # "qwen3-embedding:8b-q8_0"
+      # "gemma3:12b"
     ];
     syncModels = true;
     rocmOverrideGfx = "10.3.0";

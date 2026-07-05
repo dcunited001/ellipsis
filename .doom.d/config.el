@@ -2387,6 +2387,7 @@ selection.)"
                ("gsb" . #'guix-switch-to-buffer)
                ("gsr" . #'guix-switch-to-repl)))
   :config
+  (require 'guix-autoloads)
   (require 'guix-ui)
   ;; demand for now, for `guix-pulled-profile' and `guix-scheme-mode'. this
   ;; will also load geiser/guile at start. (require 'guix-ui) is necessary,
