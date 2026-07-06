@@ -1,4 +1,4 @@
-(define-module (ellipsis packages emacs-xyz)
+(define-module (dc packages emacs-xyz)
   #:use-module ((guix licenses) #:prefix license:)
   #:use-module (guix gexp)
   #:use-module (guix utils)
@@ -23,8 +23,8 @@
       (source (origin
                 (method git-fetch)
                 (uri (git-reference
-                      (url github-repo)
-                      (commit commit)))
+                       (url github-repo)
+                       (commit commit)))
                 (file-name (git-file-name name version))
                 (sha256
                  (base32 "079fj4vm8pyjfm62yba8r089rlhy725qm27b3fj4vx25s44vywjr"))))

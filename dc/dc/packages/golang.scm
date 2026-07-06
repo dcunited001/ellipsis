@@ -1,4 +1,4 @@
-(define-module (ellipsis packages golang)
+(define-module (dc packages golang)
   #:use-module ((guix licenses) #:prefix license:)
   #:use-module (guix gexp)
   #:use-module (guix utils)
@@ -79,8 +79,8 @@
      (origin
        (method git-fetch)
        (uri (git-reference
-             (url "https://github.com/jfeliu007/goplantuml")
-             (commit (string-append "v" version))))
+              (url "https://github.com/jfeliu007/goplantuml")
+              (commit (string-append "v" version))))
        (file-name (git-file-name name version))
        (sha256
         (base32 "1qp3jnkb1zb0a2vfndcbxs9ixm0z4m3w79kjn7bfxv9n1fmq0w1s"))))
@@ -162,8 +162,8 @@ produce SVGs from @@code{.d2} files.")
      (origin
        (method git-fetch)
        (uri (git-reference
-             (url "https://github.com/google/codesearch")
-             (commit (string-append "v" version))))
+              (url "https://github.com/google/codesearch")
+              (commit (string-append "v" version))))
        (file-name (git-file-name name version))
        (sha256
         (base32 "1jzgq0rf9qzng1mqlpx0ib7zwz5hk6lnj6fmp923xmkpyvqg0kcb"))))
@@ -187,8 +187,8 @@ produce SVGs from @@code{.d2} files.")
      (origin
        (method git-fetch)
        (uri (git-reference
-             (url "https://github.com/google/codesearch")
-             (commit (string-append "v" version))))
+              (url "https://github.com/google/codesearch")
+              (commit (string-append "v" version))))
        (file-name (git-file-name name version))
        (sha256
         (base32 "1jzgq0rf9qzng1mqlpx0ib7zwz5hk6lnj6fmp923xmkpyvqg0kcb"))))
@@ -212,8 +212,8 @@ produce SVGs from @@code{.d2} files.")
      (origin
        (method git-fetch)
        (uri (git-reference
-             (url "https://github.com/google/codesearch")
-             (commit (string-append "v" version))))
+              (url "https://github.com/google/codesearch")
+              (commit (string-append "v" version))))
        (file-name (git-file-name name version))
        (sha256
         (base32 "1jzgq0rf9qzng1mqlpx0ib7zwz5hk6lnj6fmp923xmkpyvqg0kcb"))))
@@ -238,8 +238,8 @@ produce SVGs from @@code{.d2} files.")
      (origin
        (method git-fetch)
        (uri (git-reference
-             (url "https://github.com/go-echarts/go-echarts")
-             (commit (string-append "v" version))))
+              (url "https://github.com/go-echarts/go-echarts")
+              (commit (string-append "v" version))))
        (file-name (git-file-name name version))
        (sha256
         (base32 "1jfby88cngfckik0wva4wi18lh09b8ffgz74zxv9wh1l8kwnxzcw"))
@@ -310,8 +310,8 @@ as @@url{https://github.com/pyecharts/pyecharts,pyecharts}, which
      (origin
        (method git-fetch)
        (uri (git-reference
-             (url "https://github.com/dnaeon/go-priorityqueue")
-             (commit (string-append "v" version))))
+              (url "https://github.com/dnaeon/go-priorityqueue")
+              (commit (string-append "v" version))))
        (file-name (git-file-name name version))
        (sha256
         (base32 "1zv4y0v53s52qxqm3i0gm83zks4053hwn4ajhwd6cajvbzzkg971"))))
@@ -335,8 +335,8 @@ be safely used by multiple goroutines.")
      (origin
        (method git-fetch)
        (uri (git-reference
-             (url "https://github.com/dnaeon/go-deque")
-             (commit (go-version->git-ref version))))
+              (url "https://github.com/dnaeon/go-deque")
+              (commit (go-version->git-ref version))))
        (file-name (git-file-name name version))
        (sha256
         (base32 "15vcnl20fcv1cci7j0n9n4f2hgqv90sx88bnf4sg5miyd1nd3lpy"))))
@@ -359,8 +359,8 @@ be safely used by multiple goroutines.")
      (origin
        (method git-fetch)
        (uri (git-reference
-             (url "https://gopkg.in/dnaeon/go-graph.v1")
-             (commit (string-append "v" version))))
+              (url "https://gopkg.in/dnaeon/go-graph.v1")
+              (commit (string-append "v" version))))
        (file-name (git-file-name name version))
        (sha256
         (base32 "1p99gq7d5by67lcs94a6a7z8s735ifnh22q02gihhfs1w40j52ci"))))
@@ -393,8 +393,8 @@ can export to @@{graphviz} and @@url{https://echarts.apache.org/,Apache ECharts}
      (origin
        (method git-fetch)
        (uri (git-reference
-             (url "https://github.com/dnaeon/makefile-graph")
-             (commit (string-append "v" version))))
+              (url "https://github.com/dnaeon/makefile-graph")
+              (commit (string-append "v" version))))
        (file-name (git-file-name name version))
        (sha256
         (base32 "00ghy98960gxqggdg4mjfs88w1w5gvshgjhzh86vwivwi6wwqwm0"))))

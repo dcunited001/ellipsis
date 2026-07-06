@@ -14,9 +14,9 @@
   #:use-module (gnu services shepherd)
   #:use-module (gnu services)
 
-  #:use-module (ellipsis packages golang-crypto)
+  #:use-module (dc packages golang-crypto)
   #:use-module (dc packages security-token)
-  #:use-module (ellipsis packages tls)
+  #:use-module (dc packages tls)
 
   #:use-module (guix gexp)
   #:use-module (guix records)

@@ -1,4 +1,4 @@
-(define-module (ellipsis packages k8s)
+(define-module (dc packages k8s)
   #:use-module ((guix licenses) #:prefix license:)
   #:use-module (guix gexp)
   #:use-module (guix utils)

@@ -1,4 +1,4 @@
-(define-module (ellipsis packages golang-crypto)
+(define-module (dc packages golang-crypto)
   #:use-module ((guix licenses) #:prefix license:)
 
   #:use-module (guix gexp)

@@ -16,9 +16,9 @@
   #:use-module (nongnu system linux-initrd)
   #:use-module (nongnu packages vpn)
 
-  #:use-module (ellipsis packages tls)
+  #:use-module (dc packages tls)
   #:use-module (dc packages security-token)
-  #:use-module (ellipsis packages golang-crypto)
+  #:use-module (dc packages golang-crypto)
   #:use-module (ellipsis services security-token)
   #:use-module (ellipsis system accounts)
   #:use-module (ellipsis system common)

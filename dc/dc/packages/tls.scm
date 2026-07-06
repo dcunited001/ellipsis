@@ -1,4 +1,4 @@
-(define-module (ellipsis packages tls)
+(define-module (dc packages tls)
   #:use-module ((guix licenses) #:prefix license:)
   #:use-module (guix gexp)
   #:use-module (guix utils)
