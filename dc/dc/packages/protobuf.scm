@@ -1,4 +1,4 @@
-(define-module (ellipsis packages protobuf)
+(define-module (dc packages protobuf)
   #:use-module ((guix licenses) #:prefix license:)
   #:use-module (guix gexp)
   #:use-module (guix utils)
@@ -46,9 +46,9 @@
        (origin
          (method git-fetch)
          (uri (git-reference
-               (url
-                "https://github.com/GoogleCloudPlatform/proto-gen-md-diagrams")
-               (commit (go-version->git-ref version))))
+                (url
+                 "https://github.com/GoogleCloudPlatform/proto-gen-md-diagrams")
+                (commit (go-version->git-ref version))))
          (file-name (git-file-name name version))
          (sha256
           (base32 "0l1p2aqh5av2lp4g0f6x2d9k8mpd2fhz8dc6aig127iz406r3j7c"))))

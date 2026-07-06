@@ -1,4 +1,4 @@
-(define-module (ellipsis packages groff)
+(define-module (dc packages groff)
   #:use-module ((guix licenses) #:prefix license:)
   #:use-module (guix gexp)
   #:use-module (guix utils)

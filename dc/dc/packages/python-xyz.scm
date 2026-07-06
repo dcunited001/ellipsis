@@ -1,4 +1,4 @@
-(define-module (ellipsis packages python-xyz)
+(define-module (dc packages python-xyz)
   #:use-module ((guix licenses) #:prefix license:)
   #:use-module (gnu packages)
   #:use-module (gnu packages check)
@@ -158,8 +158,8 @@
        (origin
          (method git-fetch)
          (uri (git-reference
-               (url github-repo)
-               (commit (string-append "v" version))))
+                (url github-repo)
+                (commit (string-append "v" version))))
          (file-name (git-file-name name version))
          (sha256
           (base32 "1q8l6pvlh7hia0r8q42drrxfc6mw100sbw81q8mxcdfglb95n0jf"))))

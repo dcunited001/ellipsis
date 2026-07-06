@@ -1,4 +1,4 @@
-(define-module (ellipsis packages linux)
+(define-module (dc packages linux)
   #:use-module ((guix licenses) #:prefix license:)
 
   #:use-module (gnu)
@@ -24,8 +24,8 @@
       (source (origin
                 (method git-fetch)
                 (uri (git-reference
-                      (url "https://github.com/anatol/menuconfig")
-                      (commit commit)))
+                       (url "https://github.com/anatol/menuconfig")
+                       (commit commit)))
                 ;; (file-name (git-file-name name version))
                 (sha256
                  (base32

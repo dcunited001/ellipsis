@@ -1,4 +1,4 @@
-(define-module (ellipsis packages networking)
+(define-module (dc packages networking)
   #:use-module (srfi srfi-1)
   #:use-module (gnu)
   #:use-module (gnu packages admin)
@@ -39,8 +39,8 @@
     (source (origin
               (method git-fetch)
               (uri (git-reference
-                    (url "https://github.com/phaag/nfdump")
-                    (commit (string-append "v" version))))
+                     (url "https://github.com/phaag/nfdump")
+                     (commit (string-append "v" version))))
               (file-name (git-file-name name version))
               (sha256
                (base32
