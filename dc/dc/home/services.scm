@@ -4,7 +4,7 @@
   #:use-module (dc home common )
   #:use-module (dc home config)
 
-  #:use-module (ellipsis utils)
+  #:use-module (dc utils)
 
   #:use-module (gnu home services shells)
   #:use-module (gnu home services)

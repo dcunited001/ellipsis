@@ -1,8 +1,8 @@
-(define-module (ellipsis packages)
+(define-module (dc packages)
   #:use-module ((gnu packages) #:prefix gnu:)
   #:use-module (srfi srfi-1)
 
-  #:export (%ellipsis-patch-path))
+  #:export (%dc-patch-path))
 
 ;; rde and flatwhatson approach this differently:
 
@@ -16,9 +16,9 @@
 
 (define %channel-root
   (find (lambda (path)
-          (file-exists? (string-append path "/ellipsis/packages.scm")))
+          (file-exists? (string-append path "/dc/packages.scm")))
         %load-path))
 
-(define %ellipsis-patch-path
+(define %dc-patch-path
   (make-parameter
-   (list (string-append %channel-root "/ellipsis/packages/patches"))))
+   (list (string-append %channel-root "/dc/packages/patches"))))

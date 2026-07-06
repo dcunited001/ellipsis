@@ -1,4 +1,4 @@
-(define-module (ellipsis utils)
+(define-module (dc utils)
   #:use-module (guix gexp)
   #:use-module (json)
   #:use-module (srfi srfi-1))

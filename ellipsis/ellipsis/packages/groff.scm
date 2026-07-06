@@ -22,7 +22,6 @@
   #:use-module (gnu packages openldap)
   ;; #:use-module (gnu packages hardware) ;; for tpm2-tss
 
-  #:use-module (ellipsis packages)
   #:use-module (srfi srfi-1))
 
 (define-public grofftl
@@ -34,8 +33,8 @@
       (source (origin
                 (method git-fetch)
                 (uri (git-reference
-                      (url "https://github.com/randoragon/groffhl")
-                      (commit version)))
+                       (url "https://github.com/randoragon/groffhl")
+                       (commit version)))
                 (file-name (git-file-name name version))
                 (sha256
                  (base32

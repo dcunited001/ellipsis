@@ -8,7 +8,7 @@
   #:use-module (dc home services screen)
   #:use-module (dc home services alacritty)
 
-  #:use-module (ellipsis utils)
+  #:use-module (dc utils)
 
   #:use-module (gnu home services desktop)
   #:use-module (gnu home services dotfiles)

@@ -37,8 +37,6 @@
          (lambda (home)
            home)))
 
-;; TODO: in (ellipsis home utils), read these from (string-append %host-name ".json")
-
 (define %host-name "kharis")
 
 ;; jhash=$(echo jupyter-lab | sha256sum | head -c8)
