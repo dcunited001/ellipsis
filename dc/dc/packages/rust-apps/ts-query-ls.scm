@@ -1,4 +1,4 @@
-(define-module (ellipsis packages rust-apps ts-query-ls)
+(define-module (dc packages rust-apps ts-query-ls)
   #:use-module ((guix licenses) #:prefix license:)
   #:use-module (gnu packages)
   #:use-module (gnu packages gcc)
@@ -43,9 +43,3 @@
       (synopsis "Tree sitter query write good")
       (description "... TODO update")
       (license license:expat))))
-
-;; (define foo (package-source ts-query-ls-bin))
-;; (origin-uri foo)
-
-;; => "https://github.com/ribru17/ts_query_ls/releases/download/v3.16.0/ts_query_ls-x86_64-unknown-linux-gnu.tar.gz"
-;;     https://github.com/ribru17/ts_query_ls/releases/download/v3.16.0/ts_query_ls-x86_64-unknown-linux-gnu.tar.gz

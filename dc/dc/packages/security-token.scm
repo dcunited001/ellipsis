@@ -1,4 +1,4 @@
-(define-module (ellipsis packages security-token)
+(define-module (dc packages security-token)
   #:use-module ((guix licenses) #:prefix license:)
 
   #:use-module (guix gexp)

@@ -1,7 +1,7 @@
 ;;; Module: common
 (define-module (ellipsis system common)
   #:use-module (ellipsis packages golang-crypto)
-  #:use-module (ellipsis packages security-token)
+  #:use-module (dc packages security-token)
   #:use-module (ellipsis packages tls)
 
   #:use-module (ice-9 format)

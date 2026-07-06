@@ -15,7 +15,7 @@
   #:use-module (gnu services)
 
   #:use-module (ellipsis packages golang-crypto)
-  #:use-module (ellipsis packages security-token)
+  #:use-module (dc packages security-token)
   #:use-module (ellipsis packages tls)
 
   #:use-module (guix gexp)

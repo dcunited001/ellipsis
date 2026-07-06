@@ -14,7 +14,6 @@
   #:use-module (nongnu packages linux)
   #:use-module (nongnu system linux-initrd)
 
-  #:use-module (ellipsis packages python-xyz)
   #:use-module (ellipsis services security-token)
   #:use-module (ellipsis system common)
 
