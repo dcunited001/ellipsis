@@ -136,6 +136,7 @@ in
       # DEV: C++
       gnumake
       cmake
+      libtool
       binutils
       gcc
       gcc-arm-embedded

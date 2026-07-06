@@ -27,6 +27,8 @@
    ;; "d2-bin"
 
    ;; tools
+   "emacs-ghostel"
+
    ;; "git-repo-go" ;; install into guix profile
 
    ;; lsp

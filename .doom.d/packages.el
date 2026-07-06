@@ -200,6 +200,13 @@
 (package! compile-multi-nerd-icons)
 (package! compile-multi-embark)
 
+;;** Environment
+
+(package! mise)
+
+;; ghostel has extremely minimal dependencies
+(package! ghostel :built-in 'ignore)
+
 ;;* Org
 
 (package! org-modern)
@@ -321,8 +328,6 @@
 ;; TODO: PKG: Add Ansible
 ;; TODO: PKG: TS LANGS: python-ts-mode, clojure-ts-mode
 ;; TODO: PKG: TOOLS: srht, repo
-
-(package! mise)
 
 ;;** To Config
 ;;***

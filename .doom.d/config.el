@@ -431,22 +431,21 @@ modes and testing is tedious."
 ;;;;; Calc Mode For The Plebs
 (use-package! casual-suite
   :defer t
-  :config
-  (map! "C-o" #'casual-editkit-main-tmenu
-        :map goto-map "M-g" #'casual-avy-tmenu
-        :map ibuffer-mode-map
-        "C-o" #'casual-ibuffer-tmenu
-        "F" #'casual-ibuffer-filter-tmenu
-        "s" #'casual-ibuffer-sortby-tmenu
-        :map calc-mode-map "C-o" #'casual-calc-tmenu
-        :map dired-mode-map "C-o" #'casual-dired-tmenu
-        :map isearch-mode-map "C-o" #'casual-isearch-tmenu
-        :map Info-mode-map "C-o" #'casual-info-tmenu
-        :map reb-mode-map "C-o" #'casual-re-builder-tmenu
-        :map reb-lisp-mode-map "C-o" #'casual-re-builder-tmenu
-        :map bookmark-bmenu-mode-map "C-o" #'casual-bookmarks-tmenu
-        :map org-agenda-mode-map "C-o" #'casual-agenda-tmenu
-        :map symbol-overlay-map "C-o" #'casual-symbol-overlay-tmenu))
+  :bind ((:map global-map ("C-o" . #'casual-editkit-main-tmenu))
+         (:map goto-map ("M-g" . #'casual-avy-tmenu))
+         (:map ibuffer-mode-map
+               ("C-o" . #'casual-ibuffer-tmenu)
+               ("F" . #'casual-ibuffer-filter-tmenu)
+               ("s" . #'casual-ibuffer-sortby-tmenu))
+         (:map calc-mode-map ("C-o" . #'casual-calc-tmenu))
+         (:map dired-mode-map ("C-o" . #'casual-dired-tmenu))
+         (:map isearch-mode-map ("C-o" . #'casual-isearch-tmenu))
+         (:map Info-mode-map ("C-o" . #'casual-info-tmenu))
+         (:map reb-mode-map ("C-o" . #'casual-re-builder-tmenu))
+         (:map reb-lisp-mode-map ("C-o" . #'casual-re-builder-tmenu))
+         (:map bookmark-bmenu-mode-map ("C-o" . #'casual-bookmarks-tmenu))
+         (:map org-agenda-mode-map ("C-o" . #'casual-agenda-tmenu))
+         (:map symbol-overlay-map ("C-o" . #'casual-symbol-overlay-tmenu))))
 
 ;;;; Search
 ;;;;; Xref
@@ -471,8 +470,10 @@ modes and testing is tedious."
 
 (use-package bufler
   :demand t
+  :custom (bufler-face-prefix "prism-level-")
   :bind
-  (("C-x M-b M-b" . #'bufler-sidebar)
+  (([remap ibuffer] . #'bufler)
+   ("C-x M-b M-b" . #'bufler-sidebar)
    ("C-x M-b b" . #'bufler-workspace-set)
    ("C-x M-b <SPC>" . #'bufler-workspace-switch-buffer)
    ("C-x M-b M-<SPC>" . #'bufler-switch-buffer)
@@ -1669,7 +1670,9 @@ order dependent via my config."
 ;; although it doesn't seem to highligh faces of comments.
 
 (use-package! prism
+  :demand t
   :commands prism-mode prism-whitespace-mode
+  :hook (bufler-list-mode)
   :config
   (map! :map doom-leader-toggle-map "M-p" #'prism-mode))
 
@@ -1889,6 +1892,13 @@ the root")
 
 ;; TODO: per-project vterm
 ;; https://github.com/doomemacs/doomemacs/blob/master/modules/term/vterm/autoload.el
+
+(use-package! ghostel
+  :defer t
+  :bind ((:map dc/quick-map
+               ("V" . #'ghostel-project)
+               ("vv" . #'ghostel)))
+  :config (set-popup-rule! "^.*-?ghostel\\*\\(<[0-9]+>\\)?$" :size 0.25 :vslot -4 :select t :quit nil :ttl 0))
 
 ;;;; Compiled Langs
 
