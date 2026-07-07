@@ -216,9 +216,9 @@ guix-sync-dev:
 
 #-----------------------
 # ISOs
-.PHONY: guixIso
 GPGISO_SCM="(@ (dc system images usb-gpg-tools) usb-gpg-tools)"
 
+.PHONY: gpgiso
 gpgiso:
 	$(GUIX) system -L ./dc \
 	image --image-type=iso9660 \

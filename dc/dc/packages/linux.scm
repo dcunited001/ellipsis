@@ -17,7 +17,9 @@
 
 (define-public menuconfig
   (let* ((commit "adb23e435283e76f17d173010bbf9d5f100b12dd")
-         (revision "0"))
+         (revision "0")
+         (flex (@ (gnu packages compiler-tools) flex))
+         (ninja (@ (gnu packages build-tools) ninja)))
     (package
       (name "menuconfig")
       (version (string-append revision "-" commit))
