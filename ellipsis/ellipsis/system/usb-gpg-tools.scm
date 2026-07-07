@@ -7,7 +7,7 @@
   #:use-module (gnu system pam)
 
   #:use-module (ellipsis services security-token)
-  #:use-module (ellipsis system common)
+  #:use-module (dc system common)
   ;; #:use-module (gnu services certbot)
 
   #:use-module (nongnu packages linux)
@@ -137,19 +137,19 @@
      (append
 
       ;; see ./ellipsis/ellipsis/system/common.scm for packages
-      %el-profile-pkgs-cli
-      %el-profile-pkgs-net
-      %el-profile-pkgs-net-plus
-      %el-profile-pkgs-data
-      %el-profile-pkgs-fs
-      %el-profile-pkgs-hardware
-      %el-profile-pkgs-i2c
-      %el-profile-pkgs-age
-      %el-profile-pkgs-tls
-      %el-profile-pkgs-step
-      %el-profile-pkgs-gnupg
-      %el-profile-pkgs-secrets
-      %el-profile-pkgs-tpm
+      %dc-profile-pkgs-cli
+      %dc-profile-pkgs-net
+      %dc-profile-pkgs-net-plus
+      %dc-profile-pkgs-data
+      %dc-profile-pkgs-fs
+      %dc-profile-pkgs-hardware
+      %dc-profile-pkgs-i2c
+      %dc-profile-pkgs-age
+      %dc-profile-pkgs-tls
+      %dc-profile-pkgs-step
+      %dc-profile-pkgs-gnupg
+      %dc-profile-pkgs-secrets
+      %dc-profile-pkgs-tpm
 
       (list emacs-no-x-toolkit)
       %ugt-packages-emacs

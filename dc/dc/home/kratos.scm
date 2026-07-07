@@ -67,7 +67,7 @@
    ;; udiskie-packages
    yubikey-packages
    notification-packages
-   ;; git-stack-bin (from ellipsis)
+   ;; git-stack-bin
    (list keepassxc pwsafe)
    guile-packages))
 

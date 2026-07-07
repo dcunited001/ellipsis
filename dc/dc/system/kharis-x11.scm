@@ -19,7 +19,7 @@
 
   #:use-module (ellipsis services vpn)
   #:use-module (ellipsis services security-token)
-  #:use-module (ellipsis system common))
+  #:use-module (dc system common))
 
 ;; TODO: add pam_tmpdir module to pam-services
 ;;   - https://www.debian.org/doc/manuals/securing-debian-manual/ch04s11.en.html
@@ -228,11 +228,11 @@ EndSection
        ;; (service alsa-service-type)
        )
 
-      %el-extra-files-svc
+      %dc-extra-files-svc
 
       (list
        (simple-service 'add-nonguix-substitutes
-                       guix-service-type el-nonguix-chan-subs)
+                       guix-service-type dc-nonguix-chan-subs)
 
        %dc-subids-service-type
        polkit-wheel-service

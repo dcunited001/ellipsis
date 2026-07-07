@@ -21,7 +21,7 @@
   #:use-module (dc packages golang-crypto)
   #:use-module (ellipsis services security-token)
   #:use-module (ellipsis system accounts)
-  #:use-module (ellipsis system common)
+  #:use-module (dc system common)
   #:use-module (ellipsis system usb-gpg-tools)
 
   ;; get a list of channels
@@ -158,7 +158,7 @@
     (timezone "America/New_York")
     (locale "en_US.UTF-8")
 
-    (keyboard-layout %el-altgr-kbd)
+    (keyboard-layout %dc-altgr-kbd)
 
     ;; to install on a system with just BIOS (e.g. a VM)
     (bootloader (bootloader-configuration
@@ -193,31 +193,31 @@
     (packages
      (append
 
-      %el-profile-pkgs-cli
-      %el-profile-pkgs-net
-      %el-profile-pkgs-net-plus
-      %el-profile-pkgs-data
-      %el-profile-pkgs-fs
-      %el-profile-pkgs-hardware
-      %el-profile-pkgs-age
-      %el-profile-pkgs-tls
-      %el-profile-pkgs-step
-      %el-profile-pkgs-gnupg
-      %el-profile-pkgs-secrets
-      %el-profile-pkgs-tpm
+      %dc-profile-pkgs-cli
+      %dc-profile-pkgs-net
+      %dc-profile-pkgs-net-plus
+      %dc-profile-pkgs-data
+      %dc-profile-pkgs-fs
+      %dc-profile-pkgs-hardware
+      %dc-profile-pkgs-age
+      %dc-profile-pkgs-tls
+      %dc-profile-pkgs-step
+      %dc-profile-pkgs-gnupg
+      %dc-profile-pkgs-secrets
+      %dc-profile-pkgs-tpm
 
       (list emacs
             ;; req. for (ice-9 colorized)
             guile-colorized)
 
-      %el-profile-pkgs-terminal-emacs
-      %el-profile-pkgs-consult-emacs
+      %dc-profile-pkgs-terminal-emacs
+      %dc-profile-pkgs-consult-emacs
 
       wayland-packages
       sway-packages
       hyprland-packages
       (list fontconfig)
-      %el-profile-pkgs-font
+      %dc-profile-pkgs-font
 
       (list
        zerotier)
@@ -225,7 +225,7 @@
       %base-packages))
 
     (services
-     (append %el-extra-files-svc
+     (append %dc-extra-files-svc
              ;; gnome req. font-abattis-cantarell, which req. python-ufo2ft
              ;; ... which requires jupyter which requires python-pyzmq ...
              (list (service gnome-desktop-service-type)

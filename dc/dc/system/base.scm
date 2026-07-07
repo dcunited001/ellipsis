@@ -9,7 +9,7 @@
   #:use-module (gnu system privilege)
   #:use-module (gnu system setuid)
   #:use-module (ellipsis system accounts)
-  #:use-module (ellipsis system common)
+  #:use-module (dc system common)
 
   #:use-module (json)
   #:use-module (json builder)

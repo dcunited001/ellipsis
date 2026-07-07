@@ -1,6 +1,6 @@
 ;;; Module: common
-(define-module (ellipsis system common)
-  #:use-module (ellipsis packages golang-crypto)
+(define-module (dc system common)
+  #:use-module (dc packages golang-crypto)
   #:use-module (dc packages security-token)
   #:use-module (dc packages tls)
 
@@ -12,7 +12,7 @@
   #:use-module (gnu services base)
 
   #:use-module (srfi srfi-1)
-  #:export (%el-extra-files-svc))
+  #:export (%dc-extra-files-svc))
 
 ;; remove package-management?
 (use-package-modules wget curl screen password-utils vim tmux emacs emacs-xyz
@@ -23,14 +23,14 @@
                      fontutils fonts rust-apps
                      golang-crypto)
 
-(define %el-extra-files-svc
+(define %dc-extra-files-svc
   (list
    (extra-special-file "/usr/bin/env"
                        (file-append coreutils "/bin/env"))
    (extra-special-file "/lib64/ld-linux-x86-64.so.2"
                        (file-append glibc "/lib/ld-linux-x86-64.so.2"))))
 
-(define-public %el-altgr-kbd
+(define-public %dc-altgr-kbd
   (keyboard-layout "us" "altgr-intl"
                    #:model "pc105"
                    #:options '("caps:ctrl_modifier")))
@@ -41,7 +41,7 @@
   (plain-file "nonguix.pub"
               "(public-key (ecc (curve Ed25519) (q #C1FD53E5D4CE971933EC50C9F307AE2171A2D3B52C804642A7A35F84F3A4EA98#)))"))
 
-(define-public el-nonguix-chan-subs
+(define-public dc-nonguix-chan-subs
   (guix-extension
     (substitute-urls
      (append (list "https://substitutes.nonguix.org")
@@ -52,68 +52,68 @@
       %default-authorized-guix-keys))))
 
 ;; TODO remove this (confusing and doesn't work with config =>
-(define-public (el-guix-configuration channels)
-  (guix-configuration
-    (guix (guix-for-channels channels))
-    (channels channels)
-    (authorize-key? #t)
-    (authorized-keys %default-authorized-guix-keys)
-    (substitute-urls %default-substitute-urls)
-    (extra-options '("--max-jobs=6" "--cores=0"))))
+;; (define-public (el-guix-configuration channels)
+;;   (guix-configuration
+;;     (guix (guix-for-channels channels))
+;;     (channels channels)
+;;     (authorize-key? #t)
+;;     (authorized-keys %default-authorized-guix-keys)
+;;     (substitute-urls %default-substitute-urls)
+;;     (extra-options '("--max-jobs=6" "--cores=0"))))
 
 ;;; Packages
 
 ;;;; CLI Tools
 
-(define-public %el-profile-pkgs-cli
+(define-public %dc-profile-pkgs-cli
   (list lsof strace tree git stow vim screen tmux diffoscope))
 
 ;; TODO: enable local networking for usb-gpg-tools
-(define-public %el-profile-pkgs-net
+(define-public %dc-profile-pkgs-net
   (list tunctl bridge-utils iptables-nft))
 
-(define-public %el-profile-pkgs-net-plus
+(define-public %dc-profile-pkgs-net-plus
   (list wget curl rsync))
 
-(define-public %el-profile-pkgs-data
+(define-public %dc-profile-pkgs-data
   (list jq yq jc sqlite))
 
-(define-public %el-profile-pkgs-fs
+(define-public %dc-profile-pkgs-fs
   (list lvm2 cryptsetup dosfstools ntfs-3g exfat-utils fuse-exfat f3 acl))
 
-(define-public %el-profile-pkgs-hardware
+(define-public %dc-profile-pkgs-hardware
   (list hwinfo rng-tools hw-probe dmidecode fiano du-dust))
 ;; fiano: uefi image utils; du-dust: diskonaut
 
-(define-public %el-profile-pkgs-i2c
+(define-public %dc-profile-pkgs-i2c
   (list ;; ddcci-driver-linux
    i2c-tools ddcutil))
 
-(define-public %el-profile-pkgs-age
+(define-public %dc-profile-pkgs-age
   (list age age-plugin-tpm-bin age-plugin-yubikey))
 
-(define-public %el-profile-pkgs-tls
+(define-public %dc-profile-pkgs-tls
   ;; desec-certbot-hook
   (list openssh openssl le-certs gnutls certdata2pem))
 
 ;; NOTE: step-kms-plugin should work if ldd discovers
 ;; pscscd via rpath
 
-(define-public %el-profile-pkgs-step
+(define-public %dc-profile-pkgs-step
   (list step-kms-plugin-bin step-ca-bin step-cli-bin))
 
-(define-public %el-profile-pkgs-gnupg
+(define-public %dc-profile-pkgs-gnupg
   (list gnupg paperkey datefudge))
 
-(define-public %el-profile-pkgs-secrets
+(define-public %dc-profile-pkgs-secrets
   (list sops))
 
-(define-public %el-profile-pkgs-tpm
+(define-public %dc-profile-pkgs-tpm
   (list tpm2-tss ssh-tpm-agent-bin))
 
 ;;;; Emacs
 
-(define-public %el-profile-pkgs-terminal-emacs
+(define-public %dc-profile-pkgs-terminal-emacs
   (list emacs-x509-mode
         emacs-better-defaults
         emacs-auto-complete
@@ -134,7 +134,7 @@
 ;; added "nice to have" packages, which should not normally be
 ;; installed for root
 
-(define-public %el-profile-pkgs-consult-emacs
+(define-public %dc-profile-pkgs-consult-emacs
   (list emacs-cape
         emacs-consult
         emacs-consult-dir
@@ -148,7 +148,7 @@
 
 ;;;; Desktop
 
-(define-public %el-profile-pkgs-font
+(define-public %dc-profile-pkgs-font
   (list font-abattis-cantarell
         font-adwaita
         font-dejavu

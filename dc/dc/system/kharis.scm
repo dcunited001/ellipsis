@@ -15,7 +15,7 @@
   #:use-module (nongnu system linux-initrd)
 
   #:use-module (ellipsis services security-token)
-  #:use-module (ellipsis system common)
+  #:use-module (dc system common)
 
   #:use-module (dc system base))
 
@@ -224,7 +224,7 @@
                      (substitute-urls %default-substitute-urls)
                      (extra-options '("--cores=8" "--max-jobs=4")))))
 
-      %el-extra-files-svc
+      %dc-extra-files-svc
 
       ellipsis-smartcard-services
       (list
@@ -233,7 +233,7 @@
 
 
        (simple-service 'add-nonguix-substitutes
-                       guix-service-type el-nonguix-chan-subs)
+                       guix-service-type dc-nonguix-chan-subs)
        %dc-subids-service-type
        polkit-wheel-service
 
@@ -251,7 +251,7 @@
        (service usb-modeswitch-service-type)
        (service bluetooth-service-type
                 (bluetooth-configuration
-                 (auto-enable? #t)))
+                  (auto-enable? #t)))
        (service fprintd-service-type)
 
        ;; connect phone to laptop
