@@ -47,50 +47,50 @@
 (define dc-hosts-ntp-service
   (service ntp-service-type
            (ntp-configuration
-            (servers
-             (list (ntp-server
-                    (type 'pool)
-                    (address "1.us.pool.ntp.org")
-                    (options '("iburst")))
-                   (ntp-server
-                    (type 'pool)
-                    (address "2.us.pool.ntp.org")
-                    (options '("iburst")))
-                   (ntp-server
-                    (type 'pool)
-                    (address "3.us.pool.ntp.org")
-                    (options '("iburst"))))))))
+             (servers
+              (list (ntp-server
+                      (type 'pool)
+                      (address "1.us.pool.ntp.org")
+                      (options '("iburst")))
+                    (ntp-server
+                      (type 'pool)
+                      (address "2.us.pool.ntp.org")
+                      (options '("iburst")))
+                    (ntp-server
+                      (type 'pool)
+                      (address "3.us.pool.ntp.org")
+                      (options '("iburst"))))))))
 
 (define-public (dc-hosts-tty-services)
   (modify-services %base-services
     (agetty-service-type
      config => (agetty-configuration
-                (inherit config)
-                (login-pause? #t)
-                (timeout 30)))
+                 (inherit config)
+                 (login-pause? #t)
+                 (timeout 30)))
 
     (mingetty-service-type
      config => (mingetty-configuration
-                (inherit config)
-                (login-pause? #t)))))
+                 (inherit config)
+                 (login-pause? #t)))))
 
 (define-public dc-hosts-common-service-type
   (service-type
-   (name 'dc-hosts-common)
-   (extensions
-    (list
-     (service-extension shepherd-root-service-type dc-hosts-ntp-service)
-     (service-extension shepherd-root-service-type
-                        (service rasdaemon-service-type
-                                 (rasdaemon-configuration (record? #t))))
-     (service-extension shepherd-root-service-type
-                        (service auditd-service-type))))
-   (default-value '())
-   (description "Sets up some common services")))
+    (name 'dc-hosts-common)
+    (extensions
+     (list
+      (service-extension shepherd-root-service-type dc-hosts-ntp-service)
+      (service-extension shepherd-root-service-type
+                         (service rasdaemon-service-type
+                                  (rasdaemon-configuration (record? #t))))
+      (service-extension shepherd-root-service-type
+                         (service auditd-service-type))))
+    (default-value '())
+    (description "Sets up some common services")))
 
 (define-public dc-hosts-unattended-upgrade-defaults
   (unattended-upgrade-configuration
-   (schedule "30 2 * * 0")
-   (system-expiration (* 6 7 24 3600))))
+    (schedule "30 2 * * 0")
+    (system-expiration (* 6 7 24 3600))))
 
 ;;; common.scm ends here

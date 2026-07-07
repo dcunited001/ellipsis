@@ -75,14 +75,14 @@
 (define kratos-xdg-user-directories
   ;; TODO: ensure XDG_CONFIG_HOME is set (see .xdg_shim.eg.sh)
   (home-xdg-user-directories-configuration
-   (music (string-append %xdg "/Music"))
-   (videos (string-append %xdg "/Videos"))
-   (pictures (string-append %xdg "/Pictures"))
-   (documents (string-append %xdg "/Documents"))
-   (download (string-append %xdg "/Downloads"))
-   (desktop (string-append %xdg "/Desktop"))
-   (publicshare (string-append %xdg "/Public"))
-   (templates (string-append %xdg "/Templates"))))
+    (music (string-append %xdg "/Music"))
+    (videos (string-append %xdg "/Videos"))
+    (pictures (string-append %xdg "/Pictures"))
+    (documents (string-append %xdg "/Documents"))
+    (download (string-append %xdg "/Downloads"))
+    (desktop (string-append %xdg "/Desktop"))
+    (publicshare (string-append %xdg "/Public"))
+    (templates (string-append %xdg "/Templates"))))
 
 ;; =============================================
 ;;; Environment
@@ -165,13 +165,13 @@
 ;; TODO: gpg-agent: reopen configuration instead of defining a new one
 (define kratos-gpg-agent-configuration
   (home-gpg-agent-configuration
-   (pinentry-program (file-append pinentry-qt "/bin/pinentry-qt"))
-   (ssh-support? #t)
-   (default-cache-ttl 60)
-   (default-cache-ttl-ssh 60)
-   (max-cache-ttl 600)
-   (max-cache-ttl-ssh 600)
-   (extra-content "
+    (pinentry-program (file-append pinentry-qt "/bin/pinentry-qt"))
+    (ssh-support? #t)
+    (default-cache-ttl 60)
+    (default-cache-ttl-ssh 60)
+    (max-cache-ttl 600)
+    (max-cache-ttl-ssh 600)
+    (extra-content "
 no-allow-external-cache
 no-allow-mark-trusted
 no-allow-emacs-pinentry
@@ -227,8 +227,8 @@ no-allow-loopback-pinentry")))
        ;;   (unless abcdw's power level is over 9,000,000)
        (service home-dotfiles-service-type
                 (home-dotfiles-configuration
-                 (source-directory ".")
-                 (directories (list (string-append %dotfiles-directory "/df"))))))
+                  (source-directory ".")
+                  (directories (list (string-append %dotfiles-directory "/df"))))))
 
       kratos-application-services
       (list

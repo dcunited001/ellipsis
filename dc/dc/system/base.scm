@@ -52,10 +52,10 @@
 ;; adds: mount.nfs, swaylock
 (define-public %dc-privileged-programs
   (append (list (privileged-program
-                 (program (file-append nfs-utils "/sbin/mount.nfs")))
+                  (program (file-append nfs-utils "/sbin/mount.nfs")))
                 ;; (setuid? #t)
                 (privileged-program
-                 (program (file-append ntfs-3g "/sbin/mount.ntfs-3g"))))
+                  (program (file-append ntfs-3g "/sbin/mount.ntfs-3g"))))
           ;; (setuid? #t)
           %default-privileged-programs))
 
@@ -136,7 +136,7 @@
 (define-public %dc-docker-service
   (service docker-service-type
            (docker-configuration
-            (enable-proxy? #f))))
+             (enable-proxy? #f))))
 
 ;; runs docker commands under "oci-container" user, has "docker" group
 (define-public %dc-oci-container-service
@@ -145,24 +145,24 @@
 (define-public %dc-libvirt-service
   (service libvirt-service-type
            (libvirt-configuration
-            (unix-sock-group "libvirt")
-            (tls-port "16555"))))
+             (unix-sock-group "libvirt")
+             (tls-port "16555"))))
 
 (define-public %dc-virtlog-service
   (service virtlog-service-type
            (virtlog-configuration
-            ;; (max-clients 1024) ;; default
-            (max-size (* 32 (expt 1024 2))))))
+             ;; (max-clients 1024) ;; default
+             (max-size (* 32 (expt 1024 2))))))
 
 (define-public %dc-cups-service
   (service cups-service-type
            (cups-configuration
-            (web-interface? #t)
-            ;; TODO ssl-options? TLS 1.0+
-            (extensions
-             (list cups-filters
-                   epson-inkjet-printer-escpr
-                   hplip-minimal)))))
+             (web-interface? #t)
+             ;; TODO ssl-options? TLS 1.0+
+             (extensions
+              (list cups-filters
+                    epson-inkjet-printer-escpr
+                    hplip-minimal)))))
 
 ;; see man limits.conf
 ;; or https://baeldung.com/linux/error-too-many-open-files/
@@ -181,26 +181,26 @@
 
 (define %dc-unattended-upgrade-configuration
   (unattended-upgrade-configuration
-   (schedule "30 2 * * 0")
-   (system-expiration (* 6 7 24 3600))))
+    (schedule "30 2 * * 0")
+    (system-expiration (* 6 7 24 3600))))
 
 (define-public %dc-unattended-upgrade-service-type
   (service
    unattended-upgrade-service-type
    (unattended-upgrade-configuration
-    (schedule "30 2 * * 0")
-    (channels #~(list
-                 (channel
-                  (name 'nonguix)
-                  (url "https://gitlab.com/nonguix/nonguix")
-                  (branch "master"))
-                 %default-channels))
-    ;; (operating-system-file
-    ;;  (file-append
-    ;;   (local-file "." "systems-dir" #:recursive? #t)
-    ;;   (string-append
-    ;;    "/root/.config/guix/systems/" %host-name ".scm")))
-    (system-expiration (* 6 7 24 3600)))))
+     (schedule "30 2 * * 0")
+     (channels #~(list
+                  (channel
+                    (name 'nonguix)
+                    (url "https://gitlab.com/nonguix/nonguix")
+                    (branch "master"))
+                  %default-channels))
+     ;; (operating-system-file
+     ;;  (file-append
+     ;;   (local-file "." "systems-dir" #:recursive? #t)
+     ;;   (string-append
+     ;;    "/root/.config/guix/systems/" %host-name ".scm")))
+     (system-expiration (* 6 7 24 3600)))))
 
 (define-public %dc-default-channels
   (append (list
@@ -225,25 +225,25 @@
 (define-public %dc-ntp-service
   (service ntp-service-type
            (ntp-configuration
-            (servers
-             (list (ntp-server
-                    (type 'pool)
-                    (address "1.us.pool.ntp.org")
-                    (options '("iburst")))
-                   (ntp-server
-                    (type 'pool)
-                    (address "2.us.pool.ntp.org")
-                    (options '("iburst")))
-                   (ntp-server
-                    (type 'pool)
-                    (address "3.us.pool.ntp.org")
-                    (options '("iburst"))))))))
+             (servers
+              (list (ntp-server
+                      (type 'pool)
+                      (address "1.us.pool.ntp.org")
+                      (options '("iburst")))
+                    (ntp-server
+                      (type 'pool)
+                      (address "2.us.pool.ntp.org")
+                      (options '("iburst")))
+                    (ntp-server
+                      (type 'pool)
+                      (address "3.us.pool.ntp.org")
+                      (options '("iburst"))))))))
 
 (define-public %dc-network-manager-service
   (service network-manager-service-type
            (network-manager-configuration
-            (vpn-plugins
-             (list network-manager-openvpn)))))
+             (vpn-plugins
+              (list network-manager-openvpn)))))
 
 ;; TODO: auditd-configuration: %default-auditd-configuration-directory
 (define-public %dc-auditd-service

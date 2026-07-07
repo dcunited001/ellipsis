@@ -55,10 +55,10 @@
 ;; TODO %ugt-default-user set to 1000:1000 to be consistent
 (define %ugt-default-user
   (user-account
-   (name "dc")
-   (comment "Default User")
-   (group %ugt-user-name)
-   (supplementary-groups %ugt-my-groups)))
+    (name "dc")
+    (comment "Default User")
+    (group %ugt-user-name)
+    (supplementary-groups %ugt-my-groups)))
 
 (define-public %ugt-packages-emacs
   ;; still needs either emacs or emacs-no-x-toolkit
@@ -109,8 +109,8 @@
 
     ;; to install on a system with just BIOS (e.g. a VM)
     (bootloader (bootloader-configuration
-                 (bootloader grub-efi-bootloader)
-                 (targets "/dev/sda")))
+                  (bootloader grub-efi-bootloader)
+                  (targets "/dev/sda")))
 
     (file-systems (cons (file-system
                           (device (file-system-label "usb-gpg-disk"))

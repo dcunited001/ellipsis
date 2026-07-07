@@ -77,12 +77,12 @@ EndSection
 
 (define %kharis-xorg-configuration
   (xorg-configuration
-   ;; seems to default to this
-   ;; (drivers '("amdgpu" "vesa"))
-   (keyboard-layout %kharis-shell-keyboard)
-   (modules (append (list xf86-input-wacom)
-                    %default-xorg-modules))
-   (extra-config (list %kharis-libinput-config))))
+    ;; seems to default to this
+    ;; (drivers '("amdgpu" "vesa"))
+    (keyboard-layout %kharis-shell-keyboard)
+    (modules (append (list xf86-input-wacom)
+                     %default-xorg-modules))
+    (extra-config (list %kharis-libinput-config))))
 
 ;; (define kharis-channels (current-channels))
 
@@ -104,28 +104,28 @@ EndSection
 
     (keyboard-layout %kharis-shell-keyboard)
     (bootloader (bootloader-configuration
-                 (bootloader grub-efi-bootloader)
-                 (targets '("/boot/efi"))
-                 (keyboard-layout keyboard-layout)))
+                  (bootloader grub-efi-bootloader)
+                  (targets '("/boot/efi"))
+                  (keyboard-layout keyboard-layout)))
 
     (groups %dc-base-groups)
     (users %kharis-users)
 
     (mapped-devices
      (list (mapped-device
-            (source (uuid "c6684f7e-a5e2-4096-a7d0-a0970221c971"))
-            (targets (list "pde"))
-            (type luks-device-mapping))
+             (source (uuid "c6684f7e-a5e2-4096-a7d0-a0970221c971"))
+             (targets (list "pde"))
+             (type luks-device-mapping))
 
            ;; TODO: change these label names (to work across systems)
            (mapped-device
-            (source "matrix")
-            (targets (list "matrix-root"
-                           "matrix-swapvol"
-                           "matrix-home"
-                           "matrix-flatpak"
-                           "matrix-data"))
-            (type lvm-device-mapping))))
+             (source "matrix")
+             (targets (list "matrix-root"
+                            "matrix-swapvol"
+                            "matrix-home"
+                            "matrix-flatpak"
+                            "matrix-data"))
+             (type lvm-device-mapping))))
 
     ;; TODO: hmmm
     (swap-devices (list (file-system-label "kharisSwap")))
@@ -202,16 +202,16 @@ EndSection
       (list
        (service gdm-service-type
                 (gdm-configuration
-                 ;; (debug? #f)
-                 ;; (x-session) ;; default: (xinitrc)
-                 (xorg-configuration
-                  %kharis-xorg-configuration)))
+                  ;; (debug? #f)
+                  ;; (x-session) ;; default: (xinitrc)
+                  (xorg-configuration
+                    %kharis-xorg-configuration)))
        (service screen-locker-service-type
                 (screen-locker-configuration
-                 (name "xlock")
-                 (program (file-append xlockmore "/bin/xlock"))
-                 ;; (using-setuid? #f)
-                 (using-pam? #t)))
+                  (name "xlock")
+                  (program (file-append xlockmore "/bin/xlock"))
+                  ;; (using-setuid? #f)
+                  (using-pam? #t)))
        (simple-service 'mtp udev-service-type (list libmtp))
        gdm-file-system-service
        (simple-service 'network-manager-applet
@@ -242,7 +242,7 @@ EndSection
        (service modem-manager-service-type)
        (service bluetooth-service-type
                 (bluetooth-configuration
-                 (auto-enable? #t)))
+                  (auto-enable? #t)))
        (service usb-modeswitch-service-type)
 
        (service thermald-service-type)

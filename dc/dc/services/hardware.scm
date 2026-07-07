@@ -54,16 +54,16 @@ options ddcci-backlight delay=120"))
 
 (define ddcci-driver-service-type
   (service-type
-   (name 'hardware)
-   (extensions
-    (list (service-extension kernel-module-loader-service-type
-                             '("ddcci" "ddcci_backlight"))
-          (service-extension profile-service-type
-                             ddcci-driver-profile-service)
-          (service-extension etc-service-type
-                             ddcci-driver-etc-service)))
-   (default-value (ddcci-driver-configuration))
-   (description
-    "Load and configure ddcci and ddcci-backlight modules.")))
+    (name 'hardware)
+    (extensions
+     (list (service-extension kernel-module-loader-service-type
+                              '("ddcci" "ddcci_backlight"))
+           (service-extension profile-service-type
+                              ddcci-driver-profile-service)
+           (service-extension etc-service-type
+                              ddcci-driver-etc-service)))
+    (default-value (ddcci-driver-configuration))
+    (description
+     "Load and configure ddcci and ddcci-backlight modules.")))
 
 ;;; hardware.scm ends here

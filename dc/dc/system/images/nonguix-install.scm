@@ -67,12 +67,12 @@
    (user-group (name "users") (id 1100))))
 
 (define %my-user (user-account
-                  (uid 1000)
-                  (name %my-user-name)
-                  (password (crypt %my-user-pass "$6$abc"))
-                  (comment "Default User")
-                  (group %my-user-name)
-                  (supplementary-groups (cons* "users" %my-groups))))
+                   (uid 1000)
+                   (name %my-user-name)
+                   (password (crypt %my-user-pass "$6$abc"))
+                   (comment "Default User")
+                   (group %my-user-name)
+                   (supplementary-groups (cons* "users" %my-groups))))
 
 (define wayland-packages
   (list grimblast
@@ -101,18 +101,18 @@
 ;; NOTE: this doesn't set up ~/.ssh/authorized_keys
 (define openssh-conf
   (openssh-configuration
-   (openssh openssh-sans-x)
-   (port-number (string->number
-                 (or (getenv "_OPENSSH_PORT") "22")))
-   (password-authentication? #f)
-   (allow-agent-forwarding? #f)
-   (allow-tcp-forwarding? #t)
-   (accepted-environment '("COLORTERM"))
-   (authorized-keys
-    `(("dc"
-       ,(local-file
-         (string-append (getenv "HOME")
-                        "/.ssh/authorized_keys")))))))
+    (openssh openssh-sans-x)
+    (port-number (string->number
+                  (or (getenv "_OPENSSH_PORT") "22")))
+    (password-authentication? #f)
+    (allow-agent-forwarding? #f)
+    (allow-tcp-forwarding? #t)
+    (accepted-environment '("COLORTERM"))
+    (authorized-keys
+     `(("dc"
+        ,(local-file
+          (string-append (getenv "HOME")
+                         "/.ssh/authorized_keys")))))))
 
 ;; TODO fix background
 (define %wlgreet-sway-conf
@@ -123,31 +123,31 @@
 
 (define %greetd-conf
   (greetd-configuration
-   (greeter-supplementary-groups (list "video" "input" "seat"))
-   (terminals
-    (list
-     (greetd-terminal-configuration (terminal-vt "1"))
-     (greetd-terminal-configuration (terminal-vt "2"))
-     (greetd-terminal-configuration (terminal-vt "3"))
-     (greetd-terminal-configuration (terminal-vt "4"))
-     (greetd-terminal-configuration (terminal-vt "5"))
-     (greetd-terminal-configuration (terminal-vt "6"))
-     (greetd-terminal-configuration
-      (terminal-vt "7")
-      (terminal-switch #t)
-      (extra-shepherd-requirement '(seatd))
-      (default-session-command
-        (greetd-wlgreet-sway-session
-         (sway-configuration %wlgreet-sway-conf)
-         (command (greetd-user-session
-                   (xdg-session-type "wayland"))))))
-     (greetd-terminal-configuration
-      (terminal-vt "8")
-      (extra-shepherd-requirement '(seatd))
-      (default-session-command
-        (greetd-gtkgreet-sway-session
-         (command (greetd-user-session
-                   (xdg-session-type "wayland"))))))))))
+    (greeter-supplementary-groups (list "video" "input" "seat"))
+    (terminals
+     (list
+      (greetd-terminal-configuration (terminal-vt "1"))
+      (greetd-terminal-configuration (terminal-vt "2"))
+      (greetd-terminal-configuration (terminal-vt "3"))
+      (greetd-terminal-configuration (terminal-vt "4"))
+      (greetd-terminal-configuration (terminal-vt "5"))
+      (greetd-terminal-configuration (terminal-vt "6"))
+      (greetd-terminal-configuration
+        (terminal-vt "7")
+        (terminal-switch #t)
+        (extra-shepherd-requirement '(seatd))
+        (default-session-command
+          (greetd-wlgreet-sway-session
+            (sway-configuration %wlgreet-sway-conf)
+            (command (greetd-user-session
+                       (xdg-session-type "wayland"))))))
+      (greetd-terminal-configuration
+        (terminal-vt "8")
+        (extra-shepherd-requirement '(seatd))
+        (default-session-command
+          (greetd-gtkgreet-sway-session
+            (command (greetd-user-session
+                       (xdg-session-type "wayland"))))))))))
 
 ;;;; Image
 
@@ -161,8 +161,8 @@
 
     ;; to install on a system with just BIOS (e.g. a VM)
     (bootloader (bootloader-configuration
-                 (bootloader grub-efi-bootloader)
-                 (targets "/dev/sda")))
+                  (bootloader grub-efi-bootloader)
+                  (targets "/dev/sda")))
     (file-systems (cons (file-system
                           (device (file-system-label "nonguix-install-disk"))
                           (mount-point "/")
@@ -256,19 +256,19 @@
 
                (guix-service-type
                 config => (guix-configuration
-                           (inherit config)
-                           (guix (guix-for-channels %my-channels))
-                           (authorize-key? #t)
-                           (authorized-keys
-                            (cons* %nonguix-chan-key
-                                   %default-authorized-guix-keys))
-                           (substitute-urls
-                            '("https://ci.guix.gnu.org"
-                              "https://substitutes.nonguix.org"
-                              "https://bordeaux.guix.gnu.org"))
-                           (channels %my-channels)
-                           (extra-options '("--max-jobs=6"
-                                            "--cores=0")))))))))
+                            (inherit config)
+                            (guix (guix-for-channels %my-channels))
+                            (authorize-key? #t)
+                            (authorized-keys
+                             (cons* %nonguix-chan-key
+                                    %default-authorized-guix-keys))
+                            (substitute-urls
+                             '("https://ci.guix.gnu.org"
+                               "https://substitutes.nonguix.org"
+                               "https://bordeaux.guix.gnu.org"))
+                            (channels %my-channels)
+                            (extra-options '("--max-jobs=6"
+                                             "--cores=0")))))))))
 
 ;; guix system -L ./dc image --image-type=iso9660 \
 ;; -e '(@@ (dc system images nonguix-install) nonguix-install-amd)'

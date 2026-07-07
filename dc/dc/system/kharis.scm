@@ -71,46 +71,46 @@
 
 (define-public %kharis-tlp-conf
   (tlp-configuration
-   (cpu-boost-on-ac? #t)
-   (tlp-default-mode "AC") ;; this is the default
-   (sound-power-save-on-bat 0)
-   (nmi-watchdog? #t)
-   (cpu-scaling-min-freq-on-bat 1700000)
-   (cpu-scaling-max-freq-on-bat 2100000)
-   (cpu-scaling-min-freq-on-ac 2100000)
-   (cpu-scaling-max-freq-on-ac 2100000)
-   (wifi-pwr-on-bat? #t)))
+    (cpu-boost-on-ac? #t)
+    (tlp-default-mode "AC") ;; this is the default
+    (sound-power-save-on-bat 0)
+    (nmi-watchdog? #t)
+    (cpu-scaling-min-freq-on-bat 1700000)
+    (cpu-scaling-max-freq-on-bat 2100000)
+    (cpu-scaling-min-freq-on-ac 2100000)
+    (cpu-scaling-max-freq-on-ac 2100000)
+    (wifi-pwr-on-bat? #t)))
 
 (define-public %kharis-openssh-conf
   (openssh-configuration
-   (openssh openssh-sans-x)
-   (port-number (string->number
-                 (or (getenv "_OPENSSH_PORT") "22")))
-   (password-authentication? #f)
-   (allow-agent-forwarding? #f)
-   (allow-tcp-forwarding? #t)
-   (accepted-environment '("COLORTERM"))
-   (authorized-keys
-    `(("dc" ,(local-file ".ssh/dc.authorized_keys"))))))
+    (openssh openssh-sans-x)
+    (port-number (string->number
+                  (or (getenv "_OPENSSH_PORT") "22")))
+    (password-authentication? #f)
+    (allow-agent-forwarding? #f)
+    (allow-tcp-forwarding? #t)
+    (accepted-environment '("COLORTERM"))
+    (authorized-keys
+     `(("dc" ,(local-file ".ssh/dc.authorized_keys"))))))
 
 ;; to have mouse at console (more annoying than anything tbh)
 (define-public %kharis-gpm-conf
   (gpm-configuration
-   ;; defaults, should work for IBM trackpoints
-   (options '("-m" "/dev/input/mice" "-t" "ps2"))))
+    ;; defaults, should work for IBM trackpoints
+    (options '("-m" "/dev/input/mice" "-t" "ps2"))))
 
 ;; TODO: (send-notification-command "a/herd/service/or/root/script")
 ;; logs: /var/log/earlyoom
 (define-public %kharis-earlyoom-conf
   (earlyoom-configuration
-   (minimum-available-memory 10) ;; default
+    (minimum-available-memory 10) ;; default
 
-   ;; noswap, but both mem/swap
-   ;; must be below threshold for
-   ;; oom to act
-   (minimum-free-swap 1)
-   (prefer-regexp "syncthing|firefox")
-   (show-debug-messages? #t)))
+    ;; noswap, but both mem/swap
+    ;; must be below threshold for
+    ;; oom to act
+    (minimum-free-swap 1)
+    (prefer-regexp "syncthing|firefox")
+    (show-debug-messages? #t)))
 
 ;; TODO: this won't work without a gexp.  it may not be a great idea
 ;; (define-public %kharis-upgrade-configuration
@@ -167,9 +167,9 @@
     (keyboard-layout %kharis-shell-keyboard)
 
     (bootloader (bootloader-configuration
-                 (bootloader grub-efi-bootloader)
-                 (targets '("/boot/efi"))
-                 (keyboard-layout keyboard-layout)))
+                  (bootloader grub-efi-bootloader)
+                  (targets '("/boot/efi"))
+                  (keyboard-layout keyboard-layout)))
 
     ;; TODO: check whether I need to add my own user
     ;; - not showing up in /etc/group on kharis
@@ -202,8 +202,8 @@
 
     (privileged-programs
      (append (list (privileged-program
-                    (program (file-append (specification->package "swaylock")))
-                    (setuid? #t)))
+                     (program (file-append (specification->package "swaylock")))
+                     (setuid? #t)))
              %dc-privileged-programs))
 
     (services
@@ -265,7 +265,7 @@
        (service polkit-service-type)
        (service elogind-service-type
                 (elogind-configuration
-                 (handle-lid-switch-external-power 'suspend)))
+                  (handle-lid-switch-external-power 'suspend)))
        (service dbus-root-service-type)
 
        ;; print/scan
@@ -311,19 +311,19 @@
 
     (mapped-devices
      (list (mapped-device
-            (source (uuid "c6684f7e-a5e2-4096-a7d0-a0970221c971"))
-            (targets (list "pde"))
-            (type luks-device-mapping))
+             (source (uuid "c6684f7e-a5e2-4096-a7d0-a0970221c971"))
+             (targets (list "pde"))
+             (type luks-device-mapping))
 
            ;; TODO: change these label names (to work across systems)
            (mapped-device
-            (source "matrix")
-            (targets (list "matrix-root"
-                           "matrix-swapvol"
-                           "matrix-home"
-                           "matrix-flatpak"
-                           "matrix-data"))
-            (type lvm-device-mapping))))
+             (source "matrix")
+             (targets (list "matrix-root"
+                            "matrix-swapvol"
+                            "matrix-home"
+                            "matrix-flatpak"
+                            "matrix-data"))
+             (type lvm-device-mapping))))
 
     (file-systems (cons*
                    (file-system
@@ -367,7 +367,7 @@
                    %base-file-systems))
 
     (swap-devices (list (swap-space
-                         (target (file-system-label "kharisSwap"))
-                         (dependencies mapped-devices))))))
+                          (target (file-system-label "kharisSwap"))
+                          (dependencies mapped-devices))))))
 
 system
