@@ -32,7 +32,6 @@
             (let* ((root-dir (file-local-name (expand-file-name root-dir-unexpanded)))
                    ;; (directory-file-name ...) is Workaround for bug https://issues.guix.gnu.org/43818?
                    (dc-dir (directory-file-name (file-local-name (expand-file-name "dc" root-dir-unexpanded))))
-                   (ellipsis-dir (directory-file-name (file-local-name (expand-file-name "ellipsis" root-dir-unexpanded))))
                    ;; TODO: guix-pulled-profile doesn't exist before
                    ;; guix.el repl runs
                    (guix-pr (or (and (bound-and-true-p guix-pulled-profile))
@@ -45,7 +44,7 @@
                 (defvar geiser-guile-load-path '()))
               (make-local-variable 'geiser-guile-load-path)
               (require 'cl-lib)
-              (cl-dolist (pathdir (list guix-lp guix-lcp ellipsis-dir dc-dir))
+              (cl-dolist (pathdir (list guix-lp guix-lcp dc-dir))
                 (cl-pushnew pathdir geiser-guile-load-path
                             :test #'string-equal))))))))
 

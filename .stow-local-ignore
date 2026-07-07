@@ -68,8 +68,6 @@ fonts
 ^/\.envrc.*
 
 # Guix
-ellipsis
-ellipsis-wip
 dc
 dotspec
 /\.guix-channel
@@ -92,7 +90,7 @@ manjaro
 # backgrounds
 
 # empty directories,
-# but if empty in ellipsis, we want fully linked on host
+# but if empty in dc, we want fully linked on host
 /\.gitkeep 
 
 # ^/\.doom.d/eln.cache

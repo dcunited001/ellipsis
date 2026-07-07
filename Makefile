@@ -1,5 +1,5 @@
 ##
-# Ellipsis
+# dc
 #
 # @file
 # @version 0.1
@@ -27,18 +27,16 @@ GUIXTM=guix time-machine -L ./env -C $(CHANNELS_FILE) $(channels_unsafe_eval)
 GUIX=$(GUIXTM) --
 
 # don't use these vars for GUIXTM
-ELCHANNEL=$(abspath $(MKDIR)/ellipsis)
 DCCHANNEL=$(abspath $(MKDIR)/dc)
-GUIXPACKAGE=guix package -L $(ELCHANNEL) -L $(DCCHANNEL)
+GUIXPACKAGE=guix package -L $(DCCHANNEL)
 
 # TODO: ... don't quote these load paths (no idea what i'm doing)
 
 # channel outputs
-ELLIPSIS_SRC_LOAD_PATH=-L ./env -L ./ellipsis
-DC_SRC_LOAD_PATH=-L ./env -L ./ellipsis -L ./dc
+DC_SRC_LOAD_PATH=-L ./env -L ./dc
 
 # inputs, testing and repl
-DEV_ENV_LOAD_PATH=-L ./env -L ./ellipsis
+DEV_ENV_LOAD_PATH=-L ./env -L ./dc
 
 PULL_EXTRA_OPTIONS=
 # --allow-downgrades
@@ -82,12 +80,12 @@ ares-profile:
 # it with a separate top-level `guix` binary (unsure of the exact consequences)
 ares-impure:
 	guix shell -L ./env -p $(ARES_PROFILE) \
-	-- guile -L ./env -L ./ellipsis -L ./dc -c \
+	-- guile -L ./env -L ./dc -c \
 "(begin (use-modules (guix gexp)) #;(load gexp reader macro globally) \
 ((@ (ares server) run-nrepl-server)))"
 
 ares:
-	$(ARES_SHELL) -- guile -L ./env -L ./ellipsis -L ./dc -c \
+	$(ARES_SHELL) -- guile -L ./env -L ./dc -c \
 "(begin (use-modules (guix gexp)) #;(load gexp reader macro globally) \
 ((@ (ares server) run-nrepl-server)))"
 
@@ -113,7 +111,7 @@ $(GUIXGUIXCHAN): # guix-git-touch .config/guix/current
 .PHONY: guix-pull guix-pull-sync guix-pull-lock
 guix-pull: guix-pull-sync guix-pull-lock
 guix-pull-sync:
-	guix pull -L ./ellipsis -L ./dc -C $(GUIXGUIXBASE)
+	guix pull -L ./dc -C $(GUIXGUIXBASE)
 guix-pull-lock:
 	guix describe --format=channels > $(GUIXGUIXCHAN)
 
@@ -163,7 +161,7 @@ guix-copy:
 
 .PHONY: guix-copy-pull-sync guix-copy-pull-lock
 guix-copy-pull-sync:
-	@ssh $(GUIXUSER)@$(GUIXHOST) -- guix pull -L ./ellipsis -L ./dc -C $(GUIXGUIXCHAN)
+	@ssh $(GUIXUSER)@$(GUIXHOST) -- guix pull -L ./dc -C $(GUIXGUIXCHAN)
 guix-copy-pull-lock:
 	ssh $(GUIXUSER)@$(GUIXHOST) -- guix describe --format=channels > $(GUIXGUIXCHAN)
 
@@ -181,7 +179,7 @@ guix-copy-pull-lock:
 # -----------------------
 # For hacking on Scheme
 #
-# - for packages, services and guix-home in ./ellipsis and ./dc
+# - for packages, services and guix-home in ./dc
 # - this stays locked via $(CHANNELS_FILE)
 
 # guix: env/sync
@@ -219,10 +217,10 @@ guix-sync-dev:
 #-----------------------
 # ISOs
 .PHONY: guixIso
-GPGISO_SCM="(@ (ellipsis system usb-gpg-tools) usb-gpg-tools)"
+GPGISO_SCM="(@ (dc system images usb-gpg-tools) usb-gpg-tools)"
 
 gpgiso:
-	$(GUIX) system -L ./ellipsis \
+	$(GUIX) system -L ./dc \
 	image --image-type=iso9660 \
 	-e $(GPGISO_SCM)
 
@@ -234,12 +232,12 @@ GUIX_HOST_HOME=./dc/dc/home/$(GUIX_HOST).scm
 
 .PHONY: ghbuild
 ghbuild:
-	$(GUIX) home -L ./ellipsis -L ./dc \
+	$(GUIX) home -L ./dc \
 	build $(GUIX_HOST_HOME)
 
 .PHONY: ghcontainer
 ghcontainer:
-	$(GUIX) home -L ./ellipsis -L ./dc \
+	$(GUIX) home -L ./dc \
 	container $(GUIX_HOST_HOME)
 
 #-----------------------
@@ -253,7 +251,7 @@ GUIX_HOST_HE="(@ (dc home kharis) kharis-home-environment)"
 
 .PHONY: guixHomeContainer
 guixHomeContainer:
-	$(GUIX) home -L ./ellipsis -L ./dc \
+	$(GUIX) home -L ./dc \
 	container --share="$(MKDIR)" -e $(GUIX_HOST_HE)
 
 #-----------------------
