@@ -29,15 +29,14 @@ GUIXTM=guix time-machine -C channels-lock.scm
 GUIX=$(GUIXTM) --
 
 # TODO: shouldn't be coupled to another project install path
-ELCHANNEL=$(abspath $(MKPARENT)/ellipsis)
 DCCHANNEL=$(abspath $(MKPARENT)/dc)
-GUIXPACKAGE=guix package -L $(ELCHANNEL) -L $(DCCHANNEL)
+GUIXPACKAGE=guix package -L $(DCCHANNEL)
 
 # quoting issues:
-# GUIXLOADARGS="-L $(ELCHANNEL) -L $(DCCHANNEL)"
+# GUIXLOADARGS="-L $(DCCHANNEL)"
 # GUIXPACKAGE="guix package $(GUIXLOADARGS)"
 
-# .guix-profile requires pulling $ELCHANNEL,$DCCHANNEL first
+# .guix-profile requires pulling $DCCHANNEL first
 
 .DEFAULT_GOAL := all
 .PHONY: all

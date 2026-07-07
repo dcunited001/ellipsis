@@ -23,7 +23,7 @@
    ;; dev dependency
    ;; "openjdk"
 
-   ;; req. -L $dotfiles/ellipsis -L $dotfiles/dc
+   ;; req. -L $dotfiles/dc
    ;; "d2-bin"
 
    ;; tools

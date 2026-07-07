@@ -61,7 +61,7 @@ Guix System laptop.
    "emacs-next-pgtk"
    "ripgrep"
    "guile-ares-rs"
-   "d2-bin" ;; in ./ellipsis/ellipsis/packages/golang.scm
+   "d2-bin" ;; in ./dc/dc/packages/golang.scm
    "fd"))
 #+end_src
 

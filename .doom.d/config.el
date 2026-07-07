@@ -2370,15 +2370,13 @@ selection.)"
 ;;         (mapcar (lambda (p)
 ;;                   (expand-file-name p (getenv "HOME")))
 ;;                 '(".dotfiles/.guix-profile-dev/share/guile/site/3.0"
-;;                   ".dotfiles/ellipsis"
 ;;                   ".dotfiles/dc"))
 ;;         guix-load-compiled-path
 ;;         (mapcar (lambda (p)
 ;;                   (expand-file-name p (getenv "HOME")))
 ;;                 '(".dotfiles/.guix-profile-dev/lib/guile/3.0/site-ccache")))
 
-;; (list (expand-file-name ".dotfiles/ellipsis" (getenv "HOME"))
-;;       (expand-file-name ".dotfiles/dc" (getenv "HOME")))
+;; (list (expand-file-name ".dotfiles/dc" (getenv "HOME")))
 
 (defun dc/guix-scheme-mode-regexp (path)
   (rx (and (literal path) "/" (+ any) ".scm")))

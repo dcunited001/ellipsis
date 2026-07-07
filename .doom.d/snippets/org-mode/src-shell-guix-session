@@ -18,7 +18,7 @@ start a session
 #+header: :dir $1Path
 #+begin_src sh :session *guix-$1* :results silent :eval query :async yes
 pkgs=($2)
-guix shell -L \$HOME/.dotfiles/ellipsis -L \$HOME/.dotfiles/dc \${pkgs[@]}
+guix shell -L \$HOME/.dotfiles/dc \${pkgs[@]}
 #+end_src
 
 test session

@@ -25,7 +25,6 @@
 ;;  guix-lsp-extra-roots
 ;;  '(
 ;;    "~/.dotfiles/.guix-profile-dev/share/guile/site/3.0"
-;;    "~/.dotfiles/ellipsis"
 ;;    "~/.dotfiles/dc"))
 
 ;; (add-to-list ' scheme-mode-hook #'guix-scheme-mode)

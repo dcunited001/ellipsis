@@ -46,10 +46,9 @@ for profile in $__profiles; do
   echo -e "${GREEN}Updating profile:" $profilePath "${NC}"
   echo
 
-  __ellipsis_channel=$HOME/.dotfiles/ellipsis
   __dc_channel=$HOME/.dotfiles/dc
 
-  guix package -L $__ellipsis_channel  -L $__dc_channel \
+  guix package -L $__dc_channel \
        --profile="$profilePath/$profileName" \
        --manifest="$HOME/.config/guix/manifests/$profileName.scm" \
        --substitute-urls="$__substitute_urls" \

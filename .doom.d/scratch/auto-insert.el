@@ -30,8 +30,6 @@
 
 ;; TODO: "guix/gnu/packages/package"
 ;; TODO: "guix/gnu/services/service"
-;; TODO: "dotfiles/ellipsis/service"
-;; TODO: "dotfiles/ellipsis/home/service"
 
 (define-auto-insert
   (rx "dc/services/" (one-or-more (or alphanumeric "-")) ".scm" line-end)
