@@ -226,7 +226,7 @@
 
       %dc-extra-files-svc
 
-      ellipsis-smartcard-services
+      dc-smartcard-services
       (list
        (service greetd-service-type %kharis-greetd-conf)
        (service seatd-service-type)

@@ -1,4 +1,4 @@
-(define-module (ellipsis packages terraform)
+(define-module (dc packages terraform)
   #:use-module ((guix licenses) #:prefix license:)
   #:use-module (guix gexp)
   #:use-module (guix utils)

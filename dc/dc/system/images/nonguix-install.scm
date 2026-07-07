@@ -231,7 +231,7 @@
                    (service greetd-service-type %greetd-conf)
                    (service seatd-service-type))
 
-             ellipsis-smartcard-services
+             dc-smartcard-services
 
              (list
               (service openssh-service-type openssh-conf))
@@ -270,7 +270,7 @@
                            (extra-options '("--max-jobs=6"
                                             "--cores=0")))))))))
 
-;; guix system -L ./ellipsis -L ./dc image --image-type=iso9660 \
+;; guix system -L ./dc image --image-type=iso9660 \
 ;; -e '(@@ (dc system images nonguix-install) nonguix-install-amd)'
 ;; TODO: add gnupg service if configuration file is in place
 (define nonguix-install-amd

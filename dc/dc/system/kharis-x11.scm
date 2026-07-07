@@ -197,7 +197,7 @@ EndSection
                      (substitute-urls %default-substitute-urls)
                      (extra-options '("--cores=8" "--max-jobs=4")))))
 
-      ellipsis-smartcard-services
+      dc-smartcard-services
       ;; from %desktop-services
       (list
        (service gdm-service-type

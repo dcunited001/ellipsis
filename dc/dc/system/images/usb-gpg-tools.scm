@@ -79,7 +79,7 @@
 
 (define %ugt-services
   (append
-   ellipsis-smartcard-services
+   dc-smartcard-services
    (modify-services %base-services
      (agetty-service-type
       config => (agetty-configuration
@@ -94,7 +94,7 @@
 
 ;;;; Image
 
-;; guix system -L ~/.dotfiles/ellipsis -L ~/.dotfiles/dc \
+;; guix system -L ~/.dotfiles/dc \
 ;; image --image-type=iso9660 \
 ;; -e '(@@ (dc system images usb-gpg-tools) usb-gpg-tools)'
 
@@ -136,7 +136,7 @@
     (packages
      (append
 
-      ;; see ./ellipsis/ellipsis/system/common.scm for packages
+      ;; see ./dc/dc/system/common.scm for packages
       %dc-profile-pkgs-cli
       %dc-profile-pkgs-net
       %dc-profile-pkgs-net-plus
@@ -158,7 +158,7 @@
 
     (services %ugt-services)))
 
-;; guix system -L ~/.dotfiles/ellipsis -L ~/.dotfiles/dc \
+;; guix system -L ~/.dotfiles/dc \
 ;; image --image-type=iso9660 \
 ;; -e '(@@ (dc system images usb-gpg-tools) usb-gpg-tools-amd)'
 

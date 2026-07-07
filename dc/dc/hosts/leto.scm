@@ -59,7 +59,7 @@
 ;; TODO: adjust dc-hosts-tty-services after append to %base-services
 (define-public leto-services
   (append
-   ellipsis-smartcard-services
+   dc-smartcard-services
    (list
     (service dc-hosts-common-service-type)
     (service network-manager-service-type leto-network-manager-configuration)

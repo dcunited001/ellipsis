@@ -28,7 +28,7 @@
 
 
 ;;;
-;;; ellipsis-smartcard-services
+;;; dc-smartcard-services
 ;;;
 
 ;; hidapi: HID Devices for FIDO/OTP
@@ -38,13 +38,13 @@
 (define pkgs-yubikey
   (list yubico-piv-tool yubikey-personalization python-yubikey-manager))
 
-(define-public ellipsis-smartcard-services
+(define-public dc-smartcard-services
   (list
    (service pcscd-service-type)
    (udev-rules-service 'fido2 libfido2 #:groups '("plugdev"))
    (udev-rules-service 'u2f libu2f-host)
    (udev-rules-service 'yubikey yubikey-personalization)
-   (simple-service 'ellipsis-smartcard-profile-service
+   (simple-service 'dc-smartcard-profile-service
                    profile-service-type
                    (append pkgs-yubikey pkgs-smartcard))))
 
