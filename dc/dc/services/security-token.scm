@@ -1,6 +1,5 @@
 ;;; Copyright © 2025 David Conner <aionfork@gmail.com>
 (define-module (dc services security-token)
-  ;;#:use-module (ellipsis config)
   #:use-module (gnu home services)
 
   #:use-module (gnu)

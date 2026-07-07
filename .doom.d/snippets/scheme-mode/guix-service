@@ -5,11 +5,7 @@
 # --
 ;;; Copyright © `(nth 5 (decode-time))` `user-full-name` <`user-mail-address`>
 
-
-(define-module (ellipsis services `(file-name-base (buffer-name))`)
-  ;;#:use-module (ellipsis common)
-  ;;#:use-module (ellipsis config)
-
+(define-module (dc services `(file-name-base (buffer-name))`)
   #:use-module (gnu home services)
   #:use-module (gnu packages)
   #:use-module (gnu services base)

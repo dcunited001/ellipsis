@@ -8,7 +8,6 @@
   #:use-module (gnu system nss)
   #:use-module (gnu system privilege)
   #:use-module (gnu system setuid)
-  #:use-module (ellipsis system accounts)
   #:use-module (dc system common)
   #:use-module (dc hosts common))
 

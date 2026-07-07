@@ -11,7 +11,7 @@
 ;; Homepage: https://github.com/dcunited001/dc-util
 ;; Package-Requires: ((emacs "29.1") (org "9.7"))
 ;;
-;; This file is not part of GNU Emacs.
+;; This file is NOT part of GNU Emacs.
 ;;
 ;;; Commentary:
 ;;

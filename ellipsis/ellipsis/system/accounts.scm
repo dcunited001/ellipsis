@@ -1,16 +1,17 @@
 ;;; Module: accounts
-(define-module (ellipsis system accounts)
+(define-module (dc system accounts)
   #:use-module (srfi srfi-1)
   #:use-module (ice-9 format)
   #:use-module (gnu)
   #:use-module (gnu system)
   #:use-module (gnu system shadow)
 
-  #:export (%ellipsis-user-groups))
+  #:export (%dc-user-groups))
 
 ;; most of the common user groups, except "users" and the users' own group
 
-(define %ellipsis-user-groups
+;; NOTE: unused
+(define %dc-user-groups
   (cons* (user-group (name "realtime") (system? #t))
          ;; (user-group (system? #t) (name "docker"))
          (user-group (name "render") (system? #t))

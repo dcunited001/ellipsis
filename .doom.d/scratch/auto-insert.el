@@ -41,14 +41,6 @@
   (rx "dc/home/services/" (one-or-more (or alphanumeric "-")) ".scm" line-end)
   ["dotfiles/dc/home/services/service" yas-expand-current-buffer])
 
-(define-auto-insert
-  (rx "ellipsis/home/services/" (one-or-more (or alphanumeric "-")) ".scm" line-end)
-  ["dotfiles/ellipsis/home/services/service" yas-expand-current-buffer])
-
-(define-auto-insert
-  (rx "ellipsis/home/services/" (one-or-more (or alphanumeric "-")) ".scm" line-end)
-  ["dotfiles/ellipsis/home/services/service" yas-expand-current-buffer])
-
 ;; (define-auto-insert
 ;;   (rx "dc/home/services/" (one-or-more (or alphanumeric "-")) ".scm" line-end)
 ;;   ["dotfiles/dc/home/services/service" yas-expand-current-buffer])

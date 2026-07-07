@@ -20,9 +20,8 @@
   #:use-module (dc packages security-token)
   #:use-module (dc packages golang-crypto)
   #:use-module (dc services security-token)
-  #:use-module (ellipsis system accounts)
   #:use-module (dc system common)
-  #:use-module (ellipsis system images usb-gpg-tools)
+  #:use-module (dc system images usb-gpg-tools)
 
   ;; get a list of channels
   #:use-module (guix describe)
