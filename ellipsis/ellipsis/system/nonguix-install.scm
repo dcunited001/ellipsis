@@ -19,7 +19,7 @@
   #:use-module (dc packages tls)
   #:use-module (dc packages security-token)
   #:use-module (dc packages golang-crypto)
-  #:use-module (ellipsis services security-token)
+  #:use-module (dc services security-token)
   #:use-module (ellipsis system accounts)
   #:use-module (dc system common)
   #:use-module (ellipsis system usb-gpg-tools)

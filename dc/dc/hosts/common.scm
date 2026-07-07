@@ -10,7 +10,7 @@
   #:use-module (gnu system privilege)
   #:use-module (gnu system setuid)
 
-  #:use-module (ellipsis services security-token))
+  #:use-module (dc services security-token))
 
 ;; #:use-module (nongnu packages linux)
 ;; #:use-module (nongnu system linux-initrd)

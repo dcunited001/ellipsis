@@ -14,7 +14,7 @@
   #:use-module (nongnu packages linux)
   #:use-module (nongnu system linux-initrd)
 
-  #:use-module (ellipsis services security-token)
+  #:use-module (dc services security-token)
   #:use-module (dc system common)
 
   #:use-module (dc system base))

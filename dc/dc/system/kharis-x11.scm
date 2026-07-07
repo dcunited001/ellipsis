@@ -16,9 +16,8 @@
 
   #:use-module (dc system base)
   #:use-module (dc system kharis)
-
-  #:use-module (ellipsis services vpn)
-  #:use-module (ellipsis services security-token)
+  #:use-module (dc services vpn)
+  #:use-module (dc services security-token)
   #:use-module (dc system common))
 
 ;; TODO: add pam_tmpdir module to pam-services

@@ -6,7 +6,7 @@
   #:use-module (gnu system nss)
   #:use-module (gnu system pam)
 
-  #:use-module (ellipsis services security-token)
+  #:use-module (dc services security-token)
   #:use-module (dc system common)
   ;; #:use-module (gnu services certbot)
 

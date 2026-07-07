@@ -1,7 +1,7 @@
 ;;; SPDX-License-Identifier: GPL-3.0-or-later
 ;;; Copyright © 2020 Alexey Abramov <levenson@mmer.org>
 
-(define-module (ellipsis services vpn)
+(define-module (dc services vpn)
   #:use-module (gnu packages)
   #:use-module (gnu services)
   #:use-module (gnu services shepherd)
@@ -11,7 +11,7 @@
   #:use-module (nongnu packages vpn)
   #:export (zerotier-one-service-type
             zerotier-one-configuration))
- 
+
 (define-record-type* <zerotier-one-configuration>
   zerotier-one-configuration make-zerotier-one-configuration
   zerotier-one-configuration?

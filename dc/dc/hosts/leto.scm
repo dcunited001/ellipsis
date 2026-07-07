@@ -9,9 +9,9 @@
   #:use-module (gnu system nss)
   #:use-module (gnu system privilege)
   #:use-module (gnu system setuid)
-  #:use-module (ellipsis services security-token)
+  #:use-module (dc services security-token)
   #:use-module (ellipsis system accounts)
-  #:use-module (ellipsis system common)
+  #:use-module (dc system common)
   #:use-module (dc hosts common)
 
   #:use-module (json)

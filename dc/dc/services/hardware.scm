@@ -1,8 +1,5 @@
 ;;; Copyright © 2025 David Conner <aionfork@gmail.com>
-(define-module (ellipsis services hardware)
-  ;;#:use-module (ellipsis common)
-  ;;#:use-module (ellipsis config)
-
+(define-module (dc services hardware)
   #:use-module (gnu packages hardware)
   #:use-module (gnu packages linux)
   #:use-module (gnu packages)
