@@ -23,8 +23,8 @@ ifeq ($(channels_unsafe),1)
     channels_unsafe_eval = --unsafe-channel-evaluation
 endif
 
-GUIXTM=guix time-machine -L ./env -C $(CHANNELS_FILE) $(channels_unsafe_eval)
-GUIX=$(GUIXTM) --
+ARES_GUIXTM=guix time-machine -L ./env -C $(CHANNELS_FILE) $(channels_unsafe_eval)
+ARES_GUIX=$(ARES_GUIXTM) --
 
 # don't use these vars for GUIXTM
 DCCHANNEL=$(abspath $(MKDIR)/dc)
@@ -61,7 +61,7 @@ PULL_EXTRA_OPTIONS=
 
 ARES_PROFILE=.guix-profile-dev
 ARES_GC_ROOT=$(MKDIR)/$(ARES_PROFILE)
-ARES_SHELL=$(GUIX) shell -L ./env \
+ARES_SHELL=$(ARES_GUIX) shell -L ./env \
 	guile-next guile-ares-rs \
 	-e '(@ (dc-configs dev packages) guix-package)' \
 	-e '(@ (dc-configs dev packages) channels-package)'
@@ -220,9 +220,7 @@ GPGISO_SCM="(@ (dc system images usb-gpg-tools) usb-gpg-tools)"
 
 .PHONY: gpgiso
 gpgiso:
-	$(GUIX) system -L ./dc \
-	image --image-type=iso9660 \
-	-e $(GPGISO_SCM)
+	guix system -L ./dc image --image-type=iso9660 -e $(GPGISO_SCM)
 
 # ---------------------------------------------
 # Guix Home
@@ -230,15 +228,13 @@ GUIX_HOST=$(shell hostname)
 GUIX_HOST_SYSTEM=./dc/dc/system/$(GUIX_HOST).scm
 GUIX_HOST_HOME=./dc/dc/home/$(GUIX_HOST).scm
 
-.PHONY: ghbuild
+PHONY: ghbuild
 ghbuild:
-	$(GUIX) home -L ./dc \
-	build $(GUIX_HOST_HOME)
+	guix home -L ./dc build $(GUIX_HOST_HOME)
 
 .PHONY: ghcontainer
 ghcontainer:
-	$(GUIX) home -L ./dc \
-	container $(GUIX_HOST_HOME)
+	guix home -L ./dc container $(GUIX_HOST_HOME)
 
 #-----------------------
 # Guix Home Container
@@ -251,8 +247,7 @@ GUIX_HOST_HE="(@ (dc home kharis) kharis-home-environment)"
 
 .PHONY: guixHomeContainer
 guixHomeContainer:
-	$(GUIX) home -L ./dc \
-	container --share="$(MKDIR)" -e $(GUIX_HOST_HE)
+	guix home -L ./dc container --share="$(MKDIR)" -e $(GUIX_HOST_HE)
 
 #-----------------------
 # Screen
