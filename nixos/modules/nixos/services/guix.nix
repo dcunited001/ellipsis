@@ -1,4 +1,8 @@
 { ... }:
+
+let
+  guixPublishPort = 8181;
+in
 {
   # TODO: relocate boolean args to toggle the module
   # - lib.mkIf cfg.guixEnable true ... or something
@@ -10,6 +14,7 @@
   # group = "guixbuild";
   # nrBuildUsers = 10;
 
+  networking.firewall.allowedTCPPorts = [ guixPublishPort ];
   services.guix2.enable = true;
   services.guix2 = {
     # stateDir = "/var";
@@ -47,6 +52,15 @@
     # https://substitutes.nonguix.org/signing-key.pub
     # https://codeberg.org/guix/guix/raw/branch/master/etc/substitutes/bordeaux.guix.gnu.org.pub
     # https://codeberg.org/guix/guix/raw/branch/master/etc/substitutes/berlin.guix.gnu.org.pub
+
+    publish.enable = true;
+    publish = {
+      generateKeyPair = false;
+      port = guixPublishPort;
+      extraArgs = [
+        "--listen=kratos.o.xel.io"
+      ];
+    };
 
     gc.enable = true;
     gc = {
