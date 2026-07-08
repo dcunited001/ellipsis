@@ -134,6 +134,51 @@ in
       example = "/gnu/var";
     };
 
+    publish = {
+      enable = mkEnableOption "substitute server for your Guix store directory";
+
+      generateKeyPair = mkOption {
+        type = types.bool;
+        description = ''
+          Whether to generate signing keys in {file}`/etc/guix` which are
+          required to initialize a substitute server. Otherwise,
+          `--public-key=$FILE` and `--private-key=$FILE` can be passed in
+          {option}`services.guix.publish.extraArgs`.
+        '';
+        default = true;
+        example = false;
+      };
+
+      port = mkOption {
+        type = types.port;
+        default = 8181;
+        example = 8200;
+        description = ''
+          Port of the substitute server to listen on.
+        '';
+      };
+
+      user = mkOption {
+        type = types.str;
+        default = "guix-publish";
+        description = ''
+          Name of the user to change once the server is up.
+        '';
+      };
+
+      extraArgs = mkOption {
+        type = with types; listOf str;
+        description = ''
+          Extra flags to pass to the substitute server.
+        '';
+        default = [ ];
+        example = [
+          "--compression=zstd:6"
+          "--discover=no"
+        ];
+      };
+    };
+
     gc = {
       enable = mkEnableOption "automatic garbage collection service for Guix";
 
@@ -274,6 +319,75 @@ in
         environment.sessionVariables.GUIX_LOCPATH = lib.makeSearchPath "lib/locale" guixProfiles;
         environment.profiles = lib.mkBefore guixProfiles;
       }
+
+      (lib.mkIf cfg.publish.enable {
+        systemd.services.guix-publish = {
+          description = "Guix remote store";
+          environment = serviceEnv;
+
+          # Mounts will be required by the daemon service anyways so there's no
+          # need add RequiresMountsFor= or something similar.
+          requires = [ "guix-daemon.service" ];
+          after = [ "guix-daemon.service" ];
+          partOf = [ "guix-daemon.service" ];
+
+          preStart = lib.mkIf cfg.publish.generateKeyPair ''
+            # Generate the keypair if it's missing.
+            [ -f "/etc/guix/signing-key.sec" ] && [ -f "/etc/guix/signing-key.pub" ] || \
+              ${rootGuix} archive --generate-key || {
+                rm /etc/guix/signing-key.*;
+                ${rootGuix} archive --generate-key;
+              }
+          '';
+          script = ''
+            exec ${rootGuix} publish \
+              --user=${cfg.publish.user} --port=${toString cfg.publish.port} \
+              ${lib.escapeShellArgs cfg.publish.extraArgs}
+          '';
+
+          serviceConfig = {
+            Restart = "always";
+            RestartSec = 10;
+
+            ProtectClock = true;
+            ProtectHostname = true;
+            ProtectKernelTunables = true;
+            ProtectKernelModules = true;
+            ProtectControlGroups = true;
+            SystemCallFilter = [
+              "@system-service"
+              "@debug"
+              "@setuid"
+            ];
+
+            RestrictNamespaces = true;
+            RestrictAddressFamilies = [
+              "AF_UNIX"
+              "AF_INET"
+              "AF_INET6"
+            ];
+
+            # While the permissions can be set, it is assumed to be taken by Guix
+            # daemon service which it has already done the setup.
+            ConfigurationDirectory = "guix";
+
+            AmbientCapabilities = [ "CAP_NET_BIND_SERVICE" ];
+            CapabilityBoundingSet = [
+              "CAP_NET_BIND_SERVICE"
+              "CAP_SETUID"
+              "CAP_SETGID"
+            ];
+          };
+          wantedBy = [ "multi-user.target" ];
+        };
+
+        users.users.guix-publish = lib.mkIf (cfg.publish.user == "guix-publish") {
+          description = "Guix publish user";
+          group = config.users.groups.guix-publish.name;
+          isSystemUser = true;
+        };
+        users.groups.guix-publish = { };
+      })
 
       (lib.mkIf cfg.gc.enable {
         # This service should be handled by root to collect all garbage by all
