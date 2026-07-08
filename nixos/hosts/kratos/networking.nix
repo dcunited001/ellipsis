@@ -6,6 +6,9 @@
 }:
 {
   services.avahi = {
+    allowInterfaces = [
+      "enp4s0"
+    ];
     denyInterfaces = [
       "enp5s0"
       "ztugatqaer"
@@ -15,7 +18,7 @@
     ipv6 = false;
     nssmdns6 = false;
     publish = {
-      enable = false;
+      enable = true;
       workstation = false;
       addresses = false;
     };

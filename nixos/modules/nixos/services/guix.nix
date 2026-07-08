@@ -15,6 +15,7 @@ in
   # nrBuildUsers = 10;
 
   networking.firewall.allowedTCPPorts = [ guixPublishPort ];
+  networking.firewall.allowedUDPPorts = [ guixPublishPort ];
   services.guix2.enable = true;
   services.guix2 = {
     # stateDir = "/var";
@@ -59,6 +60,7 @@ in
       port = guixPublishPort;
       extraArgs = [
         "--listen=kratos.o.xel.io"
+        "--advertise"
       ];
     };
 
