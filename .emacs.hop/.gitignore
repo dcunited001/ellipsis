@@ -7,3 +7,4 @@
 .emacs.desktop
 .emacs.desktop.lock
 /custom.el
+/.local
