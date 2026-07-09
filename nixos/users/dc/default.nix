@@ -91,6 +91,7 @@ in
       git-stack
       watchexec
       ripgrep
+      stow
 
       # CLI SHINY
       fastfetch
