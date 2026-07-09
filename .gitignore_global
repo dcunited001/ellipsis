@@ -15,7 +15,6 @@
 # Icon must end with two \r
 Icon
 
-
 # Thumbnails
 ._*
 
@@ -72,3 +71,6 @@ tramp
 # log/trace
 .strace/
 .log/
+
+### clojure ###
+.nrepl-port

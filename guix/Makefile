@@ -39,14 +39,17 @@ guix_load_path=-L $(MKDIR)/dc
 #     channels_unsafe_eval = --unsafe-channel-evaluation
 # endif
 
+# Note: may need to split these env/env so guix package is internalized first
+ARES_ENV_PATH=-L $(MKDIR)/env -L $(MKDIR)/dc
+ARES_LOAD_PATH=-L $(MKDIR)/env -L $(MKDIR)/dc -L $(MKDIR)/test
+
 ARES_PROFILE=.guix-profile-dev
 ARES_GC_ROOT=$(MKDIR)/$(ARES_PROFILE)
-ARES_SHELL=$(GUIX_DEV) shell \
+ARES_SHELL=$(GUIX_DEV) shell $(ARES_ENV_PATH) \
 	guile-next guile-ares-rs \
 	-e '(@ (dc-configs dev packages) guix-package)' \
 	-e '(@ (dc-configs dev packages) channels-package)'
 
-ARES_LOAD_PATH=-L $(MKDIR)/dc -L $(MKDIR)/env -L $(MKDIR)/test
 
 PULL_EXTRA_OPTIONS=
 # --allow-downgrades
@@ -54,10 +57,10 @@ PULL_EXTRA_OPTIONS=
 ROOT_MOUNT_MOUNT=/mnt
 
 .PHONY: repl
+repl:
 	$(GUIX) repl $(guix_load_path) --listen=tcp:54321
 
 .PHONY: ares ares-profile ares-impure
-
 ares:
 	$(ARES_SHELL) -- guile $(ARES_LOAD_PATH) -c \
 	"(begin (use-modules (guix gexp)) #;(load gexp reader macro globally) \
@@ -93,7 +96,7 @@ $(CHANNELS_LOCK).lock $(CHANNELS_DEV).lock: $(CHANNELS_GUIX)
 .PHONY: pull pull-sync pull-lock
 pull: pull-sync pull-lock
 pull-sync:
-	guix pull -L ./dc -C $(CHANNELS_LATEST)
+	guix pull -L $(MKDIR)/dc -C $(CHANNELS_LATEST)
 pull-lock:
 	guix describe --format=channels > $(CHANNELS_LOCK)
 
@@ -113,7 +116,7 @@ copy:
 
 .PHONY: copy-pull-sync copy-pull-lock
 copy-pull-sync:
-	@ssh $(GUIXUSER)@$(GUIXHOST) -- guix pull -L ./dc -C $(CHANNELS_LOCK)
+	@ssh $(GUIXUSER)@$(GUIXHOST) -- guix pull -L $(MKDIR)/dc -C $(CHANNELS_LOCK)
 copy-pull-lock:
 	ssh $(GUIXUSER)@$(GUIXHOST) -- guix describe --format=channels > $(CHANNELS_LOCK)
 
@@ -126,41 +129,43 @@ sync-dev:
 guixexpr="(@ (dc system images usb-gpg-tools) usb-gpg-tools)"
 guixsystem=$(SRC)/dc/system/images/usb-gpg-tools.scm
 
+GUIX_ISO_CMD=guix system -L $(MKDIR)/dc image
+
 .PHONY: iso iso-gpg pxe
 iso:
-	guix system -L ./dc image --image-type=iso9660 -f $(guixsystem)
+	$(GUIX_ISO_CMD) --image-type=iso9660 -f $(guixsystem)
 
 iso-gpg:
 	guixexpr="(@ (dc system images usb-gpg-tools) usb-gpg-tools)"
-	guix system -L ./dc image --image-type=iso9660 -e $(guixexpr)
+	$(GUIX_ISO_CMD) --image-type=iso9660 -e $(guixexpr)
 
 pxe:
 	guixexpr="(@ (dc system images pxe-boot-tools) pxe-boot-tools)"
-	guix system -L ./dc image --image-type=iso9660 -f $(guixexpr)
+	$(GUIX_ISO_CMD) --image-type=iso9660 -f $(guixexpr)
 
 GUIX_HOST=$(shell hostname)
 
 .PHONY: host
 host:
-	sudo guix system reconfigure -L ./dc image --image-type=iso9660 -f $(guixexpr)
+	sudo guix system reconfigure -L $(MKDIR)/dc image --image-type=iso9660 -f $(guixexpr)
 
-GUIX_HOST_SYSTEM=./dc/dc/system/$(GUIX_HOST).scm
-GUIX_HOST_HOME=./dc/dc/home/$(GUIX_HOST).scm
+GUIX_HOST_SYSTEM=$(MKDIR)/dc/dc/system/$(GUIX_HOST).scm
+GUIX_HOST_HOME=$(MKDIR)/dc/dc/home/$(GUIX_HOST).scm
 
 PHONY: ghbuild
 ghbuild:
-	guix home -L ./dc build $(GUIX_HOST_HOME)
+	guix home -L $(MKDIR)/dc build $(GUIX_HOST_HOME)
 
 .PHONY: ghcontainer
 ghcontainer:
-	guix home -L ./dc container $(GUIX_HOST_HOME)
+	guix home -L $(MKDIR)/dc container $(GUIX_HOST_HOME)
 
 # To just quickly extract a few files from the container
 GUIX_HOST_HE="(@ (dc home kharis) kharis-home-environment)"
 
 .PHONY: guixHomeContainer
 guixHomeContainer:
-	guix home -L ./dc container --share="$(MKDIR)" -e $(GUIX_HOST_HE)
+	guix home -L $(MKDIR)/dc container --share="$(MKDIR)" -e $(GUIX_HOST_HE)
 
 
 # end

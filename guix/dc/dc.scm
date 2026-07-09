@@ -1,6 +1,7 @@
 ;;; Copyright © 2025 David Conner <aionfork@gmail.com>
 
 (define-module (dc)
+  #:use-module (guix channels)
   #:export (%dcroot
             %dotfiles-directory
             %files-directory))

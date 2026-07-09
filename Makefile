@@ -15,13 +15,13 @@ HOST=$(shell hostname)
 MODULES := guix nixos oom
 
 guix-%:
-	$(MAKE) -C guix $(word 2,$(subst -, ,$*))
+	$(MAKE) -C guix "$*"
 
 nixos-%:
-	$(MAKE) -C nixos $(word 2,$(subst -, ,$*))
+	$(MAKE) -C nixos "$*"
 
 doom-%:
-	$(MAKE) -C .doom.d $(word 2,$(subst -, ,$*))
+	$(MAKE) -C .doom.d "$*"
 
 .PHONY: screen
 screen: $(HOME)/.screenrc $(HOME)/.screen

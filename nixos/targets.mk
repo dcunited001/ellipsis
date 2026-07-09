@@ -3,22 +3,19 @@
 #
 # @file
 # @version 0.1
-MKPATH       := $(abspath $(lastword $(MAKEFILE_LIST)))
-MKPATHREAL   := $(realpath $(lastword $(MAKEFILE_LIST)))
-MKDIR        := $(abspath $(dir $(MKPATH)))
-MKPARENT     := $(abspath $(dir $(MKDIR)))
-SHELL=/bin/sh
 
-NIXOS_HOST=$(shell hostname)
-NIXOS_HOST_CONFIG=./hosts/$(NIXOS_HOST)/configuration.nix
+MKDIR      ?= $(patsubst %/,%,$(dir $(abspath $(lastword $(MAKEFILE_LIST)))))/..
+
+NSRC := $(MKDIR)/nixos
 
 # make NIXOS_HOST=helius build
+NIXOS_HOST=$(shell hostname)
+NIXOS_HOST_CONFIG=$(NSRC)/hosts/$(NIXOS_HOST)/configuration.nix
 
 #-----------------------
 # flake
 
 # flake_nixpkgs_revcount
-
 
 # NOTE: unless `flake_nixpkgs_{newest,current}` are in task, they always run
 .PHONY: flakeup-nixpkgs
