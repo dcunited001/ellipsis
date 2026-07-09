@@ -3,289 +3,40 @@
 #
 # @file
 # @version 0.1
+
+# [[file:README.org::*=Makefile=][=Makefile=:2]]
+# relative
+TOP := $(dir $(lastword $(MAKEFILE_LIST)))
+
+# absolute
 MKPATH       := $(abspath $(lastword $(MAKEFILE_LIST)))
 MKPATHREAL   := $(realpath $(lastword $(MAKEFILE_LIST)))
 MKDIR        := $(abspath $(dir $(MKPATH)))
 MKPARENT     := $(abspath $(dir $(MKDIR)))
+
 SHELL=/bin/sh
 HOST=$(shell hostname)
 
-# maybe rebuild cache: --rebuild-cache
+GSRC ?= ./guix
+include guix/defaults.mk
+include guix/targets.mk
 
-GUIXGUIXBASE=$(HOME)/.config/guix/base-channels.scm
-GUIXGUIXCHAN=$(HOME)/.config/guix/channels.scm
-CHANNELS_FILE=./env/dc-configs/guix/channels.scm
-
-# Temporary: I need a proper repl to refactor for restricted channels API
-channels_unsafe ?= 0
-channels_unsafe_eval =
-ifeq ($(channels_unsafe),1)
-    channels_unsafe_eval = --unsafe-channel-evaluation
-endif
-
-ARES_GUIXTM=guix time-machine -L ./env -C $(CHANNELS_FILE) $(channels_unsafe_eval)
-ARES_GUIX=$(ARES_GUIXTM) --
-
-# don't use these vars for GUIXTM
-DCCHANNEL=$(abspath $(MKDIR)/dc)
-GUIXPACKAGE=guix package -L $(DCCHANNEL)
-
-# TODO: ... don't quote these load paths (no idea what i'm doing)
-
-# channel outputs
-DC_SRC_LOAD_PATH=-L ./env -L ./dc
-
-# inputs, testing and repl
-DEV_ENV_LOAD_PATH=-L ./env -L ./dc
-
-PULL_EXTRA_OPTIONS=
-# --allow-downgrades
-
-# to install directly onto a system booted with iso (cow-store)
-#
-# ROOT_MOUNT_MOUNT=/mnt
-
-# =============================================
-#
-# - `make channels_unsafe=1 ares-profile` to register gc root
-# - then `make ares` to run
-#
-# (1) sets /gnu/store to the specified CHANNELS_FILE (for fast GUIXTM)
-#
-# then (2) loads a consistent `guile` with the second set of -L flags
-#
-# and (3) starts the repl.
-#
-# for rde dev worklows, `make env/sync` syncs channel specs between rde's
-# upstream and the example's channel spec
-
-ARES_PROFILE=.guix-profile-dev
-ARES_GC_ROOT=$(MKDIR)/$(ARES_PROFILE)
-ARES_SHELL=$(ARES_GUIX) shell -L ./env \
-	guile-next guile-ares-rs \
-	-e '(@ (dc-configs dev packages) guix-package)' \
-	-e '(@ (dc-configs dev packages) channels-package)'
-
-# `ares <- ares-profile` would add some additional eval time
-ares-profile:
-	$(ARES_SHELL) --root=$(ARES_GC_ROOT)
-
-# `make ares-profile`:
-#
-# - registers a GC root (and dumps the profile path; it did but now it doesn't)
-# - fail when --root=$profile already exists (unless identical gitsha's)
-# - this is fine. it's super fucking fast.
-
-# assumes the profile retains the `guix time-machine` provenance, but runs
-# it with a separate top-level `guix` binary (unsure of the exact consequences)
-ares-impure:
-	guix shell -L ./env -p $(ARES_PROFILE) \
-	-- guile -L ./env -L ./dc -c \
-"(begin (use-modules (guix gexp)) #;(load gexp reader macro globally) \
-((@ (ares server) run-nrepl-server)))"
-
-ares:
-	$(ARES_SHELL) -- guile -L ./env -L ./dc -c \
-"(begin (use-modules (guix gexp)) #;(load gexp reader macro globally) \
-((@ (ares server) run-nrepl-server)))"
-
-repl: ares
-
-# TODO: write an env/sync task to emit channel spec to (dc-configs guix channels)
-# env/sync: env/guix/rde/env/guix/channels.scm
-
-# TODO: figure out how to get a separate GC link, so the GUIXTM store items
-# aren't prematurely purged (like a basic emacs profile or something)
-
-# .guix-profile: manifest.scm channels-lock.scm
-# 	$(GUIXPACKAGE) -m $(MANIFEST) -p $(GUIX_PROFILE)
+NSRC ?= ./nixos
 
 
-# =============================================
-# Guix Channel
+DSRC ?= ./.doom.d
+# =Makefile=:2 ends here
 
-guix:
-
-$(GUIXGUIXCHAN): # guix-git-touch .config/guix/current
-
-.PHONY: guix-pull guix-pull-sync guix-pull-lock
-guix-pull: guix-pull-sync guix-pull-lock
-guix-pull-sync:
-	guix pull -L ./dc -C $(GUIXGUIXBASE)
-guix-pull-lock:
-	guix describe --format=channels > $(GUIXGUIXCHAN)
-
-.PHONY: guix-upgrade guix-upgrade-doom
-guix-upgrade:
-	make guix-pull
-	make repl
-
-guix-upgrade-doom:
-	make -C .doom.d updateChanLock
-	make -C .doom.d .guix-profile
-	make -C .doom.d doomup
-
-# ---------------------------------------------
-# Copy installed Guix profiles
-
-# Run with `GUIXHOST=ahost GUIXPROFILE=$HOME/.dotfiles/.doom.d/.guixprofile make -e guix-copy`
-GUIXHOST=$(shell hostname)
-GUIXUSER=$(shell whoami)
-GUIXGUIXPROFILE=$(HOME)/.config/guix/current
-
-# setup requires:
-#
-# - running `guix archive --generate-key` on the host to export nars from
-# - running `cat from-host-signing-key.pub | guix archive --authorize`
-#   on the host to send archives to
-# - then `make GUIXHOST=tohost guix-copy` should work as expected
-
-# this copies a profile. this could include $GUIXGUIXPROFILE, but `make
-# guix-copy-install-profile` can't be used to update the link to that
-# profile. this task `guix package ...` and `guix pull` is needed instead
-#
-# To upgrade guix by copying /gnu/store to another system, run:
-#
-# make guix-pull
-# GUIXHOST=ahost make -e guix-copy
-# GUIXHOST=ahost make -e guix-copy-pull-sync guix-copy-pull-lock
-
-# 5/2/26: confirmed that `guix copy` works from desktop -> laptop
-
-.PHONY: guix-copy
-guix-copy:
-	@echo guix copy --to=$(GUIXUSER)@$(GUIXHOST) $(shell readlink -f $(GUIXGUIXPROFILE))
-
-# then connect and install the top-level summary of the channel as a link in
-# most cases, the dotfiles will need to be current
-
-.PHONY: guix-copy-pull-sync guix-copy-pull-lock
-guix-copy-pull-sync:
-	@ssh $(GUIXUSER)@$(GUIXHOST) -- guix pull -L ./dc -C $(GUIXGUIXCHAN)
-guix-copy-pull-lock:
-	ssh $(GUIXUSER)@$(GUIXHOST) -- guix describe --format=channels > $(GUIXGUIXCHAN)
-
-# this is mostly working, but my omarchy bash shell is a bit messed up, so guix
-# reports different channels on login via `ssh`
-
-# -----------------------
-# For Dotfiles
-
-# $(HOME)/.config/guix/current:
-# $(GUIXGUIXBASE):
-
-# make this an empty target?
-
-# -----------------------
-# For hacking on Scheme
-#
-# - for packages, services and guix-home in ./dc
-# - this stays locked via $(CHANNELS_FILE)
-
-# guix: env/sync
-
-# .config/guix/channels.scm # (run manually)
-
-.PHONY: guix-dev-sync
-guix-sync-dev:
-	cp $(CHANNELS_FILE) $(CHANNELS_FILE).bak
-	nmatch=$(grep -ne '^(define core-channels' | cut -f1 -d':')
-	echo $nmatch
-
-# $(CHANNELS_FILE): $(GUIXGUIXCHAN)
-
-# .PHONY: guix-dev-pull
-# guix-pull-dev: .config/guix/channels.scm env/dc-configs/guix/channels.scm
-# 	guix pull -L ./env -C $(CHANNELS_FILE)
-
-# TODO: automatically sync the commit shas in env/dc-configs/guix/channels.scm
-# with those in .config/guix/channels (run as a PHONY task). it should be as
-# simple as:
-#
-# - create a timestamped backup (so it doesn't get overwritten, though it's in git)
-# - then eliminate everything after (define core-channels ...)
-# - run a guile -e script that sources .config/guix/channels (or guix describe)
-# - and write the object it to a scheme port. append a reference to `core-channels`
-#
-# done... or it would be as simple as that... but idk scheme tooling well
-# enough. you can write plain scheme objects to a file. that's all that's
-# happening here. the channels format is like a nested plist.
-
-# =============================================
-# Guix
-
-#-----------------------
-# ISOs
-GPGISO_SCM="(@ (dc system images usb-gpg-tools) usb-gpg-tools)"
-
-.PHONY: gpgiso
-gpgiso:
-	guix system -L ./dc image --image-type=iso9660 -e $(GPGISO_SCM)
-
-# ---------------------------------------------
-# Guix Home
-GUIX_HOST=$(shell hostname)
-GUIX_HOST_SYSTEM=./dc/dc/system/$(GUIX_HOST).scm
-GUIX_HOST_HOME=./dc/dc/home/$(GUIX_HOST).scm
-
-PHONY: ghbuild
-ghbuild:
-	guix home -L ./dc build $(GUIX_HOST_HOME)
-
-.PHONY: ghcontainer
-ghcontainer:
-	guix home -L ./dc container $(GUIX_HOST_HOME)
-
-#-----------------------
-# Guix Home Container
-#
-# Just quickly extract a few files from there
-
-# TODO: cat this content from the store after guix home build
-
-GUIX_HOST_HE="(@ (dc home kharis) kharis-home-environment)"
-
-.PHONY: guixHomeContainer
-guixHomeContainer:
-	guix home -L ./dc container --share="$(MKDIR)" -e $(GUIX_HOST_HE)
-
-#-----------------------
-# Screen
+# [[file:README.org::*=Makefile=][=Makefile=:3]]
 .PHONY: screen
 screen: $(HOME)/.screenrc $(HOME)/.screen
 
-# probably a bad pattern.... may switch to using stow
 $(HOME)/.screenrc:
 	ln -s $(MKDIR)/.screenrc $(MKDIR)/../.screenrc
 
 # Screen creates sockets and hjem creates *.screenrc links
 # $(HOME)/.screen:
 # 	ln -s $(MKDIR)/.screen $(MKDIR)/../.screen
+# =Makefile=:3 ends here
 
 # end
-
-# ** Writing Makefiles
-#
-# + [[Makefile Basics][https://www.gnu.org/prep/standards/html_node/Makefile-Basics.html]]
-#
-# Don't assume PATH
-#
-# | ./         | program is built as part of the make          |
-# | $(srcdir)/ | file is an unchanging part of the source code |
-
-# *** Portable Scripts
-# + [[Portable Shell Programming][https://www.gnu.org/savannah-checkouts/gnu/autoconf/manual/autoconf-2.72/html_node/Portable-Shell.html#Portable-Shell]]
-#
-# only these commands should be used directly
-#
-# awk cat cmp cp diff echo expr false grep install-info ln ls
-# mkdir mv printf pwd rm rmdir sed sleep sort tar test touch tr true
-
-# use these tools after locating them:
-#
-# $(AR) $(BISON) $(CC) $(FLEX) $(INSTALL) $(LD) $(LDCONFIG) $(LEX)
-# $(MAKE) $(MAKEINFO) $(RANLIB) $(TEXI2DVI) $(YACC)
-#
-# $(CHGRP) $(CHMOD) $(CHOWN) $(MKNOD)
-
-# only use compression programs like gzip in the dist rule
