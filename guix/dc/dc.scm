@@ -9,10 +9,10 @@
   (getcwd))
 
 (define %dotfiles-directory
-  (string-append %dcroot "../gh"))
+  (string-append %dcroot "../../gh"))
 
 (define %files-directory
-  (string-append %dcroot "../gh/f"))
+  (string-append %dcroot "../../gh/f"))
 
 (define %data-directory "/data")
 

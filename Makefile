@@ -4,30 +4,25 @@
 # @file
 # @version 0.1
 
-# [[file:README.org::*=Makefile=][=Makefile=:2]]
-# relative
-TOP := $(dir $(lastword $(MAKEFILE_LIST)))
-
-# absolute
-MKPATH       := $(abspath $(lastword $(MAKEFILE_LIST)))
-MKPATHREAL   := $(realpath $(lastword $(MAKEFILE_LIST)))
-MKDIR        := $(abspath $(dir $(MKPATH)))
-MKPARENT     := $(abspath $(dir $(MKDIR)))
+MKDIR      := $(patsubst %/,%,$(dir $(abspath $(lastword $(MAKEFILE_LIST)))))
+MKPARENT   := $(abspath $(dir $(MKDIR)))
+MKPATH     := $(abspath $(lastword $(MAKEFILE_LIST)))
+MKPATHREAL := $(realpath $(lastword $(MAKEFILE_LIST)))
 
 SHELL=/bin/sh
 HOST=$(shell hostname)
 
-GSRC ?= ./guix
-include guix/defaults.mk
-include guix/targets.mk
+MODULES := guix nixos oom
 
-NSRC ?= ./nixos
+guix-%:
+	$(MAKE) -C guix $(word 2,$(subst -, ,$*))
 
+nixos-%:
+	$(MAKE) -C nixos $(word 2,$(subst -, ,$*))
 
-DSRC ?= ./.doom.d
-# =Makefile=:2 ends here
+doom-%:
+	$(MAKE) -C .doom.d $(word 2,$(subst -, ,$*))
 
-# [[file:README.org::*=Makefile=][=Makefile=:3]]
 .PHONY: screen
 screen: $(HOME)/.screenrc $(HOME)/.screen
 
@@ -37,6 +32,5 @@ $(HOME)/.screenrc:
 # Screen creates sockets and hjem creates *.screenrc links
 # $(HOME)/.screen:
 # 	ln -s $(MKDIR)/.screen $(MKDIR)/../.screen
-# =Makefile=:3 ends here
 
 # end
