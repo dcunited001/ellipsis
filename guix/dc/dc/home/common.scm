@@ -293,23 +293,23 @@
    'dc-mcron-service
    home-mcron-service-type
    (home-mcron-configuration
-    (jobs
-     ;; updates guix
-     `(,dc-mcron-update-guix
-       (job "24 5,16 */5 * *" "$HOME/.config/guix/current/bin/guix pull"))))))
+     (jobs
+      ;; updates guix
+      `(,dc-mcron-update-guix
+        (job "24 5,16 */5 * *" "$HOME/.config/guix/current/bin/guix pull"))))))
 
 ;; =============================================
 ;;; GPG
 
 (define dc-gpg-agent-configuration
   (home-gpg-agent-configuration
-   ;; (pinentry-program (file-append pinentry-gtk2 "/bin/pinentry-gtk-2"))
-   (ssh-support? #t)
-   (default-cache-ttl 60)
-   (default-cache-ttl-ssh 60)
-   (max-cache-ttl 600)
-   (max-cache-ttl-ssh 600)
-   (extra-content "
+    ;; (pinentry-program (file-append pinentry-gtk2 "/bin/pinentry-gtk-2"))
+    (ssh-support? #t)
+    (default-cache-ttl 60)
+    (default-cache-ttl-ssh 60)
+    (max-cache-ttl 600)
+    (max-cache-ttl-ssh 600)
+    (extra-content "
 no-allow-external-cache
 no-allow-mark-trusted
 no-allow-emacs-pinentry
@@ -324,18 +324,18 @@ no-allow-loopback-pinentry")))
    home-channels-service-type
    (list
     (channel
-     (name 'rde)
-     (url "https://git.sr.ht/~abcdw/rde")
-     (introduction
-      (make-channel-introduction
-       "257cebd587b66e4d865b3537a9a88cccd7107c95"
-       (openpgp-fingerprint
-        "2841 9AC6 5038 7440 C7E9  2FFA 2208 D209 58C1 DEB0"))))
+      (name 'rde)
+      (url "https://git.sr.ht/~abcdw/rde")
+      (introduction
+       (make-channel-introduction
+        "257cebd587b66e4d865b3537a9a88cccd7107c95"
+        (openpgp-fingerprint
+         "2841 9AC6 5038 7440 C7E9  2FFA 2208 D209 58C1 DEB0"))))
     (channel
-     (name 'nonguix)
-     (url "https://gitlab.com/nonguix/nonguix")
-     (introduction
-      (make-channel-introduction
-       "897c1a470da759236cc11798f4e0a5f7d4d59fbc"
-       (openpgp-fingerprint
-        "2A39 3FFF 68F4 EF7A 3D29  12AF 6F51 20A0 22FB B2D5")))))))
+      (name 'nonguix)
+      (url "https://gitlab.com/nonguix/nonguix")
+      (introduction
+       (make-channel-introduction
+        "897c1a470da759236cc11798f4e0a5f7d4d59fbc"
+        (openpgp-fingerprint
+         "2A39 3FFF 68F4 EF7A 3D29  12AF 6F51 20A0 22FB B2D5")))))))
