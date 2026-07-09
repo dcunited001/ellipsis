@@ -25,7 +25,7 @@
   #:use-module (guix profiles)
   #:use-module (guix ui)
 
-  #:use-module (dc home config)
+  #:use-module (dc)
   #:use-module (dc home common)
   #:use-module (dc home services)
   #:use-module (dc home services alacritty)

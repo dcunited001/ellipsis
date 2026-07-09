@@ -1,7 +1,7 @@
 ;;; Copyright © 2025 David Conner <aionfork@gmail.com>
 
 (define-module (dc home services alacritty)
-  #:use-module (dc home config)
+  #:use-module (dc)
   #:use-module (gnu home services xdg)
   #:use-module (gnu home services)
   #:use-module (gnu packages terminals)

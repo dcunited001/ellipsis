@@ -1,7 +1,8 @@
 ;;; Copyright © 2025 David Conner <aionfork@gmail.com>
 
 (define-module (dc home services)
-  #:use-module (dc home common )
+  #:use-module (dc)
+  #:use-module (dc home common)
   #:use-module (dc home config)
 
   #:use-module (dc utils)

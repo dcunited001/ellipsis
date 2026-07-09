@@ -6,8 +6,8 @@
 ;;; Copyright © `(nth 5 (decode-time))` `user-full-name` <`user-mail-address`>
 
 (define-module (dc home services `(file-name-base (buffer-name))`)
+  #:use-module (dc)
   #:use-module (dc home common)
-  #:use-module (dc home config)
 
   #:use-module (gnu home services)
   #:use-module (gnu packages)

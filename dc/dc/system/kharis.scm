@@ -30,12 +30,6 @@
                      version-control package-management freedesktop rsync
                      cryptsetup hardware guile vim golang golang-crypto)
 
-;; (and=> (getenv "HOME") (lambda (home) (string-append home home)))
-(define-public %home
-  (and=> (getenv "HOME")
-         (lambda (home)
-           home)))
-
 (define %host-name "kharis")
 
 ;; jhash=$(echo jupyter-lab | sha256sum | head -c8)

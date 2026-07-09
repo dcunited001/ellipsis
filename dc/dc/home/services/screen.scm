@@ -1,8 +1,8 @@
 ;;; Copyright © 2025 David Conner <aionfork@gmail.com>
 
 (define-module (dc home services screen)
+  #:use-module (dc)
   #:use-module (dc home common)
-  #:use-module (dc home config)
 
   #:use-module (gnu home services)
   #:use-module (gnu home services shells)

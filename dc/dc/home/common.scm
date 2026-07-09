@@ -1,7 +1,7 @@
 ;;; Copyright © 2025 David Conner <aionfork@gmail.com>
 
 (define-module (dc home common)
-  #:use-module (dc home config)
+  #:use-module (dc)
   #:use-module (gnu home services fontutils)
   #:use-module (gnu home services gnupg)
   #:use-module (gnu home services guix)
