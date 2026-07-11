@@ -14,8 +14,8 @@
   #:use-module (nongnu packages linux)
   #:use-module (nongnu system linux-initrd)
 
-  #:use-module (dc system base)
-  #:use-module (dc system kharis)
+  #:use-module (dc desktops base)
+  #:use-module (dc desktops kharis)
   #:use-module (dc services vpn)
   #:use-module (dc services security-token)
   #:use-module (dc system common))

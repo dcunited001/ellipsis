@@ -17,7 +17,7 @@
   #:use-module (dc services security-token)
   #:use-module (dc system common)
 
-  #:use-module (dc system base))
+  #:use-module (dc desktops base))
 
 (use-service-modules guix admin sysctl pm nix avahi dbus cups authentication
                      desktop linux mcron networking ssh security-token
