@@ -25,7 +25,6 @@
     ./python.nix
     ./hypr.nix
     ./blender.nix
-    ./steam.nix
 
     (map lib.custom.relativeToRoot [
       "users/dc"
@@ -83,6 +82,7 @@
     #
     # ./ollama.nix
     # ./open-webui.nix
+    ./steam.nix
     ./frc.nix
   ];
 

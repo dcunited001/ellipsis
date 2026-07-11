@@ -8,9 +8,9 @@ MKDIR      ?= $(patsubst %/,%,$(dir $(abspath $(lastword $(MAKEFILE_LIST)))))/..
 
 NSRC := $(MKDIR)/nixos
 
-# make NIXOS_HOST=helius build
-NIXOS_HOST=$(shell hostname)
-NIXOS_HOST_CONFIG=$(NSRC)/hosts/$(NIXOS_HOST)/configuration.nix
+# make NIXHOST=helius build
+NIXHOST=$(shell hostname)
+NIXHOST_CONFIG=$(NSRC)/hosts/$(NIXHOST)/configuration.nix
 
 #-----------------------
 # flake
@@ -35,34 +35,34 @@ flakeup:
 # nixos-rebuild
 .PHONY: build switch repl
 build:
-	nixos-rebuild build --flake ".#$(NIXOS_HOST)" --show-trace
+	nixos-rebuild build --flake ".#$(NIXHOST)" --show-trace
 
 switch:
-	sudo nixos-rebuild switch --flake ".#$(NIXOS_HOST)" --show-trace
+	sudo nixos-rebuild switch --flake ".#$(NIXHOST)" --show-trace
 
 repl:
-	nix repl ".#nixosConfigurations.$(NIXOS_HOST)"
+	nix repl ".#nixosConfigurations.$(NIXHOST)"
 
 #-----------------------
 # nh os build
 .PHONY: nhbuild nhswitch
 nhbuild:
-	nh os build ".#nixosConfigurations.$(NIXOS_HOST)" -- --show-trace
+	nh os build ".#nixosConfigurations.$(NIXHOST)" -- --show-trace
 
 nhswitch:
-	nh os switch ".#nixosConfigurations.$(NIXOS_HOST)" -- --show-trace
+	nh os switch ".#nixosConfigurations.$(NIXHOST)" -- --show-trace
 
 #-----------------------
 # nixos without flakes
 .PHONY: buildhost switchhost liverepl
 buildhost:
-	nixos-rebuild build -I nixos-config=$(NIXOS_HOST_CONFIG)
+	nixos-rebuild build -I nixos-config=$(NIXHOST_CONFIG)
 
 switchhost:
-	sudo nixos-rebuild switch -I nixos-config=$(NIXOS_HOST_CONFIG)
+	sudo nixos-rebuild switch -I nixos-config=$(NIXHOST_CONFIG)
 
 liverepl:
-	nix repl --file '<nixpkgs/nixos>' -I nixos-config=$(NIXOS_HOST_CONFIG)
+	nix repl --file '<nixpkgs/nixos>' -I nixos-config=$(NIXHOST_CONFIG)
 
 #-----------------------
 # build iso
@@ -99,7 +99,7 @@ whydep:
 #
 # currentSys=$(readlink /run/current-system)
 # currentSysDrv=$(nix path-info --derivation /run/current-system)
-# nixos-rebuild build -I nixos-config=$(NIXOS_HOST_CONFIG)
+# nixos-rebuild build -I nixos-config=$(NIXHOST_CONFIG)
 # newSys=$(readlink -f ./result)
 # newSysDrv=$(nix path-info --derivation $newSys)
 #
@@ -109,10 +109,9 @@ whydep:
 # nix-diff --word-oriented $currentSysDrv $newSysDrv > .diff/$curDrv__to__$newDrv.diff
 # nix-diff --word-oriented $currentSysDrv $newSysDrv --json > .diff/$curDrv__to__$newDrv.diff.json
 
-
 # run `nixpr=config.hardware make nixpr``
 # nixpr:
-# 	nix repl --file '<nixpkgs/nixos>' -I nixos-config=$(NIXOS_HOST_CONFIG) --expr :p ${nixpr}
+# 	nix repl --file '<nixpkgs/nixos>' -I nixos-config=$(NIXHOST_CONFIG) --expr :p ${nixpr}
 
 # TERM=dumb nix repl --file '<nixpkgs/nixos>' -I "nixos-config=./hosts/kratos/configuration.nix" <<EOF
 #   :p config.system.stateVersion
