@@ -1,3 +1,6 @@
+
+MKDIR      ?= $(patsubst %/,%,$(dir $(abspath $(lastword $(MAKEFILE_LIST)))))
+
 MKPATH       := $(abspath $(lastword $(MAKEFILE_LIST)))
 MKPATHREAL   := $(realpath $(lastword $(MAKEFILE_LIST)))
 MKDIR        := $(abspath $(dir $(MKPATH)))
@@ -11,7 +14,7 @@ GUIXUSER=$(shell whoami)
 SRC = $(MKDIR)
 GSRC = $(MKDIR)/../guix
 
-CHANNELS_GUIX = $(HOME)/.config/guix/channels.scm
+CHANNELS_GUIX=$(MKDIR)/../.config/guix/channels.scm
 CHANNELS_LATEST = $(MKDIR)/../guix/channels-latest.scm
 CHANNELS_LOCK = $(MKDIR)/../guix/channels-lock.scm
 
@@ -20,13 +23,14 @@ CHANNELS ?= $(CHANNELS_LOCK)
 GUIX_PROFILE=$(MKDIR)/.guix-profile
 MANIFEST=$(MKDIR)/manifest.scm
 CHANLOCK=$(MKDIR)/channels-lock.scm
-CHANNELS_GUIX=$(MKPARENT)/.config/guix/channels.scm
 
 GUIXTM=guix time-machine -C channels-lock.scm
 GUIX=$(GUIXTM) --
 
 GUIXPACKAGE=guix package -L $(GSRC)/dc
 
+manifest.scm:
+	touch manifest.scm
 .guix-profile: manifest.scm
 	$(GUIXPACKAGE) -m $(MANIFEST) -p $(GUIX_PROFILE)
 

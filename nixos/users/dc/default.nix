@@ -227,7 +227,7 @@ in
       telegram-desktop
 
       # install vesktop via flatpak
-      vesktop # pnpm marked as insecure package
+      # vesktop # pnpm marked as insecure package
       # discord
 
       # IRC

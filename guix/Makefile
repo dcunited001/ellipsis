@@ -99,11 +99,19 @@ pull-sync:
 	guix pull -L $(MKDIR)/dc -C $(CHANNELS_LATEST)
 pull-lock:
 	guix describe --format=channels > $(CHANNELS_LOCK)
+	guix describe --format=channels > $(CHANNELS_GUIX)
+
+.PHONY: up up-sync up-lock
+up: up-sync up-lock
+up-sync:
+	guix pull -L $(MKDIR)/dc -C $(CHANNELS_LOCK)
+up-lock:
+	guix describe --format=channels > $(CHANNELS_GUIX)
 
 .PHONY: upgrade
 upgrade:
-	make pull
-	make repl
+	make up
+	make ares-profile
 
 # Run with `GUIXHOST=ahost GUIXPROFILE=$HOME/.dotfiles/.doom.d/.guixprofile make -e copy`
 

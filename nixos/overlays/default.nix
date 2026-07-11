@@ -25,7 +25,9 @@ let
     # steam = prev.steam.overrideAttrs {
     #   mesa = final.unstable.mesa;
     # };
-    #
+
+    # i have no fucking clue how to do this
+    # cantarell-fonts = prev.inputs.nixpkgs-unstable.cantarell-fonts;
   };
 
   # apparantly a very bad way to do this;

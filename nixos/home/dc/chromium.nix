@@ -35,6 +35,22 @@ in
         # Icon=/home/dc/.nix-profile/share/icons/hicolor/256x256/apps/chromium.png
         clobber = true;
       };
+      "applications/Discord.desktop" = {
+        text = ''
+          [Desktop Entry]
+          Version=1.0
+          Name=Discord
+          Comment=Discord
+          # Exec=omarchy-launch-webapp https://discord.com/channels/@me
+          Exec=uwsm app -- chromium --app="https://discord.com/channels/@me"
+          Terminal=false
+          Type=Application
+          Icon=/home/dc/.local/share/applications/icons/Discord.png
+          StartupNotify=true
+        '';
+        clobber = true;
+
+      };
       "applications/Onshape.desktop" = {
         text = ''
           [Desktop Entry]
