@@ -4,6 +4,15 @@
 
   #:export (%dc-patch-path))
 
+(define %channel-root
+  (find (lambda (path)
+          (file-exists? (string-append path "/dc/packages.scm")))
+        %load-path))
+
+(define %dc-patch-path
+  (make-parameter
+   (list (string-append %channel-root "/dc/packages/patches"))))
+
 ;; rde and flatwhatson approach this differently:
 
 ;; - rde sets %rde-patch-path without overriding (gnu packages) %patch-path
@@ -13,12 +22,3 @@
 
 ;; - flatwhatson adds search helpers that can search either in one go. this
 ;;   can be done in either approach
-
-(define %channel-root
-  (find (lambda (path)
-          (file-exists? (string-append path "/dc/packages.scm")))
-        %load-path))
-
-(define %dc-patch-path
-  (make-parameter
-   (list (string-append %channel-root "/dc/packages/patches"))))

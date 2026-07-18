@@ -43,7 +43,7 @@
    (service pcscd-service-type)
    (udev-rules-service 'fido2 libfido2 #:groups '("plugdev"))
    (udev-rules-service 'u2f libu2f-host)
-   (udev-rules-service 'yubikey yubikey-personalization)
+   (udev-rules-service 'yubikey yubikey-personalization #:groups '("yubikey"))
    (simple-service 'dc-smartcard-profile-service
                    profile-service-type
                    (append pkgs-yubikey pkgs-smartcard))))

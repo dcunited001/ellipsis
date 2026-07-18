@@ -1,2 +1,3 @@
 /channels*.scm.lock
 /env/dc-configs/guix/channels*.scm.lock
+/.guix-profile-dev
