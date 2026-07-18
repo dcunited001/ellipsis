@@ -16,7 +16,8 @@
 
   #:use-module (guix gexp)
   #:use-module (srfi srfi-1)
-  #:export (ipxe-test))
+  #:export (ipxe-test
+            ipxe-test-debug))
 
 ;;; Commentary:
 ;;;
@@ -27,13 +28,35 @@
 
 ;;; Packages
 
-(define ipxe-testfile (plain-file "boot.ipxe" "#!ipxe
-dhcp
-chain http://muh.netboot.xyz"))
+(define ipxe-netboot-server "muh.netboot.homelab:8080")
 
-(define ipxe-testscript "#!ipxe
+;; something in this script or on my machine is forcing iPXE to attempt to
+;; fetch autoexec.ipxe, i think as a last resort.
+
+(define ipxe-testscript
+  (format #f "#!ipxe
+:menu
+menu Please choose a boot option
+item shell Start iPXE shell
+item netboot Netboot
+item exit Exit iPXE and proceed
+
+:shell
+echo Entering iPXE command line...
+shell
+goto menu
+
+:netboot
 dhcp
-chain http://muh.netboot.xyz")
+chain --autofree http://~A/tftp-server/netboot/x64_64/netboot.xyz.efi
+
+:exit
+exit
+"
+          ipxe-netboot-server))
+
+(define ipxe-testfile
+  (plain-file "boot.ipxe" ipxe-testscript))
 
 (define ipxe-test
   (package
@@ -50,3 +73,20 @@ chain http://muh.netboot.xyz")
         `((ice-9 match) ,@modules))
        ((#:make-flags flags)
         #~(append '("EMBED=boot.ipxe") #$flags))))))
+
+;; i saw the debugger output once..... i also tried replacing the script with just
+;; 
+;; #!ipxe
+;; shell
+
+(define ipxe-test-debug
+  (package
+    (inherit ipxe-test)
+    (name "ipxe-test-debug")
+    (version "1.21.1-4.969ce2c-test-debug-0")
+    (arguments
+     (substitute-keyword-arguments (package-arguments ipxe-test)
+       ((#:modules modules)
+        `((ice-9 match) ,@modules))
+       ((#:make-flags flags)
+        #~(append '("DEBUG=intel,tftp,dhcp") #$flags))))))
