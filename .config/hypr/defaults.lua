@@ -16,6 +16,8 @@ hl.config({
     }
 })
 
+hl.monitor({ output = "", mode = "preferred", position = "auto", scale = "auto" })
+
 browser = "uwsm app -- chromium"
 browserPrivate = "uwsm app -- chromium --private-window"
 

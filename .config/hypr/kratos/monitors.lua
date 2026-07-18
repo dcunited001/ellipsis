@@ -1,0 +1,63 @@
+m1port = "DP-1"
+m1desc = "LG Electronics LG ULTRAGEAR 103NTGYHB375"
+m1res = "2560x1440"
+m1mode = m1res .. "@60.00"
+m1transform = 0
+
+m2port = "DP-2"
+m2desc = "Samsung Electric Company U28D590"
+m2res = "2560x1440"
+m2mode = m2res .. "@60.00"
+m2transform = 0
+
+m3port = "DP-3"
+m3desc = "ViewSonic Corporation VG2239 Series UBW154602336"
+m3res = "1920x1080"
+m3mode = m3res .. "@60.00"
+m3transform = 0
+
+-- monitor=desc:$m1desc,2560x1440@120.0,0x1440,1.0
+-- monitor=desc:$m2desc,2560x1440@59.95,0x0,1.0
+-- monitor=desc:$m3desc,1920x1080@60.0,2560x480,1.0
+-- monitor=desc:$m3desc,transform,3
+--
+-- $m3port = HDMI-A-1
+
+--* Layoute
+--** no tv
+
+-- hl.monitor({ output = m1port, mode = m1mode, position = "1080x1440", scale = 1.0 })
+-- hl.monitor({ output = m2port, mode = m2mode, position = "1080x0", scale = 1.0 })
+-- hl.monitor({ output = m3port, mode = m3mode, position = "0x480", scale = 1.0, transform = 3 })
+
+--*** add tv
+
+m4port = "HDMI-A-1"
+m4res = "1920x1080"
+m4mode = m4res .. "@30.00"
+m4transform = 0
+
+-- hl.monitor({ output = m4port, mode = m4mode, position = "1080x1920", scale = 1.0 })
+
+-- position = 0x1440   -- m1
+-- position = 0x0      -- m2
+-- position = 2560x480 -- m3
+-- position = 0x2880   -- m4
+
+--** screenshare
+
+-- m4mode = "1280x720@60.00"
+-- hl.monitor({ output = m4port, mode = m4mode, position = "1080x1920", scale = 1.0 })
+
+--** tv left
+
+hl.monitor({ output = m1port, mode = m1mode, position = "3000x1440", scale = 1.0 })
+hl.monitor({ output = m2port, mode = m2mode, position = "3000x0", scale = 1.0 })
+hl.monitor({ output = m3port, mode = m3mode, position = "1920x480", scale = 1.0, transform = 3 })
+
+m4port = "HDMI-A-1"
+m4res = "1920x1080"
+m4mode = m4res .. "@59.99"
+m4transform = 0
+
+hl.monitor({ output = m4port, mode = m4mode, position = "0x960", scale = 1.0 })
