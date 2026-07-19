@@ -25,3 +25,4 @@ require(host .. ".workspaces")
 require(host .. ".g502")
 
 --** workspaces
+require("theme")
