@@ -30,10 +30,10 @@ hl.window_rule({ name = "opacity2", match = { tag = "testopacity2" }, opacity = 
 -- hl.bind("SUPER + mouse:" .. g502btn9, hl.dsp.window.set_prop({ prop = "xray", value = true }))
 
 --** button 9
-hl.bind("SUPER + mouse:" .. g502btn9, hl.dsp.resizewindowpixel({ x = 1920, y = 1080, window = "active" }))
-hl.bind("SUPER + SHIFT + mouse:" .. g502btn9, hl.dsp.resizewindowpixel({ x = 1280, y = 720, window = "active" }))
-hl.bind("SUPER + CTRL + mouse:" .. g502btn9, hl.dsp.resizewindowpixel({ x = 960, y = 960, window = "active" }))
-hl.bind("SUPER + CTRL + SHIFT + mouse:" .. g502btn9, hl.dsp.resizewindowpixel({ x = 1120, y = 1050, window = "active" }))
--- hl.bind("SUPER + SHIFT + mouse:" .. g502btn9, hl.dsp.resizewindowpixel({ x = 1680, y = 1050, window = "active" }))
+hl.bind("SUPER + mouse:" .. g502btn9, hl.dsp.window.resize({ x = 1920, y = 1080, window = "active" }))
+hl.bind("SUPER + SHIFT + mouse:" .. g502btn9, hl.dsp.window.resize({ x = 1280, y = 720, window = "active" }))
+hl.bind("SUPER + CTRL + mouse:" .. g502btn9, hl.dsp.window.resize({ x = 960, y = 960, window = "active" }))
+hl.bind("SUPER + CTRL + SHIFT + mouse:" .. g502btn9, hl.dsp.window.resize({ x = 1120, y = 1050, window = "active" }))
+-- hl.bind("SUPER + SHIFT + mouse:" .. g502btn9, hl.dsp.window.resize({ x = 1680, y = 1050, window = "active" }))
 
 -- [1920,1280] => [1920*1/2, 1080*3/4] == [960, 960]

@@ -1,0 +1,39 @@
+--* OBS
+
+--** Binds
+
+--** Workspace
+
+--** Rules
+
+-- # send to workspace
+-- $wsObs=obs
+-- $wsObsMon=$m2port
+-- $wsObsClass=com.obsproject.Studio
+
+-- # fn + pageup (kharis: fn + w)
+-- $wsObsKey=pause
+
+-- # hyprlang if HYPRHOSTKRATOS
+-- $wsObsMon=$m3port
+-- # hyprlang endif
+
+-- # hyprlang if HYPRHOSTKHARIS
+-- $wsObsMon=$m1port
+-- windowrule = float 1, match:class $wsObsClass
+-- # hyprlang endif
+
+-- workspace = name:$wsObs, monitor:$wsObsMon, defaultName:$wsObs
+-- workspace = border:true, bordersize:16
+
+-- # bind =  ALT, pause, togglespecialworkspace, $wsObs
+-- bind = MOD3, $wsObsKey, workspace, name:$wsObs
+-- bind = MOD3 SHIFT ALT, $osObsKey, movetoworkspacesilent, name:$wsObs
+
+-- windowrule = workspace name:$wsObs, match:class $wsObsClass
+
+-- # | xdg-desktop-portal-...? | obs popups (permissions/etc) show up as |
+-- # | com.obsproject.Studio | Properties for Screen Capture (PipeWire) | adding sources |
+
+-- # OBS doesn't detect XF86 keysyms... does this interfere?
+-- # https://wiki.hypr.land/Configuring/Uncommon-tips--tricks/#set-f13-f24-as-usual-function-keys

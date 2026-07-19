@@ -3,6 +3,7 @@ local host = "kratos"
 
 require("defaults")
 require("keycodes")
+require("common.functions")
 
 --** omarchy prelude
 require(host .. ".bindings.media")

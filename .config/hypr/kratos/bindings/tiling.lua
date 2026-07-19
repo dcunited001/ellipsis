@@ -82,7 +82,7 @@ hl.bind("SUPER + mouse_down", hl.dsp.focus({ workspace = "e+1" }), { description
 hl.bind("SUPER + mouse_up", hl.dsp.focus({ workspace = "e-1" }), { description = "Scroll active workspace backward" })
 
 --** Move/resize windows with mainMod + LMB/RMB and dragging
-hl.bind("SUPER + mouse:272", hl.dsp.window.move(), { mouse = true, description = "Move window" })
+hl.bind("SUPER + mouse:272", hl.dsp.window.drag(), { mouse = true, description = "Move window" })
 hl.bind("SUPER + mouse:273", hl.dsp.window.resize(), { mouse = true, description = "Resize window" })
 
 --* Groups
