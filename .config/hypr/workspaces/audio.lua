@@ -14,14 +14,14 @@ local audio_keys = {
     mic_mute = "XF86AudioMicMute"
 }
 
-hl.bind(music_keys.next, hl.dsp.exec_cmd("playerctl next"),
-    { locked = true, description = "Next track" })
-hl.bind(music_keys.pause, hl.dsp.exec_cmd("playerctl play-pause"),
-    { locked = true, description = "Pause audio" })
-hl.bind(music_keys.play, hl.dsp.exec_cmd("playerctl play-pause"),
-    { locked = true, description = "Play audio" })
-hl.bind(music_keys.prev, hl.dsp.exec_cmd("playerctl previous"),
-    { locked = true, description = "Previous track" })
+hl.bind(audio_keys.raise_volume, hl.dsp.exec_cmd("wpctl set-volume -l 1 @DEFAULT_AUDIO_SINK@ 5%+"),
+    { locked = true, repeating = true, description = "Raise volume" })
+hl.bind(audio_keys.lower_volume, hl.dsp.exec_cmd("wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-"),
+    { locked = true, repeating = true, description = "Lower volume" })
+hl.bind(audio_keys.mute, hl.dsp.exec_cmd("wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"),
+    { locked = true, repeating = true, description = "Mute audio" })
+hl.bind(audio_keys.mic_mute, hl.dsp.exec_cmd("wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle"),
+    { locked = true, repeating = true, description = "Mute microphone" })
 
 --* Music Bindings
 local music_keys = {
@@ -31,14 +31,14 @@ local music_keys = {
     prev = "XF86AudioPrev"
 }
 
-hl.bind(audio_keys.raise_volume, hl.dsp.exec_cmd("wpctl set-volume -l 1 @DEFAULT_AUDIO_SINK@ 5%+"),
-    { locked = true, repeating = true, description = "Raise volume" })
-hl.bind(audio_keys.lower_volume, hl.dsp.exec_cmd("wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-"),
-    { locked = true, repeating = true, description = "Lower volume" })
-hl.bind(audio_keys.mute, hl.dsp.exec_cmd("wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"),
-    { locked = true, repeating = true, description = "Mute audio" })
-hl.bind(audio_keys.mic_mute, hl.dsp.exec_cmd("wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle"),
-    { locked = true, repeating = true, description = "Mute microphone" })
+hl.bind(music_keys.next, hl.dsp.exec_cmd("playerctl next"),
+    { locked = true, description = "Next track" })
+hl.bind(music_keys.pause, hl.dsp.exec_cmd("playerctl play-pause"),
+    { locked = true, description = "Pause audio" })
+hl.bind(music_keys.play, hl.dsp.exec_cmd("playerctl play-pause"),
+    { locked = true, description = "Play audio" })
+hl.bind(music_keys.prev, hl.dsp.exec_cmd("playerctl previous"),
+    { locked = true, description = "Previous track" })
 
 --* Workspaces
 

@@ -4,7 +4,7 @@
   "workspace": {
     "library": [
       "/usr/share/hypr/stubs",
-      "/nix/store/nyfjvjg4qpssa5513q41xjvrmlhz16gs-hyprland-0.55.1/share/hypr/stubs",
+      "/run/current-system/sw/share/hypr/stubs",
       ".config/hypr",
       ".config/wireplumber/scripts"
     ],

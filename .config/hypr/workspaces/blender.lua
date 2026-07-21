@@ -6,6 +6,6 @@
 
 --** Rules
 hl.window_rule({
-    match = { clss = "(blender)", title = "(Preferences)" },
+    match = { class = "(blender)", title = "(Preferences)" },
     float = true
 })
