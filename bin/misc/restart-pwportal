@@ -1,0 +1,26 @@
+#!/usr/bin/env bash
+echo 'stopping hyprland portal'
+systemctl --user stop xdg-desktop-portal-hyprland
+
+# TODO: there's also flatpak-portal, xdg-document-portal, xdg-desktop-portal-gtk... (conflict?)
+
+systemctl --user stop xdg-desktop-portal-hyprland
+echo 'stopping all pipewire.*, wireplumber and pipewire.socket'
+systemctl --user stop 'pipewire*' wireplumber pipewire.socket
+
+sleep 2
+
+echo 'restarting audio'
+systemctl --user start pipewire.socket pipewire-pulse.socket
+systemctl --user start pipewire pipewire-pulse
+
+sleep 1
+systemctl --user start wireplumber
+
+echo 'waiting to restart portal...'
+sleep 5
+
+echo 'restarting xdg-desktop-portal-hyprland'
+systemctl --user start xdg-desktop-portal-hyprland
+
+echo 'done... restart apps that require xdg-desktop-portal for pipewire... . . . . damit'

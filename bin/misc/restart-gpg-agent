@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+echo 'stop waybar.service yubikey-touch-detector.socket yubikey-touch-detector.service'
+systemctl --user stop waybar.service yubikey-touch-detector.socket yubikey-touch-detector.service
+
+echo 'stop gpg-agent.service gpg-agent.socket gpg-agent-ssh.socket'
+systemctl --user stop gpg-agent.service gpg-agent.socket gpg-agent-ssh.socket
+
+sleep 1
+echo 'start gpg-agent.socket gpg-agent-ssh.socket yubikey-touch-detector.socket'
+systemctl --user start gpg-agent.socket gpg-agent-ssh.socket yubikey-touch-detector.socket
+echo 'start gpg-agent.service'
+systemctl --user start gpg-agent.service
+
+sleep 1
+echo 'start yubikey-touch-detector.socket'
+systemctl --user start yubikey-touch-detector.socket
+
+sleep 1
+echo 'start waybar.service (owns a script that hammers the yubikey-touch-detector socket)'
+systemctl --user start waybar.service
+
+echo 'if that doesnt work, restart pscsd and re-run. then run scd-relearn'
