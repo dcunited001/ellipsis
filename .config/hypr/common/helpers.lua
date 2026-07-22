@@ -23,3 +23,21 @@ My.icons = {
     screenshot = "accessories-screenshot-symbolic",
     notify     = "preferences-system-notifications-symbolic"
 }
+
+function My.ws.binds(mod, key, name)
+    hl.bind(table.concat({ mod, key }, "+"),
+        hl.dsp.workspace.focus(name),
+        { description = "Toggle WS: " .. name })
+    hl.bind(table.concat({ mod, "SHIFT", key }, "+"),
+        hl.dsp.window.move({ workspace = name }),
+        { description = "Move Win to WS: " .. name })
+end
+
+function My.ws.binds_special(mod, key, name)
+    hl.bind(table.concat({ mod, key }, "+"),
+        hl.dsp.workspace.toggle_special(name),
+        { description = "Toggle WS: " .. name })
+    hl.bind(table.concat({ mod, "SHIFT", key }, "+"),
+        hl.dsp.window.move({ workspace = "special:" .. name }),
+        { description = "Move Win to WS: " .. name })
+end
