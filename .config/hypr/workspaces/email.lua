@@ -10,15 +10,15 @@ local tbird = { class = "(org\\.mozilla\\.)?[Tt]hunderbird" }
 
 --** Binds
 hl.bind(table.concat({ ws_email.mod, ws_email.key }, "+"),
-    hl.dsp.workspace.toggle_special(ws_email.name),
+    hl.dsp.workspace.focus(ws_email.name),
     { description = "Toggle WS: " .. ws_email.name })
 hl.bind(table.concat({ ws_email.mod, "SHIFT", ws_email.key }, "+"),
-    hl.dsp.window.move({ workspace = "special:" .. ws_email.name }),
+    hl.dsp.window.move({ workspace = ws_email.name }),
     { description = "Move Win to WS: " .. ws_email.name })
 
 --** Workspace
 hl.workspace_rule({
-    workspace = "special:" .. ws_email.name,
+    workspace = ws_email.name,
     monitor = ws_email.monitor,
     on_created_empty = "[float] " .. ws_email.launch
 })
@@ -28,7 +28,7 @@ hl.workspace_rule({
 -- thunderbird
 hl.window_rule({
     match = { class = tbird.class },
-    workspace = "special:" .. ws_email.name,
+    workspace = ws_email.name,
     border_color = ws_email.border_color,
     border_size = ws_email.border_size
 })
@@ -42,7 +42,7 @@ local tbird_small_titles = {
 for i, title in ipairs(tbird_small_titles) do
     hl.window_rule({
         match = { class = tbird.class, title = title },
-        workspace = "special:" .. ws_email.name,
+        workspace = ws_email.name,
         float = true,
         size = "640 360",
     })
@@ -57,14 +57,14 @@ tbird_floats = {
 for i, title in ipairs(tbird_floats) do
     hl.window_rule({
         match = { class = tbird.class, title = title },
-        workspace = "special:" .. ws_email.name,
+        workspace = ws_email.name,
         float = true,
     })
 end
 
 hl.window_rule({
     match = { class = tbird.class, title = "(Write: ).*" },
-    workspace = "special:" .. ws_email.name,
+    workspace = ws_email.name,
     float = true,
     size = "1280 720"
 })
