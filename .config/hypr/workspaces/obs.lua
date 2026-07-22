@@ -10,12 +10,7 @@ local obs_class = "com.obsproject.Studio"
 -- note: not a special workspace
 
 --** Binds
-hl.bind(table.concat({ ws_obs.mod, ws_obs.key }, "+"),
-    hl.dsp.focus({ focus = ws_obs.name }),
-    { description = "Toggle WS: " .. ws_obs.name })
-hl.bind(table.concat({ ws_obs.mod, "SHIFT", ws_obs.key }, "+"),
-    hl.dsp.window.move({ workspace = ws_obs.name }),
-    { description = "Move Win to WS: " .. ws_obs.name })
+My.ws.binds_special(ws_obs.mod, ws_obs.key, ws_obs.name)
 
 --** Workspace
 -- windowrule = workspace name:$wsObs, match:class $wsObsClass
@@ -23,8 +18,7 @@ hl.workspace_rule({
     workspace = ws_obs.name,
     monitor = ws_obs.monitor,
     on_created_empty = "[float] " .. ws_obs.launch,
-    border = true,
-    bordersize = 16
+    border_size = 16
 })
 
 

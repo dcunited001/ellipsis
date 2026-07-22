@@ -1,9 +1,9 @@
 --* prelude
 local host = "kratos"
 
+require("common.helpers")
 require("defaults")
 require("keycodes")
-require("common.helpers")
 
 --** omarchy prelude
 require(host .. ".bindings.media")
@@ -33,6 +33,11 @@ require("workspaces.discord")
 require("workspaces.docs")
 require("workspaces.email")
 -- require("workspaces.dotfiles")
+-- require("workspaces.forum")
 require("workspaces.irc")
 require("workspaces.man")
+require("workspaces.obs")
 require("workspaces.orgmode")
+require("workspaces.tuitray")
+-- require("workspaces.pass")
+-- require("workspaces.waydroid")

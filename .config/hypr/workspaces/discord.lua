@@ -5,13 +5,7 @@ ws_discord.size = "90% 90%"
 ws_discord.launch = "uwsm app -- chromium --app=\"https://discord.com/channels/@me\""
 
 --** Binds
-
-hl.bind(table.concat({ ws_discord.mod, ws_discord.key }, "+"),
-    hl.dsp.workspace.toggle_special(ws_discord.name),
-    { description = "Toggle WS: " .. ws_discord.name })
-hl.bind(table.concat({ ws_discord.mod, "SHIFT", ws_discord.key }, "+"),
-    hl.dsp.window.move({ workspace = "special:" .. ws_discord.name }),
-    { description = "Move Win to WS: " .. ws_discord.name })
+My.ws.binds_special(ws_discord.mod, ws_discord.key, ws_discord.name)
 
 --** Workspace
 hl.workspace_rule({

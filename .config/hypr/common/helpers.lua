@@ -8,12 +8,6 @@ My.apps = {
     editor = "uwsm app -- doomclient -- -c -n"
 }
 
-My.tui = {
-    tuiContainers = "uwsm app -- alacritty --class 'Alacritty:org.dc.tuitray' -T 'tuitray:lazydocker' -e lazydocker",
-    tuiTop = "uwsm app -- alacritty --class 'Alacritty:org.dc.tuitray' -T 'tuitray:btop' -e btop",
-    tuiSysD = "uwsm app -- alacritty --class 'Alacritty:org.dc.tuitray' -T 'tuitray:isd' -e isd"
-}
-
 My.icons = {
     hypr       = "indicator-keyboard-Hy-5",
     info       = "dialog-information",
@@ -30,7 +24,7 @@ My.ws = {}
 
 function My.ws.binds(mod, key, name)
     hl.bind(table.concat({ mod, key }, "+"),
-        hl.dsp.focus(name),
+        hl.dsp.focus({ workspace = name }),
         { description = "Toggle WS: " .. name })
     hl.bind(table.concat({ mod, "SHIFT", key }, "+"),
         hl.dsp.window.move({ workspace = name }),

@@ -7,14 +7,8 @@ ws_email.border_color = { colors = { "rgba(113355DD)", "rgba(332299FF)" }, angle
 ws_email.border_size = 5
 local tbird = { class = "(org\\.mozilla\\.)?[Tt]hunderbird" }
 
-
 --** Binds
-hl.bind(table.concat({ ws_email.mod, ws_email.key }, "+"),
-    hl.dsp.focus({ workspace = ws_email.name }),
-    { description = "Toggle WS: " .. ws_email.name })
-hl.bind(table.concat({ ws_email.mod, "SHIFT", ws_email.key }, "+"),
-    hl.dsp.window.move({ workspace = ws_email.name }),
-    { description = "Move Win to WS: " .. ws_email.name })
+My.ws.binds(ws_email.mod, ws_email.key, ws_email.name)
 
 --** Workspace
 hl.workspace_rule({

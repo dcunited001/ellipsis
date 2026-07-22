@@ -7,12 +7,7 @@ ws_roam.launch = "uwsm app -- doomclient -- -ce '(activities-resume (cdr (assoc 
     roam_tab .. "\" activities-activities)))'"
 
 --** Binds
-hl.bind(table.concat({ ws_roam.mod, ws_roam.key }, "+"),
-    hl.dsp.workspace.toggle_special(ws_roam.name),
-    { description = "Toggle WS: " .. ws_roam.name })
-hl.bind(table.concat({ ws_roam.mod, "SHIFT", ws_roam.key }, "+"),
-    hl.dsp.window.move({ workspace = "special:" .. ws_roam.name }),
-    { description = "Move Win to WS: " .. ws_roam.name })
+My.ws.binds_special(ws_roam.mod, ws_roam.key, ws_roam.name)
 
 --** Workspace
 hl.workspace_rule({
@@ -37,12 +32,7 @@ ws_agenda.launch = "uwsm app -- doomclient -- -ce '(activities-resume (cdr (asso
     agenda_tab .. "\" activities-activities)))'"
 
 --** Binds
-hl.bind(table.concat({ ws_agenda.mod, ws_agenda.key }, "+"),
-    hl.dsp.workspace.toggle_special(ws_agenda.name),
-    { description = "Toggle WS: " .. ws_agenda.name })
-hl.bind(table.concat({ ws_agenda.mod, "SHIFT", ws_agenda.key }, "+"),
-    hl.dsp.window.move({ workspace = "special:" .. ws_agenda.name }),
-    { description = "Move Win to WS: " .. ws_agenda.name })
+My.ws.binds_special(ws_agenda.mod, ws_agenda.key, ws_agenda.name)
 
 --** Workspace
 hl.workspace_rule({

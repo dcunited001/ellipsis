@@ -1,3 +1,4 @@
+--* Audio Bindings
 local ws_music = { name = "music", mod = "MOD3", key = "code:121" }
 ws_music.border_color = "rgba(CC3344DD) rgba(44CC6688) rgba(CC3344DD) 45deg"
 ws_music.launch = "uwsm app -- vlc"
@@ -6,7 +7,6 @@ local ws_audio = { name = "audio", mod = "MOD3", key = "code:123" }
 ws_audio.border_color = ws_music.border_color
 ws_audio.launch = "uwsm app -- coppwr"
 
---* Audio Bindings
 local audio_keys = {
     raise_volume = "XF86AudioRaiseVolume",
     lower_volume = "XF86AudioLowerVolume",
@@ -45,12 +45,7 @@ hl.bind(music_keys.prev, hl.dsp.exec_cmd("playerctl previous"),
 --** Audio Workspace
 
 --*** Binds
-hl.bind(table.concat({ ws_audio.mod, ws_audio.key }, "+"),
-    hl.dsp.workspace.toggle_special(ws_audio.name),
-    { description = "Toggle WS: " .. ws_audio.name })
-hl.bind(table.concat({ ws_audio.mod, "SHIFT", ws_audio.key }, "+"),
-    hl.dsp.window.move({ workspace = "special:" .. ws_audio.name }),
-    { description = "Move Win to WS: " .. ws_audio.name })
+My.ws.binds_special(ws_audio.mod, ws_audio.key, ws_audio.name)
 
 --*** Rules
 hl.workspace_rule({
@@ -98,12 +93,7 @@ hl.window_rule({
 --** Music Workspace
 
 --*** Binds
-hl.bind(table.concat({ ws_music.mod, ws_music.key }, "+"),
-    hl.dsp.workspace.toggle_special(ws_music.name),
-    { description = "Toggle music" })
-hl.bind(table.concat({ ws_music.mod, "SHIFT", ws_music.key }, "+"),
-    hl.dsp.window.move({ workspace = "special:" .. ws_music.name }),
-    { description = "Move window to music" })
+My.ws.binds_special(ws_music.mod, ws_music.key, ws_music.name)
 
 --*** Rules
 hl.workspace_rule({

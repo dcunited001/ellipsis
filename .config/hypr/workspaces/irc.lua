@@ -1,16 +1,11 @@
-ws_irc = { name = "irc", mod = "MOD3", key = "F9" }
+local ws_irc = { name = "irc", mod = "MOD3", key = "F9" }
 ws_irc.monitor = My.m3.port
 ws_irc.launch = "quassel"
 
 --* IRC
 
 --** Binds
-hl.bind(table.concat({ ws_irc.mod, ws_irc.key }, "+"),
-    hl.dsp.workspace.toggle_special(ws_irc.name),
-    { description = "Toggle WS: " .. ws_irc.name })
-hl.bind(table.concat({ ws_irc.mod, "SHIFT", ws_irc.key }, "+"),
-    hl.dsp.window.move({ workspace = "special:" .. ws_irc.name }),
-    { description = "Move Win to WS: " .. ws_irc.name })
+My.ws.binds_special(ws_irc.mod, ws_irc.key, ws_irc.name)
 
 --** Workspace
 hl.workspace_rule({

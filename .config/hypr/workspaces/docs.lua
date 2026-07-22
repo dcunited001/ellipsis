@@ -5,12 +5,7 @@ ws_docs.launch = "flatpak run org.zealdocs.Zeal"
 ws_docs.monitor = My.m2.port
 
 --** Binds
-hl.bind(table.concat({ ws_docs.mod, ws_docs.key }, "+"),
-    hl.dsp.workspace.toggle_special(ws_docs.name),
-    { description = "Toggle WS: " .. ws_docs.name })
-hl.bind(table.concat({ ws_docs.mod, "SHIFT", ws_docs.key }, "+"),
-    hl.dsp.window.move({ workspace = "special:" .. ws_docs.name }),
-    { description = "Move Win to WS: " .. ws_docs.name })
+My.ws.binds_special(ws_docs.mod, ws_docs.key, ws_docs.name)
 
 --** Workspace
 hl.workspace_rule({
