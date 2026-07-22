@@ -24,9 +24,11 @@ My.icons = {
     notify     = "preferences-system-notifications-symbolic"
 }
 
+My.ws = {}
+
 function My.ws.binds(mod, key, name)
     hl.bind(table.concat({ mod, key }, "+"),
-        hl.dsp.workspace.focus(name),
+        hl.dsp.focus(name),
         { description = "Toggle WS: " .. name })
     hl.bind(table.concat({ mod, "SHIFT", key }, "+"),
         hl.dsp.window.move({ workspace = name }),
