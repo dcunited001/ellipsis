@@ -22,7 +22,7 @@ hl.workspace_rule({
 
 --** Rules
 
-local discord_classes = { "(chrome-discord.com.*)", "banana", "cherry" }
+local discord_classes = { "(chrome-discord.com.*)", "discord", "vesktop" }
 
 for i, klass in ipairs(discord_classes) do
     hl.window_rule({

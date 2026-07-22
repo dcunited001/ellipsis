@@ -10,7 +10,7 @@ local tbird = { class = "(org\\.mozilla\\.)?[Tt]hunderbird" }
 
 --** Binds
 hl.bind(table.concat({ ws_email.mod, ws_email.key }, "+"),
-    hl.dsp.workspace.focus(ws_email.name),
+    hl.dsp.focus({ workspace = ws_email.name }),
     { description = "Toggle WS: " .. ws_email.name })
 hl.bind(table.concat({ ws_email.mod, "SHIFT", ws_email.key }, "+"),
     hl.dsp.window.move({ workspace = ws_email.name }),
