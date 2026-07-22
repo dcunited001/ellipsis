@@ -26,6 +26,8 @@ My.icons = {
 
 My.ws = {}
 
+-- TODO find lua helper to "extend" properties for table references
+
 function My.ws.binds(mod, key, name)
     hl.bind(table.concat({ mod, key }, "+"),
         hl.dsp.focus(name),
