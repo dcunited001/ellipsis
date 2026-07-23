@@ -9,9 +9,9 @@ local function activities_launch(tab, socket)
 end
 
 --* Emacs
-ws_dfemacs = { name = "emacs", mod = "MOD3", key = "backspace" }
+local ws_dfemacs = { name = "emacs", mod = "MOD3", key = "backspace" }
 ws_dfemacs.border_size = 5
-dfemacs = { prefix = "♦ DOOM", tab = "df¶\\.doom\\.d" }
+local dfemacs = { prefix = "♦ DOOM", tab = "df¶\\.doom\\.d" }
 
 --** Binds
 My.ws.binds_special(ws_dfemacs.mod, ws_dfemacs.key, ws_dfemacs.name)
@@ -22,8 +22,9 @@ hl.workspace_rule({
     border_size = ws_dfemacs.border_size,
     on_created_empty = activities_launch(dfemacs.prefix)
 })
+
 --** Rules
-emacs_tabs = { "df¶\\.doom\\.d", "df¶\\.emacs\\.doom" }
+local emacs_tabs = { "df¶\\.doom\\.d", "df¶\\.emacs\\.doom" }
 emacs_tabs = My.elmap(emacs_tabs, function(el)
     return activities_title({ prefix = dfemacs.prefix, tab = el })
 end)
@@ -38,9 +39,9 @@ for i, title in ipairs(emacs_tabs) do
 end
 
 --* Hypr
-ws_dfhypr = { name = "hypr", mod = "MOD3", key = "equal" }
+local ws_dfhypr = { name = "hypr", mod = "MOD3", key = "equal" }
 ws_dfhypr.border_size = 5
-dfhypr = { prefix = "♦ DOOM", tab = "df¶hypr" }
+local dfhypr = { prefix = "♦ DOOM", tab = "df¶hypr" }
 
 --** Binds
 My.ws.binds_special(ws_dfhypr.mod, ws_dfhypr.key, ws_dfhypr.name)
@@ -61,9 +62,9 @@ hl.window_rule({
 })
 
 --* Nixos
-ws_dfnixos = { name = "nixos", mod = "MOD3", key = "return" }
+local ws_dfnixos = { name = "nixos", mod = "MOD3", key = "return" }
 ws_dfnixos.border_size = 5
-dfnixos = { prefix = "♦ DOOM", tab = "df¶nixos" }
+local dfnixos = { prefix = "♦ DOOM", tab = "df¶nixos" }
 
 --** Binds
 My.ws.binds_special(ws_dfnixos.mod, ws_dfnixos.key, ws_dfnixos.name)

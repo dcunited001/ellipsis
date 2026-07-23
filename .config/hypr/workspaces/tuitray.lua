@@ -20,11 +20,11 @@ hl.workspace_rule({
 --** Rules
 local tuitray_mod = "SUPER + SHIFT"
 local tuitray_apps = {
-    isd = { size = "size 75% 75%", move = "move 5% 5%", mod = "ALT" },
-    -- sysz = { size = "size 1024 768", move = "move 5% 100%-w-5% ", mod = {} },
-    nmtui = { size = "size 1024 768", move = "move 100%-w-5% 5%" },
-    btop = { size = "size 75% 75%", move = "move 100%-w-5% 100%-w-5%" },
-    lazydocker = { size = "80% 80%", move = "move 100%-w-5% 100%-w-5%" },
+    isd = { size = "75% 75%", move = "5% 5%", mod = "ALT" },
+    -- sysz = { size = "1024 768", move = "5% 100%-w-5% ", mod = {} },
+    nmtui = { size = "1024 768", move = "100%-w-5% 5%" },
+    btop = { size = "75% 75%", move = "100%-w-5% 100%-w-5%" },
+    lazydocker = { size = "80% 80%", move = "100%-w-5% 100%-w-5%" },
 }
 
 for k, v in pairs(tuitray_apps) do
