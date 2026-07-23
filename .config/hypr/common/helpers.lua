@@ -39,3 +39,12 @@ function My.ws.binds_special(mod, key, name)
         hl.dsp.window.move({ workspace = "special:" .. name }),
         { description = "Move Win to WS: " .. name })
 end
+
+function My.elmap(li, fn)
+    local res = {}
+    for i, el in ipairs(li) do
+        -- table.insert(res, i) -- fn(e))
+        res[i] = fn(el)
+    end
+    return res
+end

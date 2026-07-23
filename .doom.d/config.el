@@ -788,15 +788,16 @@ modes and testing is tedious."
                ("C-f" . #'corfu-insert-separator)
                ;; "C-S-s" #'+corfu/move-to-minibuffer
                ("'" . #'corfu-quick-complete)))
+  :custom
+  (corfu-auto-delay 1.0)
   :config
-  (setq corfu-auto-delay 0.5
-        corfu-auto-prefix 3
+  (setq corfu-auto-prefix 3
 
         ;; the doom defaults
         global-corfu-modes '((not erc-mode circe-mode help-mode gud-mode vterm-mode) t)
         corfu-popupinfo-min-height 5
         corfu-popupinfo-max-height 15
-        corfu-popupinfo-direction 'right ; default list: '(right left down)
+        corfu-popupinfo-direction 'right     ; default list: '(right left down)
         corfu-popupinfo-delay '(1.0 . 0.5)
 
         corfu-preview-current nil))
