@@ -1,3 +1,4 @@
+;; -*- lexical-binding: t; -*-
 (defun dc/do-consult-remaps ()
   "Rip remaps from doom"
   (let ((cuhdurlist
@@ -30,7 +31,7 @@
   (consult-customize
    consult-theme :preview-key nil
    ;; Hide full buffer list by default (use "b" prefix)
-   consult--source-buffer :hidden t :default nil)
+   consult-source-buffer :hidden t :default nil)
   (setq consult-project-function #'consult--default-project-function
         consult-ripgrep-args
         (string-join (list consult-ripgrep-args "--hidden -g \"!/po\"") " "))
@@ -91,10 +92,11 @@
    (text-mode-ispell-word-completion nil))
   :config (global-corfu-mode))
 
-(use-package corfu-terminal
-  :demand t
-  :after corfu
-  :config (corfu-terminal-mode +1))
+(when (< (string-to-number (car (string-split emacs-version "\\."))) 31)
+    (use-package corfu-terminal
+      :demand t
+      :after corfu
+      :config (corfu-terminal-mode +1)))
 
 (setq corfu-auto-delay 0.25
       corfu-auto-prefix 3

@@ -1,3 +1,5 @@
+;; -*- lexical-binding: t; -*-
+
 ;; (use-package tab-bar) ;; just forget compiled lambdas
 (global-set-key (kbd "C-<prior>") 'tab-bar-switch-to-tab)
 (global-set-key (kbd "C-<next>") 'tab-bar-switch-to-recent-tab)

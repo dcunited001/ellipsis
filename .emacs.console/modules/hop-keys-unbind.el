@@ -1,3 +1,5 @@
+;; -*- lexical-binding: t; -*-
+
 (defun dc/unbind-keys (key-names &optional keymap)
   (seq-do (lambda (key)
             (if keymap

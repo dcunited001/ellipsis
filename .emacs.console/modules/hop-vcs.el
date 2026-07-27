@@ -1,3 +1,4 @@
+;; -*- lexical-binding: t; -*-
 (use-package magit
   :demand t
   :bind ((:map global-map

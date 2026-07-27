@@ -1,3 +1,4 @@
+;; -*- lexical-binding: t; -*-
 (setq dired-deletion-confirmer 'y-or-n-p
       dired-confirm-shell-command 'y-or-n-p
 

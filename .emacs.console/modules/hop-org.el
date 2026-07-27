@@ -1,3 +1,4 @@
+;; -*- lexical-binding: t; -*-
 ;; NOTE: keep org nice and simple!
 
 ;; NOTE: C-c C-, for structure templates

@@ -1,9 +1,14 @@
+;; -*- lexical-binding: t; -*-
 
 ;;; Emacs
 
 ;;;; Config and Load Path
 (setopt dc/emacs-modules (expand-file-name "modules" user-emacs-directory))
 (add-to-list 'load-path dc/emacs-modules)
+
+;; if the elpa gpg-agent interferes with smartcard, this may fix it, but will
+;; require re-syncing the ~/.emacs.d/.local/elpa/gpg keyring
+;; (setq package-gnupghome-dir nil)
 
 ;;;; Packages and Custom.el
 (setq use-package-enable-imenu-support t
