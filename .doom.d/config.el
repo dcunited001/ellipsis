@@ -2118,6 +2118,11 @@ the root")
                  "invent.kde.org"
                  forge-gitlab-repository))
   (add-to-list 'forge-alist
+               '("projects.blender.org"
+	         "projects.blender.org/api/v1"
+	         "projects.blender.org"
+	         forge-gitea-repository))
+  (add-to-list 'forge-alist
                '("gitlab.freedestkop.org"
                  "gitlab.freedesktop.org/api/v4"
                  "gitlab.freedesktop.org"

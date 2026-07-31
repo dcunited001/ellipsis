@@ -73,7 +73,7 @@ ares-impure:
 
 # $(ARES_GC_ROOT):
 ares-profile:
-	@echo $(ARES_SHELL) --root=$(ARES_GC_ROOT)
+	$(ARES_SHELL) --root=$(ARES_GC_ROOT)
 
 # TODO: write an env/sync task to emit channel spec to (dc-configs guix channels)
 # env/sync: env/guix/rde/env/guix/channels.scm

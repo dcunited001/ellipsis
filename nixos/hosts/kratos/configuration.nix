@@ -257,7 +257,6 @@
   # ---------------------------------------------
   # Desktop
 
-  hjem.linker = inputs.hjem.packages.${pkgs.stdenv.hostPlatform.system}.smfh;
 
   programs.thunar.enable = true;
 

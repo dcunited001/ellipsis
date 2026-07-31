@@ -14,7 +14,7 @@ GUIXUSER=$(shell whoami)
 SRC = $(MKDIR)
 GSRC = $(MKDIR)/../guix
 
-CHANNELS_GUIX=$(MKDIR)/../.config/guix/channels.scm
+CHANNELS_GUIX = $(MKDIR)/../.config/guix/channels.scm
 CHANNELS_LATEST = $(MKDIR)/../guix/channels-latest.scm
 CHANNELS_LOCK = $(MKDIR)/../guix/channels-lock.scm
 
