@@ -1,8 +1,33 @@
-{ pkgs, ... }:
 {
-  programs.obs-studio.plugins = with pkgs.obs-studio-plugins; [
-    distroav
-  ];
+  pkgs,
+  builtins,
+  fetchurl,
+  lib,
+  ...
+}:
+let
+  ndiVersion = "6"; # 6.3.2.0
+  ndiInstallerName = "Install_NDI_SDK_v${ndiVersion}_Linux";
+  # ndiFix = lib.overrideDerivation pkgs.ndi-6 (prev: {
+  # name = "ndi-6-6.3.2.0";
+  ndiFix = pkgs.ndi-6.overrideAttrs (prev: {
+    src = (
+      pkgs.fetchurl {
+        url = "https://downloads.ndi.tv/SDK/NDI_SDK_Linux/${ndiInstallerName}.tar.gz";
+        hash = "sha256:f0314f245446defc488b63ceb4689acf1a965aeefdadacb70571bb216a8cc183";
+      }
+    );
+  });
+  distroavFix = pkgs.obs-studio-plugins.distroav.override {
+    ndi-6 = ndiFix;
+  };
+in
+{
+  programs.obs-studio.plugins = [ distroavFix ];
+
+  # with pkgs.obs-studio-plugins; [
+  #   # distroav
+  # ];
 
   # https://docs.ndi.video/all/getting-started/white-paper/ndi-related-network-ports
   networking.firewall.allowedTCPPortRanges = [
