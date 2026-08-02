@@ -31,6 +31,7 @@
 
       "modules/nixos/programs/gnupg.nix"
       "modules/nixos/programs/obs-studio.nix"
+      "modules/nixos/programs/obs-distroav.nix"
       "modules/nixos/programs/vscode.nix"
 
       "modules/nixos/desktop/appimage.nix"
@@ -256,7 +257,6 @@
 
   # ---------------------------------------------
   # Desktop
-
 
   programs.thunar.enable = true;
 
