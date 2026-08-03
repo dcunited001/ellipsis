@@ -10,13 +10,14 @@
     ],
     "ignoreDir": [
       "/.doom.d/.guix-profile*/",
-      "/.doom.d/.guix-profile-dev*/"
+      "/guix/.guix-profile-dev*/",
+      "/nixos"
     ],
     "maxPreload": 200,
     "checkThirdParty": "Disable" // Ask, Apply, ApplyInMemory
   },
   "diagnostics": {
-    "globals": ["hl"],
+    "globals": ["hl", "o"],
     "unusedLocalExclude": ["_*"]
   }
 }

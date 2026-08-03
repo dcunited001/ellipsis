@@ -20,7 +20,7 @@ hl.config({
         kb_model = "pc104",
         kb_options = table.concat(xkb_opts, ","),
 
-        -- numlock_by_default = on
+        numlock_by_default = on,
         follow_mouse = true,
 
         repeat_rate = 25,

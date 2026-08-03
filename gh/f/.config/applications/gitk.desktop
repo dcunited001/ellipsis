@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Name=Gitk
+Exec=gitk %F
+Terminal=false
+Icon=git
+Categories=Development;
+Keywords=branch;git;source;repo;repository
+StartupWMClass=git-gui
