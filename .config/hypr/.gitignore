@@ -3,3 +3,6 @@
 /hypridle.conf
 /hypridle.smartcard.conf
 /hyprsunset.conf
+
+# fix for hypr.kharis.monitors
+/monitors.lua

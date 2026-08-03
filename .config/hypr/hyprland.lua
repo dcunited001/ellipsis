@@ -1,1 +1,1 @@
-/home/dc/.dotfiles/.config/hypr/kharis.hyprland.lua
+kharis.hyprland.lua

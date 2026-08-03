@@ -2,8 +2,7 @@
 local host = "kratos"
 
 require("common.helpers")
-require("defaults")
-require("keycodes")
+require("common.keycodes")
 
 --** omarchy prelude
 require(host .. ".bindings.media")
@@ -25,7 +24,7 @@ require(host .. ".workspaces")
 require(host .. ".g502")
 
 --** workspaces
-require("theme")
+require("looknfeel")
 require("common.workspaces")
 require("workspaces.audio")
 require("workspaces.blender")

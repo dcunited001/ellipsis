@@ -1,3 +1,5 @@
+hl.monitor({ output = "", mode = "preferred", position = "auto", scale = "auto" })
+
 My.m1 = {
     port = "DP-1",
     desc = "LG Electronics LG ULTRAGEAR 103NTGYHB375",
