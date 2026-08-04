@@ -1,6 +1,6 @@
-My = My or {}
+dc = dc or {}
 
-My.apps = {
+dc.apps = {
     browser = "uwsm app -- chromium",
     browserPrivate = "uwsm app -- chromium --private-window",
     terminal = "uwsm app -- alacritty",
@@ -8,7 +8,7 @@ My.apps = {
     editor = "uwsm app -- doomclient -- -c -n"
 }
 
-My.icons = {
+dc.icons = {
     hypr       = "indicator-keyboard-Hy-5",
     info       = "dialog-information",
     warn       = "dialog-warning",
@@ -18,11 +18,11 @@ My.icons = {
     notify     = "preferences-system-notifications-symbolic"
 }
 
-My.ws = {}
+dc.ws = {}
 
 -- TODO find lua helper to "extend" properties for table references
 
-function My.ws.binds(mod, key, name)
+function dc.ws.binds(mod, key, name)
     hl.bind(table.concat({ mod, key }, "+"),
         hl.dsp.focus({ workspace = name }),
         { description = "Toggle WS: " .. name })
@@ -31,7 +31,7 @@ function My.ws.binds(mod, key, name)
         { description = "Move Win to WS: " .. name })
 end
 
-function My.ws.binds_special(mod, key, name)
+function dc.ws.binds_special(mod, key, name)
     hl.bind(table.concat({ mod, key }, "+"),
         hl.dsp.workspace.toggle_special(name),
         { description = "Toggle WS: " .. name })
@@ -40,7 +40,7 @@ function My.ws.binds_special(mod, key, name)
         { description = "Move Win to WS: " .. name })
 end
 
-function My.elmap(li, fn)
+function dc.elmap(li, fn)
     local res = {}
     for i, el in ipairs(li) do
         -- table.insert(res, i) -- fn(e))

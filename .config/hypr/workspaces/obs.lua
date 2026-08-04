@@ -3,14 +3,14 @@
 local ws_obs = { name = "obs", mod = "MOD3", key = "F11" }
 ws_obs.size = "90% 90%"
 ws_obs.launch = "obs"
-ws_obs.monitor = My.m3.port
+ws_obs.monitor = dc.m3.port
 
 local obs_class = "com.obsproject.Studio"
 
 -- note: not a special workspace
 
 --** Binds
-My.ws.binds_special(ws_obs.mod, ws_obs.key, ws_obs.name)
+dc.ws.binds_special(ws_obs.mod, ws_obs.key, ws_obs.name)
 
 --** Workspace
 -- windowrule = workspace name:$wsObs, match:class $wsObsClass

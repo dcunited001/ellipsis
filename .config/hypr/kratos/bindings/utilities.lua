@@ -17,7 +17,7 @@ hl.bind("SUPER + CTRL + U", hl.dsp.exec_cmd("walker -m unicode -p 'Select Unicod
 --* Aesthetics
 
 --* Notifications
-local notifyDND = "notify-send -i " .. My.icons.notify .. " SwayNC Notifications $(swaync-client -d)"
+local notifyDND = "notify-send -i " .. dc.icons.notify .. " SwayNC Notifications $(swaync-client -d)"
 
 hl.bind("MOD3 + COMMA", hl.dsp.exec_cmd("uwsm app -- swaync-client -t"),
     { description = "Toggle SwayNC" })

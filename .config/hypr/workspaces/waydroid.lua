@@ -2,7 +2,7 @@
 local ws_waydroid = { name = "waydroid", mod = "MOD3", key = "A" }
 
 --** Binds
-My.ws.binds_special(ws_waydroid.mod, ws_waydroid.key, ws_waydroid.name)
+dc.ws.binds_special(ws_waydroid.mod, ws_waydroid.key, ws_waydroid.name)
 
 --** Workspace
 hl.workspace_rule({

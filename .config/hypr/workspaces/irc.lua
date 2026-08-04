@@ -1,11 +1,11 @@
 local ws_irc = { name = "irc", mod = "MOD3", key = "F9" }
-ws_irc.monitor = My.m3.port
+ws_irc.monitor = dc.m3.port
 ws_irc.launch = "quassel"
 
 --* IRC
 
 --** Binds
-My.ws.binds_special(ws_irc.mod, ws_irc.key, ws_irc.name)
+dc.ws.binds_special(ws_irc.mod, ws_irc.key, ws_irc.name)
 
 --** Workspace
 hl.workspace_rule({

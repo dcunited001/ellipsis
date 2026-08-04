@@ -1,21 +1,21 @@
 -- use scan codes, so 'io' keyboard feels the same
 
 --* main workspaces
---** My.m1
-hl.workspace_rule({ workspace = 1, monitor = "desc:" .. My.m1.desc, layout_opts = { orientation = "center", mfact = 0.4, } })
-hl.workspace_rule({ workspace = 3, monitor = "desc:" .. My.m1.desc, layout_opts = { orientation = "center", mfact = 0.4, } })
-hl.workspace_rule({ workspace = 5, monitor = "desc:" .. My.m1.desc, layout_opts = { orientation = "center", mfact = 0.4, } })
-hl.workspace_rule({ workspace = 7, monitor = "desc:" .. My.m1.desc, layout_opts = { orientation = "center", mfact = 0.4, } })
+--** dc.m1
+hl.workspace_rule({ workspace = 1, monitor = "desc:" .. dc.m1.desc, layout_opts = { orientation = "center", mfact = 0.4, } })
+hl.workspace_rule({ workspace = 3, monitor = "desc:" .. dc.m1.desc, layout_opts = { orientation = "center", mfact = 0.4, } })
+hl.workspace_rule({ workspace = 5, monitor = "desc:" .. dc.m1.desc, layout_opts = { orientation = "center", mfact = 0.4, } })
+hl.workspace_rule({ workspace = 7, monitor = "desc:" .. dc.m1.desc, layout_opts = { orientation = "center", mfact = 0.4, } })
 
---** My.m2
-hl.workspace_rule({ workspace = 2, monitor = "desc:" .. My.m2.desc, layout_opts = { orientation = "center", mfact = 0.4, } })
-hl.workspace_rule({ workspace = 4, monitor = "desc:" .. My.m2.desc, layout_opts = { orientation = "center", mfact = 0.4, } })
-hl.workspace_rule({ workspace = 6, monitor = "desc:" .. My.m2.desc, layout_opts = { orientation = "center", mfact = 0.4, } })
-hl.workspace_rule({ workspace = 8, monitor = "desc:" .. My.m2.desc, layout_opts = { orientation = "center", mfact = 0.4, } })
+--** dc.m2
+hl.workspace_rule({ workspace = 2, monitor = "desc:" .. dc.m2.desc, layout_opts = { orientation = "center", mfact = 0.4, } })
+hl.workspace_rule({ workspace = 4, monitor = "desc:" .. dc.m2.desc, layout_opts = { orientation = "center", mfact = 0.4, } })
+hl.workspace_rule({ workspace = 6, monitor = "desc:" .. dc.m2.desc, layout_opts = { orientation = "center", mfact = 0.4, } })
+hl.workspace_rule({ workspace = 8, monitor = "desc:" .. dc.m2.desc, layout_opts = { orientation = "center", mfact = 0.4, } })
 
---** My.m3
-hl.workspace_rule({ workspace = 9, monitor = "desc:" .. My.m3.desc, layout_opts = { orientation = "bottom", } })
-hl.workspace_rule({ workspace = 10, monitor = "desc:" .. My.m3.desc, layout_opts = { orientation = "bottom", } })
+--** dc.m3
+hl.workspace_rule({ workspace = 9, monitor = "desc:" .. dc.m3.desc, layout_opts = { orientation = "bottom", } })
+hl.workspace_rule({ workspace = 10, monitor = "desc:" .. dc.m3.desc, layout_opts = { orientation = "bottom", } })
 
 -- new_on_top: false
 -- - true: set windows on top of stack (larger cascade of window movement)
@@ -28,15 +28,15 @@ hl.workspace_rule({ workspace = 10, monitor = "desc:" .. My.m3.desc, layout_opts
 
 --* Focus Workspaces
 
---** My.m1
-hl.workspace_rule({ workspace = 11, monitor = "desc:" .. My.m1.desc, layout_opts = { orientation = "center", mfact = 0.4, } })
-hl.workspace_rule({ workspace = 13, monitor = "desc:" .. My.m1.desc, layout_opts = { orientation = "center", mfact = 0.4, } })
-hl.workspace_rule({ workspace = 15, monitor = "desc:" .. My.m1.desc, layout_opts = { orientation = "center", mfact = 0.4, } })
+--** dc.m1
+hl.workspace_rule({ workspace = 11, monitor = "desc:" .. dc.m1.desc, layout_opts = { orientation = "center", mfact = 0.4, } })
+hl.workspace_rule({ workspace = 13, monitor = "desc:" .. dc.m1.desc, layout_opts = { orientation = "center", mfact = 0.4, } })
+hl.workspace_rule({ workspace = 15, monitor = "desc:" .. dc.m1.desc, layout_opts = { orientation = "center", mfact = 0.4, } })
 
---** My.m2
-hl.workspace_rule({ workspace = 12, monitor = "desc:" .. My.m2.desc, layout_opts = { orientation = "center", mfact = 0.4, } })
-hl.workspace_rule({ workspace = 14, monitor = "desc:" .. My.m2.desc, layout_opts = { orientation = "center", mfact = 0.4, } })
-hl.workspace_rule({ workspace = 16, monitor = "desc:" .. My.m2.desc, layout_opts = { orientation = "center", mfact = 0.4, } })
+--** dc.m2
+hl.workspace_rule({ workspace = 12, monitor = "desc:" .. dc.m2.desc, layout_opts = { orientation = "center", mfact = 0.4, } })
+hl.workspace_rule({ workspace = 14, monitor = "desc:" .. dc.m2.desc, layout_opts = { orientation = "center", mfact = 0.4, } })
+hl.workspace_rule({ workspace = 16, monitor = "desc:" .. dc.m2.desc, layout_opts = { orientation = "center", mfact = 0.4, } })
 
 --*** MOD3 + k[1-6]
 hl.bind("MOD3 + code:" .. k1, hl.dsp.focus({ workspace = 11 }))
@@ -54,11 +54,11 @@ hl.bind("MOD3 + SHIFT + code:" .. k4, hl.dsp.window.move({ workspace = 14 }, { f
 hl.bind("MOD3 + SHIFT + code:" .. k5, hl.dsp.window.move({ workspace = 15 }, { follow = false }))
 hl.bind("MOD3 + SHIFT + code:" .. k6, hl.dsp.window.move({ workspace = 16 }, { follow = false }))
 
---** My.m3
-hl.workspace_rule({ workspace = 17, monitor = "desc:" .. My.m3.desc, layout_opts = { orientation = "bottom", } })
-hl.workspace_rule({ workspace = 18, monitor = "desc:" .. My.m3.desc, layout_opts = { orientation = "bottom", } })
-hl.workspace_rule({ workspace = 19, monitor = "desc:" .. My.m3.desc, layout_opts = { orientation = "bottom", } })
-hl.workspace_rule({ workspace = 20, monitor = "desc:" .. My.m3.desc, layout_opts = { orientation = "bottom", } })
+--** dc.m3
+hl.workspace_rule({ workspace = 17, monitor = "desc:" .. dc.m3.desc, layout_opts = { orientation = "bottom", } })
+hl.workspace_rule({ workspace = 18, monitor = "desc:" .. dc.m3.desc, layout_opts = { orientation = "bottom", } })
+hl.workspace_rule({ workspace = 19, monitor = "desc:" .. dc.m3.desc, layout_opts = { orientation = "bottom", } })
+hl.workspace_rule({ workspace = 20, monitor = "desc:" .. dc.m3.desc, layout_opts = { orientation = "bottom", } })
 
 --*** MOD3 + k[7890]
 hl.bind("MOD3 + code:" .. k7, hl.dsp.focus({ workspace = 17 }))
@@ -72,10 +72,10 @@ hl.bind("MOD3 + SHIFT + code:" .. k8, hl.dsp.window.move({ workspace = 18 }, { f
 hl.bind("MOD3 + SHIFT + code:" .. k9, hl.dsp.window.move({ workspace = 19 }, { follow = false }))
 hl.bind("MOD3 + SHIFT + code:" .. k0, hl.dsp.window.move({ workspace = 20 }, { follow = false }))
 
---** My.m4.
-hl.workspace_rule({ workspace = 21, monitor = My.m4.port, layout_opts = { orientation = "center", mfact = 0.4, } })
-hl.workspace_rule({ workspace = 22, monitor = My.m4.port, layout_opts = { orientation = "center", mfact = 0.4, } })
-hl.workspace_rule({ workspace = 23, monitor = My.m4.port, layout_opts = { orientation = "center", mfact = 0.4, } })
+--** dc.m4.
+hl.workspace_rule({ workspace = 21, monitor = dc.m4.port, layout_opts = { orientation = "center", mfact = 0.4, } })
+hl.workspace_rule({ workspace = 22, monitor = dc.m4.port, layout_opts = { orientation = "center", mfact = 0.4, } })
+hl.workspace_rule({ workspace = 23, monitor = dc.m4.port, layout_opts = { orientation = "center", mfact = 0.4, } })
 
 --*** MOD3 + SUPER + k[123]
 hl.bind("MOD3 + SUPER + code:" .. k1, hl.dsp.focus({ workspace = 21 }))
@@ -88,7 +88,7 @@ hl.bind("MOD3 + SUPER + SHIFT + code:" .. k2, hl.dsp.window.move({ workspace = 2
 hl.bind("MOD3 + SUPER + SHIFT + code:" .. k3, hl.dsp.window.move({ workspace = 23 }, { follow = false }))
 
 --* default workspaces
-hl.workspace_rule({ workspace = 1, monitor = "desc:" .. My.m1.desc, default = true, })
-hl.workspace_rule({ workspace = 2, monitor = "desc:" .. My.m2.desc, default = true, })
-hl.workspace_rule({ workspace = 9, monitor = "desc:" .. My.m3.desc, default = true, })
-hl.workspace_rule({ workspace = 21, monitor = "port:" .. My.m4.port, default = true, })
+hl.workspace_rule({ workspace = 1, monitor = "desc:" .. dc.m1.desc, default = true, })
+hl.workspace_rule({ workspace = 2, monitor = "desc:" .. dc.m2.desc, default = true, })
+hl.workspace_rule({ workspace = 9, monitor = "desc:" .. dc.m3.desc, default = true, })
+hl.workspace_rule({ workspace = 21, monitor = "port:" .. dc.m4.port, default = true, })

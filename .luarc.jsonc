@@ -17,7 +17,7 @@
     "checkThirdParty": "Disable" // Ask, Apply, ApplyInMemory
   },
   "diagnostics": {
-    "globals": ["hl", "o"],
+    "globals": ["hl", "o", "dc"],
     "unusedLocalExclude": ["_*"]
   }
 }

@@ -5,7 +5,7 @@ ws_discord.size = "90% 90%"
 ws_discord.launch = "uwsm app -- chromium --app=\"https://discord.com/channels/@me\""
 
 --** Binds
-My.ws.binds_special(ws_discord.mod, ws_discord.key, ws_discord.name)
+dc.ws.binds_special(ws_discord.mod, ws_discord.key, ws_discord.name)
 
 --** Workspace
 hl.workspace_rule({

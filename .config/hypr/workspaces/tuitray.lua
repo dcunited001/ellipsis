@@ -4,7 +4,7 @@ ws_tuitray.launch = "isd"
 local tuitray = { class = "org.dc.tuitray", prefix = "tuitray" }
 
 --** Binds
-My.ws.binds(ws_tuitray.mod, ws_tuitray.key, ws_tuitray.name)
+dc.ws.binds(ws_tuitray.mod, ws_tuitray.key, ws_tuitray.name)
 
 --** Workspace
 hl.workspace_rule({

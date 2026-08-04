@@ -3,7 +3,7 @@ local ws_forum = { name = "forum", mod = "MOD3", key = "minus" }
 ws_forum.border_size = 5
 
 --** Binds
-My.ws.binds_special(ws_forum.mod, ws_forum.key, ws_forum.name)
+dc.ws.binds_special(ws_forum.mod, ws_forum.key, ws_forum.name)
 
 --** Workspace
 hl.workspace_rule({

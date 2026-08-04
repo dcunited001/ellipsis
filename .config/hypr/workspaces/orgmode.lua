@@ -7,7 +7,7 @@ ws_roam.launch = "uwsm app -- doomclient -- -ce '(activities-resume (cdr (assoc 
     roam_tab .. "\" activities-activities)))'"
 
 --** Binds
-My.ws.binds_special(ws_roam.mod, ws_roam.key, ws_roam.name)
+dc.ws.binds_special(ws_roam.mod, ws_roam.key, ws_roam.name)
 
 --** Workspace
 hl.workspace_rule({
@@ -32,7 +32,7 @@ ws_agenda.launch = "uwsm app -- doomclient -- -ce '(activities-resume (cdr (asso
     agenda_tab .. "\" activities-activities)))'"
 
 --** Binds
-My.ws.binds_special(ws_agenda.mod, ws_agenda.key, ws_agenda.name)
+dc.ws.binds_special(ws_agenda.mod, ws_agenda.key, ws_agenda.name)
 
 --** Workspace
 hl.workspace_rule({

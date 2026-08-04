@@ -45,7 +45,7 @@ hl.bind(music_keys.prev, hl.dsp.exec_cmd("playerctl previous"),
 --** Audio Workspace
 
 --*** Binds
-My.ws.binds_special(ws_audio.mod, ws_audio.key, ws_audio.name)
+dc.ws.binds_special(ws_audio.mod, ws_audio.key, ws_audio.name)
 
 --*** Rules
 hl.workspace_rule({
@@ -93,7 +93,7 @@ hl.window_rule({
 --** Music Workspace
 
 --*** Binds
-My.ws.binds_special(ws_music.mod, ws_music.key, ws_music.name)
+dc.ws.binds_special(ws_music.mod, ws_music.key, ws_music.name)
 
 --*** Rules
 hl.workspace_rule({

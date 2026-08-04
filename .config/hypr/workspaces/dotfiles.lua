@@ -14,7 +14,7 @@ ws_dfemacs.border_size = 5
 local dfemacs = { prefix = "♦ DOOM", tab = "df¶\\.doom\\.d" }
 
 --** Binds
-My.ws.binds_special(ws_dfemacs.mod, ws_dfemacs.key, ws_dfemacs.name)
+dc.ws.binds_special(ws_dfemacs.mod, ws_dfemacs.key, ws_dfemacs.name)
 
 --** Workspace
 hl.workspace_rule({
@@ -25,7 +25,7 @@ hl.workspace_rule({
 
 --** Rules
 local emacs_tabs = { "df¶\\.doom\\.d", "df¶\\.emacs\\.doom" }
-emacs_tabs = My.elmap(emacs_tabs, function(el)
+emacs_tabs = dc.elmap(emacs_tabs, function(el)
     return activities_title({ prefix = dfemacs.prefix, tab = el })
 end)
 
@@ -44,7 +44,7 @@ ws_dfhypr.border_size = 5
 local dfhypr = { prefix = "♦ DOOM", tab = "df¶hypr" }
 
 --** Binds
-My.ws.binds_special(ws_dfhypr.mod, ws_dfhypr.key, ws_dfhypr.name)
+dc.ws.binds_special(ws_dfhypr.mod, ws_dfhypr.key, ws_dfhypr.name)
 
 --** Workspace
 hl.workspace_rule({
@@ -67,7 +67,7 @@ ws_dfnixos.border_size = 5
 local dfnixos = { prefix = "♦ DOOM", tab = "df¶nixos" }
 
 --** Binds
-My.ws.binds_special(ws_dfnixos.mod, ws_dfnixos.key, ws_dfnixos.name)
+dc.ws.binds_special(ws_dfnixos.mod, ws_dfnixos.key, ws_dfnixos.name)
 
 --** Workspace
 hl.workspace_rule({
