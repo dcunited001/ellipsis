@@ -3,18 +3,23 @@
 --** env
 local host = "kratos"
 
--- TODO: hypr: test package.path without omarchy setup
+-- TODO: hypr: organize omarchy modules for nixos (check bootstrap.lua)
+local home = os.getenv("HOME")
+package.path = home .. "/.config/?.lua;" .. package.path
+
 require("hypr.common.config")
+require("hypr.common.ohelpers")
+require("hypr.common.oshim")
 require("hypr.common.helpers")
 require("hypr.common.keycodes")
 require("hypr.common.tags")
 require("hypr.common.looknfeel")
 
 --** omarchy prelude
-require("hypr" .. host .. ".bindings.media")
-require("hypr" .. host .. ".bindings.tiling")
-require("hypr" .. host .. ".bindings.utilities")
-require("hypr" .. host .. ".bindings.apps")
+require("hypr." .. host .. ".bindings.media")
+require("hypr." .. host .. ".bindings.tiling")
+require("hypr." .. host .. ".bindings.utilities")
+require("hypr." .. host .. ".bindings.apps")
 
 --* config
 
@@ -31,7 +36,6 @@ require(host .. ".workspaces")
 require(host .. ".g502")
 
 --** workspaces
-require("looknfeel")
 
 --*** kratos only
 require("workspaces.scratchpad")
