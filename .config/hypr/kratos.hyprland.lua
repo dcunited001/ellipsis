@@ -4,27 +4,30 @@
 local host = "kratos"
 
 -- TODO: hypr: test package.path without omarchy setup
+require("hypr.common.config")
 require("hypr.common.helpers")
 require("hypr.common.keycodes")
 require("hypr.common.tags")
+require("hypr.common.looknfeel")
 
 --** omarchy prelude
-require(host .. ".bindings.media")
-require(host .. ".bindings.tiling")
-require(host .. ".bindings.utilities")
-require(host .. ".bindings.apps")
-
---* common
-require("common.bindings.tiling")
-require("common.bindings.utilities")
+require("hypr" .. host .. ".bindings.media")
+require("hypr" .. host .. ".bindings.tiling")
+require("hypr" .. host .. ".bindings.utilities")
+require("hypr" .. host .. ".bindings.apps")
 
 --* config
 
+--** common
+require("common.bindings.tiling")
+require("common.bindings.utilities")
+
 --** per-host
+require("hypr." .. host .. ".config")
+
 require(host .. ".monitors")
 require(host .. ".input")
 require(host .. ".workspaces")
--- require(host .. ".autostart")
 require(host .. ".g502")
 
 --** workspaces

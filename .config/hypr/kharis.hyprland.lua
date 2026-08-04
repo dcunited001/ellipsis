@@ -11,17 +11,18 @@ dofile((os.getenv("OMARCHY_PATH") or "/usr/share/omarchy") .. "/default/hypr/boo
 -- omarchy_default_bindings = false, omarchy_preinstalled_bindings = false
 require("default.hypr.omarchy")
 
---** Omarchy Defaults
+--* config
 
---* common
+--** common
+require("hypr.common.config")
 require("hypr.common.helpers")
 require("hypr.common.keycodes")
 require("hypr.common.tags")
 require("hypr.common.looknfeel")
 
---* config
-
 --** per-host
+require("hypr." .. host .. ".config")
+
 -- hypr.kharis.monitors works as symlink from ./monitors.lua -> kharis/monitors.lua
 require("hypr." .. host .. ".monitors") -- loads and then unloads (resets scale only)
 -- require("hypr.monitors") -- works as file ./monitors.lua
@@ -30,6 +31,8 @@ require("hypr." .. host .. ".bindings")
 require("hypr." .. host .. ".autostart")
 
 --** workspaces
+
+--*** per-app
 require("workspaces.audio")
 require("workspaces.blender")
 require("workspaces.discord")
@@ -41,8 +44,6 @@ require("workspaces.forum")
 require("workspaces.man")
 -- require("workspaces.obs")
 require("workspaces.orgmode")
-
-
 
 --* finalize
 -- Toggle config flags dynamically.

@@ -1,35 +1,13 @@
 hl.monitor({ output = "", mode = "preferred", position = "auto", scale = "auto" })
 
-dc.m1 = {
-    port = "DP-1",
-    desc = "LG Electronics LG ULTRAGEAR 103NTGYHB375",
-    res = "2560x1440",
-    transform = 0,
-}
-dc.m1.mode = dc.m1.res .. "@60.00"
+hl.monitor({ output = dc.m1.port, mode = dc.m1.mode, position = "3000x1440", scale = 1.0 })
+hl.monitor({ output = dc.m2.port, mode = dc.m2.mode, position = "3000x0", scale = 1.0 })
+hl.monitor({ output = dc.m3.port, mode = dc.m3.mode, position = "1920x480", scale = 1.0, transform = 3 })
 
-dc.m2 = {
-    port = "DP-2",
-    desc = "Samsung Electric Company U28D590",
-    res = "2560x1440",
-    transform = 0,
-}
-dc.m2.mode = dc.m2.res .. "@60.00"
+dc.m4.mode = dc.m4.res .. "@59.99"
+dc.m4.transform = 0
 
-dc.m3 = {
-    port = "DP-3",
-    desc = "ViewSonic Corporation VG2239 Series UBW154602336",
-    res = "1920x1080",
-    transform = 0,
-}
-dc.m3.mode = dc.m3.res .. "@60.00"
-
-dc.m4 = {
-    port = "HDMI-A-1",
-    res = "1920x1080",
-    transform = 0,
-}
-dc.m4.mode = dc.m4.res .. "@30.00"
+hl.monitor({ output = dc.m4.port, mode = dc.m4.mode, position = "0x960", scale = 1.0 })
 
 -- monitor=desc:$m1desc,2560x1440@120.0,0x1440,1.0
 -- monitor=desc:$m2desc,2560x1440@59.95,0x0,1.0
@@ -61,12 +39,3 @@ dc.m4.mode = dc.m4.res .. "@30.00"
 -- hl.monitor({ output = m4port, mode = m4mode, position = "1080x1920", scale = 1.0 })
 
 --** tv left
-
-hl.monitor({ output = dc.m1.port, mode = dc.m1.mode, position = "3000x1440", scale = 1.0 })
-hl.monitor({ output = dc.m2.port, mode = dc.m2.mode, position = "3000x0", scale = 1.0 })
-hl.monitor({ output = dc.m3.port, mode = dc.m3.mode, position = "1920x480", scale = 1.0, transform = 3 })
-
-dc.m4.mode = dc.m4.res .. "@59.99"
-dc.m4.transform = 0
-
-hl.monitor({ output = dc.m4.port, mode = dc.m4.mode, position = "0x960", scale = 1.0 })
