@@ -1,8 +1,12 @@
 --* prelude
+
+--** env
 local host = "kratos"
 
-require("common.helpers")
-require("common.keycodes")
+-- TODO: hypr: test package.path without omarchy setup
+require("hypr.common.helpers")
+require("hypr.common.keycodes")
+require("hypr.common.tags")
 
 --** omarchy prelude
 require(host .. ".bindings.media")
@@ -16,7 +20,7 @@ require("common.bindings.utilities")
 
 --* config
 
---** host-specific
+--** per-host
 require(host .. ".monitors")
 require(host .. ".input")
 require(host .. ".workspaces")
@@ -25,7 +29,11 @@ require(host .. ".g502")
 
 --** workspaces
 require("looknfeel")
-require("common.workspaces")
+
+--*** kratos only
+require("workspaces.scratchpad")
+
+--*** per-app
 require("workspaces.audio")
 require("workspaces.blender")
 require("workspaces.discord")

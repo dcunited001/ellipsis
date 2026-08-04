@@ -18,7 +18,7 @@ hl.config({
         kb_model = "pc104",
         kb_options = table.concat(xkb_opts, ","),
 
-        numlock_by_default = on,
+        numlock_by_default = true,
         follow_mouse = true,
         accel_profile = "flat",
 

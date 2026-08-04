@@ -1,24 +1,49 @@
+--* prelude
+
+--** env
+local host = "kharis"
+
+--** omarchy prelude
+
 -- Omarchy's bootstrap keeps path setup out of this user config.
 dofile((os.getenv("OMARCHY_PATH") or "/usr/share/omarchy") .. "/default/hypr/bootstrap.lua")
 
-local host = "kharis"
-
--- omarchy_default_bindings = false
--- omarchy_preinstalled_bindings = false
-
--- Load Omarchy defaults.
+-- omarchy_default_bindings = false, omarchy_preinstalled_bindings = false
 require("default.hypr.omarchy")
+
+--** Omarchy Defaults
+
+--* common
 require("hypr.common.helpers")
 require("hypr.common.keycodes")
+require("hypr.common.tags")
+require("hypr.common.looknfeel")
 
+--* config
 
+--** per-host
 -- hypr.kharis.monitors works as symlink from ./monitors.lua -> kharis/monitors.lua
-require("hypr.kharis.monitors") -- loads and then unloads (resets scale only)
+require("hypr." .. host .. ".monitors") -- loads and then unloads (resets scale only)
 -- require("hypr.monitors") -- works as file ./monitors.lua
-require("hypr.looknfeel")
 require("hypr." .. host .. ".input")
 require("hypr." .. host .. ".bindings")
 require("hypr." .. host .. ".autostart")
 
+--** workspaces
+require("workspaces.audio")
+require("workspaces.blender")
+require("workspaces.discord")
+-- require("workspaces.docs")
+-- require("workspaces.email")
+require("workspaces.dotfiles")
+require("workspaces.forum")
+-- require("workspaces.irc")
+require("workspaces.man")
+-- require("workspaces.obs")
+require("workspaces.orgmode")
+
+
+
+--* finalize
 -- Toggle config flags dynamically.
 require("default.hypr.toggles")

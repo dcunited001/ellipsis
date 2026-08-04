@@ -631,8 +631,8 @@ modes and testing is tedious."
   "To avoid typing this again..."
   (setopt
    ;; -JB-JetBrainsMono Nerd Font Mono-regular-normal-normal-*-*-*-*-*-m-0-iso10646-1
-   doom-font (font-spec :family "JetBrainsMono Nerd Font" :size 12 :weight 'normal)
-   ;; doom-font (font-spec :family "CaskaydiaMono Nerd Font" :size 12 :weight 'normal)
+   ;; doom-font (font-spec :family "JetBrainsMono Nerd Font" :size 12 :weight 'normal)
+   doom-font (font-spec :family "CaskaydiaMono Nerd Font" :size 12 :weight 'normal)
    doom-serif-font (font-spec :family "Liberation Serif" :size 12 :weight 'normal)
    doom-big-font (font-spec :family "Noto Sans" :size 36 :weight 'normal)
    doom-emoji-font (font-spec :family "Noto Sans" :weight 'normal)
