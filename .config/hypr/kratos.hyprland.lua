@@ -8,6 +8,8 @@ local home = os.getenv("HOME")
 package.path = home .. "/.config/?.lua;" .. package.path
 
 require("hypr.common.config")
+require("hypr." .. host .. ".config")
+
 require("hypr.common.ohelpers")
 require("hypr.common.oshim")
 require("hypr.common.helpers")
@@ -28,12 +30,11 @@ require("common.bindings.tiling")
 require("common.bindings.utilities")
 
 --** per-host
-require("hypr." .. host .. ".config")
-
-require(host .. ".monitors")
-require(host .. ".input")
-require(host .. ".workspaces")
-require(host .. ".g502")
+require("hypr." .. host .. ".monitors")
+require("hypr." .. host .. ".workspaces")
+require("hypr." .. host .. ".input")
+require("hypr." .. host .. ".workspaces")
+require("hypr." .. host .. ".g502")
 
 --** workspaces
 
