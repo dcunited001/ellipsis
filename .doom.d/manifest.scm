@@ -65,6 +65,7 @@
    "tree-sitter-ruby"
    "tree-sitter-rust"
    "tree-sitter-sway"
+   "tree-sitter-toml"
    "tree-sitter-typescript"
    "tree-sitter-yaml"
 

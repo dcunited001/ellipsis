@@ -1,14 +1,13 @@
 --* prelude
 
 --** env
-local host = "kratos"
 
 -- TODO: hypr: organize omarchy modules for nixos (check bootstrap.lua)
 local home = os.getenv("HOME")
 package.path = home .. "/.config/?.lua;" .. package.path
 
 require("hypr.common.config")
-require("hypr." .. host .. ".config")
+require("hypr." .. dc.host .. ".config")
 
 require("hypr.common.ohelpers")
 require("hypr.common.oshim")
@@ -18,10 +17,10 @@ require("hypr.common.tags")
 require("hypr.common.looknfeel")
 
 --** omarchy prelude
-require("hypr." .. host .. ".bindings.media")
-require("hypr." .. host .. ".bindings.tiling")
-require("hypr." .. host .. ".bindings.utilities")
-require("hypr." .. host .. ".bindings.apps")
+require("hypr." .. dc.host .. ".bindings.media")
+require("hypr." .. dc.host .. ".bindings.tiling")
+require("hypr." .. dc.host .. ".bindings.utilities")
+require("hypr." .. dc.host .. ".bindings.apps")
 
 --* config
 
@@ -30,11 +29,11 @@ require("common.bindings.tiling")
 require("common.bindings.utilities")
 
 --** per-host
-require("hypr." .. host .. ".monitors")
-require("hypr." .. host .. ".workspaces")
-require("hypr." .. host .. ".input")
-require("hypr." .. host .. ".workspaces")
-require("hypr." .. host .. ".g502")
+require("hypr." .. dc.host .. ".monitors")
+require("hypr." .. dc.host .. ".workspaces")
+require("hypr." .. dc.host .. ".input")
+require("hypr." .. dc.host .. ".workspaces")
+require("hypr." .. dc.host .. ".g502")
 
 --** workspaces
 

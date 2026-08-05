@@ -1,7 +1,6 @@
 --* prelude
 
 --** env
-local host = "kharis"
 
 --** omarchy prelude
 
@@ -13,7 +12,7 @@ require("default.hypr.omarchy")
 
 --* config
 require("hypr.common.config")
-require("hypr." .. host .. ".config")
+require("hypr." .. dc.host .. ".config")
 
 --** common
 require("hypr.common.helpers")
@@ -23,11 +22,11 @@ require("hypr.common.looknfeel")
 require("hypr.common.workspaces")
 
 --** per-host
-require("hypr." .. host .. ".monitors")
-require("hypr." .. host .. ".workspaces")
-require("hypr." .. host .. ".input")
-require("hypr." .. host .. ".bindings")
-require("hypr." .. host .. ".autostart")
+require("hypr." .. dc.host .. ".monitors")
+require("hypr." .. dc.host .. ".workspaces")
+require("hypr." .. dc.host .. ".input")
+require("hypr." .. dc.host .. ".bindings")
+require("hypr." .. dc.host .. ".autostart")
 
 --** workspaces
 
@@ -35,7 +34,7 @@ require("hypr." .. host .. ".autostart")
 require("workspaces.audio")
 require("workspaces.blender")
 require("workspaces.discord")
--- require("workspaces.docs")
+require("workspaces.docs")
 -- require("workspaces.email")
 require("workspaces.dotfiles")
 require("workspaces.forum")
@@ -43,6 +42,7 @@ require("workspaces.forum")
 require("workspaces.man")
 -- require("workspaces.obs")
 require("workspaces.orgmode")
+require("workspaces.tuitray")
 
 --* finalize
 -- Toggle config flags dynamically.

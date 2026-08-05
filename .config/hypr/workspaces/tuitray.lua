@@ -1,16 +1,21 @@
 --* TUI Tray
-local ws_tuitray = { name = "tuitray", mod = "SUPER + SHIFT", key = "Prior" }
+local ws_tuitray = { name = "tuitray", mod = "MOD3", key = "Prior" }
 ws_tuitray.launch = "isd"
 local tuitray = { class = "org.dc.tuitray", prefix = "tuitray" }
 
+local function tuitray_cmd(tui)
+    -- tui class and bin name should match
+    return "alacritty --class 'Alacritty:org.dc.tuitray' -T 'tuitray:" .. tui .. "' -e " .. tui
+end
+
 --** Binds
-dc.ws.binds(ws_tuitray.mod, ws_tuitray.key, ws_tuitray.name)
+dc.ws.binds_special(ws_tuitray.mod, ws_tuitray.key, ws_tuitray.name)
 
 --** Workspace
 hl.workspace_rule({
-    workspace = ws_tuitray.name,
+    workspace = "special:" .. ws_tuitray.name,
     monitor = ws_tuitray.monitor,
-    on_created_empty = "[float] " .. ws_tuitray.launch
+    on_created_empty = "[float] " .. o.launch(tuitray_cmd(ws_tuitray.launch))
 })
 
 -- bindd = SUPER SHIFT, D, Docker, exec, $tuiContainers
@@ -38,7 +43,7 @@ for k, v in pairs(tuitray_apps) do
         move = v.move
     })
 
-    hl.bind(table.concat(v.mod and { tuitray_mod, v.mod } or { tuitray_mod }, "+"),
-        hl.dsp.exec_cmd("uwsm app -- alacritty --class 'Alacritty:org.dc.tuitray' -T 'tuitray:" .. k .. "' -e " .. k),
-        { description = "Launch TUI: " .. k })
+    local keybind = table.concat(v.mod and { tuitray_mod, v.mod } or { tuitray_mod }, "+")
+    local cmd = tuitray_cmd(k)
+    o.bind(keybind, "Launch TUI: " .. k, o.launch(cmd))
 end

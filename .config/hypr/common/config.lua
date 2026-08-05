@@ -1,11 +1,12 @@
 dc = dc or {}
+dc.host = os.getenv("HYPRHOST") or "kharis"
 
 dc.apps = {
-    browser = "uwsm app -- chromium",
-    browserPrivate = "uwsm app -- chromium --private-window",
-    terminal = "uwsm app -- alacritty",
-    fileManager = "uwsm app -- thunar",
-    editor = "uwsm app -- doomclient -- -c -n"
+    browser = "chromium",
+    browser_private = "chromium --private-window",
+    terminal = "alacritty",
+    file_manager = "thunar",
+    editor = "doomclient -- -c -n"
 }
 
 dc.icons = {
