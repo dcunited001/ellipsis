@@ -1,3 +1,5 @@
+--* Omarchy Utilities
+
 --* Menus
 hl.bind("SUPER + SPACE", hl.dsp.exec_cmd("walker"),
     { description = "Launch Apps" })
@@ -46,7 +48,15 @@ hl.bind("SUPER + CTRL + I", hl.dsp.exec_cmd("dc-systemctl-toggle hypridle"), { d
 
 --* Control Apple Display brightness
 
---* Captures
+--** Captures
+hl.bind("SUPER + Print", hl.dsp.exec_cmd("omarchy-cmd-screenshot smart clipboard"),
+    { description = "Screenshot: Smart" })
+hl.bind("SUPER + ALT + Print", hl.dsp.exec_cmd("omarchy-cmd-screenshot smart"),
+    { description = "Screenshot: Smart" })
+hl.bind("SUPER + SHIFT + Print", hl.dsp.exec_cmd("omarchy-cmd-screenshot windows"),
+    { description = "Screenshot: Monitor" })
+hl.bind("SUPER + CTRL + Print", hl.dsp.exec_cmd("omarchy-cmd-screenshot fullscreen"),
+    { description = "Screenshot: Monitor" })
 
 --* Screen recordings
 

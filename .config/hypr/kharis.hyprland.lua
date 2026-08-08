@@ -20,6 +20,7 @@ require("hypr.common.keycodes")
 require("hypr.common.tags")
 require("hypr.common.looknfeel")
 require("hypr.common.workspaces")
+require("hypr.common.bindings.utilities")
 
 --** per-host
 require("hypr." .. dc.host .. ".monitors")
@@ -27,6 +28,8 @@ require("hypr." .. dc.host .. ".workspaces")
 require("hypr." .. dc.host .. ".input")
 require("hypr." .. dc.host .. ".bindings")
 require("hypr." .. dc.host .. ".autostart")
+
+-- TODO: compare $HOST/bindings/tiling.lua
 
 --** workspaces
 
