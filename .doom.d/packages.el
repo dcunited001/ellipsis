@@ -130,7 +130,7 @@
 (package! bnf-mode)
 
 ;;** Tree Sitter
-(package! combobulate)
+;; (package! combobulate)
 
 ;;** LSP
 

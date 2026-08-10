@@ -1,7 +1,5 @@
 --* Misc
 
--- These were organized to make diffing with omarchy easier
-
 --** Close windows
 
 hl.bind("SUPER + W", hl.dsp.window.close(), { description = "Close window" })

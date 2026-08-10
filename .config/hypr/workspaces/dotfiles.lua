@@ -1,13 +1,3 @@
-local function activities_title(act)
-    return "(" .. act.prefix .. ")(.*)(" .. act.tab .. ")(.*)"
-end
-
-local function activities_launch(tab, socket)
-    return "uwsm app -- doomclient " .. (socket and "-s " .. socket or "")
-        .. " -- -ce '(activities-resume (cdr (assoc \""
-        .. tab .. "\" activities-activities)))'"
-end
-
 --* Emacs
 local ws_dfemacs = { name = "emacs", mod = "MOD3", key = "backspace" }
 ws_dfemacs.border_size = 5
@@ -20,13 +10,13 @@ dc.ws.binds_special(ws_dfemacs.mod, ws_dfemacs.key, ws_dfemacs.name)
 hl.workspace_rule({
     workspace = "special:" .. ws_dfemacs.name,
     border_size = ws_dfemacs.border_size,
-    on_created_empty = activities_launch(dfemacs.prefix)
+    on_created_empty = dc.activities_launch(dfemacs.tab)
 })
 
 --** Rules
 local emacs_tabs = { "df¶\\.doom\\.d", "df¶\\.emacs\\.doom" }
 emacs_tabs = dc.elmap(emacs_tabs, function(el)
-    return activities_title({ prefix = dfemacs.prefix, tab = el })
+    return dc.activities_title({ prefix = dfemacs.prefix, tab = el })
 end)
 
 for i, title in ipairs(emacs_tabs) do
@@ -50,7 +40,7 @@ dc.ws.binds_special(ws_dfhypr.mod, ws_dfhypr.key, ws_dfhypr.name)
 hl.workspace_rule({
     workspace = "special:" .. ws_dfhypr.name,
     border_size = ws_dfhypr.border_size,
-    on_created_empty = activities_launch(dfhypr.prefix)
+    on_created_empty = dc.activities_launch(dfhypr.tab)
 })
 
 --** Rules
@@ -73,7 +63,7 @@ dc.ws.binds_special(ws_dfnixos.mod, ws_dfnixos.key, ws_dfnixos.name)
 hl.workspace_rule({
     workspace = "special:" .. ws_dfnixos.name,
     border_size = ws_dfnixos.border_size,
-    on_created_empty = activities_launch(dfnixos.prefix)
+    on_created_empty = dc.activities_launch(dfnixos.tab)
 })
 
 --** Rules

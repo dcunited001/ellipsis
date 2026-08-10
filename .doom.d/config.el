@@ -1520,7 +1520,7 @@ order dependent via my config."
 ;;           do (treesit-install-language-grammar lang-key)))
 
 ;; TODO: setup combobulate
-(use-package! combobulate :defer t)
+;; (use-package! combobulate :defer t)
 
 ;;;; LSP
 
