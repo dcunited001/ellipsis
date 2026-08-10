@@ -9,9 +9,6 @@ let
   omarchy-scripts = (
     pkgs.callPackage (lib.custom.relativeToRoot "pkgs/dots/omarchy-scripts/package.nix") { }
   );
-  omarchy-quattro = (
-    pkgs.callPackage (lib.custom.relativeToRoot "pkgs/common/omarchy-quattro/package.nix") { }
-  );
   # dcstaticdots
   chrome = inputs.browser-previews.packages.${pkgs.stdenv.hostPlatform.system}.google-chrome;
   # (these packages don't have outputs from the direct hyprland output)
@@ -20,6 +17,7 @@ let
 in
 {
   imports = [
+    ./omarchy.nix
     ./swaync.nix
     ./try.nix
   ];
@@ -39,9 +37,6 @@ in
   environment.sessionVariables.XDG_DATA_DIRS = [ "$HOME/.local/share/flatpak/exports/share" ];
   environment.sessionVariables.ORG_DIRECTORY = [ "$HOME/org" ];
   environment.sessionVariables.SYSTEMD_EDITOR = [ "vim" ];
-
-  environment.sessionVariables.OMARCHY_PATH = "$HOME/.nix-profile/share/omarchy";
-  environment.pathsToLink = [ "/share/omarchy" ];
 
   users.users.dc = {
     uid = 1000;
@@ -89,7 +84,6 @@ in
 
       # CUSTOM: omarchy
       omarchy-scripts # set BROWSER in uwsm startup or webapps don't work
-      omarchy-quattro
       gum
 
       # CLI
