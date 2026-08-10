@@ -9,6 +9,7 @@ let
   omarchy-quattro = (
     pkgs.callPackage (lib.custom.relativeToRoot "pkgs/common/omarchy-quattro/package.nix") { }
   );
+  tensaku = (pkgs.callPackage (lib.custom.relativeToRoot "pkgs/common/tensaku/package.nix") { });
 in
 {
   environment.sessionVariables.OMARCHY_PATH = omarchy-path;
@@ -18,6 +19,7 @@ in
     omarchy-quattro
     pkgs.quickshell
     pkgs.libxkbcommon # omarchy menu keybindings --print
+    tensaku # probably need to set up
   ];
 
   environment.sessionVariables.PATH = [
