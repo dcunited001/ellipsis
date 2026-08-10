@@ -76,7 +76,7 @@ sync: fixsystemd
 gc:
 	$(DOOMCLI) gc
 
-build:
+build: fixsystemd
 	$(DOOMCLI) sync -e -U $(doom_build) $(doom_threads) $(doom_aot)
 
 # pulls, then syncs (implicitly rebuilds)
@@ -92,9 +92,10 @@ install:
 # 
 # NOTE --aot only compiles packages upgraded/installed during that invocation
 
+systemd_elc=$(EMACSDIR)/.local/straight/repos/systemd-mode/systemd.elc
 .PHONY: fixsystemd
 fixsystemd:
-	rm $(EMACSDIR)/.local/straight/repos/systemd-mode/systemd.elc
+	if [ -f $(systemd_elc) ]; then rm $(systemd_elc); fi
 
 # TODO: natively compiling 3,200+ files (how to run these tasks incrementally?)
 
