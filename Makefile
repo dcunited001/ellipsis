@@ -23,6 +23,9 @@ nixos-%:
 doom-%:
 	$(MAKE) -C .doom.d "$*"
 
+hypr-%:
+	$(MAKE) -C .config/hypr "$*"
+
 .PHONY: screen
 screen: $(HOME)/.screenrc $(HOME)/.screen
 
