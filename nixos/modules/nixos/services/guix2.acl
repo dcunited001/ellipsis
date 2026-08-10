@@ -32,4 +32,15 @@
    (guix import)
    )
   )
+ (entry
+  (public-key
+   (ecc
+    (curve Ed25519)
+    (q #5C8DF8C06B6D77E90781065D9D697ACC409710D1597FFA27596E92FDEAE6E1F6#)
+    )
+   )
+  (tag
+   (guix import)
+   )
+  )
  )
