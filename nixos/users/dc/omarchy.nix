@@ -19,6 +19,25 @@ in
     omarchy-quattro
     pkgs.quickshell
     pkgs.libxkbcommon # omarchy menu keybindings --print
+    pkgs.bat
+    # pkgs.bolt # boltctl
+    pkgs.ffmpegthumbnailer
+    # pkgs.foot
+    # pkgs.fzf
+    pkgs.gtk3 # gtk-launch
+    pkgs.gum
+    # pkgs.herdr
+
+    pkgs.hyprpicker
+    pkgs.hyprsunset
+    pkgs.imv
+    pkgs.inotify-tools
+    pkgs.inxi
+    # pkgs.kdenlive
+    # pkgs.lazydocker
+    # pkgs.lazygit
+    pkgs.libsecret # secret-tool
+    pkgs.wtype
     tensaku # probably need to set up
   ];
 

@@ -10,6 +10,7 @@
   # - launches with `blender --python-use-system-env` ... didn't know 'bout that...
   environment.systemPackages = with pkgs; [
     blender
+    gdal # for BlenderGIS
   ];
 
   # seems to have installed these:

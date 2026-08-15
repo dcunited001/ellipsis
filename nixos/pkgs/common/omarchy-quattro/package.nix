@@ -2,6 +2,7 @@
   stdenv,
   lib,
   fetchFromGitHub,
+  installShellFiles,
 }:
 
 # this is probably a terrible idea. also, nothing in ./share/omarchy shows up
@@ -9,16 +10,18 @@
 #
 # test with `nix shell .#omarchy-quattro` or with nix build
 stdenv.mkDerivation rec {
+  pname = "omarchy-quattro";
   name = "omarchy-quattro-${version}";
-  commit = "0a8359072c4ae42c31b787b7b3f47d8720255d54";
-  version = "3.9.9-revision0"; # increment revision number when package changes
+  version = "4.0.0";
 
   src = fetchFromGitHub {
     owner = "basecamp";
     repo = "omarchy";
-    rev = commit;
-    sha256 = "sha256-mb3xGJ9Pb4Qha2nQFthaMONP/3iou+oAM3PsjqB5420=";
+    rev = "v${version}";
+    hash = "sha256-tge1Sp/Gn6ZNk/I0i4QjIXp+hNuBN2nZCPvcqVLum5Q=";
   };
+
+  nativeBuildInputs = [ installShellFiles ];
 
   # can't be known in advance: set in the user's environment...
   # OMARCHY_PATH = "/run/current-system/sw/share/omarchy";
@@ -41,6 +44,10 @@ stdenv.mkDerivation rec {
     install -t "$out/share/omarchy" "version" 
 
     runHook postInstall
+  '';
+
+  postInstall = ''
+    installShellCompletion --bash --name omarchy.bash $out/share/omarchy/default/bash/completions
   '';
 
   doInstallCheck = true;

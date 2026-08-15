@@ -96,6 +96,7 @@ in
 
       # CLI SHINY
       fastfetch
+      bat
       # starship
 
       # NIX
