@@ -13,6 +13,7 @@ let
 in
 {
   environment.sessionVariables.OMARCHY_PATH = omarchy-path;
+  environment.sessionVariables.XDG_DATA_DIRS = [ "$HOME/.local/share/flatpak/exports/share" ];
   environment.pathsToLink = [ "/share/omarchy" ];
 
   users.users.dc.packages = [
@@ -23,7 +24,7 @@ in
     # pkgs.bolt # boltctl
     pkgs.ffmpegthumbnailer
     # pkgs.foot
-    # pkgs.fzf
+    pkgs.fzf
     pkgs.gtk3 # gtk-launch
     pkgs.gum
     # pkgs.herdr
@@ -37,12 +38,19 @@ in
     # pkgs.lazydocker
     # pkgs.lazygit
     pkgs.libsecret # secret-tool
+    tensaku # probably need to set up a config
+    pkgs.xdg-terminal-exec
     pkgs.wtype
-    tensaku # probably need to set up
   ];
 
   environment.sessionVariables.PATH = [
     "${omarchy-path}/bin"
   ];
 
+  programs.localsend.enable = true;
+  # programs.localsend.openFirewall = true;
+  networking.firewall.interfaces.enp4s0 = {
+    allowedTCPPorts = [ 53317 ];
+    allowedUDPPorts = [ 53317 ];
+  };
 }

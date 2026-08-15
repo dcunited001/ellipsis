@@ -32,6 +32,7 @@
     settings.Resolve.DNS = config.networking.nameservers;
   };
 
+  networking.useDHCP = false;
   networking.hostName = "kratos";
   networking.networkmanager.enable = true;
   networking.networkmanager = {
