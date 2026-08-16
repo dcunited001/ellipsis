@@ -36,7 +36,7 @@ $(HOME)/.screenrc:
 omarchy: $(HOME)/.config/omarchy
 
 $(HOME)/.config/omarchy:
-	ln -s $(HOME)/.config/omarchy $(HOME)/.config/omarchy.$(HOST)
+	ln -s $(MKDIR)/.config/omarchy.$(HOST) $(HOME)/.config/omarchy
 
 # Screen creates sockets and hjem creates *.screenrc links
 # $(HOME)/.screen:
