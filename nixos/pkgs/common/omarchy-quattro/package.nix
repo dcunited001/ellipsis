@@ -3,7 +3,16 @@
   lib,
   fetchFromGitHub,
   installShellFiles,
+  makeWrapper,
+  python3,
+  gobject-introspection,
 }:
+let
+  # 1. Create a Python environment bundled with PyGObject
+  pythonEnv = python3.withPackages (ps: [
+    ps.pygobject3
+  ]);
+in
 
 # this is probably a terrible idea. also, nothing in ./share/omarchy shows up
 # in the user's profile when added to users.users.dc.packages...
@@ -21,7 +30,15 @@ stdenv.mkDerivation rec {
     hash = "sha256-tge1Sp/Gn6ZNk/I0i4QjIXp+hNuBN2nZCPvcqVLum5Q=";
   };
 
-  nativeBuildInputs = [ installShellFiles ];
+  nativeBuildInputs = [
+    installShellFiles
+    makeWrapper
+    pythonEnv
+  ];
+
+  buildInputs = [
+    gobject-introspection
+  ];
 
   # can't be known in advance: set in the user's environment...
   # OMARCHY_PATH = "/run/current-system/sw/share/omarchy";
@@ -47,6 +64,15 @@ stdenv.mkDerivation rec {
   '';
 
   postInstall = ''
+    patchShebangs $out/share/omarchy/bin
+
+    for prog in $out/share/omarchy/bin/*; do
+      if [ -f "$prog" ] && head -n1 "$prog" | grep -q "python"; then
+        wrapProgram "$prog" \
+          --prefix GI_TYPELIB_PATH : "$GI_TYPELIB_PATH"
+      fi
+    done
+
     installShellCompletion --bash --name omarchy.bash $out/share/omarchy/default/bash/completions
   '';
 

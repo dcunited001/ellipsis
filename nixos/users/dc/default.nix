@@ -216,6 +216,7 @@ in
 
       # TERM
       alacritty
+      ghostty
       rlwrap
 
       # BROWSER
