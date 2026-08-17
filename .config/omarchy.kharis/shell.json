@@ -17,6 +17,9 @@
           "id": "omarchy.workspaces"
         },
         {
+          "id": "io.github.thetrueferret.decent-workspaces"
+        },
+        {
           "id": "omacom.notification-center"
         }
       ],
