@@ -1,3 +1,3 @@
 #!/usr/bin/env bash
 find "${XDG_RUNTIME_DIR:-/run/user/$UID}/hypr" -mindepth 1 -maxdepth 1 -type d -printf '%T@ %p\n' 2>/dev/null \
-    | sort -n | tail -n 1 | cut -d' ' -f2-
+    | sort -n | tail -n 1 | cut -d' ' -f2- | sed -e 's/.*\///g'
