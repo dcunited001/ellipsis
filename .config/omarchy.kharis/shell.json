@@ -1,12 +1,5 @@
 {
-  "version": 1,
-  "idle": {
-    "screensaver": 150,
-    "lock": 300
-  },
   "bar": {
-    "position": "top",
-    "transparent": false,
     "centerAnchor": "omarchy.clock",
     "layout": {
       "left": [
@@ -18,14 +11,14 @@
         },
         {
           "id": "io.github.thetrueferret.decent-workspaces"
-        },
-        {
-          "id": "omacom.notification-center"
         }
       ],
       "center": [
         {
           "id": "omarchy.indicators"
+        },
+        {
+          "id": "omacom.notification-center"
         },
         {
           "id": "omarchy.clock",
@@ -34,10 +27,13 @@
           "verticalFormat": "HH\n—\nmm"
         },
         {
-          "id": "omarchy.weather"
+          "id": "omarchy.keyboard-layout"
         },
         {
           "id": "io.github.achevalier-dev.yubikey"
+        },
+        {
+          "id": "omarchy.weather"
         },
         {
           "id": "omarchy.system-update"
@@ -66,7 +62,14 @@
           "id": "omarchy.power"
         }
       ]
-    }
+    },
+    "position": "top",
+    "transparent": false
   },
-  "plugins": []
+  "idle": {
+    "lock": 300,
+    "screensaver": 150
+  },
+  "plugins": [],
+  "version": 1
 }
