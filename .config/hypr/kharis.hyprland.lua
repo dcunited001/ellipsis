@@ -34,23 +34,26 @@ require("hypr." .. dc.host .. ".autostart")
 --** workspaces
 
 --*** per-app
-require("workspaces.audio")
-require("workspaces.blender")
-require("workspaces.discord")
-require("workspaces.docs")
--- require("workspaces.email")
-require("workspaces.dotfiles")
-require("workspaces.forum")
+require("hypr.workspaces.audio")
+require("hypr.workspaces.blender")
+require("hypr.workspaces.discord")
+require("hypr.workspaces.docs")
+-- require("hypr.workspaces.email")
+require("hypr.workspaces.dotfiles")
+require("hypr.workspaces.forum")
 -- require("workspaces.irc")
-require("workspaces.man")
+require("hypr.workspaces.man")
 -- require("workspaces.obs")
-require("workspaces.pass")
-require("workspaces.orgmode")
-require("workspaces.scratchterm")
-require("workspaces.tuitray")
+require("hypr.workspaces.pass")
+require("hypr.workspaces.orgmode")
+require("hypr.workspaces.scratchterm")
+require("hypr.workspaces.tuitray")
 
 --** submaps
-require("submaps.hjinspect")
+require("hypr.submaps.hjinspect")
+
+--** rules
+require("hypr.rules")
 
 --* finalize
 -- Toggle config flags dynamically.
