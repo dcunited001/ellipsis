@@ -1,6 +1,6 @@
 --* Audio Bindings
 local ws_music = { name = "music", mod = "MOD3", key = "code:121" }
-ws_music.border_color = "rgba(CC3344DD) rgba(44CC6688) rgba(CC3344DD) 45deg"
+ws_music.border_color = { colors = { "rgba(CC3344DD)", "rgba(44CC6688)" }, angle = 45 }
 ws_music.launch = "uwsm app -- vlc"
 
 local ws_audio = { name = "audio", mod = "MOD3", key = "code:123" }

@@ -44,8 +44,13 @@ require("workspaces.forum")
 -- require("workspaces.irc")
 require("workspaces.man")
 -- require("workspaces.obs")
+require("workspaces.pass")
 require("workspaces.orgmode")
+require("workspaces.scratchterm")
 require("workspaces.tuitray")
+
+--** submaps
+require("submaps.hjinspect")
 
 --* finalize
 -- Toggle config flags dynamically.

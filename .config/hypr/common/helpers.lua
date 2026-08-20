@@ -21,6 +21,15 @@ function dc.ws.binds_special(mod, key, name)
         { description = "Move Win to WS: " .. name })
 end
 
+function dc.ws.binds_special_ws(ws)
+    hl.bind(table.concat({ ws.mod, ws.key }, "+"),
+        hl.dsp.workspace.toggle_special(ws.name),
+        { description = "Toggle WS: " .. ws.name })
+    hl.bind(table.concat({ ws.mod, "SHIFT", ws.key }, "+"),
+        hl.dsp.window.move({ workspace = "special:" .. ws.name }),
+        { description = "Move Win to WS: " .. ws.name })
+end
+
 function dc.elmap(li, fn)
     local res = {}
     for i, el in ipairs(li) do
