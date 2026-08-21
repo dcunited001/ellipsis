@@ -1,14 +1,14 @@
 --* Omarchy Utilities
 
 --* Menus
-hl.bind("SUPER + SPACE", hl.dsp.exec_cmd("walker"),
-    { description = "Launch Apps" })
-hl.bind("SUPER + SHIFT + SPACE", hl.dsp.exec_cmd("walker -m desktopapplications -p Start…"),
-    { description = "Launch Apps" })
+-- hl.bind("SUPER + SPACE", hl.dsp.exec_cmd("walker"),
+--     { description = "Launch Apps" })
+-- hl.bind("SUPER + SHIFT + SPACE", hl.dsp.exec_cmd("walker -m desktopapplications -p Start…"),
+--     { description = "Launch Apps" })
 hl.bind("SUPER + CTRL + E", hl.dsp.exec_cmd("walker -m symbols -p 'Select Emoji...'"),
     { description = "Emoji picker" })
-hl.bind("SUPER + ALT + SPACE", hl.dsp.exec_cmd("walker"),
-    { description = "Omarchy Menu" })
+-- hl.bind("SUPER + ALT + SPACE", hl.dsp.exec_cmd("walker"),
+--     { description = "Omarchy Menu" })
 hl.bind("SUPER + CTRL + W", hl.dsp.exec_cmd("walker -m windows"),
     { description = "Windows" })
 hl.bind("SUPER + CTRL + U", hl.dsp.exec_cmd("walker -m unicode -p 'Select Unicode...'"),

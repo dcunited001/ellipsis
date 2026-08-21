@@ -1,4 +1,8 @@
-hl.monitor({ output = "", mode = "preferred", position = "auto", scale = "auto" })
+local omarchy_gdk_scale = 1
+local omarchy_monitor_scale = 1
+
+hl.env("GDK_SCALE", tostring(omarchy_gdk_scale))
+hl.monitor({ output = "", mode = "preferred", position = "auto", scale = omarchy_monitor_scale })
 
 hl.monitor({ output = dc.m1.port, mode = dc.m1.mode, position = "3000x1440", scale = 1.0 })
 hl.monitor({ output = dc.m2.port, mode = dc.m2.mode, position = "3000x0", scale = 1.0 })

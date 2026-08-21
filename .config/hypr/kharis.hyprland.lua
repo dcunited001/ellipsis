@@ -26,7 +26,6 @@ require("hypr.common.bindings.utilities")
 require("hypr." .. dc.host .. ".monitors")
 require("hypr." .. dc.host .. ".workspaces")
 require("hypr." .. dc.host .. ".input")
-require("hypr." .. dc.host .. ".bindings")
 require("hypr." .. dc.host .. ".autostart")
 
 -- TODO: compare $HOST/bindings/tiling.lua

@@ -18,7 +18,7 @@ require("hypr.common.keycodes")
 require("hypr.common.tags")
 require("hypr.common.looknfeel")
 require("hypr.common.workspaces")
-require("hypr.common.bindings.utilities")
+-- require("hypr.common.bindings.utilities")
 
 --** omarchy prelude
 require("hypr." .. dc.host .. ".bindings.media")
