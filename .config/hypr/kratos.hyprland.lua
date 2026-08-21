@@ -11,6 +11,7 @@ dofile((os.getenv("OMARCHY_PATH") or "/usr/share/omarchy") .. "/default/hypr/boo
 require("default.hypr.omarchy")
 require("hypr.common.config")
 require("hypr." .. dc.host .. ".config")
+require("hypr." .. dc.host .. ".autostart")
 
 require("hypr.common.helpers")
 require("hypr.common.keycodes")
@@ -40,9 +41,6 @@ require("hypr." .. dc.host .. ".g502")
 
 --** workspaces
 
---*** kratos only
-require("workspaces.scratchpad")
-
 --*** per-app
 require("hypr.workspaces.audio")
 require("hypr.workspaces.blender")
@@ -55,6 +53,17 @@ require("hypr.workspaces.irc")
 require("hypr.workspaces.man")
 require("hypr.workspaces.obs")
 require("hypr.workspaces.orgmode")
+require("hypr.workspaces.scratchterm")
 -- require("hypr.workspaces.pass")
 require("hypr.workspaces.tuitray")
 -- require("hypr.workspaces.waydroid")
+
+--** submaps
+require("hypr.submaps.hjinspect")
+
+--** rules
+require("hypr.rules")
+
+--* finalize
+-- Toggle config flags dynamically.
+require("default.hypr.toggles")
