@@ -39,7 +39,11 @@ let
 
       composable_kernel
       # composable_kernel_base # not intended to build directly
-      ck4inductor
+
+      # TODO remove: fixed upstream https://github.com/NixOS/nixpkgs/pull/550465/changes
+      (ck4inductor.overrideAttrs (old: {
+        dontCheckPythonMetadata = true;
+      }))
 
       # graphics -----------------------
       hiprt
