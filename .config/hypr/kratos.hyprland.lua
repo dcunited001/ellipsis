@@ -21,8 +21,6 @@ require("hypr.common.workspaces")
 -- require("hypr.common.bindings.utilities")
 
 --** omarchy prelude
-require("hypr." .. dc.host .. ".bindings.media")
-require("hypr." .. dc.host .. ".bindings.tiling")
 require("hypr." .. dc.host .. ".bindings.utilities")
 require("hypr." .. dc.host .. ".bindings.apps")
 
@@ -36,7 +34,6 @@ require("hypr.common.bindings.utilities")
 require("hypr." .. dc.host .. ".monitors")
 require("hypr." .. dc.host .. ".workspaces")
 require("hypr." .. dc.host .. ".input")
-require("hypr." .. dc.host .. ".workspaces")
 require("hypr." .. dc.host .. ".g502")
 
 --** workspaces
@@ -54,12 +51,13 @@ require("hypr.workspaces.man")
 require("hypr.workspaces.obs")
 require("hypr.workspaces.orgmode")
 require("hypr.workspaces.scratchterm")
--- require("hypr.workspaces.pass")
+require("hypr.workspaces.pass")
 require("hypr.workspaces.tuitray")
 -- require("hypr.workspaces.waydroid")
 
 --** submaps
 require("hypr.submaps.hjinspect")
+require("hypr.submaps.oinspect")
 
 --** rules
 require("hypr.rules")

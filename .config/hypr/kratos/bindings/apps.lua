@@ -1,5 +1,6 @@
 -- Essential application bindings.
-o.bind("SUPER + RETURN", "Terminal", o.launch(dc.apps.terminal))
+
+-- o.bind("SUPER + RETURN", "Terminal", o.launch(dc.apps.terminal))
 o.bind("SUPER + SHIFT + RETURN", "Browser", o.launch(dc.apps.browser))
 o.bind("SUPER + SHIFT + F", "File manager", o.launch(dc.apps.file_manager))
 o.bind("SUPER + ALT + SHIFT + F", "File manager (cwd)", o.launch(dc.apps.file_manager))
@@ -33,3 +34,8 @@ o.bind("SUPER + SHIFT + N", "Editor", o.launch(dc.apps.editor))
 --     o.bind("SUPER + SHIFT + X", "X", { webapp = "https://x.com/" })
 --     o.bind("SUPER + SHIFT + ALT + X", "X Post", { webapp = "https://x.com/compose/post" })
 -- end
+-- already in tuitray.lua
+--
+-- bindd = SUPER SHIFT, T, Activity, exec, $tuiTop
+-- bindd = SUPER SHIFT, D, Docker, exec, $tuiContainers
+-- bindd = SUPER SHIFT ALT, D, SystemD, exec, $tuiSysD

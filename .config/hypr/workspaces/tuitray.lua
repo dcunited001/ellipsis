@@ -23,7 +23,10 @@ hl.workspace_rule({
 -- bindd = SUPER SHIFT, T, Activity, exec, $tuiTop
 
 --** Rules
-local tuitray_mod = "SUPER + SHIFT"
+
+-- TODO tuitray: rework to use omarchy-launch-or-focus-tui
+
+-- local tuitray_mod = "SUPER + SHIFT"
 local tuitray_apps = {
     isd = { size = "75% 75%", move = "5% 5%", mod = "ALT" },
     -- sysz = { size = "1024 768", move = "5% 100%-w-5% ", mod = {} },
@@ -42,8 +45,4 @@ for k, v in pairs(tuitray_apps) do
         size = v.size,
         move = v.move
     })
-
-    local keybind = table.concat(v.mod and { tuitray_mod, v.mod } or { tuitray_mod }, "+")
-    local cmd = tuitray_cmd(k)
-    o.bind(keybind, "Launch TUI: " .. k, o.launch(cmd))
 end
