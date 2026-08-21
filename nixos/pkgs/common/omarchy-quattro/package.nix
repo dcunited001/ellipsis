@@ -33,6 +33,10 @@ stdenv.mkDerivation rec {
     hash = "sha256-0f9BAeRUp69o4OxyOqPV+ytFtOkpZA9MCWPL2Z5F/I0=";
   };
 
+  # TODO: check uwsm setup (omarchy expects mise in uwsm environment)
+  # TODO: compare environments
+  # TODO: (hopefully) fix whatever confusing issues occur with hyprlock & omarchy shell locking
+
   nativeBuildInputs = [
     installShellFiles
     makeWrapper
