@@ -51,7 +51,7 @@ stdenv.mkDerivation rec {
     runHook preInstall
 
     substituteInPlace "default/hypr/omarchy.lua" \
-      --replace "require(\"default.hypr.autostart\")" "# require(\"default.hypr.autostart\")"
+      --replace "require(\"default.hypr.autostart\")" "-- require(\"default.hypr.autostart\")"
 
     install -d "$out/share/omarchy"
     cp -r "applications" "$out/share/omarchy" 
