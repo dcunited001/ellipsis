@@ -9,6 +9,8 @@ let
 
   hyprPkgs = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system};
   hyprlandDev = hyprPkgs.hyprland;
+  hypridleDev = hyprPkgs.hypridle;
+  hyprlockDev = hyprPkgs.hyprlock;
   hyprlandPortalDev = hyprPkgs.xdg-desktop-portal-hyprland;
 
   # mesa should be unnecessary
@@ -34,8 +36,8 @@ in
       enable = true;
 
       # while on dev
-      package = pkgs.hyprland;
-      portalPackage = pkgs.xdg-desktop-portal-hyprland;
+      package = hyprlandDev;
+      portalPackage = hyprlandPortalDev;
 
       withUWSM = true; # recommended for most users
       xwayland.enable = true; # Xwayland can be disabled
