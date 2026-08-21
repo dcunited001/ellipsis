@@ -73,6 +73,7 @@
       "home/dc/hypridle.nix"
       "home/dc/swaync.nix"
       "home/dc/thunderbird.nix"
+      "home/dc/xdg-terminal.nix"
       "home/dc/yktouch.nix"
       # "home/dc/waybar.nix"
     ])
