@@ -21,7 +21,7 @@ stdenv.mkDerivation rec {
   pname = "omarchy-quattro";
   name = "omarchy-quattro-${version}";
   commit = "ed7bae4ac5a570e9df307486e0202fdafcc6ee24";
-  version = "4.0.0-me0"; # increment revision number when package changes
+  version = "4.0.0-me1"; # increment revision number when package changes
 
   # version = "4.0.0";
 
@@ -49,6 +49,10 @@ stdenv.mkDerivation rec {
 
   installPhase = ''
     runHook preInstall
+
+    substituteInPlace "default/hypr/omarchy.lua" \
+      --replace "require(\"default.hypr.autostart\")" "# require(\"default.hypr.autostart\")"
+
     install -d "$out/share/omarchy"
     cp -r "applications" "$out/share/omarchy" 
     cp -r "bin" "$out/share/omarchy" 

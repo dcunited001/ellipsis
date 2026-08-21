@@ -2,19 +2,22 @@
 
 --** env
 
--- TODO: hypr: organize omarchy modules for nixos (check bootstrap.lua)
-local home = os.getenv("HOME")
-package.path = home .. "/.config/?.lua;" .. package.path
+--** omarchy prelude
 
+-- Omarchy's bootstrap keeps path setup out of this user config.
+dofile((os.getenv("OMARCHY_PATH") or "/usr/share/omarchy") .. "/default/hypr/bootstrap.lua")
+
+-- omarchy_default_bindings = false, omarchy_preinstalled_bindings = false
+require("default.hypr.omarchy")
 require("hypr.common.config")
 require("hypr." .. dc.host .. ".config")
 
-require("hypr.common.ohelpers")
-require("hypr.common.oshim")
 require("hypr.common.helpers")
 require("hypr.common.keycodes")
 require("hypr.common.tags")
 require("hypr.common.looknfeel")
+require("hypr.common.workspaces")
+require("hypr.common.bindings.utilities")
 
 --** omarchy prelude
 require("hypr." .. dc.host .. ".bindings.media")
@@ -25,8 +28,8 @@ require("hypr." .. dc.host .. ".bindings.apps")
 --* config
 
 --** common
-require("common.bindings.tiling")
-require("common.bindings.utilities")
+require("hypr.common.bindings.tiling")
+require("hypr.common.bindings.utilities")
 
 --** per-host
 require("hypr." .. dc.host .. ".monitors")
@@ -41,17 +44,17 @@ require("hypr." .. dc.host .. ".g502")
 require("workspaces.scratchpad")
 
 --*** per-app
-require("workspaces.audio")
-require("workspaces.blender")
-require("workspaces.discord")
-require("workspaces.docs")
-require("workspaces.email")
-require("workspaces.dotfiles")
-require("workspaces.forum")
-require("workspaces.irc")
-require("workspaces.man")
-require("workspaces.obs")
-require("workspaces.orgmode")
--- require("workspaces.pass")
-require("workspaces.tuitray")
--- require("workspaces.waydroid")
+require("hypr.workspaces.audio")
+require("hypr.workspaces.blender")
+require("hypr.workspaces.discord")
+require("hypr.workspaces.docs")
+require("hypr.workspaces.email")
+require("hypr.workspaces.dotfiles")
+require("hypr.workspaces.forum")
+require("hypr.workspaces.irc")
+require("hypr.workspaces.man")
+require("hypr.workspaces.obs")
+require("hypr.workspaces.orgmode")
+-- require("hypr.workspaces.pass")
+require("hypr.workspaces.tuitray")
+-- require("hypr.workspaces.waydroid")
