@@ -22,19 +22,15 @@ hyprland.lua:
 	ln -s "./$(HOST).hyprland.lua" hyprland.lua
 
 .PHONY: conflink
-link: hyprland.conf hypridle.conf hypridle-smartcard.conf hyprlock.conf hyprsunset.conf xdph.conf
+link: hypridle.conf hyprlock.conf hyprsunset.conf xdph.conf
 
 # these can't be used simply with linked file targets
 # 	test -f hyprland.conf && $(error hyprland.conf exists, but is not a symlink)
 # 	test -s hyprland.lua && $(error fdsa) || ln -s "./$(HOST).hyprland.lua" hyprland.lua
 
 # condense the target names using make syntax later
-hyprland.conf:
-	ln -s "./$(HOST).hyprland.conf" hyprland.conf
 hypridle.conf:
 	ln -s "./$(HOST)/hypridle.conf" hypridle.conf
-hypridle.smartcard.conf:
-	ln -s "./$(HOST)/hypridle.smartcard.conf" hypridle.smartcard.conf
 hyprlock.conf:
 	ln -s "./$(HOST)/hyprlock.conf" hyprlock.conf
 hyprsunset.conf:

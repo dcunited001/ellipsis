@@ -45,7 +45,8 @@
       "music": "𝄞",
       "pass": "🔒",
       "roam": "𝕽", // R frankfurt
-      "scratchpad": "🗊",
+      "scratchpad": "ℚ",
+      "scratchterm": "🗊",
       "tuitray": "",
       // "default": "",
       "on-scroll-up": "hyprctl dispatch workspace e+1",

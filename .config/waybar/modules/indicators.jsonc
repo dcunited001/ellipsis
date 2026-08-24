@@ -5,11 +5,6 @@
     "return-type": "json",
   },
 
-  "custom/idlecard": {
-    "exec": "~/.config/waybar/scripts/idlecard",
-    "return-type": "json",
-  },
-
   "custom/yktouch": {
     // "format": "🔑",
     "exec": "~/.config/waybar/scripts/yktouch",
