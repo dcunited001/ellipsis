@@ -1,0 +1,37 @@
+-- ### Webapps
+
+-- # launching apps with:
+-- #
+-- # + `chromium --app=https://cad.onshape.com`
+-- #   - gives "match:class (chrome-cad.onshape.com__-Profile_N)"
+-- # + `chromium --app-id=$appId`
+-- #   - gives "match:class (chrome-$appId-$chromeProfileId)"
+-- #   - like chrome-dabjennaofgfmgimiidfimgphkbokckg-Profile_N
+-- #
+-- # either way, both have titles controlled by the site, so it depends.  most
+-- # window client attributes are assigned by hyprctl at window initialization,
+-- # so fortunately, it doesn't matter much.
+-- #
+-- # only by installing the app through chromium's interface (whether web or cli)
+-- # can you access app settings (tabs/etc, whether to dock in browser) and
+-- # control permissions
+
+-- #### Google Translate
+
+-- $pwaMod = MOD3
+-- $pwaTranslateKey = T
+-- $pwaTranslateTitle = Google Translate
+
+-- windowrule = float 1, match:title ($pwaTranslateTitle)
+-- windowrule = size 800 450, match:title ($pwaTranslateTitle)
+
+-- # bindd = $pwaMod, $pwaTranslateKey, "Or Launch Google Translate", exec, pidof
+-- # TODO: launch & focus (without dedicated scratch workspace)
+-- bindd = $pwaMod, $pwaTranslateKey, "Focus Google Translate", focuswindow, match:title ($pwaTranslateTitle)
+
+-- ### Misc
+-- #### HTTPS Cert Info
+
+-- # doesn't set page title until after it opens
+-- windowrule = float 1, match:class firefox, match:title  ^()$        #, match:title (Page Info).*
+-- windowrule = size 720 720, match:class firefox, match:title  ^()$ #, match:title (Page Info).*
