@@ -21,8 +21,10 @@ require("hypr.common.workspaces")
 -- require("hypr.common.bindings.utilities")
 
 --** omarchy prelude
-require("hypr." .. dc.host .. ".bindings.utilities")
-require("hypr." .. dc.host .. ".bindings.apps")
+-- require("hypr." .. dc.host .. ".bindings.media")
+-- require("hypr." .. dc.host .. ".bindings.tiling")
+-- require("hypr." .. dc.host .. ".bindings.utilities")
+-- require("hypr." .. dc.host .. ".bindings.apps")
 
 --* config
 

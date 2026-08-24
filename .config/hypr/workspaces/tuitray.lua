@@ -15,7 +15,7 @@ dc.ws.binds_special(ws_tuitray.mod, ws_tuitray.key, ws_tuitray.name)
 hl.workspace_rule({
     workspace = "special:" .. ws_tuitray.name,
     monitor = ws_tuitray.monitor,
-    on_created_empty = "[float] " .. o.launch(tuitray_cmd(ws_tuitray.launch))
+    -- on_created_empty = "[float] " .. o.launch(tuitray_cmd(ws_tuitray.launch))
 })
 
 -- bindd = SUPER SHIFT, D, Docker, exec, $tuiContainers

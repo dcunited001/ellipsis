@@ -37,14 +37,14 @@ in
           StartupNotify=true
           StartupWMClass=Alacritty
           Actions=New;
-
-          [Desktop Action New]
-          Name=New Terminal
-          Exec=alacritty
           X-TerminalArgExec=-e
           X-TerminalArgAppId=--class=
           X-TerminalArgTitle=--title=
           X-TerminalArgDir=--working-directory=
+
+          [Desktop Action New]
+          Name=New Terminal
+          Exec=alacritty
         '';
         clobber = true;
       };

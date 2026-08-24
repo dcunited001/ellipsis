@@ -10,6 +10,8 @@ let
     pkgs.callPackage (lib.custom.relativeToRoot "pkgs/common/omarchy-quattro/package.nix") { }
   );
   tensaku = (pkgs.callPackage (lib.custom.relativeToRoot "pkgs/common/tensaku/package.nix") { });
+
+  ttfx = (pkgs.callPackage (lib.custom.relativeToRoot "pkgs/common/ttfx/package.nix") { });
 in
 {
   environment.sessionVariables.OMARCHY_PATH = omarchy-path;
@@ -43,12 +45,17 @@ in
     pkgs.libsecret # secret-tool
     pkgs.nautilus
     tensaku # probably need to set up a config
+    ttfx
     pkgs.xdg-terminal-exec
     pkgs.wtype
   ];
 
   environment.sessionVariables.PATH = [
     "${omarchy-path}/bin"
+  ];
+
+  environment.systemPackages = [
+
   ];
 
   programs.localsend.enable = true;
