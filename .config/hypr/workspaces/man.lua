@@ -1,7 +1,9 @@
 --* Man
 local ws_man = { name = "man", mod = "MOD3", key = "M" }
 local info_title = "¤ INFO"
-ws_man.launch = 'emacs -T \"" .. info_title .. "\" -f info-standalone --eval="(load-theme (intern \"wombat\"))"'
+ws_man.launch = "emacs --init-directory=~/.emacs.info -T \"" ..
+    info_title .. "\" -f info-standalone " ..
+    "--eval='(load-theme (intern \"wombat\"))'"
 
 --** Binds
 dc.ws.binds_special(ws_man.mod, ws_man.key, ws_man.name)

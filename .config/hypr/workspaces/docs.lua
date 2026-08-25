@@ -17,9 +17,16 @@ hl.workspace_rule({
 
 --** Rules
 
--- helvum
+--*** Zeal
 hl.window_rule({
     match = { class = "(org.zealdocs.Zeal)" },
+    workspace = "special:" .. ws_docs.name,
+    float = true,
+    size = "1920 1080"
+})
+
+hl.window_rule({
+    match = { class = "(chrome-omarchy.org__manual.*)" },
     workspace = "special:" .. ws_docs.name,
     float = true,
     size = "1920 1080"

@@ -30,7 +30,7 @@
       diffia = "envia | covia | diff - <(env | envia | covia)";
       difnia = "nenvia | diff - <(env | nenvia)";
       bashbinds = ''bind -p | grep -ve '^#' | tr -d ':\"' | sed -e 's/\\e/M /g' | sed -e 's/\\C-/C /g' | grep -v 'self-insert' | sort -k2'';
-      bashbindtree = ''bind -P | cut -f1 -d' ' | tr '-' '/' | tree --noreport --fromfile .'';
+      bashbindtree = "bind -P | cut -f1 -d' ' | tr '-' '/' | tree --noreport --fromfile .";
       wget = "wget -c ";
       hcx = "hyprctl";
       hcbinds = ''hyprctl binds | tr -d "\n" | sed -e "s/bind/\nbind/g"'';
@@ -42,9 +42,16 @@
       gkg = "git stack";
       gksy = "git stack sync";
       gpga = "gpg --armor";
+      gpgKall = "gpg -K --keyid-format=long";
+      gpgKclear = "grep -vore shadowed";
       gpgk = "gpg-connect-agent killagent /bye";
-      gpguptty = "gpg-connect-agent updatestartuptty /bye";
+      gpgK = "gpg -K --keyid-format=LONG --list-options show-unusable-subkeys";
+      gpgKshadowed = "grep -ore shadowed";
+      gpgpax = "gpg --list-packets";
       gpgrel = "gpg-connect-agent reloadagent /bye";
+      gpgrestub = "gpg-connect-agent 'scd serialno' 'learn --force' /bye";
+      gpgsshfpr = "ssh-keygen -E sha256 -lf";
+      gpguptty = "gpg-connect-agent updatestartuptty /bye";
       hw = "hwinfo --short";
       diffusb = "diff <(lsusb) <(sleep 3; lsusb)";
       iotopa = "iotop -oa";
