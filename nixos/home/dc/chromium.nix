@@ -20,14 +20,16 @@ in
           Name=Chromium
           GenericName=Web Browser
           Icon=chromium
-          Exec=uwsm app -- chromium %U
+          Exec=chromium %U
           Categories=Network;WebBrowser;
           MimeType=application/pdf;application/rdf+xml;application/rss+xml;application/xhtml+xml;application/xhtml_xml;application/xml;image/gif;image/jpeg;image/png;image/webp;text/html;text/xml;x-scheme-handler/http;x-scheme-handler/https;x-scheme-handler/webcal;x-scheme-handler/mailto;x-scheme-handler/about;x-scheme-handler/unknown
           Actions=new-window;new-private-window;
+
           [Desktop Action new-window]
-          Exec=uwsm app -- chromium
+          Exec=chromium
+
           [Desktop Action new-private-window]
-          Exec=uwsm app -- chromium --incognito
+          Exec=chromium --incognito
           Terminal=false
           Type=Application
           StartupNotify=true
@@ -41,8 +43,8 @@ in
           Version=1.0
           Name=Discord
           Comment=Discord
-          # Exec=omarchy-launch-webapp https://discord.com/channels/@me
-          Exec=uwsm app -- chromium --app="https://discord.com/channels/@me"
+          Exec=omarchy-launch-webapp https://discord.com/channels/@me
+          # Exec=chromium --app="https://discord.com/channels/@me"
           Terminal=false
           Type=Application
           Icon=/home/dc/.local/share/applications/icons/Discord.png
@@ -58,8 +60,8 @@ in
           Name=Onshape
           Comment=Onshape
           Icon=/home/dc/.local/share/applications/icons/Onshape.png
-          # Exec=omarchy-launch-webapp https://cad.onshape.com
-          Exec=uwsm app -- chromium --app="https://cad.onshape.com"
+          Exec=omarchy-launch-webapp https://cad.onshape.com
+          # Exec=chromium --app="https://cad.onshape.com"
           Terminal=false
           Type=Application
           StartupNotify=true
@@ -88,7 +90,7 @@ in
             Terminal=false
             Type=Application
             Name=Google Translate (Hjem)
-            Exec=uwsm app -- chromium "--profile-directory=${profile}" --app-id=${crx}
+            Exec=chromium "--profile-directory=${profile}" --app-id=${crx}
             Icon=chrome-${crx}-${builtins.replaceStrings [ " " ] [ "_" ] profile}
             StartupWMClass=crx_${wmclass}_${crx}
             StartupNotify=true
@@ -109,7 +111,7 @@ in
             Terminal=false
             Type=Application
             Name=Google Meet (Hjem)
-            Exec=uwsm app -- chromium "--profile-directory=${profile}" --app-id=${crx}
+            Exec=chromium "--profile-directory=${profile}" --app-id=${crx}
             Icon=chrome-${crx}-${builtins.replaceStrings [ " " ] [ "_" ] profile}
             StartupWMClass=crx_${wmclass}_${crx}
             StartupNotify=true
