@@ -12,7 +12,7 @@ in
 {
   hjem.users.dc.xdg.data = {
     files = {
-      "applications/chromium-browser.desktop" = {
+      "applications/chromium.desktop" = {
         text = ''
           [Desktop Entry]
           StartupWMClass=chromium-browser

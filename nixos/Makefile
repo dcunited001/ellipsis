@@ -95,6 +95,13 @@ whydep:
 	nix why-depends "$(APKG)" "$(BPKG)"
 
 #-----------------------
+# omarchy nix profile
+.PHONY: omaprofile
+omaprofile:
+	nix profile update
+	nix profile add '.#hyprdc'
+
+#-----------------------
 # compare systems
 #
 # currentSys=$(readlink /run/current-system)

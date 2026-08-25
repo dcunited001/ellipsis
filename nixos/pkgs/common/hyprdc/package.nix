@@ -6,7 +6,6 @@
 let
   pname = "hyprdc";
   # install_root = ".";
-  # scripts unused for how
   scripts = [
     "hjbinds"
     "hjinspect.jq"

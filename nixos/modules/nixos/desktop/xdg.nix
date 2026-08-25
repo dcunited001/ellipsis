@@ -1,6 +1,6 @@
 { pkgs, ... }:
 let
-  browser = "google-chrome.desktop";
+  browser = "chromium.desktop";
 in
 {
   environment.sessionVariables = {
@@ -21,6 +21,10 @@ in
   #
   # echo -n $XDG_DATA_DIRS | tr ':' '\n' \
   # | xargs -I\{\} ls -1 \{\}/applications 2>/dev/null'
+
+  # if the files are known... (and they never are), then:
+  #
+  # dex -dv $XDG_LOOP/google-chromium.desktop
 
   xdg.mime.enable = true;
   xdg.mime = {

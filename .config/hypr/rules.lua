@@ -10,8 +10,11 @@ hl.window_rule({ match = { class = ".*" }, suppress_event = "maximize" })
 hl.window_rule({ match = { class = "^$", title = "^$", xwayland = 1, float = "yes", fullscreen = 0, pin = 0 }, })
 
 --** Inhibit Idle
-hl.window_rule({ match = { class = "(firefox) match:fullscreen", }, idle_inhibit = "fullscreen" })
-hl.window_rule({ match = { class = "(Chromium) match:fullscreen", }, idle_inhibit = "fullscreen" })
+
+--*** Browsers
+for i, c in ipairs({ "firefox", "chromium", "chromium-browser" }) do
+    hl.window_rule({ match = { class = "(" .. c .. ") match:fullscreen", }, idle_inhibit = "fullscreen" })
+end
 
 --* utils
 hl.window_rule({ match = { class = "(wev)", }, stay_focused = 1, float = 1, size = "420 42" })
@@ -74,8 +77,11 @@ hl.window_rule({ match = { class = "(python3)", title = "(Figure.*)", }, float =
 --*** Profile Selection
 hl.window_rule({ match = { title = "(Chromium)", }, float = 1, size = "1150 1050" })
 
+for i, c in ipairs({ "chromium", "chromium-browser" }) do
+    hl.window_rule({ match = { class = "(" .. c .. ")", title = "(DevTools)", }, float = 1, })
+end
+
 --*** Devtools
-hl.window_rule({ match = { class = "(chromium-browser)", title = "(DevTools)", }, float = 1, })
 
 --** Chrome
 

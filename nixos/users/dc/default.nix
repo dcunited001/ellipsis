@@ -5,12 +5,9 @@
   ...
 }:
 let
-  hyprdc = (pkgs.callPackage (lib.custom.relativeToRoot "pkgs/dots/hyprdc/package.nix") { });
-  omarchy-scripts = (
-    pkgs.callPackage (lib.custom.relativeToRoot "pkgs/dots/omarchy-scripts/package.nix") { }
-  );
+  hyprdc = (pkgs.callPackage (lib.custom.relativeToRoot "pkgs/common/hyprdc/package.nix") { });
   # dcstaticdots
-  chrome = inputs.browser-previews.packages.${pkgs.stdenv.hostPlatform.system}.google-chrome;
+  # chrome = inputs.browser-previews.packages.${pkgs.stdenv.hostPlatform.system}.google-chrome;
   # (these packages don't have outputs from the direct hyprland output)
   #
   # hyprPkgs = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system};
@@ -81,10 +78,6 @@ in
     packages = with pkgs; [
       # CUSTOM
       hyprdc
-
-      # CUSTOM: omarchy
-      omarchy-scripts # set BROWSER in uwsm startup or webapps don't work
-      gum
 
       # CLI
       tree
