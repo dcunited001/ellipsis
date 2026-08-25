@@ -2,7 +2,7 @@
 local ws_docs = { name = "docs", mod = "SUPER + ALT", key = "D" }
 -- ws_docs.border_color = ws_docs.border_color
 ws_docs.launch = "flatpak run org.zealdocs.Zeal"
-ws_docs.monitor = dc.m2.port
+ws_docs.monitor = dc.m2.output
 
 --** Binds
 dc.ws.binds_special(ws_docs.mod, ws_docs.key, ws_docs.name)

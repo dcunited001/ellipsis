@@ -2,6 +2,8 @@
 local ws_pass = { name = "pass", mod = "SUPER + ALT", key = "P" }
 ws_pass.launch = "uwsm app -- keepassxc"
 
+-- TODO: hypr: define color for pass workspace
+
 --** Binds
 dc.ws.binds_special_ws(ws_pass)
 

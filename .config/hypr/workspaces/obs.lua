@@ -3,7 +3,7 @@
 local ws_obs = { name = "obs", mod = "MOD3", key = "F11" }
 ws_obs.size = "90% 90%"
 ws_obs.launch = "obs"
-ws_obs.monitor = dc.m3.port
+ws_obs.monitor = dc.m3.output
 
 local obs_class = "com.obsproject.Studio"
 

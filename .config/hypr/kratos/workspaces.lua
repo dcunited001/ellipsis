@@ -1,6 +1,6 @@
 --* default workspaces
 hl.workspace_rule({ workspace = "9", monitor = "desc:" .. dc.m3.desc, default = true, })
-hl.workspace_rule({ workspace = "21", monitor = "port:" .. dc.m4.port, default = true, })
+hl.workspace_rule({ workspace = "21", monitor = dc.m4.output, default = true, })
 
 --* main workspaces
 
@@ -35,9 +35,9 @@ hl.bind("MOD3 + SHIFT + code:" .. k9, hl.dsp.window.move({ workspace = "19" }, {
 hl.bind("MOD3 + SHIFT + code:" .. k0, hl.dsp.window.move({ workspace = "20" }, { follow = false }))
 
 --** dc.m4
-hl.workspace_rule({ workspace = "21", monitor = dc.m4.port, layout_opts = { orientation = "center", mfact = 0.4, } })
-hl.workspace_rule({ workspace = "22", monitor = dc.m4.port, layout_opts = { orientation = "center", mfact = 0.4, } })
-hl.workspace_rule({ workspace = "23", monitor = dc.m4.port, layout_opts = { orientation = "center", mfact = 0.4, } })
+hl.workspace_rule({ workspace = "21", monitor = dc.m4.output, layout_opts = { orientation = "center", mfact = 0.4, } })
+hl.workspace_rule({ workspace = "22", monitor = dc.m4.output, layout_opts = { orientation = "center", mfact = 0.4, } })
+hl.workspace_rule({ workspace = "23", monitor = dc.m4.output, layout_opts = { orientation = "center", mfact = 0.4, } })
 
 --*** MOD3 + SUPER + k[123]
 hl.bind("MOD3 + SUPER + code:" .. k1, hl.dsp.focus({ workspace = "21" }))

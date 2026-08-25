@@ -1,6 +1,12 @@
 local ws_irc = { name = "irc", mod = "MOD3", key = "F9" }
-ws_irc.monitor = dc.m3.port
 ws_irc.launch = "quassel"
+
+local hyprhost = os.getenv("HYPRHOST")
+if hyprhost == "kharis" then
+    ws_irc.monitor = dc.m2.output
+elseif hyprhost == "kratos" then
+    ws_irc.monitor = dc.m3.output
+end
 
 --* IRC
 

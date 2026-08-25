@@ -10,7 +10,7 @@ dc = dc or {}
 
 --* Monitors
 dc.m1 = {
-    port = "eDP-1",
+    output = "eDP-1",
     desc = "LG Electronics LG ULTRAGEAR 103NTGYHB375",
     res = "1920x1080",
     hz = "60.00",
@@ -21,7 +21,7 @@ dc.m1 = {
 dc.m1.mode = dc.m1.res .. "@" .. dc.m1.hz
 
 dc.m2 = {
-    port = "HDMI-A-1",
+    output = "HDMI-A-1",
     desc = "Acer Technologies Acer H233H LFS0W0104300",
     res = "1920x1080",
     hz = "60.00",
