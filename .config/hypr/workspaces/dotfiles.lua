@@ -73,3 +73,26 @@ hl.window_rule({
     size = "1920 1080",
     float = true
 })
+
+--* Guix
+local ws_dfguix = { name = "guix", mod = "MOD3", key = "g" }
+ws_dfguix.border_size = 5
+local dfguix = { prefix = "♦ GUIX", tab = "df¶guix" }
+
+--** Binds
+dc.ws.binds_special(ws_dfguix.mod, ws_dfguix.key, ws_dfguix.name)
+
+--** Workspace
+hl.workspace_rule({
+    workspace = "special:" .. ws_dfguix.name,
+    border_size = ws_dfguix.border_size,
+    on_created_empty = dc.activities_launch(dfguix.tab)
+})
+
+--** Rules
+hl.window_rule({
+    match = { title = title },
+    workspace = "special:" .. ws_dfguix.name,
+    size = "1920 1080",
+    float = true
+})

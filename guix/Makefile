@@ -139,7 +139,7 @@ guixsystem=$(SRC)/dc/system/images/usb-gpg-tools.scm
 
 GUIX_ISO_CMD=guix system -L $(MKDIR)/dc image
 
-.PHONY: iso iso-gpg pxe
+.PHONY: iso iso-gpg
 iso:
 	$(GUIX_ISO_CMD) --image-type=iso9660 -f $(guixsystem)
 
@@ -147,9 +147,11 @@ iso-gpg:
 	guixexpr="(@ (dc system images usb-gpg-tools) usb-gpg-tools)"
 	$(GUIX_ISO_CMD) --image-type=iso9660 -e $(guixexpr)
 
-pxe:
-	guixexpr="(@ (dc system images pxe-boot-tools) pxe-boot-tools)"
-	$(GUIX_ISO_CMD) --image-type=iso9660 -f $(guixexpr)
+# NOTE: this doesn't work (it requires NFS deployed with some assumptions)
+#
+# .PHONY: pxe
+# pxe: guixexpr="(@ (dc system images pxe-boot-tools) pxe-boot-tools)"
+# $(GUIX_ISO_CMD) --image-type=iso9660 -f $(guixexpr)
 
 GUIX_HOST=$(shell hostname)
 

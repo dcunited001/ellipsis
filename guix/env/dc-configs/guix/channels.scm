@@ -18,7 +18,7 @@
           (commit "18e73c792281e61c3813a99d662fbde108cf6ec8")
           (introduction
            (make-channel-introduction
-            "9edb3f66fd807b096b48283debdcddccfea34bad"
+            "e42227e1c7e7055e27cecada52ec801a75e44909"
             (openpgp-fingerprint
              "BBB0 2DDF 2CEA F6A8 0D1D  E643 A2A0 6DF2 A33A 54FA"))))
         (channel
@@ -48,7 +48,7 @@
           (commit "73baab37361b3a81f326aa3fdec78840f5acc577")
           (introduction
            (make-channel-introduction
-            "897c1a470da759236cc11798f4e0a5f7d4d59fbc"
+            "c15e19cdbdfdfddacdae865741809af4fa86a665"
             (openpgp-fingerprint
              "2A39 3FFF 68F4 EF7A 3D29  12AF 6F51 20A0 22FB B2D5"))))
         (channel
@@ -58,7 +58,7 @@
           (commit "70a1881f09c939792eb2ed932dded1f16291a59f")
           (introduction
            (make-channel-introduction
-            "257cebd587b66e4d865b3537a9a88cccd7107c95"
+            "47fb718f2b1a3f68a03c51a2740c1ada4052bd3c"
             (openpgp-fingerprint
              "2841 9AC6 5038 7440 C7E9  2FFA 2208 D209 58C1 DEB0"))))))
 
