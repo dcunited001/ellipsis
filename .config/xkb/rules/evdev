@@ -1,5 +1,3 @@
-! include %S/evdev
-
 ! option = symbols
   underspace:shift_underscore		= +underspace(shift_underscore)
   underspace:altgr_underscore		= +underspace(altgr_underscore)
@@ -28,9 +26,6 @@
   mylvl3:lctl_latch					= +mylevel3(lctl_latch)
   mylvl3:kpen_latch					= +mylevel3(kpen_latch)
 
-! option = symbols
-  fmedia:mute_f17       = +fmedia(mute_f17)
-  fmedia:voldown_f18    = +fmedia(voldown_f18)
-
-! option = symbols
   menu2:xf86calculator_menu			= +menu2(xf86calculator_menu)
+
+! include %S/evdev
