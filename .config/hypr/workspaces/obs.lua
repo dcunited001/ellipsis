@@ -21,8 +21,8 @@ hl.workspace_rule({
     border_size = 16
 })
 
-
 --** Rules
+--*** OBS
 hl.window_rule({
     match = { class = obs_class },
     tile = true
@@ -30,3 +30,10 @@ hl.window_rule({
 
 -- OBS doesn't detect XF86 keysyms... does this interfere?
 -- https://wiki.hypr.land/Configuring/Uncommon-tips--tricks/#set-f13-f24-as-usual-function-keys
+
+--*** GPU Screen Recorder GTK
+local gsr_class = "com.dec05eba.gpu_screen_recorder"
+hl.window_rule({
+    match = { class = gsr_class },
+    float = true
+})

@@ -36,15 +36,18 @@ hl.bind("MOD3 + SHIFT + code:" .. k0, hl.dsp.window.move({ workspace = "20" }, {
 
 --** dc.m4
 hl.workspace_rule({ workspace = "21", monitor = dc.m4.output, layout_opts = { orientation = "center", mfact = 0.4, } })
-hl.workspace_rule({ workspace = "22", monitor = dc.m4.output, layout_opts = { orientation = "center", mfact = 0.4, } })
+hl.workspace_rule({ workspace = "22", monitor = dc.m4.output, layout_opts = { orientation = "top", mfact = 0.8, } })
 hl.workspace_rule({ workspace = "23", monitor = dc.m4.output, layout_opts = { orientation = "center", mfact = 0.4, } })
+hl.workspace_rule({ workspace = "24", monitor = dc.m4.output, layout_opts = { orientation = "top", mfact = 0.8, } })
 
 --*** MOD3 + SUPER + k[123]
 hl.bind("MOD3 + SUPER + code:" .. k1, hl.dsp.focus({ workspace = "21" }))
 hl.bind("MOD3 + SUPER + code:" .. k2, hl.dsp.focus({ workspace = "22" }))
 hl.bind("MOD3 + SUPER + code:" .. k3, hl.dsp.focus({ workspace = "23" }))
+hl.bind("MOD3 + SUPER + code:" .. k4, hl.dsp.focus({ workspace = "24" }))
 
 --*** MOD3 + SUPER + SHIFT + k[123]
 hl.bind("MOD3 + SUPER + SHIFT + code:" .. k1, hl.dsp.window.move({ workspace = "21" }, { follow = false }))
 hl.bind("MOD3 + SUPER + SHIFT + code:" .. k2, hl.dsp.window.move({ workspace = "22" }, { follow = false }))
 hl.bind("MOD3 + SUPER + SHIFT + code:" .. k3, hl.dsp.window.move({ workspace = "23" }, { follow = false }))
+hl.bind("MOD3 + SUPER + SHIFT + code:" .. k4, hl.dsp.window.move({ workspace = "24" }, { follow = false }))
