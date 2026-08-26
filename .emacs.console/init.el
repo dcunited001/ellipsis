@@ -93,6 +93,7 @@
 ;;; Lisp
 
 (use-package lispy
+  :defer t
   :hook '((emacs-lisp-mode scheme-mode geiser-mode)))
 
 (require 'hop-guix)

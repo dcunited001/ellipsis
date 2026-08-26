@@ -126,6 +126,7 @@
 ;;; Lisp
 
 (use-package lispy
+  :defer t
   :hook '(emacs-lisp-mode))
 
 ;;; Org
