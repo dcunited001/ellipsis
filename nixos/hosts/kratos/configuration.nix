@@ -45,9 +45,11 @@
       "modules/nixos/desktop/sddm.nix"
       "modules/nixos/desktop/xdg.nix"
 
+      # TODO: investigate " ddcci: WARNING: Auto-probing of displays is not available on kernel 6.8 and later"
       "modules/nixos/hardware/ddccontrol.nix"
       "modules/nixos/hardware/i2c.nix"
       # "modules/nixos/hardware/rkdeveloptool.nix"
+      "modules/nixos/hardware/gpu-screen-recorder.nix"
 
       "modules/nixos/services/containers.nix"
       "modules/nixos/services/earlyoom.nix"
