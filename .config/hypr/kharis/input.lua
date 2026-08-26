@@ -6,7 +6,7 @@ local xkb_opts = {
     "altwin:menu_win",
     "mylvl3:sclk_latch",
     "mylvl5:kpen_latch",
-    "mylvl5:display_latch",
+    -- "mylvl5:display_latch",
     "mylvl5:ins_latch"
 }
 
