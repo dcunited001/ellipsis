@@ -98,7 +98,7 @@ whydep:
 # omarchy nix profile
 .PHONY: omaprofile
 omaprofile:
-	nix profile update
+	nix profile upgrade --all
 	nix profile add '.#hyprdc'
 
 #-----------------------
