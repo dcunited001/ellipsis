@@ -277,6 +277,7 @@ in
       wev
       bustle
       desktop-file-utils
+      d-spy
 
       # GTK
       dconf-editor

@@ -5,7 +5,7 @@
 -- I need to learn the window ID/referece for windows getting thrown behind
 -- tiled windows, like the portal sharing thing
 
-local sub_walker = { name = "歩行", mod = "MOD3 + SHIFT", key = "F1" }
+local sub_walker = { name = "歩行", mod = "MOD3", key = "F1" }
 local walkerNotifyMsg = [[Walker Test
 
 ; providerlist
@@ -21,8 +21,9 @@ $ windows
 
 -- local walkerNotifyCmd = hyprctl
 
-
-hl.bind(sub_walker.mod .. "+" .. sub_walker.key, function()
+hl.bind(sub_walker.mod .. "+" .. sub_walker.key, hl.dsp.exec_cmd("walker"))
+hl.bind(sub_walker.mod .. "+ SHIFT +" .. sub_walker.key, hl.dsp.submap(sub_walker.name))
+hl.bind(sub_walker.mod .. "+ SHIFT +" .. sub_walker.key, function()
     hl.notification.create({
         text = walkerNotifyMsg,
         timeout = 5000,
@@ -31,8 +32,6 @@ hl.bind(sub_walker.mod .. "+" .. sub_walker.key, function()
         -- font_size? number
     })
 end)
-
-hl.bind(sub_walker.mod .. "+" .. sub_walker.key, hl.dsp.submap(sub_walker.name))
 
 hl.define_submap(sub_walker.name, function()
     hl.bind("semicolon", hl.dsp.exec_cmd("walker -m providerlist -p 'Providerlist...'"))

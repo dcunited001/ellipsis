@@ -6,8 +6,8 @@
   ...
 }:
 let
-  elephantPkg = inputs.elephant.packages.${pkgs.stdenv.system}.elephant-with-providers;
-  walkerPkg = inputs.walker.packages.${pkgs.stdenv.system}.walker;
+  elephantPkg = pkgs.elephant; # inputs.elephant.packages.${pkgs.stdenv.system}.elephant-with-providers;
+  walkerPkg = pkgs.walker; # inputs.walker.packages.${pkgs.stdenv.system}.walker;
   elephantSystemD = true;
   walkerSystemd = true;
   hjemFiles = ./. + "../../../../gh/f";

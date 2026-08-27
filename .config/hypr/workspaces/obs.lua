@@ -24,8 +24,8 @@ hl.workspace_rule({
 --** Rules
 --*** OBS
 hl.window_rule({
-    match = { class = obs_class },
-    tile = true
+    match = { class = obs_class, title = "(^Properties for)" },
+    float = true
 })
 
 -- OBS doesn't detect XF86 keysyms... does this interfere?
