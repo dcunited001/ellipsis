@@ -10,6 +10,12 @@ let
   dc = "dc";
 in
 {
+
+  hjem.users.dc.xdg.config.files = {
+    "hyprland-preview-share-picker/config.yaml" = {
+      source = (hjemFiles + ".config/hyprland-preview-share-picker/config.yaml");
+    };
+  };
   hjem.users.dc.systemd.services.fumon = {
     unitConfig = {
       Description = "Failed unit monitor";

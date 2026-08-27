@@ -135,6 +135,10 @@
     hyprland.inputs.nixpkgs.follows = "nixpkgs";
     hyprland.inputs.systems.follows = "systems";
 
+    # hyprland-preview-share-picker.url = "github:WhySoBad/hyprland-preview-share-picker?submodules=0";
+    hyprland-preview-share-picker.url = "git+https://github.com/WhySoBad/hyprland-preview-share-picker";
+    hyprland-preview-share-picker.inputs.nixpkgs.follows = "nixpkgs";
+
     # this flake follows nixpkgs-unstable
     frc-nix.url = "github:frc4451/frc-nix";
     frc-nix.inputs.nixpkgs.follows = "nixpkgs";

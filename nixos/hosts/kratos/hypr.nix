@@ -17,6 +17,14 @@ let
   hyprInputs = inputs.hyprland.inputs.nixpkgs.legacyPackages.${pkgs.stdenv.hostPlatform.system};
   hyprlandMesa = hyprInputs.mesa;
   hyprlandMesa32 = hyprInputs.pkgsi686Linux.mesa;
+
+  # NOTE: this is rust and requires a rebuild. it also imports submodules
+  #
+  # - this is in nixos-unstable, so remove soon.
+  # hyprShare = inputs.hyprland-preview-share-picker.packages.${pkgs.stdenv.hostPlatform.system};
+  # hyprSharePkg = hyprShare.hyprland-preview-share-picker;
+  unstable = inputs.nixpkgs-unstable.legacyPackages.${pkgs.stdenv.hostPlatform.system};
+  hyprSharePkg = unstable.hyprland-preview-share-picker;
 in
 
 {
@@ -77,5 +85,6 @@ in
     pkgs.hypridle
     pkgs.hyprlock
     pkgs.procps
+    hyprSharePkg
   ];
 }

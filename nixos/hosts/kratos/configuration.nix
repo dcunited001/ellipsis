@@ -49,7 +49,7 @@
       "modules/nixos/hardware/ddccontrol.nix"
       "modules/nixos/hardware/i2c.nix"
       # "modules/nixos/hardware/rkdeveloptool.nix"
-      "modules/nixos/hardware/gpu-screen-recorder.nix"
+      # "modules/nixos/hardware/gpu-screen-recorder.nix"
 
       "modules/nixos/services/containers.nix"
       "modules/nixos/services/earlyoom.nix"
