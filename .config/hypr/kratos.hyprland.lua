@@ -20,7 +20,6 @@ require("hypr.common.looknfeel")
 require("hypr.common.workspaces")
 -- require("hypr.common.bindings.utilities")
 
---** omarchy prelude
 -- require("hypr." .. dc.host .. ".bindings.media")
 -- require("hypr." .. dc.host .. ".bindings.tiling")
 -- require("hypr." .. dc.host .. ".bindings.utilities")
@@ -60,6 +59,7 @@ require("hypr.workspaces.tuitray")
 --** submaps
 require("hypr.submaps.hjinspect")
 require("hypr.submaps.oinspect")
+require("hypr.submaps.walker")
 
 --** rules
 require("hypr.rules")

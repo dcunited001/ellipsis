@@ -337,6 +337,10 @@ Guix channel.")
 
 (setopt window-combination-resize t)
 
+;; otherwise it's impossible to grab the windows w/ mouse 2 resize
+(setq window-divider-default-right-width 3
+      window-divider-default-bottom-width 3)
+
 (defun dc/toggle-window-balance ()
   "Toggle between `maximize-window' and `balance-windows' depending on
 `window-width' and `frame-width'."
@@ -359,6 +363,11 @@ If no popups are available, display the *Messages* buffer in a popup window."
           ((ignore-errors (+popup/restore)))
           ((display-buffer (get-buffer "*Messages*"))))))
 
+(after! customize
+  (set-popup-rules!
+    '(("^\\*Customize"
+       :slot 2 :side right :size 0.25 :select t :quit nil))))
+
 ;;;; Basics
 ;;
 ;;;;; Tooltips
@@ -370,12 +379,8 @@ If no popups are available, display the *Messages* buffer in a popup window."
     (tool-bar-mode -1)))
 
 ;;;;; Menus
+
 ;;;;; Date & Time
-;;;;; Desktop
-(after! customize
-  (set-popup-rules!
-    '(("^\\*Customize"
-       :slot 2 :side right :size 0.25 :select t :quit nil))))
 
 ;;;;; Desktop
 

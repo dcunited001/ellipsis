@@ -275,6 +275,8 @@ in
 
       # DESKTOP: DEBUG
       wev
+      bustle
+      desktop-file-utils
 
       # GTK
       dconf-editor
