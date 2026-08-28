@@ -1,0 +1,38 @@
+#!/usr/bin/env bash
+
+bytes=32
+source=/dev/urandom
+
+_print_usage() {
+    echo "`basename $0` [-b <bytes>] [<source>]"
+    echo
+    echo "bytes must be even"
+}
+
+# 6:  15C6:A965:26D2 
+# 12: C10C:33E6:EC80:9DFB:D810:6D8B 
+# 24: 00E4:87A9:147B:1634:A279:53D0:C4F4:0178:1D7A:F2FE:1B78:7BD4 
+
+while getopts :b: OPT; do
+    case $OPT in
+        b)
+            bytes="$OPTARG"
+            ;;
+        *)
+            _print_usage
+            exit 2
+    esac
+done
+shift `expr $OPTIND - 1`
+OPTIND=1
+
+chunk_bytes=2
+chunks="$(($bytes/$chunk_bytes))"
+
+# for hex, luckily octal doesn't need to be interpolated
+hd_hex_formatter="%0$((2 * chunk_bytes))X"
+hd_expr="$((chunks - 1))/$chunk_bytes \"$hd_hex_formatter:\""
+hd_expr="$hd_expr 1/$chunk_bytes \"$hd_hex_formatter \n\""
+
+# echo $hd_expr
+hexdump -vn"$bytes" -e "$hd_expr" /dev/urandom
