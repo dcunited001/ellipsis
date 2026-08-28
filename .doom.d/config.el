@@ -1448,6 +1448,19 @@ with open(\"nixos_trying_rocm_tensorflow_jax.html\",'w') as fp:
 
 ;;;;; LaTeX
 
+;; engraved exports source blocks with emacs' theme settings
+;; - may conflict with microtype
+(use-package engrave-faces :defer t)
+(after!
+  (use-package engrave-faces-latex))
+
+(defun dc/ox-engraved-enable ()
+  (interactive)
+  ;; also customize `org-latex-engraved-preamble' and
+  ;; `org-latex-engraved-options'.
+  (setq-local org-latex-src-block-backend 'engraved
+              org-latex-engraved-theme 'doom-one-light))
+
 ;;;;; Beamer
 
 ;;;;; Reveal

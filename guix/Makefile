@@ -173,9 +173,14 @@ ghcontainer:
 # To just quickly extract a few files from the container
 GUIX_HOST_HE="(@ (dc home kharis) kharis-home-environment)"
 
-.PHONY: guixHomeContainer
-guixHomeContainer:
+.PHONY: guix-home-container
+guix-home-container:
 	guix home -L $(MKDIR)/dc container --share="$(MKDIR)" -e $(GUIX_HOST_HE)
 
+GS_SHELL=$(GUIXTM) -- shell guix -D guile-studio guile-studio \
+	--with-input=emacs=emacs-pgtk
+.PHONY: guile-studio
+guile-studio:
+	$(GS_SHELL) -- guile-studio
 
 # end

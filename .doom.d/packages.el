@@ -242,6 +242,9 @@
 
 ;; the doom module will pull in cfw.* packages
 
+;;** Org Export
+(package! engrave-faces)
+
 ;;** Org Content
 (package! qrencode)
 
