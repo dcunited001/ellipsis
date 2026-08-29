@@ -10,19 +10,34 @@
 ;; require re-syncing the ~/.emacs.d/.local/elpa/gpg keyring
 ;; (setq package-gnupghome-dir nil)
 
-;;;; Packages and Custom.el
+;;;; Custom.el
 (setq use-package-enable-imenu-support t
       custom-file (expand-file-name "custom.el" user-emacs-directory))
 (load custom-file)
 
-(require 'package)
-(add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
+;;;; package.el
+
+;; maybe prevent from loading
+(when package-enable-at-startup
+  (require 'package)
+  (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/")))
+
+;;;; Ensure packages are available
+
+;; otherwise stop loading: when some of these are half-loaded, it causes
+;; issues with emacs-lisp compilation (lispy somehow does this, as do the
+;; symbols scheme-mode and geiser-mode if they don't exist yet
+(require 'find-func)
+(unless (find-library-name "a")
+  (user-error "Fix emacs packages."))
+
+(unless (and (find-library-name "nix-ts-mode") (find-library-name "magit"))
+  (user-error "Fix emacs packages: still missing magit, nix-ts-mode or tree-sitter-nix."))
 
 ;;;; Essential Libs
 (use-package a :demand t)
 
 ;;;; No Littering
-
 (use-package no-littering :demand t)
 
 ;;;; Editor
@@ -52,7 +67,7 @@
 (use-package xkb-mode :defer t)
 (use-package nix-mode :defer t)
 (use-package json-mode :defer t)
-(use-package yuck-mode :defer t)
+;; (use-package yuck-mode :defer t)
 (use-package toml-mode :defer t)
 (use-package ace-window
   :demand t
@@ -125,9 +140,12 @@
 
 ;;; Lisp
 
+(require 'scheme)
+(use-package geiser :defer t)
 (use-package lispy
   :defer t
-  :hook '(emacs-lisp-mode))
+  :after (scheme-mode geiser-mode)
+  :hook '((emacs-lisp-mode scheme-mode geiser-mode)))
 
 ;;; Org
 (require 'hop-org)

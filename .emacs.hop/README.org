@@ -11,6 +11,26 @@ but...
 2) instead configures most settings using =custom.el=, sincluding the
    default packages to install.
 
+#+begin_quote
+Note: I've added a check for =package-enable-at-startup= in =init.el= so
+=package.el= loads ELPA deps only when that variable retains the default
+value -- override in =early-init.el=.
+
+Also, on nixos, =guix.nix= applies a set of Guix profiles using
+=system.userActivationScripts.guix-activate-user-profiles=. Thus, using =guix
+install= may cause =~/.guix-profile/etc/profile= to change, but it doesn't
+seem to affect =env= until complete logout/login (afaik...)
+
+Starting with =guix shell -p ~/.guix-profile -- emacs -nw= will forces an
+updated =./etc/profile= evaluation, in case =EMACSLOADPATH= was changed. In
+particular, environment variables were present in
+=~/.guix-profile/etc/profile=, usually point to the top-level profile itself,
+but lines may have been added.
+
+... super confusing, since it takes a few days/restarts or whatever to get
+some new random behavior for my "main alt" emacs profile.
+#+end_quote
+
 ** Notes
 
 In any case, it gets me quality of life features like

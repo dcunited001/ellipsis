@@ -53,6 +53,9 @@
 (use-package a :demand t)
 (require 'a)
 
+;;;; No Littering
+(use-package no-littering :demand t)
+
 ;;; User
 (setopt user-mail-address (or (getenv "EMAIL") "aionfork@gmail.com"))
 (setopt epg-user-id user-mail-address)
