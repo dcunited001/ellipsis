@@ -5,10 +5,10 @@
  ;; If there is more than one, they won't work right.
  '(custom-file "~/.emacs.d/custom.el")
  '(package-selected-packages
-   '(0x0 a ace-window cape consult consult-dir corfu corfu-terminal ef-themes
-     embark embark-consult json-mode lispy magit marginalia markdown-mode
-     multiple-cursors nix-mode no-littering orderless toml-mode vertico
-     x509-mode xkb-mode xkb-mode yuck-mode))
+   '(a ace-window avy cape consult consult-dir corfu corfu-terminal ef-themes
+     embark embark-consult git-link json-mode lispy marginalia
+     markdown-mode multiple-cursors no-littering orderless
+     toml-mode vertico x509-mode xkb-mode yuck-mode zoutline))
  '(safe-local-variable-values
    '((eval let
       ((root-dir-unexpanded
