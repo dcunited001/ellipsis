@@ -7,12 +7,6 @@
           "id": "omarchy.menu"
         },
         {
-          "id": "omarchy.workspaces"
-        },
-        {
-          "id": "omarchy.active-window"
-        },
-        {
           "id": "io.github.thetrueferret.decent-workspaces"
         }
       ],
@@ -40,6 +34,9 @@
         },
         {
           "id": "omarchy.system-update"
+        },
+        {
+          "id": "omarchy.active-window"
         }
       ],
       "right": [
