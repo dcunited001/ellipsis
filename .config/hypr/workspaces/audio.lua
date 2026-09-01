@@ -8,6 +8,7 @@ ws_audio.border_color = ws_music.border_color
 ws_audio.launch = "uwsm app -- coppwr"
 
 --* Workspaces
+local wsname = "special:" .. ws_audio.name
 
 --** Audio Workspace
 
@@ -16,7 +17,7 @@ dc.ws.binds_special(ws_audio.mod, ws_audio.key, ws_audio.name)
 
 --*** Rules
 hl.workspace_rule({
-    workspace = "special:" .. ws_audio.name,
+    workspace = wsname,
     border_size = 10,
     on_created_empty = "[float] " .. ws_audio.launch
 })
@@ -24,7 +25,7 @@ hl.workspace_rule({
 -- helvum
 hl.window_rule({
     match = { class = "(org.pipewire.Helvum)" },
-    workspace = "special:" .. ws_audio.name,
+    workspace = wsname,
     float = true,
     move = "5% 5%",
     border_color = ws_audio.border_color
@@ -32,7 +33,7 @@ hl.window_rule({
 
 hl.window_rule({
     match = { class = "(io.github.dimtpap.coppwr)" },
-    workspace = "special:" .. ws_audio.name,
+    workspace = wsname,
     float = true,
     size = "75% 75%",
     move = "15% 15%",
@@ -41,7 +42,7 @@ hl.window_rule({
 
 hl.window_rule({
     match = { class = "(org.rncbc.qpwgraph)" },
-    workspace = "special:" .. ws_audio.name,
+    workspace = wsname,
     float = true,
     size = "48% 27%",
     move = "100%-w-5% 100%-w-5%",
@@ -50,7 +51,7 @@ hl.window_rule({
 
 hl.window_rule({
     match = { class = "(org.pulseaudio.pavucontrol)" },
-    workspace = "special:" .. ws_audio.name,
+    workspace = wsname,
     float = true,
     size = "25% 25%",
     move = "100%-2-5% 5%",
@@ -59,19 +60,21 @@ hl.window_rule({
 
 --** Music Workspace
 
+wsname = "special:" .. ws_music.name
+
 --*** Binds
 dc.ws.binds_special(ws_music.mod, ws_music.key, ws_music.name)
 
 --*** Rules
 hl.workspace_rule({
-    workspace = "special:" .. ws_music.name,
+    workspace = wsname,
     border_size = 10,
     on_created_empty = "[float] " .. ws_music.launch
 })
 
 hl.window_rule({
     match = { class = "(vlc)" },
-    workspace = "special:" .. ws_music.name,
+    workspace = wsname,
     float = true
 })
 

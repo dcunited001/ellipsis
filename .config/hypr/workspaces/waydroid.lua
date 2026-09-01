@@ -5,8 +5,9 @@ local ws_waydroid = { name = "waydroid", mod = "MOD3", key = "A" }
 dc.ws.binds_special(ws_waydroid.mod, ws_waydroid.key, ws_waydroid.name)
 
 --** Workspace
+local wsname = "special:" .. ws_waydroid.name
 hl.workspace_rule({
-    workspace = "special:" .. ws_waydroid.name,
+    workspace = wsname,
     border_size = 5
 })
 

@@ -7,7 +7,9 @@ ws_pass.launch = "uwsm app -- keepassxc"
 --** Binds
 dc.ws.binds_special_ws(ws_pass)
 
-hl.workspace_rule({ workspace = "special:" .. ws_pass.name, on_created_empty = ws_pass.launch })
+--** Workspace
+local wsname = "special:" .. ws_pass.name
+hl.workspace_rule({ workspace = wsname, on_created_empty = ws_pass.launch })
 
 --** Rules
 for i, c in ipairs({ "keepassxc", "org.keepassxc.KeePassXC", "pwsafe" }) do

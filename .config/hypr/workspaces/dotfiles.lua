@@ -7,8 +7,10 @@ local dfemacs = { prefix = "♦ DOOM", tab = "df¶\\.doom\\.d" }
 dc.ws.binds_special(ws_dfemacs.mod, ws_dfemacs.key, ws_dfemacs.name)
 
 --** Workspace
+local wsname = "special:" .. ws_dfemacs.name
+
 hl.workspace_rule({
-    workspace = "special:" .. ws_dfemacs.name,
+    workspace = wsname,
     border_size = ws_dfemacs.border_size,
     on_created_empty = dc.activities_launch(dfemacs.tab)
 })
@@ -22,7 +24,7 @@ end)
 for i, title in ipairs(emacs_tabs) do
     hl.window_rule({
         match = { title = title },
-        workspace = "special:" .. ws_dfemacs.name,
+        workspace = wsname,
         size = "1920 1080",
         float = true
     })
@@ -37,8 +39,9 @@ local dfhypr = { prefix = "♦ DOOM", tab = "df¶hypr" }
 dc.ws.binds_special(ws_dfhypr.mod, ws_dfhypr.key, ws_dfhypr.name)
 
 --** Workspace
+wsname = "special:" .. ws_dfhypr.name
 hl.workspace_rule({
-    workspace = "special:" .. ws_dfhypr.name,
+    workspace = wsname,
     border_size = ws_dfhypr.border_size,
     on_created_empty = dc.activities_launch(dfhypr.tab)
 })
@@ -46,7 +49,7 @@ hl.workspace_rule({
 --** Rules
 hl.window_rule({
     match = { title = title },
-    workspace = "special:" .. ws_dfhypr.name,
+    workspace = wsname,
     size = "1920 1080",
     float = true
 })
@@ -60,8 +63,10 @@ local dfnixos = { prefix = "♦ DOOM", tab = "df¶nixos" }
 dc.ws.binds_special(ws_dfnixos.mod, ws_dfnixos.key, ws_dfnixos.name)
 
 --** Workspace
+wsname = "special:" .. ws_dfnixos.name
+
 hl.workspace_rule({
-    workspace = "special:" .. ws_dfnixos.name,
+    workspace = wsname,
     border_size = ws_dfnixos.border_size,
     on_created_empty = dc.activities_launch(dfnixos.tab)
 })
@@ -69,7 +74,7 @@ hl.workspace_rule({
 --** Rules
 hl.window_rule({
     match = { title = title },
-    workspace = "special:" .. ws_dfnixos.name,
+    workspace = wsname,
     size = "1920 1080",
     float = true
 })
@@ -83,8 +88,10 @@ local dfguix = { prefix = "♦ GUIX", tab = "df¶guix" }
 dc.ws.binds_special(ws_dfguix.mod, ws_dfguix.key, ws_dfguix.name)
 
 --** Workspace
+wsname = "special:" .. ws_dfguix.name
+
 hl.workspace_rule({
-    workspace = "special:" .. ws_dfguix.name,
+    workspace = wsname,
     border_size = ws_dfguix.border_size,
     on_created_empty = dc.activities_launch(dfguix.tab)
 })
@@ -92,7 +99,7 @@ hl.workspace_rule({
 --** Rules
 hl.window_rule({
     match = { title = title },
-    workspace = "special:" .. ws_dfguix.name,
+    workspace = wsname,
     size = "1920 1080",
     float = true
 })

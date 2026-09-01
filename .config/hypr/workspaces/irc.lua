@@ -14,8 +14,10 @@ end
 dc.ws.binds_special(ws_irc.mod, ws_irc.key, ws_irc.name)
 
 --** Workspace
+local wsname = "special:" .. ws_irc.name
+
 hl.workspace_rule({
-    workspace = ws_irc.name,
+    workspace = wsname,
     monitor = ws_irc.monitor,
     on_created_empty = "[float] " .. ws_irc.launch
 })
@@ -30,7 +32,7 @@ local qtiles = {
 for i, title in ipairs(qtiles) do
     hl.window_rule({
         match = { class = qclass, title = title },
-        workspace = "special:" .. ws_irc.name,
+        workspace = wsname,
         tile = true,
     })
 end

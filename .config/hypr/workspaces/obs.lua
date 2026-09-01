@@ -10,12 +10,14 @@ local obs_class = "com.obsproject.Studio"
 -- note: not a special workspace
 
 --** Binds
-dc.ws.binds_special(ws_obs.mod, ws_obs.key, ws_obs.name)
+dc.ws.binds_ws(ws_obs)
 
 --** Workspace
+local wsname = "name:" .. ws_obs.name
+
 -- windowrule = workspace name:$wsObs, match:class $wsObsClass
 hl.workspace_rule({
-    workspace = ws_obs.name,
+    workspace = wsname,
     monitor = ws_obs.monitor,
     on_created_empty = "[float] " .. ws_obs.launch,
     border_size = 16

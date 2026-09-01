@@ -12,6 +12,16 @@ function dc.ws.binds(mod, key, name)
         { description = "Move Win to WS: " .. name })
 end
 
+function dc.ws.binds_ws(ws)
+    local name = "name:" .. ws.name
+    hl.bind(table.concat({ ws.mod, ws.key }, "+"),
+        hl.dsp.focus({ workspace = name }),
+        { description = "Toggle WS: " .. name })
+    hl.bind(table.concat({ ws.mod, "SHIFT", ws.key }, "+"),
+        hl.dsp.window.move({ workspace = name }),
+        { description = "Move Win to WS: " .. name })
+end
+
 function dc.ws.binds_special(mod, key, name)
     hl.bind(table.concat({ mod, key }, "+"),
         hl.dsp.workspace.toggle_special(name),

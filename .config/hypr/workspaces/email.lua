@@ -1,5 +1,6 @@
 --* EMAIL
 local ws_email = { name = "email", mod = "MOD3", key = "E" }
+
 -- ws_email.border_color = ws_email.border_color
 ws_email.launch = "thunderbird --name org.mozilla.Thunderbird -mail -calendar"
 ws_email.monitor = dc.m2.output
@@ -8,13 +9,15 @@ ws_email.border_size = 5
 local tbird = { class = "(org\\.mozilla\\.)?[Tt]hunderbird" }
 
 --** Binds
-dc.ws.binds(ws_email.mod, ws_email.key, ws_email.name)
+dc.ws.binds_ws(ws_email)
 
 --** Workspace
+local wsname = "name:" .. ws_email.name
+
 hl.workspace_rule({
-    workspace = ws_email.name,
+    workspace = wsname,
     monitor = ws_email.monitor,
-    on_created_empty = "[float] " .. ws_email.launch
+    on_created_empty = "[tile] " .. ws_email.launch
 })
 
 --** Rules
@@ -22,7 +25,7 @@ hl.workspace_rule({
 -- thunderbird
 hl.window_rule({
     match = { class = tbird.class },
-    workspace = ws_email.name,
+    workspace = wsname,
     border_color = ws_email.border_color,
     border_size = ws_email.border_size
 })
@@ -36,7 +39,7 @@ local tbird_small_titles = {
 for i, title in ipairs(tbird_small_titles) do
     hl.window_rule({
         match = { class = tbird.class, title = title },
-        workspace = ws_email.name,
+        workspace = wsname,
         float = true,
         size = "640 360",
     })
@@ -51,14 +54,14 @@ tbird_floats = {
 for i, title in ipairs(tbird_floats) do
     hl.window_rule({
         match = { class = tbird.class, title = title },
-        workspace = ws_email.name,
+        workspace = wsname,
         float = true,
     })
 end
 
 hl.window_rule({
     match = { class = tbird.class, title = "(Write: ).*" },
-    workspace = ws_email.name,
+    workspace = wsname,
     float = true,
     size = "1280 720"
 })

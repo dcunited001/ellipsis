@@ -6,8 +6,10 @@ ws_forum.border_size = 5
 dc.ws.binds_special(ws_forum.mod, ws_forum.key, ws_forum.name)
 
 --** Workspace
+local wsname = "special:" .. ws_forum.name
+
 hl.workspace_rule({
-    workspace = "special:" .. ws_forum.name,
+    workspace = wsname,
     border_size = 5
 })
 
