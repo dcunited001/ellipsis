@@ -9,6 +9,8 @@ dofile((os.getenv("OMARCHY_PATH") or "/usr/share/omarchy") .. "/default/hypr/boo
 
 -- omarchy_default_bindings = false, omarchy_preinstalled_bindings = false
 require("default.hypr.omarchy")
+
+--* config
 require("hypr.common.config")
 require("hypr." .. dc.host .. ".config")
 require("hypr." .. dc.host .. ".autostart")
@@ -47,6 +49,7 @@ require("hypr.workspaces.docs")
 require("hypr.workspaces.email")
 require("hypr.workspaces.dotfiles")
 require("hypr.workspaces.forum")
+require("hypr.workspaces.frc")
 require("hypr.workspaces.irc")
 require("hypr.workspaces.man")
 require("hypr.workspaces.obs")

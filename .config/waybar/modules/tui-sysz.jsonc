@@ -4,8 +4,8 @@
     "return-type": "json",
     "exec": "echo '{\"class\": \"tuitray\"}'",
     "format": "制",
-    "on-click": "uwsm app -- alacritty --class 'Alacritty:org.dc.tuitray' -T 'tuitray:isd' -e isd",
-    "on-click-right": "uwsm app -- alacritty --class 'Alacritty:org.dc.tuitray' -T 'tuitray:sysz' -e sysz"
+    "on-click": "omarchy-launch-tui isd",
+    "on-click-right": "omarchy-launch-tui sysz"
   },
   
   //    "custom/docker-tui": // 箱 (box/railcar)

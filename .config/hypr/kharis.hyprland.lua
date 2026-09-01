@@ -40,10 +40,10 @@ require("hypr.workspaces.docs")
 require("hypr.workspaces.email")
 require("hypr.workspaces.dotfiles")
 require("hypr.workspaces.forum")
--- require("hypr.workspaces.frc")
+require("hypr.workspaces.frc")
 require("hypr.workspaces.irc")
 require("hypr.workspaces.man")
--- require("hypr.workspaces.obs")
+require("hypr.workspaces.obs")
 require("hypr.workspaces.pass")
 require("hypr.workspaces.orgmode")
 require("hypr.workspaces.scratchterm")
@@ -51,6 +51,8 @@ require("hypr.workspaces.tuitray")
 
 --** submaps
 require("hypr.submaps.hjinspect")
+require("hypr.submaps.oinspect")
+require("hypr.submaps.walker")
 
 --** rules
 require("hypr.rules")

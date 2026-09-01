@@ -1,11 +1,15 @@
 --* TUI Tray
 local ws_tuitray = { name = "tuitray", mod = "MOD3", key = "Prior" }
 ws_tuitray.launch = "isd"
-local tuitray = { class = "org.dc.tuitray", prefix = "tuitray" }
+local tuitray = { class = "org.omarchy.tuitray", prefix = "tuitray" }
 
+-- works to launch simple commands
 local function tuitray_cmd(tui)
+    return "omarchy-launch-tui --app-id='org.omarchy." .. tui .. "' --title='tuitray:" .. tui .. "' " .. tui
+
+    -- OLD
     -- tui class and bin name should match
-    return "alacritty --class 'Alacritty:org.dc.tuitray' -T 'tuitray:" .. tui .. "' -e " .. tui
+    -- return "alacritty --class 'Alacritty:org.dc.tuitray' -T 'tuitray:" .. tui .. "' -e " .. tui
 end
 
 --** Binds
@@ -37,14 +41,45 @@ local tuitray_apps = {
     lazydocker = { size = "80% 80%", move = "100%-w-5% 100%-w-5%" },
 }
 
+-- TODO: need to add class/title prefix so TUIs can be intended to launch on a
+-- to the "tuitray" workspace
+
 for k, v in pairs(tuitray_apps) do
     hl.window_rule({
         match = {
-            class = "^(Alacritty:" .. tuitray.class .. ")",
-            title = tuitray.prefix .. ":" .. k
+            class = "^(org.omarchy." .. k .. ")",
+            -- title = tuitray.prefix .. ":" .. k
         },
         float = true,
         size = v.size,
         move = v.move
     })
 end
+
+-- NEW
+--
+-- Title: Alacritty (Alacritty)
+-- Class: org.omarchy.btop (org.omarchy.btop)
+-- Workspace -96 (special:hypr)
+-- On Monitor 3
+-- ([875,600]) @ ([523,1193])
+
+-- OLD
+--
+-- Title: tuitray:isd (tuitray:isd)
+-- Class: Alacritty:org.dc.tuitray (Alacritty:org.dc.tuitray)
+-- Workspace -87 (special:tuitray)
+-- On Monitor 3
+-- ([800,600]) @ ([560,1193])
+
+-- for k, v in pairs(tuitray_apps) do
+--     hl.window_rule({
+--         match = {
+--             class = "^(Alacritty:" .. tuitray.class .. ")",
+--             title = tuitray.prefix .. ":" .. k
+--         },
+--         float = true,
+--         size = v.size,
+--         move = v.move
+--     })
+-- end

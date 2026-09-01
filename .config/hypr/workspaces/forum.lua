@@ -15,9 +15,10 @@ hl.workspace_rule({
 
 --** Rules
 local chrome_apps = {
-    chiefdelphi = { title = "Chief Delphi", size = "960 960", move = "100%-w-5% 100%-w-5%" },
-    systemcrafters = { title = "System Crafters", size = "960 960", move = "100%-w-5% 5%" },
-    nixos = { title = "NixOS Discourse", size = "960 960", move = "5% 5%" },
+    chiefdelphi = { title = "Chief Delphi", size = { 960, 960 }, move = "100%-w-5% 100%-w-5%" },
+    systemcrafters = { title = "System Crafters", size = { 960, 960 }, move = "100%-w-5% 5%" },
+    nixos = { title = "NixOS Discourse", size = { 960, 960 }, move = "5% 5%" },
+    band = { title = "Band", size = { 960, 960 } },
 }
 
 for k, app in pairs(chrome_apps) do
@@ -25,6 +26,6 @@ for k, app in pairs(chrome_apps) do
         match = { class = "(chrome-.*)$", title = "(" .. app.title .. ".*)$" },
         float = true,
         size = app.size,
-        move = app.move
+        move = (app.move or { "(monitor_h / 4)", "(monitor_h / 4)" })
     })
 end

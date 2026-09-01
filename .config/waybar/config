@@ -104,11 +104,11 @@
 
   "cpu": {
     "format": " {usage}%",
-    "on-click": "uwsm app -- alacritty --class 'Alacritty:org.dc.tuitray' -T 'tuitray:btop' -e btop"
+    "on-click": "omarchy-launch-tui btop"
   },
   "memory": {
     "format": "田{:>3}%",
-    "on-click": "uwsm app -- alacritty --class 'Alacritty:org.dc.tuitray' -T 'tuitray:btop' -e btop"
+    "on-click": "omarchy-launch-tui btop"
   },
   "temperature": {
     // "thermal-zone": 2,
@@ -131,7 +131,7 @@
     "format-alt": "{ifname}: {ipaddr}/{cidr}",
     "tooltip-format-wifi": "  {ifname} @ {essid}\nIP: {ipaddr}\nStrength: {signalStrength}%\nFreq: {frequency}MHz\nUp: {bandwidthUpBits} Down: {bandwidthDownBits}",
     "tooltip-format-ethernet": " {ifname}\nIP: {ipaddr}\n up: {bandwidthUpBits} down: {bandwidthDownBits}",
-    "on-click": "uwsm app -- alacritty --class 'Alacritty:org.dc.tuitray' -T 'tuitray:nmtui' -e nmtui",
+    "on-click": "omarchy-launch-tui nmtui",
     "on-right-click": "uwsm-app -- nm-connection-editor"
   },
 
