@@ -799,14 +799,22 @@ modes and testing is tedious."
   :config
   (setq corfu-auto-prefix 3
 
-        ;; the doom defaults
-        global-corfu-modes '((not erc-mode circe-mode help-mode gud-mode vterm-mode) t)
-        corfu-popupinfo-min-height 5
-        corfu-popupinfo-max-height 15
-        corfu-popupinfo-direction 'right     ; default list: '(right left down)
-        corfu-popupinfo-delay '(1.0 . 0.5)
+        ;; for completion already in the minibuffer
+        ;; +corfu-want-minibuffer-completion 'aggressive
 
-        corfu-preview-current nil))
+        ;; the doom defaults
+        global-corfu-modes '((not erc-mode circe-mode help-mode gud-mode vterm-mode) t)))
+
+;; (use-package! corfu-popupinfo-delay
+;;   :defer t
+;;   :after corfu
+;;   :config
+;;   (setq corfu-popupinfo-min-height 5
+;;         corfu-popupinfo-max-height 15
+;;         corfu-popupinfo-direction 'right ; default list: '(right left down)
+;;         corfu-popupinfo-delay '(0.5 . 1.0)
+
+;;         corfu-preview-current nil))
 
 ;;;;; Orderless
 
