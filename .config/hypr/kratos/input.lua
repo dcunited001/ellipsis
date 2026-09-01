@@ -2,9 +2,19 @@ local xkb_opts = {
     "caps:ctrl_modifier",
     "lv3:ralt_alt",
     "altwin:menu_win",
-    "mylvl5:ins_switch",
+    "mylvl5:ins_hyper",
+    -- "mylvl5:ins_replace",
+    -- "mylvl5:ins_switch",
     "mylvl3:sclk_switch",
     "menu2:xf86calculator_menu" }
+
+-- TODO: ghostty and chromium are processing keybinds differently
+--
+-- - ghostty inserts escaped keycodes
+-- - chromium wants me to paste everything with shift+insert
+--
+-- hl.bind("Insert", hl.dsp.exec_cmd("notify-send Pressed Insert"))
+-- hl.bind("Shift + Insert", hl.dsp.exec_cmd("notify-send Pressed Shift+Insert"))
 
 -- works on dell pc104: mylvl3:lctl_switch,underspace:altgr_underscore
 -- { "fmedia:voldown_f18", "fmedia:mute_f17" }

@@ -2,6 +2,9 @@
   underspace:shift_underscore		= +underspace(shift_underscore)
   underspace:altgr_underscore		= +underspace(altgr_underscore)
 
+  mylvl5:ins_replace				= +mylevel5(ins_replace)
+  mylvl5:ins_hyper  				= +mylevel5(ins_hyper)
+
   mylvl5:ins_switch					= +mylevel5(ins_switch)
   mylvl5:display_switch				= +mylevel5(display_switch)
   mylvl5:micmute_switch				= +mylevel5(micmute_switch)

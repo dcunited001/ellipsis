@@ -76,6 +76,14 @@
       </configItem>
       <option>
         <configItem>
+          <name>mylvl5:ins_replace</name>
+          <description>Replace Insert with level 5 pain.</description>
+        </configItem>
+        <configItem>
+          <name>mylvl5:ins_hyper</name>
+          <description>Replace Insert with hyper as mod3 </description>
+        </configItem>
+        <configItem>
           <name>mylvl5:ins_switch</name>
           <description>Insert chooses 5th level. Get You A Reboot</description>
         </configItem>
