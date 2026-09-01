@@ -2,7 +2,7 @@
 
 local ws_discord = { name = "discord", mod = "SUPER + ALT", key = "Delete" }
 ws_discord.size = "90% 90%"
-ws_discord.launch = 'uwsm app -- chromium --app="https://discord.com/channels/@me"'
+ws_discord.launch = o.launch_webapp("https://discord.com/channels/@me");
 
 local hyprhost = os.getenv("HYPRHOST")
 if hyprhost == "kharis" then

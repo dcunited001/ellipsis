@@ -73,7 +73,7 @@
       # "home/dc/ectorepo.nix"
       "home/dc/hypr.nix"
       "home/dc/hypridle.nix"
-      "home/dc/swaync.nix"
+      # "home/dc/swaync.nix"
       "home/dc/thunderbird.nix"
       "home/dc/xdg-terminal.nix"
       "home/dc/yktouch.nix"

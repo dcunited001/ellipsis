@@ -33,9 +33,9 @@
       "audio": "󰜟",
       "discord": "🗨",
       "docs": "𝔻", // D doublestruck
-      "dotfilesEmacs": "¶E",
-      "dotfilesHypr": "¶H",
-      "dotfilesNixos": "¶N",
+      "emacs": "¶E",
+      "hypr": "¶H",
+      "nixos": "¶N",
       "focused": "",
       "forum": "⨖",
       "frcAscope": "𝔽A1", // F doublestruck

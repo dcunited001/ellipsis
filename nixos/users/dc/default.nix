@@ -15,7 +15,7 @@ in
 {
   imports = [
     ./omarchy.nix
-    ./swaync.nix
+    # ./swaync.nix
     ./try.nix
   ];
 
@@ -233,6 +233,9 @@ in
       wl-clipboard-rs
       dex
       file-roller
+
+      # DESKTOP: NOTIFICATIONS
+      libnotify
 
       # DESKTOP: SCREENSHOTS
       grim
