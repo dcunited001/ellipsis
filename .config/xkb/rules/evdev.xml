@@ -76,8 +76,8 @@
       </configItem>
       <option>
         <configItem>
-          <name>mylvl5:f22_hyper</name>
-          <description>Replace F22 with Hyper as MOD3. Configure F22 with keyd</description>
+          <name>mylvl5:f24_hyper</name>
+          <description>Replace F24 with Hyper as MOD3. Configure F24 with keyd</description>
         </configItem>
         <configItem>
           <name>mylvl5:ins_replace</name>
