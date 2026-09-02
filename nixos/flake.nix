@@ -145,7 +145,8 @@
     sops-nix.inputs.nixpkgs.follows = "nixpkgs";
 
     # TODO: nix-secrets repo
-    # dotsops.url = "codeberg.org:aionfork/dotsops";
+    dotsops.url = "git+ssh://codeberg.org/aionfork/dotsops";
+    dotsops.inputs.nixpkgs.follows = "nixpkgs";
 
     elephant.url = "github:abenz1267/elephant";
     elephant.inputs.nixpkgs.follows = "nixpkgs"; # "nixpkgs-unstable";

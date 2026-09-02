@@ -77,6 +77,26 @@
         "type": "github"
       }
     },
+    "dotsops": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1788299443,
+        "narHash": "sha256-uhST47SAxHefofmsIVmbikkhduS4rZZcyA63T6DMdis=",
+        "ref": "refs/heads/main",
+        "rev": "84fa0c90823ceeecffc122075b7b4bd3e5322efe",
+        "revCount": 1,
+        "type": "git",
+        "url": "ssh://codeberg.org/aionfork/dotsops"
+      },
+      "original": {
+        "type": "git",
+        "url": "ssh://codeberg.org/aionfork/dotsops"
+      }
+    },
     "elephant": {
       "inputs": {
         "nixpkgs": [
@@ -723,6 +743,7 @@
       "inputs": {
         "browser-previews": "browser-previews",
         "disko": "disko",
+        "dotsops": "dotsops",
         "elephant": "elephant",
         "flake-compat": "flake-compat",
         "flake-schemas": "flake-schemas",
