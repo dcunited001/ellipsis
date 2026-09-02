@@ -26,6 +26,18 @@ let
       sha256 = "10z352wxgk65b6a0hv9lvanpwmdfnzhg1r3g5fsg1ikgda8q6cgc";
     }
     {
+      name = "vscode-containerlab";
+      publisher = "srl-labs";
+      version = "0.26.3";
+      sha256 = "sha256-YMuigJ6lHZI+Q1wqmsbnB00IgvvZLX0Wr5jBvoEg9+A=";
+    }
+    {
+      name = "vscode-mermaid-preview";
+      publisher = "vstirbu";
+      version = "2.1.2";
+      sha256 = "sha256-zTGFtYDGhqvhVjKvbLgwpduIPeWcZvh8QDjx/0HC+DM=";
+    }
+    {
       name = "ty";
       publisher = "astral-sh";
       version = "2026.54.0";

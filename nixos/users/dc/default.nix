@@ -17,6 +17,7 @@ in
     ./omarchy.nix
     # ./swaync.nix
     ./try.nix
+    ./containerlab.nix
   ];
 
   users.groups = {

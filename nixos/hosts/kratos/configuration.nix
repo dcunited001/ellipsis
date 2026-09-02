@@ -31,6 +31,7 @@
       "users/dc"
 
       "modules/nixos/programs/gnupg.nix"
+      "modules/nixos/programs/containerlab.nix"
       "modules/nixos/programs/obs-studio.nix"
       "modules/nixos/programs/obs-distroav.nix"
       "modules/nixos/programs/vscode.nix"
