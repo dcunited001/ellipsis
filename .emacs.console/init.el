@@ -1,3 +1,4 @@
+;; -*- lexical-binding: t; -*-
 ;; This profile is intended to run with the nonguix-install-amd image, where
 ;; they install by default to root's system profile.
 ;;
@@ -95,9 +96,13 @@
 
 ;;; Lisp
 
+;; (require 'scheme)
+;; (use-package geiser :defer t)
 (use-package lispy
   :defer t
-  :hook '((emacs-lisp-mode scheme-mode geiser-mode)))
+  :hook '((emacs-lisp-mode)))
+
+;; TODO: add hooks for (scheme-mode geiser-mode) later...
 
 (require 'hop-guix)
 

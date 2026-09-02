@@ -310,12 +310,17 @@
 
 ;;** Writing
 
+;;*** Studying
+
+
+
 ;;*** Kanji
 ;; TODO: (package! kanji-mode)
 
 ;;*** Translate
 (package! google-translate)
 (package! ob-translate)
+(package! wiktionary-bro)
 
 ;;* Social
 

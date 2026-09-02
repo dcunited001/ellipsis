@@ -1521,7 +1521,9 @@ order dependent via my config."
 ;;;;;; Wiktionary
 
 ;; TODO: https://github.com/umanwizard/emacs-wiktionary
-
+(use-package! wiktionary-bro
+  :defer t
+  :config  :map (map! :map dc/quick-map "W" #'wiktionary-bro-dwim))
 
 ;;; Programming
 

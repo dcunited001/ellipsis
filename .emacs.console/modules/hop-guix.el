@@ -61,12 +61,13 @@
 
   :demand t
   :init (require 'ffap)
-  :bind ((:map dc/quick-map
-               ("g <SPC>" . #'guix)
-               ("gX" . #'guix-extended-command)
-               ("gh" . #'guix-hash)
-               ("gsb" . #'guix-switch-to-buffer)
-               ("gsr" . #'guix-switch-to-repl)))
+  ;; :bind ((:map dc/quick-map
+  ;;              ("g <SPC>" . #'guix)
+  ;;              ("gX" . #'guix-extended-command)
+  ;;              ("gh" . #'guix-hash)
+  ;;              ("gsb" . #'guix-switch-to-buffer)
+  ;;              ("gsr" . #'guix-switch-to-repl)))
+
   ;; (setopt guix-devel-ffap-patch-directories (flatten-list (list guix-pulled-profile "patches")))
   :config
   (require 'guix-autoloads)
