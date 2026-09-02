@@ -39,6 +39,11 @@ require("hypr." .. dc.host .. ".workspaces")
 require("hypr." .. dc.host .. ".input")
 require("hypr." .. dc.host .. ".g502")
 
+--** layouts
+require("hypr.layouts.manual.layout")
+require("hypr.layouts.manual.submap")
+dc.lo.manual.bind_submap({})
+
 --** workspaces
 
 --*** per-app

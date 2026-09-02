@@ -28,6 +28,11 @@ require("hypr." .. dc.host .. ".workspaces")
 require("hypr." .. dc.host .. ".input")
 require("hypr." .. dc.host .. ".autostart")
 
+--** layouts
+require("hypr.layouts.manual.layout")
+require("hypr.layouts.manual.submap")
+dc.lo.manual.bind_submap({})
+
 -- TODO: compare $HOST/bindings/tiling.lua
 
 --** workspaces
