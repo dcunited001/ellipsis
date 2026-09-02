@@ -25,6 +25,7 @@
     ./python.nix
     ./hypr.nix
     ./blender.nix
+    ./keyd.nix
 
     (map lib.custom.relativeToRoot [
       "users/dc"
