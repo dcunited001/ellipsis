@@ -31,5 +31,12 @@ hl.window_rule({
     match = { class = "(chrome-omarchy.org__manual.*)" },
     workspace = wsname,
     float = true,
-    size = "1920 1080"
+    size = { 1120, 1050 }
+})
+
+hl.window_rule({
+    match = { class = "(chrome-search.nixos.org__.*)" },
+    workspace = wsname,
+    float = true,
+    size = { 1120, 1050 }
 })

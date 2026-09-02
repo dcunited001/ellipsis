@@ -23,11 +23,18 @@ let
   };
 in
 {
-  programs.obs-studio.plugins = [ distroavFix ];
 
-  # with pkgs.obs-studio-plugins; [
-  #   # distroav
-  # ];
+  # ... i don't think using `config` here works. it also matches on identity...
+  #
+  # programs.obs-studio.plugins = lib.mkForce (
+  #   lib.subtractLists [ pkgs.obs-studio-plugins.obs-move-transition ] config.programs.obs-studio.plugins
+  # );
+
+  # programs.obs-studio.plugins = [ distroavFix ];
+  #
+  programs.obs-studio.plugins = with pkgs.obs-studio-plugins; [
+    distroav
+  ];
 
   # https://docs.ndi.video/all/getting-started/white-paper/ndi-related-network-ports
   networking.firewall.allowedTCPPortRanges = [

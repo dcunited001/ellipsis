@@ -113,7 +113,7 @@
     #
     # 0.1.1014179: thows deprecated assertion on systemd.user.extraConfig? (for hyprland)
     # 0.1.1024265: pnpm is insecure; fontconfig blows up on cantarell (only when rebuilding it for steam/X11)
-    nixpkgs.url = "https://flakehub.com/f/DeterminateSystems/nixpkgs-weekly/0.1.1050399";
+    nixpkgs.url = "https://flakehub.com/f/DeterminateSystems/nixpkgs-weekly/0.1.1060451";
     nixpkgs-stable.url = "github:NixOS/nixpkgs/nixos-26.05";
     nixpkgs-unstable.url = "https://flakehub.com/f/NixOS/nixpkgs/0.1";
 
