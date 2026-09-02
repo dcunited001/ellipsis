@@ -63,7 +63,7 @@ fonts/**
 /nixos/result
 
 # Guix
-.guix-profile
+.guix-profile*
 
 ## Shepherd
 .config/shepherd/shepherd.log
