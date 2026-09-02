@@ -5,7 +5,8 @@ local xkb_opts = {
     "lv3:ralt_alt",
     "altwin:menu_win",
     "mylvl3:sclk_latch",
-    "mylvl5:kpen_latch",
+    -- "mylvl5:kpen_latch",
+    "mylvl5:kpen_hyper_latch",
     -- "mylvl5:display_latch",
     "mylvl5:ins_latch"
 }

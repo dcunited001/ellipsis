@@ -80,6 +80,14 @@
           <description>Replace F24 with Hyper as MOD3. Configure F24 with keyd</description>
         </configItem>
         <configItem>
+          <name>mylvl5:f24_hyper_latch</name>
+          <description>Replace F24 with Hyper as MOD3 (with latch/lock). Configure F24 with keyd</description>
+        </configItem>
+        <configItem>
+          <name>mylvl5:kpen_hyper_latch</name>
+          <description>Replace KPEN with a latching Hyper as MOD3. Configure F24 with keyd</description>
+        </configItem>
+        <configItem>
           <name>mylvl5:ins_replace</name>
           <description>Replace Insert with level 5 pain.</description>
         </configItem>

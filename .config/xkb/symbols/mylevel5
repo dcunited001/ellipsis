@@ -1,7 +1,7 @@
 // -*- mode: xkb; aphelia-mode: -1 -*-
 
 // =============================================
-// ISO_Level5_Shift
+// Hyper
 
 partial modifier_keys
 xkb_symbols "ins_switch" {
@@ -35,6 +35,29 @@ xkb_symbols "f24_hyper" {
   };
   modifier_map Mod3 { <FK24> };
 };
+
+partial alphanumeric_keys modifier_keys
+xkb_symbols "f24_hyper_latch" {
+  replace key <FK24> {
+    type[Group1] = "ONE_LEVEL",
+    symbols[Group1] = [ Hyper_L ],
+    actions[Group1] = [ LatchMods(modifiers=Mod3, latchToLock, clearLocks) ]
+  };
+  modifier_map Mod3 { <FK24> };
+};
+
+partial alphanumeric_keys modifier_keys
+xkb_symbols "kpen_hyper_latch" {
+  replace key <KPEN> {
+    type[Group1] = "ONE_LEVEL",
+    symbols[Group1] = [ Hyper_L ],
+    actions[Group1] = [ LatchMods(modifiers=Mod3, latchToLock, clearLocks) ]
+  };
+  modifier_map Mod3 { <KPEN> };
+};
+
+// =============================================
+// ISO_Level5_Shift
 
 // partial modifier_keys
 // xkb_symbols "display_switch" {

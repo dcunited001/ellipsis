@@ -3,6 +3,8 @@
   underspace:altgr_underscore		= +underspace(altgr_underscore)
 
   mylvl5:f24_hyper			        = +mylevel5(f24_hyper)
+  mylvl5:f24_hyper_latch	        = +mylevel5(f24_hyper_latch)
+  mylvl5:kpen_hyper_latch	        = +mylevel5(kpen_hyper_latch)
 
   mylvl5:ins_replace				= +mylevel5(ins_replace)
   mylvl5:ins_hyper  				= +mylevel5(ins_hyper)
