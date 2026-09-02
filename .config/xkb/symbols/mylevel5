@@ -28,12 +28,12 @@ xkb_symbols "ins_replace" {
 };
 
 partial alphanumeric_keys modifier_keys
-xkb_symbols "f22_hyper" {
-  replace key <F22> {
+xkb_symbols "f24_hyper" {
+  replace key <FK24> {
     type[Group1] = "ONE_LEVEL",
     symbols[Group1] = [ Hyper_L ]
   };
-  modifier_map Mod3 { <F22> };
+  modifier_map Mod3 { <FK24> };
 };
 
 // partial modifier_keys
