@@ -56,7 +56,8 @@ in
         #!/usr/bin/env bash
         manquery="$(walker --dmenu --keepopen -p "Query for man -k ...")"
         manpage="$(man -k "$manquery" | cut -d' ' -f1,2 | walker --dmenu -p "Open ..." | cut -f1 -d' ')"
-        setsid uwsm app -- alacritty --class 'Alacritty:org.dc.tuitray' -T 'tuitray:man' -e man "$manpage"
+        # setsid uwsm app -- alacritty --class 'Alacritty:org.dc.tuitray' -T 'tuitray:man' -e man "$manpage"
+        omarchy-launch-tui man -- "$manpage"
       '';
 
       # probably more diffucult to handle errors

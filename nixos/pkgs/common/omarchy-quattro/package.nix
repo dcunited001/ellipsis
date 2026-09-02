@@ -20,22 +20,23 @@ in
 stdenv.mkDerivation rec {
   pname = "omarchy-quattro";
   name = "omarchy-quattro-${version}";
-  commit = "ed7bae4ac5a570e9df307486e0202fdafcc6ee24";
-  version = "4.0.0-me1"; # increment revision number when package changes
+  # commit = "7eca64e2683d2a4d4620f36164f001693ae6a5b7";
+  version = "4.0.2"; # increment revision number when package changes
 
   # version = "4.0.0";
 
   src = fetchFromGitHub {
     owner = "basecamp";
     repo = "omarchy";
-    # rev = "v${version}";
-    rev = "${commit}";
-    hash = "sha256-0f9BAeRUp69o4OxyOqPV+ytFtOkpZA9MCWPL2Z5F/I0=";
+    rev = "v${version}";
+    # rev = "${commit}";
+    hash = "sha256-DtaDI3gyvK7YVnul2vRmNHHGK86Hn64WfbAVeG4888Y=";
   };
 
   # TODO: check uwsm setup (omarchy expects mise in uwsm environment)
   # TODO: compare environments
   # TODO: (hopefully) fix whatever confusing issues occur with hyprlock & omarchy shell locking
+  # TODO: missing the patched fonts from pkgs.omarchy.org
 
   nativeBuildInputs = [
     installShellFiles
