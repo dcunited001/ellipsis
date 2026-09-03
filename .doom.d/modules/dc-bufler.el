@@ -22,24 +22,30 @@
                   (auto-directory))
            (mode-match "*Helm*" (rx bos "helm-"))
            (auto-mode))
-    
-    ;; preemptively hide dired in several layers (use bufler-filter-buffer-modes)
-    ;; 
-    ;; (group (group-and "*Dired*" (mode-match "Dired" (rx bos "dired")))
-    ;;        (group
-    ;;         (group-and "*Dired2*" (mode-match "Dired" (rx bos "dired")))
-    ;;         (group (group-and "*Dired3*" (mode-match "Dired" (rx bos "dired")))
-    ;;                (auto-file))))
-    
-    (group (dir "~/.dotfiles/nixos")
-           (group (auto-indirect) (auto-file))
-           (group-and "*special*" (auto-indirect))
-           (auto-mode))
-    (group (dir "~/.dotfiles/guix")         
+    ;; (group (dir "~/forge" 1) ;; 1?
+    ;;        (group (auto-indirect) (auto-file))
+    ;;        (group-not "*special*" (auto-file))
+    ;;        ;; (group (auto-mode))
+    ;;        (auto-project)
+    ;;        (auto-mode))
+    (group (dir "~/forge" 1) ;; 1?
+           ;; 
+           (group (auto-project) (group-not "*special*" (auto-file)) (auto-mode))
+           ;; (group-and "*special*" (auto-indirect))
+           ;; (auto-project)
+           ;; (auto-mode)
+           )
+    ;; (group (auto-mode)))
+    ;; (group (dir "~/forge") ;; 1?
+    ;;        (group (auto-project) (auto-mode)))
+    (group (dir "~/Work/tries" 1)         
            (group (auto-indirect) (auto-file))
            (group-not "*special*" (auto-file))
            (auto-mode))
-    (group (dir "~/.dotfiles/.config/hypr")         
+    (group (dir "~/.dotfiles")         
+           (group (auto-indirect) (auto-file))
+           (group-not "*special*" (auto-file))
+           (auto-mode))
            (group (auto-indirect) (auto-file))
            (group-not "*special*" (auto-file))
            (auto-mode))
