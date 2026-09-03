@@ -473,16 +473,31 @@ modes and testing is tedious."
 ;; The bufler-workspace-set doesn't conflict with activities.el per se, but I
 ;; like that window title isn't restricted to the project path (
 
+;; (require 'dc-bufler)
 (use-package bufler
   :demand t
-  :custom (bufler-face-prefix "prism-level-")
   :bind
   (([remap ibuffer] . #'bufler)
    ("C-x M-b M-b" . #'bufler-sidebar)
    ("C-x M-b b" . #'bufler-workspace-set)
    ("C-x M-b <SPC>" . #'bufler-workspace-switch-buffer)
    ("C-x M-b M-<SPC>" . #'bufler-switch-buffer)
-   ("C-x M-b g" . #'bufler-list)))
+   ("C-x M-b g" . #'bufler-list))
+  :config (add-to-list 'bufler-filter-buffer-modes 'dired-mode))
+;; :config (dc/bufler-defgroups)
+
+(after! bufler
+  (add-hook 'bufler-list-mode-hook
+            (lambda ()
+              (setq-local font-lock-unfontify-region-function #'ignore))))
+(defun dc/bufler-enable-prism-faces (arg)
+  (interactive "P")
+  ;; disable when arg
+  (if arg
+      (progn (remove-hook 'bufler-list-mode-hook #'prism-mode)
+             (setq bufler-face-prefix "outline-"))
+    (add-hook 'bufler-list-mode-hook #'prism-mode)
+    (setq bufler-face-prefix "prism-faces-")))
 
 ;; Use prefix to control *Bufler* sidebar placement
 ;;
@@ -1702,7 +1717,6 @@ order dependent via my config."
 (use-package! prism
   :demand t
   :commands prism-mode prism-whitespace-mode
-  :hook (bufler-list-mode)
   :config
   (map! :map doom-leader-toggle-map "M-p" #'prism-mode))
 

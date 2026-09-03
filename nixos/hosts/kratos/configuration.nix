@@ -182,8 +182,8 @@
   # hardware.rkdeveloptool.enable = true;
 
   services.gpm.enable = true; # mouse at console (sometimes)
-  services.tlp.enable = true; # power manamagement profiles
-  services.thermald.enable = true; # thermal monitoring
+  # services.tlp.enable = true; # power manamagement profiles
+  # services.thermald.enable = true; # thermal monitoring
 
   # =============================================
   # Filesystems
