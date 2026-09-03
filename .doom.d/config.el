@@ -473,7 +473,7 @@ modes and testing is tedious."
 ;; The bufler-workspace-set doesn't conflict with activities.el per se, but I
 ;; like that window title isn't restricted to the project path (
 
-;; (require 'dc-bufler)
+(require 'dc-bufler)
 (use-package bufler
   :demand t
   :bind
@@ -483,21 +483,18 @@ modes and testing is tedious."
    ("C-x M-b <SPC>" . #'bufler-workspace-switch-buffer)
    ("C-x M-b M-<SPC>" . #'bufler-switch-buffer)
    ("C-x M-b g" . #'bufler-list))
-  :config (add-to-list 'bufler-filter-buffer-modes 'dired-mode))
+  :config
+  (add-to-list 'bufler-filter-buffer-modes 'dired-mode)
+  (add-to-list 'bufler-filter-buffer-modes 'ibuffer-mode)
+  (add-to-list 'bufler-filter-buffer-modes 'shell-command-mode)
+  (add-to-list 'bufler-filter-buffer-modes '+dashboard-mode))
 ;; :config (dc/bufler-defgroups)
 
 (after! bufler
+  (dc/bufler-set-groups)
   (add-hook 'bufler-list-mode-hook
             (lambda ()
               (setq-local font-lock-unfontify-region-function #'ignore))))
-(defun dc/bufler-enable-prism-faces (arg)
-  (interactive "P")
-  ;; disable when arg
-  (if arg
-      (progn (remove-hook 'bufler-list-mode-hook #'prism-mode)
-             (setq bufler-face-prefix "outline-"))
-    (add-hook 'bufler-list-mode-hook #'prism-mode)
-    (setq bufler-face-prefix "prism-faces-")))
 
 ;; Use prefix to control *Bufler* sidebar placement
 ;;
@@ -1538,7 +1535,7 @@ order dependent via my config."
 ;; TODO: https://github.com/umanwizard/emacs-wiktionary
 (use-package! wiktionary-bro
   :defer t
-  :config  :map (map! :map dc/quick-map "W" #'wiktionary-bro-dwim))
+  :config (map! :map dc/quick-map "W" #'wiktionary-bro-dwim))
 
 ;;; Programming
 
