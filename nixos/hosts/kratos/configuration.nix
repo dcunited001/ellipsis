@@ -372,6 +372,7 @@
     tpm2-tss
     tpm2-tools
     age
+    age-plugin-openpgp-card
     age-plugin-yubikey
     age-plugin-tpm
 

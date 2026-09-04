@@ -5,6 +5,7 @@
   #:use-module (gnu system)
   #:use-module (gnu system nss)
   #:use-module (gnu system pam)
+  #:use-module (gnu services base)
 
   #:use-module (dc services security-token)
   #:use-module (dc system common)
@@ -77,15 +78,20 @@
    emacs-yasnippet
    emacs-yasnippet-snippets))
 
+(agetty-configuration
+  (tty "ttyS0"))
+
 (define %ugt-services
   (append
    dc-smartcard-services
    (modify-services %base-services
+     ;; breaks tty1 service dep for console font service
+     ;; (delete mingetty-service-type)
      (agetty-service-type
       config => (agetty-configuration
                   (inherit config)
                   (login-pause? #t)
-                  (timeout 30)))
+                  (timeout 30))))))
 
      (mingetty-service-type
       config => (mingetty-configuration

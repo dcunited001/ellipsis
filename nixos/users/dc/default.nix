@@ -18,6 +18,7 @@ in
     # ./swaync.nix
     ./try.nix
     ./containerlab.nix
+    ./secretspec.nix
   ];
 
   users.groups = {
@@ -148,11 +149,6 @@ in
       # DEV: CRYPT
       sshpass
       pass
-      age
-      age-plugin-yubikey
-      age-plugin-tpm
-      agenix-cli
-      sops
       _1password-cli
       _1password-gui
       keepassxc
