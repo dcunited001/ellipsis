@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+echo 'stopping portals in this order'
+echo '  gtk...'
+systemctl --user stop xdg-desktop-portal-gtk
+echo '  hyprland..'
+systemctl --user stop xdg-desktop-portal-hyprland
+echo '  xdg...'
+systemctl --user stop xdg-desktop-portal-hyprland
+
+sleep 1
+echo 'starting portals in this order'
+echo '  xdg...'; sleep 1
+systemctl --user start xdg-desktop-portal-hyprland
+echo '  hyprland..'; sleep 1
+systemctl --user start xdg-desktop-portal-hyprland
+echo '  gtk...'; sleep 1
+systemctl --user start xdg-desktop-portal-gtk
+

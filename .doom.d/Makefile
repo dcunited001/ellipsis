@@ -70,8 +70,12 @@ DOOMCLI= $(DOOM_SHELL) -- $(EMACSDIR)/bin/doom
 .PHONY: sync gc build up install
 
 # syncs, but doesn't rebuild (... actually it seems to nativecomp)
+# ..... TODO: -e generates an envvar file ... i didn't really want one...
 sync: fixsystemd
 	$(DOOMCLI) sync -e
+
+sync-no-up:
+	$(DOOMCLI) sync -U
 
 gc:
 	$(DOOMCLI) gc

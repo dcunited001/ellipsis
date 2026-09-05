@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+curfocus=$HOME/.config/obs-studio/widgets/currentfocus
+cat <&0 > $curfocus
