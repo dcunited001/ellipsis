@@ -19,8 +19,8 @@ local wsname = "name:" .. ws_obs.name
 hl.workspace_rule({
     workspace = wsname,
     monitor = ws_obs.monitor,
-    on_created_empty = "[float] " .. ws_obs.launch,
-    border_size = 16
+    on_created_empty = "[tile] " .. ws_obs.launch,
+    border_size = 8
 })
 
 --** Rules
