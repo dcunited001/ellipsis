@@ -8,6 +8,7 @@
   services.avahi = {
     allowInterfaces = [
       "enp4s0"
+      "wlp4s0" # todo: remove
     ];
     denyInterfaces = [
       "enp5s0"
