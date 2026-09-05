@@ -284,14 +284,29 @@ Guix channel.")
 ;;; Projects
 ;;
 ;;;; Project.el
-;;
-;;;;; Projectile
+(use-package! project
+  :config
+  (add-to-list 'project-vc-ignores ("\\.gpg$"))
+  (add-to-list 'project-vc-ignores ("\\.enc$"))
+  (add-to-list 'project-vc-ignores ("\\.asc$")))
+
+;; that prevents project.el functionality from needing to open gpg files in
+;; directory tree for find/replace functionality.
+;; 
+;; - These are in-memory buffers, but i still don't want them opened unless i
+;;   want them opened. They should usually be closed quickly -- unless there
+;;   was a replace (or a regexp match ,followed by a buffer open)
+;; - There's also an unrelated issue for org with `org-crypt' content. this
+;;   is problematic 4 now, since hyprland wants to place pinentry behind
+;;   special workspace windows.
+
+;;;; Projectile
 
 (use-package! projectile
   :custom (projectile-project-search-path `((,dc/repo-path . 1)
                                             (,dc/ecto-path . 3))))
 
-;;;;; Activities
+;;;; Activities
 (use-package! activities
   :demand t
   :config
@@ -927,7 +942,8 @@ large search domains, it's almost always a failure."
 
 ;;;;; Org, itself
 
-(after! org-mode
+(after! org
+  (add-hook 'org-capture-prepare-finalize-hook 'org-id-get-create)
   (remove-hook 'org-mode-hook #'visual-line-mode)
   (add-hook 'org-mode-hook #'auto-fill-mode))
 
@@ -939,7 +955,13 @@ large search domains, it's almost always a failure."
         org-roam-dailies-directory "dailies/"
         org-roam-db-gc-threshold most-positive-fixnum
         ;; this needs to be set early. keep in completion-fn's though
-        org-roam-completion-everywhere nil))
+        org-roam-completion-everywhere nil
+        org-todo-keywords
+        '((sequence "TODO(t!)" "PROJ(p)" "LOOP(r)" "STRT(s!)" "WAIT(w@)" "HOLD(h@)" "IDEA(i!)"
+           "|" "DONE(d!)" "KILL(k)")
+          (sequence "[ ](T)" "[-](S)" "[?](W)"
+                    "|" "[X](D)")
+          (sequence "|" "OKAY(o)" "YES(y)" "NO(n)"))))
 
 ;; :hook (doom-init-ui-hook .
 ;; (lambda () (setq org-roam-completion-functions
@@ -948,9 +970,9 @@ large search domains, it's almost always a failure."
 ;; (add-to-list 'org-roam-completion-functions 'org-roam-complete-everywhere t)
 
 ;;;;; Visuals
-
 ;;;;;; org-modern
 ;; TODO: PKG: configure org-modern? (later)
+
 (use-package! org-modern
   :hook (org-mode . org-modern-mode)
   :config
@@ -970,7 +992,6 @@ large search domains, it's almost always a failure."
           ("[?]"  :inverse-video t :inherit +org-todo-onhold)
           ("KILL" :inverse-video t :inherit +org-todo-cancel)
           ("NO"   :inverse-video t :inherit +org-todo-cancel))))
-
 ;;;;;; org-appear
 ;; TODO: PKG: configure org-appear tweaks? (later)
 ;; https://tecosaur.github.io/emacs-config/config.html#emphasis-markers
@@ -1714,6 +1735,7 @@ order dependent via my config."
 (use-package! prism
   :demand t
   :commands prism-mode prism-whitespace-mode
+  ;; :hook (nix-mode nix-ts-mode)
   :config
   (map! :map doom-leader-toggle-map "M-p" #'prism-mode))
 
