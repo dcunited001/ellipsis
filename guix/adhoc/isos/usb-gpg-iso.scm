@@ -62,7 +62,7 @@
                   (targets '("/dev/sda"))
                   (terminal-outputs '(console))))
 
-    (kernel-arguments '("noquiet"))
+    (kernel-arguments '("noquiet console=tty0 console=ttyS0,115200"))
     (file-systems (cons (file-system
                           (mount-point "/")
                           (device (file-system-label "usb-gpg-disk"))
