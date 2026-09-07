@@ -49,8 +49,14 @@ rustPlatform.buildRustPackage (finalAttrs: {
     libGL
   ];
 
+  # https://github.com/omacom/omarchy-pkgs/blob/master/pkgbuilds/tensaku/PKGBUILD#L38-L50
   postInstall = ''
-    install -Dt $out/share/icons/hicolor/scalable/apps/ assets/tensaku.svg
+    install -m755 -Dt $out/bin/ assets/tensaku-edit
+    install -m644 -Dt $out/share/icons/hicolor/scalable/apps/ assets/tensaku.svg
+    install -m644 -Dt $out/share/applications/ dev.tensaku.Tensaku.desktop
+    install -m644 -Dt $out/share/man/man1/ man/tensaku.1
+    install -m644 -Dt $out/share/licenses/tensaku/ LICENSE
+    install -m644 -Dt $out/share/licenses/tensaku/ NOTICE
 
     installShellCompletion --cmd tensaku \
       --bash completions/tensaku.bash \
