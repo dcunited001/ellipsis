@@ -70,9 +70,9 @@
   "modules-right": [
     "custom/spacer",
     "network",
-    "custom/spacer",
-    "wireplumber",
-    "wireplumber#source",
+    // "custom/spacer",
+    // "wireplumber",
+    // "wireplumber#source",
     // "custom/spacer",
     // "pulseaudio",
     "custom/spacer",

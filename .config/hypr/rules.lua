@@ -1,4 +1,4 @@
---* Misc
+--* General
 
 --** Ignore maximize requests from apps
 
@@ -99,6 +99,8 @@ hl.window_rule({ match = { title = "(Picture-in-Picture)", }, float = 1, })
 -- not gonna match:work  match:https //www.reddit.com/r/hyprland/comments/1h7wxrg/comment/m13iedj/
 -- windowrule = float yes, match:class ^(firefox)$, match:title ^(Developer Tools)(.*)$
 
+--* Apps
+hl.window_rule({ match = { class = "(sqlitebrowser)", title = "(Choose.*)", }, float = 1, })
 
 --* KDE Import
 

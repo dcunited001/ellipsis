@@ -30,6 +30,7 @@ require("hypr.common.workspaces")
 --* config
 
 --** common
+require("hypr.common.bindings.applications")
 require("hypr.common.bindings.tiling")
 require("hypr.common.bindings.utilities")
 

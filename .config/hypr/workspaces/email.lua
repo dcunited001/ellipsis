@@ -2,7 +2,7 @@
 local ws_email = { name = "email", mod = "MOD3", key = "E" }
 
 -- ws_email.border_color = ws_email.border_color
-ws_email.launch = "thunderbird --name org.mozilla.Thunderbird -mail -calendar"
+ws_email.launch = "thunderbird --name org.mozilla.Thunderbird" -- -mail -calendar"
 ws_email.monitor = dc.m2.output
 ws_email.border_color = { colors = { "rgba(113355DD)", "rgba(332299FF)" }, angle = 300 }
 ws_email.border_size = 5
@@ -33,7 +33,8 @@ hl.window_rule({
 local tbird_small_titles = {
     "(Select Calendar)$",
     "([0-9]+ Reminder[s]?)$",
-    "(Calendar Reminder[s]?)$"
+    "(Calendar Reminder[s]?)$",
+    "(Add calendar)$"
 }
 
 for i, title in ipairs(tbird_small_titles) do
