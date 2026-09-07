@@ -33,10 +33,11 @@
                   (login-pause? #t)
                   (timeout 30)
                   ;;  -L, --local-line[=mode] Control the CLOCAL line flag
-                  (extra-options '("-L"))
-                  (baud-rate "115200")
+                  ;; (extra-options '("-L"))
+                  ;; (baud-rate "115200")
                   ;; (tty "ttyS0")
-                  (term "vt100"))))))
+                  ;; (term "vt100")
+                  )))))
 
 ;; must use `guix image` otherwise building a UEFI VM is non-trivial,
 ;; since the `guix vm` qemu launcher script needs to find host ovmf
@@ -59,10 +60,15 @@
     
     (bootloader (bootloader-configuration
                   (bootloader grub-bootloader)
-                  (targets '("/dev/sda"))
+                  (targets '("/dev/vda"))
                   (terminal-outputs '(console))))
 
-    (kernel-arguments '("noquiet console=tty0 console=ttyS0,115200"))
+    ;; (kernel-arguments '("noquiet console=tty0 console=ttyS0,115200"))
+    (kernel-arguments '("noquiet"
+                        ;; "console=ttyS0,115200"
+                        "console=ttyS0"
+                        ))
+    
     (file-systems (cons (file-system
                           (mount-point "/")
                           (device (file-system-label "usb-gpg-disk"))

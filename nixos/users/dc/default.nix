@@ -216,6 +216,7 @@ in
       zoom-us
       thunderbird
       telegram-desktop
+      wayscriber
 
       # install vesktop via flatpak
       # vesktop # pnpm marked as insecure package

@@ -34,6 +34,8 @@
       "discord": "🗨",
       "docs": "𝔻", // D doublestruck
       "emacs": "¶E",
+      "email": "📧",
+      "guix": "¶G",
       "hypr": "¶H",
       "nixos": "¶N",
       "focused": "",
@@ -41,6 +43,7 @@
       "frcAscope": "𝔽A1", // F doublestruck
       "frcAscopeFloat": "𝔽A2", // F doublestruck
       "frcSim": "𝔽S", // F doublestruck
+      "minimized": "⼩", // F doublestruck
       "obs": "🔴",
       "music": "𝄞",
       "pass": "🔒",

@@ -137,6 +137,7 @@
 ;;** Lisp
 
 (package! prism)
+(package! rainbow-delimiters)
 (package! yuck-mode)
 
 ;; Arei deps: queue, sesman, arei

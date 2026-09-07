@@ -2933,6 +2933,7 @@ selection.)"
                "m" #'consult-flymake)
       "i" #'consult-imenu-multi
       "I" #'consult-imenu-multi ;; duplicate
+      "M-i" #'consult-imenu
       "k" #'consult-global-mark
       "m" #'consult-mark
       "o" #'consult-outline
