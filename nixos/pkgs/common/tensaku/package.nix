@@ -49,9 +49,15 @@ rustPlatform.buildRustPackage (finalAttrs: {
     libGL
   ];
 
+  # - installing tensaku-edit required chmod -> patchShebanges -> install
+  # - instead of install -> patch
+
   # https://github.com/omacom/omarchy-pkgs/blob/master/pkgbuilds/tensaku/PKGBUILD#L38-L50
   postInstall = ''
+    chmod 755 assets/tensaku-edit
+    patchShebangs assets/tensaku-edit
     install -m755 -Dt $out/bin/ assets/tensaku-edit
+
     install -m644 -Dt $out/share/icons/hicolor/scalable/apps/ assets/tensaku.svg
     install -m644 -Dt $out/share/applications/ dev.tensaku.Tensaku.desktop
     install -m644 -Dt $out/share/man/man1/ man/tensaku.1

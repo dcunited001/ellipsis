@@ -11,7 +11,7 @@ let
     "hjinspect.jq"
     # `omarchy-cmd-screenshot windows` already selects activewindow ... woops
     "hjrect.jq"
-    "hxsatty"
+    # "hxsatty" # NOTE now using tensaku instead of satty
   ];
   # install_path = "share/fdsa/${pname}";
   # url = "https://github.com/dcunited001/ellipsis";
@@ -31,8 +31,8 @@ stdenv.mkDerivation {
     install -m755 -D $src/bin/hjbinds $out/bin/hjbinds
     install -m755 -D $src/bin/hjinspect.jq $out/bin/hjinspect.jq
     install -m755 -D $src/bin/hjrect.jq $out/bin/hjrect.jq
-    install -m755 -D $src/bin/hxsatty $out/bin/hxsatty
   '';
+
   meta = {
     license = lib.licenses.mit;
     description = "If it supports or depends on hyprland, it goes here for now.";
