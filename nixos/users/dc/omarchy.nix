@@ -26,8 +26,8 @@ in
     pkgs.libxkbcommon # omarchy menu keybindings --print
     pkgs.bat
     # pkgs.bolt # boltctl
-    # pkgs.crush # harnesses should be installed via mise
     pkgs.ffmpegthumbnailer
+
     # pkgs.foot
     pkgs.fzf
     pkgs.gtk3 # gtk-launch

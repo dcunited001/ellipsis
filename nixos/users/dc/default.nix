@@ -14,10 +14,11 @@ let
 in
 {
   imports = [
-    ./omarchy.nix
-    # ./swaync.nix
-    ./try.nix
+    ./agents.nix
     ./containerlab.nix
+    ./omarchy.nix
+    ./try.nix
+    # ./swaync.nix
     ./secretspec.nix
   ];
 
