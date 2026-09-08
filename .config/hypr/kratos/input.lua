@@ -45,3 +45,5 @@ hl.config({
         sensitivity = 0 -- -1.0 - 1.0, 0 means no modification.
     }
 })
+
+hl.bind("MOD3 + W", hl.dsp.exec_cmd("wayscriber --daemon-toggle"))

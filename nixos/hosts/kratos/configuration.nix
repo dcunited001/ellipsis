@@ -90,6 +90,7 @@
     # ./open-webui.nix
     ./steam.nix
     ./frc.nix
+    ./tablet.nix
   ];
 
   # ---------------------------------------------
