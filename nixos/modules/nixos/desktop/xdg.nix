@@ -1,6 +1,7 @@
 { pkgs, ... }:
 let
   browser = "chromium.desktop";
+  folders = "thunar.desktop";
 in
 {
   environment.sessionVariables = {
@@ -114,6 +115,8 @@ in
         "slack.desktop"
         "Slack.desktop"
       ];
+
+      "inode/directory" = [ "org.gnome.FileRoller.desktop" ];
 
       # "x-scheme-handler/zoommtg" = ["us.zoom.Zoom.desktop"];
 
