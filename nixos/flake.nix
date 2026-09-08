@@ -103,6 +103,8 @@
   inputs = {
     flake-compat.url = "https://flakehub.com/f/edolstra/flake-compat/*";
     flake-schemas.url = "https://flakehub.com/f/DeterminateSystems/flake-schemas/*";
+    flake-utils.url = "https://flakehub.com/f/numtide/flake-utils/*";
+    flake-utils.inputs.systems.follows = "systems";
 
     # nixpkgs.url = "https://flakehub.com/f/NixOS/nixpkgs/*";
     # fails (guile-zlib checks): 0.1.948651, 0.1.942631, 0.1.957146
@@ -161,6 +163,9 @@
     hjem.url = "github:feel-co/hjem";
     hjem.inputs.nixpkgs.follows = "nixpkgs";
     # hjem-impure.url = "github:Rexcrazy804/hjem-impure";
+
+    ai-jail.url = "github:akitaonrails/ai-jail";
+    ai-jail.inputs.nixpkgs.follows = "nixpkgs";
 
     try.url = "github:tobi/try";
     try.inputs.nixpkgs.follows = "nixpkgs";
