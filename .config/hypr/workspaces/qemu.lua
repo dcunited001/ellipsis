@@ -3,10 +3,10 @@ local ws_qemu = { name = "qemu", mod = "MOD3", key = "Q" }
 ws_qemu.border_color = { colors = { "rgba(E2A61099)", "rgba(E276A699)" }, angle = 130 }
 local wsname = "special:" .. ws_qemu.name
 
--- local hyprhost = os.getenv("HYPRHOST")
+-- local hyprhost = dc.host
 -- if hyprhost == "kharis" then
 --     ws_qemu.monitor = dc.m2.output
--- elseif hyprhost == "kratos" then
+-- elseif dc.host == "kratos" then
 --     ws_qemu.monitor = dc.m3.output
 -- end
 

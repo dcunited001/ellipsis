@@ -20,6 +20,9 @@ require("hypr.common.keycodes")
 require("hypr.common.tags")
 require("hypr.common.looknfeel")
 require("hypr.common.workspaces")
+
+require("hypr.common.bindings.applications")
+require("hypr.common.bindings.tiling")
 require("hypr.common.bindings.utilities")
 
 --** per-host

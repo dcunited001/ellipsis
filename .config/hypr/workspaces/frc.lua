@@ -8,12 +8,11 @@ local ws_ascope_float = { name = "frcAscopeFloat", mod = "SUPER", key = "F10" }
 
 --** Monitors
 
-local hyprhost = os.getenv("HYPRHOST")
-if hyprhost == "kharis" then
+if dc.host == "kharis" then
     ws_robot_sim.monitor = dc.m2.output
     ws_ascope.monitor = dc.m2.output
     ws_ascope_float.monitor = dc.m2.output
-elseif hyprhost == "kratos" then
+elseif dc.host == "kratos" then
     ws_robot_sim.monitor = dc.m2.output
     ws_ascope.monitor = dc.m2.output
     ws_ascope_float.monitor = dc.m2.output

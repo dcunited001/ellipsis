@@ -5,10 +5,9 @@ ws_discord.launch = o.launch_webapp("https://discord.com/channels/@me");
 
 local wsname = "name:" .. ws_discord.name
 
-local hyprhost = os.getenv("HYPRHOST")
-if hyprhost == "kharis" then
+if dc.host == "kharis" then
     ws_discord.monitor = dc.m2.output
-elseif hyprhost == "kratos" then
+elseif dc.host == "kratos" then
     ws_discord.monitor = dc.m3.output
 end
 

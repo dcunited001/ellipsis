@@ -22,7 +22,16 @@ hl.workspace_rule({
 
 --** Rules
 
--- thunderbird
+--*** Calendar
+local chrome_calendar = '^(chrome-calendar.google.com).*'
+hl.window_rule({
+    match = { class = chrome_calendar },
+    workspace = wsname,
+    border_color = ws_email.border_color,
+    border_size = ws_email.border_size
+})
+
+--*** Thunderbird
 hl.window_rule({
     match = { class = tbird.class },
     workspace = wsname,
