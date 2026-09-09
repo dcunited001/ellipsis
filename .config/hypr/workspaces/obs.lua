@@ -3,7 +3,12 @@
 local ws_obs = { name = "obs", mod = "MOD3", key = "F11" }
 ws_obs.size = "90% 90%"
 ws_obs.launch = "obs"
-ws_obs.monitor = dc.m3.output
+
+if dc.host == "kharis" then
+    ws_obs.monitor = dc.m2.output
+elseif dc.host == "kratos" then
+    ws_obs.monitor = dc.m3.output
+end
 
 local obs_class = "com.obsproject.Studio"
 
