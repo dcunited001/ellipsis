@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+
+xdg_paths="$XDG_DATA_DIRS"
+[[ -n "$XDG_DATA_HOME" ]] && xdg_paths="$XDG_DATA_HOME:$xdg_paths"
+
+# find -H ${xdg_paths//:/ } -type f -wholename '*/mime/types'
+
+declare -a xdg_mimes_valid=()
+for p in ${xdg_paths//:/\/mime\/types } ; do
+    [[ -f "$p" ]] && xdg_mimes_valid+=("$p")
+done
+
+for m in ${xdg_mimes_valid[@]}; do
+    paste <(cat "$m") \
+        <(cat "$m" | awk -v src="$m" '{printf "%s\n", src; next}') \
+        | sort -u;
+done
