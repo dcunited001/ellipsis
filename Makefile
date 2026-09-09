@@ -38,6 +38,14 @@ omarchy: $(HOME)/.config/omarchy
 $(HOME)/.config/omarchy:
 	ln -s $(MKDIR)/.config/omarchy.$(HOST) $(HOME)/.config/omarchy
 
+# cut -f1 -d'     ' tmp/mimesdb.tsv | sort | uniq | wc -l
+.PHONY: xdg-trace-mime xdg-trace-mime-types xdg-trace-mime-which
+xdg-trace-mime: xdg-trace-mime-types xdg-trace-mime-which
+xdg-trace-mime-types:
+	xdg-trace-mime-types > tmp/mime-type.$(HOST)_$(shell date +%s).tsv
+xdg-trace-mime-which:
+	xdg-trace-mime-which > tmp/mime-apps.$(HOST)_$(shell date +%s).tsv
+
 # Screen creates sockets and hjem creates *.screenrc links
 # $(HOME)/.screen:
 # 	ln -s $(MKDIR)/.screen $(MKDIR)/../.screen
