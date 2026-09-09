@@ -214,7 +214,7 @@ in
       google-chrome
 
       # COMM
-      zoom-us
+      # zoom-us # NOTE DO NOT INSTALL THIS GARBAGE P.O.S
       thunderbird
       telegram-desktop
       wayscriber
