@@ -21,7 +21,7 @@ stdenv.mkDerivation rec {
   pname = "omarchy-quattro";
   name = "omarchy-quattro-${version}";
   # commit = "7eca64e2683d2a4d4620f36164f001693ae6a5b7";
-  version = "4.0.2"; # increment revision number when package changes
+  version = "4.0.3"; # increment revision number when package changes
 
   # version = "4.0.0";
 
@@ -30,8 +30,10 @@ stdenv.mkDerivation rec {
     repo = "omarchy";
     rev = "v${version}";
     # rev = "${commit}";
-    hash = "sha256-DtaDI3gyvK7YVnul2vRmNHHGK86Hn64WfbAVeG4888Y=";
+    hash = "sha256-+LF1Etj6akqmam9stdTeJJNBfoxAL+ZYyWvqo9R2P2E=";
   };
+
+  # NOTE: from time to time, you may need to clear ~/.cache/quickshell
 
   # TODO: check uwsm setup (omarchy expects mise in uwsm environment)
   # TODO: compare environments
