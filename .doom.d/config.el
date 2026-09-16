@@ -286,9 +286,9 @@ Guix channel.")
 ;;;; Project.el
 (use-package! project
   :config
-  (add-to-list 'project-vc-ignores ("\\.gpg$"))
-  (add-to-list 'project-vc-ignores ("\\.enc$"))
-  (add-to-list 'project-vc-ignores ("\\.asc$")))
+  (add-to-list 'project-vc-ignores "\\.gpg$")
+  (add-to-list 'project-vc-ignores "\\.enc$")
+  (add-to-list 'project-vc-ignores "\\.asc$"))
 
 ;; that prevents project.el functionality from needing to open gpg files in
 ;; directory tree for find/replace functionality.

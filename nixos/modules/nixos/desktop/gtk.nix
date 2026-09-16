@@ -1,6 +1,7 @@
 { config, pkgs, ... }:
 let
   gschema = pkgs.gsettings-desktop-schemas;
+  gtk3schema = pkgs.gtk3;
 in
 {
   xdg.icons.enable = true;
@@ -10,6 +11,8 @@ in
   programs.dconf.enable = true;
   environment.systemPackages = [
     pkgs.glib
+    pkgs.gtk3
+    pkgs.gtk4
     pkgs.gsettings-desktop-schemas
     pkgs.nordzy-icon-theme
     pkgs.adwaita-icon-theme # includes 16x16 svg's only
@@ -27,6 +30,7 @@ in
   environment.sessionVariables.XDG_DATA_DIRS = [
     # -> "/run/current-system/sw/share/gsettings-schemas/gsettings-desktop-schemas-49.1"
     "${gschema}/share/gsettings-schemas/${gschema.name}"
+    "${gtk3schema}/share/gsettings-schemas/${gtk3schema.name}"
   ];
 }
 

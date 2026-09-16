@@ -17,9 +17,10 @@ in
     ./agents.nix
     ./containerlab.nix
     ./omarchy.nix
-    ./try.nix
     # ./swaync.nix
     ./secretspec.nix
+    ./try.nix
+    ./video-editing.nix
   ];
 
   users.groups = {
