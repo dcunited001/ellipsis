@@ -11,7 +11,7 @@
 
   users.users.dc.packages =
     let
-      python = pkgs.python313.withPackages (
+      python = pkgs.python314.withPackages (
         ps: with ps; [
           numpy
           numpy-stl
@@ -24,11 +24,14 @@
           # pyqt6-charts # just using tk
           # anyqt
 
-          torch
-          torchvision
-          torchbench
-          geotorch
-          gpytorch
+          # # /build/pytorch/aten/src/ATen/native/transformers/hip/flash_attn/ck/add_make_kernel_pt.sh:
+          # # /bin/bash: bad interpreter: No such file or directory
+          # torch
+          # torchvision
+          # torchbench
+          # geotorch
+          # gpytorch
+
           # pytorch-bench
           # torchsummary
           jupyterlab
