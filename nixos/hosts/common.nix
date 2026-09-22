@@ -39,7 +39,10 @@
     # min-free = 128000000; # 128MB
     # max-free = 1000000000; # 1GB
 
-    experimental-features = lib.mkDefault "nix-command flakes";
+    experimental-features = lib.mkDefault [
+      "nix-command"
+      "flakes"
+    ];
 
     builders-use-substitutes = true;
     fallback = true;
