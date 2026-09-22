@@ -13,21 +13,28 @@
   libGL,
   copyDesktopItems,
   installShellFiles,
+  libxkbcommon,
 }:
 
 rustPlatform.buildRustPackage (finalAttrs: {
 
   pname = "tensaku";
-  version = "0.26.2";
+  version = "0.28.0";
 
+  # when bumping the version above, unless these hashes change, it doesn't
+  # bump the version used for build (for 26.2 -> 29.0 anyways)
   src = fetchFromGitHub {
     owner = "jondkinney";
     repo = "tensaku";
     rev = "v${finalAttrs.version}";
-    hash = "sha256-ZzGX+B4ZHfTHySO+a8ZnDpHzjztamrXYDWys82R++/c=";
+    hash = "sha256-rkLDfzGFonNghDspDDH6sLikOC/5TZtUCvIPHWtdLXI=";
   };
 
-  cargoHash = "sha256-mm38TdShT8HN4EMzDGFfdMeMyIx4n3inaVvXzJrp8N4=";
+  cargoHash = "sha256-eFG6MhSnoPzwSX8FkK+qFOSCFsCJay8jiFAMeXgNrds=";
+
+  # 0.29.0 fails: test scroll_capture::auto_scroll::tests::capture_loop_stops_after_two_probe_scrolls_without_terminal_ack
+  # hash = "sha256-IAjvMaN0R+dPtdOR26uLYRT+yjpIz/ZA3V4pKa6nue4=";
+  # cargoHash = "sha256-q+jS+NX/AKWwaidEQrJMF2hMW+UCb1XJ9zA9Tc5iH5A=";
 
   # Generate shell completions and man file
   buildFeatures = [ "ci-release" ];
@@ -47,6 +54,7 @@ rustPlatform.buildRustPackage (finalAttrs: {
     libadwaita
     libepoxy
     libGL
+    libxkbcommon
   ];
 
   # - installing tensaku-edit required chmod -> patchShebanges -> install
