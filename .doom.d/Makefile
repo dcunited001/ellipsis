@@ -29,6 +29,10 @@ GUIX=$(GUIXTM) --
 
 GUIXPACKAGE=guix package -L $(GSRC)/dc
 
+DOOM_SHELL=guix shell -p $(GUIX_PROFILE) \
+	-E EMACSDIR -E EMACS -E DOOMDIR -E EMACS_SOURCE -E GUIX_SOURCE
+DOOMCLI= $(DOOM_SHELL) -- $(EMACSDIR)/bin/doom
+
 manifest.scm:
 	touch manifest.scm
 .guix-profile: manifest.scm
@@ -62,10 +66,6 @@ emacs_socket_name=doomtest
 doom_threads=-j 8
 doom_build=-b
 doom_aot=--aot
-
-DOOM_SHELL= guix shell -p $(GUIX_PROFILE) \
-	-E EMACSDIR -E EMACS -E DOOMDIR -E EMACS_SOURCE -E GUIX_SOURCE
-DOOMCLI= $(DOOM_SHELL) -- $(EMACSDIR)/bin/doom
 
 .PHONY: sync gc build up install
 

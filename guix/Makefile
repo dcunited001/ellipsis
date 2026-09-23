@@ -16,19 +16,22 @@ TEST = $(MKDIR)/test
 ENV = $(MKDIR)/env
 
 CHANNELS_GUIX = $(HOME)/.config/guix/channels.scm
-CHANNELS_LATEST = $(MKDIR)/channels-latest.scm
 CHANNELS_LOCK = $(MKDIR)/channels-lock.scm
+CHANNELS_LATEST = $(MKDIR)/channels-latest.scm
 CHANNELS_DEV = $(ENV)/dc-configs/guix/channels.scm
 
+# make CHANNELS=./chanspec.scm task # override with arbitrary channel spec
 CHANNELS ?= $(CHANNELS_LOCK)
 
-GUIXTM_DEV=guix time-machine --unsafe-channel-evaluation -C $(CHANNELS_DEV)
-GUILE_DEV=$(GUIXTM_DEV) -- shell guile guile-fibers --pure --preserve=.*LANG.* -- guile
-GUIX_DEV=$(GUIXTM_DEV) --
-
+# used for most guix commands in Makefile
 GUIXTM=guix time-machine -C $(CHANNELS)
 GUILE=$(GUIXTM) -- shell guile guile-fibers --pure --preserve=.*LANG.* -- guile
 GUIX=$(GUIXTM) --
+
+# used for ares repl
+GUIXTM_DEV=guix time-machine --unsafe-channel-evaluation -C $(CHANNELS_DEV)
+GUILE_DEV=$(GUIXTM_DEV) -- shell guile guile-fibers --pure --preserve=.*LANG.* -- guile
+GUIX_DEV=$(GUIXTM_DEV) --
 
 guix_load_path=-L $(MKDIR)/dc
 
@@ -50,11 +53,12 @@ ARES_SHELL=$(GUIX_DEV) shell $(ARES_ENV_PATH) \
 	-e '(@ (dc-configs dev packages) guix-package)' \
 	-e '(@ (dc-configs dev packages) channels-package)'
 
-
 PULL_EXTRA_OPTIONS=
 # --allow-downgrades
 
 ROOT_MOUNT_MOUNT=/mnt
+
+# all: repl ares ares-profile ares-impure pull pull-sync pull-lock up up-sync up-lock upgrade copy copy-pull-sync copy-pull-lock dev-sync iso iso-gpg host ghcontainer guix-home-container guile-studio
 
 .PHONY: repl
 repl:
