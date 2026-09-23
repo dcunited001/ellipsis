@@ -110,6 +110,11 @@ let
       libxshmfence
       libxt
 
+      # note: these attempt to fix ./gradlew javadoc (with umldoclet)
+      #
+      # freetype
+      # fontconfig
+
       # had added these earlier, but unsure of whether they're necessary
       # libXinerama
 
