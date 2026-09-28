@@ -7,6 +7,9 @@
           "id": "omarchy.indicators"
         },
         {
+          "id": "banan.bananet"
+        },
+        {
           "format": "dddd HH:mm",
           "formatAlt": "d MMMM 'W'ww yyyy",
           "id": "omarchy.clock",
@@ -46,6 +49,14 @@
         },
         {
           "id": "omarchy.network"
+        },
+        {
+          "id": "banan.bananet",
+          "publicIp": false,
+          "useSudo": false,
+          "showVirtual": false,
+          "showLoopback": true,
+          "exitNodeSwitcher": false
         },
         {
           "id": "omarchy.audio"
