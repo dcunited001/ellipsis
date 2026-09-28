@@ -72,7 +72,8 @@ in
     ];
     # keyFiles
     openssh.authorizedKeys.keys = [
-      "ecdsa-sha2-nistp384 AAAAE2VjZHNhLXNoYTItbmlzdHAzODQAAAAIbmlzdHAzODQAAABhBGE6wqFapBOKBA2wCTB22nG+GANmh9JXNG54tBajKNu/Fh61ywzilEI6MYLpvolCuS0YWGAgv4h5MHzk45KnWXKJ1NSNTLJ4koa+NvAAHIVXKA19IZ+s6UyX7eyCWLx58w== cardno:19294239"
+      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIAb9WIuASHRVkpqpF5tT5AZoOw5lqlY/ycx1UqsWQH7W openpgp:0xBECF991C"
+      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIAb9WIuASHRVkpqpF5tT5AZoOw5lqlY/ycx1UqsWQH7W cardno:19_294_239"
     ];
 
     # home-manager: ~/.nix-profile
@@ -88,6 +89,7 @@ in
       watchexec
       ripgrep
       stow
+      parallel
 
       # CLI SHINY
       fastfetch
@@ -125,6 +127,7 @@ in
       graphviz
       plantuml
       imagemagick
+      ghostscript
       gnuplot
 
       # DEV
