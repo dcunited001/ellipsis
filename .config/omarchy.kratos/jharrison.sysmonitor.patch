@@ -1,0 +1,20 @@
+diff --git a/Model.js b/Model.js
+index 9e62f0f..b707bdf 100644
+--- a/Model.js
++++ b/Model.js
+@@ -616,11 +616,11 @@ var OUTPUT_CAP_XLARGE = 1048576
+ // act on /usr/bin/bash itself before any of its options are parsed, and an
+ // attacker who can set them already has code execution as this user, which is
+ // the same reason none of this is a privilege boundary.
+-var BIN_SETSID = "/usr/bin/setsid"
+-var BIN_BASH = "/usr/bin/bash"
+-var BIN_HEAD = "/usr/bin/head"
++var BIN_SETSID = "/run/current-system/sw/bin/setsid"
++var BIN_BASH = "/run/current-system/sw/bin/bash"
++var BIN_HEAD = "/run/current-system/sw/bin/head"
+ var BASH_OPTS = "-p"
+-var SAFE_PATH = "/usr/bin:/bin"
++var SAFE_PATH = "/run/current-system/sw/bin:/usr/bin:/bin"
+ 
+ // Wraps a bare shell script as an argv command carrying the same PATH
+ // guarantee, but with no process group and no output cap. For the one-shot,

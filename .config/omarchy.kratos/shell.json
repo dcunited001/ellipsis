@@ -7,9 +7,6 @@
           "id": "omarchy.indicators"
         },
         {
-          "id": "banan.bananet"
-        },
-        {
           "format": "dddd HH:mm",
           "formatAlt": "d MMMM 'W'ww yyyy",
           "id": "omarchy.clock",
@@ -43,6 +40,9 @@
         },
         {
           "id": "omarchy.tray"
+        },
+        {
+          "id": "jharrison.sysmonitor"
         },
         {
           "id": "omarchy.bluetooth"
