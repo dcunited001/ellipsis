@@ -28,7 +28,7 @@ hl.workspace_rule({
 local chrome_calendar = '^(chrome-calendar.google.com).*'
 hl.window_rule({
     match = { class = chrome_calendar },
-    workspace = wsname,
+    workspace = ws_email.id,
     border_color = ws_email.border_color,
     border_size = ws_email.border_size
 })
@@ -42,7 +42,7 @@ hl.window_rule({
 --*** Thunderbird
 hl.window_rule({
     match = { class = tbird.class },
-    workspace = wsname,
+    workspace = ws_email.id,
     border_color = ws_email.border_color,
     border_size = ws_email.border_size
 })
@@ -57,7 +57,7 @@ local tbird_small_titles = {
 for i, title in ipairs(tbird_small_titles) do
     hl.window_rule({
         match = { class = tbird.class, title = title },
-        workspace = wsname,
+        workspace = ws_email.id,
         float = true,
         size = "640 360",
     })
@@ -72,14 +72,14 @@ tbird_floats = {
 for i, title in ipairs(tbird_floats) do
     hl.window_rule({
         match = { class = tbird.class, title = title },
-        workspace = wsname,
+        workspace = ws_email.id,
         float = true,
     })
 end
 
 hl.window_rule({
     match = { class = tbird.class, title = "(Write: ).*" },
-    workspace = wsname,
+    workspace = ws_email.id,
     float = true,
     size = "1280 720"
 })
