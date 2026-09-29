@@ -34,7 +34,7 @@
         },
         {
           "id": "io.github.thetrueferret.decent-workspaces",
-          "maxWorkspaceId": 25
+          "maxWorkspaceId": 127
         }
       ],
       "right": [

@@ -1,5 +1,6 @@
 --* EMAIL
-local ws_email = { name = "email", mod = "MOD3", key = "E" }
+-- id: 69(e)
+local ws_email = { id = "69", name = "email", mod = "MOD3", key = "E" }
 
 -- ws_email.border_color = ws_email.border_color
 ws_email.launch = "thunderbird --name org.mozilla.Thunderbird" -- -mail -calendar"
@@ -15,9 +16,10 @@ dc.ws.binds_ws(ws_email)
 local wsname = "name:" .. ws_email.name
 
 hl.workspace_rule({
-    workspace = wsname,
+    workspace = ws_email.id,
     monitor = ws_email.monitor,
-    on_created_empty = "[tile] " .. ws_email.launch
+    on_created_empty = "[tile] " .. ws_email.launch,
+    default_name = ws_email.name
 })
 
 --** Rules
@@ -30,6 +32,12 @@ hl.window_rule({
     border_color = ws_email.border_color,
     border_size = ws_email.border_size
 })
+
+-- Title: Google Calendar - Wednesday, September 9, 2026, today (calendar.google.com_/calendar)
+-- Class: chrome-calendar.google.com__calendar-Profile_2 (chrome-calendar.google.com__calendar-Profile_2)
+-- Workspace -84 (special:hypr)
+-- On Monitor 3
+-- ([1125,984]) @ ([780,1001])
 
 --*** Thunderbird
 hl.window_rule({

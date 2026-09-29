@@ -11,7 +11,7 @@ local wsname = "special:" .. ws_qemu.name
 -- end
 
 --** Binds
-dc.ws.binds_ws(ws_qemu)
+dc.ws.binds_special_ws(ws_qemu)
 
 --** Workspace
 hl.workspace_rule({

@@ -1,8 +1,8 @@
 --* FRC
-
-local ws_robot_sim = { name = "frcSim", mod = "SUPER", key = "F8" }
-local ws_ascope = { name = "frcAscope", mod = "SUPER", key = "F9" }
-local ws_ascope_float = { name = "frcAscopeFloat", mod = "SUPER", key = "F10" }
+-- id: 65(a) + 32
+local ws_robot_sim = { id = "97", name = "frcSim", mod = "SUPER", key = "F8" }
+local ws_ascope = { id = "98", name = "frcAscope", mod = "SUPER", key = "F9" }
+local ws_ascope_float = { id = "99", name = "frcAscopeFloat", mod = "SUPER", key = "F10" }
 
 -- ws_ascope.launch = o.launch_webapp("https://discord.com/channels/@me");
 
@@ -22,6 +22,23 @@ end
 dc.ws.binds_ws(ws_robot_sim)
 dc.ws.binds_ws(ws_ascope)
 dc.ws.binds_ws(ws_ascope_float)
+
+--** Workspaces
+hl.workspace_rule({
+    workspace = ws_robot_sim.id,
+    border_size = 5,
+    default_name = ws_robot_sim.name
+})
+hl.workspace_rule({
+    workspace = ws_ascope.id,
+    border_size = 5,
+    default_name = ws_ascope.name
+})
+hl.workspace_rule({
+    workspace = ws_ascope_float.id,
+    border_size = 5,
+    default_name = ws_ascope_float.name
+})
 
 -- NOTE: render_unfocused is necessary, otherwise AdvantageScope graphs
 -- offscreen will cause the main interface to lag

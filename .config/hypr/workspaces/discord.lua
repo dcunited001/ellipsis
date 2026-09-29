@@ -1,5 +1,6 @@
 --* Discord
-local ws_discord = { name = "discord", mod = "SUPER + ALT", key = "Delete" }
+-- id: 68(d)
+local ws_discord = { id = "68", name = "discord", mod = "SUPER + ALT", key = "Delete" }
 ws_discord.size = "90% 90%"
 ws_discord.launch = o.launch_webapp("https://discord.com/channels/@me");
 
@@ -16,10 +17,11 @@ dc.ws.binds_ws(ws_discord)
 
 --** Workspace
 hl.workspace_rule({
-    workspace = wsname,
+    workspace = ws_discord.id,
     monitor = ws_discord.monitor,
     border_size = 5,
     on_created_empty = "[tile] " .. ws_discord.launch,
+    default_name = ws_discord.name
 })
 
 --** Rules
