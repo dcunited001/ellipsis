@@ -11,18 +11,33 @@
   #:use-module (dc system common)
   #:use-module (dc hosts common))
 
-(define-public hosts-users-dc-foo "foo")
+(define-public (dc-user user-groups)
+  (user-account
+    (uid 1000)
+    (name "dc")
+    (comment "David Conner")
+    (group "dc")
+    (home-directory "/home/dc")
+    (supplementary-groups user-groups)))
 
-(define-public %dc-base-groups
-  (cons* (user-group (name "realtime") (system? #t))
-         (user-group (name "render") (system? #t))
-         (user-group (name "plugdev") (system? #t))
-         (user-group (name "yubikey") (system? #t))
-         (user-group (name "fuse") (system? #t))
-         (user-group (name "cgroup") (system? #t))
-         ;; (user-group (name "seat") (system? #t)) ; seatd creates this
-         (user-group (name "users") (id 1100))
-         (user-group (name "dc") (id 1000))
-         (remove (lambda (g) (equal? (user-group-name g) "users"))
-                 %base-groups)))
+(define-public %dc-my-groups
+  ;; "kmem"
+  '("wheel" "users" "tty" "dialout"
+    "input" "video" "audio" "netdev" "lp"
+    ;; "disk" "floppy" "cdrom" "tape" "kvm"
+    "fuse" "realtime" "yubikey" "plugdev"
+    "libvirt" "docker" "cgroup"))
 
+;; (define test-dc
+;;   (user-account
+;;     (uid 1000)
+;;     (name "dc")
+;;     (comment "David Conner")
+;;     (group "dc")
+;;     (home-directory "/home/dc")
+;;     (supplementary-groups %dc-my-groups)))
+
+;; (define test-dc2
+;;   (user-account
+;;     (inherit test-dc)
+;;     (supplementary-groups (append '("kvm") %dc-my-groups))))

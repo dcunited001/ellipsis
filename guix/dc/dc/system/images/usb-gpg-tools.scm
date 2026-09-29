@@ -78,9 +78,6 @@
    emacs-yasnippet
    emacs-yasnippet-snippets))
 
-(agetty-configuration
-  (tty "ttyS0"))
-
 (define %ugt-services
   (append
    dc-smartcard-services
@@ -93,10 +90,10 @@
                   (login-pause? #t)
                   (timeout 30))))))
 
-     (mingetty-service-type
-      config => (mingetty-configuration
-                  (inherit config)
-                  (login-pause? #t))))))
+;; (mingetty-service-type
+;;       config => (mingetty-configuration
+;;                   (inherit config)
+;;                   (login-pause? #t)))
 
 ;;;; Image
 

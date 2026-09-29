@@ -29,8 +29,31 @@
 
 (use-package-modules security-token gnupg libusb)
 
+;; %base-groups contains these
+;; 
+;; root wheel users nogroup tty dialout
+;; kmem input video audio netdev lp
+;; disk floppy cdrom tape kvm sgx
+
+;; cgroups: add/change resource limits like ulimits
+
+(define %dc-hosts-base-groups
+  (cons* (user-group (name "realtime") (system? #t))
+         ;; (user-group (name "render") (system? #t))
+         ;; (user-group (name "fuse") (system? #t))
+         (user-group (name "cgroup") (system? #t))
+         ;; (user-group (name "seat") (system? #t)) ; seatd creates this
+         (user-group (name "users") (id 1100))
+         (user-group (name "dc") (id 1000))
+         (remove (lambda (g) (equal? (user-group-name g) "users"))
+                 %base-groups)))
+
 (define-public (dc-hosts-subid-start id)
   (+ (expt 2 16) (expt 10 8) (* 100000 id)))
+
+(define-public (dc-hosts-subid-range name uid)
+  (subid-range (name name) (count (expt 2 16))
+               (start (dc-hosts-subid-start uid))))
 
 ;; (dc-hosts-subid-start 0)    ;; => 100065536
 ;; (dc-hosts-subid-start 1)    ;; => 100165536
@@ -39,10 +62,6 @@
 ;; (dc-hosts-subid-start 950)  ;; => 195065536
 ;; (dc-hosts-subid-start 1000) ;; => 200065536
 ;; (dc-hosts-subid-start 1001) ;; => 200165536
-
-(define-public (dc-hosts-subid-range name uid)
-  (subid-range (name name) (count (expt 2 16))
-               (start (dc-hosts-subid-start uid))))
 
 (define dc-hosts-ntp-service
   (service ntp-service-type

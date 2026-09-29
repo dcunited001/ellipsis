@@ -131,9 +131,8 @@
       (greetd-terminal-configuration (terminal-vt "3"))
       (greetd-terminal-configuration (terminal-vt "4"))
       (greetd-terminal-configuration (terminal-vt "5"))
-      (greetd-terminal-configuration (terminal-vt "6"))
       (greetd-terminal-configuration
-        (terminal-vt "7")
+        (terminal-vt "6")
         (terminal-switch #t)
         (extra-shepherd-requirement '(seatd))
         (default-session-command
@@ -142,7 +141,7 @@
             (command (greetd-user-session
                        (xdg-session-type "wayland"))))))
       (greetd-terminal-configuration
-        (terminal-vt "8")
+        (terminal-vt "7")
         (extra-shepherd-requirement '(seatd))
         (default-session-command
           (greetd-gtkgreet-sway-session
@@ -270,9 +269,12 @@
                             (extra-options '("--max-jobs=6"
                                              "--cores=0")))))))))
 
+;; TODO: add gnupg service if configuration file is in place
+
 ;; guix system -L ./dc image --image-type=iso9660 \
 ;; -e '(@@ (dc system images nonguix-install) nonguix-install-amd)'
-;; TODO: add gnupg service if configuration file is in place
+
+;; guix system -L ./dc image --image-type=iso9660 guix/adhoc/isos/installer.scm
 (define nonguix-install-amd
   (operating-system
     (inherit nonguix-install)
