@@ -1,5 +1,8 @@
 --* General
 
+-- fix for hyprland-share-picker, until hyprland-preview-share-picker works again
+hl.window_rule({ match = { class = "^$", title = "Select what to share" }, move = "100%-w-15% 15%", float = 1, })
+
 --** Ignore maximize requests from apps
 
 -- "You'll probably like this."
@@ -7,6 +10,8 @@
 hl.window_rule({ match = { class = ".*" }, suppress_event = "maximize" })
 
 --** Fix some dragging issues with XWayland
+-- TODO: how tf does this fix anything? no actions
+-- should be "no_focus = on"
 hl.window_rule({ match = { class = "^$", title = "^$", xwayland = 1, float = "yes", fullscreen = 0, pin = 0 }, })
 
 --** Inhibit Idle

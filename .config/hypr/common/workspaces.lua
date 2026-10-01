@@ -1,6 +1,8 @@
 --* main workspaces
-hl.workspace_rule({ workspace = "1", monitor = "desc:" .. dc.m1.desc, default = true, layout = "lua:manual" })
-hl.workspace_rule({ workspace = "2", monitor = "desc:" .. dc.m2.desc, default = true, })
+
+-- layout = "lua:manual"
+hl.workspace_rule({ workspace = "1", monitor = "desc:" .. dc.m1.desc, default = true, layout_opts = { orientation = "center", mfact = 0.4, } })
+hl.workspace_rule({ workspace = "2", monitor = "desc:" .. dc.m2.desc, default = true, layout_opts = { orientation = "center", mfact = 0.4, } })
 
 -- use scan codes, so 'io' keyboard feels the same
 
