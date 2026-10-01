@@ -106,7 +106,7 @@
     flake-utils.url = "https://flakehub.com/f/numtide/flake-utils/*";
     flake-utils.inputs.systems.follows = "systems";
 
-    # nixpkgs.url = "https://flakehub.com/f/NixOS/nixpkgs/0.1.*";g
+    nixpkgs.url = "https://flakehub.com/f/NixOS/nixpkgs/0.1.*";
     # fails (guile-zlib checks): 0.1.948651, 0.1.942631, 0.1.957146
 
     # .... 0.1.921317 doesn't build guile-zlib (something seems non-hermetic)
@@ -115,9 +115,9 @@
     #
     # 0.1.1014179: thows deprecated assertion on systemd.user.extraConfig? (for hyprland)
     # 0.1.1024265: pnpm is insecure; fontconfig blows up on cantarell (only when rebuilding it for steam/X11)
-    nixpkgs.url = "https://flakehub.com/f/DeterminateSystems/nixpkgs-weekly/0.1.1077143";
+    # nixpkgs.url = "https://flakehub.com/f/DeterminateSystems/nixpkgs-weekly/0.1.1077143";
     nixpkgs-stable.url = "github:NixOS/nixpkgs/nixos-26.05";
-    nixpkgs-unstable.url = "https://flakehub.com/f/NixOS/nixpkgs/0.1";
+    nixpkgs-unstable.url = "https://flakehub.com/f/NixOS/nixpkgs/0.1.*";
 
     nh.url = "github:nix-community/nh";
     nh.inputs.nixpkgs.follows = "nixpkgs";

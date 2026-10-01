@@ -12,7 +12,7 @@
       obs-vkcapture
       obs-source-clone
       # obs-move-transition
-      obs-composite-blur
+      # obs-composite-blur
       obs-backgroundremoval
     ];
   };

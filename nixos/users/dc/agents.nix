@@ -20,6 +20,6 @@ in
 {
   users.users.dc.packages = [
     pkgs.opencode-desktop
-    ai-jail-fix
+    ai-jail
   ];
 }
