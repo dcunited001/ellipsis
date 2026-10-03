@@ -7,15 +7,13 @@
           "id": "omarchy.menu"
         },
         {
-          "id": "io.github.thetrueferret.decent-workspaces"
+          "id": "io.github.thetrueferret.decent-workspaces",
+          "maxWorkspaceId": 127
         }
       ],
       "center": [
         {
           "id": "omarchy.indicators"
-        },
-        {
-          "id": "omacom.notification-center"
         },
         {
           "id": "omarchy.clock",
@@ -25,9 +23,6 @@
         },
         {
           "id": "omarchy.keyboard-layout"
-        },
-        {
-          "id": "io.github.achevalier-dev.yubikey"
         },
         {
           "id": "omarchy.weather"
@@ -48,6 +43,14 @@
         },
         {
           "id": "omarchy.bluetooth"
+        },
+        {
+          "id": "banan.bananet",
+	      "publicIp": true,
+	      "useSudo": false,
+	      "showVirtual": false,
+	      "showLoopback": true,
+	      "exitNodeSwitcher": false
         },
         {
           "id": "omarchy.network"

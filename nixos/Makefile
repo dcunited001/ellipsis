@@ -32,6 +32,14 @@ flakeup:
 	nix flake update
 
 #-----------------------
+# arch
+# 
+# cd $(pwd)
+# nix flake prefetch-inputs
+# nix registry add nh github:nix-community/nh
+# nix profile add nh#nh
+
+#-----------------------
 # nixos-rebuild
 .PHONY: build switch repl
 build:
