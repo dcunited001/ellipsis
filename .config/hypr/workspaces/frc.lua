@@ -40,11 +40,25 @@ hl.workspace_rule({
     default_name = ws_ascope_float.name
 })
 
+--** Robot Simulator Windows
+local wsname = "name:" .. ws_robot_sim.name
+
+hl.window_rule({
+    match = {
+        class = "Robot Simulation",
+        title = "Robot Simulation",
+    },
+    tile = true,
+    workspace = ws_robot_sim.id
+    -- workspace = wsname -- "name:frcSim" does not work here
+})
+
 -- NOTE: render_unfocused is necessary, otherwise AdvantageScope graphs
 -- offscreen will cause the main interface to lag
 
+
 --** AdvantageScope Windows
-local wsname = "name:" .. ws_ascope.name
+wsname = "name:" .. ws_ascope.name
 
 ws_ascope.border_color = {
     colors = { "rgba(CC3333DD)", "rgba(BBCC7777)" },
@@ -64,7 +78,9 @@ hl.window_rule({
 })
 
 hl.window_rule({ match = { title = ascope_class .. "(.*)" }, tag = "+ascope" })
-hl.window_rule({ match = { tag = "ascope" }, workspace = wsname })
+-- hl.window_rule({ match = { tag = "ascope" }, workspace = wsname })
+-- workspace = wsname -- "name:frcAscope" does not work here
+hl.window_rule({ match = { tag = "ascope" }, workspace = ws_ascope.id })
 
 hl.window_rule({
     match = { tag = "ascope" },
@@ -85,12 +101,12 @@ ws_ascope_float.border_color = {
 local ascope_sat_suffix = "@ — AdvantageScope"
 hl.window_rule({
     match = { title = "(.*)" .. ascope_sat_suffix },
-    tag = "+ascopeSat"
+    tag = "+ascopeSat",
+    workspace = ws_ascope_float.id
 })
 
 hl.window_rule({
     match = { tag = "ascopeSat" },
-    workspace = wsname,
     float = true,
     render_unfocused = true
 })
