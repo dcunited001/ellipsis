@@ -93,7 +93,8 @@ wsname = "special:" .. ws_dfguix.name
 hl.workspace_rule({
     workspace = wsname,
     border_size = ws_dfguix.border_size,
-    on_created_empty = dc.activities_launch(dfguix.tab)
+    on_created_empty = dc.activities_launch(dfguix.tab),
+    layout_opts = { orientation = "top", },
 })
 
 --** Rules

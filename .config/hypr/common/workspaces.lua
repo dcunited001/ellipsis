@@ -1,8 +1,8 @@
 --* main workspaces
 
 -- layout = "lua:manual"
-hl.workspace_rule({ workspace = "1", monitor = "desc:" .. dc.m1.desc, default = true, layout_opts = { orientation = "center", mfact = 0.4, } })
-hl.workspace_rule({ workspace = "2", monitor = "desc:" .. dc.m2.desc, default = true, layout_opts = { orientation = "center", mfact = 0.4, } })
+hl.workspace_rule({ workspace = "1", monitor = "desc:" .. dc.m1.desc, default = true, layout_opts = { orientation = "center", } })
+hl.workspace_rule({ workspace = "2", monitor = "desc:" .. dc.m2.desc, default = true, layout_opts = { orientation = "center", } })
 
 -- use scan codes, so 'io' keyboard feels the same
 
@@ -16,30 +16,30 @@ hl.workspace_rule({ workspace = "2", monitor = "desc:" .. dc.m2.desc, default = 
 -- workspace binds in $XDG_CONFIG_DIR/hypr/$host/bindings/tiling.conf
 
 --** dc.m1
-hl.workspace_rule({ workspace = "1", monitor = "desc:" .. dc.m1.desc, layout_opts = { orientation = "center", mfact = 0.4, } })
-hl.workspace_rule({ workspace = "3", monitor = "desc:" .. dc.m1.desc, layout_opts = { orientation = "center", mfact = 0.4, } })
-hl.workspace_rule({ workspace = "5", monitor = "desc:" .. dc.m1.desc, layout_opts = { orientation = "center", mfact = 0.4, } })
-hl.workspace_rule({ workspace = "7", monitor = "desc:" .. dc.m1.desc, layout_opts = { orientation = "center", mfact = 0.4, } })
-hl.workspace_rule({ workspace = "9", monitor = "desc:" .. dc.m1.desc, layout_opts = { orientation = "center", mfact = 0.4, } })
+hl.workspace_rule({ workspace = "1", monitor = "desc:" .. dc.m1.desc, layout_opts = { orientation = "center", } })
+hl.workspace_rule({ workspace = "3", monitor = "desc:" .. dc.m1.desc, layout_opts = { orientation = "center", } })
+hl.workspace_rule({ workspace = "5", monitor = "desc:" .. dc.m1.desc, layout_opts = { orientation = "center", } })
+hl.workspace_rule({ workspace = "7", monitor = "desc:" .. dc.m1.desc, layout_opts = { orientation = "center", } })
+hl.workspace_rule({ workspace = "9", monitor = "desc:" .. dc.m1.desc, layout_opts = { orientation = "center", } })
 
 --** dc.m2
-hl.workspace_rule({ workspace = "2", monitor = "desc:" .. dc.m2.desc, layout_opts = { orientation = "center", mfact = 0.4, } })
-hl.workspace_rule({ workspace = "4", monitor = "desc:" .. dc.m2.desc, layout_opts = { orientation = "center", mfact = 0.4, } })
-hl.workspace_rule({ workspace = "6", monitor = "desc:" .. dc.m2.desc, layout_opts = { orientation = "center", mfact = 0.4, } })
-hl.workspace_rule({ workspace = "8", monitor = "desc:" .. dc.m2.desc, layout_opts = { orientation = "center", mfact = 0.4, } })
-hl.workspace_rule({ workspace = "10", monitor = "desc:" .. dc.m2.desc, layout_opts = { orientation = "center", mfact = 0.4, } })
+hl.workspace_rule({ workspace = "2", monitor = "desc:" .. dc.m2.desc, layout_opts = { orientation = "center", } })
+hl.workspace_rule({ workspace = "4", monitor = "desc:" .. dc.m2.desc, layout_opts = { orientation = "center", } })
+hl.workspace_rule({ workspace = "6", monitor = "desc:" .. dc.m2.desc, layout_opts = { orientation = "center", } })
+hl.workspace_rule({ workspace = "8", monitor = "desc:" .. dc.m2.desc, layout_opts = { orientation = "center", } })
+hl.workspace_rule({ workspace = "10", monitor = "desc:" .. dc.m2.desc, layout_opts = { orientation = "center", } })
 
 --* Focus Workspaces
 
 --** dc.m1
-hl.workspace_rule({ workspace = "11", monitor = "desc:" .. dc.m1.desc, layout_opts = { orientation = "center", mfact = 0.4, } })
-hl.workspace_rule({ workspace = "13", monitor = "desc:" .. dc.m1.desc, layout_opts = { orientation = "center", mfact = 0.4, } })
-hl.workspace_rule({ workspace = "15", monitor = "desc:" .. dc.m1.desc, layout_opts = { orientation = "center", mfact = 0.4, } })
+hl.workspace_rule({ workspace = "11", monitor = "desc:" .. dc.m1.desc, layout_opts = { orientation = "center", } })
+hl.workspace_rule({ workspace = "13", monitor = "desc:" .. dc.m1.desc, layout_opts = { orientation = "center", } })
+hl.workspace_rule({ workspace = "15", monitor = "desc:" .. dc.m1.desc, layout_opts = { orientation = "center", } })
 
 --** dc.m2
-hl.workspace_rule({ workspace = "12", monitor = "desc:" .. dc.m2.desc, layout_opts = { orientation = "center", mfact = 0.4, } })
-hl.workspace_rule({ workspace = "14", monitor = "desc:" .. dc.m2.desc, layout_opts = { orientation = "center", mfact = 0.4, } })
-hl.workspace_rule({ workspace = "16", monitor = "desc:" .. dc.m2.desc, layout_opts = { orientation = "center", mfact = 0.4, } })
+hl.workspace_rule({ workspace = "12", monitor = "desc:" .. dc.m2.desc, layout_opts = { orientation = "center", } })
+hl.workspace_rule({ workspace = "14", monitor = "desc:" .. dc.m2.desc, layout_opts = { orientation = "center", } })
+hl.workspace_rule({ workspace = "16", monitor = "desc:" .. dc.m2.desc, layout_opts = { orientation = "center", } })
 
 --** binds
 
