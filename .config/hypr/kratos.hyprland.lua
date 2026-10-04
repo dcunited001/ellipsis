@@ -30,6 +30,7 @@ require("hypr.common.workspaces")
 --* config
 
 --** common
+require("hypr.common.bindings.reset")
 require("hypr.common.bindings.applications")
 require("hypr.common.bindings.tiling")
 require("hypr.common.bindings.utilities")
@@ -44,6 +45,8 @@ require("hypr." .. dc.host .. ".g502")
 require("hypr.layouts.manual.layout")
 require("hypr.layouts.manual.submap")
 dc.lo.manual.bind_submap({})
+require("hypr.submaps.master")
+dc.lo.master.bind_submap({})
 
 --** workspaces
 

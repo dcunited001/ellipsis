@@ -21,6 +21,7 @@ require("hypr.common.tags")
 require("hypr.common.looknfeel")
 require("hypr.common.workspaces")
 
+require("hypr.common.bindings.reset")
 require("hypr.common.bindings.applications")
 require("hypr.common.bindings.tiling")
 require("hypr.common.bindings.utilities")
@@ -35,6 +36,8 @@ require("hypr." .. dc.host .. ".autostart")
 require("hypr.layouts.manual.layout")
 require("hypr.layouts.manual.submap")
 dc.lo.manual.bind_submap({})
+require("hypr.submaps.master")
+dc.lo.master.bind_submap({})
 
 -- TODO: compare $HOST/bindings/tiling.lua
 

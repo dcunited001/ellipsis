@@ -1,3 +1,4 @@
+--* dc
 dc = dc or {}
 dc.ws = dc.ws or {}
 
@@ -57,4 +58,20 @@ function dc.activities_launch(tab, socket)
     return "uwsm app -- doomclient " .. (socket and "-s " .. socket or "")
         .. " -- -ce '(activities-resume (cdr (assoc \""
         .. tab .. "\" activities-activities)))'"
+end
+
+--* nice-to-have
+
+-- this doesn't work for HL objects
+function dump(tbl)
+    if type(tbl) == 'table' then
+        local s = '{ '
+        for k, v in pairs(tbl) do
+            kk = (type(k) ~= 'number' and '"' .. k .. '"') or k
+            s = s .. '[' .. k .. '] = ' .. dump(v) .. ','
+        end
+        return s:sub(1, -2) .. ' }'
+    else
+        return tostring(tbl)
+    end
 end
