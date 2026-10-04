@@ -85,3 +85,5 @@ local function omfgllm()
         hl.workspace_rule({ workspace = ws_name, layout_opts = { orientation = "top" } })
     end
 end
+
+hl.bind("MOD3 + S", hl.dsp.layout("orientationcycle top center"))
