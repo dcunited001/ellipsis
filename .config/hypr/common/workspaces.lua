@@ -58,3 +58,30 @@ hl.bind("MOD3 + SHIFT + code:" .. k3, hl.dsp.window.move({ workspace = "13" }, {
 hl.bind("MOD3 + SHIFT + code:" .. k4, hl.dsp.window.move({ workspace = "14" }, { follow = false }))
 hl.bind("MOD3 + SHIFT + code:" .. k5, hl.dsp.window.move({ workspace = "15" }, { follow = false }))
 hl.bind("MOD3 + SHIFT + code:" .. k6, hl.dsp.window.move({ workspace = "16" }, { follow = false }))
+
+--* manage master layout
+
+-- hl.bind("SUPER + CTRL + ALT + SHIFT + S", function()
+
+local function omfgllm()
+    local ws = hl.get_active_workspace()
+    if hl.get_active_special_workspace() then
+        ws = hl.get_active_special_workspace()
+    end
+
+    if not ws then return end
+
+    local ws_name = ws.addressable_name
+
+    hl.notification.create({
+        text = dump(ws),
+        timeout = 5000,
+        color = "rgb(FF0000)"
+    })
+
+    if ws.special then
+        hl.workspace_rule({ workspace = ws_name, layout_opts = { orientation = "top" } })
+    else
+        hl.workspace_rule({ workspace = ws_name, layout_opts = { orientation = "top" } })
+    end
+end
