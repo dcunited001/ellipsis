@@ -28,6 +28,15 @@
      (openpgp-fingerprint
       "8D10 60B9 6BB8 292E 829B  7249 AED4 1CC1 93B7 01E2"))))
  (channel
+   (name 'bluebox)
+   (url "https://codeberg.org/lapislazuli/bluebox")
+   (branch "main")
+   (introduction
+    (make-channel-introduction
+     "63350484aaacc362aea28fb14236019fced4050f"
+     (openpgp-fingerprint
+      "5132 3571 CEED 988F 52FC 467C 6F98 DBF3 EA7F 4B37"))))
+ (channel
    (name 'nonguix)
    (url "https://gitlab.com/nonguix/nonguix")
    (introduction
