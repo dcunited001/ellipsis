@@ -2452,6 +2452,15 @@ selection.)"
 ;; TODO: GUIX: maybe set guix-load-compiled-path
 ;; see [[file:~/.emacs.doom/.local/straight/repos/emacs-guix/elisp/guix-repl.el::defun guix-repl-guile-args]]
 
+(let ((guix-profile-dev
+       (expand-file-name ".dotfiles/.guix-profile-dev/share/guile/site/3.0"
+                         (getenv "HOME"))))
+  (setopt guix-load-path
+          (append
+           (and (file-exists-p guix-profile-dev) (list guix-profile-dev))
+           (list
+            (expand-file-name ".dotfiles/dc" (getenv "HOME"))))))
+
 ;; TODO: defer guix?
 (use-package! guix
   :demand t
@@ -2499,6 +2508,7 @@ selection.)"
 
 (defconst dc/nixos-dotfiles-flake
   (expand-file-name ".dotfiles/nixos/flake.nix" (getenv "HOME")))
+
 (use-package! nix-mode
   :defer t
   :config
@@ -2643,6 +2653,12 @@ selection.)"
 (use-package! jinja2-mode :defer t)
 
 ;;;;; Structure
+
+;;;;;; XML
+(use-package! toml-ts-mode
+  :defer t
+  :init (add-to-list 'auto-mode-alist '("\\.toml\\'" . toml-ts-mode))
+  :config (add-to-list 'toml-ts-mode-hook #'lsp))
 
 ;;;;;; XML
 (require 'dom)

@@ -6,6 +6,9 @@
 (setopt dc/emacs-modules (expand-file-name "modules" user-emacs-directory))
 (add-to-list 'load-path dc/emacs-modules)
 
+;; customize-set-variable
+;; customize-reevaluate-setting
+
 ;; if the elpa gpg-agent interferes with smartcard, this may fix it, but will
 ;; require re-syncing the ~/.emacs.d/.local/elpa/gpg keyring
 ;; (setq package-gnupghome-dir nil)

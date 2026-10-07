@@ -77,6 +77,8 @@ in
     pkgs.hypridle
     pkgs.hyprlock
     pkgs.procps
+
+    # NOTE broken temporarily (older build?)
     pkgs.hyprland-preview-share-picker
   ];
 }
