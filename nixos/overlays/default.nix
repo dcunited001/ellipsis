@@ -11,7 +11,7 @@ let
       directory = ../pkgs/common;
     });
 
-  linuxModifications = final: prev: prev.lib.mkIf final.stdenv.isLinux { };
+  linuxModifications = final: prev: prev.lib.mkIf final.hostPlatform.stdenv.isLinux { };
 
   modifications = final: prev: {
     # guix package does this: `pkgs ? import ../../.. { inherit system; }`
