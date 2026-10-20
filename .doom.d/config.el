@@ -292,7 +292,7 @@ Guix channel.")
 
 ;; that prevents project.el functionality from needing to open gpg files in
 ;; directory tree for find/replace functionality.
-;; 
+;;
 ;; - These are in-memory buffers, but i still don't want them opened unless i
 ;;   want them opened. They should usually be closed quickly -- unless there
 ;;   was a replace (or a regexp match ,followed by a buffer open)
@@ -553,7 +553,14 @@ modes and testing is tedious."
 ;;;;; Undo
 (use-package! undo-tree
   :defer t
-  :custom (undo-tree-auto-save-history nil))
+  ;; :disabled ;; won't do anything without changing init.el
+
+  ;; insufficient to prevent saves, something else resets it
+  ;; :custom (undo-tree-auto-save-history nil)
+  :config (setq undo-tree-auto-save-history nil)
+
+  (with-eval-after-load 'undo-tree
+    (setq undo-tree-auto-save-history nil)))
 
 ;;;; UI
 
@@ -2181,9 +2188,9 @@ the root")
                  forge-gitlab-repository))
   (add-to-list 'forge-alist
                '("projects.blender.org"
-	         "projects.blender.org/api/v1"
-	         "projects.blender.org"
-	         forge-gitea-repository))
+                 "projects.blender.org/api/v1"
+                 "projects.blender.org"
+                 forge-gitea-repository))
   (add-to-list 'forge-alist
                '("gitlab.freedestkop.org"
                  "gitlab.freedesktop.org/api/v4"
