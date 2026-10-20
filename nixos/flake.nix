@@ -164,6 +164,9 @@
     hjem.inputs.nixpkgs.follows = "nixpkgs";
     # hjem-impure.url = "github:Rexcrazy804/hjem-impure";
 
+    ttfx.url = "github:omacom/ttfx";
+    ttfx.inputs.nixpkgs.follows = "nixpkgs";
+
     ai-jail.url = "github:akitaonrails/ai-jail";
     ai-jail.inputs.nixpkgs.follows = "nixpkgs";
 

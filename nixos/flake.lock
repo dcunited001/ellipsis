@@ -883,6 +883,7 @@
         "sops-nix": "sops-nix",
         "systems": "systems_2",
         "try": "try",
+        "ttfx": "ttfx",
         "walker": "walker"
       }
     },
@@ -996,6 +997,26 @@
       "original": {
         "owner": "tobi",
         "repo": "try",
+        "type": "github"
+      }
+    },
+    "ttfx": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1790600764,
+        "narHash": "sha256-tLqFKEZAcXocj09l9+2ksvOgFe5465Z3Y37Hr/LrDp8=",
+        "owner": "omacom",
+        "repo": "ttfx",
+        "rev": "921bd551c308c235e01c5867f0199efe0691c271",
+        "type": "github"
+      },
+      "original": {
+        "owner": "omacom",
+        "repo": "ttfx",
         "type": "github"
       }
     },

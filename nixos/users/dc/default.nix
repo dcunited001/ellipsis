@@ -255,6 +255,7 @@ in
       hyprpwcenter
       coppwr
       # crosspipe
+      easyeffects
 
       # DESKTOP: NWG
       nwg-look

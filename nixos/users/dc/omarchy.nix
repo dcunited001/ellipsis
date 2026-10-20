@@ -11,7 +11,7 @@ let
   );
   tensaku = (pkgs.callPackage (lib.custom.relativeToRoot "pkgs/common/tensaku/package.nix") { });
 
-  ttfx = (pkgs.callPackage (lib.custom.relativeToRoot "pkgs/common/ttfx/package.nix") { });
+  ttfx = inputs.ttfx.packages.${pkgs.stdenv.hostPlatform.system}.ttfx;
 in
 {
   environment.sessionVariables.OMARCHY_PATH = omarchy-path;

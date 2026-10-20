@@ -11,6 +11,9 @@ let
   pythonEnv = python3.withPackages (ps: [
     ps.pygobject3
   ]);
+
+  # TODO: inject ttfx from flake (my flake probably makes this too weird and i am nixdumb)
+  # ttfx = inputs.ttfx.inputs.packages.${pkgs.stdenv.hostPlatform.system}.ttfx;
 in
 
 # this is probably a terrible idea. also, nothing in ./share/omarchy shows up
@@ -50,6 +53,8 @@ stdenv.mkDerivation rec {
     gobject-introspection
   ];
 
+  # propagatedBuildInputs = [ ttfx ];
+
   # can't be known in advance: set in the user's environment...
   # OMARCHY_PATH = "/run/current-system/sw/share/omarchy";
   # OMARCHY_PATH = "$HOME/.nix-profile/share/omarchy";
@@ -59,6 +64,9 @@ stdenv.mkDerivation rec {
 
     substituteInPlace "default/hypr/omarchy.lua" \
       --replace "require(\"default.hypr.autostart\")" "-- require(\"default.hypr.autostart\")"
+
+    substituteInPlace "bin/omarchy-crash-watch" \
+      --replace "    announce " "    # announce "
 
     install -d "$out/share/omarchy"
     cp -r "applications" "$out/share/omarchy" 
