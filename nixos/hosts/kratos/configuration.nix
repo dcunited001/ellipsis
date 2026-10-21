@@ -166,30 +166,10 @@
           if [[ $f =~ ^modules ]]; then continue; fi
           cp -r $f $out/$subdir/$f
         done
-
-        # ^^ that works,
-        #
-        # and it's exactly what i'd like to learn using nixos, but idk how to
-        # use the CLI to extract info like with guix...
-        #
-        # can't easily make sense of `tree /nix/store/*v4l2*` and `tree /nix/store/*ddcci*`
-        # after many failed builds. it's probably the wrong derivation output
-        #
-        # vv ... but this doesn't
-
-        cd ${config.boot.kernelPackages.ddcci-driver}
-        pwd
-        ls -al */*
-        ls -al fudsnafdsaufdnsau
-
-        # ls -al include/* lib/*
-        # for f in *; do
-        #   if [[ $f =~ ^modules ]]; then continue; fi
-        #   cp -r $f $out/$subdir/$f
-        # done
       '';
     in
     [ v4l2loopback-workaround ];
+
   # ls -al
   # echo cp extra/*.ko $out/$subdir/extra
   # cp extra/*.ko $out/$subdir/extra
