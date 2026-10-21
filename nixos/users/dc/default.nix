@@ -165,6 +165,12 @@ in
       step-ca
       step-kms-plugin
 
+      # crypto deps are hard at a low level
+      #
+      # DEV: RUST
+      jetbrains.rust-rover
+      rustup
+
       # LANG: HTML
       html-tidy
 
