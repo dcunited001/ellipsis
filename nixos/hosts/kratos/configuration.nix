@@ -151,7 +151,48 @@
   # Use latest kernel.
   boot.kernelPackages = pkgs.linuxPackages_zen;
   boot.kernelModules = [ "v4l2loopback" ];
-  boot.extraModulePackages = [ config.boot.kernelPackages.v4l2loopback ];
+  # boot.extraModulePackages = [ config.boot.kernelPackages.v4l2loopback ];
+
+  # https://github.com/NixOS/nixpkgs/issues/576406#issuecomment-6309178991
+  #
+  # also revert: services.ddccontrol.enable in ../../modules/nixos/hardware/ddcontrol.nix
+  boot.extraModulePackages =
+    let
+      v4l2loopback-workaround = pkgs.runCommand "v4l2loopback-workaround" { } ''
+        subdir=lib/modules/${config.boot.kernelPackages.kernel.modDirVersion}
+        mkdir -p $out/$subdir
+        cd ${config.boot.kernelPackages.v4l2loopback}
+        for f in *; do
+          if [[ $f =~ ^modules ]]; then continue; fi
+          cp -r $f $out/$subdir/$f
+        done
+
+        # ^^ that works,
+        #
+        # and it's exactly what i'd like to learn using nixos, but idk how to
+        # use the CLI to extract info like with guix...
+        #
+        # can't easily make sense of `tree /nix/store/*v4l2*` and `tree /nix/store/*ddcci*`
+        # after many failed builds. it's probably the wrong derivation output
+        #
+        # vv ... but this doesn't
+
+        cd ${config.boot.kernelPackages.ddcci-driver}
+        pwd
+        ls -al */*
+        ls -al fudsnafdsaufdnsau
+
+        # ls -al include/* lib/*
+        # for f in *; do
+        #   if [[ $f =~ ^modules ]]; then continue; fi
+        #   cp -r $f $out/$subdir/$f
+        # done
+      '';
+    in
+    [ v4l2loopback-workaround ];
+  # ls -al
+  # echo cp extra/*.ko $out/$subdir/extra
+  # cp extra/*.ko $out/$subdir/extra
 
   # TODO remove once copy.fail has blown over
   boot.blacklistedKernelModules = [

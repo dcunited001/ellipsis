@@ -107,6 +107,8 @@
     flake-utils.inputs.systems.follows = "systems";
 
     nixpkgs.url = "https://flakehub.com/f/NixOS/nixpkgs/0.1.*";
+    # ec1851cf997255d1218511e1e52717a40e965909 fixes vl42loopback
+
     # fails (guile-zlib checks): 0.1.948651, 0.1.942631, 0.1.957146
 
     # .... 0.1.921317 doesn't build guile-zlib (something seems non-hermetic)
