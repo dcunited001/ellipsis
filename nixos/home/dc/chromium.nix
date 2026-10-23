@@ -53,6 +53,7 @@ in
         clobber = true;
 
       };
+      # onshape needs 3rd-party cookie exceptions to interact with app.frcdesign.org
       "applications/Onshape.desktop" = {
         text = ''
           [Desktop Entry]

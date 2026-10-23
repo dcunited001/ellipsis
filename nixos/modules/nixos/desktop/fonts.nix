@@ -40,9 +40,9 @@
     pkgs.source-serif-pro # serif
 
     # pkgs.overpass
-    pkgs.iosevka
+    # pkgs.iosevka
     pkgs.nerd-fonts.fira-code
-    pkgs.nerd-fonts.iosevka
+    # pkgs.nerd-fonts.iosevka
     # pkgs... nerd-fonts.iosevka-aile
     pkgs.cantarell-fonts
     # pkgs... font-ghostscript

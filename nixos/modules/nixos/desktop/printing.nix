@@ -17,4 +17,6 @@
     allowFrom = [ "127.0.0.1" ];
     listenAddresses = [ "127.0.0.1:631" ];
   };
+
+  # environment.systemPackages = [ pkgs.epsonscan2 ];
 }

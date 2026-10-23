@@ -24,7 +24,7 @@ stdenv.mkDerivation rec {
   pname = "omarchy-quattro";
   name = "omarchy-quattro-${version}";
   # commit = "7eca64e2683d2a4d4620f36164f001693ae6a5b7";
-  version = "4.0.4"; # increment revision number when package changes
+  version = "4.0.6"; # increment revision number when package changes
 
   # version = "4.0.0";
 
@@ -33,7 +33,7 @@ stdenv.mkDerivation rec {
     repo = "omarchy";
     rev = "v${version}";
     # rev = "${commit}";
-    hash = "sha256-nstxM+CP6al2I4N1LAKdYBvJ4tytD1m8jssiCD7PXTY=";
+    hash = "sha256-H2B/Yfc204C01PIweNAqdGLD+B5i/34gN0I9zUpzmsA=";
   };
 
   # NOTE: from time to time, you may need to clear ~/.cache/quickshell

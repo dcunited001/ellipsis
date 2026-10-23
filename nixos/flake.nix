@@ -106,8 +106,14 @@
     flake-utils.url = "https://flakehub.com/f/numtide/flake-utils/*";
     flake-utils.inputs.systems.follows = "systems";
 
-    nixpkgs.url = "https://flakehub.com/f/NixOS/nixpkgs/0.1.*";
-    # ec1851cf997255d1218511e1e52717a40e965909 fixes vl42loopback
+    # nixpkgs.url = "https://flakehub.com/f/NixOS/nixpkgs/0.1.*";
+    nixpkgs.url = "github:nixos/nixpkgs?rev=e5fc17b6728d90b4d43ae9570d2a38e94ceb7436";
+
+    # v4l2loopback
+    #
+    # https://github.com/tiiuae/sbomnix/pull/340
+    #
+    # e5fc17b6728d90b4d43ae9570d2a38e94ceb7436 has fixed vl42loopback ... but likely has caches
 
     # fails (guile-zlib checks): 0.1.948651, 0.1.942631, 0.1.957146
 

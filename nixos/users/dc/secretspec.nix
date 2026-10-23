@@ -13,12 +13,12 @@ let
 
       src = pkgs.fetchFromGitHub {
         repo = "secretspec";
-        owner = "dcunited001";
-        rev = "sha256-h4r+2zaJHBrJTuwC3EWDkrzg24du/rOSfn7WNL/YB0E=";
-        sha256 = "sha256-h4r+2zaJHBrJTuwC3EWDkrzg24du/rOSfn7WNL/YB0E=";
-        # owner = "cachix";
-        # rev = "eba5d53018f9263dc672cd4487492c305aaede2b";
-        # sha256 = "sha256-1234SNfhyC9Y56wOMUQqSA14dO64Gu11yB1k4j6xLH4=";
+        # owner = "dcunited001";
+        # rev = "sha256-h4r+2zaJHBrJTuwC3EWDkrzg24du/rOSfn7WNL/YB0E=";
+        # sha256 = "sha256-h4r+2zaJHBrJTuwC3EWDkrzg24du/rOSfn7WNL/YB0E=";
+        owner = "cachix";
+        rev = "24b01d405221915ee870d6dd9f560111e21bebec";
+        sha256 = "sha256-1235SNfhyC9Y56wOMUQqSA14dO64Gu11yB1k4j6xLH4=";
       };
 
       cargoHash = null;
@@ -92,7 +92,7 @@ in
   users.users.dc.packages = [
     pkgs.sops
     # secretspecX509
-    # pkgs.devenv
+    pkgs.devenv
     pkgs.secretspec
 
     pkgs.age

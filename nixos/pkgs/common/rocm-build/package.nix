@@ -4,6 +4,16 @@
   ...
 }:
 let
+  hiprtfix = pkgs.rocmPackages.hiprt.overrideAttrs (
+    final: prev: {
+      postPatch = ''
+        substituteInPlace CMakeLists.txt \
+          --replace-fail \
+            'COMMAND ''${CMAKE_CURRENT_SOURCE_DIR}/tools/bakeKernel.sh' \
+            'COMMAND bash ''${CMAKE_CURRENT_SOURCE_DIR}/tools/bakeKernel.sh'
+      '';
+    }
+  );
   profile = pkgs.symlinkJoin {
     name = "rocmOptBuildEnv";
     paths = with pkgs.rocmPackages; [
@@ -40,7 +50,7 @@ let
       }))
 
       # graphics -----------------------
-      hiprt
+      hiprtfix # raytracing used by blender
 
       # vision -----------------------
       miopen # libMIOpen.so.XX

@@ -7,28 +7,30 @@
 }:
 let
 
-  hyprPkgs = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system};
-  hyprlandDev = hyprPkgs.hyprland;
-  hypridleDev = hyprPkgs.hypridle;
-  hyprlockDev = hyprPkgs.hyprlock;
-  hyprlandPortalDev = hyprPkgs.xdg-desktop-portal-hyprland;
+  # hyprPkgs = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system};
+  # hyprlandDev = hyprPkgs.hyprland;
+  # hypridleDev = hyprPkgs.hypridle;
+  # hyprlockDev = hyprPkgs.hyprlock;
+  # hyprlandPortalDev = hyprPkgs.xdg-desktop-portal-hyprland;
 
-  # mesa should be unnecessary
-  hyprInputs = inputs.hyprland.inputs.nixpkgs.legacyPackages.${pkgs.stdenv.hostPlatform.system};
-  hyprlandMesa = hyprInputs.mesa;
-  hyprlandMesa32 = hyprInputs.pkgsi686Linux.mesa;
+  # # mesa should be unnecessary
+  # hyprInputs = inputs.hyprland.inputs.nixpkgs.legacyPackages.${pkgs.stdenv.hostPlatform.system};
+  # hyprlandMesa = hyprInputs.mesa;
+  # hyprlandMesa32 = hyprInputs.pkgsi686Linux.mesa;
 in
 
 {
   programs = {
     uwsm = {
       waylandCompositors = {
-        # TODO: Fix hyprland-debug, doesn't get launched by uwsm
-        hyprland-debug = {
-          prettyName = "hyprland-debug";
-          binPath = "/run/current-system/sw/bin/Hyprland";
-          comment = "Run Hyprland with env-hyprland-debug";
-        };
+        # this is probably cursed, as it's a PITA to select
+        # and it gets reordered arbitrarily by SDDM
+        #
+        # hyprland-debug = {
+        #   prettyName = "hyprland-debug";
+        #   binPath = "/run/current-system/sw/bin/Hyprland";
+        #   comment = "Run Hyprland with env-hyprland-debug";
+        # };
       };
     };
 
@@ -36,8 +38,8 @@ in
       enable = true;
 
       # while on dev
-      package = hyprlandDev;
-      portalPackage = hyprlandPortalDev;
+      package = pkgs.hyprland; # hyprlandDev;
+      portalPackage = pkgs.xdg-desktop-portal-hyprland; # hyprlandPortalDev;
 
       withUWSM = true; # recommended for most users
       xwayland.enable = true; # Xwayland can be disabled

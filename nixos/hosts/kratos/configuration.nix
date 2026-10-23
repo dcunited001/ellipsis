@@ -76,7 +76,7 @@
       "home/dc/hypr.nix"
       "home/dc/hypridle.nix"
       # "home/dc/swaync.nix"
-      "home/dc/thunderbird.nix"
+      # "home/dc/thunderbird.nix"
       "home/dc/xdg-terminal.nix"
       "home/dc/yktouch.nix"
       # "home/dc/waybar.nix"
@@ -144,31 +144,30 @@
       device = "/dev/disk/by-uuid/d02f163b-d7c6-4e6f-bb55-601e9c39200e"; # UUID
       # device = "/dev/disk/by-uuid/8691357d-bb80-2a47-8923-914370fc3e26"; # PART_UUID
       allowDiscards = true;
-      preLVM = true;
     };
   };
 
   # Use latest kernel.
   boot.kernelPackages = pkgs.linuxPackages_zen;
   boot.kernelModules = [ "v4l2loopback" ];
-  # boot.extraModulePackages = [ config.boot.kernelPackages.v4l2loopback ];
+  boot.extraModulePackages = [ config.boot.kernelPackages.v4l2loopback ];
 
   # https://github.com/NixOS/nixpkgs/issues/576406#issuecomment-6309178991
   #
   # also revert: services.ddccontrol.enable in ../../modules/nixos/hardware/ddcontrol.nix
-  boot.extraModulePackages =
-    let
-      v4l2loopback-workaround = pkgs.runCommand "v4l2loopback-workaround" { } ''
-        subdir=lib/modules/${config.boot.kernelPackages.kernel.modDirVersion}
-        mkdir -p $out/$subdir
-        cd ${config.boot.kernelPackages.v4l2loopback}
-        for f in *; do
-          if [[ $f =~ ^modules ]]; then continue; fi
-          cp -r $f $out/$subdir/$f
-        done
-      '';
-    in
-    [ v4l2loopback-workaround ];
+  # boot.extraModulePackages =
+  #   let
+  #     v4l2loopback-workaround = pkgs.runCommand "v4l2loopback-workaround" { } ''
+  #       subdir=lib/modules/${config.boot.kernelPackages.kernel.modDirVersion}
+  #       mkdir -p $out/$subdir
+  #       cd ${config.boot.kernelPackages.v4l2loopback}
+  #       for f in *; do
+  #         if [[ $f =~ ^modules ]]; then continue; fi
+  #         cp -r $f $out/$subdir/$f
+  #       done
+  #     '';
+  #   in
+  #   [ v4l2loopback-workaround ];
 
   # ls -al
   # echo cp extra/*.ko $out/$subdir/extra

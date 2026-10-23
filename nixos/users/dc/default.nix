@@ -104,7 +104,7 @@ in
       nix-diff
       nixfmt
       nix-visualize
-      sbomnix
+      # sbomnix # broken https://github.com/tiiuae/sbomnix/pull/340
       nix-template
 
       # nil # nix lsp
@@ -134,6 +134,7 @@ in
       # DEV
       tmux
       screen
+      devenv
 
       # DEV: C++
       gnumake
@@ -168,7 +169,7 @@ in
       # crypto deps are hard at a low level
       #
       # DEV: RUST
-      jetbrains.rust-rover
+      # jetbrains.rust-rover
       rustup
 
       # LANG: HTML
@@ -207,6 +208,7 @@ in
       # TOOLS: DISK
       btrfs-assistant
       ncdu
+      diskonaut-ng
 
       # TOOLS: NETWORK
       socat
@@ -226,7 +228,7 @@ in
 
       # COMM
       # zoom-us # NOTE DO NOT INSTALL THIS GARBAGE P.O.S
-      thunderbird
+      # thunderbird
       telegram-desktop
       wayscriber
 
@@ -242,7 +244,8 @@ in
       # wofi
       wl-clipboard-rs
       dex
-      file-roller
+      # file-roller # too many mimetypes
+      peazip
 
       # DESKTOP: NOTIFICATIONS
       libnotify
