@@ -2,7 +2,7 @@
   "name": "protobuf-vsc",
   "publisher": "drblury",
   "version": "1.6.19",
-  "sha256": "08r1r16xswa8ignsa7zy5j404y677ssiw6wjvjq071wmzblq1pf9"
+  "sha256": "sha256-5+kJGIFJuvgL03UCfK0Bh9R/CB6ZzMgT939khSiBi/w="
 },
  {
    "name": "vscode-spotless-gradle",
@@ -26,11 +26,11 @@
    "name": "vscode-mermaid-preview",
    "publisher": "vstirbu",
    "version": "2.2.0",
-   "sha256": "sha256-zTGFtYDGhqvhVjKvbLgwpduIPeWcZvh8QDjx/0HC+DM="
+   "sha256": "sha256-pl3P7ZpccL2GvqNKdgfqbnz4tv2Ib8ADSrJ33ZfhmFo="
  },
  {
    "name": "ty",
    "publisher": "astral-sh",
    "version": "2026.84.0",
-   "sha256": "sha256-pTxphxaXO1jRpD2hPiegm1ky5kzA85CqOjJ43Is/FnY="
+   "sha256": "sha256-DqRhV0/YzBwJPUOwMVicGeEScYsP0yuhe9mtJ5AkVow="
  }]
