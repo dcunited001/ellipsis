@@ -5,45 +5,10 @@
 }:
 let
   frcPkgs = inputs.frc-nix.packages.${pkgs.stdenv.hostPlatform.system};
-  vscMarketplace = pkgs.vscode-utils.extensionsFromVscodeMarketplace [
-    {
-      # drblury.protobuf-vsc # replaces zxh404.vscode-proto3
-      name = "protobuf-vsc";
-      publisher = "drblury";
-      version = "1.4.28";
-      sha256 = "08r1r16xswa8ignsa7zy5j404y677ssiw6wjvjq071wmzblq1pf9";
-    }
-    {
-      name = "vscode-spotless-gradle";
-      publisher = "richardwillis";
-      version = "1.2.1";
-      sha256 = "0sdlg3w5g5v1jcx3qf8lljm2qavj3jas8dgr5gxb3l2yyk8knj1l";
-    }
-    {
-      name = "java";
-      publisher = "redhat";
-      version = "1.38.0";
-      sha256 = "10z352wxgk65b6a0hv9lvanpwmdfnzhg1r3g5fsg1ikgda8q6cgc";
-    }
-    {
-      name = "vscode-containerlab";
-      publisher = "srl-labs";
-      version = "0.26.3";
-      sha256 = "sha256-YMuigJ6lHZI+Q1wqmsbnB00IgvvZLX0Wr5jBvoEg9+A=";
-    }
-    {
-      name = "vscode-mermaid-preview";
-      publisher = "vstirbu";
-      version = "2.1.2";
-      sha256 = "sha256-zTGFtYDGhqvhVjKvbLgwpduIPeWcZvh8QDjx/0HC+DM=";
-    }
-    {
-      name = "ty";
-      publisher = "astral-sh";
-      version = "2026.54.0";
-      sha256 = "sha256-pTxphxaXO1jRpD2hPiegm1ky5kzA85CqOjJ43Is/FnY=";
-    }
-  ];
+  rawExtensions = builtins.fromJSON (builtins.readFile ./extensions.json);
+  vscMarketplaceJson = builtins.fromJSON (builtins.readFile ./vscode/extensions.json);
+  vscMarketplace = pkgs.vscode-utils.extensionsFromVscodeMarketplace vscMarketplaceJson;
+
 
   # deps to run avalonia WPILIB installer (don't do this: waste of time)
   #

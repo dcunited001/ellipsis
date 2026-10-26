@@ -100,7 +100,7 @@
        (rest +jq)
        (ruby +lsp) ;; TODO: +rails +chruby +rbenv +rvm
        (rust +lsp)
-       (scala +lsp)
+       (scala +lsp +tree-sitter)
        (scheme +guile +racket)
        (sh +lsp)
 
