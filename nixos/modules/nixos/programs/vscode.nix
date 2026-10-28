@@ -9,7 +9,6 @@ let
   vscMarketplaceJson = builtins.fromJSON (builtins.readFile ./vscode/extensions.json);
   vscMarketplace = pkgs.vscode-utils.extensionsFromVscodeMarketplace vscMarketplaceJson;
 
-
   # deps to run avalonia WPILIB installer (don't do this: waste of time)
   #
   # - installing in this way is probably a bad idea...
@@ -89,7 +88,9 @@ let
     ++ [
       # frcPkgs.datalogtool
       frcPkgs.glass
-      frcPkgs.outlineviewer
+
+      # frcPkgs.outlineviewer # 2026-06 source timing out
+
       # frcPkgs.pathweaver
       frcPkgs.roborioteamnumbersetter
       # frcPkgs.robotbuilder
@@ -102,7 +103,10 @@ let
   vscFhs = pkgs.vscode.fhsWithPackages (ps: with ps; fhsPkgs);
   vscExtensions =
     with pkgs.vscode-extensions;
-    [
+
+    # otherwise resolves to just rust-lang.rust-analyzer
+    [ pkgs.vscode-extensions.rust-lang.rust-analyzer ]
+    ++ [
       bbenoist.nix
       golang.go
 
@@ -153,16 +157,18 @@ let
 
   # webkitSoup = pkgs.webkitgtk_4_1.overrideAttrs # ... already has it
   #   (finalAttrs: previousAttrs: { buildInputs = libsoup_3 });
-  choreoFix = frcPkgs.choreo.overrideAttrs (
-    finalAttrs: previousAttrs: { buildInputs = [ pkgs.webkitgtk_4_1 ]; }
-  );
+  # choreoFix = frcPkgs.choreo.overrideAttrs (
+  #   finalAttrs: previousAttrs: { buildInputs = [ pkgs.webkitgtk_4_1 ]; }
+  # );
 in
 {
   environment.systemPackages = [
     vscFinal
     frcPkgs.advantagescope
     # choreoFix
+    frcPkgs.choreo
     frcPkgs.elastic-dashboard
+
     frcPkgs.pathplanner
     pkgs.openjdk17
   ];

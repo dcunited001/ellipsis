@@ -666,17 +666,17 @@ modes and testing is tedious."
    doom-unicode-font (font-spec :family "Noto Sans" :weight 'normal)
    doom-variable-pitch-font (font-spec :family "Noto Sans" :weight 'normal)))
 
-(defun dc/set-font-omarchy ()
+(defun dc/set-font-omarchy (omarchy-font)
   "To avoid typing this again..."
   (setopt
    ;; -JB-JetBrainsMono Nerd Font Mono-regular-normal-normal-*-*-*-*-*-m-0-iso10646-1
    ;; doom-font (font-spec :family "JetBrainsMono Nerd Font" :size 12 :weight 'normal)
-   doom-font (font-spec :family "CaskaydiaMono Nerd Font" :size 12 :weight 'normal)
+   doom-font (font-spec :family (format "%s Mono" omarchy-font) :size 12 :weight 'normal)
    doom-serif-font (font-spec :family "Liberation Serif" :size 12 :weight 'normal)
-   doom-big-font (font-spec :family "Noto Sans" :size 36 :weight 'normal)
-   doom-emoji-font (font-spec :family "Noto Sans" :weight 'normal)
-   doom-symbol-font (font-spec :family "Noto Sans" :weight 'normal)
-   doom-unicode-font (font-spec :family "Noto Sans" :weight 'normal)
+   doom-big-font (font-spec :family (format "%s Propo" omarchy-font) :size 36 :weight 'normal)
+   doom-emoji-font (font-spec :family "Noto Color Emoji" :weight 'normal)
+   doom-symbol-font (font-spec :family (format "%s Propo" omarchy-font) :weight 'normal)
+   doom-unicode-font (font-spec :family (format "%s Propo" omarchy-font) :weight 'normal)
    doom-variable-pitch-font (font-spec :family "Liberation Serif" :weight 'normal)))
 
 (cond
@@ -702,12 +702,29 @@ modes and testing is tedious."
 ;; Unicode, Symbol, Emoji: Should not define font-size
 
 ;;;; Theme
+
+(use-package omarchy
+  :demand t
+  :init
+  (setopt doom-theme nil
+          omarchy-default-theme (modus-themes-load-random-subr 'dark)
+          omarchy-default-font "Fira Code Nerd Font Mono")
+  :config
+  (require 'omarchy-themes)
+
+  ;; TODO set up ~/.config/omarchy/hooks to push theme changes to emacs
+  ;;
+  ;; TODO patch omarchy.el to set doom font variables
+  ;; 
+  ;; TODO: omarchy-themes doesn't byte-compile properly, so adds the wrong path
+  (add-to-list 'custom-theme-load-path (expand-file-name "straight/repos/omarchy.el/themes" straight-base-dir))
+  (omarchy-init))
+
 (use-package ef-themes
-  :defer t
-  :init (setopt doom-theme nil)
+  :defer t :after omarchy
   ;; hmmm v2.0?
   ;; :hook (doom-init-ui-hook . (lambda () (ef-themes-load-random-dark)))
-  :hook (doom-init-ui-hook . (lambda () (modus-themes-load-random-dark)))
+  ;; :hook (doom-init-ui-hook . (lambda () (modus-themes-load-random-dark)))
   :config
   (map! :map dc/quick-map
         (:prefix ("t" . "THEME")
@@ -830,14 +847,36 @@ modes and testing is tedious."
                ("'" . #'corfu-quick-complete)))
   :custom
   (corfu-auto-delay 1.0)
+  (corfu-popupinfo-delay nil)           ;; added to prevent popup
   :config
   (setq corfu-auto-prefix 3
-
         ;; for completion already in the minibuffer
         ;; +corfu-want-minibuffer-completion 'aggressive
 
         ;; the doom defaults
         global-corfu-modes '((not erc-mode circe-mode help-mode gud-mode vterm-mode) t)))
+
+;; ^^^ Can't get corfu-popupinfo to remain off for long (something is hooking it)
+;; 
+;; still needs the additional customizations.
+;; 
+;; https://github.com/agzam/.doom.d/blob/e36d1f1434068d3c83d129594aa7d255e33f1912/modules/custom/completion/config.el#L124-L244
+
+(use-package! completion-preview
+  :after corfu
+  :hook (doom-first-buffer . global-completion-preview-mode)
+  :config
+  (setopt corfu-preview-current nil)
+  (setopt completion-preview-minimum-symbol-length 3)
+  ;; suppress "i out of n" cycling echo
+  ;;
+  ;; NOTE: this doesn't work (corfu in echo area), but it doesn't break anything (yet)
+  (setopt completion-preview-message-format nil)
+  (setq completion-preview-sort-function
+        (lambda (cands)
+          (if corfu-sort-function (funcall corfu-sort-function cands) cands)))
+  (dolist (cmd '(org-self-insert-command org-delete-backward-char))
+    (add-to-list 'completion-preview-commands cmd)))
 
 ;; (use-package! corfu-popupinfo-delay
 ;;   :defer t
@@ -963,6 +1002,8 @@ large search domains, it's almost always a failure."
         org-roam-db-gc-threshold most-positive-fixnum
         ;; this needs to be set early. keep in completion-fn's though
         org-roam-completion-everywhere nil
+        ;; #'org-roam-complete-everywhere
+        org-roam-completion-functions (list #'org-roam-complete-link-at-point)
         org-todo-keywords
         '((sequence "TODO(t!)" "PROJ(p)" "LOOP(r)" "STRT(s!)" "WAIT(w@)" "HOLD(h@)" "IDEA(i!)"
            "|" "DONE(d!)" "KILL(k)")

@@ -17,6 +17,12 @@
 (package! casual)
 (package! casual-suite)
 (package! ef-themes)
+
+;;*** Omarchy
+(package! omarchy :recipe (:type git :host github
+                           :repo "ovistoica/omarchy.el"
+                           :branch "v0.2.0"))
+
 ;; pomm
 ;; pulsar
 

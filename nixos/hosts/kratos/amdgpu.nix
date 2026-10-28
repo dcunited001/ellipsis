@@ -25,6 +25,7 @@ let
     }
   );
 
+  # TODO: https://lunnova.dev/articles/nixos-nixpkgs-rocm-usage/
   rocmOptBuildEnv = pkgs.symlinkJoin {
     name = "rocmOptBuildEnv";
     paths = with pkgs.rocmPackages; [
