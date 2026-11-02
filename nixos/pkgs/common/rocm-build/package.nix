@@ -4,6 +4,7 @@
   ...
 }:
 let
+  # TODO: https://lunnova.dev/articles/nixos-nixpkgs-rocm-usage/
   hiprtfix = pkgs.rocmPackages.hiprt.overrideAttrs (
     final: prev: {
       postPatch = ''
