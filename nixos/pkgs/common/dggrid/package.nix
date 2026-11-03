@@ -6,10 +6,39 @@
   glib,
   glibc,
   cmake,
-  h3,
+  h3_4,
   gdal,
   shapelib,
 }:
+let
+
+  # logs show H3 must be >= 4.4.1
+  h3_static = h3_4.overrideAttrs (
+    final: prev: {
+      outputs = [ "out" ];
+      setOutputFlags = false;
+
+      # split outputs for cmake builds sometimes have problems
+      #
+      # postInstall = ''
+      #   mkdir -p $out/include
+      #   pwd
+      #   ls -al ..
+      #   cp -r ../src/h3lib/include/* $out/include/
+      #   cp ./src/h3lib/include/*.h $out/include/ 2>/dev/null || true
+      # '';
+      cmakeFlags = (prev.cmakeFlags or [ ]) ++ [
+        "-DBUILD_SHARED_LIBS=OFF"
+      ];
+    }
+  );
+in
+
+# postInstall = ''
+#   rm -rf $out/control
+#   ln -sf ${cacert}/etc/ssl/certs/ca-bundle.crt $out/share/osquery/certs/certs.pem
+#   remove-references-to -t ${toolchain} $out/bin/osqueryd
+# '';
 
 stdenv.mkDerivation (finalAttrs: {
 
@@ -32,14 +61,14 @@ stdenv.mkDerivation (finalAttrs: {
   buildInputs = [
     gdal
     shapelib
-    h3
+    # h3_4
+    h3_static
   ];
   cmakeFlags = [
-    # "-DCMAKE_PREFIX_PATH=${h3}/lib"
+    # "-DCMAKE_PREFIX_PATH=${h3_4.dev}/lib"
     # (lib.cmakeFeature "CMAKE_EXE_LINKER_FLAGS" "-static")
   ];
 
-  # logs show H3 must be >= 4.4.1
   # H3_VERSION_OK
 
   # -DWITH_EXT_SHAPELIB=ON
@@ -61,10 +90,12 @@ stdenv.mkDerivation (finalAttrs: {
     runHook postInstall
   '';
 
-  # TODO: tests need to patch shebangs & bin name in ./examples/doexamples
+  # TODO: tests need to patch shebangs & `dggrid` path in
+  # ./examples/doexamples
   #
-  # some of the generated data needs cleanup to prevent polygons from wrapping
-  # around the antimeridian
+  # Some of the generated data needs cleanup to prevent polygons from wrapping
+  # around the antimeridian. The H3 build eliminates this. The poles are still
+  # missing. matching up the index IDs is more important to me.
 
   meta = {
     description = "A command-line application that generates and manipulates icosahedral discrete global grids.";
