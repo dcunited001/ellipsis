@@ -539,7 +539,7 @@ modes and testing is tedious."
 ;; (hi-lock-regexp-okay (find-tag-default-as-symbol-regexp))
 (use-package! highlight-symbol
   :demand t
-  :custom (highlight-symbol-delay 0.5)
+  :custom (highlight-symbol-idle-delay 0.25)
   :hook ((scheme-mode emacs-lisp-mode conf-mode syslog-mode) . highlight-symbol-mode)
   :config (map! :map doom-leader-toggle-map "M-h" #'highlight-symbol-mode))
 
@@ -703,6 +703,11 @@ modes and testing is tedious."
 
 ;;;; Theme
 
+;; omarchy package really needs modus loaded
+(require 'modus-themes)
+
+;; it works pretty well. as the need to nativecomp emacs config(s)
+;; overcomplicates this. test more later.
 (use-package omarchy
   :demand t
   :init
@@ -717,8 +722,11 @@ modes and testing is tedious."
   ;; TODO patch omarchy.el to set doom font variables
   ;; 
   ;; TODO: omarchy-themes doesn't byte-compile properly, so adds the wrong path
-  (add-to-list 'custom-theme-load-path (expand-file-name "straight/repos/omarchy.el/themes" straight-base-dir))
-  (omarchy-init))
+  (add-to-list 'custom-theme-load-path (expand-file-name "straight/repos/omarchy.el/themes" doom-local-dir))
+  ;; themes are built with modus
+  ;; tooling, but don't quite maintain the same contrast ratios.
+  (unless t
+    (omarchy-init)))
 
 (use-package ef-themes
   :defer t :after omarchy
@@ -2714,7 +2722,10 @@ selection.)"
 
 ;;;;;; Protobuf
 (use-package! protobuf :defer t)
+
 ;;;;; Database
+(after! ob
+  (use-package! ob-sqlite :defer t))
 
 ;;;;; API
 (use-package! graphql :after ghub)
