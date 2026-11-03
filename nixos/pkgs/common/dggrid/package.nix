@@ -34,19 +34,11 @@ let
   );
 in
 
-# postInstall = ''
-#   rm -rf $out/control
-#   ln -sf ${cacert}/etc/ssl/certs/ca-bundle.crt $out/share/osquery/certs/certs.pem
-#   remove-references-to -t ${toolchain} $out/bin/osqueryd
-# '';
-
 stdenv.mkDerivation (finalAttrs: {
 
   pname = "dggrid";
   version = "9.1";
 
-  # when bumping the version above, unless these hashes change, it doesn't
-  # bump the version used for build (for 26.2 -> 29.0 anyways)
   src = fetchFromGitHub {
     owner = "sahrk";
     repo = "dggrid";
