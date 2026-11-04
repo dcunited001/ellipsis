@@ -106,8 +106,8 @@
     flake-utils.url = "https://flakehub.com/f/numtide/flake-utils/*";
     flake-utils.inputs.systems.follows = "systems";
 
-    # nixpkgs.url = "https://flakehub.com/f/NixOS/nixpkgs/0.1.*";
-    nixpkgs.url = "github:nixos/nixpkgs?rev=e5fc17b6728d90b4d43ae9570d2a38e94ceb7436";
+    nixpkgs.url = "https://flakehub.com/f/NixOS/nixpkgs/0.1.*";
+    # nixpkgs.url = "github:nixos/nixpkgs?rev=e5fc17b6728d90b4d43ae9570d2a38e94ceb7436";
 
     # v4l2loopback
     #

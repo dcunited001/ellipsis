@@ -27,6 +27,8 @@ hl.window_rule({
     size = "1920 1080"
 })
 
+
+--*** Misc Docs
 hl.window_rule({
     match = { class = "(chrome-omarchy.org__manual.*)" },
     workspace = wsname,
@@ -36,6 +38,20 @@ hl.window_rule({
 
 hl.window_rule({
     match = { class = "(chrome-search.nixos.org__.*)" },
+    workspace = wsname,
+    float = true,
+    size = { 1120, 1050 }
+})
+
+hl.window_rule({
+    match = { class = "(chrome-devenv.sh__.*)" },
+    workspace = wsname,
+    float = true,
+    size = { 1120, 1050 }
+})
+
+hl.window_rule({
+    match = { class = "(chrome-secretspec.dev__.*)" },
     workspace = wsname,
     float = true,
     size = { 1120, 1050 }
