@@ -11,7 +11,7 @@
   ];
 
   # control moniters (requires i2c group)
-  # services.ddccontrol.enable = true;
+  services.ddccontrol.enable = true;
   environment.systemPackages = [
     pkgs.ddccontrol-db
     pkgs.ddcutil

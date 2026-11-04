@@ -20,6 +20,6 @@ in
 {
   users.users.dc.packages = [
     pkgs.opencode-desktop
-    ai-jail
+    ai-jail-fix # TODO: nixos ai-jail: wait for #214 https://github.com/akitaonrails/ai-jail/pull/214
   ];
 }

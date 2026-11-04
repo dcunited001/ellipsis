@@ -228,7 +228,7 @@ in
 
       # COMM
       # zoom-us # NOTE DO NOT INSTALL THIS GARBAGE P.O.S
-      # thunderbird
+      thunderbird
       telegram-desktop
       wayscriber
 
@@ -310,7 +310,10 @@ in
       hyprpaper
       hyprls
       hyprpolkitagent
-      hyprland-qtutils # for banners/ANR
+
+      # "'hyprland-qtutils' has been removed, as it is archived upstream. Its successor 'hyprland-guiutils' is already on Hyprland's PATH";
+      hyprland-guiutils # TODO does this need to be explicitly added?
+      # hyprland-qtutils # for banners/ANR
 
       # EWW
       eww
