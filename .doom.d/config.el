@@ -541,7 +541,7 @@ modes and testing is tedious."
   :demand t
   :custom (highlight-symbol-idle-delay 0.25)
   :hook ((scheme-mode emacs-lisp-mode conf-mode syslog-mode) . highlight-symbol-mode)
-  :config (map! :map doom-leader-toggle-map "M-h" #'highlight-symbol-mode))
+  :bind (:map doom-leader-toggle-map ("M-h" . #'highlight-symbol-mode)))
 
 ;;;;; Follow
 
@@ -739,6 +739,9 @@ modes and testing is tedious."
                  "r" #'ef-themes-load-random
                  "s" #'ef-themes-select
                  "t" #'ef-themes-toggle)))
+
+;;;; Frames
+
 
 ;;;; Windows
 
@@ -1576,11 +1579,12 @@ with open(\"nixos_trying_rocm_tensorflow_jax.html\",'w') as fp:
     (google-translate-at-point-reverse)))
 
 (use-package! google-translate
-  ;; (:bind "C-T" #'my-google-translate-at-point)
+  :defer t
+  :bind ((:map doom-leader-search-map ("M-T" . #'my-google-translate-at-point)))
   :custom (google-translate-backend-method 'curl))
 
 (after! ob
-  (use-package! ob-translate :defer t)
+  (use-package! ob-translate :defer t :after google-translate)
   ;; TODO :custom ob-mermaid-cli-path "~/.nix-profile/bin/mmdc"
   (use-package! ob-mermaid :defer t :custom (ob-mermaid-cli-path "mmdc")))
 
@@ -1612,7 +1616,7 @@ order dependent via my config."
 ;; TODO: https://github.com/umanwizard/emacs-wiktionary
 (use-package! wiktionary-bro
   :defer t
-  :config (map! :map dc/quick-map "W" #'wiktionary-bro-dwim))
+  :bind (:map dc/quick-map ("W" . #'wiktionary-bro-dwim)))
 
 ;;; Programming
 
@@ -1792,8 +1796,7 @@ order dependent via my config."
   :demand t
   :commands prism-mode prism-whitespace-mode
   ;; :hook (nix-mode nix-ts-mode)
-  :config
-  (map! :map doom-leader-toggle-map "M-p" #'prism-mode))
+  :bind (:map doom-leader-toggle-map ("M-p" . #'prism-mode)))
 
 ;;;;; Emacs Lisp
 (after! flycheck
@@ -2006,8 +2009,7 @@ the root")
   :custom
   (vterm-max-scrollback 1000)
   (vterm-set-bold-hightbright t)
-  :config
-  (map! :map dc/quick-map "M-v" #'vterm))
+  :bind ((:map dc/quick-map ("M-v" . #'vterm))))
 
 ;; TODO: per-project vterm
 ;; https://github.com/doomemacs/doomemacs/blob/master/modules/term/vterm/autoload.el
@@ -2615,13 +2617,13 @@ selection.)"
 ;; TODO: PROCED: setup keybindings
 (use-package! proced
   :commands proced
-  :init (map! :map dc/quick-map "p" #'proced)
-  :config (map! :map proced-mode-map "sh" #'proced-sort-header))
+  :bind (:map dc/quick-map . (("p" . #'proced)
+                              ("sh" . #'proced-sort-header))))
 
 ;;;;; Linux
 (use-package! repology
   :commands repology
-  :init (map! :map dc/quick-map "r" #'repology))
+  :bind (:map dc/quick-map ("r" . #'repology)))
 (use-package! dts-mode :defer t)
 (use-package! archive-rpm :defer t)
 
@@ -2643,8 +2645,7 @@ selection.)"
 
 (use-package! journalctl-mode
   :commands journalctl
-  :config (map! :leader "oj" #'journalctl))
-
+  :bind ((:map doom-leader-map ("oj" . #'journalctl))))
 
 ;;;;; Network
 (use-package! pcap-mode :defer t)                ; req tshark from wireshark cli
@@ -2667,8 +2668,7 @@ selection.)"
 ;;
 
 (use-package! docker
-  :commands docker
-  :config (map! :map dc/quick-map "d" #'docker))
+  :bind (:map dc/quick-map ("d" . #'docker)))
 
 ;;;;;; Terraform/HCL
 
@@ -3009,9 +3009,14 @@ selection.)"
       "i" #'consult-imenu-multi
       "I" #'consult-imenu-multi ;; duplicate
       "M-i" #'consult-imenu
+      ;; "M-i" "starts with non-prefix ESC (console ghost bindings, probably)
+      ;;  only after binding ESC to this keymap
       "k" #'consult-global-mark
       "m" #'consult-mark
       "o" #'consult-outline
+      ;; "ESC" #'select-frame-by-name
+      "`" #'select-frame-by-id
+      "M-`" #'select-frame-by-name
       (:prefix ("r" . "ROAM")
                "r" #'consult-org-roam-search
                "b" #'consult-org-roam-backlinks

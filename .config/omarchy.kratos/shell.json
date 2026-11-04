@@ -53,7 +53,8 @@
           "useSudo": false,
           "showVirtual": false,
           "showLoopback": true,
-          "exitNodeSwitcher": false
+          "exitNodeSwitcher": false,
+          "showPrivilegeSetup": false
         },
         {
           "id": "omarchy.audio"
