@@ -10,6 +10,7 @@ let
     pkgs.callPackage (lib.custom.relativeToRoot "pkgs/common/omarchy-quattro/package.nix") { }
   );
   tensaku = (pkgs.callPackage (lib.custom.relativeToRoot "pkgs/common/tensaku/package.nix") { });
+  monologue = (pkgs.callPackage (lib.custom.relativeToRoot "pkgs/common/monologue/package.nix") { });
 
   ttfx = inputs.ttfx.packages.${pkgs.stdenv.hostPlatform.system}.ttfx;
 in
@@ -48,6 +49,9 @@ in
     ttfx
     pkgs.xdg-terminal-exec
     pkgs.wtype
+
+    pkgs.disktree
+    monologue
   ];
 
   environment.sessionVariables.PATH = [

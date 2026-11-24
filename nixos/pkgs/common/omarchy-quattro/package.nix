@@ -16,6 +16,11 @@ let
   # ttfx = inputs.ttfx.inputs.packages.${pkgs.stdenv.hostPlatform.system}.ttfx;
 in
 
+# simple Qt-based apps
+# TODO: hype https://github.com/omacom/hype/blob/master/CMakeLists.txt
+# TODO: signed https://github.com/omacom/signed/blob/main/CMakeLists.txt
+# TODO: monologue https://github.com/omacom/monologue/blob/master/CMakeLists.txt
+# TODO: elsewhen https://github.com/omacom/Elsewhen (installed as arch package)
 # this is probably a terrible idea. also, nothing in ./share/omarchy shows up
 # in the user's profile when added to users.users.dc.packages...
 #

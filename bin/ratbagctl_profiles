@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 # this could be cleaned up. I would need to parse the output or use jinja
 # the tool should probably support jq or something.
