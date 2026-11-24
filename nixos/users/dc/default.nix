@@ -121,7 +121,8 @@ in
       jc
       sqlite
       sqlitebrowser
-      taplo
+      # taplo
+      tombi
 
       # DATA: VIZ
       d2
