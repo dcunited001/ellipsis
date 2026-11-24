@@ -13,6 +13,7 @@ let
   monologue = (pkgs.callPackage (lib.custom.relativeToRoot "pkgs/common/monologue/package.nix") { });
   signed = (pkgs.callPackage (lib.custom.relativeToRoot "pkgs/common/signed/package.nix") { });
   omasnap = (pkgs.callPackage (lib.custom.relativeToRoot "pkgs/common/omasnap/package.nix") { });
+  plain = (pkgs.callPackage (lib.custom.relativeToRoot "pkgs/common/plain/package.nix") { });
 
   ttfx = inputs.ttfx.packages.${pkgs.stdenv.hostPlatform.system}.ttfx;
 in
@@ -57,6 +58,7 @@ in
     monologue
     signed
     omasnap
+    plain
   ];
 
   environment.sessionVariables.PATH = [
