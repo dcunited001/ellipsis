@@ -63,6 +63,9 @@ hl.window_rule({ match = { class = "(com.github.tchx84.Flatseal)", }, float = 1,
 
 --* Programming
 
+--** Emacs
+hl.window_rule({ match = { class = "emacs" }, tag = "-default-opacity", opacity = "0.998 0.998", })
+
 --** Open Cascade (TCL Wish)
 hl.window_rule({ match = { title = "(AXON)", }, float = 1, })
 hl.window_rule({ match = { title = "(\\+X\\+Z)", }, float = 1, })

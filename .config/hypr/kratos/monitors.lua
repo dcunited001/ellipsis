@@ -5,7 +5,16 @@ hl.env("GDK_SCALE", tostring(omarchy_gdk_scale))
 hl.monitor({ output = "", mode = "preferred", position = "auto", scale = omarchy_monitor_scale })
 
 -- TODO: re-index monitors so they match hyprland indexing
-hl.monitor({ output = dc.m1.output, mode = dc.m1.mode, position = "3000x1440", scale = 1.0, supports_hdr = 1 })
+hl.monitor({
+    output = dc.m1.output,
+    mode = dc.m1.mode,
+    position = "3000x1440",
+    scale = 1.0,
+    supports_hdr = 1,
+    cm = "hdr",
+    sdrbrightness = 1.2,
+    sdrsaturation = 0.98
+})
 hl.monitor({ output = dc.m2.output, mode = dc.m2.mode, position = "3000x0", scale = 1.0 })
 hl.monitor({ output = dc.m3.output, mode = dc.m3.mode, position = "1920x480", scale = 1.0, transform = 3 })
 
