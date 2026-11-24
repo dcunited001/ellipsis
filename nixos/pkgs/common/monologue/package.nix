@@ -1,5 +1,4 @@
 {
-  copyDesktopItems,
   cmake,
   fetchFromGitHub,
   installShellFiles,
@@ -27,7 +26,6 @@ stdenv.mkDerivation (finalAttrs: {
     cmake
     pkg-config
     qt6Packages.wrapQtAppsHook
-    copyDesktopItems
     installShellFiles
   ];
 
@@ -41,15 +39,13 @@ stdenv.mkDerivation (finalAttrs: {
   ];
 
   installPhase = ''
-    # pwd
-    # ls -al 
     install -m0755 -Dt $out/bin/ monologue
+    install -m0644 -Dt $out/share/applications ../pkgbuild/monologue.desktop
+    install -m0644 -Dt $out/share/icons/hicolor/scalable/apps ../pkgbuild/monologue.svg
   '';
 
   # checks assume hardware access, i think.
   # doCheck = true;
-
-  desktopItems = [ "monologue.desktop" ];
 
   meta = {
     description = "A simple webcam recorder for Omarchy";

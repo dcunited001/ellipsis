@@ -42,18 +42,13 @@ stdenv.mkDerivation (finalAttrs: {
   ];
 
   installPhase = ''
-    # pwd
-    # ls -al 
     install -m0755 -Dt $out/bin/ signed
+    install -m0644 -Dt $out/share/applications ../pkgbuild/signed.desktop
+    install -m0644 -Dt $out/share/icons/hicolor/scalable/apps ../pkgbuild/signed.svg
   '';
 
-  # checks assume hardware access, i think.
-  # doCheck = true;
-
-  desktopItems = [ "signed.desktop" ];
-
   meta = {
-    description = "A simple webcam recorder for Omarchy";
+    description = "Sign PDFs and fill them in with text and dates";
     homepage = "https://github.com/omacom/signed";
     license = lib.licenses.mit;
     # maintainers = with lib.maintainers; [ ];

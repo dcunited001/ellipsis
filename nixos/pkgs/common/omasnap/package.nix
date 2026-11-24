@@ -50,7 +50,7 @@ stdenv.mkDerivation (finalAttrs: {
   desktopItems = [ "omasnap.desktop" ];
 
   meta = {
-    description = "A simple webcam recorder for Omarchy";
+    description = "Native Wayland screenshot and annotation editor for Omarchy and Hyprland";
     homepage = "https://github.com/omacom/omasnap";
     license = lib.licenses.mit;
     mainProgram = "omasnap";
