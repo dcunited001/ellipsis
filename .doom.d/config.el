@@ -2717,6 +2717,20 @@ selection.)"
   :init (add-to-list 'auto-mode-alist '("\\.toml\\'" . toml-ts-mode))
   :config (add-to-list 'toml-ts-mode-hook #'lsp))
 
+;; can sort keys when there's a json schema:
+;; https://tombi-toml.github.io/tombi/v1.11.3/docs/json-schema/
+
+(use-package! lsp-toml-tombi
+  :defer t
+  :after (lsp-mode)
+  ;; :custom (lsp-toml-command "tombi")
+  :init
+  (after! apheleia
+    (add-to-list 'apheleia-formatters '(tombi . ("tombi" "format")))
+    (add-to-list 'apheleia-mode-alist '(toml-ts-mode . tombi))
+    (add-to-list 'apheleia-mode-alist '(conf-toml-mode . tombi)))
+  (after! lsp-mode (add-to-list 'lsp-disabled-clients 'taplo)))
+
 ;;;;;; XML
 (require 'dom)
 (use-package! esxml :demand t)
