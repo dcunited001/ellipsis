@@ -12,6 +12,7 @@ let
   tensaku = (pkgs.callPackage (lib.custom.relativeToRoot "pkgs/common/tensaku/package.nix") { });
   monologue = (pkgs.callPackage (lib.custom.relativeToRoot "pkgs/common/monologue/package.nix") { });
   signed = (pkgs.callPackage (lib.custom.relativeToRoot "pkgs/common/signed/package.nix") { });
+  omasnap = (pkgs.callPackage (lib.custom.relativeToRoot "pkgs/common/omasnap/package.nix") { });
 
   ttfx = inputs.ttfx.packages.${pkgs.stdenv.hostPlatform.system}.ttfx;
 in
@@ -51,9 +52,11 @@ in
     pkgs.xdg-terminal-exec
     pkgs.wtype
 
+    # 4.5.0
     pkgs.disktree
     monologue
     signed
+    omasnap
   ];
 
   environment.sessionVariables.PATH = [
