@@ -11,6 +11,7 @@ let
   );
   tensaku = (pkgs.callPackage (lib.custom.relativeToRoot "pkgs/common/tensaku/package.nix") { });
   monologue = (pkgs.callPackage (lib.custom.relativeToRoot "pkgs/common/monologue/package.nix") { });
+  signed = (pkgs.callPackage (lib.custom.relativeToRoot "pkgs/common/signed/package.nix") { });
 
   ttfx = inputs.ttfx.packages.${pkgs.stdenv.hostPlatform.system}.ttfx;
 in
@@ -52,6 +53,7 @@ in
 
     pkgs.disktree
     monologue
+    signed
   ];
 
   environment.sessionVariables.PATH = [

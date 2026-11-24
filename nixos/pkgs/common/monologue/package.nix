@@ -36,10 +36,7 @@ stdenv.mkDerivation (finalAttrs: {
     libpulseaudio
     qt6Packages.qtbase
     qt6Packages.qtdeclarative
-    qt6Packages.qtimageformats
-    qt6Packages.qtkeychain
     qt6Packages.qtmultimedia
-    qt6Packages.qtsvg
     qt6Packages.qttools
   ];
 
@@ -48,6 +45,9 @@ stdenv.mkDerivation (finalAttrs: {
     # ls -al 
     install -m0755 -Dt $out/bin/ monologue
   '';
+
+  # checks assume hardware access, i think.
+  # doCheck = true;
 
   desktopItems = [ "monologue.desktop" ];
 
