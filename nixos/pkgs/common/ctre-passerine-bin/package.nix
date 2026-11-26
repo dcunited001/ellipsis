@@ -8,12 +8,11 @@
   jq,
   nix-update,
 }:
-# makeWrapper,
-
 stdenv.mkDerivation (finalAttrs: {
   pname = "ctre-passerine-bin";
-  version = "0.0.1";
+  version = "1.0.0";
 
+  # NOTE: this is probably wrong.
   src =
     finalAttrs.passthru.sources.${stdenv.hostPlatform.system}
       or (throw "Unsupported system: ${stdenv.hostPlatform.system}");
@@ -41,12 +40,15 @@ stdenv.mkDerivation (finalAttrs: {
   '';
 
   # update with $(nix build --no-link --print-out-paths .#ctre-passerine-bin.updateScript)/bin/update-ctre-passerine-bin
-  # passthru.updateScript = lib.getExe (writeShellApplication {
+  #
+  # for now, update with nix run github:mic92/nix-update/v1.17.0#nix-update -- --flake "ctre-passerine-bin" --version=1.0.0
+  #
+  # https://github.com/Mic92/nix-update/issues/534 fixes non-root flakes (I always wondered whether this would bite me in the ass)
   passthru = {
     sources = {
       "x86_64-linux" = fetchurl {
         url = "https://redist.ctr-electronics.com/tools/passerine/${finalAttrs.version}/passerine-${finalAttrs.version}-linuxx86-64";
-        hash = "sha256-TrK3YxY9De+RkdaELI9z1NnLfXsky9bFqrqeL/67L0Q=";
+        hash = "sha256-FvhUbLVHmLQL4+mF5hNPY1XNlitZCehpnVs4ijpRuMQ=";
       };
       "aarch64-linux" = fetchurl {
         url = "https://redist.ctr-electronics.com/tools/passerine/${finalAttrs.version}/passerine-${finalAttrs.version}-linuxarm64";
@@ -72,22 +74,22 @@ stdenv.mkDerivation (finalAttrs: {
           '
         )"
 
-
         if [ "$NEW_VERSION" = "${finalAttrs.version}" ]; then
           echo "${finalAttrs.pname} is already up to date at ${finalAttrs.version}"
           exit 0
         fi
 
         # this apparently doesn't work if you're flake isn't at the root of the repo
-        nix-update --flake --version="$NEW_VERSION" "${finalAttrs.pname}"
+        # nix-update --flake --version="$NEW_VERSION" "${finalAttrs.pname}"
 
         # nix flake metadata --json
         # nix-update --flake -f pkgs/common/ctre-passerine-bin/package.nix --version="$NEW_VERSION" "${finalAttrs.pname}"
 
-        # for platform in ${lib.escapeShellArgs finalAttrs.meta.platforms}; do
-        #   update-source-version "ctre-$tool_name-bin" "$NEW_VERSION" --ignore-same-version \
-        #     --file=./pkgs/common/ctre-passerine-bin/package.nix --source-key="sources.$platform"
-        # done
+        for platform in ${lib.escapeShellArgs finalAttrs.meta.platforms}; do
+          nix-update --flake --version="$NEW_VERSION" --system="$platform" "${finalAttrs.pname}"
+          # update-source-version "ctre-$tool_name-bin" "$NEW_VERSION" --ignore-same-version \
+          #   --file=./pkgs/common/ctre-passerine-bin/package.nix --source-key="sources.$platform"
+        done
 
         echo "Updated ${finalAttrs.pname}: ${finalAttrs.version} -> $NEW_VERSION"
       '';
