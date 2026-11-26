@@ -10,7 +10,7 @@
 }:
 stdenv.mkDerivation (finalAttrs: {
   pname = "ctre-owlet";
-  version = "26.3.0";
+  version = "26.70.0";
 
   src =
     finalAttrs.passthru.sources.${stdenv.hostPlatform.system}
@@ -51,7 +51,7 @@ stdenv.mkDerivation (finalAttrs: {
     sources = {
       "x86_64-linux" = fetchurl {
         url = "https://redist.ctr-electronics.com/tools/${finalAttrs.meta.mainProgram}/${finalAttrs.version}/${finalAttrs.meta.mainProgram}-${finalAttrs.version}-linuxx86-64";
-        hash = "sha256-cf0OmAA3Xe+G3IQ7Q0Q0BGeT4/Jc86hRxrTJBKaiZGE=";
+        hash = "sha256-CBsKEiKW/RLoRVU/FhRG/v4WiR8L3ETYZ57bR4Wpm6o=";
       };
       "aarch64-linux" = fetchurl {
         url = "https://redist.ctr-electronics.com/tools/${finalAttrs.meta.mainProgram}/${finalAttrs.version}/${finalAttrs.meta.mainProgram}-${finalAttrs.version}-linuxarm64";
