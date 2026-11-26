@@ -10,11 +10,11 @@ arch=('x86_64' 'aarch64')
 license=('None') # can't easily find this
 url="https://docs.ctr-electronics.com/cli-tools"
 
-pkgver="26.1.3"
-source_x86_64=("https://redist.ctr-electronics.com/tools/PhoenixDiagnosticsProgram/26.1.3/PhoenixDiagnosticsProgram-26.1.3-linuxx86-64")
-sha1sums_x86_64=("b85141bbc02ff20d22d52eecb6b58c0494cd485b")
-source_aarch64=("https://redist.ctr-electronics.com/tools/PhoenixDiagnosticsProgram/26.1.3/PhoenixDiagnosticsProgram-26.1.3-linuxarm64")
-sha1sums_aarch64=("031830b582f8c459b28ca051e4dd2d078893087b")
+pkgver="26.3.1"
+source_x86_64=("https://redist.ctr-electronics.com/tools/PhoenixDiagnosticsProgram/26.3.1/PhoenixDiagnosticsProgram-26.3.1-linuxx86-64")
+sha1sums_x86_64=("b67fa4a3238c841751d9c99b89f197e237360f5f")
+source_aarch64=("https://redist.ctr-electronics.com/tools/PhoenixDiagnosticsProgram/26.3.1/PhoenixDiagnosticsProgram-26.3.1-linuxarm64")
+sha1sums_aarch64=("80f653b4a2a3fdef427794a70d0f14e3e5cbab86")
 
 depends=()
 noextract=(

@@ -75,8 +75,6 @@ GET :ctre-url
     }
 #+end_src
 
-#+RESULTS: ctre-tools-windows
-
 #+name: ctre-tools-pkgbuild-metadata2
 #+headers: :results output
 #+begin_src jq :stdin ctre-tools-windows :var tool="owlet" arch="aarch64" :cmd-line "-rj" 

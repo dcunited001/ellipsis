@@ -10,11 +10,11 @@ arch=('x86_64' 'aarch64')
 license=('None') # can't easily find this
 url="https://docs.ctr-electronics.com/cli-tools"
 
-pkgver="26.1.0"
-source_x86_64=("https://redist.ctr-electronics.com/tools/owlet/26.1.0/owlet-26.1.0-linuxx86-64")
-sha1sums_x86_64=("fae8464ed63db8926e954af59ee5fcd49598b522")
-source_aarch64=("https://redist.ctr-electronics.com/tools/owlet/26.1.0/owlet-26.1.0-linuxarm64")
-sha1sums_aarch64=("ddc2d5fa2bf3982ecffa6fcb07cb3668f5562eed")
+pkgver="26.70.0"
+source_x86_64=("https://redist.ctr-electronics.com/tools/owlet/26.70.0/owlet-26.70.0-linuxx86-64")
+sha1sums_x86_64=("b54ff4645b3cee918742fdc7e15500419d77fe4d")
+source_aarch64=("https://redist.ctr-electronics.com/tools/owlet/26.70.0/owlet-26.70.0-linuxarm64")
+sha1sums_aarch64=("fd760a67ae314244dac789f94129e8e9c0697c4d")
 
 depends=()
 noextract=(

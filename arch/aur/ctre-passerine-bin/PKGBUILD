@@ -10,8 +10,8 @@ arch=('x86_64' 'aarch64')
 license=('None') # can't easily find this
 url="https://docs.ctr-electronics.com/cli-tools"
 
-pkgver="0.0.1"
-source_x86_64=("https://redist.ctr-electronics.com/tools/passerine/0.0.1/passerine-0.0.1-linuxx86-64")
-sha1sums_x86_64=("35458ac3b0ea743d6c8abac65c3904b843d76b1a")
-source_aarch64=("https://redist.ctr-electronics.com/tools/passerine/0.0.1/passerine-0.0.1-linuxarm64")
-sha1sums_aarch64=("7b378eb86b66fb6bf26c17e028be6ab8457c5688")
+pkgver="1.0.0"
+source_x86_64=("https://redist.ctr-electronics.com/tools/passerine/1.0.0/passerine-1.0.0-linuxx86-64")
+sha1sums_x86_64=("cc0ad3991876579f33a835a6c710dcdf5d61f6fe")
+source_aarch64=("https://redist.ctr-electronics.com/tools/passerine/1.0.0/passerine-1.0.0-linuxarm64")
+sha1sums_aarch64=("2877521375fa9c2679b63566377cb8858aa4a937")

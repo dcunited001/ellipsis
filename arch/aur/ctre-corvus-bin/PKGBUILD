@@ -10,11 +10,11 @@ arch=('x86_64' 'aarch64')
 license=('None') # can't easily find this
 url="https://docs.ctr-electronics.com/cli-tools"
 
-pkgver="26.1.1"
-source_x86_64=("https://redist.ctr-electronics.com/tools/corvus/26.1.1/corvus-26.1.1-linuxx86-64")
-sha1sums_x86_64=("70f9b09315f89881af357531aa64a75daf0bb150")
-source_aarch64=("https://redist.ctr-electronics.com/tools/corvus/26.1.1/corvus-26.1.1-linuxarm64")
-sha1sums_aarch64=("2625e9bc339a08e18fae2e249ebfcbe351e5297c")
+pkgver="26.70.0"
+source_x86_64=("https://redist.ctr-electronics.com/tools/corvus/26.70.0/corvus-26.70.0-linuxx86-64")
+sha1sums_x86_64=("0937520c50d1ae3c4b471e29c82d24d9c1ce813e")
+source_aarch64=("https://redist.ctr-electronics.com/tools/corvus/26.70.0/corvus-26.70.0-linuxarm64")
+sha1sums_aarch64=("ec3df7cf0aa090ee5bfe31dc56bd3cabb8e2564d")
 
 depends=()
 noextract=(
