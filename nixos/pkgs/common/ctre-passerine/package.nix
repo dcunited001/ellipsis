@@ -99,7 +99,7 @@ stdenv.mkDerivation (finalAttrs: {
   meta = {
     description = "CLI utility to turn MIDI (.mid and .midi) files into CTR Electronics CHRP .chrp files";
     homepage = "https://docs.ctr-electronics.com/cli-tools";
-    # license = lib.licenses.unfree;
+    license = lib.licenses.unfree;
     mainProgram = "passerine";
     platforms = builtins.attrNames finalAttrs.passthru.sources;
     # sourceProvenance = with lib.sourceTypes; [ binaryNativeCode ];

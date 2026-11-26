@@ -1,0 +1,104 @@
+{
+  lib,
+  stdenv,
+  fetchurl,
+  autoPatchelfHook,
+  writeShellApplication,
+  curl,
+  jq,
+  nix-update,
+}:
+stdenv.mkDerivation (finalAttrs: {
+  pname = "ctre-corvus";
+  version = "26.70.0";
+
+  src =
+    finalAttrs.passthru.sources.${stdenv.hostPlatform.system}
+      or (throw "Unsupported system: ${stdenv.hostPlatform.system}");
+
+  strictDeps = true;
+  __structuredAttrs = true;
+
+  dontUnpack = true;
+  dontConfigure = true;
+  dontBuild = true;
+
+  # [ makeWrapper ] # may be needed here (and wrapProgram, see codegraph/package.nix)
+  nativeBuildInputs = lib.optionals stdenv.hostPlatform.isLinux [
+    autoPatchelfHook
+  ];
+
+  buildInputs = [
+    (lib.getLib stdenv.cc.cc)
+  ];
+
+  installPhase = ''
+    runHook preInstall
+
+    mkdir -p "$out/bin"
+    cp "$src" "$out/bin/corvus"
+    chmod 0755 "$out/bin/corvus"
+
+    runHook postInstall
+  '';
+
+  # update with $(nix build --no-link --print-out-paths .#ctre-corvus.updateScript)/bin/update-ctre-corvus
+  #
+  # for now, update with nix run github:mic92/nix-update/v1.17.0#nix-update -- --flake "ctre-corvus" --version=26.70.0
+  #
+  # https://github.com/Mic92/nix-update/issues/534
+  passthru = {
+    sources = {
+      "x86_64-linux" = fetchurl {
+        url = "https://redist.ctr-electronics.com/tools/${finalAttrs.meta.mainProgram}/${finalAttrs.version}/${finalAttrs.meta.mainProgram}-${finalAttrs.version}-linuxx86-64";
+        hash = "sha256-VbdILbJ9ZEQbxomGjtlmvcnE/GCpNrBV5qHub+fj8gg=";
+      };
+      "aarch64-linux" = fetchurl {
+        url = "https://redist.ctr-electronics.com/tools/${finalAttrs.meta.mainProgram}/${finalAttrs.version}/${finalAttrs.meta.mainProgram}-${finalAttrs.version}-linuxarm64";
+        hash = "sha256-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=";
+      };
+    };
+    updateScript = writeShellApplication {
+      name = "update-${finalAttrs.pname}";
+      runtimeInputs = [
+        curl
+        jq
+        nix-update
+      ];
+      text = ''
+        set -euo pipefail
+
+        tool_name="corvus"
+        NEW_VERSION="$(
+          curl --silent -fsSL https://redist.ctr-electronics.com/index.json | jq -er --arg tool "$tool_name" '
+            .Tools[]
+            | select(.Name == $tool)
+            | .Items | last | .Version
+          '
+        )"
+
+        if [ "$NEW_VERSION" = "${finalAttrs.version}" ]; then
+          echo "${finalAttrs.pname} is already up to date at ${finalAttrs.version}"
+          exit 0
+        fi
+
+        for platform in ${lib.escapeShellArgs finalAttrs.meta.platforms}; do
+          nix-update --flake --version="$NEW_VERSION" --system="$platform" "${finalAttrs.pname}"
+          # update-source-version "ctre-$tool_name" "$NEW_VERSION" --ignore-same-version \
+          #   --file=./pkgs/common/ctre-corvus/package.nix --source-key="sources.$platform"
+        done
+
+        echo "Updated ${finalAttrs.pname}: ${finalAttrs.version} -> $NEW_VERSION"
+      '';
+    };
+
+  };
+  meta = {
+    description = "CLI Utility to generate mechanism for multiple languages";
+    homepage = "https://docs.ctr-electronics.com/cli-tools";
+    license = lib.licenses.unfree;
+    mainProgram = "corvus";
+    platforms = builtins.attrNames finalAttrs.passthru.sources;
+    # sourceProvenance = with lib.sourceTypes; [ binaryNativeCode ];
+  };
+})

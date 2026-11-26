@@ -126,7 +126,7 @@ stdenv.mkDerivation {
   meta = {
     description = "CLI Utility to enumerate, retrieve info and configure CANivore devices";
     homepage = "https://docs.ctr-electronics.com/cli-tools";
-    # license = lib.licenses.unfree;
+    license = lib.licenses.unfree;
     mainProgram = "caniv";
     platforms = [
       "x86_64-linux"

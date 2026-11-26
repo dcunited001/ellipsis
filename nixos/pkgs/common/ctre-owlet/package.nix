@@ -96,7 +96,7 @@ stdenv.mkDerivation (finalAttrs: {
   meta = {
     description = "CLI Utility to convert CTR Electronics hoot .hoot files into other logging formats";
     homepage = "https://docs.ctr-electronics.com/cli-tools";
-    # license = lib.licenses.unfree;
+    license = lib.licenses.unfree;
     mainProgram = "owlet";
     platforms = builtins.attrNames finalAttrs.passthru.sources;
     # sourceProvenance = with lib.sourceTypes; [ binaryNativeCode ];

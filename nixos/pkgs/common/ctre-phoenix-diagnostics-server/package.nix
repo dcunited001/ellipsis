@@ -10,7 +10,7 @@
 }:
 stdenv.mkDerivation (finalAttrs: {
   pname = "ctre-phoenix-diagnostics-server";
-  version = "26.3.0";
+  version = "26.70.0-alpha-2";
 
   # NOTE: this is probably wrong.
   src =
@@ -63,7 +63,7 @@ stdenv.mkDerivation (finalAttrs: {
       };
       "aarch64-linux" = fetchurl {
         url = "https://redist.ctr-electronics.com/tools/${finalAttrs.meta.mainProgram}/${finalAttrs.version}/${finalAttrs.meta.mainProgram}-${finalAttrs.version}-linuxarm64";
-        # hash = "sha256-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=";
+        hash = "sha256-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=";
       };
     };
     updateScript = writeShellApplication {
@@ -104,7 +104,7 @@ stdenv.mkDerivation (finalAttrs: {
   meta = {
     description = "CLI Utility that allows Phoenix Tuner to manage CTR Electronics devices";
     homepage = "https://docs.ctr-electronics.com/cli-tools";
-    # license = lib.licenses.unfree;
+    license = lib.licenses.unfree;
     mainProgram = "PhoenixDiagnosticsProgram";
     platforms = builtins.attrNames finalAttrs.passthru.sources;
     # sourceProvenance = with lib.sourceTypes; [ binaryNativeCode ];
