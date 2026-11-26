@@ -9,8 +9,8 @@
   nix-update,
 }:
 stdenv.mkDerivation (finalAttrs: {
-  pname = "ctre-passerine-bin";
-  version = "1.0.0";
+  pname = "ctre-phoenix-diagnostics-server";
+  version = "26.3.0";
 
   # NOTE: this is probably wrong.
   src =
@@ -29,30 +29,41 @@ stdenv.mkDerivation (finalAttrs: {
     autoPatchelfHook
   ];
 
+  buildInputs = [
+    (lib.getLib stdenv.cc.cc)
+  ];
+
+  # case "${stdenv.hostPlatform.system}" in
+  #    x86_64-linux) _arch="linuxx86-64" ;;
+  #    aarch64-linux) _arch="linuxarm64" ;;
+  # esac
+  # _binfile="$_binname-${finalAttrs.version}-$_arch"
+
   installPhase = ''
     runHook preInstall
 
     mkdir -p "$out/bin"
-    cp "$src" "$out/bin/passerine"
-    chmod 0755 "$out/bin/passerine"
+    _binname=PhoenixDiagnosticsProgram
+    cp "$src" "$out/bin/$_binname"
+    chmod 0755 "$out/bin/$_binname"
 
     runHook postInstall
   '';
 
-  # update with $(nix build --no-link --print-out-paths .#ctre-passerine-bin.updateScript)/bin/update-ctre-passerine-bin
+  # update with $(nix build --no-link --print-out-paths .#ctre-phoenix-diagnostics-server.updateScript)/bin/update-ctre-phoenix-diagnostics-server
   #
-  # for now, update with nix run github:mic92/nix-update/v1.17.0#nix-update -- --flake "ctre-passerine-bin" --version=1.0.0
+  # for now, update with nix run github:mic92/nix-update/v1.17.0#nix-update -- --flake "ctre-phoenix-diagnostics-server" --version=26.3.0
   #
-  # https://github.com/Mic92/nix-update/issues/534 fixes non-root flakes (I always wondered whether this would bite me in the ass)
+  # https://github.com/Mic92/nix-update/issues/534
   passthru = {
     sources = {
       "x86_64-linux" = fetchurl {
-        url = "https://redist.ctr-electronics.com/tools/passerine/${finalAttrs.version}/passerine-${finalAttrs.version}-linuxx86-64";
-        hash = "sha256-FvhUbLVHmLQL4+mF5hNPY1XNlitZCehpnVs4ijpRuMQ=";
+        url = "https://redist.ctr-electronics.com/tools/${finalAttrs.meta.mainProgram}/${finalAttrs.version}/${finalAttrs.meta.mainProgram}-${finalAttrs.version}-linuxx86-64";
+        hash = "sha256-xQb7CsxpQBWsb1L4OFrjaWXAEboZ+01dYHIYFiTqhGo=";
       };
       "aarch64-linux" = fetchurl {
-        url = "https://redist.ctr-electronics.com/tools/passerine/${finalAttrs.version}/passerine-${finalAttrs.version}-linuxarm64";
-        hash = "sha256-gqoeR2rmWwVpvMDiHO8k+3Nd7rntdMEtFg8iRRsZFEA=";
+        url = "https://redist.ctr-electronics.com/tools/${finalAttrs.meta.mainProgram}/${finalAttrs.version}/${finalAttrs.meta.mainProgram}-${finalAttrs.version}-linuxarm64";
+        # hash = "sha256-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=";
       };
     };
     updateScript = writeShellApplication {
@@ -65,7 +76,7 @@ stdenv.mkDerivation (finalAttrs: {
       text = ''
         set -euo pipefail
 
-        tool_name="passerine"
+        tool_name="PhoenixDiagnosticsProgram"
         NEW_VERSION="$(
           curl --silent -fsSL https://redist.ctr-electronics.com/index.json | jq -er --arg tool "$tool_name" '
             .Tools[]
@@ -79,16 +90,10 @@ stdenv.mkDerivation (finalAttrs: {
           exit 0
         fi
 
-        # this apparently doesn't work if you're flake isn't at the root of the repo
-        # nix-update --flake --version="$NEW_VERSION" "${finalAttrs.pname}"
-
-        # nix flake metadata --json
-        # nix-update --flake -f pkgs/common/ctre-passerine-bin/package.nix --version="$NEW_VERSION" "${finalAttrs.pname}"
-
         for platform in ${lib.escapeShellArgs finalAttrs.meta.platforms}; do
           nix-update --flake --version="$NEW_VERSION" --system="$platform" "${finalAttrs.pname}"
-          # update-source-version "ctre-$tool_name-bin" "$NEW_VERSION" --ignore-same-version \
-          #   --file=./pkgs/common/ctre-passerine-bin/package.nix --source-key="sources.$platform"
+          # update-source-version "ctre-$tool_name" "$NEW_VERSION" --ignore-same-version \
+          #   --file=./pkgs/common/ctre-phoenix-diagnostics-server/package.nix --source-key="sources.$platform"
         done
 
         echo "Updated ${finalAttrs.pname}: ${finalAttrs.version} -> $NEW_VERSION"
@@ -97,10 +102,10 @@ stdenv.mkDerivation (finalAttrs: {
 
   };
   meta = {
-    description = "CLI utility to turn MIDI (.mid and .midi) files into CTR Electronics CHRP .chrp files";
+    description = "CLI Utility that allows Phoenix Tuner to manage CTR Electronics devices";
     homepage = "https://docs.ctr-electronics.com/cli-tools";
     # license = lib.licenses.unfree;
-    mainProgram = "passerine";
+    mainProgram = "PhoenixDiagnosticsProgram";
     platforms = builtins.attrNames finalAttrs.passthru.sources;
     # sourceProvenance = with lib.sourceTypes; [ binaryNativeCode ];
   };

@@ -12,7 +12,7 @@
 
 let
   platform = if stdenv.hostPlatform.isAarch64 then "linuxarm64" else "linuxx86-64";
-  pname = "ctre-caniv-bin";
+  pname = "ctre-caniv";
   version = "1.1.1.0";
 
   # NOTE: not yet tested. need an arm system (don't want to change my flake yet)
@@ -58,7 +58,7 @@ stdenv.mkDerivation {
     runHook postInstall
   '';
 
-  # update with $(nix build --no-link --print-out-paths .#ctre-caniv-bin.updateScript)/bin/update-ctre-caniv-bin
+  # update with $(nix build --no-link --print-out-paths .#ctre-caniv.updateScript)/bin/update-ctre-caniv
   # passthru.updateScript = lib.getExe (writeShellApplication {
   passthru.updateScript = writeShellApplication {
     name = "update-${pname}";
