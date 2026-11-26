@@ -33,10 +33,11 @@
 (use-package-modules emacs emacs-xyz emacs-build)
 
 (define %ugt-my-groups
-  '("wheel" "users" "tty" "dialout"
-    "input" "video" "audio" "netdev" "lp"
-    ;; "kmem" "disk" "floppy" "cdrom" "tape" "kvm"
-    "fuse" "yubikey" "plugdev" "users"))
+  ;; libvirt
+  '("wheel" "users" "dialout" "netdev"
+    ;; "input" "video" "audio" "render" "tty" "seat" "lp" "fuse"
+    ;; "kmem" "disk" "floppy" "cdrom" "tape" "kvm" "plugdev" "docker"
+    "realtime" "yubikey" "cgroup"))
 
 (define %ugt-system-groups
   (cons*

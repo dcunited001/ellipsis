@@ -21,12 +21,10 @@
     (supplementary-groups user-groups)))
 
 (define-public %dc-my-groups
-  ;; "kmem"
-  '("wheel" "users" "tty" "dialout"
-    "input" "video" "audio" "netdev" "lp"
-    ;; "disk" "floppy" "cdrom" "tape" "kvm"
-    "fuse" "realtime" "yubikey" "plugdev"
-    "libvirt" "docker" "cgroup"))
+  '("wheel" "users" "dialout" "netdev"
+    ;; "input" "video" "audio" "render" "tty" "seat" "lp" "fuse"
+    ;; "kmem" "disk" "floppy" "cdrom" "tape" "kvm" "plugdev" "docker"
+    "realtime" "yubikey" "libvirt" "cgroup"))
 
 ;; (define test-dc
 ;;   (user-account

@@ -69,12 +69,12 @@
 ;; kmem: ?
 ;; ---------------------------------------------
 ;; realtime: enables RT scheduling
-;; plugdev: FIDO/U2F, libu2f-host (udev)
+;; plugdev: FIDO/U2F, libu2f-host (udev), udisks2 (different on non-systemd)
 ;; yubikey: access to yubikey devices (udev)
 ;; docker: control docker daemon (user-group gets created via account-service-type)
 ;; cgroup: control cgroups (for rootless podman)
 ;; libvirt: control virtd
-;; fuse: mount filesystems w/o root
+;; fuse: mount filesystems w/o root (most distros have migrated away)
 ;; ---------------------------------------------
 
 ;; TODO: is kvm group required for libvirt-only access to VMs?
@@ -94,12 +94,10 @@
                  %base-groups)))
 
 (define-public %dc-my-groups
-  ;; "kmem"
-  '("wheel" "users" "tty" "dialout"
-    "input" "video" "audio" "netdev" "lp"
-    ;; "disk" "floppy" "cdrom" "tape" "kvm"
-    "fuse" "realtime" "yubikey" "plugdev"
-    "libvirt" "docker" "cgroup"))
+  '("wheel" "users" "dialout" "netdev"
+    ;; "input" "video" "audio" "render" "tty" "seat" "lp" "fuse"
+    ;; "kmem" "disk" "floppy" "cdrom" "tape" "kvm" "plugdev" "docker"
+    "realtime" "yubikey" "libvirt" "cgroup"))
 
 (define-public (dc-user my-groups)
   (user-account

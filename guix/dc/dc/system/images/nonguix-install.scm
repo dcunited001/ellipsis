@@ -45,6 +45,8 @@
 
 (define %host-name "nonguix-install")
 (define %my-channels (current-channels))
+
+;; TODO: these are probably already created when appending services in guix 
 (define %my-system-groups
   (append (map (lambda (g) (user-group (name g) (system? #t)))
                (list "realtime" "render" "plugdev" "yubikey" "fuse" "cgroup"
@@ -53,11 +55,11 @@
           %base-groups))
 
 (define %my-groups
-  '("wheel" "users" "tty" "dialout"
-    "input" "seat" "video" "audio" "netdev" "lp"
-    ;; "kmem" "disk" "floppy" "cdrom" "tape" "kvm"
-    "fuse" "realtime" "yubikey" "plugdev"
-    "docker" "cgroup"))
+  ;; "libvirt"
+  '("wheel" "users" "dialout" "netdev"
+    ;; "input" "video" "audio" "render" "tty" "seat" "lp" "fuse"
+    ;; "kmem" "disk" "floppy" "cdrom" "tape" "kvm" "plugdev" "docker"
+    "realtime" "yubikey" "cgroup"))
 
 (define %my-user-name "dc")
 (define %my-user-pass "dc1234321")
