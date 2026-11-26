@@ -6,11 +6,9 @@
   writeShellApplication,
   curl,
   jq,
-  # nix,
-  gnused,
-  # makeWrapper,
-  common-updater-scripts,
+  nix-update,
 }:
+# makeWrapper,
 
 stdenv.mkDerivation (finalAttrs: {
   pname = "ctre-passerine-bin";
@@ -60,32 +58,19 @@ stdenv.mkDerivation (finalAttrs: {
       runtimeInputs = [
         curl
         jq
-        # nix
-        gnused
-        common-updater-scripts
+        nix-update
       ];
       text = ''
         set -euo pipefail
 
-        # curl --silent -fsSL -o /dev/null -w '%{url_effective}' $url # just follows redirects and extracts from github's ./releases/latest URL
         tool_name="passerine"
-        release_json="$(
-          curl --silent -fsSL https://redist.ctr-electronics.com/index.json | jq -e --arg tool "$tool_name" '
+        NEW_VERSION="$(
+          curl --silent -fsSL https://redist.ctr-electronics.com/index.json | jq -er --arg tool "$tool_name" '
             .Tools[]
             | select(.Name == $tool)
-            | .Items | last
-            | {
-                version: .Version,
-                x86_64_url: .Urls."linuxx86-64",
-                x86_64_sha1: .Urls."linuxx86-64-sha1",
-                aarch64_url: .Urls."linuxarm64",
-                aarch64_sha1: .Urls."linuxarm64-sha1"
-              }
+            | .Items | last | .Version
           '
         )"
-
-        echo "$release_json"
-        NEW_VERSION="$(printf '%s' "$release_json" | jq -r '.version')"
 
 
         if [ "$NEW_VERSION" = "${finalAttrs.version}" ]; then
@@ -93,9 +78,16 @@ stdenv.mkDerivation (finalAttrs: {
           exit 0
         fi
 
-        for platform in ${lib.escapeShellArgs finalAttrs.meta.platforms}; do
-          update-source-version "ctre-$tool_name-bin" "$NEW_VERSION" --file=./pkgs/common/ctre-passerine-bin/package.nix --ignore-same-version --source-key="sources.$platform"
-        done
+        # this apparently doesn't work if you're flake isn't at the root of the repo
+        nix-update --flake --version="$NEW_VERSION" "${finalAttrs.pname}"
+
+        # nix flake metadata --json
+        # nix-update --flake -f pkgs/common/ctre-passerine-bin/package.nix --version="$NEW_VERSION" "${finalAttrs.pname}"
+
+        # for platform in ${lib.escapeShellArgs finalAttrs.meta.platforms}; do
+        #   update-source-version "ctre-$tool_name-bin" "$NEW_VERSION" --ignore-same-version \
+        #     --file=./pkgs/common/ctre-passerine-bin/package.nix --source-key="sources.$platform"
+        # done
 
         echo "Updated ${finalAttrs.pname}: ${finalAttrs.version} -> $NEW_VERSION"
       '';
