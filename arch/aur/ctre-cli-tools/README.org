@@ -1,6 +1,15 @@
 #+title: CTRE CLI Tools
 
 * Tools
+
+Architectures:
+
+
+#+begin_src shell :stdin ctre-tools-info
+q='.Tools[].Items[].Urls | keys'
+jq "$q" | grep -vE '(md5|sha1)' | sort | uniq | tr -d '[]" \n' | tr ',' '\n'
+#+end_src
+
 ** Releases
 
 #+begin_src shell

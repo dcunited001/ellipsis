@@ -72,7 +72,7 @@ stdenv.mkDerivation {
       set -euo pipefail
 
       tool_name="caniv"
-      nix_file="./ctre-caniv-bin.nix"
+      nix_file="./package.nix"
 
       release_json="$(
         curl -fsSL https://redist.ctr-electronics.com/index.json | jq -e --arg tool "$tool_name" '
