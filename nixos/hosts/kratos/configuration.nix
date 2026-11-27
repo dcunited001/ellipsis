@@ -195,6 +195,10 @@
   programs.appimage.binfmt = true;
 
   # ---------------------------------------------
+  # Cross-Builds (validation)
+  boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
+
+  # ---------------------------------------------
   # Hardware Support
 
   hardware.enableRedistributableFirmware = true;

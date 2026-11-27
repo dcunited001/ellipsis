@@ -12,12 +12,18 @@
       Ciphers = [
         "chacha20-poly1305@openssh.com"
         "aes256-gcm@openssh.com"
+        # "aes128-gcm@openssh.com"
+        # "aes256-ctr"
+        # "aes192-ctr"
+        # "aes128-ctr"
       ];
       Macs = [
         "hmac-sha2-512-etm@openssh.com"
         "hmac-sha2-256-etm@openssh.com"
+        # "umac-128-etm@openssh.com"
       ];
       KexAlgorithms = [
+        "mlkem768x25519-sha256"
         "sntrup761x25519-sha512"
         "sntrup761x25519-sha512@openssh.com"
         # - drduh/yubikey-guide advises adding this to fix issue with openssh8.9/9.0
