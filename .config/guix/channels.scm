@@ -2,7 +2,7 @@
        (name 'guix)
        (url "https://codeberg.org/guix/guix.git")
        (branch "master")
-       (commit "1f56cdd4deba7ed6210e6232d172b10dfe4e5a6e")
+       (commit "a4d7a3a027e427b165290bb8dbde2c0e4f8c81cb")
        (introduction
         (make-channel-introduction
          "9edb3f66fd807b096b48283debdcddccfea34bad"
@@ -12,7 +12,7 @@
        (name 'sops-guix)
        (url "https://github.com/fishinthecalculator/sops-guix")
        (branch "main")
-       (commit "c53e27e533836ea8595626ba6796dee5362f8c4a")
+       (commit "c3045852cec9e1d4ffa125661789ed22a673cffb")
        (introduction
         (make-channel-introduction
          "0bbaf1fdd25266c7df790f65640aaa01e6d2dbc9"
@@ -22,7 +22,7 @@
        (name 'gocix)
        (url "https://github.com/fishinthecalculator/gocix")
        (branch "main")
-       (commit "5cbc7d0cb911dd27eb364d350ac5a1ef43308316")
+       (commit "d4beb39153608a68d2278085847cee585ca851b5")
        (introduction
         (make-channel-introduction
          "cdb78996334c4f63304ecce224e95bb96bfd4c7d"
@@ -32,7 +32,7 @@
        (name 'bluebox)
        (url "https://codeberg.org/lapislazuli/bluebox")
        (branch "main")
-       (commit "a5b2168123bcc236f79cbb4f1c5d4cf5412ee31d")
+       (commit "db72ed92aca17d4ca7b85e6bd6ee3c210c7cb2ae")
        (introduction
         (make-channel-introduction
          "63350484aaacc362aea28fb14236019fced4050f"
@@ -42,7 +42,7 @@
        (name 'nonguix)
        (url "https://gitlab.com/nonguix/nonguix")
        (branch "master")
-       (commit "25226c35c150f03d469b0c855d10b2402a094bc1")
+       (commit "6b8897cd6f3223b158c070cdc9cc638279f8c337")
        (introduction
         (make-channel-introduction
          "897c1a470da759236cc11798f4e0a5f7d4d59fbc"
@@ -52,7 +52,7 @@
        (name 'rde)
        (url "https://git.sr.ht/~abcdw/rde")
        (branch "master")
-       (commit "6821d6f604caf3e2bb8ddd38ca55c0aa5756b0e1")
+       (commit "9300ace7add0bf6d83f5aab651eed474b6be8bbd")
        (introduction
         (make-channel-introduction
          "257cebd587b66e4d865b3537a9a88cccd7107c95"
