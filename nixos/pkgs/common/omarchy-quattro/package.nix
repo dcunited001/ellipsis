@@ -29,7 +29,7 @@ stdenv.mkDerivation rec {
   pname = "omarchy-quattro";
   name = "omarchy-quattro-${version}";
   # commit = "7eca64e2683d2a4d4620f36164f001693ae6a5b7";
-  version = "4.0.6"; # increment revision number when package changes
+  version = "4.5.0"; # increment revision number when package changes
 
   # version = "4.0.0";
 
@@ -38,7 +38,7 @@ stdenv.mkDerivation rec {
     repo = "omarchy";
     rev = "v${version}";
     # rev = "${commit}";
-    hash = "sha256-H2B/Yfc204C01PIweNAqdGLD+B5i/34gN0I9zUpzmsA=";
+    hash = "sha256-uuihai61/LOa2CTrf6bIIBH5EqBatKHyv1wvJSbeA4w=";
   };
 
   # NOTE: from time to time, you may need to clear ~/.cache/quickshell
@@ -68,10 +68,10 @@ stdenv.mkDerivation rec {
     runHook preInstall
 
     substituteInPlace "default/hypr/omarchy.lua" \
-      --replace "require(\"default.hypr.autostart\")" "-- require(\"default.hypr.autostart\")"
+      --replace-fail "require(\"default.hypr.autostart\")" "-- require(\"default.hypr.autostart\")"
 
     substituteInPlace "bin/omarchy-crash-watch" \
-      --replace "    announce " "    # announce "
+      --replace-fail "    announce " "    # announce "
 
     install -d "$out/share/omarchy"
     cp -r "applications" "$out/share/omarchy" 
@@ -89,6 +89,8 @@ stdenv.mkDerivation rec {
 
     runHook postInstall
   '';
+
+  # FIXME: doesn't patch shebangs: bin/omarchy-remove-service-{dropbox,tailscale}
 
   postInstall = ''
     patchShebangs $out/share/omarchy/bin
