@@ -25,13 +25,13 @@ hl.bind("SUPER + DOWN", hl.dsp.focus({ direction = "down" }), { description = "M
 --* Workspaces
 
 --** Workspaces + [1-9; 0]
-for i = 1, 10 do
-    local key = i % 10 -- 10 maps to key 0
-    hl.bind("SUPER + " .. key, hl.dsp.focus({ workspace = i }),
-        { description = "Switch to workspace " .. i })
-    hl.bind("SUPER + SHIFT + " .. key, hl.dsp.window.move({ workspace = i }),
-        { description = "Move window to workspace " .. i })
-end
+-- for i = 1, 10 do
+--     local key = i % 10 -- 10 maps to key 0
+--     hl.bind("SUPER + " .. key, hl.dsp.focus({ workspace = i }),
+--         { description = "Switch to workspace " .. i })
+--     hl.bind("SUPER + SHIFT + " .. key, hl.dsp.window.move({ workspace = i }),
+--         { description = "Move window to workspace " .. i })
+-- end
 
 --** Control scratchpad
 -- bindd = SUPER, S, Toggle scratchpad, togglespecialworkspace, scratchpad
@@ -66,14 +66,14 @@ hl.bind("SUPER + SHIFT + DOWN", hl.dsp.window.swap({ direction = "down" }),
 
 --** Resize active window
 
-hl.bind("SUPER + SHIFT + right", hl.dsp.window.resize({ x = 100, y = 0, relative = true }), { repeating = true },
-    { description = "Expand window left" })
-hl.bind("SUPER + SHIFT + left", hl.dsp.window.resize({ x = -100, y = 0, relative = true }), { repeating = true },
-    { description = "Shrink window width" })
-hl.bind("SUPER + SHIFT + down", hl.dsp.window.resize({ x = 0, y = 100, relative = true }), { repeating = true },
-    { description = "Expand window down" })
-hl.bind("SUPER + SHIFT + up", hl.dsp.window.resize({ x = 0, y = -100, relative = true }), { repeating = true },
-    { description = "Shrink window up" })
+hl.bind("SUPER + SHIFT + right", hl.dsp.window.resize({ x = 100, y = 0, relative = true }),
+    { repeating = true, desc = "Expand window left" })
+hl.bind("SUPER + SHIFT + left", hl.dsp.window.resize({ x = -100, y = 0, relative = true }),
+    { repeating = true, desc = "Shrink window width" })
+hl.bind("SUPER + SHIFT + down", hl.dsp.window.resize({ x = 0, y = 100, relative = true }),
+    { repeating = true, desc = "Expand window down" })
+hl.bind("SUPER + SHIFT + up", hl.dsp.window.resize({ x = 0, y = -100, relative = true }),
+    { repeating = true, desc = "Shrink window up" })
 
 --** Scroll through existing workspaces with SUPER + scroll
 hl.bind("SUPER + mouse_down", hl.dsp.focus({ workspace = "e+1" }), { description = "Scroll active workspace forward" })
